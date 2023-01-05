@@ -4,7 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { cx } from 'class-variance-authority'
-import { Logo } from './Icons'
+import { Bars3Icon, GlobeAltIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const routes = [
   {
@@ -30,7 +30,7 @@ export function Navbar() {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link className="hidden items-center space-x-2 md:flex" href="/">
-        <Logo className="w-8" />
+        <GlobeAltIcon className="w-8" />
         <span className="hidden font-bold sm:inline-block">Mapstories</span>
       </Link>
       {routes?.length ? (
@@ -54,7 +54,11 @@ export function Navbar() {
         className="flex items-center space-x-2 md:hidden"
         onClick={() => setShowMobileMenu(!showMobileMenu)}
       >
-        {showMobileMenu ? 'X' : 'O'}
+        {showMobileMenu ? (
+          <XMarkIcon className="w-5" />
+        ) : (
+          <Bars3Icon className="w-5" />
+        )}
         <span className="font-bold">Menu</span>
       </button>
       {/* {showMobileMenu && <MobileNav items={items}>{children}</MobileNav>} */}

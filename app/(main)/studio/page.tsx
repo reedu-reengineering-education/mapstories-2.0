@@ -1,16 +1,32 @@
+import { Button } from '@/components/Elements/Button'
+import { EmptyPlaceholder } from '@/components/Studio/EmptyPlaceholder'
+import { StudioHeader } from '@/components/Studio/Header'
+import { StudioShell } from '@/components/Studio/Shell'
+import { GlobeAltIcon, PlusIcon } from '@heroicons/react/24/outline'
+
 export default function Studio() {
   return (
-    <div>
-      <div className="flex justify-between px-2">
-        <div className="grid gap-1">
-          <h1 className="text-2xl font-bold tracking-wide text-slate-900">
-            Mapstories Studio
-          </h1>
-          <p className="text-neutral-500">
-            Erstelle und bearbeite deine Mapstories
-          </p>
+    <StudioShell>
+      <StudioHeader
+        heading="Mapstories Studio"
+        text="Erstelle und bearbeite deine Mapstories"
+      >
+        <div className="p-1">
+          <Button className="h-9" startIcon={<PlusIcon className="w-4" />}>
+            Neue Mapstory
+          </Button>
         </div>
-      </div>
-    </div>
+      </StudioHeader>
+      <EmptyPlaceholder>
+        <EmptyPlaceholder.Icon icon={GlobeAltIcon} />
+        <EmptyPlaceholder.Title>Keine Mapstories</EmptyPlaceholder.Title>
+        <EmptyPlaceholder.Description>
+          Du hast noch keine Mapstory erstellt.
+        </EmptyPlaceholder.Description>
+        <Button className="h-9" startIcon={<PlusIcon className="w-4" />}>
+          Neue Mapstory
+        </Button>
+      </EmptyPlaceholder>
+    </StudioShell>
   )
 }
