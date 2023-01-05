@@ -4,28 +4,17 @@ import * as React from 'react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { cx } from 'class-variance-authority'
-
-interface MainNavProps {
-  children?: React.ReactNode
-}
+import { Logo } from './Icons'
 
 const routes = [
   {
-    title: 'Features',
-    href: '/features',
-    disabled: true,
+    title: 'Studio',
+    href: '/studio',
   },
   {
     title: 'Pricing',
     href: '/pricing',
-  },
-  {
-    title: 'Blog',
-    href: '/blog',
-  },
-  {
-    title: 'Documentation',
-    href: '/docs',
+    disabled: true,
   },
   {
     title: 'Contact',
@@ -34,14 +23,15 @@ const routes = [
   },
 ]
 
-export function Navbar({ children }: MainNavProps) {
+export function Navbar() {
   const segment = useSelectedLayoutSegment()
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
 
   return (
     <div className="flex gap-6 md:gap-10">
       <Link className="hidden items-center space-x-2 md:flex" href="/">
-        <span className="hidden font-bold sm:inline-block">Mapstories 2.0</span>
+        <Logo className="w-8" />
+        <span className="hidden font-bold sm:inline-block">Mapstories</span>
       </Link>
       {routes?.length ? (
         <nav className="hidden gap-6 md:flex">
