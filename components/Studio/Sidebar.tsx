@@ -1,6 +1,10 @@
 'use client'
 
-import { Cog6ToothIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
+import {
+  Cog6ToothIcon,
+  CreditCardIcon,
+  GlobeAltIcon,
+} from '@heroicons/react/24/outline'
 import { cx } from 'class-variance-authority'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -15,6 +19,12 @@ const items = [
     title: 'Settings',
     href: '/studio/settings',
     icon: Cog6ToothIcon,
+  },
+  {
+    title: 'Billing',
+    href: '/studio/billing',
+    icon: CreditCardIcon,
+    disabled: true,
   },
 ]
 
