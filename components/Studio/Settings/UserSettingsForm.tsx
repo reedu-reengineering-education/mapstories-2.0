@@ -85,13 +85,15 @@ export function UserSettingsForm({
           </Card.Description>
         </Card.Header>
         <Card.Content>
-          <Input
-            defaultValue={user.name ?? ''}
-            errors={errors.name}
-            label="Name"
-            size={32}
-            {...register('name')}
-          />
+          <div className="w-80 max-w-full">
+            <Input
+              defaultValue={user.name ?? ''}
+              errors={errors.name}
+              label="Name"
+              size={32}
+              {...register('name')}
+            />
+          </div>
         </Card.Content>
         <Card.Footer>
           <Button disabled={isSaving} isLoading={isSaving} type="submit">

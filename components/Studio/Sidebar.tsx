@@ -16,7 +16,7 @@ const items = [
     icon: GlobeAltIcon,
   },
   {
-    title: 'Settings',
+    title: 'Einstellungen',
     href: '/studio/settings',
     icon: Cog6ToothIcon,
   },

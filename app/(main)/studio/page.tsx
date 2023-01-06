@@ -12,7 +12,7 @@ export default function Studio() {
         text="Erstelle und bearbeite deine Mapstories"
       >
         <div className="p-1">
-          <Button className="h-9" startIcon={<PlusIcon className="w-4" />}>
+          <Button startIcon={<PlusIcon className="w-4" />}>
             Neue Mapstory
           </Button>
         </div>
@@ -23,9 +23,7 @@ export default function Studio() {
         <EmptyPlaceholder.Description>
           Du hast noch keine Mapstory erstellt.
         </EmptyPlaceholder.Description>
-        <Button className="h-9" startIcon={<PlusIcon className="w-4" />}>
-          Neue Mapstory
-        </Button>
+        <Button startIcon={<PlusIcon className="w-4" />}>Neue Mapstory</Button>
       </EmptyPlaceholder>
     </StudioShell>
   )
