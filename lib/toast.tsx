@@ -47,7 +47,7 @@ interface ToastOpts {
 }
 
 export function toast(opts: ToastOpts) {
-  const { title, message, type = 'default', duration = 3000 } = opts
+  const { title, message, type = 'default', duration = 30000 } = opts
 
   return hotToast.custom(
     ({ visible }) => (
