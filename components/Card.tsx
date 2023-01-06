@@ -1,5 +1,5 @@
 import { cx } from 'class-variance-authority'
-import { Skeleton } from './Skeleton'
+import { Skeleton } from './Elements/Skeleton'
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
 

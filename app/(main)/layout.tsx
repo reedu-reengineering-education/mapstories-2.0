@@ -1,7 +1,7 @@
 import { UserAccountNav } from '@/components/Auth/UserAccountNav'
 import { Button } from '@/components/Elements/Button'
-import { Footer } from '@/components/Footer'
-import { Navbar } from '@/components/Navbar'
+import { Footer } from '@/components/Layout/Footer'
+import { Navbar } from '@/components/Layout/Navbar'
 import { getCurrentUser } from '@/lib/session'
 import Link from 'next/link'
 

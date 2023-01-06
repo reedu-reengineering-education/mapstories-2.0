@@ -12,9 +12,8 @@ const routes = [
     href: '/studio',
   },
   {
-    title: 'Pricing',
-    href: '/pricing',
-    disabled: true,
+    title: 'Über Mapstories',
+    href: '/about',
   },
   {
     title: 'Contact',
