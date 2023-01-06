@@ -1,4 +1,5 @@
 import { GlobeAltIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
 
 export function Footer() {
   return (
@@ -8,36 +9,36 @@ export function Footer() {
           <GlobeAltIcon className="w-8" />
           <p className="text-center text-sm leading-loose md:text-left">
             Built by{' '}
-            <a
+            <Link
               className="font-medium underline underline-offset-4"
               href={'#'}
               rel="noreferrer"
               target="_blank"
             >
               reedu
-            </a>
+            </Link>
             . Hosted on{' '}
-            <a
+            <Link
               className="font-medium underline underline-offset-4"
               href="https://vercel.com"
               rel="noreferrer"
               target="_blank"
             >
               Vercel
-            </a>
+            </Link>
             .
           </p>
         </div>
         <p className="text-center text-sm md:text-left">
           The source code is available on{' '}
-          <a
+          <Link
             className="font-medium underline underline-offset-4"
             href={'#'}
             rel="noreferrer"
             target="_blank"
           >
             GitHub
-          </a>
+          </Link>
           .
         </p>
       </div>
