@@ -1,5 +1,6 @@
 import { UserAccountNav } from '@/components/Auth/UserAccountNav'
 import { Button } from '@/components/Elements/Button'
+import { LangSwitcher } from '@/components/LangSwitcher'
 import { Footer } from '@/components/Layout/Footer'
 import { Navbar } from '@/components/Layout/Navbar'
 import { getCurrentUser } from '@/lib/session'
@@ -19,13 +20,16 @@ export default async function RootLayout({
       <header className="container sticky top-0 z-10 bg-white">
         <div className="flex h-16 items-center justify-between border-b border-b-slate-200 py-4">
           <Navbar lng={lng}>
-            {user ? (
-              <UserAccountNav user={user} />
-            ) : (
-              <Link href="/login">
-                <Button>Login</Button>
-              </Link>
-            )}
+            <div className="flex space-x-2">
+              <LangSwitcher />
+              {user ? (
+                <UserAccountNav user={user} />
+              ) : (
+                <Link href="/login">
+                  <Button>Login</Button>
+                </Link>
+              )}
+            </div>
           </Navbar>
         </div>
       </header>

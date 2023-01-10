@@ -35,8 +35,6 @@ export function Navbar({
     },
   ]
 
-  console.log(routes[0].href.includes(`/${segment}`))
-
   return (
     <>
       <div className="flex gap-6 md:gap-10">
