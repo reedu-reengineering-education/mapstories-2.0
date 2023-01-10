@@ -33,31 +33,17 @@ export const Input = React.forwardRef<HTMLInputElement, InputFieldProps>(
           <p className="px-1 text-xs text-red-600">{errors.message}</p>
         )}
       </div>
-
-      // <>
-      //   <input
-      //     {...registration}
-      //     // id="email"
-      //     className="border-darkblue text-darkblue focus:border-normalblue peer ml-6 h-10 w-full w-11/12 border-b border-dotted font-bold placeholder-transparent focus:outline-none"
-      //     defaultValue={defaultValue}
-      //     onChange={onChange}
-      //     placeholder=" "
-      //     type={type}
-      //     value={value}
-      //   />
-      //   <label
-      //     className="text-gray peer-placeholder-shown:text-gray peer-focus:text-normalblue pointer-events-none absolute left-0 -top-3.5 flex text-sm transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:-top-3.5 peer-focus:text-sm"
-      //     htmlFor={label}
-      //   >
-      //     <div className="absolute h-full">
-      //       <Icon className="relative top-1/4" height="50%" />
-      //     </div>
-      //     <span className="pl-6">{label}</span>
-      //   </label>
-      //   {error?.message && (
-      //     <small className="text-red pl-6">{error.message}</small>
-      //   )}
-      // </>
     )
   },
 )
+
+interface InputLabelProps extends React.HTMLAttributes<HTMLLabelElement> {}
+
+export function InputLabel({ className, ...props }: InputLabelProps) {
+  return (
+    <label
+      className={cx('mb-2 block text-sm font-medium text-gray-700', className)}
+      {...props}
+    />
+  )
+}
