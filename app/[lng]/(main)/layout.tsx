@@ -33,7 +33,7 @@ export default async function RootLayout({
           </Navbar>
         </div>
       </header>
-      <main className="flex-1">{children}</main>
+      <main className="container mx-auto my-6 flex-1">{children}</main>
       {/* @ts-expect-error Server Component */}
       <Footer lng={lng} />
     </div>
