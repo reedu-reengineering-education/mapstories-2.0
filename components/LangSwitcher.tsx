@@ -28,11 +28,17 @@ export function LangSwitcher() {
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content align="end" className="z-20 mt-2 md:w-[240px]">
-          <DropdownMenu.Item>
-            <p onClick={() => changeLanguage('de')}>🇩🇪 DE</p>
+          <DropdownMenu.Item
+            className="cursor-pointer"
+            onClick={() => changeLanguage('de')}
+          >
+            🇩🇪 DE
           </DropdownMenu.Item>
-          <DropdownMenu.Item>
-            <p onClick={() => changeLanguage('en')}>🇬🇧 EN</p>
+          <DropdownMenu.Item
+            className="cursor-pointer"
+            onClick={() => changeLanguage('en')}
+          >
+            🇬🇧 EN
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
