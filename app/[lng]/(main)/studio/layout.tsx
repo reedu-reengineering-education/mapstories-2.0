@@ -1,7 +1,6 @@
-import { notFound } from 'next/navigation'
-
-import { getCurrentUser } from '@/lib/session'
 import { StudioSidebar } from '@/components/Studio/Sidebar'
+import { getCurrentUser } from '@/lib/session'
+import { notFound } from 'next/navigation'
 
 interface DashboardLayoutProps {
   children?: React.ReactNode

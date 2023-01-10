@@ -48,7 +48,7 @@ Avatar.Fallback = function AvatarFallback({
   return (
     <AvatarPrimitive.Fallback
       className={cx('', className)}
-      delayMs={500}
+      delayMs={0}
       {...props}
     >
       {children}

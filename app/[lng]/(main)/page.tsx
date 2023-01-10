@@ -1,7 +1,20 @@
+import { useTranslation } from '@/app/i18n'
+import { fallbackLng, languages } from '@/app/i18n/settings'
 import { Button } from '@/components/Elements/Button'
 import Link from 'next/link'
 
-export default function Page() {
+export default async function Page({
+  params: { lng },
+}: {
+  params: {
+    lng: string
+  }
+}) {
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = await useTranslation(lng, 'main')
+
   return (
     <div>
       <section className="container grid items-center justify-center gap-6 pt-6 pb-8 md:pt-10 md:pb-12 lg:pt-16 lg:pb-24">
@@ -10,18 +23,16 @@ export default function Page() {
             Mapstories
           </h1>
           <p className="text-slate-700 sm:text-xl sm:leading-8">
-            Globale Geschichten <span className="font-bold">interaktiv</span>{' '}
-            erzählen
+            {t('subtitle')}
           </p>
         </div>
         <div className="flex gap-4">
           <Link href="/login">
-            <Button>Los gehts</Button>
+            <Button>{t('getStarted')}</Button>
           </Link>
-          <Link href={'#'} rel="noreferrer" target="_blank">
-            <Button variant={'inverse'}>Weitere Infos</Button>
+          <Link href={'/about'}>
+            <Button variant={'inverse'}>{t('infos')}</Button>
           </Link>
-          <Button variant={'danger'}>Danger Dan</Button>
         </div>
       </section>
     </div>

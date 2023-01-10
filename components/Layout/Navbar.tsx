@@ -5,26 +5,35 @@ import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { cx } from 'class-variance-authority'
 import { Bars3Icon, GlobeAltIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useTranslation } from '@/app/i18n/client'
 
-const routes = [
-  {
-    title: 'Studio',
-    href: '/studio',
-  },
-  {
-    title: 'Über Mapstories',
-    href: '/about',
-  },
-  {
-    title: 'Contact',
-    href: '/contact',
-    disabled: true,
-  },
-]
-
-export function Navbar({ children }: { children?: React.ReactNode }) {
+export function Navbar({
+  children,
+  lng,
+}: {
+  children: React.ReactNode
+  lng: string
+}) {
   const segment = useSelectedLayoutSegment()
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
+
+  const { t } = useTranslation(lng, 'navbar')
+
+  const routes = [
+    {
+      title: 'Studio',
+      href: `/${lng}/studio`,
+    },
+    {
+      title: t('about'),
+      href: `/${lng}/about`,
+    },
+    {
+      title: t('contact'),
+      href: `/${lng}/contact`,
+      disabled: true,
+    },
+  ]
 
   return (
     <>
@@ -38,8 +47,10 @@ export function Navbar({ children }: { children?: React.ReactNode }) {
             {routes?.map((item, index) => (
               <Link
                 className={cx(
-                  'flex items-center text-lg font-semibold text-slate-600 sm:text-sm',
-                  item.href.startsWith(`/${segment}`) ? 'text-slate-900' : '',
+                  'flex items-center text-lg font-semibold sm:text-sm',
+                  item.href.includes(`/${segment}`)
+                    ? 'text-slate-900'
+                    : 'text-slate-600',
                   item.disabled ? 'cursor-not-allowed opacity-80' : '',
                 )}
                 href={item.disabled ? '#' : item.href}
@@ -60,14 +71,20 @@ export function Navbar({ children }: { children?: React.ReactNode }) {
             <Bars3Icon className="w-5" />
           )}
         </button>
-        {showMobileMenu && <MobileNav>{children}</MobileNav>}
+        {showMobileMenu && <MobileNav routes={routes}>{children}</MobileNav>}
       </div>
       {children}
     </>
   )
 }
 
-function MobileNav({ children }: { children?: React.ReactNode }) {
+function MobileNav({
+  children,
+  routes,
+}: {
+  children?: React.ReactNode
+  routes: any[]
+}) {
   return (
     <div
       className={cx(
