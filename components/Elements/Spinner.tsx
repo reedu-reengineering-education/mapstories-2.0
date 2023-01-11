@@ -6,6 +6,7 @@ const spinner = cva('animate-spin', {
     variant: {
       primary: 'text-black',
       inverse: 'text-white',
+      danger: 'text-red-500',
     },
     size: {
       sm: 'h-4 w-4',

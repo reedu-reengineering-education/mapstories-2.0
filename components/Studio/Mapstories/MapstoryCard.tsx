@@ -19,13 +19,15 @@ export function MapstoryCard({ mapstory }: Props) {
         <Card.Title>{mapstory.name}</Card.Title>
       </Card.Header>
       <Card.Footer>
-        <div className="flex gap-2">
-          <Link href={`/studio/${mapstory.id}`}>
-            <Button variant={'inverse'}>Bearbeiten</Button>
-          </Link>
-          <Link href={`/studio/${mapstory.id}`}>
-            <Button>Spielen</Button>
-          </Link>
+        <div className="flex items-center justify-between">
+          <div className="flex gap-2">
+            <Link href={`/studio/${mapstory.id}`}>
+              <Button variant={'inverse'}>Bearbeiten</Button>
+            </Link>
+            <Link href={`/studio/${mapstory.id}`}>
+              <Button>Spielen</Button>
+            </Link>
+          </div>
           <DeleteMapstoryButton id={mapstory.id} />
         </div>
       </Card.Footer>
