@@ -58,6 +58,7 @@ export default function CreateMapstoryModal({ trigger }: Props) {
     })
 
     const newStory = (await response.json()) as Story
+    router.refresh()
     router.push(`/studio/${newStory.id}`)
   }
 

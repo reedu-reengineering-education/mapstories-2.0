@@ -6,6 +6,7 @@ import { Story } from '@prisma/client'
 import { Card } from '@/components/Card'
 import { Button } from '@/components/Elements/Button'
 import Link from 'next/link'
+import DeleteMapstoryButton from './DeleteMapstoryButton'
 
 type Props = {
   mapstory: Story
@@ -25,6 +26,7 @@ export function MapstoryCard({ mapstory }: Props) {
           <Link href={`/studio/${mapstory.id}`}>
             <Button>Spielen</Button>
           </Link>
+          <DeleteMapstoryButton id={mapstory.id} />
         </div>
       </Card.Footer>
     </Card>
