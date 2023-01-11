@@ -109,7 +109,7 @@ model SlideContent {
   media       String?
   image       String?
   video       String?
-  StoryStep   StoryStep @relation(fields: [storyStepId], references: [id])
+  storyStep   StoryStep @relation(fields: [storyStepId], references: [id])
   storyStepId String
 
   @@map(name: "slidecontent")
@@ -118,7 +118,7 @@ model SlideContent {
 model Connection {
   id          String     @id @default(cuid())
   feature     Json?
-  StoryStep   StoryStep? @relation(fields: [storyStepId], references: [id])
+  storyStep   StoryStep? @relation(fields: [storyStepId], references: [id])
   storyStepId String?
   width       Int?
   color       String?
