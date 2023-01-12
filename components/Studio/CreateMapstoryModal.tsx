@@ -11,7 +11,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from '@/lib/toast'
 import { Input, InputLabel } from '../Elements/Input'
 import { Story } from '@prisma/client'
-import { useStoryStore } from '@/lib/store/story'
 
 type FormData = z.infer<typeof createMapstoryeSchema>
 
@@ -29,8 +28,6 @@ export default function CreateMapstoryModal({ trigger }: Props) {
     resolver: zodResolver(createMapstoryeSchema),
   })
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const storystore = useStoryStore();
-
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)
@@ -61,8 +58,6 @@ export default function CreateMapstoryModal({ trigger }: Props) {
     })
 
     const newStory = (await response.json()) as Story
-    storystore.updateStory(newStory);
-
     router.refresh()
     router.push(`/studio/${newStory.id}`)
   }

@@ -13,6 +13,7 @@ import { forwardRef } from 'react'
 const Map = forwardRef<MapRef, MapProps>(
   (
     // take fog and terrain out of props to resolve error
+    // eslint-disable-next-line unused-imports/no-unused-vars
     { children, mapStyle, fog = null, terrain = null, ...props },
     ref,
   ) => {

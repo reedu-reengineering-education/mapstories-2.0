@@ -92,6 +92,7 @@ model Story {
 
 model StoryStep {
   id          String         @id @default(cuid())
+  position    Int
   Story       Story?         @relation(fields: [storyId], references: [id], onDelete: Cascade)
   storyId     String?
   feature     Json?
