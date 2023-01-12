@@ -36,10 +36,6 @@ export default async function DashboardLayout({
           {children}
         </main>
       </div>
-      {/*
-      <main className="mt-8 flex w-full flex-1 flex-col overflow-hidden">
-        {children}
-      </main> */}
     </>
   )
 }
