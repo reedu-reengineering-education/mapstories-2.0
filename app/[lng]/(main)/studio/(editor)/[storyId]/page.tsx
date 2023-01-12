@@ -8,6 +8,7 @@ import { StudioShell } from '@/components/Studio/Shell'
 import { StudioHeader } from '@/components/Studio/Header'
 import Map from '@/components/Map'
 import DrawControl from '@/components/Map/DrawControl'
+import { useStoryStore } from '@/lib/store/story'
 
 async function getStoryForUser(storyId: Story['id'], userId: User['id']) {
   return await db.story.findFirst({
@@ -30,6 +31,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
   }
 
   const story = await getStoryForUser(params.storyId, user.id)
+  const storyTest = useStoryStore();
 
   if (!story) {
     return notFound()
