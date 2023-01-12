@@ -1,8 +1,13 @@
 import { Button } from '@/components/Elements/Button'
-import { getCurrentUser } from '@/lib/session'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+
+export const generateStaticParams =
+  process.env.NODE_ENV !== 'development'
+    ? async () => {
+        return []
+      }
+    : undefined
 
 interface DashboardLayoutProps {
   children?: React.ReactNode
@@ -11,12 +16,6 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser()
-
-  if (!user) {
-    return notFound()
-  }
-
   return (
     <>
       <Link href={'/studio'}>
