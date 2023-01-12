@@ -1,4 +1,5 @@
 import { Button } from '@/components/Elements/Button'
+import MapstorySidebar from '@/components/Studio/Mapstories/Sidebar/MapstorySidebar'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
@@ -27,9 +28,14 @@ export default async function DashboardLayout({
         </Button>
       </Link>
 
-      <main className="mt-8 flex w-full flex-1 flex-col overflow-hidden">
-        {children}
-      </main>
+      <div className="mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr]">
+        <aside className="flex-col md:flex md:w-[200px]">
+          <MapstorySidebar />
+        </aside>
+        <main className="flex w-full flex-1 flex-col overflow-hidden">
+          {children}
+        </main>
+      </div>
     </>
   )
 }
