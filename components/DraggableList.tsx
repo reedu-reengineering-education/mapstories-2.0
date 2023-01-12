@@ -4,6 +4,8 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   UniqueIdentifier,
@@ -19,6 +21,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { cx } from 'class-variance-authority'
 import { useEffect, useState } from 'react'
 
 type DraggableProps = {
@@ -35,20 +38,30 @@ type DraggableListProps<T> = {
 export default function DraggableList<
   T extends { [key: string]: any } & DraggableProps,
 >({ items, onChange, orientation = 'vertical' }: DraggableListProps<T>) {
-  const [itemsStore, setItemsStore] = useState<T[]>(items)
+  const [itemsStore, setItemsStore] = useState<T[]>([])
+
+  useEffect(() => {
+    setItemsStore(items)
+  }, [items])
 
   useEffect(() => {
     onChange && onChange(itemsStore)
   }, [itemsStore])
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   )
 
   function handleDragEnd(event: DragEndEvent) {
+    setActiveId(undefined)
+
     const { active, over } = event
 
     if (!active || !over) {
@@ -65,10 +78,17 @@ export default function DraggableList<
     }
   }
 
+  function handleDragStart(event: DragStartEvent) {
+    setActiveId(event.active.id)
+  }
+
+  const [activeId, setActiveId] = useState<UniqueIdentifier>()
+
   return (
     <DndContext
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      onDragStart={handleDragStart}
       sensors={sensors}
     >
       <SortableContext
@@ -81,10 +101,25 @@ export default function DraggableList<
       >
         {itemsStore.map(i => (
           <SortableItem id={i.id} key={i.id}>
-            {i.component}
+            <div
+              className={cx(
+                activeId === i.id
+                  ? 'rounded-lg border-2 border-dashed border-slate-400 opacity-50'
+                  : '',
+              )}
+            >
+              {i.component}
+            </div>
           </SortableItem>
         ))}
       </SortableContext>
+      <DragOverlay>
+        {activeId ? (
+          <SortableItem id={activeId}>
+            {items.find(i => i.id === activeId)?.component!}
+          </SortableItem>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   )
 }
