@@ -27,6 +27,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         })
 
+        await db.storyStep.create({
+          data: {
+            storyId: newMapstory.id,
+            viewport: {},
+          },
+        })
+
         res.json(newMapstory)
       }
 
