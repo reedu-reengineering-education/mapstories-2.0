@@ -1,6 +1,7 @@
 'use client'
 
-import { Spinner } from '@/components/Elements/Spinner'
+import { Button } from '@/components/Elements/Button'
+import { Modal } from '@/components/Modal'
 import { toast } from '@/lib/toast'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
@@ -43,12 +44,24 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
   }
 
   return (
-    <div
-      className="cursor-pointer rounded-full bg-red-100 p-2 transition-colors hover:bg-red-200"
-      onClick={handleClick}
+    <Modal
+      title={'Willst du diese Mapstory wirklich löschen?'}
+      trigger={
+        <div className="cursor-pointer rounded-full bg-red-100 p-2 transition-colors hover:bg-red-200">
+          <TrashIcon className="w-5 text-red-500" />
+        </div>
+      }
     >
-      {!loading && <TrashIcon className="w-5 text-red-500" />}
-      {loading && <Spinner size={'sm'} variant="danger" />}
-    </div>
+      <Modal.Footer>
+        <Button
+          disabled={loading}
+          isLoading={loading}
+          onClick={handleClick}
+          variant={'danger'}
+        >
+          Löschen
+        </Button>
+      </Modal.Footer>
+    </Modal>
   )
 }
