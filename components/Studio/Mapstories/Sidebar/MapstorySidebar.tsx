@@ -3,25 +3,26 @@
 import DraggableList from '@/components/DraggableList'
 import { Button } from '@/components/Elements/Button'
 import { Spacer } from '@/components/Elements/Spacer'
+import useStory from '@/lib/api/story/useStory'
 import { useStoryStore } from '@/lib/store/story'
 import { toast } from '@/lib/toast'
-import { GlobeAltIcon, PlusIcon } from '@heroicons/react/24/outline'
+import { PlusIcon } from '@heroicons/react/24/outline'
 import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import SidebarConnection from './SidebarConnection'
 import SidebarSlide from './SidebarSlide'
 
-export default function MapstorySidebar() {
+export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const [loading, setIsLoading] = useState(false)
-  const story = useStoryStore(state => state.story)
   const addStoryStep = useStoryStore(state => state.addStoryStep)
   const router = useRouter()
 
   const path = usePathname()
 
   const stepId = path?.split('/').at(-1)
+
+  const { story, reorderStorySteps } = useStory(storyID)
 
   async function onSubmit() {
     setIsLoading(true)
@@ -53,6 +54,22 @@ export default function MapstorySidebar() {
     router.replace(`/studio/${story?.id}/${newStep.id}`)
   }
 
+  async function onReorder(update: StoryStep[]) {
+    try {
+      await reorderStorySteps(update)
+      toast({
+        message: 'Your steps have been reordered.',
+        type: 'success',
+      })
+    } catch (e) {
+      return toast({
+        title: 'Something went wrong.',
+        message: 'Your steps have not been updated. Please try again',
+        type: 'error',
+      })
+    }
+  }
+
   return (
     <aside className="flex h-24 w-full overflow-scroll p-4 md:h-full md:flex-col">
       {story?.steps && story?.steps.length > 0 && (
@@ -60,17 +77,22 @@ export default function MapstorySidebar() {
           items={
             story?.steps?.map((s, i) => ({
               id: s.id,
+              s: s,
               component: (
                 <Link href={`/studio/${story.id}/${s.id}`}>
-                  {i !== 0 && <SidebarConnection />}
+                  {/* {i !== 0 && <SidebarConnection />} */}
                   <SidebarSlide active={stepId === s.id}>
-                    <GlobeAltIcon className="w-10" />
+                    <div>
+                      {/* <GlobeAltIcon className="w-10" /> */}
+                      <p>ID: {s.id.slice(-4)}</p>
+                      <p>Pos: {s.position}</p>
+                    </div>
                   </SidebarSlide>
                 </Link>
               ),
             }))!
           }
-          onChange={e => console.log(e)}
+          onChange={e => onReorder(e.map(({ s }) => s))}
         ></DraggableList>
       )}
       <Spacer size={'sm'} />

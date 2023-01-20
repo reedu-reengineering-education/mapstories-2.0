@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from '@/lib/toast'
 import { Input, InputLabel } from '../Elements/Input'
-import { Story } from '@prisma/client'
+import { createStory } from '@/lib/api/story/createStory'
 
 type FormData = z.infer<typeof createMapstoryeSchema>
 
@@ -32,34 +32,24 @@ export default function CreateMapstoryModal({ trigger }: Props) {
   async function onSubmit(data: FormData) {
     setIsSaving(true)
 
-    const response = await fetch('/api/mapstory', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: data.name,
-      }),
-    })
-
-    setIsSaving(false)
-
-    if (!response?.ok) {
+    try {
+      const response = await createStory({ name: data.name })
+      toast({
+        message: 'Your mapstory has been created.',
+        type: 'success',
+      })
+      const newStory = await response.data
+      router.refresh()
+      router.push(`/studio/${newStory.id}`)
+    } catch (e) {
       return toast({
         title: 'Something went wrong.',
         message: 'Your mapstory was not created. Please try again',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
-
-    toast({
-      message: 'Your mapstory has been created.',
-      type: 'success',
-    })
-
-    const newStory = (await response.json()) as Story
-    router.refresh()
-    router.push(`/studio/${newStory.id}`)
   }
 
   return (
