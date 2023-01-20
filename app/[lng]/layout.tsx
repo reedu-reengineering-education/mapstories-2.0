@@ -4,6 +4,7 @@ import { cx } from 'class-variance-authority'
 import { Toaster } from '@/lib/toast'
 import { dir } from 'i18next'
 import { languages } from '../i18n/settings'
+import Providers from './Providers'
 
 const font = Inter({
   subsets: ['latin'],
@@ -38,7 +39,9 @@ export default function RootLayout({
       lang={lng}
     >
       <body className="min-h-screen">
-        <main>{children}</main>
+        <main>
+          <Providers>{children}</Providers>
+        </main>
         <Toaster position="bottom-right" />
       </body>
     </html>
