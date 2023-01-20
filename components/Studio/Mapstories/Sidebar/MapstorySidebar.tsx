@@ -10,7 +10,6 @@ import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import SidebarConnection from './SidebarConnection'
 import SidebarSlide from './SidebarSlide'
 
 export default function MapstorySidebar() {
@@ -62,9 +61,12 @@ export default function MapstorySidebar() {
               id: s.id,
               component: (
                 <Link href={`/studio/${story.id}/${s.id}`}>
-                  {i !== 0 && <SidebarConnection />}
+                  {/* {i !== 0 && <SidebarConnection />} */}
                   <SidebarSlide active={stepId === s.id}>
-                    <GlobeAltIcon className="w-10" />
+                    <>
+                      <GlobeAltIcon className="w-10" />
+                      <p>{s.position}</p>
+                    </>
                   </SidebarSlide>
                 </Link>
               ),

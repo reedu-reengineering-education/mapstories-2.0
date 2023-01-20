@@ -44,7 +44,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         return res.status(422).json(error.issues)
       }
 
-      return res.status(422).end()
+      return res.status(422).json(error)
     }
   }
 }

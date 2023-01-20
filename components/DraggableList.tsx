@@ -103,6 +103,7 @@ export default function DraggableList<
           <SortableItem id={i.id} key={i.id}>
             <div
               className={cx(
+                'my-2',
                 activeId === i.id
                   ? 'rounded-lg border-2 border-dashed border-slate-400 opacity-50'
                   : '',
