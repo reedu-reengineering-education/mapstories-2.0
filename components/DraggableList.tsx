@@ -44,10 +44,6 @@ export default function DraggableList<
     setItemsStore(items)
   }, [items])
 
-  useEffect(() => {
-    onChange && onChange(itemsStore)
-  }, [itemsStore])
-
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -69,12 +65,14 @@ export default function DraggableList<
     }
 
     if (active.id !== over.id) {
-      setItemsStore(item => {
-        const oldIndex = items.findIndex(i => i.id === active.id)
-        const newIndex = items.findIndex(i => i.id === over.id)
+      const oldIndex = itemsStore.findIndex(i => i.id === active.id)
+      const newIndex = itemsStore.findIndex(i => i.id === over.id)
 
-        return arrayMove(item, oldIndex, newIndex)
-      })
+      const newItems = arrayMove(itemsStore, oldIndex, newIndex)
+
+      setItemsStore(newItems)
+
+      onChange && onChange(newItems)
     }
   }
 
