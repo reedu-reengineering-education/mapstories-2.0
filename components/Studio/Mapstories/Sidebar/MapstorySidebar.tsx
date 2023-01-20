@@ -75,7 +75,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
       {story?.steps && story?.steps.length > 0 && (
         <DraggableList
           items={
-            story?.steps?.map((s, i) => ({
+            story?.steps?.map(s => ({
               id: s.id,
               s: s,
               component: (
