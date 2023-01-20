@@ -15,6 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: {
           storyId,
           viewport: {},
+          position: await db.storyStep.count(),
         },
       })
 

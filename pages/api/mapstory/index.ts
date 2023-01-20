@@ -31,6 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           data: {
             storyId: newMapstory.id,
             viewport: {},
+            position: 0,
           },
         })
 
