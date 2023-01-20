@@ -32,7 +32,10 @@ export default async function EditorPage({
     data: {
       storyId: story.id,
       viewport: {},
+      position: 0,
     },
   })
   redirect(`/studio/${storyId}/${initStep.id}`)
+
+  return <p>Redirecting...</p>
 }
