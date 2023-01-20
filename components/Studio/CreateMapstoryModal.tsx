@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from '@/lib/toast'
 import { Input, InputLabel } from '../Elements/Input'
+import { Story } from '@prisma/client'
 
 type FormData = z.infer<typeof createMapstoryeSchema>
 
@@ -56,7 +57,9 @@ export default function CreateMapstoryModal({ trigger }: Props) {
       type: 'success',
     })
 
+    const newStory = (await response.json()) as Story
     router.refresh()
+    router.push(`/studio/${newStory.id}`)
   }
 
   return (

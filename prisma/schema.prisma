@@ -6,8 +6,16 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgres"
   url      = env("DATABASE_URL")
+}
+
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
 }
 
 model Account {
@@ -53,6 +61,8 @@ model User {
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
   accounts      Account[]
   sessions      Session[]
+  owner         Story[]   @relation("owner")
+  story         Story[]   @relation("contributors")
 
   @@map(name: "users")
 }
@@ -64,4 +74,60 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map(name: "verification_tokens")
+}
+
+model Story {
+  id          String      @id @default(cuid())
+  name        String?
+  steps       StoryStep[]
+  owner       User?       @relation("owner", fields: [ownerId], references: [id])
+  ownerId     String?
+  contributor User[]      @relation("contributors")
+  visibility  Visibility
+  createdAt   DateTime    @default(now()) @map(name: "created_at")
+  updatedAt   DateTime    @default(now()) @map(name: "updated_at")
+
+  @@map(name: "stories")
+}
+
+model StoryStep {
+  id          String         @id @default(cuid())
+  position    Int
+  Story       Story?         @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  storyId     String?
+  feature     Json?
+  content     SlideContent[]
+  connections Connection[] //incoming
+  viewport    Json
+
+  @@map(name: "storysteps")
+}
+
+model SlideContent {
+  id          String    @id @default(cuid())
+  text        String?
+  title       String?
+  media       String?
+  image       String?
+  video       String?
+  storyStep   StoryStep @relation(fields: [storyStepId], references: [id])
+  storyStepId String
+
+  @@map(name: "slidecontent")
+}
+
+model Connection {
+  id          String     @id @default(cuid())
+  feature     Json?
+  storyStep   StoryStep? @relation(fields: [storyStepId], references: [id])
+  storyStepId String?
+  width       Int?
+  color       String?
+
+  @@map(name: "connections")
+}
+
+enum Visibility {
+  PRIVATE
+  PUBLIC
 }
