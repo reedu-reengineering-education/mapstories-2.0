@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgres"
-  url      = env("DATABASE_URL")
+  provider          = "postgres"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model spatial_ref_sys {
@@ -93,8 +94,8 @@ model Story {
 model StoryStep {
   id          String         @id @default(cuid())
   position    Int
-  Story       Story?         @relation(fields: [storyId], references: [id], onDelete: Cascade)
-  storyId     String?
+  Story       Story          @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  storyId     String
   feature     Json?
   content     SlideContent[]
   connections Connection[] //incoming
