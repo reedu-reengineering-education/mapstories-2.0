@@ -2,11 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import * as z from 'zod'
 import { unstable_getServerSession } from 'next-auth/next'
 
-import { db } from '@/lib/db'
-import { authOptions } from '@/lib/auth'
-import { withMethods } from '@/lib/apiMiddlewares/withMethods'
-import { createMapstoryeSchema } from '@/lib/validations/mapstory'
-import { withAuthentication } from '@/lib/apiMiddlewares/withAuthentication'
+import { db } from '@/src/lib/db'
+import { authOptions } from '@/src/lib/auth'
+import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
+import { createMapstoryeSchema } from '@/src/lib/validations/mapstory'
+import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {

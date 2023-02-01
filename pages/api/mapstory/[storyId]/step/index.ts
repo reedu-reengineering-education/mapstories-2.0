@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as z from 'zod'
 
-import { db } from '@/lib/db'
-import { withMethods } from '@/lib/apiMiddlewares/withMethods'
-import { withAuthentication } from '@/lib/apiMiddlewares/withAuthentication'
-import { withMapstory } from '@/lib/apiMiddlewares/withMapstory'
+import { db } from '@/src/lib/db'
+import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
+import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
+import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {

@@ -2,11 +2,22 @@ const { fontFamily } = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './app/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-    './lib/**/*.{js,ts,jsx,tsx}',
+  mode: 'jit',
+
+  // These paths are just examples, customize them to match your project structure
+
+  purge: [
+
+    './src/app/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/lib/**/*.{js,ts,jsx,tsx}',
+
   ],
+  // content: [
+  //   './app/**/*.{js,ts,jsx,tsx}',
+  //   './components/**/*.{js,ts,jsx,tsx}',
+  //   './lib/**/*.{js,ts,jsx,tsx}',
+  // ],
   theme: {
     container: {
       center: true,
