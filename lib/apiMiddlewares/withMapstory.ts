@@ -9,6 +9,11 @@ export const schema = z.object({
   storyId: z.string(),
 })
 
+/**
+ * Check if the user has access to this mapstory.
+ * @param handler NextApiHandler
+ * @returns handler or error
+ */
 export function withMapstory(handler: NextApiHandler) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
     try {
