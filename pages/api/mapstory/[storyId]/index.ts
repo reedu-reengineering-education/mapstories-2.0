@@ -12,7 +12,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           id: req.query.storyId as string,
         },
         include: {
-          steps: true,
+          steps: {
+            include: {
+              content: true
+            }
+          }
         },
       })
 

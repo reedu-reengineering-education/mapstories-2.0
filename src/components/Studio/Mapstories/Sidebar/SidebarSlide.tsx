@@ -10,7 +10,7 @@ export default function SidebarSlide({ children, active }: SidebarSlideProps) {
     <div
       className={cx(
         'flex aspect-video w-full items-center justify-center rounded-lg bg-slate-100',
-        active ? 'border-2 border-slate-300' : '',
+        active ? 'border-2 bg-active' : '',
       )}
     >
       {children}

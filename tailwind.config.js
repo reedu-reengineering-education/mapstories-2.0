@@ -3,15 +3,10 @@ const { fontFamily } = require('tailwindcss/defaultTheme')
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   mode: 'jit',
-
-  // These paths are just examples, customize them to match your project structure
-
   purge: [
-
     './src/app/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
     './src/lib/**/*.{js,ts,jsx,tsx}',
-
   ],
   // content: [
   //   './app/**/*.{js,ts,jsx,tsx}',
@@ -38,6 +33,12 @@ module.exports = {
         secondary: {
           DEFAULT: '#aab315',
         },
+        hover: {
+          DEFAULT: '#E0F2E8'
+        },
+        active: {
+          DEFAULT: '#ede3fd'
+        }
       },
     },
   },

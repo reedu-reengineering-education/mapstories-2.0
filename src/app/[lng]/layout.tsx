@@ -1,4 +1,4 @@
-import '@/src/styles/globals.css'
+import '@/src/styles/globals.scss'
 import { Inter } from '@next/font/google'
 import { cx } from 'class-variance-authority'
 import { Toaster } from '@/src/lib/toast'

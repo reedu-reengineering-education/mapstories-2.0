@@ -22,7 +22,7 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
   return (
     <StudioShell>
       <StudioHeader heading={story.name || ''} text={story.id} />
-      <div className="relative h-96 w-full overflow-hidden rounded-lg shadow">
+      <div className="absolute -z-10 top-0 re-studio-height-full-screen w-full overflow-hidden rounded-lg shadow">
         <Map>
           <DrawControl
             controls={{

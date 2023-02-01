@@ -5,7 +5,7 @@ const nextConfig = {
     swcPlugins: [['next-superjson-plugin', {}]],
   },
   eslint: {
-    dirs: ['app', 'components', 'pages', 'lib', 'hooks'],
+    dirs: ['src', 'lib', 'hooks'],
   },
   output: 'standalone',
 }

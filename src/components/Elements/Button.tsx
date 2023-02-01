@@ -9,8 +9,8 @@ const buttonStyle = cva(
   {
     variants: {
       variant: {
-        primary: 'border-transparent text-white bg-black hover:bg-zinc-700',
-        inverse: 'border-zinc-300 text-black bg-white hover:bg-zinc-100',
+        primary: 'border-transparent text-white bg-black hover:bg-hover',
+        inverse: 'border-zinc-300 text-black bg-white hover:bg-hover',
         danger: 'border-transparent text-white bg-red-500 hover:bg-red-400',
       },
       size: {

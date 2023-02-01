@@ -6,7 +6,7 @@ interface StudioHeaderProps {
 
 export function StudioHeader({ heading, text, children }: StudioHeaderProps) {
   return (
-    <div className="flex flex-col justify-between gap-2 px-2 lg:flex-row">
+    <div className="flex flex-col justify-between gap-2 px-2 lg:flex-row bg-white">
       <div className="grid gap-1">
         <h1 className="text-2xl font-bold tracking-wide text-slate-900">
           {heading}

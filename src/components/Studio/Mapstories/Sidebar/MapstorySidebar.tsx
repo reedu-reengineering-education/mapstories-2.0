@@ -71,7 +71,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   }
 
   return (
-    <aside className="flex h-24 w-full overflow-scroll p-4 md:h-full md:flex-col">
+    <aside className="flex h-24 w-full overflow-x-hidden overflow-y-auto p-4 md:h-full md:flex-col">
       {story?.steps && story?.steps.length > 0 && (
         <DraggableList
           items={

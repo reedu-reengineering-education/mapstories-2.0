@@ -28,7 +28,11 @@ async function getStoryForUser(storyId: Story['id'], userId: User['id']) {
       ownerId: userId,
     },
     include: {
-      steps: true,
+      steps: {
+        include: {
+          content: true
+        }
+      }
     },
   })
 }
@@ -60,11 +64,11 @@ export default async function DashboardLayout({
         </Button>
       </Link>
 
-      <div className="mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr]">
-        <aside className="flex-col md:flex md:w-[200px]">
+      <div className="mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr] re-studio-height-full-screen">
+        <aside className="flex-col md:flex md:w-[200px] re-studio-height-full-screen">
           <MapstorySidebar storyID={story.id} />
         </aside>
-        <main className="relative flex w-full flex-1 flex-col overflow-hidden">
+        <main className="relative flex w-full flex-1 flex-col overflow-hidden re-studio-height-full-screen">
           <EditMapstoryView data-superjson story={story} />
           <div className="absolute top-0 left-0 h-full w-full">{children}</div>
         </main>
