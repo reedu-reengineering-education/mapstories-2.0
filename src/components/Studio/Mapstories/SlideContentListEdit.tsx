@@ -30,7 +30,6 @@ export function SlideContentListEdit({ stepId }: Props) {
 
   const story = useStoryStore(state => state.story)
   const step: StoryStep | undefined = story?.steps?.filter(step => step.id === stepId)[0]
-  console.log(step);
   return (
     <div className="py-4">
       {step &&

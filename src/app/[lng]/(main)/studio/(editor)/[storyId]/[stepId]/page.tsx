@@ -8,8 +8,6 @@ interface EditorPageProps {
 }
 
 export default function StepPage({ params: { stepId } }: EditorPageProps) {
-  // const story = useStoryStore(state => state.story)
-  // const step = story?.steps?.filter(step => step.id === stepId)[0]
 
   return (
     <div>
