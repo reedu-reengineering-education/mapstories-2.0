@@ -53,7 +53,6 @@ export function TitleContentEdit({
           ...slideContent
         }),
       })
-      setIsSaving(false);
     }
     else {
       response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
@@ -66,6 +65,7 @@ export function TitleContentEdit({
         }),
       })
     }
+
     setIsSaving(false)
 
     if (!response?.ok) {

@@ -16,13 +16,11 @@ type Props = {
 
 const renderSwitch = function renderSwitch(param: string, content: any) {
 
-  let showDeleteButton = false;
 
   switch (param) {
     case 'title':
-      console.log(showDeleteButton)
       return (
-        <div className="flex relativ z-750" onMouseEnter={() => { showDeleteButton = true }} onMouseLeave={() => { showDeleteButton = false }}>
+        <div className="flex relativ z-750">
           <HeadingIcon className='w-14 h-14'></HeadingIcon>
           {content.title}
         </div>
@@ -38,11 +36,7 @@ export function SlideContentListEdit({ stepId }: Props) {
 
   const story = useStoryStore(state => state.story)
   const step: StoryStep | undefined = story?.steps?.filter(step => step.id === stepId)[0]
-  let showDeleteButton = false;
-  const isShown = (t: any) => {
-    showDeleteButton = t;
-    console.log(showDeleteButton)
-  }
+
   return (
     <div className="py-4">
       {step &&
@@ -65,10 +59,10 @@ export function SlideContentListEdit({ stepId }: Props) {
         // ></DraggableList>
         // re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer
         step.content?.map(stepItem => (
-          <div className="re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer flex" key={stepItem.id}>
-            <Modal title={'Editieren'} trigger={<Button className=" flex-1 justify-start"
+          <div className="re-basic-box-no-shadow my-2 relative  cursor-pointer flex" key={stepItem.id}>
+            <Modal title={'Editieren'} trigger={<Button className="hover:bg-hover flex-1 justify-start"
               startIcon={<PlusIcon className="w-4" />}
-              variant={'justifyLeft'}
+              variant={'noBorder'}
             >
               {renderSwitch('title', stepItem)}
 

@@ -5,20 +5,39 @@ import { Modal } from '@/src/components/Modal'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from '@/src/lib/toast'
 
 export default function DeleteContentButton({ stepItem }: { stepItem: any }) {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
     //const { story, deleteContent } = useStory(id)
+    const [isSaving, setIsSaving] = useState<boolean>(false)
+
     async function handleClick() {
+        setIsSaving(true)
 
         const response = await fetch(`/api/mapstory/step/${stepItem.storyStepId}/content/${stepItem.id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         });
-        router.refresh()
 
+        setIsSaving(false)
+
+        if (!response?.ok) {
+            return toast({
+                title: 'Something went wrong.',
+                message: 'Your content was not created. Please try again',
+                type: 'error',
+            })
+        }
+
+        toast({
+            message: 'Der Inhalt wurde gelöscht.',
+            type: 'success',
+        })
+
+        router.refresh()
     }
 
     return (
@@ -31,7 +50,7 @@ export default function DeleteContentButton({ stepItem }: { stepItem: any }) {
                 </span>
             }
             trigger={
-                <div className="flex cursor-pointer rounded-full bg-red-100 p-2 transition-colors hover:bg-red-200">
+                <div className="flex cursor-pointer  rounded-full bg-red-100 p-2 transition-colors hover:bg-red-200">
                     <TrashIcon className="w-5 text-red-500" />
                 </div>
             }

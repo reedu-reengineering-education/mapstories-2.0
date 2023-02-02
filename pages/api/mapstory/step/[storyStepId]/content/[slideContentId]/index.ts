@@ -14,7 +14,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           id: slideContentId
         }
       })
-      console.log(deletedContent);
       res.json(deletedContent)
 
       return res.end()
