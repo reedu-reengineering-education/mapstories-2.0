@@ -61,17 +61,18 @@ export function SlideContentListEdit({ stepId }: Props) {
         // ></DraggableList>
         // re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer
         step.content?.map(s => (
-          <Modal key={s.id} title={'Editieren'} trigger={<Button
-            className="my-2 relative hover:bg-hover cursor-pointer"
-            startIcon={<PlusIcon className="w-4" />}
-            variant={'inverse'}
-          >
-            {renderSwitch('title', s)}
-          </Button>}>
-            <Modal.Content>
-              <TitleContentEdit slideContent={s} storyStepId={s.id} ></TitleContentEdit>
-            </Modal.Content>
-          </Modal>
+          <div className="re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer flex" key={s.id}>
+            <Modal title={'Editieren'} trigger={<Button className=" flex-1 justify-start"
+              startIcon={<PlusIcon className="w-4" />}
+              variant={'justifyLeft'}
+            >
+              {renderSwitch('title', s)}
+            </Button>}>
+              <Modal.Content>
+                <TitleContentEdit slideContent={s} storyStepId={s.id} ></TitleContentEdit>
+              </Modal.Content>
+            </Modal>
+          </div>
         ))
       }
 
