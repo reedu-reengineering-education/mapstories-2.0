@@ -8,13 +8,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'DELETE') {
     try {
       const slideContentId = req.query.slideContentId as string
-
+      const storyStepId = req.query.storyStepId as string
       const deletedContent = await db.slideContent.delete({
         where: {
           id: slideContentId
         }
       })
-
+      console.log(deletedContent);
       res.json(deletedContent)
 
       return res.end()
@@ -28,4 +28,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(['POST'], withAuthentication(handler))
+export default withMethods(['DELETE'], withAuthentication(handler))

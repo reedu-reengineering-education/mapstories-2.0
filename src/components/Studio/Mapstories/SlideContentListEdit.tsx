@@ -6,6 +6,7 @@ import { HeadingIcon, PlusIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 import { Button } from '../../Elements/Button'
 import { Modal } from '../../Modal'
+import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import { TitleContentEdit } from '../ContentTypes/TitleContentEdit'
 
 
@@ -14,10 +15,14 @@ type Props = {
 }
 
 const renderSwitch = function renderSwitch(param: string, content: any) {
+
+  let showDeleteButton = false;
+
   switch (param) {
     case 'title':
+      console.log(showDeleteButton)
       return (
-        <div className="flex">
+        <div className="flex relativ z-750" onMouseEnter={() => { showDeleteButton = true }} onMouseLeave={() => { showDeleteButton = false }}>
           <HeadingIcon className='w-14 h-14'></HeadingIcon>
           {content.title}
         </div>
@@ -33,12 +38,11 @@ export function SlideContentListEdit({ stepId }: Props) {
 
   const story = useStoryStore(state => state.story)
   const step: StoryStep | undefined = story?.steps?.filter(step => step.id === stepId)[0]
-  const click = function (s) {
-    // hier zu <TitleContentEdit.tsx> mit s weiterleiten oder ein Modal damit öffnen
-    console.log(s);
-
-
-  };
+  let showDeleteButton = false;
+  const isShown = (t: any) => {
+    showDeleteButton = t;
+    console.log(showDeleteButton)
+  }
   return (
     <div className="py-4">
       {step &&
@@ -60,18 +64,20 @@ export function SlideContentListEdit({ stepId }: Props) {
         //   onChange={e => console.log(e)}
         // ></DraggableList>
         // re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer
-        step.content?.map(s => (
-          <div className="re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer flex" key={s.id}>
+        step.content?.map(stepItem => (
+          <div className="re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer flex" key={stepItem.id}>
             <Modal title={'Editieren'} trigger={<Button className=" flex-1 justify-start"
               startIcon={<PlusIcon className="w-4" />}
               variant={'justifyLeft'}
             >
-              {renderSwitch('title', s)}
+              {renderSwitch('title', stepItem)}
+
             </Button>}>
               <Modal.Content>
-                <TitleContentEdit slideContent={s} storyStepId={s.id} ></TitleContentEdit>
+                <TitleContentEdit slideContent={stepItem} storyStepId={stepItem.id} ></TitleContentEdit>
               </Modal.Content>
             </Modal>
+            <DeleteContentButton stepItem={stepItem} />
           </div>
         ))
       }
