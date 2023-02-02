@@ -1,7 +1,7 @@
 'use client'
 
 import { useStoryStore } from '@/src/lib/store/story'
-import { StoryStep } from '@prisma/client'
+import { SlideContent, StoryStep } from '@prisma/client'
 import { HeadingIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 
@@ -29,7 +29,9 @@ const renderSwitch = function renderSwitch(param: string, content: any) {
 export function SlideContentListEdit({ stepId }: Props) {
 
   const story = useStoryStore(state => state.story)
-  const step: StoryStep | undefined = story?.steps?.filter(step => step.id === stepId)[0]
+  const step: StoryStep & {
+    content?: SlideContent[]
+  } | undefined = story?.steps?.filter(step => step.id === stepId)[0]
   return (
     <div className="py-4">
       {step &&
