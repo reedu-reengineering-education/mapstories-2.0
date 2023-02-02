@@ -37,7 +37,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputFieldProps>(
   },
 )
 
-interface InputLabelProps extends React.HTMLAttributes<HTMLLabelElement> {}
+interface InputLabelProps extends React.HTMLAttributes<HTMLLabelElement> { }
 
 export function InputLabel({ className, ...props }: InputLabelProps) {
   return (

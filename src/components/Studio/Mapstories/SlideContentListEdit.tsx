@@ -2,8 +2,11 @@
 
 import { useStoryStore } from '@/src/lib/store/story'
 import { StoryStep } from '@prisma/client'
-import { HeadingIcon } from '@radix-ui/react-icons'
+import { HeadingIcon, PlusIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
+import { Button } from '../../Elements/Button'
+import { Modal } from '../../Modal'
+import { TitleContentEdit } from '../ContentTypes/TitleContentEdit'
 
 
 type Props = {
@@ -30,6 +33,12 @@ export function SlideContentListEdit({ stepId }: Props) {
 
   const story = useStoryStore(state => state.story)
   const step: StoryStep | undefined = story?.steps?.filter(step => step.id === stepId)[0]
+  const click = function (s) {
+    // hier zu <TitleContentEdit.tsx> mit s weiterleiten oder ein Modal damit öffnen
+    console.log(s);
+
+
+  };
   return (
     <div className="py-4">
       {step &&
@@ -50,15 +59,22 @@ export function SlideContentListEdit({ stepId }: Props) {
         //   }
         //   onChange={e => console.log(e)}
         // ></DraggableList>
+        // re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer
         step.content?.map(s => (
-          <div className="re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer" key={s.id}>
+          <Modal key={s.id} title={'Editieren'} trigger={<Button
+            className="my-2 relative hover:bg-hover cursor-pointer"
+            startIcon={<PlusIcon className="w-4" />}
+            variant={'inverse'}
+          >
             {renderSwitch('title', s)}
-            <div className="">
+          </Button>}>
+            <Modal.Content>
+              <TitleContentEdit slideContent={s} storyStepId={s.id} ></TitleContentEdit>
+            </Modal.Content>
+          </Modal>
+        ))
+      }
 
-            </div>
-          </div>
-        ))}
-
-    </div>
+    </div >
   )
 }

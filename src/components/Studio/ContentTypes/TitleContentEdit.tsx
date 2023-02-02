@@ -15,7 +15,8 @@ import { useState } from 'react'
 import { SlideContent } from '@prisma/client'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  storyStepId: string
+  storyStepId: string,
+  slideContent?: any
 }
 
 type FormData = z.infer<typeof slideTitleContentSchema>
@@ -23,6 +24,7 @@ type FormData = z.infer<typeof slideTitleContentSchema>
 export function TitleContentEdit({
   storyStepId,
   className,
+  slideContent,
   ...props
 }: TitleContentEditProps) {
   const router = useRouter()
@@ -38,16 +40,32 @@ export function TitleContentEdit({
   async function onSubmit(data: FormData) {
     setIsSaving(true)
 
-    const response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...data
-      }),
-    })
+    let response;
 
+    if (slideContent) {
+      slideContent.title = data.title
+      response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...slideContent
+        }),
+      })
+      setIsSaving(false);
+    }
+    else {
+      response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data
+        }),
+      })
+    }
     setIsSaving(false)
 
     if (!response?.ok) {
@@ -68,7 +86,6 @@ export function TitleContentEdit({
     // router.push(`/studio/${newStory.id}`)
 
   }
-
   return (
     <form
       className={cx(className)}
@@ -79,6 +96,7 @@ export function TitleContentEdit({
         <div className="pt-4">
           <InputLabel>Gib eine Überschrift für deine Folie ein</InputLabel>
           <Input
+            defaultValue={slideContent ? slideContent.title : ''}
             errors={errors.title}
             label="title"
             size={32}
