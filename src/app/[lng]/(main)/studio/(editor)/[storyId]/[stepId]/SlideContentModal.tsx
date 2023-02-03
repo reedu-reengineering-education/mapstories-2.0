@@ -6,6 +6,7 @@ import { ArrowLeftIcon, HeadingIcon, TextIcon, TwitterLogoIcon, VideoIcon } from
 import React from 'react'
 import { CSSTransition } from 'react-transition-group';
 import { TitleContentEdit } from '@/src/components/Studio/ContentTypes/TitleContentEdit'
+import { TextContentEdit } from '@/src/components/Studio/ContentTypes/TextContentEdit';
 
 type Props = {
   trigger: React.ReactElement
@@ -39,7 +40,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                     <h3 className="text-center">Heading</h3>
                   </div>
 
-                  <div className='w-36 re-basic-box-no-shadow px-4 py-2 m-3 cursor-pointer re-hover-element'>
+                  <div className='w-36 re-basic-box-no-shadow px-4 py-2 m-3 cursor-pointer re-hover-element' onClick={() => setContentType('text')}>
                     <div className="flex justify-center">
                       <TextIcon className='w-14 h-14'></TextIcon>
                     </div>
@@ -77,6 +78,23 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                         <button className="flex" onClick={() => setContentType('')}><ArrowLeftIcon className="h-6 w-6 mr-2"></ArrowLeftIcon> Zurück</button>
                       </div>
                       <TitleContentEdit storyStepId={storyStepId}></TitleContentEdit>
+                    </div>
+                  </CSSTransition>
+                </>
+              ) ||
+              contentType == 'text' && (
+                <>
+                  <CSSTransition
+                    appear
+                    classNames="slide-transition-reverse"
+                    in={contentType != ''} 
+                    timeout={400}
+                    unmountOnExit>
+                    <div className="top-0">
+                      <div className="absolute -top-6 ">
+                        <button className="flex" onClick={() => setContentType('')}><ArrowLeftIcon className="h-6 w-6 mr-2"></ArrowLeftIcon> Zurück</button>
+                      </div>
+                      <TextContentEdit storyStepId={storyStepId}></TextContentEdit>
                     </div>
                   </CSSTransition>
                 </>
