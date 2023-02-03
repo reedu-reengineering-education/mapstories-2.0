@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from '@/src/lib/toast'
 
-export default function DeleteContentButton({ storyStepId, stepContentId }: { storyStepId:any, stepContentId: any }) {
+export default function DeleteStepButton({ storyId, storyStepId }: { storyId:any, storyStepId: any }) {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
@@ -17,7 +17,7 @@ export default function DeleteContentButton({ storyStepId, stepContentId }: { st
     async function handleClick() {
         setIsSaving(true)
 
-        const response = await fetch(`/api/mapstory/step/${storyStepId}/content/${stepContentId}`, {
+        const response = await fetch(`/api/mapstory/${storyId}/step/${storyStepId}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         });
@@ -44,8 +44,8 @@ export default function DeleteContentButton({ storyStepId, stepContentId }: { st
         <Modal
             title={
                 <span>
-                    Willst du den Inhalt
-                    <span className="rounded bg-slate-100 py-1 px-2">{stepContentId}</span>
+                    Willst du die Slide
+                    <span className="rounded bg-slate-100 py-1 px-2">{storyStepId}</span>
                     wirklich löschen?
                 </span>
             }

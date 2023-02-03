@@ -60,7 +60,7 @@ export function SlideContentListEdit({ stepId }: Props) {
                     <TitleContentEdit slideContent={stepItem} storyStepId={stepItem.id} ></TitleContentEdit>
                   </Modal.Content>
                 </Modal>
-                <DeleteContentButton stepItem={stepItem} />
+                <DeleteContentButton stepContentId = {stepItem.id} storyStepId={stepItem.storyStepId}  />
               </div>
               ),
             }))!

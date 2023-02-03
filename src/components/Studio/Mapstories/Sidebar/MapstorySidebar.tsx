@@ -11,6 +11,7 @@ import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
+import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
@@ -79,6 +80,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
               id: s.id,
               s: s,
               component: (
+                <div>
                 <Link href={`/studio/${story.id}/${s.id}`}>
                   {/* {i !== 0 && <SidebarConnection />} */}
                   <SidebarSlide active={stepId === s.id}>
@@ -89,6 +91,9 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     </div>
                   </SidebarSlide>
                 </Link>
+                <DeleteStepButton storyId={s.storyId} storyStepId = {s.id} />
+                </div>
+
               ),
             }))!
           }
