@@ -81,19 +81,22 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
               s: s,
               component: (
                 <div>
-                <Link href={`/studio/${story.id}/${s.id}`}>
-                  {/* {i !== 0 && <SidebarConnection />} */}
-                  <SidebarSlide active={stepId === s.id}>
-                    <div>
-                      {/* <GlobeAltIcon className="w-10" /> */}
-                      <p>ID: {s.id.slice(-4)}</p>
-                      <p>Pos: {s.position}</p>
-                    </div>
-                  </SidebarSlide>
+                  <Link href={`/studio/${story.id}/${s.id}`}>
+                    {/* {i !== 0 && <SidebarConnection />} */}
+                    <SidebarSlide active={stepId === s.id} >
+                      <div className="flex justify-around">
+                        <div className='flex flex-col '>
+                          {/* <GlobeAltIcon className="w-10" /> */}
+                          <p>ID: {s.id.slice(-4)}</p>
+                          <p>Pos: {s.position}</p>
+                        </div>
+                        <div>
+                          <DeleteStepButton storyId={s.storyId} storyStepId = {s.id}/>
+                        </div>
+                      </div>
+                    </SidebarSlide>
                 </Link>
-                <DeleteStepButton storyId={s.storyId} storyStepId = {s.id} />
-                </div>
-
+              </div>
               ),
             }))!
           }
