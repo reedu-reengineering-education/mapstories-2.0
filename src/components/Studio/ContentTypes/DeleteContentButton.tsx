@@ -50,7 +50,7 @@ export default function DeleteContentButton({ stepItem }: { stepItem: any }) {
                 </span>
             }
             trigger={
-                <div className="flex cursor-pointer  rounded-full bg-red-100 p-2 transition-colors hover:bg-red-200">
+                <div className="flex cursor-pointer  p-2 transition-colors hover:bg-red-200">
                     <TrashIcon className="w-5 text-red-500" />
                 </div>
             }
