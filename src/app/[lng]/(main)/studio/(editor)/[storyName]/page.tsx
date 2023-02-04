@@ -4,9 +4,9 @@ import { db } from '@/src/lib/db'
 import { redirect } from 'next/navigation'
 
 export default async function EditorPage({
-  params: { storyId },
+  params: { storyName, storyId },
 }: {
-  params: { storyId: string }
+  params: { storyName: string; storyId: string }
 }) {
   const story = await db.story.findFirst({
     where: {
@@ -24,7 +24,7 @@ export default async function EditorPage({
   // redirect to first storystep
   if (story.steps.length > 0) {
     const { id } = story.steps[0]
-    redirect(`/studio/${storyId}/${id}`)
+    redirect(`/studio/${storyName}/${id}`)
   }
 
   // create initial step if not exists
@@ -35,7 +35,7 @@ export default async function EditorPage({
       position: 0,
     },
   })
-  redirect(`/studio/${storyId}/${initStep.id}`)
+  redirect(`/studio/${storyName}/${initStep.id}`)
 
   return <p>Redirecting...</p>
 }

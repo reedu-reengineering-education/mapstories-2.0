@@ -51,7 +51,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
     const newStep = (await response.json()) as StoryStep
     addStoryStep(newStep)
-    router.replace(`/studio/${story?.id}/${newStep.id}`)
+    router.replace(`/studio/${story?.name}/${newStep.id}`)
   }
 
   async function onReorder(update: StoryStep[]) {
@@ -71,7 +71,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   }
 
   return (
-    <aside className="flex h-24 w-full overflow-x-hidden overflow-y-auto p-4 md:h-full md:flex-col">
+    <aside className="flex h-24 w-full overflow-y-auto overflow-x-hidden p-4 md:h-full md:flex-col">
       {story?.steps && story?.steps.length > 0 && (
         <DraggableList
           items={
@@ -79,7 +79,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
               id: s.id,
               s: s,
               component: (
-                <Link href={`/studio/${story.id}/${s.id}`}>
+                <Link href={`/studio/${story.name}/${s.id}`}>
                   {/* {i !== 0 && <SidebarConnection />} */}
                   <SidebarSlide active={stepId === s.id}>
                     <div>

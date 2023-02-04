@@ -80,6 +80,7 @@ model VerificationToken {
 model Story {
   id          String      @id @default(cuid())
   name        String?
+  description String?
   steps       StoryStep[]
   owner       User?       @relation("owner", fields: [ownerId], references: [id])
   ownerId     String?
@@ -87,6 +88,7 @@ model Story {
   visibility  Visibility
   createdAt   DateTime    @default(now()) @map(name: "created_at")
   updatedAt   DateTime    @default(now()) @map(name: "updated_at")
+  image       String?
 
   @@map(name: "stories")
 }
@@ -102,6 +104,11 @@ model StoryStep {
   viewport    Json
 
   @@map(name: "storysteps")
+}
+
+model Theme {
+  name       String @id @default(cuid())
+  fontFamily String
 }
 
 model SlideContent {

@@ -21,10 +21,10 @@ export function MapstoryCard({ mapstory }: Props) {
       <Card.Footer>
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            <Link href={`/studio/${mapstory.id}`}>
+            <Link href={`/studio/${mapstory.name}`}>
               <Button variant={'inverse'}>Bearbeiten</Button>
             </Link>
-            <Link href={`/studio/${mapstory.id}`}>
+            <Link href={`/studio/${mapstory.name}`}>
               <Button>Spielen</Button>
             </Link>
           </div>

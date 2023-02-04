@@ -8,12 +8,13 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { Story, User } from '@prisma/client'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
+import SettingsModal from '@/components/Studio/Mapstories/SettingsModal'
 
 export const generateStaticParams =
   process.env.NODE_ENV !== 'development'
     ? async () => {
-      return []
-    }
+        return []
+      }
     : undefined
 
 interface DashboardLayoutProps {
@@ -30,9 +31,9 @@ async function getStoryForUser(storyId: Story['id'], userId: User['id']) {
     include: {
       steps: {
         include: {
-          content: true
-        }
-      }
+          content: true,
+        },
+      },
     },
   })
 }
@@ -55,20 +56,23 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <Link href={'/studio'}>
-        <Button
-          startIcon={<ArrowLeftIcon className="w-5" />}
-          variant={'inverse'}
-        >
-          Zurück
-        </Button>
-      </Link>
+      <div className="flex flex-row gap-2">
+        <Link href={'/studio'}>
+          <Button
+            startIcon={<ArrowLeftIcon className="w-5" />}
+            variant={'inverse'}
+          >
+            Zurück
+          </Button>
+        </Link>
+        <SettingsModal />
+      </div>
 
-      <div className="mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr] re-studio-height-full-screen">
-        <aside className="flex-col md:flex md:w-[200px] re-studio-height-full-screen">
+      <div className="re-studio-height-full-screen mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr]">
+        <aside className="re-studio-height-full-screen flex-col md:flex md:w-[200px]">
           <MapstorySidebar storyID={story.id} />
         </aside>
-        <main className="relative flex w-full flex-1 flex-col overflow-hidden re-studio-height-full-screen">
+        <main className="re-studio-height-full-screen relative flex w-full flex-1 flex-col overflow-hidden">
           <EditMapstoryView data-superjson story={story} />
           <div className="absolute top-0 left-0 h-full w-full">{children}</div>
         </main>
