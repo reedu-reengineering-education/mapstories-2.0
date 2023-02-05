@@ -4,42 +4,60 @@ import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
 import { ChevronDownIcon, Cog6ToothIcon } from '@heroicons/react/24/outline/'
 import { toast } from '@/src/lib/toast'
-// import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { Controller, useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { Input, InputLabel } from '../../../src/components/Elements/Input'
-import { DropdownMenu } from '@/src/components/Dropdown'
+import { mapstoryOptionsSchema } from '@/src/lib/validations/mapstory-options'
 import * as Switch from '@radix-ui/react-switch'
+import { DropdownMenu } from '@/src/components/Dropdown'
+import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+
+type FormData = z.infer<typeof mapstoryOptionsSchema>
+
+const options: Pick<DropdownMenuItemProps, 'children'>[] = [
+  { children: 'Theme 1' },
+  { children: 'Theme 2' },
+  { children: 'Theme 3' },
+  { children: 'Theme 4' },
+  { children: 'Theme 5' },
+]
 
 export default function SettingsModal() {
+  const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [publicSwitch, setPublicSwitch] = useState<boolean>(true)
-  const [image, setImage] = useState<string | undefined>()
+  const [image, setImage] = useState<string | any>()
+  const [selectedTheme, setSelectedTheme] = useState('')
   const {
     handleSubmit,
     register,
+    control,
+    setValue,
     formState: { errors },
-  } = useForm<FormData>({})
+  } = useForm<FormData>({
+    resolver: zodResolver(mapstoryOptionsSchema),
+  })
 
   function handleImageUpload(event: any) {
-    setImage(event.target.value)
+    setImage(event.target.files[0])
   }
 
   async function onSubmit(data: FormData) {
+    console.log(data)
     setIsSaving(true)
     try {
-      //   const response = await createStory({ name: data.name })
+      // const response = await changeStoryMetaData({ name: data.name })
       toast({
-        message: 'Deine Änderungen wurden übernommen',
+        message: 'Your changes were applied.',
         type: 'success',
       })
-      //   const newStory = await response.data
-      //   router.refresh()
-      //   router.push(`/studio/${newStory.id}`)
+      router.refresh()
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
-        message: 'Your mapstory was not created. Please try again',
+        message: 'Your changes were not applied. Please try again',
         type: 'error',
       })
     } finally {
@@ -64,22 +82,48 @@ export default function SettingsModal() {
             <div className="block">
               <InputLabel>Name</InputLabel>
               <Input
-                //   errors={errors.}
+                errors={errors.name}
                 label="Name"
                 size={32}
-                //   {...register('name')}
+                {...register('name')}
               />
               <InputLabel>Beschreibung</InputLabel>
-              <Input label="Beschreibung" size={240}></Input>
-              <div className="flex items-center">
-                <label className="pr-8" htmlFor="publicSwitch">
-                  Public
-                </label>
-                <Switch.Root className=" relative inline-flex h-5  w-6 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-purple-600 opacity-50 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring focus-visible:ring-purple-500">
-                  <Switch.Thumb className="pointer-events-none inline-block h-5 w-6 transform rounded-full bg-purple-600 shadow-lg ring-0 transition duration-200 ease-in-out" />
-                </Switch.Root>
-              </div>
-              <DropdownMenu>
+              <Input
+                errors={errors.description}
+                label="Beschreibung"
+                size={240}
+                {...register('description')}
+              ></Input>
+              <Controller
+                control={control}
+                defaultValue={false}
+                name="public"
+                render={({ field: { onChange, value } }) => (
+                  <div>
+                    <span className="mb-2 mr-8 text-sm font-medium text-gray-700">
+                      Public
+                    </span>
+                    <Switch.Root
+                      className="focus:shadow-outline h-4 w-10 cursor-pointer rounded-full bg-gray-300 shadow-md outline-none transition-colors duration-200 ease-in-out"
+                      data-state={value ? 'checked' : undefined}
+                      onClick={() => onChange(!value)}
+                    >
+                      <Switch.Thumb
+                        className={`${
+                          value
+                            ? 'translate-x-full transform bg-white '
+                            : 'translate-x-0 transform bg-black'
+                        } h-5 w-5 rounded-full opacity-100 shadow-md transition-transform duration-200 ease-in-out`}
+                      />
+                    </Switch.Root>
+
+                    <span className="mb-2 ml-8 text-sm font-medium text-gray-700">
+                      Private
+                    </span>
+                  </div>
+                )}
+              />
+              <DropdownMenu {...register('theme')}>
                 <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
                   <span className="mb-2 flex text-sm font-medium text-gray-700">
                     Themes <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
@@ -90,14 +134,20 @@ export default function SettingsModal() {
                     align="end"
                     className="absolute z-50 md:w-[240px]"
                   >
-                    <DropdownMenu.Item>Theme1</DropdownMenu.Item>
-                    <DropdownMenu.Item>Theme2</DropdownMenu.Item>
-                    <DropdownMenu.Item>Theme3</DropdownMenu.Item>
-                    <DropdownMenu.Item>Theme 4</DropdownMenu.Item>
-                    <DropdownMenu.Item>Theme 5</DropdownMenu.Item>
+                    {options.map((option, index) => (
+                      <DropdownMenu.Item
+                        key={index}
+                        {...option}
+                        onSelect={() => {
+                          setSelectedTheme(option.children as string)
+                          setValue('theme', option.children as string)
+                        }}
+                      />
+                    ))}
                   </DropdownMenu.Content>
                 </DropdownMenu.Portal>
               </DropdownMenu>
+
               <InputLabel>Bild</InputLabel>
               <div className="flex">
                 <label htmlFor="imageupload">
@@ -108,15 +158,19 @@ export default function SettingsModal() {
                 <Input
                   accept="image/*"
                   className="hidden"
+                  // errors={errors.image}
                   id="imageupload"
-                  onChange={handleImageUpload}
+                  onChange={e => handleImageUpload(e)}
                   type="file"
+                  // {...register('image')}
                 ></Input>
                 <Input
+                  errors={errors.image}
                   label="Bild"
                   placeholder="Wähle ein Bild aus oder gib eine URL ein"
                   size={100}
                   value={image}
+                  {...register('image')}
                 ></Input>
               </div>
             </div>
