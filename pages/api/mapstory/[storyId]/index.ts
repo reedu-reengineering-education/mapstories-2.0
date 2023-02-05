@@ -14,9 +14,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         include: {
           steps: {
             include: {
-              content: true
-            }
-          }
+              content: true,
+            },
+          },
         },
       })
 
@@ -25,6 +25,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(500).end()
     }
   }
+  if (req.method === 'PUT') {
+    try {
+      const story = await db.story.update({
+        where: {
+          id: req.query.storyId as string,
+        },
+        data: {
+          name: req.body.name as string,
+        },
+      })
+      return res.status(200).json(story)
+    } catch (error) {
+      return res.status(500).end()
+    }
+  }
+
   if (req.method === 'DELETE') {
     try {
       await db.story.delete({
@@ -40,4 +56,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(['GET', 'DELETE'], withMapstory(handler))
+export default withMethods(['GET', 'DELETE', 'PUT'], withMapstory(handler))

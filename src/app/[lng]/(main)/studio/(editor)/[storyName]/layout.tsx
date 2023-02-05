@@ -18,14 +18,19 @@ export const generateStaticParams =
     : undefined
 
 interface DashboardLayoutProps {
-  params: { storyId: string }
+  params: { storyId: string; storyName: string }
   children?: React.ReactNode
 }
 
-async function getStoryForUser(storyId: Story['id'], userId: User['id']) {
+async function getStoryForUser(
+  storyId: Story['id'],
+  userId: User['id'],
+  storyName: Story['name'],
+) {
   return await db.story.findFirst({
     where: {
-      id: storyId,
+      // id: storyId,
+      name: storyName,
       ownerId: userId,
     },
     include: {
@@ -39,7 +44,7 @@ async function getStoryForUser(storyId: Story['id'], userId: User['id']) {
 }
 
 export default async function DashboardLayout({
-  params: { storyId },
+  params: { storyId, storyName },
   children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser()
@@ -48,11 +53,14 @@ export default async function DashboardLayout({
     redirect(authOptions.pages?.signIn!)
   }
 
-  const story = await getStoryForUser(storyId, user.id)
+  const story = await getStoryForUser(storyId, user.id, storyName)
 
   if (!story) {
     return notFound()
   }
+
+  // console.log(storyName)
+  // console.log(story)
 
   return (
     <>
@@ -65,7 +73,7 @@ export default async function DashboardLayout({
             Zurück
           </Button>
         </Link>
-        <SettingsModal />
+        <SettingsModal storyId={story.id} />
       </div>
 
       <div className="re-studio-height-full-screen mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr]">

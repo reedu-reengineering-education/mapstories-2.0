@@ -14,6 +14,7 @@ import { DropdownMenu } from '@/src/components/Dropdown'
 import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import { updateStory } from '@/src/lib/api/story/updateStory'
 
 type FormData = z.infer<typeof mapstoryOptionsSchema>
 
@@ -25,7 +26,8 @@ const options: Pick<DropdownMenuItemProps, 'children'>[] = [
   { children: 'Theme 5' },
 ]
 
-export default function SettingsModal() {
+export default function SettingsModal({ storyId }: { storyId: string }) {
+  console.log(storyId)
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [image, setImage] = useState<string | any>()
@@ -45,15 +47,14 @@ export default function SettingsModal() {
   }
 
   async function onSubmit(data: FormData) {
-    console.log(data)
     setIsSaving(true)
     try {
-      // const response = await changeStoryMetaData({ name: data.name })
+      const response = await updateStory(storyId, { name: data.name })
       toast({
         message: 'Your changes were applied.',
         type: 'success',
       })
-      router.refresh()
+      router.push(`/studio/${response.data.name}`)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
