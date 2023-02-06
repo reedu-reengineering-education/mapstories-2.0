@@ -15,6 +15,7 @@ import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { updateStory } from '@/src/lib/api/story/updateStory'
+import { Visibility } from '@prisma/client'
 
 type FormData = z.infer<typeof mapstoryOptionsSchema>
 
@@ -46,13 +47,15 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
   }
 
   async function onSubmit(data: FormData) {
+    console.log(data.public)
     setIsSaving(true)
     try {
       const response = await updateStory(storyId, {
         name: data.name,
         description: data.description,
-        // public: data.public,
-        //theme: data.theme,
+        visibility:
+          data.public === true ? Visibility.PUBLIC : Visibility.PRIVATE,
+        theme: data.theme,
         image: data.image,
       })
       toast({

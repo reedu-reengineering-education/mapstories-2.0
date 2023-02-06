@@ -40,7 +40,7 @@ export default function CreateMapstoryModal({ trigger }: Props) {
       })
       const newStory = await response.data
       router.refresh()
-      router.push(`/studio/${newStory.id}`)
+      router.push(`/studio/${newStory.name}`)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
