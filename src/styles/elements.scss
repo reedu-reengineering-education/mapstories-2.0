@@ -1,43 +1,100 @@
 .re-basic-button {
-    border: 3px solid #000000;
-    // box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.9);
-    // border-radius: 12px;
+  border: 3px solid #000000;
+  // box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.9);
+  // border-radius: 12px;
 
-    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.9));
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.9));
 }
 
 .re-basic-button-noShadow {
-    border: 3px solid #000000;
-    // box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.9);
-    // border-radius: 12px;
+  border: 3px solid #000000;
+  // box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.9);
+  // border-radius: 12px;
 
-    // filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.9));
+  // filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.9));
 }
 
 .re-basic-box {
-    border: 3px solid #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
-    border-radius: 10px;
+  border: 3px solid #000000;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
 
-    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9));
+  filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9));
 }
 
 .re-basic-box-no-shadow {
-    border: 3px solid #000000;
-    // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
-    border-radius: 10px;
+  border: 3px solid #000000;
+  // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
 
-    // filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9));
+  // filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9));
 }
 
 .re-hover-element {
-    transition: background 0.2s linear;
+  transition: background 0.2s linear;
 }
 
 .re-hover-element:hover {
-    background: #E0F2E8;
+  background: #e0f2e8;
 }
 
 .re-studio-height-full-screen {
-    height: calc(100VH - 18rem);
+  height: calc(100vh - 18rem);
+}
+
+.Switch {
+  all: unset;
+  width: 34px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0px 11px 11px rgba(0, 0, 0, 0.1),
+    inset 0px 0px 1.5px rgba(255, 255, 255, 0.5);
+
+  border-radius: 9999px;
+  position: relative;
+  margin: 7px 15px 0 15px;
+  transition: background-color 0.3s ease;
+}
+
+.Switch:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.Switch[data-state='checked']:hover {
+  background-color: hsl(221, 68%, 52%);
+}
+
+.Switch:focus {
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.33);
+}
+
+.Switch[data-state='checked'] {
+  background-color: #275bca;
+}
+
+.Switch[data-state='unchecked'] {
+  background-color: blue;
+}
+
+.SwitchThumb {
+  display: block;
+  width: 18px;
+  height: 18px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 9999px;
+  box-shadow: inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.33);
+
+  transition: transform 100ms;
+  transform: translateX(1px);
+  will-change: transform;
+
+  transition: background-color 0.2s ease, transform 0.2s var(--easingDefault);
+}
+
+.SwitchThumb:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.SwitchThumb[data-state='checked'] {
+  transform: translateX(15px);
 }

@@ -27,7 +27,6 @@ const options: Pick<DropdownMenuItemProps, 'children'>[] = [
 ]
 
 export default function SettingsModal({ storyId }: { storyId: string }) {
-  console.log(storyId)
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [image, setImage] = useState<string | any>()
@@ -47,6 +46,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
   }
 
   async function onSubmit(data: FormData) {
+    console.log(data)
     setIsSaving(true)
     try {
       const response = await updateStory(storyId, { name: data.name })
@@ -102,24 +102,18 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
                 render={({ field: { onChange, value } }) => (
                   <div>
                     <span className="mb-2 mr-8 text-sm font-medium text-gray-700">
-                      Public
+                      Private
                     </span>
                     <Switch.Root
-                      className="focus:shadow-outline h-4 w-10 cursor-pointer rounded-full bg-gray-300 shadow-md outline-none transition-colors duration-200 ease-in-out"
-                      data-state={value ? 'checked' : undefined}
+                      className={'Switch'}
+                      data-state={value ? 'checked' : 'unchecked'}
                       onClick={() => onChange(!value)}
                     >
-                      <Switch.Thumb
-                        className={`${
-                          value
-                            ? 'translate-x-full transform bg-white '
-                            : 'translate-x-0 transform bg-black'
-                        } h-5 w-5 rounded-full opacity-100 shadow-md transition-transform duration-200 ease-in-out`}
-                      />
+                      <Switch.Thumb className="SwitchThumb" />
                     </Switch.Root>
 
                     <span className="mb-2 ml-8 text-sm font-medium text-gray-700">
-                      Private
+                      Public
                     </span>
                   </div>
                 )}
