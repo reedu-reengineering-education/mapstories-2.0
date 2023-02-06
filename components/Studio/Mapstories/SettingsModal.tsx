@@ -46,10 +46,15 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
   }
 
   async function onSubmit(data: FormData) {
-    console.log(data)
     setIsSaving(true)
     try {
-      const response = await updateStory(storyId, { name: data.name })
+      const response = await updateStory(storyId, {
+        name: data.name,
+        description: data.description,
+        // public: data.public,
+        //theme: data.theme,
+        image: data.image,
+      })
       toast({
         message: 'Your changes were applied.',
         type: 'success',

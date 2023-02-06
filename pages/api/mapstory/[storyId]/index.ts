@@ -33,6 +33,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
         data: {
           name: req.body.name as string,
+          description: req.body.description as string,
+          // public: req.body.public as boolean,
+          // theme: req.body.theme as string
+          image: req.body.image as string,
         },
       })
       return res.status(200).json(story)
