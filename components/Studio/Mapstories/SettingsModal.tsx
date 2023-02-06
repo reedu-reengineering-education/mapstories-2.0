@@ -43,7 +43,12 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
   })
 
   function handleImageUpload(event: any) {
-    setImage(event.target.files[0])
+    const file = event.target.files[0]
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      setImage(reader.result?.toString())
+    }
   }
 
   async function onSubmit(data: FormData) {
@@ -58,6 +63,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
         theme: data.theme,
         image: data.image,
       })
+      console.log(response.data.visibility)
       toast({
         message: 'Your changes were applied.',
         type: 'success',

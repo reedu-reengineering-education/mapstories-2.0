@@ -34,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: {
           name: req.body.name as string,
           description: req.body.description as string,
-          visibility: req.body.public,
+          visibility: req.body.public === 'PUBLIC' ? 'PUBLIC' : 'PRIVATE',
           theme: req.body.theme as string,
           image: req.body.image as string,
         },
