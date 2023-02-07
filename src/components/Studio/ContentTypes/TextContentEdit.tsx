@@ -13,6 +13,7 @@ import { useState } from 'react'
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import dynamic from 'next/dynamic';
+import { toast } from '@/src/lib/toast'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -24,8 +25,8 @@ type FormData = z.infer<typeof slideTitleContentSchema>
 
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
-    ssr: false,
-    });
+  ssr: false,
+});
 
 export function TextContentEdit({
   storyStepId,
@@ -42,60 +43,46 @@ export function TextContentEdit({
   })
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
-  async function onSubmit(data: FormData) {
-    setIsSaving(true)
-    console.log(data);
-    // const response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     ...data
-    //   }),
-    // })
+  const handleClick = async (value: string) => {
+    console.log(value);
+    setIsSaving(true);
+    const response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: value
+      }),
+    })
 
-    setIsSaving(false)
+    if (!response?.ok) {
+      return toast({
+        title: 'Something went wrong.',
+        message: 'Your content was not created. Please try again',
+        type: 'error',
+      })
+    }
 
-    // if (!response?.ok) {
-    //   return toast({
-    //     title: 'Something went wrong.',
-    //     message: 'Your content was not created. Please try again',
-    //     type: 'error',
-    //   })
-    // }
+    toast({
+      message: 'Your content has been created.',
+      type: 'success',
+    })
 
-    // toast({
-    //   message: 'Your content has been created.',
-    //   type: 'success',
-    // })
-
-    // const newContent = (await response.json()) as SlideContent
-    // router.refresh()
-    // router.push(`/studio/${newStory.id}`)
+    router.refresh()
 
   }
 
-  const handleChange = (value) => {
-    console.log(value);
-    }
-
-  const [value, setValue] = useState('**Hello world!!!**')
+  const [value, setValue] = useState('Your text here')
 
   return (
-        <form
-      className={cx(className)}
-      onSubmit={handleSubmit(onSubmit)}
-      {...props}
-    >
-      <div className="top-0">
-        <div className="pt-4">
-      <MDEditor onChange={handleChange} value={value} />
-              </div>
-        <Button disabled={isSaving} isLoading={isSaving} type="submit">
-          Erstellen
-        </Button>
+    <div className="top-0">
+      <div className="pt-4">
+        <MDEditor onChange={setValue} value={value} />
       </div>
-    </form>
+      <Button disabled={isSaving} isLoading={isSaving} onClick={() => handleClick(value)} type="submit">
+        Erstellen
+      </Button>
+    </div>
   )
 }

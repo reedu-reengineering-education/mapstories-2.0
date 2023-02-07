@@ -37,7 +37,7 @@ export function TitleContentEdit({
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)
-
+    console.log(data);
     const response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
       method: 'POST',
       headers: {
