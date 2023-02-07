@@ -2,7 +2,7 @@
 
 import { useStoryStore } from '@/src/lib/store/story'
 import { StoryStep } from '@prisma/client'
-import { HeadingIcon } from '@radix-ui/react-icons'
+import { HeadingIcon, TextIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 
 
@@ -11,16 +11,22 @@ type Props = {
 }
 
 const renderSwitch = function renderSwitch(param: string, content: any) {
-  switch (param) {
-    case 'title':
-      return (
-        <div className="flex">
-          <HeadingIcon className='w-14 h-14'></HeadingIcon>
-          {content.title}
-        </div>
-      );
-    default:
-      return 'foo';
+  console.log(content)
+  if (content.title) {
+    return (
+      <div className="flex">
+        <HeadingIcon className='w-14 h-14'></HeadingIcon>
+        {content.title}
+      </div>
+    )
+  }
+  if (content.text) {
+    return (
+      <div className="flex">
+        <TextIcon className='w-14 h-14'></TextIcon>
+        {content.text}
+      </div>
+    )
   }
 }
 
@@ -53,9 +59,6 @@ export function SlideContentListEdit({ stepId }: Props) {
         step.content?.map(s => (
           <div className="re-basic-box-no-shadow my-2 relative hover:bg-hover cursor-pointer" key={s.id}>
             {renderSwitch('title', s)}
-            <div className="">
-
-            </div>
           </div>
         ))}
 
