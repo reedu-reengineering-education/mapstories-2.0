@@ -15,7 +15,7 @@ import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { updateStory } from '@/src/lib/api/story/updateStory'
-import { Visibility } from '@prisma/client'
+// import { useS3Upload } from "next-s3-upload";
 
 type FormData = z.infer<typeof mapstoryOptionsSchema>
 
@@ -42,28 +42,24 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
     resolver: zodResolver(mapstoryOptionsSchema),
   })
 
+  // let { uploadToS3 } = useS3Upload();
+
   function handleImageUpload(event: any) {
     const file = event.target.files[0]
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => {
-      setImage(reader.result?.toString())
-    }
+    // let { url } = await uploadToS3(file);
+
+    // console.log("Successfully uploaded to S3!", url);
   }
 
   async function onSubmit(data: FormData) {
-    console.log(data.public)
     setIsSaving(true)
     try {
       const response = await updateStory(storyId, {
         name: data.name,
         description: data.description,
-        visibility:
-          data.public === true ? Visibility.PUBLIC : Visibility.PRIVATE,
+        visibility: data.public === true ? 'PUBLIC' : 'PRIVATE',
         theme: data.theme,
-        image: data.image,
       })
-      console.log(response.data.visibility)
       toast({
         message: 'Your changes were applied.',
         type: 'success',
