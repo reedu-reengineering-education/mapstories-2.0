@@ -8,10 +8,9 @@ interface EditorPageProps {
 }
 
 export default function StepPage({ params: { stepId } }: EditorPageProps) {
-
   return (
     <div>
-      <div className="bg-white bottom-10 right-5 absolute p-4 re-basic-box">
+      <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">
         <h3 className="pb-4">Media / Text</h3>
         <div>
           <SlideContentListEdit stepId={stepId}></SlideContentListEdit>
@@ -25,7 +24,8 @@ export default function StepPage({ params: { stepId } }: EditorPageProps) {
               startIcon={<PlusIcon className="w-4" />}
               variant={'inverse'}
             >
-              Medien, Texte, Bilder <br />oder Videos Hinzufügen
+              Medien, Texte, Bilder <br />
+              oder Videos Hinzufügen
             </Button>
           }
         />

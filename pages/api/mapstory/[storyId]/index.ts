@@ -36,6 +36,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           description: req.body.description as string,
           visibility: req.body.visibility === 'PUBLIC' ? 'PUBLIC' : 'PRIVATE',
           theme: req.body.theme as string,
+          latitude: req.body.latitude as number,
+          longitude: req.body.longitude as number,
         },
       })
       return res.status(200).json(story)
