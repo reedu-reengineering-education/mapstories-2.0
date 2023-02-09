@@ -11,6 +11,7 @@ import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
+import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
@@ -79,16 +80,23 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
               id: s.id,
               s: s,
               component: (
-                <Link href={`/studio/${story.id}/${s.id}`}>
-                  {/* {i !== 0 && <SidebarConnection />} */}
-                  <SidebarSlide active={stepId === s.id}>
-                    <div>
-                      {/* <GlobeAltIcon className="w-10" /> */}
-                      <p>ID: {s.id.slice(-4)}</p>
-                      <p>Pos: {s.position}</p>
-                    </div>
-                  </SidebarSlide>
-                </Link>
+                <div className="group relative">
+                  <Link href={`/studio/${story.id}/${s.id}`}>
+                    {/* {i !== 0 && <SidebarConnection />} */}
+                    <SidebarSlide active={stepId === s.id} >
+                      <div className="relative flex justify-around">
+                        <div className='flex flex-col '>
+                          {/* <GlobeAltIcon className="w-10" /> */}
+                          <p>ID: {s.id.slice(-4)}</p>
+                          <p>Pos: {s.position}</p>
+                        </div>
+                      </div>
+                    </SidebarSlide>
+                  </Link>
+                  <div>
+                    <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
+                  </div>
+                </div>
               ),
             }))!
           }

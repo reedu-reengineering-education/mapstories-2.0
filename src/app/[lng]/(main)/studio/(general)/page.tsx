@@ -1,3 +1,4 @@
+import { useTranslation } from '@/src/app/i18n'
 import { Button } from '@/src/components/Elements/Button'
 import CreateMapstoryModal from '@/src/components/Studio/CreateMapstoryModal'
 import { EmptyPlaceholder } from '@/src/components/Studio/EmptyPlaceholder'
@@ -17,9 +18,15 @@ const getMapstories = async (userId: string) => {
   })
 }
 
-export default async function Studio() {
+export default async function Studio(
+  {
+    params: { lng },
+  }: {
+    params: { lng: string }
+  }
+) {
   const user = await getCurrentUser()
-
+  const { t } = await useTranslation(lng, 'studio')
   if (!user) {
     redirect('/')
   }
@@ -34,9 +41,10 @@ export default async function Studio() {
       >
         <div className="p-1">
           <CreateMapstoryModal
+            lng={lng}
             trigger={
               <Button startIcon={<PlusIcon className="w-4" />}>
-                Neue Mapstory
+                {t('newMapstory')}
               </Button>
             }
           />
@@ -50,6 +58,7 @@ export default async function Studio() {
             Du hast noch keine Mapstory erstellt.
           </EmptyPlaceholder.Description>
           <CreateMapstoryModal
+            lng={lng}
             trigger={
               <Button
                 startIcon={<PlusIcon className="w-4" />}

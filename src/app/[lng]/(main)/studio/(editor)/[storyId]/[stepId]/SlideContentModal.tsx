@@ -6,15 +6,18 @@ import { ArrowLeftIcon, HeadingIcon, TextIcon, TwitterLogoIcon, VideoIcon } from
 import React from 'react'
 import { CSSTransition } from 'react-transition-group';
 import { TitleContentEdit } from '@/src/components/Studio/ContentTypes/TitleContentEdit'
+import { useTranslation } from '@/src/app/i18n/client';
 
 type Props = {
   trigger: React.ReactElement
-  storyStepId: string
+  storyStepId: string,
+  lng: string
 }
 
-export default function SlideContentModal({ trigger, storyStepId }: Props) {
+export default function SlideContentModal({ trigger, storyStepId, lng }: Props) {
 
   const [contentType, setContentType] = useState<string>('')
+  const { t } = useTranslation(lng, 'editModal')
 
   return (
     <>
@@ -64,11 +67,12 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
             </CSSTransition>
 
             {
-              contentType == 'title' && (
+              contentType == 'title' || contentType == 'embed' && (
                 <>
                   <CSSTransition
                     appear
                     classNames="slide-transition-reverse"
+                    //@ts-ignore
                     in={contentType != ''}
                     timeout={400}
                     unmountOnExit>
@@ -76,7 +80,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                       <div className="absolute -top-6 ">
                         <button className="flex" onClick={() => setContentType('')}><ArrowLeftIcon className="h-6 w-6 mr-2"></ArrowLeftIcon> Zurück</button>
                       </div>
-                      <TitleContentEdit storyStepId={storyStepId}></TitleContentEdit>
+                      <TitleContentEdit lng={lng} storyStepId={storyStepId}></TitleContentEdit>
                     </div>
                   </CSSTransition>
                 </>
