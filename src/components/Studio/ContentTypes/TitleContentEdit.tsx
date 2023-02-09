@@ -13,10 +13,13 @@ import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { SlideContent } from '@prisma/client'
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string,
-  slideContent?: any
+  slideContent?: any,
+  lng: string
 }
 
 type FormData = z.infer<typeof slideTitleContentSchema>
@@ -25,6 +28,7 @@ export function TitleContentEdit({
   storyStepId,
   className,
   slideContent,
+  lng,
   ...props
 }: TitleContentEditProps) {
   const router = useRouter()
@@ -35,6 +39,12 @@ export function TitleContentEdit({
   } = useForm<FormData>({
     resolver: zodResolver(slideTitleContentSchema),
   })
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+
+  const { t } = useTranslation(lng, 'editModal')
+
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
   async function onSubmit(data: FormData) {
@@ -104,7 +114,7 @@ export function TitleContentEdit({
           />
         </div>
         <Button disabled={isSaving} isLoading={isSaving} type="submit">
-          Erstellen
+          {t('save')}
         </Button>
       </div>
     </form>

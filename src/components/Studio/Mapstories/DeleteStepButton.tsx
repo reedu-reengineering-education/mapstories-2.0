@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from '@/src/lib/toast'
 
-export default function DeleteStepButton({ storyId, storyStepId }: { storyId:any, storyStepId: any }) {
+export default function DeleteStepButton({ storyId, storyStepId }: { storyId: any, storyStepId: any }) {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
@@ -41,30 +41,33 @@ export default function DeleteStepButton({ storyId, storyStepId }: { storyId:any
     }
 
     return (
-        <Modal
-            title={
-                <span>
-                    Willst du die Slide
-                    <span className="rounded bg-slate-100 py-1 px-2">{storyStepId}</span>
-                    wirklich löschen?
-                </span>
-            }
-            trigger={
-                <div className="flex cursor-pointer  p-2 transition-colors hover:bg-red-200">
-                    <TrashIcon className="w-5 text-red-500" />
-                </div>
-            }
-        >
-            <Modal.Footer>
-                <Button
-                    disabled={loading}
-                    isLoading={loading}
-                    onClick={handleClick}
-                    variant={'danger'}
-                >
-                    Löschen
-                </Button>
-            </Modal.Footer>
-        </Modal>
+        <div className="absolute top-1 right-1 z-10 rounded-md overflow-hidden group-hover:visible">
+
+            <Modal
+                title={
+                    <span>
+                        Willst du die Slide
+                        <span className="rounded bg-slate-100 py-1 px-2">{storyStepId}</span>
+                        wirklich löschen?
+                    </span>
+                }
+                trigger={
+                    <div className="flex cursor-pointer  p-2 transition-colors hover:bg-red-200">
+                        <TrashIcon className="w-5 text-red-500" />
+                    </div>
+                }
+            >
+                <Modal.Footer>
+                    <Button
+                        disabled={loading}
+                        isLoading={loading}
+                        onClick={handleClick}
+                        variant={'danger'}
+                    >
+                        Löschen
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
     )
 }

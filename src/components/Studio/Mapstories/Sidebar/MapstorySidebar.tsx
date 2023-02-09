@@ -80,23 +80,23 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
               id: s.id,
               s: s,
               component: (
-                <div>
+                <div className="group relative">
                   <Link href={`/studio/${story.id}/${s.id}`}>
                     {/* {i !== 0 && <SidebarConnection />} */}
                     <SidebarSlide active={stepId === s.id} >
-                      <div className="flex justify-around">
+                      <div className="relative flex justify-around">
                         <div className='flex flex-col '>
                           {/* <GlobeAltIcon className="w-10" /> */}
                           <p>ID: {s.id.slice(-4)}</p>
                           <p>Pos: {s.position}</p>
                         </div>
-                        <div>
-                          <DeleteStepButton storyId={s.storyId} storyStepId = {s.id}/>
-                        </div>
                       </div>
                     </SidebarSlide>
-                </Link>
-              </div>
+                  </Link>
+                  <div>
+                    <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
+                  </div>
+                </div>
               ),
             }))!
           }

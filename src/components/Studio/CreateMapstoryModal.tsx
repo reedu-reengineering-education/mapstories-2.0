@@ -11,15 +11,20 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from '@/src/lib/toast'
 import { Input, InputLabel } from '../Elements/Input'
 import { createStory } from '@/src/lib/api/story/createStory'
+import { useTranslation } from '@/src/app/i18n/client'
+// import { useTranslation } from '@/src/app/i18n'
 
 type FormData = z.infer<typeof createMapstoryeSchema>
 
 type Props = {
-  trigger: React.ReactElement
+  trigger: React.ReactElement,
+  lng: string
 }
 
-export default function CreateMapstoryModal({ trigger }: Props) {
+export default function CreateMapstoryModal({ trigger, lng }: Props) {
   const router = useRouter()
+  const { t } = useTranslation(lng, 'editModal')
+
   const {
     handleSubmit,
     register,
@@ -66,7 +71,7 @@ export default function CreateMapstoryModal({ trigger }: Props) {
         </Modal.Content>
         <Modal.Footer>
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
-            Erstellen
+            {t('save')}
           </Button>
         </Modal.Footer>
       </form>
