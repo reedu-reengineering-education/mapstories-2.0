@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import acceptLanguage from 'accept-language'
-import { fallbackLng, languages } from './app/i18n/settings'
+import { fallbackLng, languages } from './src/app/i18n/settings'
 import { getToken } from 'next-auth/jwt'
 
 export const config = {

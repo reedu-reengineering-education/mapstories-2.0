@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { withMethods } from '@/lib/apiMiddlewares/withMethods'
-import { db } from '@/lib/db'
-import { withMapstory } from '@/lib/apiMiddlewares/withMapstory'
+import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
+import { db } from '@/src/lib/db'
+import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
@@ -12,7 +12,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           id: req.query.storyId as string,
         },
         include: {
-          steps: true,
+          steps: {
+            include: {
+              content: true
+            }
+          }
         },
       })
 

@@ -5,9 +5,10 @@ const nextConfig = {
     swcPlugins: [['next-superjson-plugin', {}]],
   },
   eslint: {
-    dirs: ['app', 'components', 'pages', 'lib', 'hooks'],
+    dirs: ['src', 'lib', 'hooks'],
   },
   output: 'standalone',
+  staticPageGenerationTimeout: 100
 }
 
 module.exports = nextConfig

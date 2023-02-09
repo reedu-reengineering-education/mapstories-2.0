@@ -1,0 +1,43 @@
+.re-basic-button {
+    border: 3px solid #000000;
+    // box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.9);
+    // border-radius: 12px;
+
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.9));
+}
+
+.re-basic-button-noShadow {
+    border: 3px solid #000000;
+    // box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.9);
+    // border-radius: 12px;
+
+    // filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.9));
+}
+
+.re-basic-box {
+    border: 3px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+
+    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9));
+}
+
+.re-basic-box-no-shadow {
+    border: 3px solid #000000;
+    // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+
+    // filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9));
+}
+
+.re-hover-element {
+    transition: background 0.2s linear;
+}
+
+.re-hover-element:hover {
+    background: #E0F2E8;
+}
+
+.re-studio-height-full-screen {
+    height: calc(100VH - 18rem);
+}
