@@ -67,11 +67,12 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
             </CSSTransition>
 
             {
-              contentType == 'title' && (
+              contentType == 'title' || contentType == 'embed' && (
                 <>
                   <CSSTransition
                     appear
                     classNames="slide-transition-reverse"
+                    //@ts-ignore
                     in={contentType != ''}
                     timeout={400}
                     unmountOnExit>
