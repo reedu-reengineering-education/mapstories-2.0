@@ -18,7 +18,6 @@ type EditMapstoryViewProps = {
 export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
-  console.log(stepId)
   const updateStory = useStoryStore(state => state.updateStory)
   const [markerCoords, setMarkerCoords] = useState<number[] | undefined>()
   const addMarker = async (
@@ -26,7 +25,7 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
   ) => {
     setMarkerCoords([e.lngLat.lng, e.lngLat.lat])
     const storyId = await story.id
-    if (stepId) {
+    if (stepId && storyId) {
       const response = await updateStoryStep(storyId, stepId, {
         feature: {
           point: {
