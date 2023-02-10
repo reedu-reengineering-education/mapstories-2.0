@@ -89,8 +89,6 @@ model Story {
   visibility  Visibility
   createdAt   DateTime    @default(now()) @map(name: "created_at")
   updatedAt   DateTime    @default(now()) @map(name: "updated_at")
-  latitude    Float?
-  longitude   Float?
 
   @@map(name: "stories")
 }

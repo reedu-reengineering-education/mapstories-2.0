@@ -8,28 +8,38 @@ import Map from '@/src/components/Map'
 import { useStoryStore } from '@/src/lib/store/story'
 import { useEffect, useState } from 'react'
 import { Marker, MarkerDragEvent } from 'react-map-gl'
-import { updateStory } from '@/src/lib/api/story/updateStory'
+import { updateStoryStep } from '@/src/lib/api/step/updateStep'
+import { usePathname } from 'next/navigation'
 
 type EditMapstoryViewProps = {
   story: Story
 }
 
 export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
-  const storyUpdate = useStoryStore(state => state.updateStory)
+  const path = usePathname()
+  const stepId = path?.split('/').at(-1)
+  console.log(stepId)
+  const updateStory = useStoryStore(state => state.updateStory)
   const [markerCoords, setMarkerCoords] = useState<number[] | undefined>()
   const addMarker = async (
     e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent,
   ) => {
     setMarkerCoords([e.lngLat.lng, e.lngLat.lat])
     const storyId = await story.id
-    const response = await updateStory(storyId, {
-      latitude: e.lngLat.lat as number,
-      longitude: e.lngLat.lng as number,
-    })
+    if (stepId) {
+      const response = await updateStoryStep(storyId, stepId, {
+        feature: {
+          point: {
+            latitude: e.lngLat.lat as number,
+            longitude: e.lngLat.lng as number,
+          },
+        },
+      })
+    }
   }
 
   useEffect(() => {
-    storyUpdate(story)
+    updateStory(story)
   }, [])
 
   return (
