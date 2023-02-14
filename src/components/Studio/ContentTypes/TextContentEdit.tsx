@@ -77,8 +77,8 @@ export function TextContentEdit({
 
   return (
     <div className="top-0">
-      <div className="pt-4">
-        <MDEditor onChange={setValue} preview="edit" value={value} />
+      <div className="pt-4 pb-4">
+        <MDEditor preview="edit" value={value} />
       </div>
       <Button disabled={isSaving} isLoading={isSaving} onClick={() => onSubmit(value)} type="submit">
         {stepItem && (t('save'))}

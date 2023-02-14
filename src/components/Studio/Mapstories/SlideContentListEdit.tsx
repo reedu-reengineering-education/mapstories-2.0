@@ -24,10 +24,10 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 
 const renderSwitch = function renderSwitch(param: string, content: any) {
 
-
+  //@ts-ignore
   const markdownPreviewStyles = {
-    background: 'white',
-    fontFamily: 'inherit'
+    'background': 'white',
+    'fontFamily': 'inherit'
   }
 
   if (content.title) {
@@ -42,7 +42,7 @@ const renderSwitch = function renderSwitch(param: string, content: any) {
     return (
       <div className="flex">
         <TextIcon className='w-14 h-14'></TextIcon>
-        <MarkdownPreview source={content.text} style={markdownPreviewStyles} />
+        <MarkdownPreview className="hover:bg-hover" source={content.text} style={markdownPreviewStyles} />
       </div>
     )
   }
@@ -56,6 +56,10 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
 
   const story = useStoryStore(state => state.story)
   const step: StoryStep & { content?: SlideContent[] } | undefined = story?.steps?.filter(step => step.id === stepId)[0]
+  const [isHovered, setIsHovered] = React.useState(false)
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
 
   return (
     <div className="py-4">
