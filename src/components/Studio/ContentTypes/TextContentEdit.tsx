@@ -1,11 +1,9 @@
 'use client'
 
 import * as React from 'react'
-import * as z from 'zod'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/src/components/Elements/Button'
-import { slideTitleContentSchema } from '@/src/lib/validations/slidecontent'
 import { useState } from 'react'
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
@@ -13,13 +11,9 @@ import dynamic from 'next/dynamic';
 import { toast } from '@/src/lib/toast'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  storyStepId: string
+  storyStepId: string,
+  stepItem?: any
 }
-
-
-
-type FormData = z.infer<typeof slideTitleContentSchema>
-
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
   ssr: false,
@@ -27,47 +21,56 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
 
 export function TextContentEdit({
   storyStepId,
+  stepItem,
 }: TextContentEditProps) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
-  const handleClick = async (value: string) => {
-    setIsSaving(true);
-    const response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
-      method: 'POST',
-      headers: {
+
+  async function onSubmit(text: String) {
+    try {
+      setIsSaving(true);
+      const url = `/api/mapstory/step/${stepItem ? stepItem.storyStepId : storyStepId}/content`;
+      const method = stepItem ? 'PUT' : 'POST';
+      const headers = {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        text: value
-      }),
-    })
+      };
+      const body = stepItem ? JSON.stringify({ ...stepItem, text: text }) : JSON.stringify({ text: text });
+      const response = await fetch(url, { method, headers, body });
 
-    if (!response?.ok) {
-      return toast({
-        title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again',
+      setIsSaving(false);
+
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+
+      const newContent = await response.json();
+      setIsSaving(false);
+      toast({ message: 'Your content has been created.', type: 'success' });
+      router.refresh();
+      // router.push(`/studio/${newStory.id}`)
+
+    } catch (error: any) {
+      setIsSaving(false);
+      toast({
+        title: 'Error',
+        message: error.message,
         type: 'error',
-      })
+      });
     }
-
-    toast({
-      message: 'Your content has been created.',
-      type: 'success',
-    })
-
-    router.refresh()
-
   }
 
-  const [value, setValue] = useState('Your text here')
+  let textInEditor = 'Your text here';
+  stepItem ? textInEditor = stepItem.text : '';
+
+  const [value, setValue] = useState(textInEditor)
 
   return (
     <div className="top-0">
       <div className="pt-4">
         <MDEditor onChange={setValue} preview="edit" value={value} />
       </div>
-      <Button disabled={isSaving} isLoading={isSaving} onClick={() => handleClick(value)} type="submit">
+      <Button disabled={isSaving} isLoading={isSaving} onClick={() => onSubmit(value)} type="submit">
         Erstellen
       </Button>
     </div>

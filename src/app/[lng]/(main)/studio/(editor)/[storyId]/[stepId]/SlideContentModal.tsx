@@ -7,7 +7,7 @@ import React from 'react'
 import { CSSTransition } from 'react-transition-group';
 import { TitleContentEdit } from '@/src/components/Studio/ContentTypes/TitleContentEdit'
 import { useTranslation } from '@/src/app/i18n/client';
-
+import { TextContentEdit } from '@/src/components/Studio/ContentTypes/TextContentEdit';
 type Props = {
   trigger: React.ReactElement
   storyStepId: string,
@@ -67,7 +67,7 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
             </CSSTransition>
 
             {
-              contentType == 'title' || contentType == 'embed' && (
+              contentType == 'title' && (
                 <>
                   <CSSTransition
                     appear
@@ -90,7 +90,7 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
                   <CSSTransition
                     appear
                     classNames="slide-transition-reverse"
-                    in={contentType != ''} 
+                    in={contentType != ''}
                     timeout={400}
                     unmountOnExit>
                     <div className="top-0">

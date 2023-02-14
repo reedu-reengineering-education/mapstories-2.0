@@ -2,15 +2,14 @@
 
 import { useStoryStore } from '@/src/lib/store/story'
 import { SlideContent, StoryStep } from '@prisma/client'
-import { HeadingIcon, TextIcon} from '@radix-ui/react-icons'
+import { HeadingIcon, TextIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 import DraggableList from '../../DraggableList'
 import { Button } from '../../Elements/Button'
 import { Modal } from '../../Modal'
 import DeleteContentButton from '../ContentTypes/DeleteContentButton'
-import { TitleContentEdit } from '../ContentTypes/TitleContentEdit'
 import dynamic from 'next/dynamic';
-
+import { EditContentType } from '../ContentTypes/EditContentType'
 type Props = {
   stepId: string
   lng: string
@@ -78,7 +77,7 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
 
                   </Button>}>
                     <Modal.Content>
-                      <TitleContentEdit lng={lng} slideContent={stepItem} storyStepId={stepItem.id} ></TitleContentEdit>
+                      <EditContentType lng={lng} stepItem={stepItem} storyStepId={stepItem.storyStepId} ></EditContentType>
                     </Modal.Content>
                   </Modal>
                   <DeleteContentButton stepContentId={stepItem.id} storyStepId={stepItem.storyStepId} />
