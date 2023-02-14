@@ -9,10 +9,14 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import dynamic from 'next/dynamic';
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string,
-  stepItem?: any
+  stepItem?: any,
+  lng: string
+
 }
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
@@ -22,9 +26,15 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
 export function TextContentEdit({
   storyStepId,
   stepItem,
+  lng
 }: TextContentEditProps) {
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
   const router = useRouter();
   const [isSaving, setIsSaving] = useState<boolean>(false)
+
+  const { t } = useTranslation(lng, 'editModal')
 
 
   async function onSubmit(text: String) {
@@ -71,7 +81,8 @@ export function TextContentEdit({
         <MDEditor onChange={setValue} preview="edit" value={value} />
       </div>
       <Button disabled={isSaving} isLoading={isSaving} onClick={() => onSubmit(value)} type="submit">
-        Erstellen
+        {stepItem && (t('save'))}
+        {!stepItem && (t('create'))}
       </Button>
     </div>
   )

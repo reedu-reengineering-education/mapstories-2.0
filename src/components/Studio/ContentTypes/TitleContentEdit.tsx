@@ -105,7 +105,8 @@ export function TitleContentEdit({
           />
         </div>
         <Button disabled={isSaving} isLoading={isSaving} type="submit">
-          {t('save')}
+          {stepItem && (t('save'))}
+          {!stepItem && (t('create'))}
         </Button>
       </div>
     </form>
