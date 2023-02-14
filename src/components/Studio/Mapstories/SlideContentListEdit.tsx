@@ -4,14 +4,25 @@ import { useStoryStore } from '@/src/lib/store/story'
 import { StoryStep } from '@prisma/client'
 import { HeadingIcon, TextIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
-
+import dynamic from 'next/dynamic';
 
 type Props = {
   stepId: String
 }
 
+
+const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
+  ssr: false,
+});
+
+
+
 const renderSwitch = function renderSwitch(param: string, content: any) {
-  console.log(content)
+  const markdownPreviewStyles = {
+    background: 'white',
+    'fontFamily': 'inherit'
+  }
+
   if (content.title) {
     return (
       <div className="flex">
@@ -24,7 +35,7 @@ const renderSwitch = function renderSwitch(param: string, content: any) {
     return (
       <div className="flex">
         <TextIcon className='w-14 h-14'></TextIcon>
-        {content.text}
+        <MarkdownPreview source={content.text} style={markdownPreviewStyles} />
       </div>
     )
   }

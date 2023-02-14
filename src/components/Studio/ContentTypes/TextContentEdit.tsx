@@ -6,7 +6,6 @@ import * as z from 'zod'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/src/components/Elements/Button'
-import { cx } from 'class-variance-authority'
 import { slideTitleContentSchema } from '@/src/lib/validations/slidecontent'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -78,7 +77,7 @@ export function TextContentEdit({
   return (
     <div className="top-0">
       <div className="pt-4">
-        <MDEditor onChange={setValue} value={value} />
+        <MDEditor onChange={setValue} preview="edit" value={value} />
       </div>
       <Button disabled={isSaving} isLoading={isSaving} onClick={() => handleClick(value)} type="submit">
         Erstellen
