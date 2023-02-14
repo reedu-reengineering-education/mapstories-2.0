@@ -8,6 +8,7 @@ const nextConfig = {
     dirs: ['src', 'lib', 'hooks'],
   },
   output: 'standalone',
+  staticPageGenerationTimeout: 100
 }
 
 const removeImports = require('next-remove-imports')();

@@ -13,9 +13,13 @@ import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { SlideContent } from '@prisma/client'
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  storyStepId: string
+  storyStepId: string,
+  slideContent?: any,
+  lng: string
 }
 
 type FormData = z.infer<typeof slideTitleContentSchema>
@@ -23,6 +27,8 @@ type FormData = z.infer<typeof slideTitleContentSchema>
 export function TitleContentEdit({
   storyStepId,
   className,
+  slideContent,
+  lng,
   ...props
 }: TitleContentEditProps) {
   const router = useRouter()
@@ -33,20 +39,43 @@ export function TitleContentEdit({
   } = useForm<FormData>({
     resolver: zodResolver(slideTitleContentSchema),
   })
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+
+  const { t } = useTranslation(lng, 'editModal')
+
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)
-    console.log(data);
-    const response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...data
-      }),
-    })
+
+    let response;
+
+    if (slideContent) {
+      slideContent.title = data.title
+      response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...slideContent
+        }),
+      })
+    }
+    else {
+      response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data
+        }),
+      })
+    }
+
 
     setIsSaving(false)
 
@@ -68,7 +97,6 @@ export function TitleContentEdit({
     // router.push(`/studio/${newStory.id}`)
 
   }
-
   return (
     <form
       className={cx(className)}
@@ -79,6 +107,7 @@ export function TitleContentEdit({
         <div className="pt-4">
           <InputLabel>Gib eine Überschrift für deine Folie ein</InputLabel>
           <Input
+            defaultValue={slideContent ? slideContent.title : ''}
             errors={errors.title}
             label="title"
             size={32}
@@ -86,7 +115,7 @@ export function TitleContentEdit({
           />
         </div>
         <Button disabled={isSaving} isLoading={isSaving} type="submit">
-          Erstellen
+          {t('save')}
         </Button>
       </div>
     </form>
