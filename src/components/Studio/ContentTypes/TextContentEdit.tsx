@@ -1,13 +1,11 @@
 'use client'
 
 import * as React from 'react'
-import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/src/components/Elements/Button'
 import { slideTitleContentSchema } from '@/src/lib/validations/slidecontent'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
@@ -29,21 +27,11 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
 
 export function TextContentEdit({
   storyStepId,
-  className,
-  ...props
 }: TextContentEditProps) {
-  const router = useRouter()
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(slideTitleContentSchema),
-  })
+  const router = useRouter();
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
   const handleClick = async (value: string) => {
-    console.log(value);
     setIsSaving(true);
     const response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
       method: 'POST',

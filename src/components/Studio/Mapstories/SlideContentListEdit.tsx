@@ -18,9 +18,10 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 
 
 const renderSwitch = function renderSwitch(param: string, content: any) {
+
   const markdownPreviewStyles = {
     background: 'white',
-    'fontFamily': 'inherit'
+    fontFamily: 'inherit'
   }
 
   if (content.title) {
@@ -44,6 +45,8 @@ const renderSwitch = function renderSwitch(param: string, content: any) {
 
 
 export function SlideContentListEdit({ stepId }: Props) {
+
+
 
   const story = useStoryStore(state => state.story)
   const step: StoryStep | undefined = story?.steps?.filter(step => step.id === stepId)[0]
