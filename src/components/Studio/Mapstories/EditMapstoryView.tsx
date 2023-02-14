@@ -1,7 +1,7 @@
 'use client'
 
 import DrawControl from '@/src/components/Map/DrawControl'
-import { Story } from '@prisma/client'
+import { Story, StoryStep } from '@prisma/client'
 import { StudioHeader } from '../Header'
 import { StudioShell } from '../Shell'
 import Map from '@/src/components/Map'
@@ -10,12 +10,19 @@ import { useEffect, useState } from 'react'
 import { Marker, MarkerDragEvent } from 'react-map-gl'
 import { updateStoryStep } from '@/src/lib/api/step/updateStep'
 import { usePathname } from 'next/navigation'
+import { Layer, Source } from 'react-map-gl'
+import { Feature } from 'geojson'
+// import { LineString } from 'geojson'
 
 type EditMapstoryViewProps = {
   story: Story
+  steps: StoryStep[] | undefined
 }
 
-export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
+export default function EditMapstoryView({
+  story,
+  steps,
+}: EditMapstoryViewProps) {
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const updateStory = useStoryStore(state => state.updateStory)
@@ -37,8 +44,53 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
     }
   }
 
+  const markers: any[] = []
+  function getMarkers() {
+    if (!steps) {
+      return
+    }
+    steps.forEach(s => {
+      if (s.feature) {
+        if (s.feature['point' as keyof typeof s.feature]) {
+          const point = JSON.parse(
+            JSON.stringify(s.feature['point' as keyof typeof s.feature]),
+          )
+          markers.push({ longitude: point.longitude, latitude: point.latitude })
+        }
+      }
+    })
+    return markers
+  }
+
+  const lineStyle = {
+    id: 'lines',
+    type: 'line' as 'sky',
+    paint: {
+      'line-color': 'blue',
+      'line-width': 10,
+    },
+  }
+
+  let lineData = {}
+
+  const createLineData = () => {
+    lineData = {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: markers.map(m => {
+          return [m.longitude, m.latitude]
+        }),
+      },
+    }
+    return lineData
+  }
+
   useEffect(() => {
     updateStory(story)
+    getMarkers()
+    createLineData()
   }, [])
 
   return (
@@ -67,6 +119,22 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
               longitude={markerCoords[0]}
               onDragEnd={e => addMarker(e)}
             ></Marker>
+          )}
+          {getMarkers() &&
+            markers.map((m, i) => {
+              return (
+                <Marker
+                  key={i}
+                  latitude={m.latitude as number}
+                  longitude={m.longitude as number}
+                ></Marker>
+              )
+            })}
+          {getMarkers() && markers.length >= 2 && createLineData() && (
+            <Source data={lineData as Feature} id="linesource" type="geojson">
+              {/* @ts-ignore */}
+              <Layer {...lineStyle} />
+            </Source>
           )}
         </Map>
       </div>

@@ -55,6 +55,8 @@ export default async function DashboardLayout({
 
   const story = await getStoryForUser(storyId, user.id, storyName)
 
+  const storySteps = story?.steps
+
   if (!story) {
     return notFound()
   }
@@ -81,7 +83,7 @@ export default async function DashboardLayout({
           <MapstorySidebar storyID={story.id} />
         </aside>
         <main className="re-studio-height-full-screen relative flex w-full flex-1 flex-col overflow-hidden">
-          <EditMapstoryView data-superjson story={story} />
+          <EditMapstoryView data-superjson steps={storySteps} story={story} />
           <div className="absolute top-0 left-0 h-full w-full">{children}</div>
         </main>
       </div>
