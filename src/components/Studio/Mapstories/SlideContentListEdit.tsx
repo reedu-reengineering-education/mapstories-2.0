@@ -2,38 +2,58 @@
 
 import { useStoryStore } from '@/src/lib/store/story'
 import { SlideContent, StoryStep } from '@prisma/client'
-import { HeadingIcon } from '@radix-ui/react-icons'
+import { HeadingIcon, TextIcon} from '@radix-ui/react-icons'
 import * as React from 'react'
 import DraggableList from '../../DraggableList'
 import { Button } from '../../Elements/Button'
 import { Modal } from '../../Modal'
 import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import { TitleContentEdit } from '../ContentTypes/TitleContentEdit'
+import dynamic from 'next/dynamic';
 
 type Props = {
   stepId: string
   lng: string
 }
 
+
+const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
+  ssr: false,
+});
+
+
+
 const renderSwitch = function renderSwitch(param: string, content: any) {
 
 
-  switch (param) {
-    case 'title':
-      return (
-        <div className="flex relativ z-750">
-          <HeadingIcon className='w-14 h-14'></HeadingIcon>
-          {content.title.substring(0, 12)}...
-        </div>
-      );
-    default:
-      return 'foo';
+  const markdownPreviewStyles = {
+    background: 'white',
+    fontFamily: 'inherit'
+  }
+
+  if (content.title) {
+    return (
+      <div className="flex">
+        <HeadingIcon className='w-14 h-14'></HeadingIcon>
+        {content.title}
+      </div>
+    )
+  }
+  if (content.text) {
+    return (
+      <div className="flex">
+        <TextIcon className='w-14 h-14'></TextIcon>
+        <MarkdownPreview source={content.text} style={markdownPreviewStyles} />
+      </div>
+    )
   }
 }
 
 
 
 export function SlideContentListEdit({ stepId, lng }: Props) {
+
+
 
   const story = useStoryStore(state => state.story)
   const step: StoryStep & { content?: SlideContent[] } | undefined = story?.steps?.filter(step => step.id === stepId)[0]
