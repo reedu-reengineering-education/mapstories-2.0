@@ -13,6 +13,7 @@ import { usePathname } from 'next/navigation'
 import { Layer, Source } from 'react-map-gl'
 import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
+import { useRouter } from 'next/navigation'
 
 type EditMapstoryViewProps = {
   story: Story
@@ -27,6 +28,7 @@ export default function EditMapstoryView({
   const stepId = path?.split('/').at(-1)
   const updateStory = useStoryStore(state => state.updateStory)
   const [markerCoords, setMarkerCoords] = useState<number[] | undefined>()
+  const router = useRouter()
   const addMarker = async (
     e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent,
   ) => {
@@ -87,6 +89,19 @@ export default function EditMapstoryView({
     return lineData
   }
 
+  const moveToStoryStep = (coords: { latitude: number; longitude: number }) => {
+    const matchingStep = steps?.find(
+      step =>
+        //@ts-ignore
+        step.feature.point.latitude === coords.latitude &&
+        //@ts-ignore
+        step.feature.point.longitude === coords.longitude,
+    )
+    if (matchingStep) {
+      router.push(`/studio/${story.name}/${matchingStep.id}`)
+    }
+  }
+
   useEffect(() => {
     updateStory(story)
     getMarkers()
@@ -127,6 +142,12 @@ export default function EditMapstoryView({
                   key={i}
                   latitude={m.latitude as number}
                   longitude={m.longitude as number}
+                  onClick={() =>
+                    moveToStoryStep({
+                      latitude: m.latitude as number,
+                      longitude: m.longitude as number,
+                    })
+                  }
                 ></Marker>
               )
             })}
