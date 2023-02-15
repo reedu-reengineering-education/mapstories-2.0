@@ -97,7 +97,7 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
                       <div className="absolute -top-6 ">
                         <button className="flex" onClick={() => setContentType('')}><ArrowLeftIcon className="h-6 w-6 mr-2"></ArrowLeftIcon> Zurück</button>
                       </div>
-                      <TextContentEdit storyStepId={storyStepId}></TextContentEdit>
+                      <TextContentEdit lng={lng} storyStepId={storyStepId}></TextContentEdit>
                     </div>
                   </CSSTransition>
                 </>
