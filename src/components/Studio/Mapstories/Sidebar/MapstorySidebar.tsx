@@ -27,7 +27,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   async function onSubmit() {
     setIsLoading(true)
 
-    const response = await fetch(`/api/mapstory/${story?.id}/step`, {
+    const response = await fetch(`/api/mapstory/${story?.id}/step/${stepId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
