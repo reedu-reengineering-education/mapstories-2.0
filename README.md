@@ -43,7 +43,15 @@ You will need to have Node.js and Yarn installed.
    ```sh
    yarn
    ```
-3. Run the App
+3. start development DB
+   ```sh
+   docker compose up -d
+   ```
+4. migrate DB on first run
+   ```sh
+   npx prisma migrate dev
+   ```
+5. Run the App
    ```sh
    yarn dev
    ```
