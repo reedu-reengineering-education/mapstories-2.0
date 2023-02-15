@@ -20,14 +20,23 @@ type EditMapstoryViewProps = {
   steps: StoryStep[] | undefined
 }
 
+interface MarkerProps {
+  latitude: number
+  longitude: number
+  color: string
+  key: string
+}
+
 export default function EditMapstoryView({
   story,
   steps,
 }: EditMapstoryViewProps) {
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
+  const currentStep = steps?.find(step => step.id === stepId)
   const updateStory = useStoryStore(state => state.updateStory)
   const [markerCoords, setMarkerCoords] = useState<number[] | undefined>()
+  const [markers, setMarkers] = useState<MarkerProps[]>([])
   const router = useRouter()
   const addMarker = async (
     e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent,
@@ -46,7 +55,6 @@ export default function EditMapstoryView({
     }
   }
 
-  const markers: any[] = []
   function getMarkers() {
     if (!steps) {
       return
@@ -57,11 +65,16 @@ export default function EditMapstoryView({
           const point = JSON.parse(
             JSON.stringify(s.feature['point' as keyof typeof s.feature]),
           )
-          markers.push({ longitude: point.longitude, latitude: point.latitude })
+          const newMarker: MarkerProps = {
+            color: currentStep?.id === s.id ? 'red' : 'blue',
+            longitude: point.longitude,
+            latitude: point.latitude,
+            key: s.id,
+          }
+          setMarkers(prevMarkers => [...prevMarkers, newMarker])
         }
       }
     })
-    return markers
   }
 
   const lineStyle = {
@@ -106,7 +119,7 @@ export default function EditMapstoryView({
     updateStory(story)
     getMarkers()
     createLineData()
-  }, [])
+  }, [path])
 
   return (
     <StudioShell>
@@ -135,23 +148,23 @@ export default function EditMapstoryView({
               onDragEnd={e => addMarker(e)}
             ></Marker>
           )}
-          {getMarkers() &&
-            markers.map((m, i) => {
-              return (
-                <Marker
-                  key={i}
-                  latitude={m.latitude as number}
-                  longitude={m.longitude as number}
-                  onClick={() =>
-                    moveToStoryStep({
-                      latitude: m.latitude as number,
-                      longitude: m.longitude as number,
-                    })
-                  }
-                ></Marker>
-              )
-            })}
-          {getMarkers() && markers.length >= 2 && createLineData() && (
+          {markers.map((m, i) => {
+            return (
+              <Marker
+                color={m.color}
+                key={m.key}
+                latitude={m.latitude as number}
+                longitude={m.longitude as number}
+                onClick={() =>
+                  moveToStoryStep({
+                    latitude: m.latitude as number,
+                    longitude: m.longitude as number,
+                  })
+                }
+              ></Marker>
+            )
+          })}
+          {markers.length >= 2 && createLineData() && (
             <Source data={lineData as Feature} id="linesource" type="geojson">
               {/* @ts-ignore */}
               <Layer {...lineStyle} />
