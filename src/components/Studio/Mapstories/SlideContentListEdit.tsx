@@ -2,12 +2,13 @@
 
 import { useStoryStore } from '@/src/lib/store/story'
 import { SlideContent, StoryStep } from '@prisma/client'
-import { HeadingIcon } from '@radix-ui/react-icons'
+import { HeadingIcon, PlayIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 import DraggableList from '../../DraggableList'
 import { Button } from '../../Elements/Button'
 import { Modal } from '../../Modal'
 import DeleteContentButton from '../ContentTypes/DeleteContentButton'
+import { EmbedContentEdit } from '../ContentTypes/EmbedContentEdit'
 import { TitleContentEdit } from '../ContentTypes/TitleContentEdit'
 
 type Props = {
@@ -15,20 +16,24 @@ type Props = {
   lng: string
 }
 
-const renderSwitch = function renderSwitch(param: string, content: any) {
+const renderSwitch = function renderSwitch(content: any) {
 
-
-  switch (param) {
-    case 'title':
-      return (
-        <div className="flex relativ z-750">
-          <HeadingIcon className='w-14 h-14'></HeadingIcon>
-          {content.title.substring(0, 12)}...
-        </div>
-      );
-    default:
-      return 'foo';
+  if (content.title != null) {
+    return (
+      <div className="flex relativ z-750">
+        <HeadingIcon className='w-14 h-14'></HeadingIcon>
+        {content.title.substring(0, 12)}...
+      </div>
+    );
+  } if (content.media != null) {
+    return (
+      <div className="flex relativ z-750">
+        <PlayIcon className='w-14 h-14'></PlayIcon>
+        {content.media.substring(0, 12)}...
+      </div>
+    );
   }
+  return 'foo';
 }
 
 
@@ -54,11 +59,16 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
                     // startIcon={<PlusIcon className="w-4" />}
                     variant={'noStyle'}
                   >
-                    {renderSwitch('title', stepItem)}
+                    {renderSwitch(stepItem)}
 
                   </Button>}>
                     <Modal.Content>
-                      <TitleContentEdit lng={lng} slideContent={stepItem} storyStepId={stepItem.id} ></TitleContentEdit>
+                      {stepItem.title != null ?
+                        <TitleContentEdit lng={lng} slideContent={stepItem} storyStepId={stepItem.id} ></TitleContentEdit>
+                        : stepItem.media != null ?
+                          <EmbedContentEdit lng={lng} slideContent={stepItem} storyStepId={stepItem.id}></EmbedContentEdit>
+                          : <div>unknown embed</div>
+                      }
                     </Modal.Content>
                   </Modal>
                   <DeleteContentButton stepContentId={stepItem.id} storyStepId={stepItem.storyStepId} />
