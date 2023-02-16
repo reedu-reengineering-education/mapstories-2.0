@@ -31,7 +31,7 @@ const renderSwitch = function renderSwitch(content: any) {
   }
 
 
-  if (content.text) {
+  if (content.text != null) {
     return (
       <div className="flex">
         <TextIcon className='w-14 h-14'></TextIcon>

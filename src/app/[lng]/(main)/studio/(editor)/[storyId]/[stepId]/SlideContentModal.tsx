@@ -92,7 +92,7 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
                       }
                       {
                         contentType == 'text' && (
-                          <TextContentEdit lng={lng} setContentType={setContentType} storyStepId={storyStepId}></TextContentEdit>
+                          <TextContentEdit lng={lng} setContentType={setContentType} storyStepId={storyStepId}></TextContentEdit>)
                       }
                     </div>
                   </CSSTransition>
