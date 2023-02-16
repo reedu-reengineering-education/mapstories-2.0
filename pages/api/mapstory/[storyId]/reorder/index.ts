@@ -42,6 +42,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         where: {
           id: story?.id,
         },
+        include: {
+          steps: {
+            include: {
+              content: true,
+            },
+          }
+        },
       })
 
       return res.status(200).json(storyToReturn)

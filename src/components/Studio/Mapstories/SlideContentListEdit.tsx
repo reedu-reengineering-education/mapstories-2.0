@@ -44,6 +44,7 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
         step.content &&
         step.content.length > 0 &&
         <DraggableList
+
           items={
             step?.content?.map(stepItem => ({
               id: stepItem.id,

@@ -18,6 +18,7 @@ import SidebarSlide from './SidebarSlide'
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const [loading, setIsLoading] = useState(false)
   const addStoryStep = useStoryStore(state => state.addStoryStep)
+  const updateStory = useStoryStore(state => state.updateStory)
   const router = useRouter()
 
   const path = usePathname()
@@ -58,7 +59,11 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   async function onReorder(update: StoryStep[]) {
     try {
-      await reorderStorySteps(update)
+      const res = await reorderStorySteps(update)
+
+      // update Zustand
+      updateStory(res);
+
       toast({
         message: 'Your steps have been reordered.',
         type: 'success',
