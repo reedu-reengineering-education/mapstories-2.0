@@ -19,6 +19,7 @@ const useStory = (storyId: string) => {
       populateCache: false,
       revalidate: true,
     })
+    return story;
   }
 
   const APICreateStory = async (props: ICreateStoryProps) => {
@@ -42,7 +43,7 @@ const useStory = (storyId: string) => {
 
   const APIReorderStorySteps = async (update: StoryStep[]) => {
     const reorderStoryStepsRequest = reorderStorySteps(storyId, update)
-    await mutation(reorderStoryStepsRequest)
+    return await mutation(reorderStoryStepsRequest)
   }
 
 

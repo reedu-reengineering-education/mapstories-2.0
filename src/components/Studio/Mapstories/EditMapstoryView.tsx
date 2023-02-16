@@ -19,6 +19,7 @@ import slugify from 'slugify'
 type EditMapstoryViewProps = {
   story: Story
   steps: StoryStep[] | undefined
+  stateMarkers: MarkerProps[]
 }
 
 interface MarkerProps {
@@ -31,14 +32,24 @@ interface MarkerProps {
 export default function EditMapstoryView({
   story,
   steps,
+  stateMarkers
 }: EditMapstoryViewProps) {
-  const path = usePathname()
-  const stepId = path?.split('/').at(-1)
-  const currentStep = steps?.find(step => step.id === stepId)
+
+  const currentStory = useStoryStore(state => state.story)
   const updateStory = useStoryStore(state => state.updateStory)
+  const patchStoryStep = useStoryStore(state => state.patchStoryStep)
+  const [currentStep, setCurrentStep] = useState<StoryStep | undefined>()
   const [markerCoords, setMarkerCoords] = useState<number[] | undefined>()
   const [markers, setMarkers] = useState<MarkerProps[]>([])
   const router = useRouter()
+
+  const path = usePathname()
+  const stepId = path?.split('/').at(-1)
+  // const index = steps?.findIndex(step => step.id === stepId)
+  // if (index) {
+  //   setCurrentStep(steps?.slice()[index]);
+  // }
+
   const addMarker = async (
     e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent,
   ) => {
@@ -53,37 +64,44 @@ export default function EditMapstoryView({
           },
         },
       })
+      patchStoryStep(response.data);
+      // getMarkers();
     }
   }
 
   function getMarkers() {
-    if (!steps) {
+    setMarkers(prevMarkers => []);
+    const newMarkers: MarkerProps[] = [...[]];
+    if (!currentStory?.steps) {
       return
     }
-    steps.forEach(s => {
+    currentStory.steps.forEach(s => {
       if (s.feature) {
         if (s.feature['point' as keyof typeof s.feature]) {
           const point = JSON.parse(
             JSON.stringify(s.feature['point' as keyof typeof s.feature]),
           )
           const newMarker: MarkerProps = {
-            color: currentStep?.id === s.id ? 'red' : 'blue',
+            color: currentStep?.id === s.id ? '#eb5933' : '#85bd41',
             longitude: point.longitude,
             latitude: point.latitude,
             key: s.id,
           }
-          setMarkers(prevMarkers => [...prevMarkers, newMarker])
+          // setMarkers(prevMarkers => [...prevMarkers, newMarker])
+          newMarkers.push(newMarker)
         }
       }
     })
+    setMarkers([...newMarkers])
+    // createLineData();
   }
 
   const lineStyle = {
     id: 'lines',
     type: 'line' as 'sky',
     paint: {
-      'line-color': 'blue',
-      'line-width': 10,
+      'line-color': '#d4da68',
+      'line-width': 5,
     },
   }
 
@@ -116,11 +134,26 @@ export default function EditMapstoryView({
     }
   }
 
+  // load story into zustand. TODO: is this the right place to do so?
   useEffect(() => {
     updateStory(story)
+  }, [])
+
+  useEffect(() => {
     getMarkers()
     createLineData()
+  }, [currentStory])
+
+  useEffect(() => {
+    const index = steps?.findIndex(step => step.id === path?.split('/').at(-1))
+    if (index) {
+      setCurrentStep(steps?.slice()[index]);
+    }
   }, [path])
+
+  useEffect(() => {
+    getMarkers();
+  }, [currentStep])
 
   return (
     <StudioShell>
@@ -151,18 +184,25 @@ export default function EditMapstoryView({
           )}
           {markers.map((m, i) => {
             return (
-              <Marker
-                color={m.color}
-                key={m.key}
-                latitude={m.latitude as number}
-                longitude={m.longitude as number}
-                onClick={() =>
-                  moveToStoryStep({
-                    latitude: m.latitude as number,
-                    longitude: m.longitude as number,
-                  })
-                }
-              ></Marker>
+              <>
+                <div>
+                  {m.color}
+                </div>
+                <Marker
+                  color={m.color}
+                  // TODO: find not hacky way to do this, but markers dont update if not with the random o_O
+                  // key={(i + 1)}
+                  key={(i + 1) * Math.random() * 100}
+                  latitude={m.latitude as number}
+                  longitude={m.longitude as number}
+                  onClick={() =>
+                    moveToStoryStep({
+                      latitude: m.latitude as number,
+                      longitude: m.longitude as number,
+                    })
+                  }
+                ></Marker>
+              </>
             )
           })}
           {markers.length >= 2 && createLineData() && (

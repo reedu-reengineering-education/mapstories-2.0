@@ -14,7 +14,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: {
           storyId,
           viewport: {},
-          position: await db.storyStep.count(),
+          // position: await db.storyStep.count(),
+          position: (
+            await db.story.findFirst({
+              where: {
+                id: storyId,
+              },
+              select: {
+                steps: true,
+              },
+            })
+          )?.steps.length || 0,
         },
       })
 
@@ -32,7 +42,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === 'PUT') {
     try {
-      const story = await db.storyStep.update({
+      const storyStep = await db.storyStep.update({
         where: {
           id: req.query.storyStepId as string,
         },
@@ -45,7 +55,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       })
-      res.status(200).json(story)
+      res.status(200).json(storyStep)
       return res.end()
     } catch (error) {
       return res.status(500).end()

@@ -13,8 +13,8 @@ import SettingsModal from '@/components/Studio/Mapstories/SettingsModal'
 export const generateStaticParams =
   process.env.NODE_ENV !== 'development'
     ? async () => {
-        return []
-      }
+      return []
+    }
     : undefined
 
 interface DashboardLayoutProps {
