@@ -2,7 +2,7 @@
 
 import { useStoryStore } from '@/src/lib/store/story'
 import { SlideContent, StoryStep } from '@prisma/client'
-import { HeadingIcon, TextIcon } from '@radix-ui/react-icons'
+import { HeadingIcon, TextIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 import DraggableList from '../../DraggableList'
 import { Button } from '../../Elements/Button'
@@ -10,11 +10,11 @@ import { Modal } from '../../Modal'
 import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import dynamic from 'next/dynamic';
 import { EditContentType } from '../ContentTypes/EditContentType'
+
 type Props = {
   stepId: string
   lng: string
 }
-
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
@@ -22,7 +22,7 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 
 
 
-const renderSwitch = function renderSwitch(param: string, content: any) {
+const renderSwitch = function renderSwitch(content: any) {
 
   //@ts-ignore
   const markdownPreviewStyles = {
@@ -30,14 +30,7 @@ const renderSwitch = function renderSwitch(param: string, content: any) {
     'fontFamily': 'inherit'
   }
 
-  if (content.title) {
-    return (
-      <div className="flex">
-        <HeadingIcon className='w-14 h-14'></HeadingIcon>
-        {content.title}
-      </div>
-    )
-  }
+
   if (content.text) {
     return (
       <div className="flex">
@@ -46,6 +39,22 @@ const renderSwitch = function renderSwitch(param: string, content: any) {
       </div>
     )
   }
+  if (content.title != null) {
+    return (
+      <div className="flex relativ z-750">
+        <HeadingIcon className='w-14 h-14'></HeadingIcon>
+        {content.title.substring(0, 12)}...
+      </div>
+    );
+  } if (content.media != null) {
+    return (
+      <div className="flex relativ z-750">
+        <TwitterLogoIcon className='w-14 h-14'></TwitterLogoIcon>
+        {content.media.substring(0, 12)}...
+      </div>
+    );
+  }
+  return 'foo';
 }
 
 
@@ -72,11 +81,12 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
                   <Modal setDisabled={setDisabled} title={'Editieren'} trigger={<Button className="hover:bg-hover flex-1"
                     variant={'noStyle'} 
                   >
-                    {renderSwitch('title', stepItem)}
+                    {renderSwitch(stepItem)}
 
                   </Button>}  >
                     <Modal.Content>
                       <EditContentType lng={lng} stepItem={stepItem} storyStepId={stepItem.storyStepId} ></EditContentType>
+                     
                     </Modal.Content>
                   </Modal>
                   <DeleteContentButton stepContentId={stepItem.id} storyStepId={stepItem.storyStepId} />
@@ -86,9 +96,6 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
           }
           onChange={e => console.log(e)}
         ></DraggableList >
-        // step.content?.map(stepItem => (
-
-        // ))
       }
 
     </div >
