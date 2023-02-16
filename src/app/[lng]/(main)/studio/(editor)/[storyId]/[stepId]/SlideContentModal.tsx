@@ -19,10 +19,9 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
 
   const [contentType, setContentType] = useState<string>('')
   const { t } = useTranslation(lng, 'editModal')
-
   return (
     <>
-      <Modal title={''} trigger={trigger}>
+      <Modal  title={''} trigger={trigger}>
 
         <Modal.Content>
           <div className="relative">
@@ -81,7 +80,7 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
                       <div className="absolute -top-6 ">
                         <button className="flex" onClick={() => setContentType('')}><ArrowLeftIcon className="h-6 w-6 mr-2"></ArrowLeftIcon> Zurück</button>
                       </div>
-                      <TitleContentEdit lng={lng} storyStepId={storyStepId}></TitleContentEdit>
+                      <TitleContentEdit  lng={lng} setContentType={setContentType} storyStepId={storyStepId}></TitleContentEdit>
                     </div>
                   </CSSTransition>
                 </>
@@ -98,7 +97,7 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
                       <div className="absolute -top-6 ">
                         <button className="flex" onClick={() => setContentType('')}><ArrowLeftIcon className="h-6 w-6 mr-2"></ArrowLeftIcon> Zurück</button>
                       </div>
-                      <TextContentEdit lng={lng} storyStepId={storyStepId}></TextContentEdit>
+                      <TextContentEdit lng={lng} setContentType={setContentType} storyStepId={storyStepId}></TextContentEdit>
                     </div>
                   </CSSTransition>
                 </>

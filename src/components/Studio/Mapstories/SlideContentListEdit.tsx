@@ -56,7 +56,6 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
   const step: StoryStep & { content?: SlideContent[] } | undefined = story?.steps?.filter(step => step.id === stepId)[0]
   const [disabled, setDisabled] = React.useState(false);
 
-
   return (
     <div className="py-4">
       {step &&

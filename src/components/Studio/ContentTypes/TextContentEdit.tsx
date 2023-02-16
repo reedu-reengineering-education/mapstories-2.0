@@ -16,7 +16,7 @@ interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string,
   stepItem?: any,
   lng: string
-
+  setContentType?: any
 }
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
@@ -26,7 +26,8 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
 export function TextContentEdit({
   storyStepId,
   stepItem,
-  lng
+  lng,
+  setContentType
 }: TextContentEditProps) {
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
@@ -74,13 +75,12 @@ export function TextContentEdit({
   stepItem ? textInEditor = stepItem.text : '';
 
   const [value, setValue] = useState(textInEditor)
-
   return (
     <div className="top-0">
       <div className="pt-4 pb-4">
-        <MDEditor preview="edit" onChange={setValue} value={value} />
+        <MDEditor onChange={setValue} preview="edit" value={value} />
       </div>
-      <Button disabled={isSaving} isLoading={isSaving} onClick={() => onSubmit(value)} type="submit">
+      <Button disabled={isSaving} isLoading={isSaving} onClick={() => {onSubmit(value); setContentType? setContentType(''):null}} type="submit">
         {stepItem && (t('save'))}
         {!stepItem && (t('create'))}
       </Button>

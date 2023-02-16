@@ -19,7 +19,8 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string,
   stepItem?: any,
-  lng: string
+  lng: string, 
+  setContentType?: any,
 }
 
 type FormData = z.infer<typeof slideTitleContentSchema>
@@ -29,6 +30,7 @@ export function TitleContentEdit({
   className,
   stepItem,
   lng,
+  setContentType,
   ...props
 }: TitleContentEditProps) {
   const router = useRouter()
@@ -90,7 +92,7 @@ export function TitleContentEdit({
   return (
     <form
       className={cx(className)}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(submit)=>{handleSubmit(onSubmit); }}
       {...props}
     >
       <div className="top-0">
