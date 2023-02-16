@@ -22,7 +22,6 @@ export function YouTubeEmbed({
     url,
     width,
     height,
-    linkText = 'Watch on YouTube',
     youTubeProps,
     ...divProps
 }: YouTubeEmbedProps) {
@@ -43,6 +42,7 @@ export function YouTubeEmbed({
     }
     if (typeof width !== 'undefined') {
         opts.width = isPercentageWidth ? '100%' : `${width}`;
+        width=+width*2;
     }
     if (typeof height !== 'undefined') {
         opts.height = isPercentageHeight ? '100%' : `${height}`;

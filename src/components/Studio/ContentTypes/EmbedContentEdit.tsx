@@ -47,20 +47,12 @@ export function EmbedContentEdit({
 
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [isUrl, setIsUrl] = useState<boolean>(false)
-  const [media, setMedia] = useState<media_type>({
+  const [media, setMedia] = useState<media_type>(slideContent ? urlToMedia(slideContent.media) : {
     type: 'unknown',
     name: 'Unknown',
     match_str: / /,
-    url: '',
-    html: document.createElement('div')
-    // cls: 		VCO.Media.YouTube
+    url: ''
   })
-
-  if(slideContent) {
-    // debugger;
-    // handleChange(slideContent.media)
-  }
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)
@@ -94,32 +86,42 @@ export function EmbedContentEdit({
 
   }
 
-  async function handleChange(url: string) {
-    if (url) {
-      setMedia(checkUrl(url))
-      setIsUrl(true)
-    } else {
-      setIsUrl(false)
-    }
+  async function handleUrl(url: string) {
+      setMedia(urlToMedia(url))
+      if (media.type != 'unknown' && slideContent) {
+        slideContent.media = url;
+      }
   }
 
-  function checkUrl(url: string): media_type {
-    for (var i = 0; i < media_types.length; i++) {
-      if (url.toString().match(media_types[i].match_str)) {
-        const media = media_types[i];
-        media.url = url;
-        return media;
-      }
-    };
+  function urlToMedia(url: string): media_type {
+    // check if url is a valid url with zod
+    try {
+      z.string().url().parse(url)
 
-    return {
-      type: 'unknown',
-      name: 'Unknown',
-      match_str: / /,
-      url: '',
-      html: document.createElement('div')
-    };
-
+      // check if url ir a known media url
+      for (var i = 0; i < media_types.length; i++) {
+        if (url.toString().match(media_types[i].match_str)) {
+          const media = media_types[i];
+          media.url = url;
+          return media;
+        }
+      }; 
+      // return unknown media
+      return {
+        type: 'unknown',
+        name: 'Unknown',
+        match_str: / /,
+        url: ''
+      };
+    } catch {
+      // return unknown media
+      return {
+        type: 'unknown',
+        name: 'Unknown',
+        match_str: / /,
+        url: ''
+      };
+    }
   }
 
   return (
@@ -134,23 +136,21 @@ export function EmbedContentEdit({
           <Input
             defaultValue={slideContent ? slideContent.media : ''}
             errors={errors.media}
-            handleChange={handleChange}
+            handleChange={handleUrl}
             label="media"
             size={32}
             {...register('media')}
           />
         </div>
         <div className="re-data-media-preview">
-          {isUrl
-            ? media.type != 'unknown'
+          {media.type != 'unknown'
               ? media.type == 'youtube'
                 ? <YouTubeEmbed
-                  height="200" url={media.url} width="400" />
-                : <p>other embed...</p>
-              : <p>Medien nicht erkannt...</p>
-            : <p>Keine Medien ausgewählt...</p>}
+                  height="200" url={media.url} width="300" />
+                : <p>Media not yet implemented...</p>
+              : <p>Media not recognized...</p>}
         </div>
-        <Button disabled={!isUrl && media.type == 'unknown'} isLoading={isSaving} type="submit">
+        <Button disabled={media.type == 'unknown'} isLoading={isSaving} type="submit">
           {slideContent && (t('save'))}
           {!slideContent && (t('create'))}
         </Button>
