@@ -13,7 +13,7 @@ export default function StepPage({ params: { stepId } }: EditorPageProps) {
       <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">
         <h3 className="pb-4">Media / Text</h3>
         <div>
-          <SlideContentListEdit stepId={stepId}></SlideContentListEdit>
+          <SlideContentListEdit lng={''} stepId={stepId}></SlideContentListEdit>
         </div>
 
         <SlideContentModal

@@ -15,6 +15,7 @@ import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { updateStory } from '@/src/lib/api/story/updateStory'
+import { useTranslation } from '@/src/app/i18n/client';
 // import { useS3Upload } from "next-s3-upload";
 
 type FormData = z.infer<typeof mapstoryOptionsSchema>
@@ -27,8 +28,11 @@ const options: Pick<DropdownMenuItemProps, 'children'>[] = [
   { children: 'Theme 5' },
 ]
 
-export default function SettingsModal({ storyId, title, description, isPublic, theme}: { storyId: string, title: string, description: string, isPublic: boolean, theme: string, }) {
+
+
+export default function SettingsModal({ storyId, title, description, isPublic, theme, lng}: { storyId: string, title: string, description: string, isPublic: boolean, theme: string, lng:string }) {
   const router = useRouter()
+  const { t } = useTranslation(lng, 'settingsModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [image, setImage] = useState<string | any>()
   const [selectedTheme, setSelectedTheme] = useState('')
@@ -75,15 +79,16 @@ export default function SettingsModal({ storyId, title, description, isPublic, t
       setIsSaving(false)
     }
   }
+
   return (
     <Modal
-      title={<span>Optionen</span>}
+      title={<span>{t('options')}</span>}
       trigger={
         <Button
           startIcon={<Cog6ToothIcon className="w-5" />}
           variant={'inverse'}
         >
-          Optionen
+          {t('options')}
         </Button>
       }
     >
@@ -91,19 +96,19 @@ export default function SettingsModal({ storyId, title, description, isPublic, t
         <Modal.Content>
           <div className="m-15 border-t-2 p-10">
             <div className="block">
-              <InputLabel>Name</InputLabel>
+              <InputLabel>{t('name')}</InputLabel>
               <Input
                 defaultValue={title}
                 errors={errors.name}
-                label="Name"
+                label={t('name')}
                 size={32}
                 {...register('name')}
               />
-              <InputLabel>Beschreibung</InputLabel>
+              <InputLabel>{t('description')}</InputLabel>
               <Input
                 defaultValue={description}
                 errors={errors.description}
-                label="Beschreibung"
+                label={t('description')}
                 size={240}
                 {...register('description')}
               ></Input>
@@ -114,7 +119,7 @@ export default function SettingsModal({ storyId, title, description, isPublic, t
                 render={({ field: { onChange, value } }) => (
                   <div>
                     <span className="mb-2 mr-8 text-sm font-medium text-gray-700">
-                      Private
+                      {t('private')}
                     </span>
                     <Switch.Root
                       className={'Switch'}
@@ -125,7 +130,7 @@ export default function SettingsModal({ storyId, title, description, isPublic, t
                     </Switch.Root>
 
                     <span className="mb-2 ml-8 text-sm font-medium text-gray-700">
-                      Public
+                      {t('public')}
                     </span>
                   </div>
                 )}
@@ -133,7 +138,7 @@ export default function SettingsModal({ storyId, title, description, isPublic, t
               <DropdownMenu {...register('theme')}>
                 <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
                   <span className="mb-2 flex text-sm font-medium text-gray-700">
-                    Themes <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
+                    {t('theme')} <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
                   </span>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Portal>
@@ -155,7 +160,7 @@ export default function SettingsModal({ storyId, title, description, isPublic, t
                 </DropdownMenu.Portal>
               </DropdownMenu>
 
-              <InputLabel>Bild</InputLabel>
+              <InputLabel>{t('image')}</InputLabel>
               <div className="flex">
                 <label htmlFor="imageupload">
                   <div className="h-9 w-10 cursor-pointer rounded border border-slate-300 hover:border-slate-400">
@@ -190,7 +195,7 @@ export default function SettingsModal({ storyId, title, description, isPublic, t
             type="submit"
             variant={'inverse'}
           >
-            Übernehmen
+            {t('save')}
           </Button>
         </Modal.Footer>
       </form>

@@ -18,7 +18,7 @@ export const generateStaticParams =
     : undefined
 
 interface DashboardLayoutProps {
-  params: { storyId: string; slug: string }
+  params: { storyId: string; slug: string, lng: string }
   children?: React.ReactNode
 }
 
@@ -43,11 +43,10 @@ async function getStoryForUser(
 }
 
 export default async function DashboardLayout({
-  params: { storyId, slug },
+  params: { storyId, slug, lng },
   children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser()
-  console.log(slug)
 
   if (!user) {
     redirect(authOptions.pages?.signIn!)
@@ -61,9 +60,6 @@ export default async function DashboardLayout({
     return notFound()
   }
 
-  // console.log(storyName)
-  // console.log(story)
-
   return (
     <>
       <div className="flex flex-row gap-2">
@@ -75,7 +71,7 @@ export default async function DashboardLayout({
             Zurück
           </Button>
         </Link>
-        <SettingsModal description={story.description || ''} isPublic={story.visibility !== 'PRIVATE'} storyId={story.id} theme={story.theme || ''} title={story.name || ''} />
+        <SettingsModal description={story.description || ''} isPublic={story.visibility !== 'PRIVATE'} lng={lng} storyId={story.id} theme={story.theme || ''} title={story.name || ''} />
       </div>
 
       <div className="re-studio-height-full-screen mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr]">
