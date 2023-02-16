@@ -111,7 +111,6 @@ model SlideContent {
   media       String?
   image       String?
   video       String?
-  position    Int
   storyStep   StoryStep @relation(fields: [storyStepId], references: [id])
   storyStepId String
 
