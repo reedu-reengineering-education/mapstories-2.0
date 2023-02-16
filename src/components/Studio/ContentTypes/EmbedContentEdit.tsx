@@ -101,7 +101,7 @@ export function EmbedContentEdit({
       // check if url ir a known media url
       for (var i = 0; i < media_types.length; i++) {
         if (url.toString().match(media_types[i].match_str)) {
-          const media = media_types[i];
+          const media = { ...media_types[i] };
           media.url = url;
           return media;
         }
