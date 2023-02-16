@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { updateStory } from '@/src/lib/api/story/updateStory'
 import { useTranslation } from '@/src/app/i18n/client';
+import { Textarea, TextareaLabel } from '@/src/components/Elements/Textarea'
 // import { useS3Upload } from "next-s3-upload";
 
 type FormData = z.infer<typeof mapstoryOptionsSchema>
@@ -104,14 +105,15 @@ export default function SettingsModal({ storyId, title, description, isPublic, t
                 size={32}
                 {...register('name')}
               />
-              <InputLabel>{t('description')}</InputLabel>
-              <Input
+              <TextareaLabel>{t('description')}</TextareaLabel>
+              <Textarea
+                cols={60}
                 defaultValue={description}
                 errors={errors.description}
                 label={t('description')}
-                size={240}
+                rows={3}
                 {...register('description')}
-              ></Input>
+              ></Textarea>
               <Controller
                 control={control}
                 defaultValue={isPublic || false}

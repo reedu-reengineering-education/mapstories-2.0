@@ -12,8 +12,6 @@ import { toast } from '@/src/lib/toast'
 import { Input, InputLabel } from '../Elements/Input'
 import { createStory } from '@/src/lib/api/story/createStory'
 import { useTranslation } from '@/src/app/i18n/client'
-import slugify from 'slugify'
-// import { useTranslation } from '@/src/app/i18n'
 
 type FormData = z.infer<typeof createMapstoryeSchema>
 
@@ -39,7 +37,7 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
     setIsSaving(true)
 
     try {
-      const response = await createStory({ name: slugify(data.name) })
+      const response = await createStory({ name: data.name })
       toast({
         message: 'Your mapstory has been created.',
         type: 'success',
