@@ -157,12 +157,18 @@ export default function EditMapstoryView({
     <StudioShell>
       <StudioHeader heading={story.name || ''} text={story.id} />
       <div className="re-studio-height-full-screen absolute top-0 z-10 w-full overflow-hidden rounded-lg shadow">
-        {markerCoords === undefined && (
+        {markerCoords === undefined && !currentStep?.feature && (
           <p className="top-15 absolute z-20 w-full text-center text-sm text-black">
             Klicke auf die Karte um deinen Marker hinzuzufügen
           </p>
         )}
-        <Map onClick={e => addMarker(e)}>
+        {currentStep?.feature && (
+          <p className="top-15 absolute z-20 w-full text-center text-sm text-black">
+            Verschiebe den roten Marker um dessen Position zu ändern
+          </p>
+        )}
+
+        <Map onClick={e => { if(!currentStep?.feature) {addMarker(e)}}}>
           <DrawControl
             controls={{
               polygon: true,
