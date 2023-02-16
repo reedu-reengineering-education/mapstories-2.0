@@ -52,14 +52,10 @@ const renderSwitch = function renderSwitch(param: string, content: any) {
 
 export function SlideContentListEdit({ stepId, lng }: Props) {
 
-
-
   const story = useStoryStore(state => state.story)
   const step: StoryStep & { content?: SlideContent[] } | undefined = story?.steps?.filter(step => step.id === stepId)[0]
-  const [isHovered, setIsHovered] = React.useState(false)
+  const [disabled, setDisabled] = React.useState(false);
 
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
 
   return (
     <div className="py-4">
@@ -67,19 +63,19 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
         step.content &&
         step.content.length > 0 &&
         <DraggableList
+          disabled = { disabled }
           items={
             step?.content?.map(stepItem => ({
               id: stepItem.id,
               s: stepItem,
               component: (
                 <div className="re-basic-box-no-shadow my-2 relative cursor-pointer flex group" key={stepItem.id}>
-                  <Modal title={'Editieren'} trigger={<Button className="hover:bg-hover flex-1"
-                    // startIcon={<PlusIcon className="w-4" />}
-                    variant={'noStyle'}
+                  <Modal setDisabled={setDisabled} title={'Editieren'} trigger={<Button className="hover:bg-hover flex-1"
+                    variant={'noStyle'} 
                   >
                     {renderSwitch('title', stepItem)}
 
-                  </Button>}>
+                  </Button>}  >
                     <Modal.Content>
                       <EditContentType lng={lng} stepItem={stepItem} storyStepId={stepItem.storyStepId} ></EditContentType>
                     </Modal.Content>

@@ -11,13 +11,14 @@ interface Props {
   title: React.ReactElement | String
   description?: React.ReactElement | String
   children?: React.ReactElement | React.ReactElement[]
+  setDisabled?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function Modal({ trigger, title, description, children }: Props) {
+export function Modal({ trigger, title, description, children, setDisabled }: Props) {
   const [isOpen, setIsOpen] = useState(false)
-
+  
   return (
-    <DialogPrimitive.Root onOpenChange={setIsOpen} open={isOpen}>
+    <DialogPrimitive.Root  onOpenChange={(e)=>{setIsOpen(e); setDisabled? setDisabled(e):null}}  open={isOpen}>
       <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger>
       <DialogPrimitive.Portal forceMount>
         <Transition.Root
@@ -73,7 +74,7 @@ export function Modal({ trigger, title, description, children }: Props) {
                 className={cx(
                   'absolute top-3.5 right-3.5 inline-flex items-center justify-center rounded-full p-1',
                 )}
-              >
+              > 
                 <XMarkIcon className="w-5" />
               </DialogPrimitive.Close>
             </DialogPrimitive.Content>

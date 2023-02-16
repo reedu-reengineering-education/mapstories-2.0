@@ -8,6 +8,7 @@ import { CSSTransition } from 'react-transition-group';
 import { TitleContentEdit } from '@/src/components/Studio/ContentTypes/TitleContentEdit'
 import { useTranslation } from '@/src/app/i18n/client';
 import { TextContentEdit } from '@/src/components/Studio/ContentTypes/TextContentEdit';
+
 type Props = {
   trigger: React.ReactElement
   storyStepId: string,
