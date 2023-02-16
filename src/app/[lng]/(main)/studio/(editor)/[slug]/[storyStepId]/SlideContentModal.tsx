@@ -94,6 +94,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                       </button>
                     </div>
                     <TitleContentEdit
+                      lng=""
                       storyStepId={storyStepId}
                     ></TitleContentEdit>
                   </div>

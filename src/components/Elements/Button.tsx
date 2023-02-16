@@ -5,13 +5,14 @@ import { cva, cx } from 'class-variance-authority'
 import { Spinner } from '@/src/components/Elements/Spinner'
 
 const buttonStyle = cva(
-  'flex items-center justify-center rounded-md border font-medium focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70',
+  'flex items-center rounded-md font-medium focus:outline-none border disabled:cursor-not-allowed disabled:opacity-70',
   {
     variants: {
       variant: {
-        primary: 'border-transparent text-white bg-black hover:bg-hover',
-        inverse: 'border-zinc-300 text-black bg-white hover:bg-hover',
-        danger: 'border-transparent text-white bg-red-500 hover:bg-red-400',
+        primary: 'border-transparent text-white bg-black hover:bg-hover justify-center focus:ring-2 focus:ring-black focus:ring-offset-2',
+        inverse: 'border-zinc-300 text-black bg-white hover:bg-hover justify-center focus:ring-2 focus:ring-black focus:ring-offset-2',
+        danger: 'border-transparent text-white bg-red-500 hover:bg-red-400 justify-center focus:ring-2 focus:ring-black focus:ring-offset-2',
+        noStyle: 'border-0 justify-left'
       },
       size: {
         sm: 'py-1 px-3 text-sm',

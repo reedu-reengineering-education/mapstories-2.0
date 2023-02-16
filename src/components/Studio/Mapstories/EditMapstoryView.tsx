@@ -14,6 +14,7 @@ import { Layer, Source } from 'react-map-gl'
 import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
 import { useRouter } from 'next/navigation'
+import slugify from 'slugify'
 
 type EditMapstoryViewProps = {
   story: Story
@@ -110,8 +111,8 @@ export default function EditMapstoryView({
         //@ts-ignore
         step.feature.point.longitude === coords.longitude,
     )
-    if (matchingStep) {
-      router.push(`/studio/${story.name}/${matchingStep.id}`)
+    if (matchingStep && story.name) {
+      router.push(`/studio/${slugify(story.name)}/${matchingStep.id}`)
     }
   }
 
