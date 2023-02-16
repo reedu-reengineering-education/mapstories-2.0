@@ -37,12 +37,12 @@ export var media_types: media_type[] = [
     //     match_str: /(player.)?soundcloud\.com/,
     //     url: ''
     // },
-    // {
-    //     type: 'twitter',
-    //     name: 'Twitter',
-    //     match_str: /(www.)?twitter\.com/,
-    //     url: ''
-    // },
+    {
+        type: 'twitter',
+        name: 'Twitter',
+        match_str: /(www.)?twitter\.com/,
+        url: ''
+    },
     // {
     //     type: 'googlemaps',
     //     name: 'Google Map',

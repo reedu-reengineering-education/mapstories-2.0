@@ -2,7 +2,7 @@
 
 import { useStoryStore } from '@/src/lib/store/story'
 import { SlideContent, StoryStep } from '@prisma/client'
-import { HeadingIcon, PlayIcon } from '@radix-ui/react-icons'
+import { HeadingIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 import DraggableList from '../../DraggableList'
 import { Button } from '../../Elements/Button'
@@ -28,7 +28,7 @@ const renderSwitch = function renderSwitch(content: any) {
   } if (content.media != null) {
     return (
       <div className="flex relativ z-750">
-        <PlayIcon className='w-14 h-14'></PlayIcon>
+        <TwitterLogoIcon className='w-14 h-14'></TwitterLogoIcon>
         {content.media.substring(0, 12)}...
       </div>
     );

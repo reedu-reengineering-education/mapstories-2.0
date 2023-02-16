@@ -3,11 +3,8 @@ import * as React from 'react';
 import { DivPropsWithoutRef } from 'react-html-props';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { Options } from 'youtube-player/dist/types';
-// import { PlaceholderEmbed, PlaceholderEmbedProps } from '../placeholder/PlaceholderEmbed';
 import { EmbedStyle } from './EmbedStyle';
 
-const maxPlaceholderWidth = 640;
-const defaultPlaceholderHeight = 360;
 const borderRadius = 0;
 
 export interface YouTubeEmbedProps extends DivPropsWithoutRef {
@@ -76,7 +73,7 @@ export function YouTubeEmbed({
                     videoId={youTubeProps?.videoId ?? videoId}
                 />
             </div>
-            {/* {!ready && && placeholder} */}
+            {/* {!ready && placeholder} */}
         </div>
     );
 }

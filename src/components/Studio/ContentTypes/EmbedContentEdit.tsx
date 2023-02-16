@@ -14,9 +14,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { SlideContent } from '@prisma/client'
 import { media_type, media_types } from '@/src/lib/media/media'
-import { YouTubeEmbed } from '../../embeds/Youtube'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { Embed } from '../../embeds/Embed'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string,
@@ -143,12 +143,7 @@ export function EmbedContentEdit({
           />
         </div>
         <div className="re-data-media-preview">
-          {media.type != 'unknown'
-              ? media.type == 'youtube'
-                ? <YouTubeEmbed
-                  height="200" url={media.url} width="300" />
-                : <p>Media not yet implemented...</p>
-              : <p>Media not recognized...</p>}
+          <Embed height="200" media={media} width="300"/>
         </div>
         <Button disabled={media.type == 'unknown'} isLoading={isSaving} type="submit">
           {slideContent && (t('save'))}
