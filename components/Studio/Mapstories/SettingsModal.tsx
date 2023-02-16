@@ -27,7 +27,7 @@ const options: Pick<DropdownMenuItemProps, 'children'>[] = [
   { children: 'Theme 5' },
 ]
 
-export default function SettingsModal({ storyId }: { storyId: string }) {
+export default function SettingsModal({ storyId, title, description, isPublic, theme}: { storyId: string, title: string, description: string, isPublic: boolean, theme: string, }) {
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [image, setImage] = useState<string | any>()
@@ -93,6 +93,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
             <div className="block">
               <InputLabel>Name</InputLabel>
               <Input
+                defaultValue={title}
                 errors={errors.name}
                 label="Name"
                 size={32}
@@ -100,6 +101,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               />
               <InputLabel>Beschreibung</InputLabel>
               <Input
+                defaultValue={description}
                 errors={errors.description}
                 label="Beschreibung"
                 size={240}
@@ -107,7 +109,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               ></Input>
               <Controller
                 control={control}
-                defaultValue={false}
+                defaultValue={isPublic || false}
                 name="public"
                 render={({ field: { onChange, value } }) => (
                   <div>
