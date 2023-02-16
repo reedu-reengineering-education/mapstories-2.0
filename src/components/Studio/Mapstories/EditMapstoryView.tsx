@@ -19,7 +19,6 @@ import slugify from 'slugify'
 type EditMapstoryViewProps = {
   story: Story
   steps: StoryStep[] | undefined
-  stateMarkers: MarkerProps[]
 }
 
 interface MarkerProps {
@@ -31,8 +30,7 @@ interface MarkerProps {
 
 export default function EditMapstoryView({
   story,
-  steps,
-  stateMarkers
+  steps
 }: EditMapstoryViewProps) {
 
   const currentStory = useStoryStore(state => state.story)
@@ -65,7 +63,6 @@ export default function EditMapstoryView({
         },
       })
       patchStoryStep(response.data);
-      // getMarkers();
     }
   }
 
@@ -87,13 +84,11 @@ export default function EditMapstoryView({
             latitude: point.latitude,
             key: s.id,
           }
-          // setMarkers(prevMarkers => [...prevMarkers, newMarker])
           newMarkers.push(newMarker)
         }
       }
     })
     setMarkers([...newMarkers])
-    // createLineData();
   }
 
   const lineStyle = {
@@ -191,7 +186,6 @@ export default function EditMapstoryView({
                 <Marker
                   color={m.color}
                   // TODO: find not hacky way to do this, but markers dont update if not with the random o_O
-                  // key={(i + 1)}
                   key={(i + 1) * Math.random() * 100}
                   latitude={m.latitude as number}
                   longitude={m.longitude as number}
