@@ -26,6 +26,7 @@ interface MarkerProps {
   longitude: number
   color: string
   key: string
+  draggable: boolean
 }
 
 export default function EditMapstoryView({
@@ -38,6 +39,7 @@ export default function EditMapstoryView({
   const patchStoryStep = useStoryStore(state => state.patchStoryStep)
   const [currentStep, setCurrentStep] = useState<StoryStep | undefined>()
   const [markerCoords, setMarkerCoords] = useState<number[] | undefined>()
+  const [dragged, setDragged] = useState<number>(0)
   const [markers, setMarkers] = useState<MarkerProps[]>([])
   const router = useRouter()
 
@@ -79,6 +81,7 @@ export default function EditMapstoryView({
             JSON.stringify(s.feature['point' as keyof typeof s.feature]),
           )
           const newMarker: MarkerProps = {
+            draggable: currentStep?.id === s.id,
             color: currentStep?.id === s.id ? '#eb5933' : '#85bd41',
             longitude: point.longitude,
             latitude: point.latitude,
@@ -137,7 +140,7 @@ export default function EditMapstoryView({
   useEffect(() => {
     getMarkers()
     createLineData()
-  }, [currentStory])
+  }, [currentStory, dragged])
 
   useEffect(() => {
     const index = steps?.findIndex(step => step.id === path?.split('/').at(-1))
@@ -171,7 +174,6 @@ export default function EditMapstoryView({
           />
           {markerCoords != undefined && (
             <Marker
-              draggable
               latitude={markerCoords[1]}
               longitude={markerCoords[0]}
               onDragEnd={e => addMarker(e)}
@@ -185,6 +187,7 @@ export default function EditMapstoryView({
                 </div>
                 <Marker
                   color={m.color}
+                  draggable={m.draggable}                  
                   // TODO: find not hacky way to do this, but markers dont update if not with the random o_O
                   key={(i + 1) * Math.random() * 100}
                   latitude={m.latitude as number}
@@ -195,6 +198,10 @@ export default function EditMapstoryView({
                       longitude: m.longitude as number,
                     })
                   }
+                  onDragEnd={async (e) =>{
+                    await addMarker(e)
+                    setDragged((prev) => prev++)
+                  } }
                 ></Marker>
               </>
             )
