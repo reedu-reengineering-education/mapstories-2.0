@@ -18,8 +18,9 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string,
-  slideContent?: any,
-  lng: string
+  stepItem?: any,
+  lng: string, 
+  setContentType?: any,
 }
 
 type FormData = z.infer<typeof slideTitleContentSchema>
@@ -27,8 +28,9 @@ type FormData = z.infer<typeof slideTitleContentSchema>
 export function TitleContentEdit({
   storyStepId,
   className,
-  slideContent,
+  stepItem,
   lng,
+  setContentType,
   ...props
 }: TitleContentEditProps) {
   const router = useRouter()
@@ -48,65 +50,56 @@ export function TitleContentEdit({
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
   async function onSubmit(data: FormData) {
-    setIsSaving(true)
+    try {
+      setIsSaving(true);
+      const url = `/api/mapstory/step/${storyStepId}/content`;
+      const method = stepItem ? 'PUT' : 'POST';
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const body = stepItem ? JSON.stringify({ ...stepItem, title: data.title }) : JSON.stringify({ ...data });
+      const response = await fetch(url, { method, headers, body });
 
-    let response;
+      setIsSaving(false);
 
-    if (slideContent) {
-      slideContent.title = data.title
-      response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...slideContent
-        }),
-      })
-    }
-    else {
-      response = await fetch(`/api/mapstory/step/${storyStepId}/content`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data
-        }),
-      })
-    }
+      if (!response.ok) {
+        return toast({
+          title: 'Something went wrong.',
+          message: 'Your content was not created. Please try again.',
+          type: 'error',
+        });
+      }
 
-    setIsSaving(false)
+      const newContent = (await response.json()) as SlideContent;
 
-    if (!response?.ok) {
-      return toast({
+      toast({
+        message: 'Your content has been created.',
+        type: 'success',
+      });
+
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+
+      toast({
         title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again',
+        message: 'Your content was not created. Please try again.',
         type: 'error',
-      })
+      });
     }
-
-    toast({
-      message: 'Your content has been created.',
-      type: 'success',
-    })
-
-    const newContent = (await response.json()) as SlideContent
-    router.refresh()
-    // router.push(`/studio/${newStory.id}`)
-
   }
+
   return (
     <form
       className={cx(className)}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(submit)=>{handleSubmit(onSubmit); }}
       {...props}
     >
       <div className="top-0">
         <div className="pt-4">
           <InputLabel>Gib eine Überschrift für deine Folie ein</InputLabel>
           <Input
-            defaultValue={slideContent ? slideContent.title : ''}
+            defaultValue={stepItem ? stepItem.title : ''}
             errors={errors.title}
             label="title"
             size={32}
@@ -114,7 +107,8 @@ export function TitleContentEdit({
           />
         </div>
         <Button disabled={isSaving} isLoading={isSaving} type="submit">
-          {t('save')}
+          {stepItem && (t('save'))}
+          {!stepItem && (t('create'))}
         </Button>
       </div>
     </form>
