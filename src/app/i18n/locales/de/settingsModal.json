@@ -1,0 +1,12 @@
+{
+    "name": "Name",
+    "description": "Beschreibung",
+    "private": "Private",
+    "public": "Öffentlich",
+    "theme": "Kartentyp",
+    "image": "Bild",
+    "Select an image or enter a URL": "Wähle ein Bild aus oder gib eine URL ein",
+    "options": "Optionen",
+    "save": "Übernehmen"
+
+}

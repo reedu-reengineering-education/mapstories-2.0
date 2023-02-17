@@ -6,7 +6,9 @@ import { ArrowLeftIcon, HeadingIcon, TextIcon, TwitterLogoIcon, VideoIcon } from
 import React from 'react'
 import { CSSTransition } from 'react-transition-group';
 import { TitleContentEdit } from '@/src/components/Studio/ContentTypes/TitleContentEdit'
+import { EmbedContentEdit } from '@/src/components/Studio/ContentTypes/EmbedContentEdit'
 import { useTranslation } from '@/src/app/i18n/client';
+import { TextContentEdit } from '@/src/components/Studio/ContentTypes/TextContentEdit';
 
 type Props = {
   trigger: React.ReactElement
@@ -18,10 +20,9 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
 
   const [contentType, setContentType] = useState<string>('')
   const { t } = useTranslation(lng, 'editModal')
-
   return (
     <>
-      <Modal title={''} trigger={trigger}>
+      <Modal  title={''} trigger={trigger}>
 
         <Modal.Content>
           <div className="relative">
@@ -42,7 +43,7 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
                     <h3 className="text-center">Heading</h3>
                   </div>
 
-                  <div className='w-36 re-basic-box-no-shadow px-4 py-2 m-3 cursor-pointer re-hover-element'>
+                  <div className='w-36 re-basic-box-no-shadow px-4 py-2 m-3 cursor-pointer re-hover-element' onClick={() => setContentType('text')}>
                     <div className="flex justify-center">
                       <TextIcon className='w-14 h-14'></TextIcon>
                     </div>
@@ -56,7 +57,7 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
                     <h3 className="text-center">Video/Bild</h3>
                   </div>
 
-                  <div className='w-36 re-basic-box-no-shadow px-4 py-2 m-3 cursor-pointer re-hover-element'>
+                  <div className='w-36 re-basic-box-no-shadow px-4 py-2 m-3 cursor-pointer re-hover-element' onClick={() => setContentType('embed')}>
                     <div className="flex justify-center">
                       <TwitterLogoIcon className='w-14 h-14'></TwitterLogoIcon>
                     </div>
@@ -67,7 +68,7 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
             </CSSTransition>
 
             {
-              contentType == 'title' || contentType == 'embed' && (
+              (contentType == 'title' || contentType == 'embed' || contentType == 'text') && (
                 <>
                   <CSSTransition
                     appear
@@ -80,7 +81,19 @@ export default function SlideContentModal({ trigger, storyStepId, lng }: Props) 
                       <div className="absolute -top-6 ">
                         <button className="flex" onClick={() => setContentType('')}><ArrowLeftIcon className="h-6 w-6 mr-2"></ArrowLeftIcon> Zurück</button>
                       </div>
-                      <TitleContentEdit lng={lng} storyStepId={storyStepId}></TitleContentEdit>
+
+                      {
+                        contentType == 'title' && (
+                          <TitleContentEdit lng={lng} storyStepId={storyStepId}></TitleContentEdit>)
+                      }
+                      {
+                        contentType == 'embed' && (
+                          <EmbedContentEdit lng={lng} storyStepId={storyStepId}></EmbedContentEdit>)
+                      }
+                      {
+                        contentType == 'text' && (
+                          <TextContentEdit lng={lng} setContentType={setContentType} storyStepId={storyStepId}></TextContentEdit>)
+                      }
                     </div>
                   </CSSTransition>
                 </>

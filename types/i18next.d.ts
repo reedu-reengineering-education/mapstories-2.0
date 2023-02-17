@@ -13,6 +13,7 @@ import type main from '../src/app/i18n/locales/en/main.json'
 import type navbar from '../src/app/i18n/locales/en/navbar.json'
 import type editModal from '../src/app/i18n/locales/en/editModal.json'
 import type studio from '../src/app/i18n/locales/en/studio.json'
+import type settingsModal from '../src/app/i18n/locales/en/settingsModal.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -20,6 +21,7 @@ interface I18nNamespaces {
   main: typeof main
   navbar: typeof navbar
   editModal: typeof editModal
+  settingsModal: typeof settingsModal
   studio: typeof studio
 }
 

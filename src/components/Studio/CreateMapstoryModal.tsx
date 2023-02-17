@@ -12,12 +12,11 @@ import { toast } from '@/src/lib/toast'
 import { Input, InputLabel } from '../Elements/Input'
 import { createStory } from '@/src/lib/api/story/createStory'
 import { useTranslation } from '@/src/app/i18n/client'
-// import { useTranslation } from '@/src/app/i18n'
 
 type FormData = z.infer<typeof createMapstoryeSchema>
 
 type Props = {
-  trigger: React.ReactElement,
+  trigger: React.ReactElement
   lng: string
 }
 
@@ -45,7 +44,9 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
       })
       const newStory = await response.data
       router.refresh()
-      router.push(`/studio/${newStory.id}`)
+      if (newStory.name) {
+        router.push(`/studio/${newStory.name}`)
+      }
     } catch (e) {
       return toast({
         title: 'Something went wrong.',

@@ -80,6 +80,8 @@ model VerificationToken {
 model Story {
   id          String      @id @default(cuid())
   name        String?
+  description String?
+  theme       String?
   steps       StoryStep[]
   owner       User?       @relation("owner", fields: [ownerId], references: [id])
   ownerId     String?
@@ -102,6 +104,11 @@ model StoryStep {
   viewport    Json
 
   @@map(name: "storysteps")
+}
+
+model Theme {
+  name       String @id @default(cuid())
+  fontFamily String
 }
 
 model SlideContent {
