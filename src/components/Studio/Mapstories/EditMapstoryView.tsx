@@ -15,6 +15,8 @@ import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
 import { useRouter } from 'next/navigation'
 import slugify from 'slugify'
+import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
+
 
 type EditMapstoryViewProps = {
   story: Story
@@ -31,7 +33,7 @@ interface MarkerProps {
 
 export default function EditMapstoryView({
   story,
-  steps
+  steps,
 }: EditMapstoryViewProps) {
 
   const currentStory = useStoryStore(state => state.story)
@@ -41,6 +43,7 @@ export default function EditMapstoryView({
   const [markerCoords, setMarkerCoords] = useState<number[] | undefined>()
   const [dragged, setDragged] = useState<number>(0)
   const [markers, setMarkers] = useState<MarkerProps[]>([])
+  const [hoveredMarker, setHoveredMarker] = useState(null);
   const router = useRouter()
 
   const path = usePathname()
@@ -49,6 +52,8 @@ export default function EditMapstoryView({
   // if (index) {
   //   setCurrentStep(steps?.slice()[index]);
   // }
+
+
 
   const addMarker = async (
     e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent,
@@ -131,6 +136,20 @@ export default function EditMapstoryView({
       router.push(`/studio/${slugify(story.name)}/${matchingStep.id}`)
     }
   }
+  const {markerId, setMarkerId} = useHoverMarkerStore()
+
+
+  const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
+    markers.forEach(m => {
+      if(m.latitude.toFixed(2) === e.lngLat.lat.toFixed(2) && m.longitude.toFixed(2) === e.lngLat.lng.toFixed(2)){
+        setMarkerId(m.key)
+      }
+    })
+  }
+
+  useEffect(() => {
+    console.log(markerId)
+  }, [markerId])
 
   // load story into zustand. TODO: is this the right place to do so?
   useEffect(() => {
@@ -153,6 +172,15 @@ export default function EditMapstoryView({
     getMarkers();
   }, [currentStep])
 
+  
+  // useEffect(() => {
+  //   const elements = document.getElementsByClassName("maplibregl-marker");
+  //   console.log(elements)
+  //   Array.from(elements).forEach(function(element) {
+  //     element.addEventListener('mouseover', (event) => {console.log(element)});
+  //   });
+  // }, [markers])
+
   return (
     <StudioShell>
       <StudioHeader heading={story.name || ''} text={story.id} />
@@ -168,7 +196,7 @@ export default function EditMapstoryView({
           </p>
         )}
 
-        <Map onClick={e => { if(!currentStep?.feature) {addMarker(e)}}}>
+        <Map onClick={e => { if(!currentStep?.feature) {addMarker(e)}}} onMouseOver={handleMouseMove}>
           <DrawControl
             controls={{
               polygon: true,
@@ -188,7 +216,7 @@ export default function EditMapstoryView({
           {markers.map((m, i) => {
             return (
               <>
-                <div>
+                <div >
                   {m.color}
                 </div>
                 <Marker
@@ -207,9 +235,10 @@ export default function EditMapstoryView({
                   onDragEnd={async (e) =>{
                     await addMarker(e)
                     setDragged((prev) => prev++)
-                  } }
-                ></Marker>
-              </>
+                  } } 
+                >                
+                </Marker>
+                </>
             )
           })}
           {markers.length >= 2 && createLineData() && (

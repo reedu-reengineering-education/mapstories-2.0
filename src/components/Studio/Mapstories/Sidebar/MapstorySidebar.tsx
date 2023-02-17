@@ -10,16 +10,24 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import slugify from 'slugify'
 import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
+import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
+
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const [loading, setIsLoading] = useState(false)
   const addStoryStep = useStoryStore(state => state.addStoryStep)
   const updateStory = useStoryStore(state => state.updateStory)
   const router = useRouter()
+
+  const {markerId} = useHoverMarkerStore()
+
+  useEffect(() => {
+    console.log(markerId)
+  }, [markerId])
 
   const path = usePathname()
 
@@ -79,6 +87,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   return (
     <aside className="flex h-24 w-full overflow-y-auto overflow-x-hidden p-4 md:h-full md:flex-col">
+      <p>MarkerID: {markerId}</p>
       {story?.steps && story?.steps.length > 0 && (
         <DraggableList
           items={
@@ -91,7 +100,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     href={`/studio/${slugify(story.name || story.id)}/${s.id}`}
                   >
                     {/* {i !== 0 && <SidebarConnection />} */}
-                    <SidebarSlide active={stepId === s.id}>
+                    <SidebarSlide active={stepId === s.id} markerHover={s.id === markerId}>
                       <div className="relative flex justify-around">
                         <div className="flex flex-col ">
                           {/* <GlobeAltIcon className="w-10" /> */}
