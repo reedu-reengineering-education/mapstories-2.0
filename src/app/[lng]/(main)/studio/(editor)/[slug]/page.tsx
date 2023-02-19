@@ -2,7 +2,6 @@
 
 import { db } from '@/src/lib/db'
 import { redirect } from 'next/navigation'
-import slugify from 'slugify';
 
 export default async function EditorPage({
   params: { slug, storyId },
@@ -18,6 +17,7 @@ export default async function EditorPage({
     },
   })
 
+
   if (!story) {
     redirect('/studio')
   }
@@ -25,8 +25,7 @@ export default async function EditorPage({
   // redirect to first storystep
   if (story.steps.length > 0) {
     const { id } = story.steps[0]
-    console.log(slugify(slug))
-    redirect(`/studio/${slug}/${id}`)
+    redirect(`/studio/${story.slug}/${id}`)
   }
 
   // create initial step if not exists
@@ -37,7 +36,7 @@ export default async function EditorPage({
       position: 0,
     },
   })
-  redirect(`/studio/${slug}/${initStep.id}`)
+  redirect(`/studio/${story.slug}/${initStep.id}`)
 
   return <p>Redirecting...</p>
 }
