@@ -80,7 +80,7 @@ model VerificationToken {
 model Story {
   id          String      @id @default(cuid())
   name        String?
-  slug        String?
+  slug        String      @unique
   description String?
   theme       String?
   steps       StoryStep[]

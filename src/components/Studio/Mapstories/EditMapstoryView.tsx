@@ -14,7 +14,6 @@ import { Layer, Source } from 'react-map-gl'
 import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
 import { useRouter } from 'next/navigation'
-import slugify from 'slugify'
 import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 
 
@@ -133,7 +132,7 @@ export default function EditMapstoryView({
         step.feature.point.longitude === coords.longitude,
     )
     if (matchingStep && story.name) {
-      router.push(`/studio/${slugify(story.name)}/${matchingStep.id}`)
+      router.push(`/studio/${story.slug}/${matchingStep.id}`)
     }
   }
   const {markerId, setMarkerId} = useHoverMarkerStore()

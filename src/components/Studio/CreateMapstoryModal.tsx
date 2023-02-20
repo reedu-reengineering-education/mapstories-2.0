@@ -47,8 +47,8 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
       })
       const newStory = await response.data
       router.refresh()
-      if (newStory.name) {
-        router.push(`/studio/${newStory.name}`)
+      if (newStory.slug) {
+        router.push(`/studio/${newStory.slug}`)
       }
     } catch (e) {
       return toast({

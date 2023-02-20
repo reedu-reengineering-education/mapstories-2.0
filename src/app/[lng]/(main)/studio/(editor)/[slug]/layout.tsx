@@ -25,7 +25,7 @@ interface DashboardLayoutProps {
 async function getStoryForUser(
   storyId: Story['id'],
   userId: User['id'],
-  slug: Story['name'],
+  slug: Story['slug'],
 ) {
   return await db.story.findFirst({
     where: {

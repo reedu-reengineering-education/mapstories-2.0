@@ -11,7 +11,6 @@ import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import slugify from 'slugify'
 import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
 import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
@@ -34,6 +33,8 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const stepId = path?.split('/').at(-1)
 
   const { story, reorderStorySteps } = useStory(storyID)
+
+  console.log(story)
 
   async function onSubmit() {
     setIsLoading(true)
@@ -62,7 +63,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
     const newStep = (await response.json()) as StoryStep
     addStoryStep(newStep)
-    router.replace(`/studio/${story?.name}/${newStep.id}`)
+    router.replace(`/studio/${story?.slug}/${newStep.id}`)
   }
 
   async function onReorder(update: StoryStep[]) {
@@ -87,17 +88,17 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   return (
     <aside className="flex h-24 w-full overflow-y-auto overflow-x-hidden p-4 md:h-full md:flex-col">
-      <p>MarkerID: {markerId}</p>
       {story?.steps && story?.steps.length > 0 && (
         <DraggableList
           items={
             story?.steps?.map(s => ({
               id: s.id,
               s: s,
+              slug: story.slug,
               component: (
                 <div className="group relative">
                   <Link
-                    href={`/studio/${slugify(story.name || story.id)}/${s.id}`}
+                    href={`/studio/${story.slug}/${s.id}`}
                   >
                     {/* {i !== 0 && <SidebarConnection />} */}
                     <SidebarSlide active={stepId === s.id} markerHover={s.id === markerId}>
@@ -105,7 +106,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                         <div className="flex flex-col ">
                           {/* <GlobeAltIcon className="w-10" /> */}
                           <p>ID: {s.id.slice(-4)}</p>
-                          <p>Pos: {s.position}</p>
+                          <p>Pos: {s.position }</p>
                         </div>
                       </div>
                     </SidebarSlide>
