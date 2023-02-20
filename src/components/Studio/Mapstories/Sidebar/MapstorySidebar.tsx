@@ -16,6 +16,7 @@ import SidebarSlide from './SidebarSlide'
 import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 
 
+
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const [loading, setIsLoading] = useState(false)
   const addStoryStep = useStoryStore(state => state.addStoryStep)
@@ -24,17 +25,17 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   const {markerId} = useHoverMarkerStore()
 
-  useEffect(() => {
-    console.log(markerId)
-  }, [markerId])
-
   const path = usePathname()
+
+  useEffect(() => {
+    console.log(story)
+  }, [path])
+
 
   const stepId = path?.split('/').at(-1)
 
   const { story, reorderStorySteps } = useStory(storyID)
 
-  console.log(story)
 
   async function onSubmit() {
     setIsLoading(true)

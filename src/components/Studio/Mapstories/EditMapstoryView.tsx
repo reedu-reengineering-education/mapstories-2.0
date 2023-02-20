@@ -42,7 +42,6 @@ export default function EditMapstoryView({
   const [markerCoords, setMarkerCoords] = useState<number[] | undefined>()
   const [dragged, setDragged] = useState<number>(0)
   const [markers, setMarkers] = useState<MarkerProps[]>([])
-  const [hoveredMarker, setHoveredMarker] = useState(null);
   const router = useRouter()
 
   const path = usePathname()

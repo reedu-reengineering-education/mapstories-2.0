@@ -25,7 +25,7 @@ export default async function EditorPage({
   // redirect to first storystep
   if (story.steps.length > 0) {
     const { id } = story.steps[0]
-    redirect(`/studio/${slug}/${id}`)
+    redirect(`/studio/${story.slug}/${id}`)
   }
 
   // create initial step if not exists
@@ -36,7 +36,7 @@ export default async function EditorPage({
       position: 0,
     },
   })
-  redirect(`/studio/${slug}/${initStep.id}`)
+  redirect(`/studio/${story.slug}/${initStep.id}`)
 
   return <p>Redirecting...</p>
 }
