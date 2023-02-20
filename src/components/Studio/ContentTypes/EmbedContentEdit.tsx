@@ -67,7 +67,6 @@ export function EmbedContentEdit({
     setIsSaving(false)
 
     if (!response?.ok) {
-      debugger;
       return toast({
         title: 'Something went wrong.',
         message: 'Your content was not created. Please try again',

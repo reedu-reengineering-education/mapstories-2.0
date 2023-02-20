@@ -52,7 +52,7 @@ export function TitleContentEdit({
   async function onSubmit(data: FormData) {
     try {
       setIsSaving(true);
-      const url = `/api/mapstory/step/${storyStepId}/content`;
+      const url = `/api/mapstory/step/${stepItem ? stepItem.storyStepId : storyStepId}/content`;
       const method = stepItem ? 'PUT' : 'POST';
       const headers = {
         'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export function TitleContentEdit({
   return (
     <form
       className={cx(className)}
-      onSubmit={(submit)=>{handleSubmit(onSubmit); }}
+      onSubmit={handleSubmit(onSubmit)}
       {...props}
     >
       <div className="top-0">
@@ -101,6 +101,7 @@ export function TitleContentEdit({
           <Input
             defaultValue={stepItem ? stepItem.title : ''}
             errors={errors.title}
+            handleChange={() => {}}
             label="title"
             size={32}
             {...register('title')}

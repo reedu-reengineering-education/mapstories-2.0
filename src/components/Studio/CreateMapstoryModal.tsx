@@ -40,7 +40,6 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
 
     try {
       const response = await createStory({ name: name, slug: slug })
-      console.log(response)
       toast({
         message: 'Your mapstory has been created.',
         type: 'success',

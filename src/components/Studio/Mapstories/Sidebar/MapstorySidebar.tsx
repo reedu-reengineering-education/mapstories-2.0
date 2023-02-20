@@ -27,9 +27,9 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   const path = usePathname()
 
-  useEffect(() => {
-    console.log(story)
-  }, [path])
+  // useEffect(() => {
+  //   console.log(story)
+  // }, [path])
 
 
   const stepId = path?.split('/').at(-1)
