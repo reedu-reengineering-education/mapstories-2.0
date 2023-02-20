@@ -197,7 +197,7 @@ export default function EditMapstoryView({
           </p>
         )}
 
-        <Map onClick={e => { if(!currentStep?.feature) {addMarker(e)}}} onMouseMove={handleMouseMove}>
+        <Map onClick={e => { if(!currentStep?.feature) {addMarker(e)}}} onMouseOver={handleMouseMove}>
           <DrawControl
             controls={{
               polygon: true,
