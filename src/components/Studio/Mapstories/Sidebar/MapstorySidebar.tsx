@@ -24,16 +24,8 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const router = useRouter()
 
   const {markerId} = useHoverMarkerStore()
-
   const path = usePathname()
-
-  // useEffect(() => {
-  //   console.log(story)
-  // }, [path])
-
-
   const stepId = path?.split('/').at(-1)
-
   const { story, reorderStorySteps } = useStory(storyID)
 
 
