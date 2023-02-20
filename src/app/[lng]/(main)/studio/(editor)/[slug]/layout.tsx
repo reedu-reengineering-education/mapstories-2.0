@@ -23,13 +23,13 @@ interface DashboardLayoutProps {
 }
 
 async function getStoryForUser(
-  storyId: Story['id'],
+  // storyId: Story['id'],
   userId: User['id'],
-  slug: Story['name'],
+  slug: Story['slug'],
 ) {
   return await db.story.findFirst({
     where: {
-      id: storyId,
+      slug: slug,
       ownerId: userId,
     },
     include: {
@@ -52,7 +52,7 @@ export default async function DashboardLayout({
     redirect(authOptions.pages?.signIn!)
   }
 
-  const story = await getStoryForUser(storyId, user.id, slug)
+  const story = await getStoryForUser(user.id, slug)
 
   const storySteps = story?.steps
 

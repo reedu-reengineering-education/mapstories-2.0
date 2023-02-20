@@ -32,20 +32,22 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
     resolver: zodResolver(createMapstoryeSchema),
   })
   const [isSaving, setIsSaving] = useState<boolean>(false)
+  const [name, setName] = useState('')
+  const [slug, setSlug] = useState('')
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)
 
     try {
-      const response = await createStory({ name: data.name })
+      const response = await createStory({ name: name, slug: slug })
       toast({
         message: 'Your mapstory has been created.',
         type: 'success',
       })
       const newStory = await response.data
       router.refresh()
-      if (newStory.name) {
-        router.push(`/studio/${newStory.name}`)
+      if (newStory.slug) {
+        router.push(`/studio/${newStory.slug}`)
       }
     } catch (e) {
       return toast({
@@ -65,10 +67,12 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
           <InputLabel>Name</InputLabel>
           <Input
             errors={errors.name}
+            handleChange={(e: string) => {setName(e); setSlug(e)}}
             label="Name"
             size={32}
             {...register('name')}
           />
+          <Input className='hidden' defaultValue={''} errors={errors.slug} label='Slug' size={32} {...register('slug')}/>
         </Modal.Content>
         <Modal.Footer>
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
