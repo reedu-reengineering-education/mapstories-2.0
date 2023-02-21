@@ -26,7 +26,7 @@ export function Toast({ visible, className, ...props }: ToastProps) {
 interface ToastTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 
 Toast.Title = function ToastTitle({ className, ...props }: ToastTitleProps) {
-  return <p className={cx('text-sm font-medium', className)} {...props} />
+  return <span className={cx('text-sm font-medium', className)} {...props} />
 }
 
 interface ToastDescriptionProps
@@ -36,7 +36,7 @@ Toast.Description = function ToastDescription({
   className,
   ...props
 }: ToastDescriptionProps) {
-  return <p className={cx('text-sm opacity-80', className)} {...props} />
+  return <span className={cx('text-sm opacity-80', className)} {...props} />
 }
 
 interface ToastOpts {
