@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { cx } from 'class-variance-authority'
+import { ForwardRefExoticComponent, SVGProps } from 'react'
 
 interface EmptyPlaceholderProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -24,9 +25,10 @@ export function EmptyPlaceholder({
   )
 }
 
-interface EmptyPlaceholderIconProps
-  extends Partial<React.SVGProps<SVGSVGElement>> {
-  icon: (_props: React.ComponentProps<'svg'>) => JSX.Element
+interface EmptyPlaceholderIconProps extends Partial<SVGProps<SVGSVGElement>> {
+  icon:
+    | ForwardRefExoticComponent<SVGProps<SVGSVGElement>>
+    | ((_props: SVGProps<SVGSVGElement>) => JSX.Element)
 }
 
 EmptyPlaceholder.Icon = function EmptyPlaceHolderIcon({
