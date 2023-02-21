@@ -18,13 +18,11 @@ const getMapstories = async (userId: string) => {
   })
 }
 
-export default async function Studio(
-  {
-    params: { lng },
-  }: {
-    params: { lng: string }
-  }
-) {
+export default async function Studio({
+  params: { lng },
+}: {
+  params: { lng: string }
+}) {
   const user = await getCurrentUser()
   const { t } = await useTranslation(lng, 'studio')
   if (!user) {

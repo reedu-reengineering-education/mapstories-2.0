@@ -17,7 +17,6 @@ export default async function EditorPage({
     },
   })
 
-
   if (!story) {
     redirect('/studio')
   }

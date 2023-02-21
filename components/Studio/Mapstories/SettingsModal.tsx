@@ -15,7 +15,7 @@ import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { updateStory } from '@/src/lib/api/story/updateStory'
-import { useTranslation } from '@/src/app/i18n/client';
+import { useTranslation } from '@/src/app/i18n/client'
 import { Textarea, TextareaLabel } from '@/src/components/Elements/Textarea'
 // import { useS3Upload } from "next-s3-upload";
 
@@ -29,9 +29,21 @@ const options: Pick<DropdownMenuItemProps, 'children'>[] = [
   { children: 'Theme 5' },
 ]
 
-
-
-export default function SettingsModal({ storyId, title, description, isPublic, theme, lng}: { storyId: string, title: string, description: string, isPublic: boolean, theme: string, lng:string }) {
+export default function SettingsModal({
+  storyId,
+  title,
+  description,
+  isPublic,
+  theme,
+  lng,
+}: {
+  storyId: string
+  title: string
+  description: string
+  isPublic: boolean
+  theme: string
+  lng: string
+}) {
   const router = useRouter()
   const { t } = useTranslation(lng, 'settingsModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
@@ -140,7 +152,8 @@ export default function SettingsModal({ storyId, title, description, isPublic, t
               <DropdownMenu {...register('theme')}>
                 <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
                   <span className="mb-2 flex text-sm font-medium text-gray-700">
-                    {t('theme')} <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
+                    {t('theme')}{' '}
+                    <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
                   </span>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Portal>

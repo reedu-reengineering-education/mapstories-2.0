@@ -1,34 +1,37 @@
-import classNames from 'classnames';
-import * as React from 'react';
-import { DivPropsWithoutRef } from 'react-html-props';
-import { TwitterTweetEmbed } from 'react-twitter-embed';
-import { TwitterTweetEmbedProps } from 'react-twitter-embed/dist/components/TwitterTweetEmbed';
-import { EmbedStyle } from './EmbedStyle';
+import classNames from 'classnames'
+import * as React from 'react'
+import { DivPropsWithoutRef } from 'react-html-props'
+import { TwitterTweetEmbed } from 'react-twitter-embed'
+import { TwitterTweetEmbedProps } from 'react-twitter-embed/dist/components/TwitterTweetEmbed'
+import { EmbedStyle } from './EmbedStyle'
 
-const borderRadius = 12;
+const borderRadius = 12
 
 export interface TwitterEmbedProps extends DivPropsWithoutRef {
-  url: String;
-  width?: string | number;
-  height?: string | number;
-  twitterTweetEmbedProps?: TwitterTweetEmbedProps;
+  url: String
+  width?: string | number
+  height?: string | number
+  twitterTweetEmbedProps?: TwitterTweetEmbedProps
 }
 
-export function TwitterEmbed ({
+export function TwitterEmbed({
   url,
   width,
   height,
   twitterTweetEmbedProps,
   ...divProps
 }: TwitterEmbedProps) {
-  const tweetId = url.substring(url.lastIndexOf('/') + 1).replace(/[?].*$/, '');
+  const tweetId = url.substring(url.lastIndexOf('/') + 1).replace(/[?].*$/, '')
   if (typeof width !== 'undefined') {
-    width=+width*2;
+    width = +width * 2
   }
   return (
     <div
       {...divProps}
-      className={classNames('rsme-embed rsme-twitter-embed', divProps.className)}
+      className={classNames(
+        'rsme-embed rsme-twitter-embed',
+        divProps.className,
+      )}
       style={{
         overflow: 'hidden',
         width: width ?? undefined,
@@ -38,10 +41,7 @@ export function TwitterEmbed ({
       }}
     >
       <EmbedStyle />
-      <TwitterTweetEmbed
-        tweetId={tweetId}
-        {...twitterTweetEmbedProps}
-      />
+      <TwitterTweetEmbed tweetId={tweetId} {...twitterTweetEmbedProps} />
     </div>
-  );
-};
+  )
+}

@@ -47,7 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             include: {
               content: true,
             },
-          }
+          },
         },
       })
 

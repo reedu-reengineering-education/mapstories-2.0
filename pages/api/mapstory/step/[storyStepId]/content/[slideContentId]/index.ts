@@ -11,8 +11,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const storyStepId = req.query.storyStepId as string
       const deletedContent = await db.slideContent.delete({
         where: {
-          id: slideContentId
-        }
+          id: slideContentId,
+        },
       })
       res.json(deletedContent)
 

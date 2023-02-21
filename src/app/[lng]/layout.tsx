@@ -19,8 +19,8 @@ const font = Inter({
 export const generateStaticParams =
   process.env.NODE_ENV !== 'development'
     ? async () => {
-      return languages.map(lng => ({ lng }))
-    }
+        return languages.map(lng => ({ lng }))
+      }
     : undefined
 
 export default function RootLayout({

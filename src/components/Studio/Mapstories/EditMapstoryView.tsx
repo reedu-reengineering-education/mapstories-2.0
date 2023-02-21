@@ -16,7 +16,6 @@ import { Feature } from 'geojson'
 import { useRouter } from 'next/navigation'
 import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 
-
 type EditMapstoryViewProps = {
   story: Story
   steps: StoryStep[] | undefined
@@ -34,7 +33,6 @@ export default function EditMapstoryView({
   story,
   steps,
 }: EditMapstoryViewProps) {
-
   const currentStory = useStoryStore(state => state.story)
   const updateStory = useStoryStore(state => state.updateStory)
   const patchStoryStep = useStoryStore(state => state.patchStoryStep)
@@ -51,8 +49,6 @@ export default function EditMapstoryView({
   //   setCurrentStep(steps?.slice()[index]);
   // }
 
-
-
   const addMarker = async (
     e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent,
   ) => {
@@ -67,13 +63,13 @@ export default function EditMapstoryView({
           },
         },
       })
-      patchStoryStep(response.data);
+      patchStoryStep(response.data)
     }
   }
 
   function getMarkers() {
-    setMarkers(prevMarkers => []);
-    const newMarkers: MarkerProps[] = [...[]];
+    setMarkers(prevMarkers => [])
+    const newMarkers: MarkerProps[] = [...[]]
     if (!currentStory?.steps) {
       return
     }
@@ -134,12 +130,14 @@ export default function EditMapstoryView({
       router.push(`/studio/${story.slug}/${matchingStep.id}`)
     }
   }
-  const {markerId, setMarkerId} = useHoverMarkerStore()
-
+  const { markerId, setMarkerId } = useHoverMarkerStore()
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
     markers.forEach(m => {
-      if(m.latitude.toFixed(2) === e.lngLat.lat.toFixed(2) && m.longitude.toFixed(2) === e.lngLat.lng.toFixed(2)){
+      if (
+        m.latitude.toFixed(2) === e.lngLat.lat.toFixed(2) &&
+        m.longitude.toFixed(2) === e.lngLat.lng.toFixed(2)
+      ) {
         setMarkerId(m.key)
       }
     })
@@ -162,15 +160,14 @@ export default function EditMapstoryView({
   useEffect(() => {
     const index = steps?.findIndex(step => step.id === path?.split('/').at(-1))
     if (index) {
-      setCurrentStep(steps?.slice()[index]);
+      setCurrentStep(steps?.slice()[index])
     }
   }, [path])
 
   useEffect(() => {
-    getMarkers();
+    getMarkers()
   }, [currentStep])
 
-  
   // useEffect(() => {
   //   const elements = document.getElementsByClassName("maplibregl-marker");
   //   console.log(elements)
@@ -194,7 +191,14 @@ export default function EditMapstoryView({
           </p>
         )}
 
-        <Map onClick={e => { if(!currentStep?.feature) {addMarker(e)}}} onMouseOver={handleMouseMove}>
+        <Map
+          onClick={e => {
+            if (!currentStep?.feature) {
+              addMarker(e)
+            }
+          }}
+          onMouseOver={handleMouseMove}
+        >
           <DrawControl
             controls={{
               polygon: true,
@@ -214,12 +218,10 @@ export default function EditMapstoryView({
           {markers.map((m, i) => {
             return (
               <>
-                <div >
-                  {m.color}
-                </div>
+                <div>{m.color}</div>
                 <Marker
                   color={m.color}
-                  draggable={m.draggable}                  
+                  draggable={m.draggable}
                   // TODO: find not hacky way to do this, but markers dont update if not with the random o_O
                   key={(i + 1) * Math.random() * 100}
                   latitude={m.latitude as number}
@@ -230,13 +232,12 @@ export default function EditMapstoryView({
                       longitude: m.longitude as number,
                     })
                   }
-                  onDragEnd={async (e) =>{
+                  onDragEnd={async e => {
                     await addMarker(e)
-                    setDragged((prev) => prev++)
-                  } } 
-                >                
-                </Marker>
-                </>
+                    setDragged(prev => prev++)
+                  }}
+                ></Marker>
+              </>
             )
           })}
           {markers.length >= 2 && createLineData() && (

@@ -34,11 +34,11 @@ module.exports = {
           DEFAULT: '#aab315',
         },
         hover: {
-          DEFAULT: '#E0F2E8'
+          DEFAULT: '#E0F2E8',
         },
         active: {
-          DEFAULT: '#ede3fd'
-        }
+          DEFAULT: '#ede3fd',
+        },
       },
     },
   },

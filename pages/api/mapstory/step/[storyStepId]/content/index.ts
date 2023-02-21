@@ -26,13 +26,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       return res.status(422).end()
     }
-  }
-  else if (req.method === 'PUT') {
+  } else if (req.method === 'PUT') {
     try {
       const slideContentId = req.body.id as string
       const updatedContent = await db.slideContent.update({
         where: { id: slideContentId },
-        data: req.body
+        data: req.body,
       })
 
       res.json(updatedContent)

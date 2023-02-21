@@ -1,13 +1,17 @@
-import classNames from 'classnames';
-import React from 'react';
-import { StyleProps } from 'react-html-props';
+import classNames from 'classnames'
+import React from 'react'
+import { StyleProps } from 'react-html-props'
 
-export interface EmbedStyleProps extends StyleProps { }
+export interface EmbedStyleProps extends StyleProps {}
 
 export function EmbedStyle({ ...styleProps }: EmbedStyleProps) {
-    return (
-        <style {...styleProps} className={classNames(styleProps.className)} style={{ ...styleProps.style }}>
-            {`
+  return (
+    <style
+      {...styleProps}
+      className={classNames(styleProps.className)}
+      style={{ ...styleProps.style }}
+    >
+      {`
         .rsme-embed .rsme-d-none {
           display: none;
         }
@@ -29,6 +33,6 @@ export function EmbedStyle({ ...styleProps }: EmbedStyleProps) {
           width: 100% !important;
         }
       `}
-        </style>
-    );
+    </style>
+  )
 }
