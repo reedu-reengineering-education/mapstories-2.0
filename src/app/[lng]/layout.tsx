@@ -1,10 +1,20 @@
 import '@/src/styles/globals.scss'
 import { Inter } from '@next/font/google'
 import { cx } from 'class-variance-authority'
-import { Toaster } from '@/src/lib/toast'
 import { dir } from 'i18next'
+import dynamic from 'next/dynamic'
 import { languages } from '../i18n/settings'
 import Providers from './Providers'
+
+const Toaster = dynamic(
+  async () => {
+    const { Toaster } = await import('@/src/lib/toast')
+    return Toaster
+  },
+  {
+    ssr: false,
+  },
+)
 
 const font = Inter({
   subsets: ['latin'],
@@ -19,8 +29,8 @@ const font = Inter({
 export const generateStaticParams =
   process.env.NODE_ENV !== 'development'
     ? async () => {
-      return languages.map(lng => ({ lng }))
-    }
+        return languages.map(lng => ({ lng }))
+      }
     : undefined
 
 export default function RootLayout({
