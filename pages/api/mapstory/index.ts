@@ -19,18 +19,47 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       if (body?.name && user) {
         const payload = createMapstoryeSchema.parse(body)
 
-        const existingStories = await db.story.findMany({
-          where: { slug: { startsWith: payload.slug } },
-        })
-        const slugSuffix =
-          existingStories.length > 0 ? `-${existingStories.length + 1}` : ''
-        const uniqueSlug = `${payload.slug}${slugSuffix}`
+        let slug = payload.slug;
+let suffix = 0;
+let isUnique = false;
+
+while (!isUnique) {
+  // Check if the current slug with the current suffix exists
+  let existingSlug = null
+  if(suffix === 0){
+    existingSlug = await db.story.findUnique({
+      where: { slug: slug },
+    });
+    if (existingSlug) {
+      // If the slug already exists, increment the suffix and try again
+      suffix++;
+    }
+    else{
+      isUnique= true
+    }
+  }
+  else {
+    existingSlug = await db.story.findUnique({
+      where: { slug: `${slug}-${suffix}` },
+    });
+    if(existingSlug){
+      suffix++;
+    }
+    else{
+      // If the slug doesn't exist, set it and exit the loop
+      slug = `${slug}-${suffix}`;
+      isUnique = true;
+    }
+  }
+}
+
+
 
         const newMapstory = await db.story.create({
           data: {
             ownerId: user.id,
             name: payload.name,
-            slug: uniqueSlug,
+            slug: slug,
             visibility: 'PRIVATE',
           },
         })
