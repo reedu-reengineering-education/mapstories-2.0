@@ -2,7 +2,7 @@
 
 import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
-import { ChevronDownIcon, Cog6ToothIcon } from '@heroicons/react/24/outline/'
+import { ChevronDownIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
 import { toast } from '@/src/lib/toast'
 import * as z from 'zod'
 import { Controller, useForm } from 'react-hook-form'
