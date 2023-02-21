@@ -19,8 +19,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       if (body?.name && user) {
         const payload = createMapstoryeSchema.parse(body)
 
-        const existingStories = await db.story.findMany({ where: { slug: { startsWith: payload.slug } } })
-        const slugSuffix = existingStories.length > 0 ? `-${existingStories.length + 1}` : ''
+        const existingStories = await db.story.findMany({
+          where: { slug: { startsWith: payload.slug } },
+        })
+        const slugSuffix =
+          existingStories.length > 0 ? `-${existingStories.length + 1}` : ''
         const uniqueSlug = `${payload.slug}${slugSuffix}`
 
         const newMapstory = await db.story.create({

@@ -15,16 +15,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           storyId,
           viewport: {},
           // position: await db.storyStep.count(),
-          position: (
-            await db.story.findFirst({
-              where: {
-                id: storyId,
-              },
-              select: {
-                steps: true,
-              },
-            })
-          )?.steps.length || 0,
+          position:
+            (
+              await db.story.findFirst({
+                where: {
+                  id: storyId,
+                },
+                select: {
+                  steps: true,
+                },
+              })
+            )?.steps.length || 0,
         },
       })
 

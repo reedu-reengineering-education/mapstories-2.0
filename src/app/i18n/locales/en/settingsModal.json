@@ -1,12 +1,11 @@
 {
-    "name": "Name",
-    "description": "Description",
-    "private": "Private",
-    "public": "Public",
-    "theme": "Theme",
-    "image": "Image",
-    "select an image or enter a URL": "select an image or enter a URL",
-    "options": "Options",
-    "save": "Save"
-
+  "name": "Name",
+  "description": "Description",
+  "private": "Private",
+  "public": "Public",
+  "theme": "Theme",
+  "image": "Image",
+  "select an image or enter a URL": "select an image or enter a URL",
+  "options": "Options",
+  "save": "Save"
 }

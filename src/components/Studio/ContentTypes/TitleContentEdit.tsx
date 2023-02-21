@@ -17,10 +17,10 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  storyStepId: string,
-  stepItem?: any,
-  lng: string, 
-  setContentType?: any,
+  storyStepId: string
+  stepItem?: any
+  lng: string
+  setContentType?: any
 }
 
 type FormData = z.infer<typeof slideTitleContentSchema>
@@ -51,41 +51,45 @@ export function TitleContentEdit({
 
   async function onSubmit(data: FormData) {
     try {
-      setIsSaving(true);
-      const url = `/api/mapstory/step/${stepItem ? stepItem.storyStepId : storyStepId}/content`;
-      const method = stepItem ? 'PUT' : 'POST';
+      setIsSaving(true)
+      const url = `/api/mapstory/step/${
+        stepItem ? stepItem.storyStepId : storyStepId
+      }/content`
+      const method = stepItem ? 'PUT' : 'POST'
       const headers = {
         'Content-Type': 'application/json',
-      };
-      const body = stepItem ? JSON.stringify({ ...stepItem, title: data.title }) : JSON.stringify({ ...data });
-      const response = await fetch(url, { method, headers, body });
+      }
+      const body = stepItem
+        ? JSON.stringify({ ...stepItem, title: data.title })
+        : JSON.stringify({ ...data })
+      const response = await fetch(url, { method, headers, body })
 
-      setIsSaving(false);
+      setIsSaving(false)
 
       if (!response.ok) {
         return toast({
           title: 'Something went wrong.',
           message: 'Your content was not created. Please try again.',
           type: 'error',
-        });
+        })
       }
 
-      const newContent = (await response.json()) as SlideContent;
+      const newContent = (await response.json()) as SlideContent
 
       toast({
         message: 'Your content has been created.',
         type: 'success',
-      });
+      })
 
-      router.refresh();
+      router.refresh()
     } catch (error) {
-      console.error(error);
+      console.error(error)
 
       toast({
         title: 'Something went wrong.',
         message: 'Your content was not created. Please try again.',
         type: 'error',
-      });
+      })
     }
   }
 
@@ -108,8 +112,8 @@ export function TitleContentEdit({
           />
         </div>
         <Button disabled={isSaving} isLoading={isSaving} type="submit">
-          {stepItem && (t('save'))}
-          {!stepItem && (t('create'))}
+          {stepItem && t('save')}
+          {!stepItem && t('create')}
         </Button>
       </div>
     </form>

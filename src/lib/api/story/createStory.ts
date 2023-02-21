@@ -4,7 +4,7 @@ import { Story } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 import slugify from 'slugify'
 
-export interface ICreateStoryProps extends Pick<Story, 'name' | 'slug'> { }
+export interface ICreateStoryProps extends Pick<Story, 'name' | 'slug'> {}
 
 export const createStory = (props: ICreateStoryProps) => {
   props.slug = slugify(props.name || '')
