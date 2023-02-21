@@ -4,16 +4,21 @@ import PlusIcon from '@heroicons/react/24/outline/PlusIcon'
 import SlideContentModal from './SlideContentModal'
 
 interface EditorPageProps {
-  params: { storyStepId: string, lng: string }
+  params: { storyStepId: string; lng: string }
 }
 
-export default function StepPage({ params: { storyStepId, lng } }: EditorPageProps) {
+export default function StepPage({
+  params: { storyStepId, lng },
+}: EditorPageProps) {
   return (
     <div>
       <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">
         <h3 className="pb-4">Media / Text</h3>
         <div>
-          <SlideContentListEdit lng={''} stepId={storyStepId}></SlideContentListEdit>
+          <SlideContentListEdit
+            lng={''}
+            stepId={storyStepId}
+          ></SlideContentListEdit>
         </div>
 
         <SlideContentModal

@@ -1,6 +1,6 @@
 import { Story, StoryStep } from '@prisma/client'
 import { create } from 'zustand'
-import produce from 'immer';
+import produce from 'immer'
 
 interface StoryState {
   story?: Story & {
@@ -23,9 +23,11 @@ export const useStoryStore = create<StoryState>()((set, get) => ({
     }),
   patchStoryStep: (inputStep: StoryStep) =>
     set(
-      produce((state) => {
-        const step1 = state.story.steps.find((stepI: StoryStep) => stepI.id === inputStep.id);
-        step1.feature = inputStep.feature;
-      })
+      produce(state => {
+        const step1 = state.story.steps.find(
+          (stepI: StoryStep) => stepI.id === inputStep.id,
+        )
+        step1.feature = inputStep.feature
+      }),
     ),
 }))

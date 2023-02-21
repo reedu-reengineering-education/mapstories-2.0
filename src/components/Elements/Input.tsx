@@ -11,7 +11,15 @@ type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 export const Input = React.forwardRef<HTMLInputElement, InputFieldProps>(
   (
-    { type = 'text', label, className, registration, errors, handleChange, ...props },
+    {
+      type = 'text',
+      label,
+      className,
+      registration,
+      errors,
+      handleChange,
+      ...props
+    },
     ref,
   ) => {
     return (
@@ -39,7 +47,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputFieldProps>(
   },
 )
 
-interface InputLabelProps extends React.HTMLAttributes<HTMLLabelElement> { }
+interface InputLabelProps extends React.HTMLAttributes<HTMLLabelElement> {}
 
 export function InputLabel({ className, ...props }: InputLabelProps) {
   return (

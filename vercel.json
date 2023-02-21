@@ -1,12 +1,12 @@
 {
-    "redirects": [
-        {
-            "source": "/de/index",
-            "destination": "/de"
-        },
-        {
-            "source": "/en/index",
-            "destination": "/en"
-        }
-    ]
+  "redirects": [
+    {
+      "source": "/de/index",
+      "destination": "/de"
+    },
+    {
+      "source": "/en/index",
+      "destination": "/en"
+    }
+  ]
 }

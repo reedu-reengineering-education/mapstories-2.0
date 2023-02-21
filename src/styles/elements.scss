@@ -1,17 +1,17 @@
 .re-data-media-preview {
-    display: inline-block;
-    width: 38%;
-    margin-right: 4%;
-    vertical-align: top;
-    height: 100%;
+  display: inline-block;
+  width: 38%;
+  margin-right: 4%;
+  vertical-align: top;
+  height: 100%;
 }
 
-.re-data-media-preview>p {
-    text-align: center;
-    background-color: #dddddd;
-    color: #777777;
-    padding: 18% 10%;
-    height: 116px;
+.re-data-media-preview > p {
+  text-align: center;
+  background-color: #dddddd;
+  color: #777777;
+  padding: 18% 10%;
+  height: 116px;
 }
 
 .re-basic-button {
@@ -37,7 +37,6 @@
 
   // filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9));
   box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.9);
-
 }
 
 .re-basic-box-no-shadow {

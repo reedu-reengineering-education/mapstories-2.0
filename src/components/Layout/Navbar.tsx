@@ -1,11 +1,11 @@
 'use client'
 
-import * as React from 'react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { cx } from 'class-variance-authority'
 import { Bars3Icon, GlobeAltIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from '@/src/app/i18n/client'
+import { useState } from 'react'
 
 export function Navbar({
   children,
@@ -15,11 +15,11 @@ export function Navbar({
   lng: string
 }) {
   const segment = useSelectedLayoutSegment()
-  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   const { t } = useTranslation(lng, 'navbar')
 
-  const routes = [
+  const [routes] = useState([
     {
       title: 'Studio',
       href: `/${lng}/studio`,
@@ -33,7 +33,7 @@ export function Navbar({
       href: `/${lng}/contact`,
       disabled: true,
     },
-  ]
+  ])
 
   return (
     <>
@@ -78,13 +78,7 @@ export function Navbar({
   )
 }
 
-function MobileNav({
-  children,
-  routes,
-}: {
-  children?: React.ReactNode
-  routes: any[]
-}) {
+function MobileNav({ routes }: { children?: React.ReactNode; routes: any[] }) {
   return (
     <div
       className={cx(

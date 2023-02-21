@@ -30,13 +30,18 @@ type DraggableProps = {
 type DraggableListProps<T> = {
   items: T[]
   orientation?: 'horizontal' | 'vertical'
-  onChange?: (_items: T[]) => void,
-  disabled?:boolean
+  onChange?: (_items: T[]) => void
+  disabled?: boolean
 }
 
 export default function DraggableList<
   T extends { [key: string]: any } & DraggableProps,
->({ items, onChange, orientation = 'vertical' , disabled}: DraggableListProps<T>) {
+>({
+  items,
+  onChange,
+  orientation = 'vertical',
+  disabled,
+}: DraggableListProps<T>) {
   const [itemsStore, setItemsStore] = useState<T[]>([])
 
   useEffect(() => {
@@ -89,7 +94,7 @@ export default function DraggableList<
       sensors={sensors}
     >
       <SortableContext
-      disabled={disabled}
+        disabled={disabled}
         items={itemsStore}
         strategy={
           orientation === 'vertical'

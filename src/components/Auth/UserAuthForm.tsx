@@ -13,7 +13,7 @@ import { cx } from 'class-variance-authority'
 import { Button } from '../Elements/Button'
 import { Input } from '../Elements/Input'
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 type FormData = z.infer<typeof userAuthSchema>
 
