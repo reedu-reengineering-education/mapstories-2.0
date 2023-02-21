@@ -14,8 +14,8 @@ export default function SidebarSlide({
   return (
     <div
       className={cx(
-        'flex aspect-video w-full items-center justify-center rounded-lg bg-slate-100',
-        active ? 'border-2 bg-active' : '',
+        'flex aspect-video w-full items-center justify-center rounded-lg',
+        active ? 'border-2 bg-active' : 'bg-slate-100',
         markerHover ? 'border-2 border-red-600' : '',
       )}
     >
