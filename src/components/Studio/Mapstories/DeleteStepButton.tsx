@@ -6,6 +6,7 @@ import { TrashIcon } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from '@/src/lib/toast'
+import useStory from '@/src/lib/api/story/useStory'
 
 export default function DeleteStepButton({
   storyId,
@@ -20,33 +21,28 @@ export default function DeleteStepButton({
   //const { story, deleteContent } = useStory(id)
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
+  const { deleteStoryStep } = useStory(storyId)
+
   async function handleClick() {
     setIsSaving(true)
 
-    const response = await fetch(
-      `/api/mapstory/${storyId}/step/${storyStepId}`,
-      {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-      },
-    )
+    try {
+      await deleteStoryStep(storyStepId)
+      toast({
+        message: 'Der Inhalt wurde gelöscht.',
+        type: 'success',
+      })
 
-    setIsSaving(false)
-
-    if (!response?.ok) {
+      router.refresh()
+    } catch (e) {
       return toast({
         title: 'Something went wrong.',
         message: 'Your content was not created. Please try again',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
-
-    toast({
-      message: 'Der Inhalt wurde gelöscht.',
-      type: 'success',
-    })
-
-    router.refresh()
   }
 
   return (

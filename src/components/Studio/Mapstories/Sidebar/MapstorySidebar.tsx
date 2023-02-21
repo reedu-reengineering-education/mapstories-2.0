@@ -24,36 +24,30 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const { markerId } = useHoverMarkerStore()
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
-  const { story, reorderStorySteps } = useStory(storyID)
+  const { story, reorderStorySteps, createStoryStep } = useStory(storyID)
 
   async function onSubmit() {
     setIsLoading(true)
 
-    const response = await fetch(`/api/mapstory/${story?.id}/step/${stepId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    try {
+      const newStoryStep = await createStoryStep()
 
-    setIsLoading(false)
+      toast({
+        message: 'Your step has been created.',
+        type: 'success',
+      })
 
-    if (!response?.ok) {
+      addStoryStep(newStoryStep)
+      router.replace(`/studio/${story?.slug}/${newStoryStep.id}`)
+    } catch (e) {
       return toast({
         title: 'Something went wrong.',
         message: 'Your step was not created. Please try again',
         type: 'error',
       })
+    } finally {
+      setIsLoading(false)
     }
-
-    toast({
-      message: 'Your step has been created.',
-      type: 'success',
-    })
-
-    const newStep = (await response.json()) as StoryStep
-    addStoryStep(newStep)
-    router.replace(`/studio/${story?.slug}/${newStep.id}`)
   }
 
   async function onReorder(update: StoryStep[]) {
