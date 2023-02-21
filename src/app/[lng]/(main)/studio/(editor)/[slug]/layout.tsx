@@ -8,7 +8,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { Story, User } from '@prisma/client'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
-import SettingsModal from '@/components/Studio/Mapstories/SettingsModal'
+import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
 
 export const generateStaticParams =
   process.env.NODE_ENV !== 'development'
