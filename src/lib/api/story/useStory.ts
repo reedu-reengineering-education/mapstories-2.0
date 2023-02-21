@@ -5,6 +5,7 @@ import useSWR from 'swr'
 import { createStory, ICreateStoryProps } from './createStory'
 import { createStoryStep } from './createStoryStep'
 import { deleteStory } from './deleteStory'
+import { deleteStoryStep } from './deleteStoryStep'
 import { reorderStorySteps } from './reorderSteps'
 
 const useStory = (storyId: string) => {
@@ -55,6 +56,21 @@ const useStory = (storyId: string) => {
     return newStep
   }
 
+  const APIDeleteStoryStep = async (stepId: string) => {
+    const deleteStoryStepRequest = deleteStoryStep(storyId, stepId)
+    const deletedStep = (await deleteStoryStepRequest).data
+
+    if (story) {
+      await mutate({
+        ...story,
+        steps: [
+          ...(story.steps?.filter(({ id }) => id !== deletedStep.id) || []),
+        ],
+      })
+    }
+    return deletedStep
+  }
+
   const APIReorderStorySteps = async (update: StoryStep[]) => {
     const reorderStoryStepsRequest = reorderStorySteps(storyId, update)
     return await mutation(reorderStoryStepsRequest)
@@ -68,6 +84,7 @@ const useStory = (storyId: string) => {
     deleteStory: APIDeleteStory,
     reorderStorySteps: APIReorderStorySteps,
     createStoryStep: APICreateStoryStep,
+    deleteStoryStep: APIDeleteStoryStep,
   }
 }
 

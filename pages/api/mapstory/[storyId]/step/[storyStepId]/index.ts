@@ -42,6 +42,34 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         where: { id: storyStepId },
       })
 
+      const updatedStory = await db.story.findFirst({
+        where: {
+          id: storyId,
+        },
+        include: {
+          steps: true,
+        },
+      })
+
+      // update step positions after removing one
+      const newStepOrder = updatedStory?.steps.map((s, i) => ({
+        ...updatedStory?.steps.find(step => step.id === s.id),
+        position: i,
+      }))
+
+      await db.$transaction(
+        newStepOrder!.map(s =>
+          db.storyStep.update({
+            where: {
+              id: s.id,
+            },
+            data: {
+              position: s.position,
+            },
+          }),
+        ),
+      )
+
       res.json(deletedStep)
 
       return res.end()
