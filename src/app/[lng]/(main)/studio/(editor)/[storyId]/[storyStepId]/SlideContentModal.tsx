@@ -15,6 +15,7 @@ import { TitleContentEdit } from '@/src/components/Studio/ContentTypes/TitleCont
 import { EmbedContentEdit } from '@/src/components/Studio/ContentTypes/EmbedContentEdit'
 import { useTranslation } from '@/src/app/i18n/client'
 import { TextContentEdit } from '@/src/components/Studio/ContentTypes/TextContentEdit'
+import { ImageContentEdit } from '@/src/components/Studio/ContentTypes/ImageContentEdit'
 
 type Props = {
   trigger: React.ReactElement
@@ -58,7 +59,7 @@ export default function SlideContentModal({
                     <h3 className="text-center">Heading</h3>
                   </div>
 
-                  <div
+                  <div 
                     className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('text')}
                   >
@@ -68,11 +69,12 @@ export default function SlideContentModal({
                     <h3 className="text-center">Text</h3>
                   </div>
 
-                  <div className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2">
+                  <div className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                        onClick={()=> setContentType('videoimage')}>
                     <div className="flex justify-center">
                       <VideoIcon className="h-14 w-14"></VideoIcon>
                     </div>
-                    <h3 className="text-center">Video/Bild</h3>
+                    <h3 className="text-center">Video/Bssild</h3>
                   </div>
 
                   <div
@@ -90,7 +92,9 @@ export default function SlideContentModal({
 
             {(contentType == 'title' ||
               contentType == 'embed' ||
-              contentType == 'text') && (
+              contentType == 'text'  ||
+              contentType == 'videoimage' 
+              ) && (
               <>
                 <CSSTransition
                   appear
@@ -129,6 +133,13 @@ export default function SlideContentModal({
                         setContentType={setContentType}
                         storyStepId={storyStepId}
                       ></TextContentEdit>
+                    )}
+                    {contentType == 'videoimage' && (
+                      <ImageContentEdit
+                        lng={lng}
+                        setContentType={setContentType}
+                        storyStepId={storyStepId}
+                      ></ImageContentEdit>
                     )}
                   </div>
                 </CSSTransition>
