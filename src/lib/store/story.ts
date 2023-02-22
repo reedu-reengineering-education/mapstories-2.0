@@ -33,5 +33,5 @@ export const useStoryStore = create<StoryState>()((set, get) => ({
         step1.feature = inputStep.feature
       }),
     ),
-    setMarkerId: (markerId: string) => set({ markerId }),
+  setMarkerId: (markerId: string) => set({ markerId }),
 }))
