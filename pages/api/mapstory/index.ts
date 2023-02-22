@@ -20,11 +20,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       if (body?.name && user) {
         const payload = createMapstoryeSchema.parse(body)
 
-      const unique = await uniqueSlug(payload.slug)
-      if(typeof unique != 'string'){
-        return res.status(422).json({'msg': 'Something went wrong. Please try again'})
-      }
-      const newMapstory = await db.story.create({
+        const unique = await uniqueSlug(payload.slug)
+        if (!unique) {
+          return res
+            .status(422)
+            .json({ msg: 'Something went wrong. Please try again' })
+        }
+        const newMapstory = await db.story.create({
           data: {
             ownerId: user.id,
             name: payload.name,
