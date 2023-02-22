@@ -13,7 +13,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
-import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const [loading, setIsLoading] = useState(false)
@@ -21,7 +20,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const updateStory = useStoryStore(state => state.updateStory)
   const router = useRouter()
 
-  const markerId = useHoverMarkerStore(state => state.markerId)
+  const markerId = useStoryStore(state => state.markerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const { story, reorderStorySteps, createStoryStep } = useStory(storyID)

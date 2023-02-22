@@ -6,13 +6,16 @@ interface StoryState {
   story?: Story & {
     steps?: StoryStep[]
   }
+  markerId: string
   updateStory: (_newStory: Story) => void
   addStoryStep: (_step: StoryStep) => void
   patchStoryStep: (_step: StoryStep) => void
+  setMarkerId: (markerId: string) => void
 }
 
 export const useStoryStore = create<StoryState>()((set, get) => ({
   story: undefined,
+  markerId: '',
   updateStory: (newStory: Story) => set({ story: newStory }),
   addStoryStep: (step: StoryStep) =>
     set({
@@ -30,4 +33,5 @@ export const useStoryStore = create<StoryState>()((set, get) => ({
         step1.feature = inputStep.feature
       }),
     ),
+    setMarkerId: (markerId: string) => set({ markerId }),
 }))

@@ -14,7 +14,6 @@ import { Layer, Source } from 'react-map-gl'
 import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
 import { useRouter } from 'next/navigation'
-import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 
 type EditMapstoryViewProps = {
   story: Story
@@ -130,8 +129,7 @@ export default function EditMapstoryView({
       router.push(`/studio/${story.slug}/${matchingStep.id}`)
     }
   }
-  const markerId = useHoverMarkerStore(state => state.markerId)
-  const setMarkerId = useHoverMarkerStore(state => state.setMarkerId)
+  const setMarkerId = useStoryStore(state => state.setMarkerId)  
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
     markers.forEach(m => {
@@ -143,10 +141,6 @@ export default function EditMapstoryView({
       }
     })
   }
-
-  useEffect(() => {
-    console.log(markerId)
-  }, [markerId])
 
   // load story into zustand. TODO: is this the right place to do so?
   useEffect(() => {
@@ -168,14 +162,6 @@ export default function EditMapstoryView({
   useEffect(() => {
     getMarkers()
   }, [currentStep])
-
-  // useEffect(() => {
-  //   const elements = document.getElementsByClassName("maplibregl-marker");
-  //   console.log(elements)
-  //   Array.from(elements).forEach(function(element) {
-  //     element.addEventListener('mouseover', (event) => {console.log(element)});
-  //   });
-  // }, [markers])
 
   return (
     <StudioShell>
@@ -236,6 +222,9 @@ export default function EditMapstoryView({
                   onDragEnd={async e => {
                     await addMarker(e)
                     setDragged(prev => prev++)
+                  }}
+                  style={{
+                    padding: '10px'
                   }}
                 ></Marker>
               </>
