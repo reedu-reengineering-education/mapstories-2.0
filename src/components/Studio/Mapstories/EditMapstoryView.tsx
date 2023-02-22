@@ -132,14 +132,11 @@ export default function EditMapstoryView({
   const setMarkerId = useStoryStore(state => state.setMarkerId)  
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
+    const tolerance = 0.01
     markers.forEach(m => {
-      if (
-        m.latitude.toFixed(2) === e.lngLat.lat.toFixed(2) &&
-        m.longitude.toFixed(2) === e.lngLat.lng.toFixed(2)
-      ) {
+      if(Math.abs(m.latitude - e.lngLat.lat) <= tolerance && Math.abs(m.longitude - e.lngLat.lng) <= tolerance){
         setMarkerId(m.key)
-      }
-    })
+      }})
   }
 
   // load story into zustand. TODO: is this the right place to do so?
