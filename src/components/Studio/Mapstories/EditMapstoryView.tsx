@@ -14,7 +14,6 @@ import { Layer, Source } from 'react-map-gl'
 import { FeatureCollection } from 'geojson'
 // import { LineString } from 'geojson'
 import { useRouter } from 'next/navigation'
-import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 
 type EditMapstoryViewProps = {
   story: Story
@@ -163,8 +162,7 @@ export default function EditMapstoryView({
       router.push(`/studio/${story.slug}/${matchingStep.id}`)
     }
   }
-  const markerId = useHoverMarkerStore(state => state.markerId)
-  const setMarkerId = useHoverMarkerStore(state => state.setMarkerId)
+  const setMarkerId = useStoryStore(state => state.setMarkerId)  
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
     markers.forEach(m => {
@@ -260,6 +258,9 @@ export default function EditMapstoryView({
                   onDragEnd={async e => {
                     await addMarker(e)
                     setDragged(prev => prev++)
+                  }}
+                  style={{
+                    padding: '10px'
                   }}
                 ></Marker>
                 <Marker
