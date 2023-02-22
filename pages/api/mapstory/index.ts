@@ -7,6 +7,7 @@ import { authOptions } from '@/src/lib/auth'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { createMapstoryeSchema } from '@/src/lib/validations/mapstory'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
+import uniqueSlug from '@/src/lib/slug'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -19,18 +20,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       if (body?.name && user) {
         const payload = createMapstoryeSchema.parse(body)
 
-        const existingStories = await db.story.findMany({
-          where: { slug: { startsWith: payload.slug } },
-        })
-        const slugSuffix =
-          existingStories.length > 0 ? `-${existingStories.length + 1}` : ''
-        const uniqueSlug = `${payload.slug}${slugSuffix}`
-
+        const unique = await uniqueSlug(payload.slug)
+        if (!unique) {
+          return res
+            .status(422)
+            .json({ msg: 'Something went wrong. Please try again' })
+        }
         const newMapstory = await db.story.create({
           data: {
             ownerId: user.id,
             name: payload.name,
-            slug: uniqueSlug,
+            slug: unique,
             visibility: 'PRIVATE',
           },
         })
