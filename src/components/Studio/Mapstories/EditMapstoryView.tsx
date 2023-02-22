@@ -162,14 +162,18 @@ export default function EditMapstoryView({
       router.push(`/studio/${story.slug}/${matchingStep.id}`)
     }
   }
-  const setMarkerId = useStoryStore(state => state.setMarkerId)  
+  const setMarkerId = useStoryStore(state => state.setMarkerId)
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
     const tolerance = 0.01
     markers.forEach(m => {
-      if(Math.abs(m.latitude - e.lngLat.lat) <= tolerance && Math.abs(m.longitude - e.lngLat.lng) <= tolerance){
+      if (
+        Math.abs(m.latitude - e.lngLat.lat) <= tolerance &&
+        Math.abs(m.longitude - e.lngLat.lng) <= tolerance
+      ) {
         setMarkerId(m.key)
-      }})
+      }
+    })
   }
 
   // load story into zustand. TODO: is this the right place to do so?
@@ -257,7 +261,7 @@ export default function EditMapstoryView({
                     setDragged(prev => prev++)
                   }}
                   style={{
-                    padding: '10px'
+                    padding: '10px',
                   }}
                 ></Marker>
                 <Marker
