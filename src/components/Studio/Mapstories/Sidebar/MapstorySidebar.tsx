@@ -109,11 +109,11 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
                   </div>
                   {!s.feature && (
-                    <div className='flex cursor-pointer  p-2 absolute top-10 right-1 z-10 rounded-md group-hover:visible' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <div className='flex cursor-pointer p-2 absolute top-12 right-1 z-10 rounded-md group-hover:visible' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                       <QuestionMarkCircleIcon className="w-5" />
                       {hoverQuestionMark && (
                         <div className='relative w-full h-full'>
-                        <div className='absolute bg-white rounded z-20 p-2'>
+                        <div className='absolute w-36 right-4 bottom-4 bg-white rounded z-20 p-2'>
                           Bitte setzen Sie einen Marker für diese Slide
                         </div>
                         </div>
