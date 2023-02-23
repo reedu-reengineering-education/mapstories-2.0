@@ -263,12 +263,12 @@ export default function EditMapstoryView({
                 >
                 </Marker>
                 <Marker
-                anchor={'top-right'}
+                // anchor={'top-right'}
                 key={`${i}-label`}
         latitude={(m.latitude as number)}
         longitude={(m.longitude as number)}
       >
-        <div className='bg-white w-2 h-2 absolute top-0 right-0'>{m.position}</div>
+        <div className='w-2 h-2 absolute'>{m.position}</div>
       </Marker>
               </>
             )
