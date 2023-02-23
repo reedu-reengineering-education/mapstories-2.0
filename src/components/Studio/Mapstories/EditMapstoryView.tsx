@@ -183,8 +183,11 @@ export default function EditMapstoryView({
   }, [])
 
   useEffect(() => {
-    getMarkers()
     createLineData()
+  }, [markers])
+
+  useEffect(() => {
+    getMarkers()
   }, [currentStory, dragged])
 
   useEffect(() => {
