@@ -11,7 +11,7 @@ import { cx } from 'class-variance-authority'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SlideContent } from '@prisma/client'
 import { media_type, media_types } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
@@ -38,12 +38,18 @@ export function EmbedContentEdit({
     handleSubmit,
     register,
     formState: { errors },
+    watch,
   } = useForm<FormData>({
     resolver: zodResolver(slideEmbedContentSchema),
   })
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
+
+  const { media: url } = watch()
+  useEffect(() => {
+    handleUrl(url)
+  }, [url])
 
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
@@ -144,7 +150,6 @@ export function EmbedContentEdit({
           <Input
             defaultValue={slideContent ? slideContent.media : ''}
             errors={errors.media}
-            handleChange={handleUrl}
             label="media"
             size={32}
             {...register('media')}
