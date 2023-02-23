@@ -14,26 +14,35 @@ import { useState } from 'react'
 import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
 import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
+import { useTranslation } from '@/src/app/i18n/client'
 
-export default function MapstorySidebar({ storyID }: { storyID: string }) {
+
+export default function MapstorySidebar({ storyID, lng }: { storyID: string, lng: string }) {
   const [loading, setIsLoading] = useState(false)
-  const [hoverQuestionMark, setHoverQuestionMark] = useState(false)
   const addStoryStep = useStoryStore(state => state.addStoryStep)
   const updateStory = useStoryStore(state => state.updateStory)
   const router = useRouter()
-
+  const { t } = useTranslation(lng, 'mapstorySidebar')
+  
   const markerId = useHoverMarkerStore(state => state.markerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const { story, reorderStorySteps, createStoryStep } = useStory(storyID)
+  const [hoverQuestionMark, setHoverQuestionMark] = useState(new Array(story?.steps ? story.steps.length : 0).fill(false))
 
-  function handleMouseEnter() {
-    setHoverQuestionMark(true)
-  }
-
-  function handleMouseLeave() {
-    setHoverQuestionMark(false)
-  }
+  const handleMouseEnter = (index: number) => {
+    // Create a new array with the updated hover state for the current div
+    const newHoverStates = [...hoverQuestionMark];
+    newHoverStates[index] = true;
+    // Set the hover state for the current div to true
+    setHoverQuestionMark(newHoverStates);
+  };
+  
+  const handleMouseLeave = (index: number) => {
+    const newHoverStates = [...hoverQuestionMark];
+    newHoverStates[index] = false;
+    setHoverQuestionMark(newHoverStates);
+  }  
 
   async function onSubmit() {
     setIsLoading(true)
@@ -84,7 +93,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
       {story?.steps && story?.steps.length > 0 && (
         <DraggableList
           items={
-            story?.steps?.map(s => ({
+            story?.steps?.map((s,i) => ({
               id: s.id,
               s: s,
               slug: story.slug,
@@ -111,14 +120,15 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                   {!s.feature && (
                     <div
                       className="absolute top-12 right-1 z-10 flex cursor-pointer rounded-md p-2 group-hover:visible"
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
+                      key={i}
+                      onMouseEnter={() => handleMouseEnter(i)}
+                      onMouseLeave={() => handleMouseLeave(i)}
                     >
                       <QuestionMarkCircleIcon className="w-5" />
-                      {hoverQuestionMark && (
+                      {hoverQuestionMark[i] && (
                         <div className="relative h-full w-full">
                           <div className="absolute right-4 bottom-1 z-20 w-36 rounded bg-white p-2">
-                            Bitte setzen Sie einen Marker für diese Slide
+                            {t('please set a marker for this slide')}
                           </div>
                         </div>
                       )}
