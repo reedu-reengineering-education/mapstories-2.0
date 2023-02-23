@@ -103,7 +103,6 @@ export function TitleContentEdit({
           <Input
             defaultValue={stepItem ? stepItem.title : ''}
             errors={errors.title}
-            handleChange={() => {}}
             label="title"
             size={32}
             {...register('title')}
