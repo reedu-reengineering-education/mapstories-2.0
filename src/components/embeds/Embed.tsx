@@ -1,6 +1,7 @@
 import { media_type } from '@/src/lib/media/media'
 import * as React from 'react'
 import { DivPropsWithoutRef } from 'react-html-props'
+import { InstagramEmbed } from './InstagramEmbed'
 import { TwitterEmbed } from './TwitterEmbed'
 import { YouTubeEmbed } from './YoutubeEmbed'
 
@@ -19,6 +20,9 @@ export function Embed({ media, width, height, ...divProps }: EmbedProps) {
       )}
       {media.type == 'twitter' && (
         <TwitterEmbed height="50" url={media.url} width="200" />
+      )}
+      {media.type == 'instagram' && (
+        <InstagramEmbed height="50" url={media.url} width="200" />
       )}
       {media.type == 'unknown' && <p>Media not recognized...</p>}
     </>
