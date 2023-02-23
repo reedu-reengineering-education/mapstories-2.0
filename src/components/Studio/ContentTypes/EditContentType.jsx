@@ -14,7 +14,7 @@ export function EditContentType(props) {
     <div>
       {props.stepItem.title && <TitleContentEdit stepItem={props.stepItem} />}
       {props.stepItem.text && <TextContentEdit stepItem={props.stepItem} />}
-      {props.stepItem.embed && (
+      {props.stepItem.media && (
         <EmbedContentEdit
           lng={props.lng}
           slideContent={props.stepItem}
