@@ -86,7 +86,7 @@ export default function EditMapstoryView({
             longitude: point.longitude,
             latitude: point.latitude,
             key: s.id,
-            position: s.position
+            position: s.position,
           }
           newMarkers.push(newMarker)
         }
@@ -106,35 +106,35 @@ export default function EditMapstoryView({
 
   const splitMarkers = (markers: MarkerProps[]) => {
     if (!markers || markers.length === 0) {
-      return [];
+      return []
     }
-  
-    const groups = [];
-    let currentGroup = [markers[0]];
-  
+
+    const groups = []
+    let currentGroup = [markers[0]]
+
     for (let i = 1; i < markers.length; i++) {
-      const prevMarker = markers[i - 1];
-      const currMarker = markers[i];
-  
+      const prevMarker = markers[i - 1]
+      const currMarker = markers[i]
+
       if (currMarker.position === prevMarker.position + 1) {
-        currentGroup.push(currMarker);
+        currentGroup.push(currMarker)
       } else {
-        groups.push(currentGroup);
-        currentGroup = [currMarker];
+        groups.push(currentGroup)
+        currentGroup = [currMarker]
       }
     }
-  
+
     if (currentGroup.length > 0) {
-      groups.push(currentGroup);
+      groups.push(currentGroup)
     }
-  
-    return groups;
-  };
-  
+
+    return groups
+  }
+
   let lineData = {}
 
   const createLineData = () => {
-    const markerGroups = splitMarkers(markers);
+    const markerGroups = splitMarkers(markers)
     const features = markerGroups
       .filter(group => group.length > 1)
       .map(group => ({
@@ -144,14 +144,12 @@ export default function EditMapstoryView({
           type: 'LineString',
           coordinates: group.map(m => [m.longitude, m.latitude]),
         },
-      }));
-    return lineData= {
+      }))
+    return (lineData = {
       type: 'FeatureCollection',
       features,
-    };
+    })
   }
-  
-  
 
   const moveToStoryStep = (coords: { latitude: number; longitude: number }) => {
     const matchingStep = steps?.find(
@@ -260,21 +258,24 @@ export default function EditMapstoryView({
                     await addMarker(e)
                     setDragged(prev => prev++)
                   }}
-                >
-                </Marker>
+                ></Marker>
                 <Marker
-                // anchor={'top-right'}
-                key={`${i}-label`}
-        latitude={(m.latitude as number)}
-        longitude={(m.longitude as number)}
-      >
-        <div className='w-2 h-2 absolute'>{m.position}</div>
-      </Marker>
+                  // anchor={'top-right'}
+                  key={`${i}-label`}
+                  latitude={m.latitude as number}
+                  longitude={m.longitude as number}
+                >
+                  <div className="absolute h-2 w-2">{m.position}</div>
+                </Marker>
               </>
             )
           })}
           {markers.length >= 2 && createLineData() && (
-            <Source data={lineData as FeatureCollection} id="linesource" type="geojson">
+            <Source
+              data={lineData as FeatureCollection}
+              id="linesource"
+              type="geojson"
+            >
               {/* @ts-ignore */}
               <Layer {...lineStyle} />
             </Source>
