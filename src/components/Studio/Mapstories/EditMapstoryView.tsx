@@ -15,7 +15,6 @@ import { FeatureCollection } from 'geojson'
 // import { LineString } from 'geojson'
 import { useRouter } from 'next/navigation'
 import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
-import { LineLayer } from 'mapbox-gl'
 
 type EditMapstoryViewProps = {
   story: Story
@@ -96,9 +95,9 @@ export default function EditMapstoryView({
     setMarkers([...newMarkers])
   }
 
-  const lineStyle: LineLayer = {
+  const lineStyle = {
     id: 'lines',
-    type: 'line',
+    type: 'line' as 'sky',
     paint: {
       'line-color': '#d4da68',
       'line-width': 5,
