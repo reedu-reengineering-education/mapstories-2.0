@@ -13,6 +13,12 @@ export var media_types: media_type[] = [
     match_str: /(www.)?youtube|youtu\.be/,
     url: '',
   },
+  {
+    type: 'tiktok',
+    name: 'TikTok',
+    match_str: /(www.)?tiktok\.com/,
+    url: '',
+  },
   // {
   //     type: 'vimeo',
   //     name: 'Vimeo',

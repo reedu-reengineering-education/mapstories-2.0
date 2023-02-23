@@ -150,7 +150,7 @@ export function EmbedContentEdit({
             {...register('media')}
           />
         </div>
-        <div className="re-data-media-preview">
+        <div className="re-data-media-preview pt-4 pb-4">
           <Embed height="200" media={media} width="300" />
         </div>
         <Button
