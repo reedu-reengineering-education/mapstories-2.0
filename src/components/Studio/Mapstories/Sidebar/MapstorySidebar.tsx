@@ -16,33 +16,40 @@ import SidebarSlide from './SidebarSlide'
 import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 import { useTranslation } from '@/src/app/i18n/client'
 
-
-export default function MapstorySidebar({ storyID, lng }: { storyID: string, lng: string }) {
+export default function MapstorySidebar({
+  storyID,
+  lng,
+}: {
+  storyID: string
+  lng: string
+}) {
   const [loading, setIsLoading] = useState(false)
   const addStoryStep = useStoryStore(state => state.addStoryStep)
   const updateStory = useStoryStore(state => state.updateStory)
   const router = useRouter()
   const { t } = useTranslation(lng, 'mapstorySidebar')
-  
+
   const markerId = useHoverMarkerStore(state => state.markerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const { story, reorderStorySteps, createStoryStep } = useStory(storyID)
-  const [hoverQuestionMark, setHoverQuestionMark] = useState(new Array(story?.steps ? story.steps.length : 0).fill(false))
+  const [hoverQuestionMark, setHoverQuestionMark] = useState(
+    new Array(story?.steps ? story.steps.length : 0).fill(false),
+  )
 
   const handleMouseEnter = (index: number) => {
     // Create a new array with the updated hover state for the current div
-    const newHoverStates = [...hoverQuestionMark];
-    newHoverStates[index] = true;
+    const newHoverStates = [...hoverQuestionMark]
+    newHoverStates[index] = true
     // Set the hover state for the current div to true
-    setHoverQuestionMark(newHoverStates);
-  };
-  
+    setHoverQuestionMark(newHoverStates)
+  }
+
   const handleMouseLeave = (index: number) => {
-    const newHoverStates = [...hoverQuestionMark];
-    newHoverStates[index] = false;
-    setHoverQuestionMark(newHoverStates);
-  }  
+    const newHoverStates = [...hoverQuestionMark]
+    newHoverStates[index] = false
+    setHoverQuestionMark(newHoverStates)
+  }
 
   async function onSubmit() {
     setIsLoading(true)
@@ -93,7 +100,7 @@ export default function MapstorySidebar({ storyID, lng }: { storyID: string, lng
       {story?.steps && story?.steps.length > 0 && (
         <DraggableList
           items={
-            story?.steps?.map((s,i) => ({
+            story?.steps?.map((s, i) => ({
               id: s.id,
               s: s,
               slug: story.slug,
