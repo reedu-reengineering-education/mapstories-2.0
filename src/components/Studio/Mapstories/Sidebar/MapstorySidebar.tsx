@@ -6,7 +6,7 @@ import { Spacer } from '@/src/components/Elements/Spacer'
 import useStory from '@/src/lib/api/story/useStory'
 import { useStoryStore } from '@/src/lib/store/story'
 import { toast } from '@/src/lib/toast'
-import { PlusIcon } from '@heroicons/react/24/outline'
+import { PlusIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -17,6 +17,7 @@ import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const [loading, setIsLoading] = useState(false)
+  const [hoverQuestionMark, setHoverQuestionMark] = useState(false);
   const addStoryStep = useStoryStore(state => state.addStoryStep)
   const updateStory = useStoryStore(state => state.updateStory)
   const router = useRouter()
@@ -25,6 +26,14 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const { story, reorderStorySteps, createStoryStep } = useStory(storyID)
+
+  function handleMouseEnter() {
+    setHoverQuestionMark(true);
+  }
+
+  function handleMouseLeave() {
+    setHoverQuestionMark(false)
+  }
 
   async function onSubmit() {
     setIsLoading(true)
@@ -99,6 +108,18 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                   <div>
                     <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
                   </div>
+                  {!s.feature && (
+                    <div className='flex cursor-pointer  p-2 absolute top-10 right-1 z-10 rounded-md group-hover:visible' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                      <QuestionMarkCircleIcon className="w-5" />
+                      {hoverQuestionMark && (
+                        <div className='relative w-full h-full'>
+                        <div className='absolute bg-white rounded z-20 p-2'>
+                          Bitte setzen Sie einen Marker für diese Slide
+                        </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ),
             }))!
