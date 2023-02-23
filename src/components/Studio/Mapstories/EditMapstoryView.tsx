@@ -15,7 +15,6 @@ import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
 import { useRouter } from 'next/navigation'
 import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
-import { LineLayer } from 'mapbox-gl'
 
 type EditMapstoryViewProps = {
   story: Story
@@ -94,9 +93,9 @@ export default function EditMapstoryView({
     setMarkers([...newMarkers])
   }
 
-  const lineStyle: LineLayer = {
+  const lineStyle = {
     id: 'lines',
-    type: 'line',
+    type: 'line' as 'sky',
     paint: {
       'line-color': '#d4da68',
       'line-width': 5,
@@ -219,28 +218,32 @@ export default function EditMapstoryView({
           )}
           {markers.map((m, i) => {
             return (
-              <Marker
-                color={m.color}
-                draggable={m.draggable}
-                // TODO: find not hacky way to do this, but markers dont update if not with the random o_O
-                key={(i + 1) * Math.random() * 100}
-                latitude={m.latitude as number}
-                longitude={m.longitude as number}
-                onClick={() =>
-                  moveToStoryStep({
-                    latitude: m.latitude as number,
-                    longitude: m.longitude as number,
-                  })
-                }
-                onDragEnd={async e => {
-                  await addMarker(e)
-                  setDragged(prev => prev++)
-                }}
-              ></Marker>
+              <>
+                <div>{m.color}</div>
+                <Marker
+                  color={m.color}
+                  draggable={m.draggable}
+                  // TODO: find not hacky way to do this, but markers dont update if not with the random o_O
+                  key={(i + 1) * Math.random() * 100}
+                  latitude={m.latitude as number}
+                  longitude={m.longitude as number}
+                  onClick={() =>
+                    moveToStoryStep({
+                      latitude: m.latitude as number,
+                      longitude: m.longitude as number,
+                    })
+                  }
+                  onDragEnd={async e => {
+                    await addMarker(e)
+                    setDragged(prev => prev++)
+                  }}
+                ></Marker>
+              </>
             )
           })}
           {markers.length >= 2 && createLineData() && (
             <Source data={lineData as Feature} id="linesource" type="geojson">
+              {/* @ts-ignore */}
               <Layer {...lineStyle} />
             </Source>
           )}
