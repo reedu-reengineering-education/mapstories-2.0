@@ -113,7 +113,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                       <QuestionMarkCircleIcon className="w-5" />
                       {hoverQuestionMark && (
                         <div className='relative w-full h-full'>
-                        <div className='absolute w-36 right-4 bottom-4 bg-white rounded z-20 p-2'>
+                        <div className='absolute w-36 right-4 bottom-1 bg-white rounded z-20 p-2'>
                           Bitte setzen Sie einen Marker für diese Slide
                         </div>
                         </div>
