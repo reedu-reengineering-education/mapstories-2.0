@@ -28,7 +28,7 @@ export default function MapstorySidebar({
   const router = useRouter()
   const { t } = useTranslation(lng, 'mapstorySidebar')
 
-  const markerId = useStoryStore(state => state.markerId)
+  const markerId = useStoryStore(state => state.hoverMarkerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const { reorderStorySteps, createStoryStep } = useStory(storyID)

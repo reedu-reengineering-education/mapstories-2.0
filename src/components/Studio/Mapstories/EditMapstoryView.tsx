@@ -162,7 +162,7 @@ export default function EditMapstoryView({
       router.push(`/studio/${story.slug}/${matchingStep.id}`)
     }
   }
-  const setMarkerId = useStoryStore(state => state.setMarkerId)
+  const setMarkerId = useStoryStore(state => state.setHoverMarkerId)
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
     const tolerance = 0.01
