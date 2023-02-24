@@ -12,27 +12,18 @@ export default function DeleteStepButton({
   storyId,
   storyStepId,
 }: {
-  storyId: any
-  storyStepId: any
+  storyId: string
+  storyStepId: string
 }) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-
-  //const { story, deleteContent } = useStory(id)
-  const [isSaving, setIsSaving] = useState<boolean>(false)
-
   const { deleteStoryStep } = useStory(storyId)
 
   async function handleClick() {
-    setIsSaving(true)
+    setLoading(true)
 
     try {
       await deleteStoryStep(storyStepId)
-      toast({
-        message: 'Der Inhalt wurde gelöscht.',
-        type: 'success',
-      })
-
       router.refresh()
     } catch (e) {
       return toast({
@@ -41,39 +32,35 @@ export default function DeleteStepButton({
         type: 'error',
       })
     } finally {
-      setIsSaving(false)
+      setLoading(false)
     }
   }
 
   return (
-    <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
-      <Modal
-        title={
-          <span>
-            Willst du die Slide
-            <span className="rounded bg-slate-100 py-1 px-2">
-              {storyStepId}
-            </span>
-            wirklich löschen?
-          </span>
-        }
-        trigger={
-          <div className="flex cursor-pointer  p-2 transition-colors hover:bg-red-200">
-            <TrashIcon className="w-5 text-red-500" />
-          </div>
-        }
-      >
-        <Modal.Footer>
-          <Button
-            disabled={loading}
-            isLoading={loading}
-            onClick={handleClick}
-            variant={'danger'}
-          >
-            Löschen
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+    <Modal
+      title={
+        <span>
+          Willst du die Slide
+          <span className="rounded bg-slate-100 py-1 px-2">{storyStepId}</span>
+          wirklich löschen?
+        </span>
+      }
+      trigger={
+        <div className="flex cursor-pointer  p-2 transition-colors hover:bg-red-200">
+          <TrashIcon className="w-5 text-red-500" />
+        </div>
+      }
+    >
+      <Modal.Footer>
+        <Button
+          disabled={loading}
+          isLoading={loading}
+          onClick={handleClick}
+          variant={'danger'}
+        >
+          Löschen
+        </Button>
+      </Modal.Footer>
+    </Modal>
   )
 }
