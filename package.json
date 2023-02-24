@@ -43,6 +43,7 @@
     "next": "13.1.6",
     "next-auth": "^4.19.2",
     "next-remove-imports": "^1.0.10",
+    "next-s3-upload": "^0.2.10",
     "next-superjson-plugin": "^0.5.4",
     "nodemailer": "^6.9.1",
     "postmark": "^3.0.15",

@@ -20,6 +20,8 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 })
 
+
+
 const renderSwitch = function renderSwitch(content: any) {
   //@ts-ignore
   const markdownPreviewStyles = {
@@ -52,6 +54,14 @@ const renderSwitch = function renderSwitch(content: any) {
       <div className="relativ z-750 flex">
         <TwitterLogoIcon className="h-14 w-14"></TwitterLogoIcon>
         {content.media.substring(0, 12)}...
+      </div>
+    )
+  }
+  if (content.image != null) {
+    // query image from the s3 service and display it in the component
+    return (
+      <div className="relativ z-750 flex">
+        {content.image.substring(0, 12)}...
       </div>
     )
   }

@@ -1,15 +1,14 @@
 // next js component which has an input where you can upload an image
 import { useState } from 'react'
 import { useTranslation } from '@/src/app/i18n/client'
-import { useRouter } from 'next/navigation'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Input } from '@/src/components/Elements/Input'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import { toast } from '@/src/lib/toast';
 import { Button } from '@/src/components/Elements/Button'
+import { usePresignedUpload } from 'next-s3-upload'
 
-
-interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
+interface ImageContentEdit extends React.HTMLAttributes<HTMLFormElement> {
     storyStepId: string
     stepItem?: any
     lng: string
@@ -17,11 +16,11 @@ interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
     className?:any
   }
 
-  
+
 export function ImageContentEdit({ storyStepId, className, slideContent, lng, ...props }
 ) {
 
-    const router = useRouter()
+    const { uploadToS3 } = usePresignedUpload();
 
     if (languages.indexOf(lng) < 0) {
         lng = fallbackLng
@@ -31,61 +30,44 @@ export function ImageContentEdit({ storyStepId, className, slideContent, lng, ..
 
     const [isSaving, setIsSaving] = useState<boolean>(false)
     const [imageUrl, setImageUrl] = useState(String);
-    const [fileName, setFileName] = useState();
-    const [fileState, setFile] = useState<File>();
+    const [file, setFile] = useState();
 
 
-
+    // upload image to s3
     const submitFile = async () => {
-        const imageUploaded = await uploadImage(fileState);
+        setIsSaving(true);
         try {
-            setIsSaving(true);
-            const url = `/api/mapstory/step/${storyStepId}/content`;
+            const { url } = await uploadToS3(file);            
+            const urlDb = `/api/mapstory/step/${storyStepId}/content`
             const method = 'POST';
             const headers = {
                 'Content-Type': 'application/json',
-            };
-            const body = JSON.stringify({ image: fileState.name });
-            const response = await fetch(url, { method, headers, body });
-            if (response.ok) {
-                toast({
-                    message: 'Das Bild wurde gespeichert.',
-                    type: 'success',
-                })
-                setIsSaving(false);
-                router.refresh();
             }
+            const body = JSON.stringify({ image: url })
+            const response = await fetch(urlDb, { method, headers, body });
+            if (!response.ok) {
+                throw new Error('Something went wrong')
+            }
+            setIsSaving(false)
+
+           // success toast 
+            toast({
+                message: 'Das Bild wurde gespeichert.',
+                type: 'success',
+            })
         } catch (error) {
             console.error(error);
             toast({
                 message: 'Das Bild konnte nicht gespeichert werden.',
                 type: 'error',
             })
+            setIsSaving(false)
+
         }
 
     }
 
-    const uploadImage = async (fileInput: File) => {
-
-        // make a http put request to upload the image to localhost:9444/mapstories20/
-        const url = `http://localhost:9444/mapstories20/${fileInput.name}`;
-        const method = 'PUT';
-        const headers = {
-            'Content-Type': fileInput.type,
-        };
-        const body = fileInput;
-        const response = await fetch(url, { method, headers, body });
-        if (response.ok) {
-            // if the image was uploaded successfully, give a success toast
-            toast({
-                message: 'Das Bild wurde hochgeladen.',
-                type: 'success',
-            })
-            return true;
-        }
-        return false;
-    }
-
+    // sets the image url to the image preview
     const handleFileChange = async (e:any) => {
         const photo = e.target.files[0];
         const photoUrl = URL.createObjectURL(photo);
