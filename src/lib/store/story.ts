@@ -19,13 +19,13 @@ export const useStoryStore = create<StoryState>()((set, get) => ({
   updateStory: (newStory: Story) => set({ story: newStory }),
   addStoryStep: (step: StoryStep) =>
     set(
-      produce((state) => {
-        state.story.steps.push(step);
-      })
+      produce(state => {
+        state.story.steps.push(step)
+      }),
     ),
   patchStoryStep: (inputStep: StoryStep) =>
     set(
-      produce((state) => {
+      produce(state => {
         const step1 = state.story.steps.find(
           (stepI: StoryStep) => stepI.id === inputStep.id,
         )
