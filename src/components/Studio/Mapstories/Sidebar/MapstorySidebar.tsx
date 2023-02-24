@@ -28,7 +28,7 @@ export default function MapstorySidebar({
   const markerId = useStoryStore(state => state.hoverMarkerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
-  const { reorderStorySteps, createStoryStep } = useStory(storyID)
+  const { reorderStorySteps } = useStory(storyID)
   const [hoverQuestionMark, setHoverQuestionMark] = useState(
     new Array(story?.steps ? story.steps.length : 0).fill(false),
   )
@@ -48,8 +48,15 @@ export default function MapstorySidebar({
   }
 
   const [steps, setSteps] = useState<StoryStep[]>()
+
+  //TODO: use less ifs
   useEffect(() => {
-    setSteps(story?.steps?.sort((a, b) => a.position - b.position))
+    if(story && story?.steps && story.steps.length > 0){
+      const steps = [...story?.steps]
+      if(steps?.length && steps.length > 0) {
+        setSteps(steps.sort((a, b) => a.position - b.position))
+      }
+    }
   }, [story])
 
   async function onReorder(update: StoryStep[]) {
