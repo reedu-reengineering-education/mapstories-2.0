@@ -11,7 +11,6 @@ import { usePathname } from 'next/navigation'
 import { Fragment, useEffect, useState } from 'react'
 import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
-import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 import { useTranslation } from '@/src/app/i18n/client'
 
 export default function MapstorySidebar({
@@ -21,11 +20,9 @@ export default function MapstorySidebar({
   storyID: string
   lng: string
 }) {
-  const [loading, setIsLoading] = useState(false)
-  const addStoryStep = useStoryStore(state => state.addStoryStep)
+
   const updateStory = useStoryStore(state => state.updateStory)
   const story = useStoryStore(state => state.story)
-  const router = useRouter()
   const { t } = useTranslation(lng, 'mapstorySidebar')
 
   const markerId = useStoryStore(state => state.hoverMarkerId)
@@ -85,35 +82,32 @@ export default function MapstorySidebar({
     <>
       <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
         <DraggableList
-          items={
-            story?.steps?.map((s, i) => ({
-              id: s.id,
-              s: s,
-              slug: story.slug,
-              component: (
-                <div className="group relative">
-                  <Link href={`/studio/${story.slug}/${s.id}`}>
-                    {/* {i !== 0 && <SidebarConnection />} */}
-                    <SidebarSlide
-                      active={stepId === s.id}
-                      markerHover={s.id === markerId}
-                    >
-                      <div className="relative flex justify-around">
-                        <div className="flex flex-col ">
-                          {/* <GlobeAltIcon className="w-10" /> */}
-                          <p>ID: {s.id.slice(-4)}</p>
-                          <p>Pos: {s.position}</p>
-                        </div>
+          items={steps.map((s,i) => ({
+            id: s.id,
+            s: s,
+            slug: story.slug,
+            component: (
+              <div className="group relative">
+                <Link href={`/studio/${story.slug}/${s.id}`}>
+                  <SidebarSlide
+                    active={stepId === s.id}
+                    markerHover={s.id === markerId}
+                  >
+                    <div className="flex justify-around">
+                      <div className="flex flex-col">
+                        <p>ID: {s.id.slice(-4)}</p>
+                        <p>Pos: {s.position}</p>
                       </div>
-                    </SidebarSlide>
-                  </Link>
-                  <div>
-                    <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
-                  </div>
-                  {!s.feature && (
+                    </div>
+                  </SidebarSlide>
+                </Link>
+                <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
+                  <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
+                </div>
+                {!s.feature && (
                     <div
                       className="absolute top-12 right-1 z-10 flex cursor-pointer rounded-md p-2 group-hover:visible"
-                      key={i}
+                      key={s.id}
                       onMouseEnter={() => handleMouseEnter(i)}
                       onMouseLeave={() => handleMouseLeave(i)}
                     >
