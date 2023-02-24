@@ -1,4 +1,6 @@
 {
   "save": "Save",
-  "create": "Create"
+  "create": "Create",
+  "dropFiles": "Drop files here to upload"
+
 }

@@ -129,14 +129,12 @@ export default function SlideContentModal({
                     {contentType == 'text' && (
                       <TextContentEdit
                         lng={lng}
-                        setContentType={setContentType}
                         storyStepId={storyStepId}
                       ></TextContentEdit>
                     )}
                     {contentType == 'videoimage' && (
                       <ImageContentEdit
                         lng={lng}
-                        setContentType={setContentType}
                         storyStepId={storyStepId}
                       ></ImageContentEdit>
                     )}

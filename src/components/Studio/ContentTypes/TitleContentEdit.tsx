@@ -20,7 +20,6 @@ interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
   lng: string
-  setContentType?: any
 }
 
 type FormData = z.infer<typeof slideTitleContentSchema>
@@ -30,7 +29,6 @@ export function TitleContentEdit({
   className,
   stepItem,
   lng,
-  setContentType,
   ...props
 }: TitleContentEditProps) {
   const router = useRouter()
