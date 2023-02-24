@@ -13,7 +13,10 @@ const useStory = (storyId: string) => {
     Story & {
       steps?: StoryStep[]
     }
-  >(`/api/mapstory/${storyId}`, {refreshInterval: 5000, revalidateOnMount: true})
+  >(`/api/mapstory/${storyId}`, {
+    refreshInterval: 5000,
+    revalidateOnMount: true,
+  })
 
   const mutation = async (request: Promise<AxiosResponse<Story, APIError>>) => {
     const { data: story } = await request
