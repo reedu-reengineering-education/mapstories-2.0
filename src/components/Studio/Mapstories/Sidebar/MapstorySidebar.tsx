@@ -21,14 +21,19 @@ export default function MapstorySidebar({
   storyID: string
   lng: string
 }) {
-  const updateStory = useStoryStore(state => state.updateStory)
-  const story = useStoryStore(state => state.story)
   const { t } = useTranslation(lng, 'mapstorySidebar')
+
+  const setStoryID = useStoryStore(state => state.setStoryID)
+
+  useEffect(() => {
+    setStoryID(storyID)
+  }, [storyID])
 
   const markerId = useStoryStore(state => state.hoverMarkerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
-  const { reorderStorySteps, createStoryStep } = useStory(storyID)
+  const { story, reorderStorySteps } = useStory(storyID)
+
   const [hoverQuestionMark, setHoverQuestionMark] = useState(
     new Array(story?.steps ? story.steps.length : 0).fill(false),
   )
@@ -54,9 +59,7 @@ export default function MapstorySidebar({
 
   async function onReorder(update: StoryStep[]) {
     try {
-      const res = await reorderStorySteps(update)
-      // update Zustand
-      updateStory(res)
+      await reorderStorySteps(update)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',

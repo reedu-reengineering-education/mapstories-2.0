@@ -8,12 +8,13 @@ import Map from '@/src/components/Map'
 import { useStoryStore } from '@/src/lib/store/story'
 import { useEffect, useState } from 'react'
 import { Marker, MarkerDragEvent } from 'react-map-gl'
-import { updateStoryStep } from '@/src/lib/api/step/updateStep'
 import { usePathname } from 'next/navigation'
 import { Layer, Source } from 'react-map-gl'
 import { FeatureCollection } from 'geojson'
 // import { LineString } from 'geojson'
 import { useRouter } from 'next/navigation'
+import useStep from '@/src/lib/api/step/useStep'
+import useStory from '@/src/lib/api/story/useStory'
 
 type EditMapstoryViewProps = {
   story: Story
@@ -33,38 +34,30 @@ export default function EditMapstoryView({
   story,
   steps,
 }: EditMapstoryViewProps) {
-  const currentStory = useStoryStore(state => state.story)
-  const updateStory = useStoryStore(state => state.updateStory)
-  const patchStoryStep = useStoryStore(state => state.patchStoryStep)
-  const [currentStep, setCurrentStep] = useState<StoryStep | undefined>()
-  const [markerCoords, setMarkerCoords] = useState<number[] | undefined>()
-  const [dragged, setDragged] = useState<number>(0)
+  const [currentStep, setCurrentStep] = useState<StoryStep>()
+  const [markerCoords, setMarkerCoords] = useState<number[]>()
+  const [dragged, setDragged] = useState(0)
   const [markers, setMarkers] = useState<MarkerProps[]>([])
   const router = useRouter()
 
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
-  // const index = steps?.findIndex(step => step.id === stepId)
-  // if (index) {
-  //   setCurrentStep(steps?.slice()[index]);
-  // }
+
+  const { story: currentStory, updateStory } = useStory(story.id)
+  const { updateStep } = useStep(story.id, stepId!)
 
   const addMarker = async (
     e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent,
   ) => {
     setMarkerCoords([e.lngLat.lng, e.lngLat.lat])
-    const storyId = await story.id
-    if (stepId && storyId) {
-      const response = await updateStoryStep(storyId, stepId, {
-        feature: {
-          point: {
-            latitude: e.lngLat.lat as number,
-            longitude: e.lngLat.lng as number,
-          },
+    await updateStep({
+      feature: {
+        point: {
+          latitude: e.lngLat.lat as number,
+          longitude: e.lngLat.lng as number,
         },
-      })
-      patchStoryStep(response.data)
-    }
+      },
+    })
   }
 
   function getMarkers() {

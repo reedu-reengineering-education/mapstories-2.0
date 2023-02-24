@@ -10,6 +10,7 @@ import { Modal } from '../../Modal'
 import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import dynamic from 'next/dynamic'
 import { EditContentType } from '../ContentTypes/EditContentType'
+import useStory from '@/src/lib/api/story/useStory'
 
 type Props = {
   stepId: string
@@ -59,7 +60,8 @@ const renderSwitch = function renderSwitch(content: any) {
 }
 
 export function SlideContentListEdit({ stepId, lng }: Props) {
-  const story = useStoryStore(state => state.story)
+  const storyID = useStoryStore(state => state.storyID)
+  const { story } = useStory(storyID)
   const step: (StoryStep & { content?: SlideContent[] }) | undefined =
     story?.steps?.filter(step => step.id === stepId)[0]
   const [disabled, setDisabled] = React.useState(false)

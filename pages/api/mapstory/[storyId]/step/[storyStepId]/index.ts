@@ -6,6 +6,19 @@ import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { z } from 'zod'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    try {
+      const storyStep = await db.storyStep.findFirst({
+        where: {
+          id: req.query.storyStepId as string,
+        },
+      })
+      res.status(200).json(storyStep)
+      return res.end()
+    } catch (error) {
+      return res.status(500).end()
+    }
+  }
   if (req.method === 'PUT') {
     try {
       const storyStep = await db.storyStep.update({
@@ -84,6 +97,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default withMethods(
-  ['PUT', 'DELETE'],
+  ['GET', 'PUT', 'DELETE'],
   withAuthentication(withMapstory(handler)),
 )
