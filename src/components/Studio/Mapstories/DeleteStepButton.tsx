@@ -17,18 +17,27 @@ export default function DeleteStepButton({
 }) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const { deleteStoryStep } = useStory(storyId)
+  const { story, deleteStoryStep } = useStory(storyId)
 
   async function handleClick() {
     setLoading(true)
 
+    if (!story || !story.steps) {
+      return
+    }
+
     try {
+      const stepDeleteIndex = story.steps.findIndex(s => s.id === storyStepId)
+      const nextStep = story.steps[stepDeleteIndex + 1]
+      const prevStep = story.steps[stepDeleteIndex - 1]
       await deleteStoryStep(storyStepId)
-      router.refresh()
+
+      const redirectStepId = nextStep?.id ?? prevStep?.id ?? ''
+      router.replace(`/studio/${story.slug}/${redirectStepId}`)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again',
+        message: 'Your step was not deleted. Please try again',
         type: 'error',
       })
     } finally {
