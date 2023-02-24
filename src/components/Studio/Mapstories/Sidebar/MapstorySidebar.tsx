@@ -11,7 +11,6 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
-import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 import { useTranslation } from '@/src/app/i18n/client'
 import AddStoryStepButton from './AddStoryStepButton'
 
@@ -22,16 +21,10 @@ export default function MapstorySidebar({
   storyID: string
   lng: string
 }) {
-  const [loading, setIsLoading] = useState(false)
-  const addStoryStep = useStoryStore(state => state.addStoryStep)
+
   const updateStory = useStoryStore(state => state.updateStory)
   const story = useStoryStore(state => state.story)
-  const router = useRouter()
   const { t } = useTranslation(lng, 'mapstorySidebar')
-
-
-export default function MapstorySidebar({ storyID }: { storyID: string }) {
-  const updateStory = useStoryStore(state => state.updateStory)
 
   const markerId = useStoryStore(state => state.hoverMarkerId)
   const path = usePathname()
@@ -90,7 +83,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
     <>
       <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
         <DraggableList
-          items={steps.map(s => ({
+          items={steps.map((s,i) => ({
             id: s.id,
             s: s,
             slug: story.slug,
@@ -115,7 +108,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                 {!s.feature && (
                     <div
                       className="absolute top-12 right-1 z-10 flex cursor-pointer rounded-md p-2 group-hover:visible"
-                      key={i}
+                      key={s.id}
                       onMouseEnter={() => handleMouseEnter(i)}
                       onMouseLeave={() => handleMouseLeave(i)}
                     >
