@@ -10,6 +10,7 @@ import { Modal } from '../../Modal'
 import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import dynamic from 'next/dynamic'
 import { EditContentType } from '../ContentTypes/EditContentType'
+import Image from 'next/image'
 
 type Props = {
   stepId: string
@@ -21,8 +22,7 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 })
 
 
-
-const renderSwitch = function renderSwitch(content: any) {
+const  renderSwitch =  function renderSwitch(content: any) {
   //@ts-ignore
   const markdownPreviewStyles = {
     background: 'white',
@@ -60,8 +60,8 @@ const renderSwitch = function renderSwitch(content: any) {
   if (content.image != null) {
     // query image from the s3 service and display it in the component
     return (
-      <div className="relativ z-750 flex">
-        {content.image.substring(0, 12)}...
+      <div className="relativ z-750 flex justify-center max-w-2">
+        <Image alt={ content.image } className='m-2' height={200}  src={content.image} width={200} />
       </div>
     )
   }
@@ -74,6 +74,10 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
     story?.steps?.filter(step => step.id === stepId)[0]
   const [disabled, setDisabled] = React.useState(false)
 
+
+
+
+
   return (
     <div className="py-4">
       {step && step.content && step.content.length > 0 && (
@@ -81,6 +85,7 @@ export function SlideContentListEdit({ stepId, lng }: Props) {
           disabled={disabled}
           items={
             step?.content?.map(stepItem => ({
+              key: stepItem.id,
               id: stepItem.id,
               s: stepItem,
               component: (

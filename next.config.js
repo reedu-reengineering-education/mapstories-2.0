@@ -9,9 +9,18 @@ const nextConfig = {
   },
   output: 'standalone',
   staticPageGenerationTimeout: 100,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '9000',
+        pathname: '/mapstories20/**',
+      }
+    ],
+  }
 }
 
 const removeImports = require('next-remove-imports')()
-
 module.exports = removeImports({})
 module.exports = nextConfig
