@@ -14,6 +14,7 @@ import type navbar from '../src/app/i18n/locales/en/navbar.json'
 import type editModal from '../src/app/i18n/locales/en/editModal.json'
 import type studio from '../src/app/i18n/locales/en/studio.json'
 import type settingsModal from '../src/app/i18n/locales/en/settingsModal.json'
+import type mapstorySidebar from '../src/app/i18n/locales/en/mapstorySidebar.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -23,6 +24,7 @@ interface I18nNamespaces {
   editModal: typeof editModal
   settingsModal: typeof settingsModal
   studio: typeof studio
+  mapstorySidebar: typeof mapstorySidebar
 }
 
 declare module 'i18next' {
