@@ -10,13 +10,12 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
-import { useHoverMarkerStore } from '@/src/lib/store/hoverMarker'
 import AddStoryStepButton from './AddStoryStepButton'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const updateStory = useStoryStore(state => state.updateStory)
 
-  const markerId = useHoverMarkerStore(state => state.markerId)
+  const markerId = useStoryStore(state => state.hoverMarkerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const { story, reorderStorySteps } = useStory(storyID)
