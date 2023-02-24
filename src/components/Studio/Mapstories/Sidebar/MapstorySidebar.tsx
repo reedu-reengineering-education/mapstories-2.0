@@ -111,10 +111,10 @@ export default function MapstorySidebar({
                     onMouseEnter={() => handleMouseEnter(i)}
                     onMouseLeave={() => handleMouseLeave(i)}
                   >
-                                          <span className="relative">
-                        <MapPinIcon className="h-5 w-5" />
-                        <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-black"></span>
-                      </span>
+                    <span className="relative">
+                      <MapPinIcon className="h-5 w-5" />
+                      <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-black"></span>
+                    </span>
                     {hoverMarkerIcon[i] && (
                       <div className="relative h-full w-full">
                         <div className="absolute right-4 bottom-1 z-20 w-36 rounded bg-white p-2">
