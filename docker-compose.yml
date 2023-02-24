@@ -23,11 +23,6 @@ services:
       - "9090:9090"
     volumes:
       - storage-minio:/data
-    environment:
-      MINIO_ACCESS_KEY: ZThIdNJywmd7di0r
-      MINIO_SECRET_KEY: tzYQr2gOrJTTB0TDAtA2tXh3cc0AcBxZ
-      MINIO_ROOT_USER: ROOTUSER
-      MINIO_ROOT_PASSWORD: CHANGEME123
     command: server --address ":9000" --console-address ":9090" /data
   createbuckets:
     image: minio/mc
@@ -35,7 +30,7 @@ services:
       - minio
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc alias set myminio http://minio:9000 ZThIdNJywmd7di0r tzYQr2gOrJTTB0TDAtA2tXh3cc0AcBxZ;
+      /usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin;
       /usr/bin/mc mb myminio/mapstories20;
       /usr/bin/mc policy set public myminio/mapstories20;
       exit 0;
@@ -43,4 +38,3 @@ services:
 
 volumes:
   storage-minio:
-    external: true
