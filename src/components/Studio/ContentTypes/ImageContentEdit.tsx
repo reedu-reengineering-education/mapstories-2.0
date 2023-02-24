@@ -132,10 +132,13 @@ export function ImageContentEdit({ storyStepId, lng, stepItem, ...props } : Imag
                     {t('dropFiles')}
              </div>}
         {imageUrl && 
-            <div className="flex m-2">
+            <div className="flex m-2 justify-center">
                 <Image alt={imageUrl} height={height} src={imageUrl} width={width}  />
             </div>}
-        {stepItem && <Image alt={stepItem.image} height={stepItem.imageHeight} src={stepItem.image} width={stepItem.imageWidth}  />}
+        {stepItem &&
+            <div className="flex m-2 justify-center">
+                 <Image alt={stepItem.image} height={stepItem.imageHeight} src={stepItem.image} width={stepItem.imageWidth} />
+            </div>}
         <div className="flex flex-col">
             {(showInputs || stepItem) && (
                 <div>
