@@ -51,11 +51,9 @@ export default function MapstorySidebar({
 
   //TODO: use less ifs
   useEffect(() => {
-    if(story && story?.steps && story.steps.length > 0){
-      const steps = [...story?.steps]
-      if(steps?.length && steps.length > 0) {
-        setSteps(steps.sort((a, b) => a.position - b.position))
-      }
+    const steps = story?.steps || []
+    if (steps.length > 0) {
+      setSteps([...steps].sort((a, b) => a.position - b.position))
     }
   }, [story])
 
