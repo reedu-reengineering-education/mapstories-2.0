@@ -1,65 +1,35 @@
 'use client'
 
 import DraggableList from '@/src/components/DraggableList'
-import { Button } from '@/src/components/Elements/Button'
-import { Spacer } from '@/src/components/Elements/Spacer'
 import useStory from '@/src/lib/api/story/useStory'
 import { useStoryStore } from '@/src/lib/store/story'
 import { toast } from '@/src/lib/toast'
-import { PlusIcon } from '@heroicons/react/24/outline'
 import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
+import AddStoryStepButton from './AddStoryStepButton'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
-  const [loading, setIsLoading] = useState(false)
-  const addStoryStep = useStoryStore(state => state.addStoryStep)
   const updateStory = useStoryStore(state => state.updateStory)
-  const router = useRouter()
 
   const markerId = useStoryStore(state => state.hoverMarkerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
-  const { story, reorderStorySteps, createStoryStep } = useStory(storyID)
+  const { story, reorderStorySteps } = useStory(storyID)
 
-  async function onSubmit() {
-    setIsLoading(true)
-
-    try {
-      const newStoryStep = await createStoryStep()
-
-      toast({
-        message: 'Your step has been created.',
-        type: 'success',
-      })
-
-      addStoryStep(newStoryStep)
-      router.replace(`/studio/${story?.slug}/${newStoryStep.id}`)
-    } catch (e) {
-      return toast({
-        title: 'Something went wrong.',
-        message: 'Your step was not created. Please try again',
-        type: 'error',
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const [steps, setSteps] = useState<StoryStep[]>()
+  useEffect(() => {
+    setSteps(story?.steps?.sort((a, b) => a.position - b.position))
+  }, [story])
 
   async function onReorder(update: StoryStep[]) {
     try {
       const res = await reorderStorySteps(update)
-
       // update Zustand
       updateStory(res)
-
-      toast({
-        message: 'Your steps have been reordered.',
-        type: 'success',
-      })
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
@@ -69,46 +39,54 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
     }
   }
 
+  if (!story || !steps) {
+    return (
+      <aside className="flex h-full w-full gap-6 overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
+        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+      </aside>
+    )
+  }
+
   return (
-    <aside className="flex h-24 w-full overflow-y-auto overflow-x-hidden p-4 md:h-full md:flex-col">
-      {story?.steps && story?.steps.length > 0 && (
+    <>
+      <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
         <DraggableList
-          items={
-            story?.steps?.map(s => ({
-              id: s.id,
-              s: s,
-              slug: story.slug,
-              component: (
-                <div className="group relative">
-                  <Link href={`/studio/${story.slug}/${s.id}`}>
-                    {/* {i !== 0 && <SidebarConnection />} */}
-                    <SidebarSlide
-                      active={stepId === s.id}
-                      markerHover={s.id === markerId}
-                    >
-                      <div className="relative flex justify-around">
-                        <div className="flex flex-col ">
-                          {/* <GlobeAltIcon className="w-10" /> */}
-                          <p>ID: {s.id.slice(-4)}</p>
-                          <p>Pos: {s.position}</p>
-                        </div>
+          items={steps.map(s => ({
+            id: s.id,
+            s: s,
+            slug: story.slug,
+            component: (
+              <div className="group relative">
+                <Link href={`/studio/${story.slug}/${s.id}`}>
+                  <SidebarSlide
+                    active={stepId === s.id}
+                    markerHover={s.id === markerId}
+                  >
+                    <div className="flex justify-around">
+                      <div className="flex flex-col">
+                        <p>ID: {s.id.slice(-4)}</p>
+                        <p>Pos: {s.position}</p>
                       </div>
-                    </SidebarSlide>
-                  </Link>
-                  <div>
-                    <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
-                  </div>
+                    </div>
+                  </SidebarSlide>
+                </Link>
+                <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
+                  <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
                 </div>
-              ),
-            }))!
-          }
+              </div>
+            ),
+          }))}
           onChange={e => onReorder(e.map(({ s }) => s))}
         ></DraggableList>
-      )}
-      <Spacer size={'sm'} />
-      <Button disabled={loading} isLoading={loading} onClick={onSubmit}>
-        <PlusIcon className="w-5" />
-      </Button>
-    </aside>
+
+        <div className="sticky bottom-0 z-20 w-full bg-white py-2">
+          <AddStoryStepButton storyID={storyID} />
+        </div>
+      </aside>
+    </>
   )
 }
