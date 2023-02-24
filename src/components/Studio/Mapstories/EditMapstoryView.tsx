@@ -2,7 +2,6 @@
 
 import DrawControl from '@/src/components/Map/DrawControl'
 import { Story, StoryStep } from '@prisma/client'
-import { StudioHeader } from '../Header'
 import { StudioShell } from '../Shell'
 import Map from '@/src/components/Map'
 import { useStoryStore } from '@/src/lib/store/story'
@@ -15,6 +14,7 @@ import { FeatureCollection } from 'geojson'
 import { useRouter } from 'next/navigation'
 import useStep from '@/src/lib/api/step/useStep'
 import useStory from '@/src/lib/api/story/useStory'
+import { Spinner } from '../../Elements/Spinner'
 
 type EditMapstoryViewProps = {
   story: Story
@@ -193,20 +193,31 @@ export default function EditMapstoryView({
     getMarkers()
   }, [currentStep])
 
+  if (!currentStory) {
+    return (
+      <StudioShell>
+        <div className="re-studio-height-full-screen absolute top-0 z-10 flex w-full animate-pulse items-center justify-center overflow-hidden rounded-lg bg-zinc-100 shadow">
+          <Spinner />
+        </div>
+      </StudioShell>
+    )
+  }
+
   return (
     <StudioShell>
-      <StudioHeader heading={story.name || ''} text={story.id} />
       <div className="re-studio-height-full-screen absolute top-0 z-10 w-full overflow-hidden rounded-lg shadow">
-        {markerCoords === undefined && !currentStep?.feature && (
-          <p className="top-15 absolute z-20 w-full text-center text-sm text-black">
-            Klicke auf die Karte um deinen Marker hinzuzufügen
-          </p>
-        )}
-        {currentStep?.feature && (
-          <p className="top-15 absolute z-20 w-full text-center text-sm text-black">
-            Verschiebe den roten Marker um dessen Position zu ändern
-          </p>
-        )}
+        <div className="absolute top-0 z-20  w-full ">
+          <div className=" mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
+            {markerCoords === undefined && !currentStep?.feature && (
+              <span>Klicke auf die Karte um deinen Marker hinzuzufügen</span>
+            )}
+            {currentStep?.feature && (
+              <span>
+                Verschiebe den roten Marker um dessen Position zu ändern
+              </span>
+            )}
+          </div>
+        </div>
 
         <Map
           onClick={e => {
