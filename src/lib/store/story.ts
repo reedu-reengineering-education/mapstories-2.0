@@ -15,15 +15,23 @@ export const useStoryStore = create<StoryState>()((set, get) => ({
   story: undefined,
   updateStory: (newStory: Story) => set({ story: newStory }),
   addStoryStep: (step: StoryStep) =>
-    set({
-      story: {
-        ...get().story!,
-        steps: [...(get().story?.steps || []), step],
-      },
-    }),
+    set(
+      produce((state) => {
+        console.log(state.story);
+        state.story.steps.push(step);
+      })
+    ),
+  // addStoryStep: (step: StoryStep) =>
+  //   set({
+  //     story: {
+  //       ...get().story!,
+  //       steps: [...(get().story?.steps || []), step],
+  //     },
+  //   }),
+
   patchStoryStep: (inputStep: StoryStep) =>
     set(
-      produce(state => {
+      produce((state) => {
         const step1 = state.story.steps.find(
           (stepI: StoryStep) => stepI.id === inputStep.id,
         )
