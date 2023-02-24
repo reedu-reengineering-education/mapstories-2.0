@@ -2,6 +2,7 @@
 import { TextContentEdit } from './TextContentEdit'
 import { TitleContentEdit } from './TitleContentEdit'
 import { EmbedContentEdit } from './EmbedContentEdit'
+import { ImageContentEdit } from './ImageContentEdit'
 
 export function EditContentType(props) {
   // this function in a switch statement
@@ -21,6 +22,7 @@ export function EditContentType(props) {
           storyStepId={props.stepItem.id}
         ></EmbedContentEdit>
       )}
+      {props.stepItem.image && <ImageContentEdit stepItem={props.stepItem} />}
     </div>
   )
 }

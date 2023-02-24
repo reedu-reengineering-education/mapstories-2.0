@@ -7,10 +7,12 @@ import { Button } from '@/src/components/Elements/Button'
 import { usePresignedUpload } from 'next-s3-upload'
 import {useDropzone} from 'react-dropzone';
 import Image from 'next/image'
+import { Input, InputLabel } from '@/src/components/Elements/Input'
 
 interface ImageContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
     storyStepId: string
-    lng: string
+    lng: string,
+    stepItem?: any
   }
 
 
@@ -43,9 +45,19 @@ interface ImageContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   };
 
 
-export function ImageContentEdit({ storyStepId, lng, ...props } : ImageContentEditProps
-) {
-
+export function ImageContentEdit({ storyStepId, lng, stepItem, ...props } : ImageContentEditProps
+) {   
+    if (languages.indexOf(lng) < 0) {
+        lng = fallbackLng
+    }
+    const { uploadToS3 } = usePresignedUpload();
+    const { t } = useTranslation(lng, 'editModal')
+    const [isSaving, setIsSaving] = useState<boolean>(false)
+    const [imageUrl, setImageUrl] = useState(String);
+    const [width, setWidth] = useState<number>(200);
+    const [height, setHeight] = useState<number>(200);
+    const [file, setFile] = useState<File>();
+    const [showInputs, setShowInputs] = useState<boolean>(false);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         // Do something with the files
@@ -53,8 +65,7 @@ export function ImageContentEdit({ storyStepId, lng, ...props } : ImageContentEd
         const photoUrl = URL.createObjectURL(photo);
         setFile(photo);
         setImageUrl(photoUrl);
-
-
+        setShowInputs(true);
       }, [])
       const {
         getRootProps,
@@ -75,31 +86,20 @@ export function ImageContentEdit({ storyStepId, lng, ...props } : ImageContentEd
         isDragReject
       ]);
 
-    const { uploadToS3 } = usePresignedUpload();
-    
-    if (languages.indexOf(lng) < 0) {
-        lng = fallbackLng
-    }
-
-    const { t } = useTranslation(lng, 'editModal')
-
-    const [isSaving, setIsSaving] = useState<boolean>(false)
-    const [imageUrl, setImageUrl] = useState(String);
-    const [file, setFile] = useState<File>();
-
-
     // upload image to s3
     const submitFile = async () => {
         setIsSaving(true);
         try {
             //@ts-ignore
-            const { url } = await uploadToS3(file);            
+            const { url } = stepItem?  '' :  await uploadToS3(file);            
             const urlDb = `/api/mapstory/step/${storyStepId}/content`
-            const method = 'POST';
+            const method = stepItem? 'PUT' : 'POST';
             const headers = {
                 'Content-Type': 'application/json',
             }
-            const body = JSON.stringify({ image: url })
+            const body =stepItem?
+                JSON.stringify({...stepItem, imageHeight: height, imageWidth: width}):
+                JSON.stringify({ image: url, imageHeight: height, imageWidth: width })
             const response = await fetch(urlDb, { method, headers, body });
             if (!response.ok) {
                 throw new Error('Something went wrong')
@@ -125,16 +125,28 @@ export function ImageContentEdit({ storyStepId, lng, ...props } : ImageContentEd
 
     return (
         <div>
-        {/* @ts-ignore */}
-        <div {...getRootProps({style})}>
-        <input {...getInputProps()} />
-            {t('dropFiles')}
-      </div>
-              {imageUrl && <Image alt={imageUrl} height={200} src={imageUrl} width={200}  />}
-
-                  <Button className="mt-10" disabled={isSaving} isLoading={isSaving} onClick={(e) => submitFile()}>
+            {!stepItem &&
+            /* @ts-ignore */
+             <div {...getRootProps({style})}>
+                <input {...getInputProps()} />
+                    {t('dropFiles')}
+             </div>}
+        {imageUrl && 
+            <div className="flex m-2">
+                <Image alt={imageUrl} height={height} src={imageUrl} width={width}  />
+            </div>}
+        {stepItem && <Image alt={stepItem.image} height={stepItem.imageHeight} src={stepItem.image} width={stepItem.imageWidth}  />}
+        <div className="flex flex-col">
+            {(showInputs || stepItem) && (
+                <div>
+                    <div ><InputLabel>Height</InputLabel> <Input defaultValue={stepItem? stepItem.imageHeight: 200} handleChange={(e)=> {setHeight(parseInt(e))} } label="height" type="number"  /> </div>
+                    <div> <InputLabel>Width</InputLabel><Input defaultValue={stepItem? stepItem.imageWidth: 200} handleChange={(e)=>setWidth(parseInt(e))} label="width" type="number" /> </div>
+                </div>
+            )}
+        </div>
+            <Button className="mt-10" disabled={isSaving} isLoading={isSaving} onClick={(e) => submitFile()}>
                   {t('save')}
-              </Button>
-              </div>
+            </Button>
+        </div>
     )
 }

@@ -61,7 +61,7 @@ const  renderSwitch =  function renderSwitch(content: any) {
     // query image from the s3 service and display it in the component
     return (
       <div className="relativ z-750 flex justify-center max-w-2">
-        <Image alt={ content.image } className='m-2' height={200}  src={content.image} width={200} />
+        <Image alt={ content.image } className='m-2' height={content.imageHeight}  src={content.image} width={content.imageWidth} />
       </div>
     )
   }
