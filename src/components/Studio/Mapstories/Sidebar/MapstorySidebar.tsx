@@ -26,13 +26,14 @@ export default function MapstorySidebar({
   const [loading, setIsLoading] = useState(false)
   const addStoryStep = useStoryStore(state => state.addStoryStep)
   const updateStory = useStoryStore(state => state.updateStory)
+  const story = useStoryStore(state => state.story)
   const router = useRouter()
   const { t } = useTranslation(lng, 'mapstorySidebar')
 
   const markerId = useHoverMarkerStore(state => state.markerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
-  const { story, reorderStorySteps, createStoryStep } = useStory(storyID)
+  const { reorderStorySteps, createStoryStep } = useStory(storyID)
   const [hoverQuestionMark, setHoverQuestionMark] = useState(
     new Array(story?.steps ? story.steps.length : 0).fill(false),
   )
