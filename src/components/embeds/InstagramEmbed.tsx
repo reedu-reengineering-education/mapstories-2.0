@@ -33,7 +33,7 @@ export interface InstagramEmbedProps extends DivProps {
   debug?: boolean
 }
 
-    export function InstagramEmbed({
+export function InstagramEmbed({
   url,
   width,
   height,

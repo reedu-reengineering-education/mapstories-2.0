@@ -68,10 +68,10 @@ export var media_types: media_type[] = [
   //     url: ''
   // },
   {
-      type: 'instagram',
-      name: 'Instagram',
-      match_str: /(instagr.am|instagram.com)\/p\//,
-      url: ''
+    type: 'instagram',
+    name: 'Instagram',
+    match_str: /(instagr.am|instagram.com)\/p\//,
+    url: '',
   },
   // {
   //     type: 'profile',

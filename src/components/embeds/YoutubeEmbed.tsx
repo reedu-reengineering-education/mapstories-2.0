@@ -15,7 +15,7 @@ export interface YouTubeEmbedProps extends DivPropsWithoutRef {
   youTubeProps?: YouTubeProps
 }
 
-    export function YouTubeEmbed({
+export function YouTubeEmbed({
   url,
   width,
   height,
