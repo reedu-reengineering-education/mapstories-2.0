@@ -12,7 +12,6 @@ import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { SlideContent } from '@prisma/client'
 import { media_type, media_types } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
@@ -87,7 +86,6 @@ export function EmbedContentEdit({
       type: 'success',
     })
 
-    const newContent = (await response.json()) as SlideContent
     router.refresh()
     // router.push(`/studio/${newStory.id}`)
   }

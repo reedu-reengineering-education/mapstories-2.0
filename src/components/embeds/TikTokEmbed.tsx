@@ -34,7 +34,6 @@ export function TikTokEmbed ({
   retryDelay = 5000,
   retryDisabled = false,
   frame = undefined,
-  debug = false,
   ...divProps
 }: TikTokEmbedProps) {
   const [stage, setStage] = React.useState(PROCESS_EMBED_STAGE);
@@ -42,11 +41,6 @@ export function TikTokEmbed ({
   const [processTime, setProcessTime] = React.useState(Date.now());
   const embedContainerKey = React.useMemo(() => `${uuidRef.current}-${processTime}`, [processTime]);
   const frm = useFrame(frame);
-
-  // Debug Output
-  React.useEffect(() => {
-    debug && console.log(`[${new Date().toISOString()}]: ${stage}`);
-  }, [debug, stage]);
 
   // === === === === === === === === === === === === === === === === === === ===
   // Embed Stages

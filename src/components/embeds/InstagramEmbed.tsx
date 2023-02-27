@@ -37,13 +37,11 @@ export function InstagramEmbed ({
   url,
   width,
   height,
-  linkText = 'View post on Instagram',
   scriptLoadDisabled = false,
   retryDelay = 5000,
   retryDisabled = false,
   igVersion = '14',
   frame = undefined,
-  debug = false,
   ...divProps
 }: InstagramEmbedProps) {
   const [stage, setStage] = React.useState(CHECK_SCRIPT_STAGE);
@@ -51,11 +49,6 @@ export function InstagramEmbed ({
   const [processTime, setProcessTime] = React.useState(Date.now());
   const embedContainerKey = React.useMemo(() => `${uuidRef.current}-${processTime}`, [processTime]);
   const frm = useFrame(frame);
-
-  // Debug Output
-  React.useEffect(() => {
-    debug && console.log(`[${new Date().toISOString()}]: ${stage}`);
-  }, [debug, stage]);
 
   // === === === === === === === === === === === === === === === === === === ===
   // Embed Stages
@@ -69,7 +62,8 @@ export function InstagramEmbed ({
       } else if (!scriptLoadDisabled) {
         setStage(LOAD_SCRIPT_STAGE);
       } else {
-        console.error('Instagram embed script not found. Unable to process Instagram embed:', url);
+        // TODO error handling
+        // console.error('Instagram embed script not found. Unable to process Instagram embed:', url);
       }
     }
   }, [scriptLoadDisabled, stage, url, frm.window]);
@@ -107,7 +101,8 @@ export function InstagramEmbed ({
         process();
         setStage(CONFIRM_EMBED_SUCCESS_STAGE);
       } else {
-        console.error('Instagram embed script not found. Unable to process Instagram embed:', url);
+        // TODO error handling
+        // console.error('Instagram embed script not found. Unable to process Instagram embed:', url);
       }
     }
   }, [stage, frm.window, url]);

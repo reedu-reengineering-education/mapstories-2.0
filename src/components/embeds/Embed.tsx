@@ -13,20 +13,20 @@ export interface EmbedProps extends DivPropsWithoutRef {
   linkText?: string
 }
 
-export function Embed({ media, width, height, ...divProps }: EmbedProps) {
+export function Embed({ media, width='300', height='50', ...divProps }: EmbedProps) {
   return (
     <>
       {media.type == 'youtube' && (
-        <YouTubeEmbed height="200" url={media.url} width="300" />
+        <YouTubeEmbed height={height} url={media.url} width={width} />
       )}
       {media.type == 'twitter' && (
-        <TwitterEmbed height="50" url={media.url} width="200" />
+        <TwitterEmbed height={height} url={media.url} width={width} />
       )}
       {media.type == 'instagram' && (
-        <InstagramEmbed height="50" url={media.url} width="200" />
+        <InstagramEmbed height={height} url={media.url} width={width} />
       )}
       {media.type == 'tiktok' && (
-        <TikTokEmbed height="50" url={media.url} width="200" />
+        <TikTokEmbed height={height} url={media.url} width={width} />
       )}
       {media.type == 'unknown' && <p>Media not recognized...</p>}
     </>
