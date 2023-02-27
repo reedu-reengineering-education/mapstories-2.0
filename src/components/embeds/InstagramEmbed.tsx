@@ -1,39 +1,39 @@
-import classNames from 'classnames';
-import * as React from 'react';
-import { DivProps } from 'react-html-props';
-import { Subs } from 'react-sub-unsub';
-import { Frame, useFrame } from './useFrame';
-import { EmbedStyle } from './EmbedStyle';
-import { generateUUID } from './uuid';
+import classNames from 'classnames'
+import * as React from 'react'
+import { DivProps } from 'react-html-props'
+import { Subs } from 'react-sub-unsub'
+import { Frame, useFrame } from './useFrame'
+import { EmbedStyle } from './EmbedStyle'
+import { generateUUID } from './uuid'
 
-const embedJsScriptSrc = '//www.instagram.com/embed.js';
-const borderRadius = 3;
+const embedJsScriptSrc = '//www.instagram.com/embed.js'
+const borderRadius = 3
 
 // Embed Stages
-const CHECK_SCRIPT_STAGE = 'check-script';
-const LOAD_SCRIPT_STAGE = 'load-script';
-const CONFIRM_SCRIPT_LOADED_STAGE = 'confirm-script-loaded';
-const PROCESS_EMBED_STAGE = 'process-embed';
-const CONFIRM_EMBED_SUCCESS_STAGE = 'confirm-embed-success';
-const RETRYING_STAGE = 'retrying';
-const EMBED_SUCCESS_STAGE = 'embed-success';
+const CHECK_SCRIPT_STAGE = 'check-script'
+const LOAD_SCRIPT_STAGE = 'load-script'
+const CONFIRM_SCRIPT_LOADED_STAGE = 'confirm-script-loaded'
+const PROCESS_EMBED_STAGE = 'process-embed'
+const CONFIRM_EMBED_SUCCESS_STAGE = 'confirm-embed-success'
+const RETRYING_STAGE = 'retrying'
+const EMBED_SUCCESS_STAGE = 'embed-success'
 
 export interface InstagramEmbedProps extends DivProps {
-  url: String;
-  width?: string | number;
-  height?: string | number;
-  linkText?: string;
+  url: String
+  width?: string | number
+  height?: string | number
+  linkText?: string
   /** Deprecated -- This has no effect. Captions are always visible due to https://github.com/justinmahar/react-social-media-embed/issues/26 */
-  captioned?: boolean;
-  scriptLoadDisabled?: boolean;
-  retryDelay?: number;
-  retryDisabled?: boolean;
-  igVersion?: string;
-  frame?: Frame;
-  debug?: boolean;
+  captioned?: boolean
+  scriptLoadDisabled?: boolean
+  retryDelay?: number
+  retryDisabled?: boolean
+  igVersion?: string
+  frame?: Frame
+  debug?: boolean
 }
 
-export function InstagramEmbed ({
+    export function InstagramEmbed({
   url,
   width,
   height,
@@ -44,11 +44,14 @@ export function InstagramEmbed ({
   frame = undefined,
   ...divProps
 }: InstagramEmbedProps) {
-  const [stage, setStage] = React.useState(CHECK_SCRIPT_STAGE);
-  const uuidRef = React.useRef(generateUUID());
-  const [processTime, setProcessTime] = React.useState(Date.now());
-  const embedContainerKey = React.useMemo(() => `${uuidRef.current}-${processTime}`, [processTime]);
-  const frm = useFrame(frame);
+  const [stage, setStage] = React.useState(CHECK_SCRIPT_STAGE)
+  const uuidRef = React.useRef(generateUUID())
+  const [processTime, setProcessTime] = React.useState(Date.now())
+  const embedContainerKey = React.useMemo(
+    () => `${uuidRef.current}-${processTime}`,
+    [processTime],
+  )
+  const frm = useFrame(frame)
 
   // === === === === === === === === === === === === === === === === === === ===
   // Embed Stages
@@ -58,101 +61,107 @@ export function InstagramEmbed ({
   React.useEffect(() => {
     if (stage === CHECK_SCRIPT_STAGE) {
       if ((frm.window as any)?.instgrm?.Embeds?.process) {
-        setStage(PROCESS_EMBED_STAGE);
+        setStage(PROCESS_EMBED_STAGE)
       } else if (!scriptLoadDisabled) {
-        setStage(LOAD_SCRIPT_STAGE);
+        setStage(LOAD_SCRIPT_STAGE)
       } else {
         // TODO error handling
         // console.error('Instagram embed script not found. Unable to process Instagram embed:', url);
       }
     }
-  }, [scriptLoadDisabled, stage, url, frm.window]);
+  }, [scriptLoadDisabled, stage, url, frm.window])
 
   // Load Script Stage
   React.useEffect(() => {
     if (stage === LOAD_SCRIPT_STAGE) {
       if (frm.document) {
-        const scriptElement = frm.document.createElement('script');
-        scriptElement.setAttribute('src', embedJsScriptSrc);
-        frm.document.head.appendChild(scriptElement);
-        setStage(CONFIRM_SCRIPT_LOADED_STAGE);
+        const scriptElement = frm.document.createElement('script')
+        scriptElement.setAttribute('src', embedJsScriptSrc)
+        frm.document.head.appendChild(scriptElement)
+        setStage(CONFIRM_SCRIPT_LOADED_STAGE)
       }
     }
-  }, [stage, frm.document]);
+  }, [stage, frm.document])
 
   // Confirm Script Loaded Stage
   React.useEffect(() => {
-    const subs = new Subs();
+    const subs = new Subs()
     if (stage === CONFIRM_SCRIPT_LOADED_STAGE) {
       subs.setInterval(() => {
         if ((frm.window as any)?.instgrm?.Embeds?.process) {
-          setStage(PROCESS_EMBED_STAGE);
+          setStage(PROCESS_EMBED_STAGE)
         }
-      }, 1);
+      }, 1)
     }
-    return subs.createCleanup();
-  }, [stage, frm.window]);
+    return subs.createCleanup()
+  }, [stage, frm.window])
 
   // Process Embed Stage
   React.useEffect(() => {
     if (stage === PROCESS_EMBED_STAGE) {
-      const process = (frm.window as any)?.instgrm?.Embeds?.process;
+      const process = (frm.window as any)?.instgrm?.Embeds?.process
       if (process) {
-        process();
-        setStage(CONFIRM_EMBED_SUCCESS_STAGE);
+        process()
+        setStage(CONFIRM_EMBED_SUCCESS_STAGE)
       } else {
         // TODO error handling
         // console.error('Instagram embed script not found. Unable to process Instagram embed:', url);
       }
     }
-  }, [stage, frm.window, url]);
+  }, [stage, frm.window, url])
 
   // Confirm Embed Success Stage
   React.useEffect(() => {
-    const subs = new Subs();
+    const subs = new Subs()
     if (stage === CONFIRM_EMBED_SUCCESS_STAGE) {
       subs.setInterval(() => {
         if (frm.document) {
-          const preEmbedElement = frm.document.getElementById(uuidRef.current);
+          const preEmbedElement = frm.document.getElementById(uuidRef.current)
           if (!preEmbedElement) {
-            setStage(EMBED_SUCCESS_STAGE);
+            setStage(EMBED_SUCCESS_STAGE)
           }
         }
-      }, 1);
+      }, 1)
       if (!retryDisabled) {
         subs.setTimeout(() => {
-          setStage(RETRYING_STAGE);
-        }, retryDelay);
+          setStage(RETRYING_STAGE)
+        }, retryDelay)
       }
     }
-    return subs.createCleanup();
-  }, [retryDelay, retryDisabled, stage, frm.document]);
+    return subs.createCleanup()
+  }, [retryDelay, retryDisabled, stage, frm.document])
 
   // Retrying Stage
   React.useEffect(() => {
     if (stage === RETRYING_STAGE) {
       // This forces the embed container to remount
-      setProcessTime(Date.now());
-      setStage(PROCESS_EMBED_STAGE);
+      setProcessTime(Date.now())
+      setStage(PROCESS_EMBED_STAGE)
     }
-  }, [stage]);
+  }, [stage])
 
   // END Embed Stages
   // === === === === === === === === === === === === === === === === === === ===
 
-  const urlWithNoQuery = url.replace(/[?].*$/, '');
-  const cleanUrlWithEndingSlash = `${urlWithNoQuery}${urlWithNoQuery.endsWith('/') ? '' : '/'}`;
+  const urlWithNoQuery = url.replace(/[?].*$/, '')
+  const cleanUrlWithEndingSlash = `${urlWithNoQuery}${
+    urlWithNoQuery.endsWith('/') ? '' : '/'
+  }`
 
-  const isPercentageWidth = !!width?.toString().includes('%');
+  const isPercentageWidth = !!width?.toString().includes('%')
 
   if (typeof width !== 'undefined') {
     width = +width * 2
   }
-  
+
   return (
     <div
       {...divProps}
-      className={classNames('rsme-embed rsme-instagram-embed', uuidRef.current, divProps.className)}
+      className={classNames(
+        'rsme-embed rsme-instagram-embed',
+        uuidRef.current,
+        divProps.className,
+      )}
       style={{
         overflow: 'hidden',
         width: width ?? undefined,
@@ -170,14 +179,17 @@ export function InstagramEmbed ({
         data-width={isPercentageWidth ? '100%' : width ?? undefined}
         key={embedContainerKey}
         style={{
-          width: 'calc(100% - 2px)'
+          width: 'calc(100% - 2px)',
         }}
       >
         {/* {!ready && placeholder} */}
-        <div className="instagram-media-pre-embed rsme-d-none" id={uuidRef.current}>
+        <div
+          className="instagram-media-pre-embed rsme-d-none"
+          id={uuidRef.current}
+        >
           &nbsp;
         </div>
       </blockquote>
     </div>
-  );
-};
+  )
+}

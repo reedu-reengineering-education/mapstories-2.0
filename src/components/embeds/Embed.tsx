@@ -13,7 +13,12 @@ export interface EmbedProps extends DivPropsWithoutRef {
   linkText?: string
 }
 
-export function Embed({ media, width='300', height='50', ...divProps }: EmbedProps) {
+export function Embed({
+  media,
+  width = '300',
+  height = '50',
+  ...divProps
+}: EmbedProps) {
   return (
     <>
       {media.type == 'youtube' && (

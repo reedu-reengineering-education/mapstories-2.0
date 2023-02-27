@@ -26,7 +26,7 @@ export interface TikTokEmbedProps extends DivProps {
   debug?: boolean;
 }
 
-export function TikTokEmbed ({
+export function TikTokEmbed ({ 
   url,
   width,
   height,
