@@ -4,7 +4,7 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { db } from '@/src/lib/db'
 import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
-import uniqueSlug from '@/src/lib/slug'
+import { generateSlug } from '@/src/lib/slug'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
@@ -31,10 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const payload = updateMapstorySchema.parse(req.body)
 
-      const slug = await uniqueSlug(payload.name)
-      if (!slug) {
-        throw new Error('New Slug is not unique')
-      }
+      const slug = await generateSlug(payload.name)
 
       const story = await db.story.update({
         where: {
