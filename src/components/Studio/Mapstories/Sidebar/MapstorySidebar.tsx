@@ -34,7 +34,7 @@ export default function MapstorySidebar({
   const stepId = path?.split('/').at(-1)
   const { story, reorderStorySteps } = useStory(storyID)
 
-  const [hoverQuestionMark, setHoverQuestionMark] = useState<boolean[]>([])
+  const [hoverMarkerIcon, setHoverMarkerIcon] = useState<boolean[]>([])
 
   const handleMouseEnter = (index: number) => {
     // Create a new array with the updated hover state for the current div
@@ -55,7 +55,7 @@ export default function MapstorySidebar({
     if (!story?.steps) {
       return
     }
-    setHoverQuestionMark(new Array(story.steps.length).fill(false))
+    setHoverMarkerIcon(new Array(story.steps.length).fill(false))
     setSteps(story.steps.sort((a, b) => a.position - b.position))
   }, [story])
 
