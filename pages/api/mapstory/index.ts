@@ -5,7 +5,7 @@ import { unstable_getServerSession } from 'next-auth/next'
 import { db } from '@/src/lib/db'
 import { authOptions } from '@/src/lib/auth'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
-import { createMapstoryeSchema } from '@/src/lib/validations/mapstory'
+import { createMapstorySchema } from '@/src/lib/validations/mapstory'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import uniqueSlug from '@/src/lib/slug'
 
@@ -18,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const body = req.body
 
       if (body?.name && user) {
-        const payload = createMapstoryeSchema.parse(body)
+        const payload = createMapstorySchema.parse(body)
 
         const unique = await uniqueSlug(payload.slug)
         if (!unique) {
