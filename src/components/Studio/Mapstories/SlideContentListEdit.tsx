@@ -1,6 +1,5 @@
 'use client'
 
-import { useStoryStore } from '@/src/lib/store/story'
 import { SlideContent, StoryStep } from '@prisma/client'
 import { HeadingIcon, TextIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
@@ -13,6 +12,7 @@ import { EditContentType } from '../ContentTypes/EditContentType'
 import useStory from '@/src/lib/api/story/useStory'
 
 type Props = {
+  storyId: string
   stepId: string
   lng: string
 }
@@ -59,9 +59,8 @@ const renderSwitch = function renderSwitch(content: any) {
   return 'foo'
 }
 
-export function SlideContentListEdit({ stepId, lng }: Props) {
-  const storyID = useStoryStore(state => state.storyID)
-  const { story } = useStory(storyID)
+export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
+  const { story } = useStory(storyId)
   const step: (StoryStep & { content?: SlideContent[] }) | undefined =
     story?.steps?.filter(step => step.id === stepId)[0]
   const [disabled, setDisabled] = React.useState(false)

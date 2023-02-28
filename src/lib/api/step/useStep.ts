@@ -13,10 +13,8 @@ const useStep = (storyId: string, stepId: string) => {
     request: Promise<AxiosResponse<StoryStep, APIError>>,
   ) => {
     const { data: step } = await request
-    stepMutate(step, {
-      populateCache: false,
-      revalidate: true,
-    })
+    stepMutate(step)
+    // also mutate the story
     mutate(`/api/mapstory/${storyId}`)
     return step
   }

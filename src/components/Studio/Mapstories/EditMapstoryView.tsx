@@ -169,11 +169,6 @@ export default function EditMapstoryView({
     })
   }
 
-  // load story into zustand. TODO: is this the right place to do so?
-  useEffect(() => {
-    updateStory(story)
-  }, [])
-
   useEffect(() => {
     createLineData()
   }, [markers])

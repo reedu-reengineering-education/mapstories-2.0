@@ -44,8 +44,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'DELETE') {
     try {
       const storyStepId = req.query.storyStepId as string
-      const storyId = req.query.storyId as string
 
+      // TODO: Check if we really need to delete slide Content: oncascade delete story step
       // delete all slideContent associated with the step
       const deletedContent = await db.slideContent.deleteMany({
         where: { storyStepId: storyStepId },
@@ -57,7 +57,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const updatedStory = await db.story.findFirst({
         where: {
-          id: storyId,
+          id: deletedStep.storyId,
         },
         include: {
           steps: true,

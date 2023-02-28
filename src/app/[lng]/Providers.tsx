@@ -9,6 +9,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     <SWRConfig
       value={{
         fetcher: url => axios.get(url).then(res => res.data),
+        revalidateOnFocus: false,
       }}
     >
       {children}

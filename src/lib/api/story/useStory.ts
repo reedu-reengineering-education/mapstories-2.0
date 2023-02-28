@@ -17,12 +17,8 @@ const useStory = (storyId: string) => {
   >(`/api/mapstory/${storyId}`)
 
   const mutation = async (request: Promise<AxiosResponse<Story, APIError>>) => {
-    const { data: story } = await request
-    mutate(story, {
-      populateCache: false,
-      revalidate: true,
-    })
-    return story
+    const { data } = await request
+    return await mutate(data)
   }
 
   const APICreateStory = async (props: ICreateStoryProps) => {
