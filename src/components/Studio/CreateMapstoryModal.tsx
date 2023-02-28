@@ -69,14 +69,6 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
             size={32}
             {...register('name')}
           />
-          <Input
-            className="hidden"
-            defaultValue={''}
-            errors={errors.slug}
-            label="Slug"
-            size={32}
-            {...register('slug')}
-          />
         </Modal.Content>
         <Modal.Footer>
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
