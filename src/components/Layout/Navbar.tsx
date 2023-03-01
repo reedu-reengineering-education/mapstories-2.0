@@ -33,6 +33,10 @@ export function Navbar({
       href: `/${lng}/contact`,
       disabled: true,
     },
+    {
+      title: t('viewer'),
+      href: `/${lng}/viewer`,
+    },
   ])
 
   return (
