@@ -21,17 +21,20 @@ export default function MapstorySidebar({
   storyID: string
   lng: string
 }) {
-  const updateStory = useStoryStore(state => state.updateStory)
-  const story = useStoryStore(state => state.story)
   const { t } = useTranslation(lng, 'mapstorySidebar')
+
+  const setStoryID = useStoryStore(state => state.setStoryID)
+
+  useEffect(() => {
+    setStoryID(storyID)
+  }, [storyID])
 
   const markerId = useStoryStore(state => state.hoverMarkerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
-  const { reorderStorySteps, createStoryStep } = useStory(storyID)
-  const [hoverMarkerIcon, setHoverMarkerIcon] = useState(
-    new Array(story?.steps ? story.steps.length : 0).fill(false),
-  )
+  const { story, reorderStorySteps } = useStory(storyID)
+
+  const [hoverMarkerIcon, setHoverMarkerIcon] = useState<boolean[]>([])
 
   const handleMouseEnter = (index: number) => {
     // Create a new array with the updated hover state for the current div
@@ -49,14 +52,16 @@ export default function MapstorySidebar({
 
   const [steps, setSteps] = useState<StoryStep[]>()
   useEffect(() => {
-    setSteps(story?.steps?.sort((a, b) => a.position - b.position))
+    if (!story?.steps) {
+      return
+    }
+    setHoverMarkerIcon(new Array(story.steps.length).fill(false))
+    setSteps(story.steps.sort((a, b) => a.position - b.position))
   }, [story])
 
   async function onReorder(update: StoryStep[]) {
     try {
-      const res = await reorderStorySteps(update)
-      // update Zustand
-      updateStory(res)
+      await reorderStorySteps(update)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
