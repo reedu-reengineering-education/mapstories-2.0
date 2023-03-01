@@ -4,6 +4,7 @@ import axios from '@/src/lib/axios'
 // import { SWRLogger } from '@/src/lib/SWRLogger'
 import { ReactNode } from 'react'
 import { SWRConfig } from 'swr'
+import { Toaster } from '@/src/lib/toast'
 
 export default function Providers({ children }: { children: ReactNode }) {
   return (
@@ -16,6 +17,7 @@ export default function Providers({ children }: { children: ReactNode }) {
       }}
     >
       {children}
+      <Toaster position="bottom-right" />
     </SWRConfig>
   )
 }

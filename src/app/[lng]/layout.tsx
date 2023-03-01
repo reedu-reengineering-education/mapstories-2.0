@@ -2,19 +2,8 @@ import '@/src/styles/globals.scss'
 import { Inter } from '@next/font/google'
 import { cx } from 'class-variance-authority'
 import { dir } from 'i18next'
-import dynamic from 'next/dynamic'
 import { languages } from '../i18n/settings'
 import Providers from './Providers'
-
-const Toaster = dynamic(
-  async () => {
-    const { Toaster } = await import('@/src/lib/toast')
-    return Toaster
-  },
-  {
-    ssr: false,
-  },
-)
 
 const font = Inter({
   subsets: ['latin'],
@@ -52,7 +41,6 @@ export default function RootLayout({
         <main>
           <Providers>{children}</Providers>
         </main>
-        <Toaster position="bottom-right" />
       </body>
     </html>
   )

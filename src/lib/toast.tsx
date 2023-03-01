@@ -14,7 +14,7 @@ export function Toast({ visible, className, ...props }: ToastProps) {
   return (
     <div
       className={cx(
-        'min-h-16 mb-2 flex w-[350px] flex-col items-start gap-1 rounded-md bg-white px-6 py-4 shadow-lg',
+        'min-h-16 mb-2 flex w-[350px] flex-col items-start gap-1 rounded-md px-6 py-4 shadow-lg',
         visible ? 'animate-in slide-in-from-bottom-5' : '',
         className,
       )}
