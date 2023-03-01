@@ -110,6 +110,7 @@ export default function EditMapstoryMap({
     const hoverSteps = e.features
 
     if (!hoverSteps || hoverSteps.length < 1) {
+      setHoverMarkerId('')
       return
     }
 
@@ -118,6 +119,7 @@ export default function EditMapstoryMap({
     }
 
     if (!stepId) {
+      setHoverMarkerId('')
       return
     }
 
@@ -150,7 +152,7 @@ export default function EditMapstoryMap({
     },
   }
 
-  const layerStyle: CircleLayer = {
+  const triggerHoverLayerStyle: CircleLayer = {
     id: 'point',
     type: 'circle',
     paint: {
@@ -162,7 +164,7 @@ export default function EditMapstoryMap({
 
   return (
     <Map
-      interactiveLayerIds={['story-features']}
+      interactiveLayerIds={['step-hover']}
       onClick={e => {
         if (!steps?.find(s => s.id === currentStepId)?.feature) {
           addMarker(e)
@@ -191,7 +193,7 @@ export default function EditMapstoryMap({
         ></Marker>
       ))}
       <Source data={triggerHoverLayerData} type="geojson">
-        <Layer {...layerStyle} id="story-features" />
+        <Layer {...triggerHoverLayerStyle} id="step-hover" />
       </Source>
       <Source data={lineData} id="linesource" type="geojson">
         <Layer {...lineStyle} />
