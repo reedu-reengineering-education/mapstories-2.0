@@ -50,41 +50,42 @@ export default function EditMapstoryView({
     e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent,
   ) => {
     setMarkerCoords([e.lngLat.lng, e.lngLat.lat])
-    await updateStep({
-      feature: {
-        point: {
-          latitude: e.lngLat.lat as number,
-          longitude: e.lngLat.lng as number,
-        },
+
+    const point: GeoJSON.Feature<GeoJSON.Point> = {
+      type: 'Feature',
+      geometry: {
+        coordinates: [e.lngLat.lng, e.lngLat.lat],
+        type: 'Point',
       },
+      properties: {},
+    }
+
+    await updateStep({
+      feature: JSON.stringify(point),
     })
   }
 
   function getMarkers() {
-    setMarkers(prevMarkers => [])
-    const newMarkers: MarkerProps[] = [...[]]
+    setMarkers(_prevMarkers => [])
+    const newMarkers: MarkerProps[] = []
     if (!currentStory?.steps) {
       return
     }
-    currentStory.steps.forEach(s => {
-      if (s.feature) {
-        if (s.feature['point' as keyof typeof s.feature]) {
-          const point = JSON.parse(
-            JSON.stringify(s.feature['point' as keyof typeof s.feature]),
-          )
-          const newMarker: MarkerProps = {
-            draggable: currentStep?.id === s.id,
-            color: currentStep?.id === s.id ? '#eb5933' : '#85bd41',
-            longitude: point.longitude,
-            latitude: point.latitude,
-            key: s.id,
-            position: s.position,
-          }
-          newMarkers.push(newMarker)
+    currentStory.steps.map(({ id, feature, position }) => {
+      const geoFeature = feature as unknown as GeoJSON.Feature<GeoJSON.Point>
+      if (geoFeature?.geometry?.coordinates?.length > 0) {
+        const newMarker: MarkerProps = {
+          draggable: currentStep?.id === id,
+          color: currentStep?.id === id ? '#eb5933' : '#85bd41',
+          longitude: geoFeature.geometry.coordinates[0],
+          latitude: geoFeature.geometry.coordinates[1],
+          key: id,
+          position: position,
         }
+        newMarkers.push(newMarker)
       }
     })
-    setMarkers([...newMarkers])
+    setMarkers(newMarkers)
   }
 
   const lineStyle = {
@@ -143,18 +144,6 @@ export default function EditMapstoryView({
     })
   }
 
-  const moveToStoryStep = (coords: { latitude: number; longitude: number }) => {
-    const matchingStep = steps?.find(
-      step =>
-        //@ts-ignore
-        step.feature.point.latitude === coords.latitude &&
-        //@ts-ignore
-        step.feature.point.longitude === coords.longitude,
-    )
-    if (matchingStep && story.name) {
-      router.push(`/studio/${story.slug}/${matchingStep.id}`)
-    }
-  }
   const setMarkerId = useStoryStore(state => state.setHoverMarkerId)
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
@@ -250,10 +239,7 @@ export default function EditMapstoryView({
                   latitude={m.latitude as number}
                   longitude={m.longitude as number}
                   onClick={() =>
-                    moveToStoryStep({
-                      latitude: m.latitude as number,
-                      longitude: m.longitude as number,
-                    })
+                    router.replace(`/studio/${story.slug}/${m.key}`)
                   }
                   onDragEnd={async e => {
                     await addMarker(e)
