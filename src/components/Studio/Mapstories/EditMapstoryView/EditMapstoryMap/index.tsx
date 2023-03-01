@@ -1,22 +1,15 @@
 import DrawControl from '@/src/components/Map/DrawControl'
-import { useRouter } from 'next/navigation'
 import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
-import {
-  CircleLayer,
-  Layer,
-  LineLayer,
-  Marker,
-  MarkerDragEvent,
-  MarkerProps,
-  Source,
-} from 'react-map-gl'
+import { MarkerDragEvent, MarkerProps } from 'react-map-gl'
 import { useEffect, useState } from 'react'
 import { useStoryStore } from '@/src/lib/store/story'
 import useStep from '@/src/lib/api/step/useStep'
 import { GeoJsonProperties } from 'geojson'
 import useStory from '@/src/lib/api/story/useStory'
-import { splitMarkers } from './splitMarkers'
+import ConnectionLines from './Layers/ConnectionLines'
+import Markers from './Layers/Markers'
+import { useRouter } from 'next/navigation'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
@@ -41,32 +34,6 @@ export default function EditMapstoryMap({
   const { updateStep } = useStep(storyId, currentStepId)
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
-  const [lineData, setLineData] = useState<
-    GeoJSON.FeatureCollection | undefined
-  >()
-  const [triggerHoverLayerData, setTriggerHoverLayerData] = useState<
-    GeoJSON.FeatureCollection | undefined
-  >()
-
-  // generate Line string
-  useEffect(() => {
-    const markerGroups = splitMarkers(markers)
-    const features: GeoJSON.Feature[] = markerGroups
-      .filter(group => group.length > 1)
-      .map(group => ({
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'LineString',
-          coordinates: group.map(m => [m.longitude, m.latitude]),
-        },
-      }))
-
-    setLineData({
-      type: 'FeatureCollection',
-      features,
-    })
-  }, [markers])
 
   // generate markers
   useEffect(() => {
@@ -92,18 +59,6 @@ export default function EditMapstoryMap({
       .filter(Boolean)
     // @ts-ignore
     setMarkers(newMarkers)
-
-    // this layer triggers the onhover method
-    setTriggerHoverLayerData({
-      type: 'FeatureCollection',
-      features:
-        steps?.map(s => ({
-          ...(s.feature as unknown as GeoJSON.Feature),
-          properties: {
-            stepId: s.id,
-          },
-        })) ?? [],
-    })
   }, [currentStepId, steps])
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
@@ -143,25 +98,6 @@ export default function EditMapstoryMap({
     })
   }
 
-  const lineStyle: LineLayer = {
-    id: 'lines',
-    type: 'line',
-    paint: {
-      'line-color': '#d4da68',
-      'line-width': 5,
-    },
-  }
-
-  const triggerHoverLayerStyle: CircleLayer = {
-    id: 'point',
-    type: 'circle',
-    paint: {
-      'circle-radius': 30,
-      'circle-opacity': 0,
-      'circle-translate': [0, -12],
-    },
-  }
-
   return (
     <Map
       interactiveLayerIds={['step-hover']}
@@ -181,23 +117,13 @@ export default function EditMapstoryMap({
         displayControlsDefault={false}
         position="top-left"
       />
-      {markers.map((m, i) => (
-        <Marker
-          {...m}
-          key={(i + 1) * Math.random() * 100}
-          onClick={() => router.replace(`/studio/${story?.slug}/${m.stepId}`)}
-          onDragEnd={addMarker}
-          style={{
-            padding: '10px',
-          }}
-        ></Marker>
-      ))}
-      <Source data={triggerHoverLayerData} type="geojson">
-        <Layer {...triggerHoverLayerStyle} id="step-hover" />
-      </Source>
-      <Source data={lineData} id="linesource" type="geojson">
-        <Layer {...lineStyle} />
-      </Source>
+
+      <Markers
+        markers={markers}
+        onChange={addMarker}
+        onClick={m => router.replace(`/studio/${story?.slug}/${m.stepId}`)}
+      />
+      <ConnectionLines markers={markers} />
     </Map>
   )
 }
