@@ -16,10 +16,11 @@ import { media_type, media_types } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
+import { SlideContent } from '@prisma/client'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
-  slideContent?: any
+  stepItem?: any
   lng: string
 }
 
@@ -27,7 +28,7 @@ type FormData = z.infer<typeof slideEmbedContentSchema>
 
 export function EmbedContentEdit({
   storyStepId,
-  slideContent,
+  stepItem,
   className,
   lng,
   ...props
@@ -53,8 +54,8 @@ export function EmbedContentEdit({
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [media, setMedia] = useState<media_type>(
-    slideContent
-      ? urlToMedia(slideContent.media)
+    stepItem
+      ? urlToMedia(stepItem.media)
       : {
           type: 'unknown',
           name: 'Unknown',
@@ -66,14 +67,14 @@ export function EmbedContentEdit({
   async function onSubmit(data: FormData) {
     setIsSaving(true)
     const url = `/api/mapstory/step/${
-      slideContent ? slideContent.storyStepId : storyStepId
+      stepItem ? stepItem.storyStepId : storyStepId
     }/content`
-    const method = slideContent ? 'PUT' : 'POST'
+    const method = stepItem ? 'PUT' : 'POST'
     const headers = {
       'Content-Type': 'application/json',
     }
-    const body = slideContent
-      ? JSON.stringify({ ...slideContent })
+    const body = stepItem
+      ? JSON.stringify({ ...stepItem })
       : JSON.stringify({ ...data })
     const response = await fetch(url, { method, headers, body })
 
@@ -87,6 +88,8 @@ export function EmbedContentEdit({
       })
     }
 
+    const newContent = (await response.json()) as SlideContent
+
     toast({
       message: 'Your content has been created.',
       type: 'success',
@@ -98,8 +101,8 @@ export function EmbedContentEdit({
 
   async function handleUrl(url: string) {
     setMedia(urlToMedia(url))
-    if (media.type != 'unknown' && slideContent) {
-      slideContent.media = url
+    if (url && media.type != 'unknown' && stepItem) {
+      stepItem.media = url
     }
   }
 
@@ -115,7 +118,7 @@ export function EmbedContentEdit({
             Gib eine URL zu einem Social Media Beitrag ein
           </InputLabel>
           <Input
-            defaultValue={slideContent ? slideContent.media : ''}
+            defaultValue={stepItem ? stepItem.media : ''}
             errors={errors.media}
             label="media"
             size={32}
@@ -130,8 +133,8 @@ export function EmbedContentEdit({
           isLoading={isSaving}
           type="submit"
         >
-          {slideContent && t('save')}
-          {!slideContent && t('create')}
+          {stepItem && t('save')}
+          {!stepItem && t('create')}
         </Button>
       </div>
     </form>

@@ -74,7 +74,7 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
       </div>
     )
   }
-  return 'foo'
+  return 'content undefined...'
 }
 
 export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
