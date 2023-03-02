@@ -7,6 +7,7 @@ import {
   FaceIcon,
   HeadingIcon,
   InstagramLogoIcon,
+  MagnifyingGlassIcon,
   PersonIcon,
   PlayIcon,
   TextIcon,
@@ -75,6 +76,8 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
           <ClipboardIcon className="h-14 w-14" />
         ) : media.type == 'facebook' ? (
           <FaceIcon className="h-14 w-14" />
+        ) : media.type == 'wikipedia' ? (
+          <MagnifyingGlassIcon className="h-14 w-14" />
         ) : (
           <PersonIcon className="h-14 w-14"></PersonIcon>
         )}

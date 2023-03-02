@@ -2,9 +2,6 @@ import classNames from 'classnames'
 import * as React from 'react'
 import { EmbedStyle } from './EmbedStyle'
 
-const minPlaceholderWidth = 250
-const maxPlaceholderWidth = 550
-const defaultPlaceholderHeight = 550
 const borderRadius = 8
 
 export interface PadletEmbedProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -30,10 +27,7 @@ export function PadletEmbed({
   return (
     <div
       {...divProps}
-      className={classNames(
-        'rsme-embed rsme-pinterest-embed',
-        divProps.className,
-      )}
+      className={classNames('rsme-embed rsme-padlet-embed', divProps.className)}
       style={{
         overflow: 'auto',
         width: width ?? undefined,
@@ -44,7 +38,7 @@ export function PadletEmbed({
     >
       <EmbedStyle />
       <iframe
-        className={classNames('pinterest-post', !ready && 'rsme-d-none')}
+        className={classNames('padlest-post', !ready && 'rsme-d-none')}
         height="100%"
         onLoad={() => setReady(true)}
         src={cleanUrlWithEndingSlash}

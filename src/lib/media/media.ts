@@ -103,12 +103,12 @@ export var media_types: media_type[] = [
   //     match_str: /\b.(doc|docx|xls|xlsx|ppt|pptx|pdf|pages|ai|psd|tiff|dxf|svg|eps|ps|ttf|xps|zip|tif)\b/,
   //     url: ''
   // },
-  // {
-  //     type: 'wikipedia',
-  //     name: 'Wikipedia',
-  //     match_str: /(www.)?wikipedia\.org/,
-  //     url: ''
-  // },
+  {
+    type: 'wikipedia',
+    name: 'Wikipedia',
+    match_str: /(www.)?wikipedia\.org/,
+    url: '',
+  },
   // {
   //     type: 'iframe',
   //     name: 'iFrame',
