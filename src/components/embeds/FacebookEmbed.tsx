@@ -21,7 +21,7 @@ const EMBED_SUCCESS_STAGE = 'embed-success'
 export interface FacebookEmbedProps
   extends React.HTMLAttributes<HTMLDivElement> {
   /** The URL to the post. */
-  url: string
+  url: String
   width?: string | number
   height?: string | number
   scriptLoadDisabled?: boolean
