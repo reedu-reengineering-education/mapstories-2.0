@@ -1,9 +1,7 @@
 import classNames from 'classnames'
 import React from 'react'
-import { DivProps } from 'react-html-props'
 import { Subs } from 'react-sub-unsub'
 import { Frame, useFrame } from './useFrame'
-import { generateUUID } from './uuid'
 import { EmbedStyle } from './EmbedStyle'
 
 const embedJsScriptSrc = 'https://www.tiktok.com/embed.js'
@@ -15,7 +13,7 @@ const CONFIRM_EMBED_SUCCESS_STAGE = 'confirm-embed-success'
 const RETRYING_STAGE = 'retrying'
 const EMBED_SUCCESS_STAGE = 'embed-success'
 
-export interface TikTokEmbedProps extends DivProps {
+export interface TikTokEmbedProps extends React.HTMLAttributes<HTMLDivElement> {
   url: String
   width?: string | number
   height?: string | number
@@ -37,12 +35,6 @@ export function TikTokEmbed({
   ...divProps
 }: TikTokEmbedProps) {
   const [stage, setStage] = React.useState(PROCESS_EMBED_STAGE)
-  const uuidRef = React.useRef(generateUUID())
-  const [processTime, setProcessTime] = React.useState(Date.now())
-  const embedContainerKey = React.useMemo(
-    () => `${uuidRef.current}-${processTime}`,
-    [processTime],
-  )
   const frm = useFrame(frame)
 
   // === === === === === === === === === === === === === === === === === === ===
@@ -73,7 +65,9 @@ export function TikTokEmbed({
     if (stage === CONFIRM_EMBED_SUCCESS_STAGE) {
       subs.setInterval(() => {
         if (frm.document) {
-          const preEmbedElement = frm.document.getElementById(uuidRef.current)
+          const preEmbedElement = frm.document.getElementById(
+            'tiktok-media-pre-embed',
+          )
           if (!preEmbedElement) {
             setStage(EMBED_SUCCESS_STAGE)
           }
@@ -92,7 +86,6 @@ export function TikTokEmbed({
   React.useEffect(() => {
     if (stage === RETRYING_STAGE) {
       // This forces the embed container to remount
-      setProcessTime(Date.now())
       setStage(PROCESS_EMBED_STAGE)
     }
   }, [stage])
@@ -111,7 +104,7 @@ export function TikTokEmbed({
       {...divProps}
       className={classNames('rsme-embed rsme-tiktok-embed', divProps.className)}
       style={{
-        overflow: 'hidden',
+        overflow: 'auto',
         width: width ?? undefined,
         height: height ?? undefined,
         borderRadius,
@@ -124,10 +117,9 @@ export function TikTokEmbed({
           cite={url as string}
           className="tiktok-embed"
           data-video-id={embedId}
-          key={embedContainerKey}
         >
           {/* {!ready && placeholder} */}
-          <div id={uuidRef.current} style={{ display: 'none' }}>
+          <div id="tiktok-media-pre-embed" style={{ display: 'none' }}>
             &nbsp;
           </div>
         </blockquote>

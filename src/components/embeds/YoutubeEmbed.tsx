@@ -1,13 +1,13 @@
 import classNames from 'classnames'
 import * as React from 'react'
-import { DivPropsWithoutRef } from 'react-html-props'
 import YouTube, { YouTubeProps } from 'react-youtube'
 import { Options } from 'youtube-player/dist/types'
 import { EmbedStyle } from './EmbedStyle'
 
 const borderRadius = 0
 
-export interface YouTubeEmbedProps extends DivPropsWithoutRef {
+export interface YouTubeEmbedProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   url: String
   width?: string | number
   height?: string | number
@@ -56,7 +56,7 @@ export function YouTubeEmbed({
         divProps.className,
       )}
       style={{
-        overflow: 'hidden',
+        overflow: 'auto',
         width: width ?? undefined,
         height: height ?? undefined,
         borderRadius,
@@ -75,6 +75,10 @@ export function YouTubeEmbed({
             }
           }}
           opts={opts}
+          // TODO: make height relative
+          style={{
+            height: '300px',
+          }}
           videoId={youTubeProps?.videoId ?? videoId}
         />
       </div>

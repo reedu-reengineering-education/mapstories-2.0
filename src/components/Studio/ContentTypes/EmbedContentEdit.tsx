@@ -103,37 +103,6 @@ export function EmbedContentEdit({
     }
   }
 
-  function urlToMedia(url: string): media_type {
-    // check if url is a valid url with zod
-    try {
-      z.string().url().parse(url)
-
-      // check if url ir a known media url
-      for (var i = 0; i < media_types.length; i++) {
-        if (url.toString().match(media_types[i].match_str)) {
-          const media = { ...media_types[i] }
-          media.url = url
-          return media
-        }
-      }
-      // return unknown media
-      return {
-        type: 'unknown',
-        name: 'Unknown',
-        match_str: / /,
-        url: '',
-      }
-    } catch {
-      // return unknown media
-      return {
-        type: 'unknown',
-        name: 'Unknown',
-        match_str: / /,
-        url: '',
-      }
-    }
-  }
-
   return (
     <form
       className={cx(className)}
@@ -153,8 +122,11 @@ export function EmbedContentEdit({
             {...register('media')}
           />
         </div>
-        <div className="re-data-media-preview pt-4 pb-4">
-          <Embed height="200" media={media} width="300" />
+        <div
+          className="re-data-media-preview pt-4 pb-4"
+          style={{ height: '50vh' }}
+        >
+          <Embed media={media} />
         </div>
         <Button
           disabled={media.type == 'unknown'}
@@ -167,4 +139,35 @@ export function EmbedContentEdit({
       </div>
     </form>
   )
+}
+
+export function urlToMedia(url: string): media_type {
+  // check if url is a valid url with zod
+  try {
+    z.string().url().parse(url)
+
+    // check if url ir a known media url
+    for (var i = 0; i < media_types.length; i++) {
+      if (url.toString().match(media_types[i].match_str)) {
+        const media = { ...media_types[i] }
+        media.url = url
+        return media
+      }
+    }
+    // return unknown media
+    return {
+      type: 'unknown',
+      name: 'Unknown',
+      match_str: / /,
+      url: '',
+    }
+  } catch {
+    // return unknown media
+    return {
+      type: 'unknown',
+      name: 'Unknown',
+      match_str: / /,
+      url: '',
+    }
+  }
 }

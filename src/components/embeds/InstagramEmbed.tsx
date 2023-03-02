@@ -1,10 +1,8 @@
 import classNames from 'classnames'
 import * as React from 'react'
-import { DivProps } from 'react-html-props'
 import { Subs } from 'react-sub-unsub'
 import { Frame, useFrame } from './useFrame'
 import { EmbedStyle } from './EmbedStyle'
-import { generateUUID } from './uuid'
 
 const embedJsScriptSrc = '//www.instagram.com/embed.js'
 const borderRadius = 3
@@ -18,7 +16,8 @@ const CONFIRM_EMBED_SUCCESS_STAGE = 'confirm-embed-success'
 const RETRYING_STAGE = 'retrying'
 const EMBED_SUCCESS_STAGE = 'embed-success'
 
-export interface InstagramEmbedProps extends DivProps {
+export interface InstagramEmbedProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   url: String
   width?: string | number
   height?: string | number
@@ -45,12 +44,6 @@ export function InstagramEmbed({
   ...divProps
 }: InstagramEmbedProps) {
   const [stage, setStage] = React.useState(CHECK_SCRIPT_STAGE)
-  const uuidRef = React.useRef(generateUUID())
-  const [processTime, setProcessTime] = React.useState(Date.now())
-  const embedContainerKey = React.useMemo(
-    () => `${uuidRef.current}-${processTime}`,
-    [processTime],
-  )
   const frm = useFrame(frame)
 
   // === === === === === === === === === === === === === === === === === === ===
@@ -116,7 +109,9 @@ export function InstagramEmbed({
     if (stage === CONFIRM_EMBED_SUCCESS_STAGE) {
       subs.setInterval(() => {
         if (frm.document) {
-          const preEmbedElement = frm.document.getElementById(uuidRef.current)
+          const preEmbedElement = frm.document.getElementById(
+            'instagram-media-pre-embed',
+          )
           if (!preEmbedElement) {
             setStage(EMBED_SUCCESS_STAGE)
           }
@@ -135,7 +130,6 @@ export function InstagramEmbed({
   React.useEffect(() => {
     if (stage === RETRYING_STAGE) {
       // This forces the embed container to remount
-      setProcessTime(Date.now())
       setStage(PROCESS_EMBED_STAGE)
     }
   }, [stage])
@@ -159,11 +153,10 @@ export function InstagramEmbed({
       {...divProps}
       className={classNames(
         'rsme-embed rsme-instagram-embed',
-        uuidRef.current,
         divProps.className,
       )}
       style={{
-        overflow: 'hidden',
+        overflow: 'auto',
         width: width ?? undefined,
         height: height ?? undefined,
         borderRadius,
@@ -177,7 +170,6 @@ export function InstagramEmbed({
         data-instgrm-permalink={`${cleanUrlWithEndingSlash}?utm_source=ig_embed&utm_campaign=loading`}
         data-instgrm-version={igVersion}
         data-width={isPercentageWidth ? '100%' : width ?? undefined}
-        key={embedContainerKey}
         style={{
           width: 'calc(100% - 2px)',
         }}
@@ -185,7 +177,7 @@ export function InstagramEmbed({
         {/* {!ready && placeholder} */}
         <div
           className="instagram-media-pre-embed rsme-d-none"
-          id={uuidRef.current}
+          id="instagram-media-pre-embed"
         >
           &nbsp;
         </div>

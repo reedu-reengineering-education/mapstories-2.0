@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import React from 'react'
-import { StyleProps } from 'react-html-props'
 
-export interface EmbedStyleProps extends StyleProps {}
+export interface EmbedStyleProps
+  extends React.StyleHTMLAttributes<HTMLStyleElement> {}
 
 export function EmbedStyle({ ...styleProps }: EmbedStyleProps) {
   return (
