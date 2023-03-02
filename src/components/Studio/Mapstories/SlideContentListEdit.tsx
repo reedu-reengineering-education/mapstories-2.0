@@ -4,6 +4,7 @@ import { SlideContent, StoryStep } from '@prisma/client'
 import {
   ClipboardIcon,
   ClockIcon,
+  FaceIcon,
   HeadingIcon,
   InstagramLogoIcon,
   PersonIcon,
@@ -63,15 +64,17 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
     return (
       <div className="relativ z-750 flex">
         {media.type == 'twitter' ? (
-          <TwitterLogoIcon className="h-14 w-14"></TwitterLogoIcon>
+          <TwitterLogoIcon className="h-14 w-14" />
         ) : media.type == 'youtube' ? (
-          <PlayIcon className="h-14 w-14"></PlayIcon>
+          <PlayIcon className="h-14 w-14" />
         ) : media.type == 'instagram' ? (
-          <InstagramLogoIcon className="h-14 w-14"></InstagramLogoIcon>
+          <InstagramLogoIcon className="h-14 w-14" />
         ) : media.type == 'tiktok' ? (
-          <ClockIcon className="h-14 w-14"></ClockIcon>
+          <ClockIcon className="h-14 w-14" />
         ) : media.type == 'padlet' ? (
-          <ClipboardIcon className="h-14 w-14"></ClipboardIcon>
+          <ClipboardIcon className="h-14 w-14" />
+        ) : media.type == 'facebook' ? (
+          <FaceIcon className="h-14 w-14" />
         ) : (
           <PersonIcon className="h-14 w-14"></PersonIcon>
         )}

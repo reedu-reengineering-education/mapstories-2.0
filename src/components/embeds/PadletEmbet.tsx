@@ -9,14 +9,12 @@ const borderRadius = 8
 
 export interface PadletEmbedProps extends React.HTMLAttributes<HTMLDivElement> {
   url: String
-  postUrl?: string
   width?: string | number
   height?: string | number
 }
 
 export function PadletEmbed({
   url,
-  postUrl,
   width,
   height = 500,
   ...divProps

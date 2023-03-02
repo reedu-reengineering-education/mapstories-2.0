@@ -1,5 +1,6 @@
 import { media_type } from '@/src/lib/media/media'
 import * as React from 'react'
+import { FacebookEmbed } from './FacebookEmbed'
 import { InstagramEmbed } from './InstagramEmbed'
 import { PadletEmbed } from './PadletEmbet'
 import { TikTokEmbed } from './TikTokEmbed'
@@ -17,12 +18,7 @@ export interface EmbedProps
   linkText?: string
 }
 
-export function Embed({
-  media,
-  width = '100%',
-  height = '100%',
-  ...divProps
-}: EmbedProps) {
+export function Embed({ media, width = '100%', height = '100%' }: EmbedProps) {
   return (
     <div className="h-full w-full">
       {media.type == 'youtube' && (
@@ -39,6 +35,9 @@ export function Embed({
       )}
       {media.type == 'padlet' && (
         <PadletEmbed height={height} url={media.url} width={width} />
+      )}
+      {media.type == 'facebook' && (
+        <FacebookEmbed height={height} url={media.url} width={width} />
       )}
       {media.type == 'unknown' && <p>Media not recognized...</p>}
     </div>
