@@ -2,6 +2,8 @@
 
 import { SlideContent, StoryStep } from '@prisma/client'
 import {
+  ClipboardIcon,
+  ClockIcon,
   HeadingIcon,
   InstagramLogoIcon,
   PersonIcon,
@@ -66,6 +68,10 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
           <PlayIcon className="h-14 w-14"></PlayIcon>
         ) : media.type == 'instagram' ? (
           <InstagramLogoIcon className="h-14 w-14"></InstagramLogoIcon>
+        ) : media.type == 'tiktok' ? (
+          <ClockIcon className="h-14 w-14"></ClockIcon>
+        ) : media.type == 'padlet' ? (
+          <ClipboardIcon className="h-14 w-14"></ClipboardIcon>
         ) : (
           <PersonIcon className="h-14 w-14"></PersonIcon>
         )}

@@ -1,6 +1,7 @@
 import { media_type } from '@/src/lib/media/media'
 import * as React from 'react'
 import { InstagramEmbed } from './InstagramEmbed'
+import { PadletEmbed } from './PadletEmbet'
 import { TikTokEmbed } from './TikTokEmbed'
 import { TwitterEmbed } from './TwitterEmbed'
 import { YouTubeEmbed } from './YoutubeEmbed'
@@ -35,6 +36,9 @@ export function Embed({
       )}
       {media.type == 'tiktok' && (
         <TikTokEmbed height={height} url={media.url} width={width} />
+      )}
+      {media.type == 'padlet' && (
+        <PadletEmbed height={height} url={media.url} width={width} />
       )}
       {media.type == 'unknown' && <p>Media not recognized...</p>}
     </div>

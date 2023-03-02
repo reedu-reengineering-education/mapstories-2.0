@@ -115,12 +115,12 @@ export var media_types: media_type[] = [
   //     match_str: /storify/,
   //     url: ''
   // },
-  // {
-  //     type: 'padlet',
-  //     name: 'Padlet',
-  //     match_str: /padlet.com/,
-  //     url: ''
-  // },
+  {
+    type: 'padlet',
+    name: 'Padlet',
+    match_str: /padlet.com/,
+    url: '',
+  },
   // {
   //     type: 'blockquote',
   //     name: 'Quote',
