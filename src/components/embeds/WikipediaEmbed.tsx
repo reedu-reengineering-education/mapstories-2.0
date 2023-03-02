@@ -23,9 +23,6 @@ export function WikipediaEmbed({
 
   // Example URL: https://en.wikipedia.org/wiki/Wikipedia
   const urlWithNoQuery = url.replace(/[?].*$/, '')
-  const cleanUrlWithEndingSlash = `${urlWithNoQuery}${
-    urlWithNoQuery.endsWith('/') ? '' : '/'
-  }`
 
   return (
     <div
@@ -47,7 +44,7 @@ export function WikipediaEmbed({
         className={classNames('wikipedia-post', !ready && 'rsme-d-none')}
         height="100%"
         onLoad={() => setReady(true)}
-        src={cleanUrlWithEndingSlash}
+        src={urlWithNoQuery}
         width="100%"
       ></iframe>
       {/* {!ready && placeholder} */}
