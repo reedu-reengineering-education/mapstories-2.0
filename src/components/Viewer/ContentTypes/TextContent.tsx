@@ -18,20 +18,16 @@ const markdownPreviewStyles = {
   fontFamily: 'inherit',
 }
 
-
-export function TextContent({
-  content
-}: TextContentProps) {
- 
+export function TextContent({ content }: TextContentProps) {
   return (
     <div>
-      { content.text && 
-      <MarkdownPreview
-      // className="hover:bg-hover"
-      source={content.text}
-      style={markdownPreviewStyles}
-    />
-      }
+      {content.text && (
+        <MarkdownPreview
+          // className="hover:bg-hover"
+          source={content.text}
+          style={markdownPreviewStyles}
+        />
+      )}
     </div>
   )
 }

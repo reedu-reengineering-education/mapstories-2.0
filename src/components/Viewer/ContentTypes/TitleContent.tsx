@@ -7,15 +7,6 @@ interface TitleContentProps extends React.HTMLAttributes<HTMLFormElement> {
   content: SlideContent
 }
 
-
-export function TitleContent({
-  content
-}: TitleContentProps) {
-
-  return (
-   <div>
-      {content.title && 
-      <h1>{content.title}</h1>}
-   </div>
-  )
+export function TitleContent({ content }: TitleContentProps) {
+  return <div>{content.title && <h1>{content.title}</h1>}</div>
 }

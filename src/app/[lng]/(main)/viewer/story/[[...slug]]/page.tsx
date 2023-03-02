@@ -20,13 +20,12 @@ interface StoryPageProps {
 }
 
 export default async function StoryPage({ params: { slug } }: StoryPageProps) {
-
   // const story = await getMapstory(slug[0])
 
   return (
     <div>
       <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">
-        <Slides page={slug[1]} slug={slug[0]} ></Slides>
+        <Slides page={slug[1]} slug={slug[0]}></Slides>
       </div>
     </div>
   )

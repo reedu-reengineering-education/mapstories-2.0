@@ -16,18 +16,18 @@ type Props = {
   // }) | undefined
 }
 
-
 export function Slides({ slug, page }: Props) {
+  const router = useRouter()
+  const setStoryID = useStoryStore(state => state.setStoryID)
+  const { story } = useStory(slug)
 
-  const router = useRouter();
-  const setStoryID = useStoryStore(state => state.setStoryID);
-  const { story } = useStory(slug);
-
-  const updateSelectedStepIndex = useStoryStore(state => state.updateSelectedStepIndex)
+  const updateSelectedStepIndex = useStoryStore(
+    state => state.updateSelectedStepIndex,
+  )
   const selectedStepIndex = useStoryStore(state => state.selectedStepIndex)
 
   useEffect(() => {
-    if(story){
+    if (story) {
       setStoryID(story.id)
     } else {
       setStoryID('')
@@ -44,32 +44,35 @@ export function Slides({ slug, page }: Props) {
     updateSelectedStepIndex(parseInt(page))
   }, [])
 
-  function nextStep(){
-      // const length = story?.steps?.length
-      router.push(`/viewer/story/${slug}/${page ? parseInt(page)+1: '1'}`)
-      
+  function nextStep() {
+    // const length = story?.steps?.length
+    router.push(`/viewer/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
   }
 
-  function prevStep(){
+  function prevStep() {
     // const length = story?.steps?.length
-    router.push(`/viewer/story/${slug}/${page ? parseInt(page)-1: '1'}`)
+    router.push(`/viewer/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
     // updateSelectedStepIndex(page ? parseInt(page)-1: 1)
-}
-  
+  }
+
   return (
     <div className="py-4">
-        {/* <Slide step={ story?.steps?[page] ? story?.steps?[page] : undefined} /> */}
-        <Slide step={story?.steps[parseInt(page)]}></Slide>
-        {/* <Slide step={ story?.steps?[page] ? story?.steps?[page] : undefined}></Slide>
-         */}
-        <Button onClick={() => nextStep()}>{parseInt(page) < 1 ? 'Abspielen' : 'Weiter'}</Button>
-        <Button onClick={() => prevStep()}>{parseInt(page) > 1 ? 'Zurück' : 'NIX'}</Button>
+      {/* <Slide step={ story?.steps?[page] ? story?.steps?[page] : undefined} /> */}
+      <Slide step={story?.steps[parseInt(page)]}></Slide>
+      {/* <Slide step={ story?.steps?[page] ? story?.steps?[page] : undefined}></Slide>
+       */}
+      <Button onClick={() => nextStep()}>
+        {parseInt(page) < 1 ? 'Abspielen' : 'Weiter'}
+      </Button>
+      <Button onClick={() => prevStep()}>
+        {parseInt(page) > 1 ? 'Zurück' : 'NIX'}
+      </Button>
 
-         { parseInt(page) < 1 &&
-            <div>
-              <Button onClick={() => router.push('viewer')}>Abbrechen</Button>
-            </div>
-         }
-    </div >
+      {parseInt(page) < 1 && (
+        <div>
+          <Button onClick={() => router.push('viewer')}>Abbrechen</Button>
+        </div>
+      )}
+    </div>
   )
 }
