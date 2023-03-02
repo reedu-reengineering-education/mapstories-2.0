@@ -20,8 +20,8 @@ import { Modal } from '../../Modal'
 import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import dynamic from 'next/dynamic'
 import { EditContentType } from '../ContentTypes/EditContentType'
-import { urlToMedia } from '../ContentTypes/EmbedContentEdit'
 import useStory from '@/src/lib/api/story/useStory'
+import { urlToMedia } from '../../HelperFunctions'
 
 type Props = {
   storyId: string
