@@ -5,9 +5,9 @@ import { unstable_getServerSession } from 'next-auth/next'
 import { db } from '@/src/lib/db'
 import { authOptions } from '@/src/lib/auth'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
-import { createMapstoryeSchema } from '@/src/lib/validations/mapstory'
+import { createMapstorySchema } from '@/src/lib/validations/mapstory'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
-import uniqueSlug from '@/src/lib/slug'
+import { generateSlug } from '@/src/lib/slug'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -18,20 +18,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const body = req.body
 
       if (body?.name && user) {
-        const payload = createMapstoryeSchema.parse(body)
+        const payload = createMapstorySchema.parse(body)
 
-        const unique = await uniqueSlug(payload.slug)
-        if (!unique) {
-          return res
-            .status(422)
-            .json({ msg: 'Something went wrong. Please try again' })
-        }
+        const slug = await generateSlug(payload.name)
         const newMapstory = await db.story.create({
           data: {
             ownerId: user.id,
             name: payload.name,
-            slug: unique,
             visibility: 'PRIVATE',
+            slug,
           },
         })
 

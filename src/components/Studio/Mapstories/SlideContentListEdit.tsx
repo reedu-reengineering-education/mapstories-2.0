@@ -1,6 +1,5 @@
 'use client'
 
-import { useStoryStore } from '@/src/lib/store/story'
 import { SlideContent, StoryStep } from '@prisma/client'
 import {
   HeadingIcon,
@@ -18,8 +17,10 @@ import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import dynamic from 'next/dynamic'
 import { EditContentType } from '../ContentTypes/EditContentType'
 import { urlToMedia } from '../ContentTypes/EmbedContentEdit'
+import useStory from '@/src/lib/api/story/useStory'
 
 type Props = {
+  storyId: string
   stepId: string
   lng: string
 }
@@ -76,8 +77,8 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
   return 'foo'
 }
 
-export function SlideContentListEdit({ stepId, lng }: Props) {
-  const story = useStoryStore(state => state.story)
+export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
+  const { story } = useStory(storyId)
   const step: (StoryStep & { content?: SlideContent[] }) | undefined =
     story?.steps?.filter(step => step.id === stepId)[0]
   const [disabled, setDisabled] = React.useState(false)

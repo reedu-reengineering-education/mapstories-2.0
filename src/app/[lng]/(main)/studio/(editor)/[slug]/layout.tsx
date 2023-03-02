@@ -1,5 +1,6 @@
 import { Button } from '@/src/components/Elements/Button'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
+import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
 import MapstorySidebar from '@/src/components/Studio/Mapstories/Sidebar/MapstorySidebar'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
@@ -8,7 +9,6 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { Story, User } from '@prisma/client'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
-import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
 
 export const generateStaticParams =
   process.env.NODE_ENV !== 'development'
@@ -71,14 +71,7 @@ export default async function DashboardLayout({
             Zurück
           </Button>
         </Link>
-        <SettingsModal
-          description={story.description || ''}
-          isPublic={story.visibility !== 'PRIVATE'}
-          lng={lng}
-          storyId={story.id}
-          theme={story.theme || ''}
-          title={story.name || ''}
-        />
+        <SettingsModal lng={lng} storyId={story.id} />
       </div>
 
       <div className="re-studio-height-full-screen mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr]">

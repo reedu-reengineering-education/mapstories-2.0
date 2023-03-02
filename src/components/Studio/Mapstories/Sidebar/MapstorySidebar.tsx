@@ -4,7 +4,7 @@ import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { useStoryStore } from '@/src/lib/store/story'
 import { toast } from '@/src/lib/toast'
-import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
+import { MapPinIcon } from '@heroicons/react/24/outline'
 import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -21,42 +21,47 @@ export default function MapstorySidebar({
   storyID: string
   lng: string
 }) {
-  const updateStory = useStoryStore(state => state.updateStory)
-  const story = useStoryStore(state => state.story)
   const { t } = useTranslation(lng, 'mapstorySidebar')
+
+  const setStoryID = useStoryStore(state => state.setStoryID)
+
+  useEffect(() => {
+    setStoryID(storyID)
+  }, [storyID])
 
   const markerId = useStoryStore(state => state.hoverMarkerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
-  const { reorderStorySteps, createStoryStep } = useStory(storyID)
-  const [hoverQuestionMark, setHoverQuestionMark] = useState(
-    new Array(story?.steps ? story.steps.length : 0).fill(false),
-  )
+  const { story, reorderStorySteps } = useStory(storyID)
+
+  const [hoverMarkerIcon, setHoverMarkerIcon] = useState<boolean[]>([])
 
   const handleMouseEnter = (index: number) => {
     // Create a new array with the updated hover state for the current div
-    const newHoverStates = [...hoverQuestionMark]
+    const newHoverStates = [...hoverMarkerIcon]
     newHoverStates[index] = true
     // Set the hover state for the current div to true
-    setHoverQuestionMark(newHoverStates)
+    setHoverMarkerIcon(newHoverStates)
   }
 
   const handleMouseLeave = (index: number) => {
-    const newHoverStates = [...hoverQuestionMark]
+    const newHoverStates = [...hoverMarkerIcon]
     newHoverStates[index] = false
-    setHoverQuestionMark(newHoverStates)
+    setHoverMarkerIcon(newHoverStates)
   }
 
   const [steps, setSteps] = useState<StoryStep[]>()
   useEffect(() => {
-    setSteps(story?.steps?.sort((a, b) => a.position - b.position))
+    if (!story?.steps) {
+      return
+    }
+    setHoverMarkerIcon(new Array(story.steps.length).fill(false))
+    setSteps(story.steps.sort((a, b) => a.position - b.position))
   }, [story])
 
   async function onReorder(update: StoryStep[]) {
     try {
-      const res = await reorderStorySteps(update)
-      // update Zustand
-      updateStory(res)
+      await reorderStorySteps(update)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
@@ -111,8 +116,11 @@ export default function MapstorySidebar({
                     onMouseEnter={() => handleMouseEnter(i)}
                     onMouseLeave={() => handleMouseLeave(i)}
                   >
-                    <QuestionMarkCircleIcon className="w-5" />
-                    {hoverQuestionMark[i] && (
+                    <span className="relative">
+                      <MapPinIcon className="h-5 w-5" />
+                      <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-black"></span>
+                    </span>
+                    {hoverMarkerIcon[i] && (
                       <div className="relative h-full w-full">
                         <div className="absolute right-4 bottom-1 z-20 w-36 rounded bg-white p-2">
                           {t('please set a marker for this slide')}

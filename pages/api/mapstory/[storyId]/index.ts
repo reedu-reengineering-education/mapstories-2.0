@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { db } from '@/src/lib/db'
 import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
+import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
+import { generateSlug } from '@/src/lib/slug'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
@@ -27,17 +29,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
   if (req.method === 'PUT') {
     try {
+      const payload = updateMapstorySchema.parse(req.body)
+
+      const slug = await generateSlug(payload.name)
+
       const story = await db.story.update({
         where: {
           id: req.query.storyId as string,
         },
-        data: {
-          name: req.body.name as string,
-          description: req.body.description as string,
-          visibility: req.body.visibility === 'PUBLIC' ? 'PUBLIC' : 'PRIVATE',
-          theme: req.body.theme as string,
-        },
+        data: { ...payload, slug },
       })
+
       return res.status(200).json(story)
     } catch (error) {
       return res.status(500).end()
