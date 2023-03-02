@@ -122,11 +122,8 @@ export function EmbedContentEdit({
             {...register('media')}
           />
         </div>
-        <div
-          className="re-data-media-preview pt-4 pb-4"
-          style={{ height: '50vh' }}
-        >
-          <Embed media={media} />
+        <div className="re-data-media-preview pt-4 pb-4">
+          <Embed height="50vh" media={media} />
         </div>
         <Button
           disabled={media.type == 'unknown'}

@@ -158,7 +158,7 @@ export function InstagramEmbed({
       style={{
         overflow: 'auto',
         width: width ?? undefined,
-        height: height ?? undefined,
+        maxHeight: height ?? undefined,
         borderRadius,
         ...divProps.style,
       }}
