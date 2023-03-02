@@ -187,9 +187,9 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   const lineStyle = {
     type: 'line' as 'sky',
     paint: {
-      'line-color': 'black',
+      'line-color': '#18325b',
       'line-width': 4,
-      'line-opacity': 0.7,
+      'line-opacity': 1,
       // 'line-border': 2,
       // 'line-border-color': 'red'
     },
@@ -198,13 +198,13 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       'line-cap': 'round',
     },
   }
-  const lineStyle2 = {
+  const hightLineStyle = {
     type: 'line' as 'sky',
     paint: {
-      'line-color': '#eb5933',
+      'line-color': '#d4da68',
       'line-width': 10,
       'line-blur': 3,
-      'line-opacity': 0.7,
+      'line-opacity': 1,
       // 'line-border': 2,
       // 'line-border-color': 'red'
     },
@@ -213,7 +213,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       'line-cap': 'round',
     },
   }
-  const lineBuffer = {
+  const lineBufferForMouseEvent = {
     type: 'line' as 'sky',
     paint: {
       'line-color': '#eb5933',
@@ -251,17 +251,23 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   }, [])
 
   const onMapLoad = React.useCallback(() => {
-    console.log(selectedStepIndex)
     if (selectedStepIndex) {
       updateToStep(selectedStepIndex)
     }
   }, [])
-  // const filter = useMemo(() => ['==', 'ID', selectedFeature]);
-  const mapFilter = useMemo(() => ['==', 'id', storyID], [storyID])
+
+  const mapFilter = useMemo(() => ['==', 'id', storyID  ?? 0], [storyID])
   const filter = useMemo(
-    () => ['==', 'id', selectedFeature?.properties?.id],
+    () => ['==', 'id', selectedFeature?.properties?.id ?? 0],
     [selectedFeature?.properties?.id],
   )
+
+  //TODO: simplify this
+  const mapFilterAdvanced = useMemo(
+    () => ['all', ['!=', 'id', selectedFeature?.properties?.id ?? 0],(storyID != '' ? ['==', 'id', storyID] : ['has', 'id'])],
+    [selectedFeature?.properties?.id, storyID],
+  )
+
   return (
     <div>
       <ViewerMap
@@ -283,20 +289,22 @@ export default function ViewerView({ stories }: ViewerViewProps) {
                     >
                       {/* @ts-ignore */}
                       <Layer
-                        {...lineStyle2}
+                        {...hightLineStyle}
                         filter={selectedFeature ? filter : false}
                         id={m.properties.id}
                       />
                       {/* @ts-ignore */}
                       <Layer
                         {...lineStyle}
-                        filter={storyID != '' ? mapFilter : true}
+                        // filter={(storyID != '' && selectedFeature) ? mapFilterAdvanced : (storyID != '' ? mapFilter : true)}
+                        filter={(selectedFeature || storyID != '') ? mapFilterAdvanced : true}
                         id={m.properties.id.toString() + 'normal'}
                       />
 
                       {/* @ts-ignore */}
                       <Layer
-                        {...lineBuffer}
+                        {...lineBufferForMouseEvent}
+                        filter={(storyID != '' ? mapFilter : true)}
                         id={m.properties.id.toString() + 'buffer'}
                       />
                       {/* <Layer  {...lineName} /> */}
