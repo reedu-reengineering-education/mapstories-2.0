@@ -83,7 +83,9 @@ model Story {
   slug        String      @unique
   description String?
   theme       String?
-  steps       StoryStep[]
+  steps       StoryStep[] @relation("steps")
+  firstStep   StoryStep?   @relation("firstStep", fields: [firstStepId], references: [id])
+  firstStepId String?      @unique
   owner       User?       @relation("owner", fields: [ownerId], references: [id])
   ownerId     String?
   contributor User[]      @relation("contributors")
@@ -97,12 +99,13 @@ model Story {
 model StoryStep {
   id          String         @id @default(cuid())
   position    Int
-  Story       Story          @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  Story       Story          @relation("steps", fields: [storyId], references: [id], onDelete: Cascade)
   storyId     String
   feature     Json?
   content     SlideContent[]
   connections Connection[] //incoming
   viewport    Json
+  storyTitleStep  Story? @relation("firstStep")
 
   @@map(name: "storysteps")
 }

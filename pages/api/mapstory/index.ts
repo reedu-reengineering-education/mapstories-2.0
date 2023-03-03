@@ -30,12 +30,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         })
 
-        await db.storyStep.create({
+        const firstStep = await db.storyStep.create({
           data: {
             storyId: newMapstory.id,
             viewport: {},
             position: 0,
           },
+        })
+
+        await db.story.update({
+          where: { id: newMapstory.id },
+          data: { firstStepId: firstStep.id },
         })
 
         res.json(newMapstory)

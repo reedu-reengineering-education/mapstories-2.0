@@ -86,52 +86,62 @@ export default function MapstorySidebar({
   return (
     <>
       <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
+        <SidebarSlide active={stepId === story.id} variant={'title'}>
+          <div className="flex justify-around">
+            <div className="flex flex-col">
+              <p>ID: {story.firstStepId?.slice(-4)}</p>
+              <p>Pos: {0}</p>
+            </div>
+          </div>
+        </SidebarSlide>
         <DraggableList
-          items={steps.map((s, i) => ({
-            id: s.id,
-            s: s,
-            slug: story.slug,
-            component: (
-              <div className="group relative">
-                <Link href={`/studio/${story.slug}/${s.id}`}>
-                  <SidebarSlide
-                    active={stepId === s.id}
-                    markerHover={s.id === markerId}
-                  >
-                    <div className="flex justify-around">
-                      <div className="flex flex-col">
-                        <p>ID: {s.id.slice(-4)}</p>
-                        <p>Pos: {s.position}</p>
-                      </div>
-                    </div>
-                  </SidebarSlide>
-                </Link>
-                <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
-                  <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
-                </div>
-                {!s.feature && (
-                  <div
-                    className="absolute top-12 right-1 z-10 flex cursor-pointer rounded-md p-2 group-hover:visible"
-                    key={s.id}
-                    onMouseEnter={() => handleMouseEnter(i)}
-                    onMouseLeave={() => handleMouseLeave(i)}
-                  >
-                    <span className="relative">
-                      <MapPinIcon className="h-5 w-5" />
-                      <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-black"></span>
-                    </span>
-                    {hoverMarkerIcon[i] && (
-                      <div className="relative h-full w-full">
-                        <div className="absolute right-4 bottom-1 z-20 w-36 rounded bg-white p-2">
-                          {t('please set a marker for this slide')}
+          items={steps
+            .filter(s => s.position != 0)
+            .map((s, i) => ({
+              id: s.id,
+              s: s,
+              slug: story.slug,
+              component: (
+                <div className="group relative">
+                  <Link href={`/studio/${story.slug}/${s.id}`}>
+                    <SidebarSlide
+                      active={stepId === s.id}
+                      markerHover={s.id === markerId}
+                    >
+                      <div className="flex justify-around">
+                        <div className="flex flex-col">
+                          <p>ID: {s.id.slice(-4)}</p>
+                          <p>Pos: {s.position}</p>
                         </div>
                       </div>
-                    )}
+                    </SidebarSlide>
+                  </Link>
+                  <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
+                    <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
                   </div>
-                )}
-              </div>
-            ),
-          }))}
+                  {!s.feature && (
+                    <div
+                      className="absolute top-12 right-1 z-10 flex cursor-pointer rounded-md p-2 group-hover:visible"
+                      key={s.id}
+                      onMouseEnter={() => handleMouseEnter(i)}
+                      onMouseLeave={() => handleMouseLeave(i)}
+                    >
+                      <span className="relative">
+                        <MapPinIcon className="h-5 w-5" />
+                        <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-black"></span>
+                      </span>
+                      {hoverMarkerIcon[i] && (
+                        <div className="relative h-full w-full">
+                          <div className="absolute right-4 bottom-1 z-20 w-36 rounded bg-white p-2">
+                            {t('please set a marker for this slide')}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ),
+            }))}
           onChange={e => onReorder(e.map(({ s }) => s))}
         ></DraggableList>
 

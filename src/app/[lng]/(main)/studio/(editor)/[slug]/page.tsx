@@ -22,20 +22,20 @@ export default async function EditorPage({
   }
 
   // redirect to first storystep
-  if (story.steps.length > 0) {
-    const { id } = story.steps[0]
-    redirect(`/studio/${story.slug}/${id}`)
+  if (story.firstStepId) {
+    // const { id } = story.steps[0]
+    redirect(`/studio/${story.slug}/${story.firstStepId}`)
   }
 
   // create initial step if not exists
-  const initStep = await db.storyStep.create({
-    data: {
-      storyId: story.id,
-      viewport: {},
-      position: 0,
-    },
-  })
-  redirect(`/studio/${story.slug}/${initStep.id}`)
+  // const initStep = await db.storyStep.create({
+  //   data: {
+  //     storyId: story.id,
+  //     viewport: {},
+  //     position: 0,
+  //   },
+  // })
+  // redirect(`/studio/${story.slug}/${initStep.id}`)
 
-  return <p>Redirecting...</p>
+  // return <p>Redirecting...</p>
 }
