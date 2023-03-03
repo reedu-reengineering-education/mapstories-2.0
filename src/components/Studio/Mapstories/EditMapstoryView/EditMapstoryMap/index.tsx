@@ -1,15 +1,16 @@
-import DrawControl from '@/src/components/Map/DrawControl'
+import { DrawControl } from '@/src/components/Map/DrawControl'
 import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
 import { MarkerDragEvent, MarkerProps } from 'react-map-gl'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useStoryStore } from '@/src/lib/store/story'
 import useStep from '@/src/lib/api/step/useStep'
 import { GeoJsonProperties } from 'geojson'
 import useStory from '@/src/lib/api/story/useStory'
 import ConnectionLines from './Layers/ConnectionLines'
-import Markers from './Layers/Markers'
 import { useRouter } from 'next/navigation'
+import MapboxDraw from '@mapbox/mapbox-gl-draw'
+import { GeoJSONFeature } from 'maplibre-gl'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
@@ -26,6 +27,7 @@ export default function EditMapstoryMap({
   currentStepId,
 }: EditMapstoryMapProps) {
   const router = useRouter()
+  const drawRef = useRef<MapboxDraw>(null)
 
   const storyId = useStoryStore(store => store.storyID)
   const setHoverMarkerId = useStoryStore(state => state.setHoverMarkerId)
@@ -98,6 +100,44 @@ export default function EditMapstoryMap({
     })
   }
 
+  const onDrawLoad = () => {
+    const featureCollection: GeoJSON.FeatureCollection = {
+      type: 'FeatureCollection',
+      features:
+        story?.steps?.map(s => {
+          const feature = s.feature as unknown as GeoJSONFeature
+          feature.properties = {
+            ...feature.properties,
+            stepId: s.id,
+          }
+          return feature
+        }) || [],
+    }
+    drawRef.current?.add(featureCollection)
+  }
+
+  const onDrawUpdate = (event: {
+    features: GeoJSON.Feature<GeoJSON.Geometry, { stepId: string }>[]
+    action: string
+  }) => {
+    const featToUpdate = event.features.find(
+      f => f.properties.stepId === currentStepId,
+    )
+    if (featToUpdate) {
+      updateStep({
+        feature: featToUpdate as any,
+      })
+    }
+  }
+
+  const onDrawCreate = (event: {
+    features: GeoJSON.Feature<GeoJSON.Geometry, { stepId: string }>[]
+  }) => {
+    updateStep({
+      feature: event.features[0] as any,
+    })
+  }
+
   return (
     <Map
       interactiveLayerIds={['step-hover']}
@@ -115,14 +155,18 @@ export default function EditMapstoryMap({
           trash: true,
         }}
         displayControlsDefault={false}
+        onCreate={onDrawCreate}
+        onLoad={onDrawLoad}
+        onUpdate={onDrawUpdate}
         position="top-left"
+        ref={drawRef}
       />
 
-      <Markers
+      {/* <Markers
         markers={markers}
         onChange={addMarker}
         onClick={m => router.replace(`/studio/${story?.slug}/${m.stepId}`)}
-      />
+      /> */}
       <ConnectionLines markers={markers} />
     </Map>
   )
