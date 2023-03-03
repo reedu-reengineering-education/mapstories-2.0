@@ -91,7 +91,10 @@ export default function MapstorySidebar({
             <div className="flex justify-around">
               <div className="flex flex-col">
                 <p>ID: {story.firstStepId?.slice(-4)}</p>
-                <p>Pos: {0}</p>
+                <p>
+                  Pos:
+                  {story.steps?.find(s => s.id === story.firstStepId)?.position}
+                </p>
               </div>
             </div>
           </SidebarSlide>
