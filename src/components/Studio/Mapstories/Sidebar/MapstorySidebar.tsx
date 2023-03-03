@@ -86,14 +86,17 @@ export default function MapstorySidebar({
   return (
     <>
       <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
-        <SidebarSlide active={stepId === story.id} variant={'title'}>
-          <div className="flex justify-around">
-            <div className="flex flex-col">
-              <p>ID: {story.firstStepId?.slice(-4)}</p>
-              <p>Pos: {0}</p>
+        <Link href={`/studio/${story.slug}/${story.firstStepId}`}>
+          <SidebarSlide active={stepId === story.firstStepId} variant={'title'}>
+            <div className="flex justify-around">
+              <div className="flex flex-col">
+                <p>ID: {story.firstStepId?.slice(-4)}</p>
+                <p>Pos: {0}</p>
+              </div>
             </div>
-          </div>
-        </SidebarSlide>
+          </SidebarSlide>
+        </Link>
+        <hr className="my-4 border-gray-400" />
         <DraggableList
           items={steps
             .filter(s => s.position != 0)
