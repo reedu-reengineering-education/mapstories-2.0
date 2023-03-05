@@ -11,9 +11,6 @@ import { Slide } from './Slide'
 type Props = {
   slug: string
   page: string
-  // story: (Story & {
-  //   steps?: StoryStep[] | undefined;
-  // }) | undefined
 }
 
 export function Slides({ slug, page }: Props) {

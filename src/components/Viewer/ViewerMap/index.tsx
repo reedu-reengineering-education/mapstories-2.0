@@ -35,8 +35,9 @@ const ViewerMap = forwardRef<MapRef, MapProps>(
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
         mapStyle={
           mapStyle ||
-          `https://api.maptiler.com/maps/basic-gray/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_KEY}`
+          `https://api.maptiler.com/maps/outdoor/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_KEY}`
         }
+        // mapStyle={'mapbox://styles/mapbox/satellite-v9'}
         onLoad={props.onLoad}
         onMouseMove={props.onMouseMove}
         pitchWithRotate={false}

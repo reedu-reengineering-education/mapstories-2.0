@@ -1,26 +1,10 @@
 import { Slides } from '@/src/components/Viewer/Slides'
 
-// const getMapstory = async (slug:string) => {
-//   return await db.story.findFirst({
-//     where: {
-//       slug: slug,
-//     },
-//     include: {
-//       steps: {
-//         include: {
-//           content: true
-//         }
-//       }
-//     }
-//   })
-// }
-
 interface StoryPageProps {
   params: { slug: string[] }
 }
 
 export default async function StoryPage({ params: { slug } }: StoryPageProps) {
-  // const story = await getMapstory(slug[0])
 
   return (
     <div>

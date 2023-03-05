@@ -1,12 +1,17 @@
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
+import { getCurrentUser } from '@/src/lib/session'
+import { redirect } from 'next/navigation'
 
 interface ViewerLayoutProps {
   children?: React.ReactNode
 }
 
-const getMapstories = async () => {
+const getMapstories = async (userId: string) => {
   return await db.story.findMany({
+    where: {
+      ownerId: userId,
+    },
     include: {
       steps: {
         include: {
@@ -18,7 +23,13 @@ const getMapstories = async () => {
 }
 
 export default async function ViewerLayout({ children }: ViewerLayoutProps) {
-  const mapstories = await getMapstories()
+  const user = await getCurrentUser()
+
+  if (!user) {
+    redirect('/')
+  }
+
+  const mapstories = await getMapstories(user.id)
 
   return (
     <div className="h-full w-full">

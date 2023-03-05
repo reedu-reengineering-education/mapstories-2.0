@@ -1,15 +1,8 @@
 'use client'
 
-import { Story, StoryStep } from '@prisma/client'
-import {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { Layer, MapRef, Popup, Source } from 'react-map-gl'
+import { SlideContent, Story, StoryStep } from '@prisma/client'
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { MapRef, Popup, Source } from 'react-map-gl'
 import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
 import ViewerMap from './ViewerMap'
@@ -18,21 +11,14 @@ import { usePathname, useRouter } from 'next/navigation'
 import mapboxgl from 'mapbox-gl'
 import { useStoryStore } from '@/src/lib/store/story'
 import React from 'react'
+import Markers from './ViewerMap/Layers/Markers'
+import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 
 type ViewerViewProps = {
   stories:
     | (Story & {
-        steps?: StoryStep[] | undefined
-      })[]
-    | undefined
-}
-
-interface MarkerProps {
-  latitude: number
-  longitude: number
-  color: string
-  key: string
-  draggable: boolean
+        steps: (StoryStep & { content: SlideContent[] })[]
+    })[]
 }
 
 export default function ViewerView({ stories }: ViewerViewProps) {
@@ -43,21 +29,23 @@ export default function ViewerView({ stories }: ViewerViewProps) {
 
   const selectedStepIndex = useStoryStore(state => state.selectedStepIndex)
 
-  const [mapData, setMapData] = useState<any[] | undefined>()
+  const [mapData, setMapData] = useState<
+    GeoJSON.Feature<GeoJSON.LineString>[] | undefined
+  >()
   const [selectedFeature, setSelectedFeature] = useState<Feature | undefined>()
 
   const [interactiveLayerIds, setInteractiveLayerIds] = useState<any[]>()
   const [savedView, setSavedView] = useState<any>()
+  const [markers, setMarkers] = useState<any[]>([])
+  const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
 
   const router = useRouter()
 
   useEffect(() => {
-    console.log('STORIES CHAGNED', selectedStepIndex)
     updateToStep(selectedStepIndex)
   }, [selectedStepIndex])
 
   useEffect(() => {
-    // console.log('STORIES CHAGNED', stories)
     extractGeoJson(stories)
   }, [stories])
 
@@ -86,6 +74,33 @@ export default function ViewerView({ stories }: ViewerViewProps) {
     }
   }, [mapData])
 
+  // generate markers
+  useEffect(() => {
+    const story = stories?.filter(story => story.id === storyID)[0]
+    if (story?.steps) {
+      const newMarkers = story?.steps.map(
+        ({ id, feature, position, content }) => {
+          const geoFeature =
+            feature as unknown as GeoJSON.Feature<GeoJSON.Point>
+          const title = content.filter((item: SlideContent) => item.title)
+          if (geoFeature?.geometry?.coordinates?.length > 0) {
+            const newMarker: any = {
+              longitude: geoFeature.geometry.coordinates[0],
+              latitude: geoFeature.geometry.coordinates[1],
+              position: position,
+              stepId: id,
+              color: '#18325b',
+              title: title[0] ? title[0].title : 'No title',
+            }
+            return newMarker
+          }
+        },
+      )
+      // @ts-ignore
+      setMarkers(newMarkers)
+    }
+  }, [storyID])
+
   function extractGeoJson(
     currentStories:
       | (Story & {
@@ -103,16 +118,13 @@ export default function ViewerView({ stories }: ViewerViewProps) {
         return
       }
       s.steps.forEach((step: StoryStep) => {
-        if (step.feature) {
-          if (step.feature['point' as keyof typeof step.feature]) {
-            const point = JSON.parse(
-              JSON.stringify(
-                step.feature['point' as keyof typeof step.feature],
-              ),
-            )
-
-            story.push([point.longitude, point.latitude])
-          }
+        const geoFeature =
+          step.feature as unknown as GeoJSON.Feature<GeoJSON.Point>
+        if (geoFeature?.geometry?.coordinates?.length > 0) {
+          story.push([
+            geoFeature.geometry.coordinates[0],
+            geoFeature.geometry.coordinates[1],
+          ])
         }
       })
       geojsons.push({
@@ -130,11 +142,9 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       })
     })
     setMapData(geojsons)
-    // console.log('GEOJSONS', mapData)
   }
 
   function selectStory(m) {
-    // mapRef?.current?.fitBounds(m.geometry);
     if (m) {
       const coordinates = m.geometry.coordinates
 
@@ -148,34 +158,22 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       if (mapRef) {
         setSavedView(mapRef.current?.getBounds())
         mapRef.current?.fitBounds(bounds, {
-          padding: 20,
+          padding: 100,
         })
       }
     }
+    setSelectedStorySlug(m.properties.slug)
     router.push(`/viewer/story/${m.properties.slug}/0`)
   }
 
   function updateToStep(index) {
     const story = stories?.filter(story => story.id === storyID)[0]
     if (story?.steps?.length && story?.steps?.length > index) {
-      console.log(story?.steps[index])
-      // const coordinates = story?.steps[index].feature.point.latitude;
-
-      // // Create a 'LngLatBounds' with both corners at the first coordinate.
-      // const bounds = new mapboxgl.LngLatBounds(
-      //   coordinates[0],
-      //   coordinates[0]
-      // );
-
-      // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
-      // for (const coord of coordinates) {
-      //   bounds.extend(coord);
-      // }
       if (mapRef && story.steps[index].feature) {
         mapRef.current?.flyTo({
           center: [
-            story?.steps[index].feature.point.longitude,
-            story?.steps[index].feature.point.latitude,
+            story?.steps[index].feature.geometry.coordinates[0],
+            story?.steps[index].feature.geometry.coordinates[1],
           ],
           zoom: 15,
           essential: true,
@@ -184,70 +182,16 @@ export default function ViewerView({ stories }: ViewerViewProps) {
     }
   }
 
-  const lineStyle = {
-    type: 'line' as 'sky',
-    paint: {
-      'line-color': '#18325b',
-      'line-width': 4,
-      'line-opacity': 1,
-      // 'line-border': 2,
-      // 'line-border-color': 'red'
-    },
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-    },
-  }
-  const hightLineStyle = {
-    type: 'line' as 'sky',
-    paint: {
-      'line-color': '#d4da68',
-      'line-width': 10,
-      'line-blur': 3,
-      'line-opacity': 1,
-      // 'line-border': 2,
-      // 'line-border-color': 'red'
-    },
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-    },
-  }
-  const lineBufferForMouseEvent = {
-    type: 'line' as 'sky',
-    paint: {
-      'line-color': '#eb5933',
-      'line-width': 25,
-      'line-blur': 0,
-      'line-opacity': 0,
-      // 'line-border': 2,
-      // 'line-border-color': 'red'
-    },
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-    },
-  }
-
-  // const lineName = {
-  //   id: 'symbols',
-  //   type: 'symbol' as 'sky',
-  //   layout: {
-  //       'symbol-placement': 'line-center',
-  //       'text-font': ['Open Sans Regular'],
-  //       'text-field': 'this is a test',
-  //       'text-size': 32
-  //   },
-  // }
-
   const onHover = useCallback(event => {
-    const feature = event.features && event.features[0]
-    if (feature) {
-      // setPopupPosition(event.lngLat)
-      setSelectedFeature(feature)
-    } else {
-      setSelectedFeature(undefined)
-    }
+    //TODO: we want this?
+
+    // const feature = event.features && event.features[0]
+    // if (feature) {
+    //   // setPopupPosition(event.lngLat)
+    //   setSelectedFeature(feature)
+    // } else {
+    //   setSelectedFeature(undefined)
+    // }
   }, [])
 
   const onMapLoad = React.useCallback(() => {
@@ -255,18 +199,6 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       updateToStep(selectedStepIndex)
     }
   }, [])
-
-  const mapFilter = useMemo(() => ['==', 'id', storyID  ?? 0], [storyID])
-  const filter = useMemo(
-    () => ['==', 'id', selectedFeature?.properties?.id ?? 0],
-    [selectedFeature?.properties?.id],
-  )
-
-  //TODO: simplify this
-  const mapFilterAdvanced = useMemo(
-    () => ['all', ['!=', 'id', selectedFeature?.properties?.id ?? 0],(storyID != '' ? ['==', 'id', storyID] : ['has', 'id'])],
-    [selectedFeature?.properties?.id, storyID],
-  )
 
   return (
     <div>
@@ -276,6 +208,13 @@ export default function ViewerView({ stories }: ViewerViewProps) {
         onMouseMove={onHover}
         ref={mapRef}
       >
+        <StorySourceLayer
+          geojsons={mapData}
+          selectedFeature={selectedFeature}
+          selectedStepIndex={selectedStepIndex}
+          storyID={storyID}
+        />
+
         {mapData &&
           mapData.map((m, i) => {
             return (
@@ -286,29 +225,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
                       data={m as Feature}
                       id={m.properties.id + 'source'}
                       type="geojson"
-                    >
-                      {/* @ts-ignore */}
-                      <Layer
-                        {...hightLineStyle}
-                        filter={selectedFeature ? filter : false}
-                        id={m.properties.id}
-                      />
-                      {/* @ts-ignore */}
-                      <Layer
-                        {...lineStyle}
-                        // filter={(storyID != '' && selectedFeature) ? mapFilterAdvanced : (storyID != '' ? mapFilter : true)}
-                        filter={(selectedFeature || storyID != '') ? mapFilterAdvanced : true}
-                        id={m.properties.id.toString() + 'normal'}
-                      />
-
-                      {/* @ts-ignore */}
-                      <Layer
-                        {...lineBufferForMouseEvent}
-                        filter={(storyID != '' ? mapFilter : true)}
-                        id={m.properties.id.toString() + 'buffer'}
-                      />
-                      {/* <Layer  {...lineName} /> */}
-                    </Source>
+                    ></Source>
 
                     {storyID === '' && (
                       <Popup
@@ -333,6 +250,14 @@ export default function ViewerView({ stories }: ViewerViewProps) {
                           </div>
                         </div>
                       </Popup>
+                    )}
+                    {storyID != '' && (
+                      <>
+                        <Markers
+                          markers={markers}
+                          // onClick={m => router.push(`/viewer/story/${SLUGWHERE}}/${m.position}`)}
+                        />
+                      </>
                     )}
                   </>
                 )}

@@ -4,10 +4,10 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { db } from '@/src/lib/db'
 import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 import { generateSlug } from '@/src/lib/slug'
+import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
-    console.log(req.query.storyId);
     try {
       const story = await db.story.findFirst({
         where: {
@@ -64,5 +64,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(['GET', 'DELETE', 'PUT'], handler)
-// export default withMethods(['GET', 'DELETE', 'PUT'], withMapstory(handler))
+export default withMethods(['GET', 'DELETE', 'PUT'], withMapstory(handler))
