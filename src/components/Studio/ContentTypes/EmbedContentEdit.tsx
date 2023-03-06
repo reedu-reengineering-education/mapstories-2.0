@@ -12,15 +12,16 @@ import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
-import { SlideContent } from '@prisma/client'
-import { media_type, media_types } from '@/src/lib/media/media'
+import { media_type } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
+import { SlideContent } from '@prisma/client'
+import { urlToMedia } from '../../HelperFunctions'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
-  slideContent?: any
+  stepItem?: any
   lng: string
 }
 
@@ -28,7 +29,7 @@ type FormData = z.infer<typeof slideEmbedContentSchema>
 
 export function EmbedContentEdit({
   storyStepId,
-  slideContent,
+  stepItem,
   className,
   lng,
   ...props
@@ -54,8 +55,8 @@ export function EmbedContentEdit({
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [media, setMedia] = useState<media_type>(
-    slideContent
-      ? urlToMedia(slideContent.media)
+    stepItem
+      ? urlToMedia(stepItem.media)
       : {
           type: 'unknown',
           name: 'Unknown',
@@ -67,14 +68,14 @@ export function EmbedContentEdit({
   async function onSubmit(data: FormData) {
     setIsSaving(true)
     const url = `/api/mapstory/step/${
-      slideContent ? slideContent.storyStepId : storyStepId
+      stepItem ? stepItem.storyStepId : storyStepId
     }/content`
-    const method = slideContent ? 'PUT' : 'POST'
+    const method = stepItem ? 'PUT' : 'POST'
     const headers = {
       'Content-Type': 'application/json',
     }
-    const body = slideContent
-      ? JSON.stringify({ ...slideContent })
+    const body = stepItem
+      ? JSON.stringify({ ...stepItem })
       : JSON.stringify({ ...data })
     const response = await fetch(url, { method, headers, body })
 
@@ -88,51 +89,21 @@ export function EmbedContentEdit({
       })
     }
 
+    const newContent = (await response.json()) as SlideContent
+
     toast({
       message: 'Your content has been created.',
       type: 'success',
     })
 
-    const newContent = (await response.json()) as SlideContent
     router.refresh()
     // router.push(`/studio/${newStory.id}`)
   }
 
   async function handleUrl(url: string) {
     setMedia(urlToMedia(url))
-    if (media.type != 'unknown' && slideContent) {
-      slideContent.media = url
-    }
-  }
-
-  function urlToMedia(url: string): media_type {
-    // check if url is a valid url with zod
-    try {
-      z.string().url().parse(url)
-
-      // check if url ir a known media url
-      for (var i = 0; i < media_types.length; i++) {
-        if (url.toString().match(media_types[i].match_str)) {
-          const media = { ...media_types[i] }
-          media.url = url
-          return media
-        }
-      }
-      // return unknown media
-      return {
-        type: 'unknown',
-        name: 'Unknown',
-        match_str: / /,
-        url: '',
-      }
-    } catch {
-      // return unknown media
-      return {
-        type: 'unknown',
-        name: 'Unknown',
-        match_str: / /,
-        url: '',
-      }
+    if (url && media.type != 'unknown' && stepItem) {
+      stepItem.media = url
     }
   }
 
@@ -148,23 +119,23 @@ export function EmbedContentEdit({
             Gib eine URL zu einem Social Media Beitrag ein
           </InputLabel>
           <Input
-            defaultValue={slideContent ? slideContent.media : ''}
+            defaultValue={stepItem ? stepItem.media : ''}
             errors={errors.media}
             label="media"
             size={32}
             {...register('media')}
           />
         </div>
-        <div className="re-data-media-preview">
-          <Embed height="200" media={media} width="300" />
+        <div className="re-data-media-preview pt-4 pb-4">
+          <Embed height="50vh" media={media} />
         </div>
         <Button
           disabled={media.type == 'unknown'}
           isLoading={isSaving}
           type="submit"
         >
-          {slideContent && t('save')}
-          {!slideContent && t('create')}
+          {stepItem && t('save')}
+          {!stepItem && t('create')}
         </Button>
       </div>
     </form>
