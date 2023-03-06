@@ -1,5 +1,5 @@
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-import { unstable_getServerSession } from 'next-auth/next'
+import { getServerSession } from 'next-auth/next'
 import * as z from 'zod'
 
 import { authOptions } from '@/src/lib/auth'
@@ -15,7 +15,7 @@ export function withMapstory(handler: NextApiHandler) {
       const query = await schema.parse(req.query)
 
       // Check if the user has access to this mapstory.
-      const session = await unstable_getServerSession(req, res, authOptions)
+      const session = await getServerSession(req, res, authOptions)
       const count = await db.story.count({
         where: {
           id: query.storyId,
