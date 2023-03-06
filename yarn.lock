@@ -913,7 +913,7 @@
   dependencies:
     "@types/ms" "*"
 
-"@types/geojson@*", "@types/geojson@^7946.0.10":
+"@types/geojson@*", "@types/geojson@^7946.0.10", "@types/geojson@^7946.0.7":
   version "7946.0.10"
   resolved "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.10.tgz"
   integrity sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==
@@ -924,6 +924,11 @@
   integrity sha512-wLEm0QvaoawEDoTRwzTXp4b4jpwiJDvR5KMnFnVodm3scufTlBOWRD6N1OBf9TZMhjlNsSfcO5V+7AF4+Vy+9g==
   dependencies:
     "@types/unist" "*"
+
+"@types/json-schema@7.0.7":
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
+  integrity sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
 
 "@types/json-schema@^7.0.9":
   version "7.0.11"
@@ -4209,6 +4214,21 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
+
+pure-geojson-validation@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/pure-geojson-validation/-/pure-geojson-validation-0.3.0.tgz#3f1956ddc863fbd35d84492b6e5752e5c097c971"
+  integrity sha512-qW3YoFBaPjLdSI5rbAYPtMiViQBfrAet20g7ICiyL1MsVClXoIsNfW25NHhXWHiYqqiV8vHbIib5CyRZq58BHg==
+  dependencies:
+    "@types/geojson" "^7946.0.7"
+    purify-ts "^0.16.1"
+
+purify-ts@^0.16.1:
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/purify-ts/-/purify-ts-0.16.3.tgz#be85f939b4c1365f38c1c8c44fdfbd3145ecae0c"
+  integrity sha512-ZEmLC0myQiV672QM5ZD//KyoCDXQltBvdR9q12NUk5d1tS1d7paut0U8/13Xl4dJ/pA1JYJg6gHhoiaqy2O1bg==
+  dependencies:
+    "@types/json-schema" "7.0.7"
 
 queue-microtask@^1.2.2:
   version "1.2.3"
