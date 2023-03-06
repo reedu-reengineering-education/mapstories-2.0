@@ -41,7 +41,9 @@ export function EmbedContent({ content }: EmbedContentEditProps) {
 
   return (
     <div className="re-data-media-preview">
-      <Embed height="200" media={urlToMedia(content.media)} width="300" />
+      {content.media &&
+        <Embed height="200" media={urlToMedia(content.media)} width="300" />
+      }
     </div>
   )
 }

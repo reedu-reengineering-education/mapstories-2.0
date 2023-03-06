@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CircleLayer, Layer, Marker, Source } from 'react-map-gl'
 
-// import eric from '@/assets/images/eric.png';
 const triggerHoverLayerStyle: CircleLayer = {
   id: 'point',
   type: 'circle',
@@ -67,6 +66,7 @@ export default function Markers({ markers, onClick }: Props) {
               padding: '10px',
             }}
           >
+            {/* <img height="55px" src={eric.src} width="55px"></img> */}
           </Marker>
           <Marker
             {...m}

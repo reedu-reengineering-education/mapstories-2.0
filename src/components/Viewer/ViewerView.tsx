@@ -1,7 +1,7 @@
 'use client'
 
 import { SlideContent, Story, StoryStep } from '@prisma/client'
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { MapRef, Popup, Source } from 'react-map-gl'
 import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
@@ -22,7 +22,9 @@ type ViewerViewProps = {
 }
 
 export default function ViewerView({ stories }: ViewerViewProps) {
-  const mapRef = useRef<MapRef>()
+  // const mapRef = useRef<MapRef | undefined>()
+  const mapRef = React.createRef<MapRef>()
+  
   const path = usePathname()
   const storyID = useStoryStore(state => state.storyID)
   const setStoryID = useStoryStore(state => state.setStoryID)
@@ -42,7 +44,9 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   const router = useRouter()
 
   useEffect(() => {
-    updateToStep(selectedStepIndex)
+    if(selectedStepIndex != undefined) {
+      updateToStep(selectedStepIndex)
+    }
   }, [selectedStepIndex])
 
   useEffect(() => {
@@ -66,7 +70,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       const ids = mapData
         ?.map(m => {
           if (m.geometry.coordinates.length > 0) {
-            return m.properties.id.toString() + 'buffer'
+            return m.properties?.id.toString() + 'buffer'
           }
         })
         .filter(item => item != undefined)
@@ -144,16 +148,16 @@ export default function ViewerView({ stories }: ViewerViewProps) {
     setMapData(geojsons)
   }
 
-  function selectStory(m) {
+  function selectStory(m: GeoJSON.Feature<GeoJSON.LineString>) {
     if (m) {
       const coordinates = m.geometry.coordinates
 
       // Create a 'LngLatBounds' with both corners at the first coordinate.
-      const bounds = new mapboxgl.LngLatBounds(coordinates[0], coordinates[0])
+      const bounds = new mapboxgl.LngLatBounds([coordinates[0][0], coordinates[0][1]], [coordinates[0][0], coordinates[0][1]])
 
       // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
       for (const coord of coordinates) {
-        bounds.extend(coord)
+        bounds.extend([coord[0], coord[1]])
       }
       if (mapRef) {
         setSavedView(mapRef.current?.getBounds())
@@ -162,18 +166,19 @@ export default function ViewerView({ stories }: ViewerViewProps) {
         })
       }
     }
-    setSelectedStorySlug(m.properties.slug)
-    router.push(`/viewer/story/${m.properties.slug}/0`)
+    setSelectedStorySlug(m.properties?.slug)
+    router.push(`/viewer/story/${m.properties?.slug}/0`)
   }
 
-  function updateToStep(index) {
+  function updateToStep(index:number) {
     const story = stories?.filter(story => story.id === storyID)[0]
     if (story?.steps?.length && story?.steps?.length > index) {
-      if (mapRef && story.steps[index].feature) {
+      if (mapRef && story.steps[index].feature) {      
+        const feature: Feature<GeoJSON.Point> =  story?.steps[index].feature  as unknown as Feature<GeoJSON.Point>;
         mapRef.current?.flyTo({
           center: [
-            story?.steps[index].feature.geometry.coordinates[0],
-            story?.steps[index].feature.geometry.coordinates[1],
+            feature.geometry.coordinates[0],
+            feature.geometry.coordinates[1],
           ],
           zoom: 15,
           essential: true,
@@ -182,17 +187,17 @@ export default function ViewerView({ stories }: ViewerViewProps) {
     }
   }
 
-  const onHover = useCallback(event => {
-    //TODO: we want this?
+  // const onHover = useCallback(event => {
+  //   //TODO: we want this?
 
-    // const feature = event.features && event.features[0]
-    // if (feature) {
-    //   // setPopupPosition(event.lngLat)
-    //   setSelectedFeature(feature)
-    // } else {
-    //   setSelectedFeature(undefined)
-    // }
-  }, [])
+  //   // const feature = event.features && event.features[0]
+  //   // if (feature) {
+  //   //   // setPopupPosition(event.lngLat)
+  //   //   setSelectedFeature(feature)
+  //   // } else {
+  //   //   setSelectedFeature(undefined)
+  //   // }
+  // }, [])
 
   const onMapLoad = React.useCallback(() => {
     if (selectedStepIndex) {
@@ -205,7 +210,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       <ViewerMap
         interactiveLayerIds={interactiveLayerIds}
         onLoad={onMapLoad}
-        onMouseMove={onHover}
+        // onMouseMove={onHover}
         ref={mapRef}
       >
         <StorySourceLayer
@@ -223,7 +228,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
                   <>
                     <Source
                       data={m as Feature}
-                      id={m.properties.id + 'source'}
+                      id={m.properties?.id + 'source'}
                       type="geojson"
                     ></Source>
 

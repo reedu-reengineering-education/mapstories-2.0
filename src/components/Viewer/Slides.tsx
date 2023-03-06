@@ -32,12 +32,10 @@ export function Slides({ slug, page }: Props) {
   }, [story])
 
   useEffect(() => {
-    console.log(page)
     updateSelectedStepIndex(parseInt(page))
   }, [page])
 
   useEffect(() => {
-    console.log(parseInt(page))
     updateSelectedStepIndex(parseInt(page))
   }, [])
 
@@ -49,15 +47,14 @@ export function Slides({ slug, page }: Props) {
   function prevStep() {
     // const length = story?.steps?.length
     router.push(`/viewer/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
-    // updateSelectedStepIndex(page ? parseInt(page)-1: 1)
   }
 
   return (
     <div className="py-4">
-      {/* <Slide step={ story?.steps?[page] ? story?.steps?[page] : undefined} /> */}
-      <Slide step={story?.steps[parseInt(page)]}></Slide>
-      {/* <Slide step={ story?.steps?[page] ? story?.steps?[page] : undefined}></Slide>
-       */}
+
+      {story?.steps && story?.steps[parseInt(page)] && 
+        <Slide step={story?.steps[parseInt(page)]}></Slide>
+      }
       <Button onClick={() => nextStep()}>
         {parseInt(page) < 1 ? 'Abspielen' : 'Weiter'}
       </Button>
