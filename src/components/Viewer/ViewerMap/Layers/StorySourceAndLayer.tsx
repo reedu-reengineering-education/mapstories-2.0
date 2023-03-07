@@ -23,8 +23,6 @@ export default function StorySourceLayer({
   const [lineDataTodo, setLineDataTodo] = useState<
     GeoJSON.Feature | undefined
   >()
-  // const storyID = useStoryStore(state => state.storyID)
-  // const selectedStepIndex = useStoryStore(state => state.selectedStepIndex)
 
   // generate Line string
   useEffect(() => {
