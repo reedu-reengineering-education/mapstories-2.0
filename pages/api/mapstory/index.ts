@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as z from 'zod'
-import { unstable_getServerSession } from 'next-auth/next'
+import { getServerSession } from 'next-auth/next'
 
 import { db } from '@/src/lib/db'
 import { authOptions } from '@/src/lib/auth'
@@ -12,7 +12,7 @@ import { generateSlug } from '@/src/lib/slug'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
-      const session = await unstable_getServerSession(req, res, authOptions)
+      const session = await getServerSession(req, res, authOptions)
       const user = session?.user
 
       const body = req.body
