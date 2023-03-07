@@ -66,9 +66,17 @@ export default function StorySourceLayer({
         }
         setLineDataTodo(newLineDataTodo)
       }
+    } else {
+      resetSelectedStoryData()
     }
   }, [selectedStepIndex, storyID])
 
+
+  function resetSelectedStoryData(){
+    setLineDataDone(undefined)
+    setLineDataTodo(undefined)
+  }
+  
   const lineStyle = {
     type: 'line' as 'sky',
     paint: {
