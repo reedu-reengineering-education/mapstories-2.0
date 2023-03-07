@@ -6,7 +6,8 @@ import {
   NavigationControl,
   Map as ReactMap,
 } from 'react-map-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
+import 'mapbox-gl/dist/mapbox-gl.css'
+// import 'maplibre-gl/dist/maplibre-gl.css'
 import { forwardRef } from 'react'
 
 const ViewerMap = forwardRef<MapRef, MapProps>(
