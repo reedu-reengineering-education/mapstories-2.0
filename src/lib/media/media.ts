@@ -13,6 +13,18 @@ export var media_types: media_type[] = [
     match_str: /(www.)?youtube|youtu\.be/,
     url: '',
   },
+  {
+    type: 'tiktok',
+    name: 'TikTok',
+    match_str: /(www.)?tiktok\.com/,
+    url: '',
+  },
+  {
+    type: 'facebook',
+    name: 'Facebook',
+    match_str: /(www.)?facebook\.com/,
+    url: '',
+  },
   // {
   //     type: 'vimeo',
   //     name: 'Vimeo',
@@ -61,12 +73,12 @@ export var media_types: media_type[] = [
   //     match_str: /flickr.com\/photos/,
   //     url: ''
   // },
-  // {
-  //     type: 'instagram',
-  //     name: 'Instagram',
-  //     match_str: /(instagr.am|instagram.com)\/p\//,
-  //     url: ''
-  // },
+  {
+    type: 'instagram',
+    name: 'Instagram',
+    match_str: /(instagr.am|instagram.com)\/p\//,
+    url: '',
+  },
   // {
   //     type: 'profile',
   //     name: 'Profile',
@@ -91,12 +103,12 @@ export var media_types: media_type[] = [
   //     match_str: /\b.(doc|docx|xls|xlsx|ppt|pptx|pdf|pages|ai|psd|tiff|dxf|svg|eps|ps|ttf|xps|zip|tif)\b/,
   //     url: ''
   // },
-  // {
-  //     type: 'wikipedia',
-  //     name: 'Wikipedia',
-  //     match_str: /(www.)?wikipedia\.org/,
-  //     url: ''
-  // },
+  {
+    type: 'wikipedia',
+    name: 'Wikipedia',
+    match_str: /(www.)?wikipedia\.org/,
+    url: '',
+  },
   // {
   //     type: 'iframe',
   //     name: 'iFrame',
@@ -109,12 +121,12 @@ export var media_types: media_type[] = [
   //     match_str: /storify/,
   //     url: ''
   // },
-  // {
-  //     type: 'padlet',
-  //     name: 'Padlet',
-  //     match_str: /padlet.com/,
-  //     url: ''
-  // },
+  {
+    type: 'padlet',
+    name: 'Padlet',
+    match_str: /padlet.com/,
+    url: '',
+  },
   // {
   //     type: 'blockquote',
   //     name: 'Quote',

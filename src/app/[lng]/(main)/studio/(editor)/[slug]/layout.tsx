@@ -22,11 +22,7 @@ interface DashboardLayoutProps {
   children?: React.ReactNode
 }
 
-async function getStoryForUser(
-  // storyId: Story['id'],
-  userId: User['id'],
-  slug: Story['slug'],
-) {
+async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
   return await db.story.findFirst({
     where: {
       slug: slug,
@@ -43,7 +39,7 @@ async function getStoryForUser(
 }
 
 export default async function DashboardLayout({
-  params: { storyId, slug, lng },
+  params: { slug, lng },
   children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser()
@@ -53,8 +49,6 @@ export default async function DashboardLayout({
   }
 
   const story = await getStoryForUser(user.id, slug)
-
-  const storySteps = story?.steps
 
   if (!story) {
     return notFound()
@@ -79,7 +73,7 @@ export default async function DashboardLayout({
           <MapstorySidebar lng={lng} storyID={story.id} />
         </aside>
         <main className="re-studio-height-full-screen relative flex w-full flex-1 flex-col overflow-hidden">
-          <EditMapstoryView data-superjson steps={storySteps} story={story} />
+          <EditMapstoryView data-superjson story={story} />
           <div className="absolute top-0 left-0 h-full w-full">{children}</div>
         </main>
       </div>

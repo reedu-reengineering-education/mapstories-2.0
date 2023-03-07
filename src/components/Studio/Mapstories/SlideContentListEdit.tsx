@@ -1,7 +1,18 @@
 'use client'
 
 import { SlideContent, StoryStep } from '@prisma/client'
-import { HeadingIcon, TextIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
+import {
+  ClipboardIcon,
+  ClockIcon,
+  FaceIcon,
+  HeadingIcon,
+  InstagramLogoIcon,
+  MagnifyingGlassIcon,
+  PersonIcon,
+  PlayIcon,
+  TextIcon,
+  TwitterLogoIcon,
+} from '@radix-ui/react-icons'
 import * as React from 'react'
 import DraggableList from '../../DraggableList'
 import { Button } from '../../Elements/Button'
@@ -10,6 +21,7 @@ import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import dynamic from 'next/dynamic'
 import { EditContentType } from '../ContentTypes/EditContentType'
 import useStory from '@/src/lib/api/story/useStory'
+import { urlToMedia } from '../../HelperFunctions'
 
 type Props = {
   storyId: string
@@ -21,7 +33,7 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
 })
 
-const renderSwitch = function renderSwitch(content: any) {
+const renderSwitch = function renderSwitch(content: SlideContent) {
   //@ts-ignore
   const markdownPreviewStyles = {
     background: 'white',
@@ -49,14 +61,32 @@ const renderSwitch = function renderSwitch(content: any) {
     )
   }
   if (content.media != null) {
+    const media = urlToMedia(content.media)
     return (
       <div className="relativ z-750 flex">
-        <TwitterLogoIcon className="h-14 w-14"></TwitterLogoIcon>
-        {content.media.substring(0, 12)}...
+        {media.type == 'twitter' ? (
+          <TwitterLogoIcon className="h-14 w-14" />
+        ) : media.type == 'youtube' ? (
+          <PlayIcon className="h-14 w-14" />
+        ) : media.type == 'instagram' ? (
+          <InstagramLogoIcon className="h-14 w-14" />
+        ) : media.type == 'tiktok' ? (
+          <ClockIcon className="h-14 w-14" />
+        ) : media.type == 'padlet' ? (
+          <ClipboardIcon className="h-14 w-14" />
+        ) : media.type == 'facebook' ? (
+          <FaceIcon className="h-14 w-14" />
+        ) : media.type == 'wikipedia' ? (
+          <MagnifyingGlassIcon className="h-14 w-14" />
+        ) : (
+          <PersonIcon className="h-14 w-14"></PersonIcon>
+        )}
+        ...
+        {content.media.substring(content.media.length - 12)}
       </div>
     )
   }
-  return 'foo'
+  return 'content undefined...'
 }
 
 export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
