@@ -18,7 +18,6 @@ export default function DeleteContentButton({
   //const { story, deleteContent } = useStory(id)
 
   async function handleClick() {
-
     const response = await fetch(
       `/api/mapstory/step/${storyStepId}/content/${stepContentId}`,
       {
@@ -26,7 +25,6 @@ export default function DeleteContentButton({
         headers: { 'Content-Type': 'application/json' },
       },
     )
-
 
     if (!response?.ok) {
       return toast({

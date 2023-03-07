@@ -80,7 +80,7 @@ export function TitleContentEdit({
       })
 
       router.refresh()
-    } catch (error:any) {
+    } catch (error: any) {
       toast({
         title: 'Something went wrong.',
         message: error.message,

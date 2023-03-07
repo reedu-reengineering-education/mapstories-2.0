@@ -4,7 +4,7 @@ import { db } from '@/src/lib/db'
 import { redirect } from 'next/navigation'
 
 export default async function EditorPage({
-  params: { slug, storyId },
+  params: { slug },
 }: {
   params: { slug: string; storyId: string }
 }) {

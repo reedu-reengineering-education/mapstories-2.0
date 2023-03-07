@@ -90,8 +90,14 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
   if (content.image != null) {
     // query image from the s3 service and display it in the component
     return (
-      <div className="relativ z-750 flex justify-center max-w-2">
-        <Image alt={ content.image } className='m-2' height={content.imageHeight}  src={content.image} width={content.imageWidth} />
+      <div className="relativ z-750 max-w-2 flex justify-center">
+        <Image
+          alt={content.image}
+          className="m-2"
+          height={content.imageHeight}
+          src={content.image}
+          width={content.imageWidth}
+        />
       </div>
     )
   }
@@ -103,10 +109,6 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
   const step: (StoryStep & { content?: SlideContent[] }) | undefined =
     story?.steps?.filter(step => step.id === stepId)[0]
   const [disabled, setDisabled] = React.useState(false)
-
-
-
-
 
   return (
     <div className="py-4">

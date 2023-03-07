@@ -70,8 +70,10 @@ export default function SlideContentModal({
                     <h3 className="text-center">Text</h3>
                   </div>
 
-                  <div className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
-                        onClick={()=>setContentType('videoimage')}>
+                  <div
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    onClick={() => setContentType('videoimage')}
+                  >
                     <div className="flex justify-center">
                       <VideoIcon className="h-14 w-14"></VideoIcon>
                     </div>
@@ -93,8 +95,8 @@ export default function SlideContentModal({
 
             {(contentType == 'title' ||
               contentType == 'embed' ||
-              contentType == 'text'  ||
-              contentType == 'videoimage' ) && (
+              contentType == 'text' ||
+              contentType == 'videoimage') && (
               <>
                 <CSSTransition
                   appear
