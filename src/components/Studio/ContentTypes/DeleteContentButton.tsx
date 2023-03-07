@@ -4,7 +4,6 @@ import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import { toast } from '@/src/lib/toast'
 
 export default function DeleteContentButton({
@@ -14,14 +13,11 @@ export default function DeleteContentButton({
   storyStepId: any
   stepContentId: any
 }) {
-  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   //const { story, deleteContent } = useStory(id)
-  const [isSaving, setIsSaving] = useState<boolean>(false)
 
   async function handleClick() {
-    setIsSaving(true)
 
     const response = await fetch(
       `/api/mapstory/step/${storyStepId}/content/${stepContentId}`,
@@ -31,7 +27,6 @@ export default function DeleteContentButton({
       },
     )
 
-    setIsSaving(false)
 
     if (!response?.ok) {
       return toast({

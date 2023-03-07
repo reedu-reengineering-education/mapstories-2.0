@@ -29,6 +29,7 @@ export default function SlideContentModal({
   lng,
 }: Props) {
   const [contentType, setContentType] = useState<string>('')
+  //@ts-ignore
   const { t } = useTranslation(lng, 'editModal')
   return (
     <>

@@ -1,15 +1,34 @@
 import { Button } from '@/src/components/Elements/Button'
 import { SlideContentListEdit } from '@/src/components/Studio/Mapstories/SlideContentListEdit'
+import { db } from '@/src/lib/db'
 import PlusIcon from '@heroicons/react/24/outline/PlusIcon'
+import { Story } from '@prisma/client'
 import SlideContentModal from './SlideContentModal'
 
 interface EditorPageProps {
-  params: { storyStepId: string; lng: string }
+  params: { slug: string; storyStepId: string; lng: string }
 }
 
-export default function StepPage({
-  params: { storyStepId, lng },
+async function getStory(slug: Story['slug']) {
+  return await db.story.findFirst({
+    where: {
+      slug: slug,
+    },
+    select: {
+      id: true,
+    },
+  })
+}
+
+export default async function StepPage({
+  params: { slug, storyStepId, lng },
 }: EditorPageProps) {
+  const story = await getStory(slug)
+
+  if (!story?.id) {
+    return <p>Loading...</p>
+  }
+
   return (
     <div>
       <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">
@@ -18,6 +37,7 @@ export default function StepPage({
           <SlideContentListEdit
             lng={''}
             stepId={storyStepId}
+            storyId={story.id}
           ></SlideContentListEdit>
         </div>
 

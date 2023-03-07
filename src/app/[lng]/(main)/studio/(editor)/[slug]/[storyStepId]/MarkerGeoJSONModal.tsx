@@ -11,8 +11,8 @@ type Props = {
   storyStepId: string
 }
 
-export default function MarkerGeojsonModal({ trigger, storyStepId }: Props) {
-  const [contentType, setContentType] = useState('')
+export default function MarkerGeojsonModal({ trigger }: Props) {
+  const [setContentType] = useState('')
 
   return (
     <>

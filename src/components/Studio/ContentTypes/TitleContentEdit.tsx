@@ -71,7 +71,7 @@ export function TitleContentEdit({
           type: 'error',
         })
       }
-
+      //@ts-ignore
       const newContent = (await response.json()) as SlideContent
 
       toast({
@@ -80,12 +80,10 @@ export function TitleContentEdit({
       })
 
       router.refresh()
-    } catch (error) {
-      console.error(error)
-
+    } catch (error:any) {
       toast({
         title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again.',
+        message: error.message,
         type: 'error',
       })
     }

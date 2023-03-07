@@ -1,6 +1,6 @@
 'use client'
 
-import { createMapstoryeSchema } from '@/src/lib/validations/mapstory'
+import { createMapstorySchema } from '@/src/lib/validations/mapstory'
 import { useState } from 'react'
 import { Button } from '../Elements/Button'
 import { Modal } from '../Modal'
@@ -13,7 +13,7 @@ import { Input, InputLabel } from '../Elements/Input'
 import { createStory } from '@/src/lib/api/story/createStory'
 import { useTranslation } from '@/src/app/i18n/client'
 
-type FormData = z.infer<typeof createMapstoryeSchema>
+type FormData = z.infer<typeof createMapstorySchema>
 
 type Props = {
   trigger: React.ReactElement
@@ -29,7 +29,7 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
     register,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(createMapstoryeSchema),
+    resolver: zodResolver(createMapstorySchema),
   })
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
@@ -43,10 +43,7 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
         type: 'success',
       })
       const newStory = await response.data
-      router.refresh()
-      if (newStory.slug) {
-        router.push(`/studio/${newStory.slug}`)
-      }
+      router.push(`/studio/${newStory.slug}`)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
@@ -68,14 +65,6 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
             label="Name"
             size={32}
             {...register('name')}
-          />
-          <Input
-            className="hidden"
-            defaultValue={''}
-            errors={errors.slug}
-            label="Slug"
-            size={32}
-            {...register('slug')}
           />
         </Modal.Content>
         <Modal.Footer>

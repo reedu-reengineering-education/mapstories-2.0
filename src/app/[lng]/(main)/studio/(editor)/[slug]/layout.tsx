@@ -1,5 +1,6 @@
 import { Button } from '@/src/components/Elements/Button'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
+import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
 import MapstorySidebar from '@/src/components/Studio/Mapstories/Sidebar/MapstorySidebar'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
@@ -8,7 +9,6 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { Story, User } from '@prisma/client'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
-import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
 
 export const generateStaticParams =
   process.env.NODE_ENV !== 'development'
@@ -22,11 +22,7 @@ interface DashboardLayoutProps {
   children?: React.ReactNode
 }
 
-async function getStoryForUser(
-  // storyId: Story['id'],
-  userId: User['id'],
-  slug: Story['slug'],
-) {
+async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
   return await db.story.findFirst({
     where: {
       slug: slug,
@@ -43,7 +39,7 @@ async function getStoryForUser(
 }
 
 export default async function DashboardLayout({
-  params: { storyId, slug, lng },
+  params: { slug, lng },
   children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser()
@@ -53,8 +49,6 @@ export default async function DashboardLayout({
   }
 
   const story = await getStoryForUser(user.id, slug)
-
-  const storySteps = story?.steps
 
   if (!story) {
     return notFound()
@@ -71,14 +65,7 @@ export default async function DashboardLayout({
             Zurück
           </Button>
         </Link>
-        <SettingsModal
-          description={story.description || ''}
-          isPublic={story.visibility !== 'PRIVATE'}
-          lng={lng}
-          storyId={story.id}
-          theme={story.theme || ''}
-          title={story.name || ''}
-        />
+        <SettingsModal lng={lng} storyId={story.id} />
       </div>
 
       <div className="re-studio-height-full-screen mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr]">
@@ -86,7 +73,7 @@ export default async function DashboardLayout({
           <MapstorySidebar lng={lng} storyID={story.id} />
         </aside>
         <main className="re-studio-height-full-screen relative flex w-full flex-1 flex-col overflow-hidden">
-          <EditMapstoryView data-superjson steps={storySteps} story={story} />
+          <EditMapstoryView data-superjson story={story} />
           <div className="absolute top-0 left-0 h-full w-full">{children}</div>
         </main>
       </div>

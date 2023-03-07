@@ -2,7 +2,6 @@
 import { TextContentEdit } from './TextContentEdit'
 import { TitleContentEdit } from './TitleContentEdit'
 import { EmbedContentEdit } from './EmbedContentEdit'
-import { ImageContentEdit } from './ImageContentEdit'
 
 export function EditContentType(props) {
   // this function in a switch statement
@@ -15,14 +14,7 @@ export function EditContentType(props) {
     <div>
       {props.stepItem.title && <TitleContentEdit stepItem={props.stepItem} />}
       {props.stepItem.text && <TextContentEdit stepItem={props.stepItem} />}
-      {props.stepItem.embed && (
-        <EmbedContentEdit
-          lng={props.lng}
-          slideContent={props.stepItem}
-          storyStepId={props.stepItem.id}
-        ></EmbedContentEdit>
-      )}
-      {props.stepItem.image && <ImageContentEdit stepItem={props.stepItem} />}
+      {props.stepItem.media && <EmbedContentEdit stepItem={props.stepItem} />}
     </div>
   )
 }

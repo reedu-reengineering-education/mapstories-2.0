@@ -9,15 +9,13 @@ import { Controller, useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { Input, InputLabel } from '../../Elements/Input'
 import { mapstoryOptionsSchema } from '@/src/lib/validations/mapstory-options'
-import { DropdownMenu } from '@/src/components/Dropdown'
-import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { updateStory } from '@/src/lib/api/story/updateStory'
 import { useTranslation } from '@/src/app/i18n/client'
 import { Textarea, TextareaLabel } from '@/src/components/Elements/Textarea'
-import { Spacer } from '../../Elements/Spacer'
+import useStory from '@/src/lib/api/story/useStory'
 import Switch from '../../Elements/Switch'
+import { Spacer } from '../../Elements/Spacer'
+import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 // import { useS3Upload } from "next-s3-upload";
 
 type FormData = z.infer<typeof mapstoryOptionsSchema>
@@ -32,33 +30,27 @@ const options: Pick<DropdownMenuItemProps, 'children'>[] = [
 
 export default function SettingsModal({
   storyId,
-  title,
-  description,
-  isPublic,
-  theme,
   lng,
 }: {
   storyId: string
-  title: string
-  description: string
-  isPublic: boolean
-  theme: string
   lng: string
 }) {
-  const router = useRouter()
   const { t } = useTranslation(lng, 'settingsModal')
-  const [isSaving, setIsSaving] = useState<boolean>(false)
+  const [isSaving, setIsSaving] = useState(false)
   const [image, setImage] = useState<string | any>()
   const [selectedTheme, setSelectedTheme] = useState('')
+
   const {
-    handleSubmit,
-    register,
     control,
+    handleSubmit,
     setValue,
+    register,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(mapstoryOptionsSchema),
   })
+
+  const { story, updateStory } = useStory(storyId)
 
   // let { uploadToS3 } = useS3Upload();
 
@@ -72,17 +64,16 @@ export default function SettingsModal({
   async function onSubmit(data: FormData) {
     setIsSaving(true)
     try {
-      const response = await updateStory(storyId, {
-        name: data.name,
-        description: data.description,
-        visibility: data.public === true ? 'PUBLIC' : 'PRIVATE',
-        theme: data.theme,
+      const updatedStory = await updateStory({
+        ...data,
+        visibility: data.public ? 'PUBLIC' : 'PRIVATE',
       })
       toast({
         message: 'Your changes were applied.',
         type: 'success',
       })
-      router.push(`/studio/${response.data.name}`)
+      // TODO: if the slug changes, we need to redirect / replace the route
+      // router.push(`/studio/${updatedStory.slug}`)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
@@ -92,6 +83,19 @@ export default function SettingsModal({
     } finally {
       setIsSaving(false)
     }
+  }
+
+  // show loading state
+  if (!story) {
+    return (
+      <Button
+        disabled
+        startIcon={<Cog6ToothIcon className="w-5" />}
+        variant={'inverse'}
+      >
+        {t('options')}
+      </Button>
+    )
   }
 
   return (
@@ -110,7 +114,7 @@ export default function SettingsModal({
         <Modal.Content>
           <InputLabel>{t('name')}</InputLabel>
           <Input
-            defaultValue={title}
+            defaultValue={story.name || ''}
             errors={errors.name}
             label={t('name')}
             size={32}
@@ -119,7 +123,7 @@ export default function SettingsModal({
           <TextareaLabel>{t('description')}</TextareaLabel>
           <Textarea
             cols={60}
-            defaultValue={description}
+            defaultValue={story.description || ''}
             errors={errors.description}
             label={t('description')}
             rows={3}
@@ -128,26 +132,41 @@ export default function SettingsModal({
 
           <Controller
             control={control}
-            defaultValue={isPublic || false}
+            defaultValue={story.visibility === 'PUBLIC'}
             name="public"
-            render={({ field: { onChange, value } }) => (
-              <div className="jusify-center flex items-center gap-4">
-                <span className="text-sm font-medium text-gray-700">
-                  {t('private')}
-                </span>
-                <Switch
-                  data-state={value ? 'checked' : 'unchecked'}
-                  onClick={() => onChange(!value)}
-                ></Switch>
+            render={({ field: { onChange, value, ref } }) => {
+              return (
+                <div className="jusify-center flex items-center gap-4">
+                  <span className="text-sm font-medium text-gray-700">
+                    {t('private')}
+                  </span>
+                  <Switch
+                    defaultChecked={value}
+                    onCheckedChange={onChange}
+                    ref={ref}
+                  ></Switch>
 
-                <span className="text-sm font-medium text-gray-700">
-                  {t('public')}
-                </span>
-              </div>
-            )}
+                  <span className="text-sm font-medium text-gray-700">
+                    {t('public')}
+                  </span>
+                </div>
+              )
+            }}
           />
           <Spacer />
-          <DropdownMenu {...register('theme')}>
+          <select {...register('theme')}>
+            {options.map((option, index) => (
+              <option
+                key={index}
+                {...option}
+                onSelect={() => {
+                  setSelectedTheme(option.children as string)
+                  setValue('theme', option.children as string)
+                }}
+              />
+            ))}
+          </select>
+          {/* <DropdownMenu {...register('theme')}>
             <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
               <span className="mb-2 flex text-sm font-medium text-gray-700">
                 {t('theme')} <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
@@ -170,7 +189,7 @@ export default function SettingsModal({
                 ))}
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
-          </DropdownMenu>
+          </DropdownMenu> */}
           <Spacer />
           <InputLabel>{t('image')}</InputLabel>
           <div className="flex">
@@ -182,7 +201,7 @@ export default function SettingsModal({
             <Input
               accept="image/*"
               className="hidden"
-              // errors={errors.image}
+              errors={errors.image}
               id="imageupload"
               onChange={e => handleImageUpload(e)}
               type="file"
@@ -201,6 +220,7 @@ export default function SettingsModal({
         <Modal.Footer>
           <Button
             className="w-full"
+            disabled={isSaving}
             isLoading={isSaving}
             type="submit"
             variant={'inverse'}

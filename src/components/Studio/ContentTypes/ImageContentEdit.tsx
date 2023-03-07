@@ -16,7 +16,7 @@ interface ImageContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   }
 
 
-  const baseStyle = {
+const baseStyle = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -30,19 +30,19 @@ interface ImageContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
     color: '#bdbdbd',
     outline: 'none',
     transition: 'border .24s ease-in-out'
-  };
-  
-  const focusedStyle = {
+};
+
+const focusedStyle = {
     borderColor: '#2196f3'
-  };
-  
-  const acceptStyle = {
+};
+
+const acceptStyle = {
     borderColor: '#00e676'
-  };
-  
-  const rejectStyle = {
+};
+
+const rejectStyle = {
     borderColor: '#ff1744'
-  };
+};
 
 
 export function ImageContentEdit({ storyStepId, lng, stepItem, ...props } : ImageContentEditProps
@@ -111,12 +111,12 @@ export function ImageContentEdit({ storyStepId, lng, stepItem, ...props } : Imag
                 message: 'Das Bild wurde gespeichert.',
                 type: 'success',
             })
-        } catch (error) {
-            console.error(error);
+        } catch (error: any) {
             toast({
-                message: 'Das Bild konnte nicht gespeichert werden.',
+                title: 'Error',
+                message: error.message,
                 type: 'error',
-            })
+              })
             setIsSaving(false)
 
         }
@@ -147,7 +147,7 @@ export function ImageContentEdit({ storyStepId, lng, stepItem, ...props } : Imag
                 </div>
             )}
         </div>
-            <Button className="mt-10" disabled={isSaving} isLoading={isSaving} onClick={(e) => submitFile()}>
+            <Button className="mt-10" disabled={isSaving} isLoading={isSaving} onClick={() => submitFile()}>
                   {t('save')}
             </Button>
         </div>

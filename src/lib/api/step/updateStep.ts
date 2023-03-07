@@ -8,8 +8,8 @@ export const updateStoryStep = (
   stepId: string,
   props: Partial<StoryStep>,
 ) => {
-  return axios.put<any, AxiosResponse<StoryStep, APIError>>(
-    `/api/mapstory/${storyId}/step/${stepId}/`,
+  return axios.put<typeof props, AxiosResponse<StoryStep, APIError>>(
+    `/api/mapstory/${storyId}/step/${stepId}`,
     props,
   )
 }

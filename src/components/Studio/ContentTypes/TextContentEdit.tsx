@@ -57,7 +57,7 @@ export function TextContentEdit({
       if (!response.ok) {
         throw new Error('Something went wrong')
       }
-
+      //@ts-ignore
       const newContent = await response.json()
       setIsSaving(false)
       toast({ message: 'Your content has been created.', type: 'success' })

@@ -4,21 +4,16 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { z } from 'zod'
+import { updatStepSchema } from '@/src/lib/validations/step'
+
+import { tryFeature } from 'pure-geojson-validation'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'PUT') {
+  if (req.method === 'GET') {
     try {
-      const storyStep = await db.storyStep.update({
+      const storyStep = await db.storyStep.findFirst({
         where: {
           id: req.query.storyStepId as string,
-        },
-        data: {
-          feature: {
-            point: {
-              latitude: req.body.feature.point.latitude as number,
-              longitude: req.body.feature.point.longitude as number,
-            },
-          },
         },
       })
       res.status(200).json(storyStep)
@@ -27,12 +22,46 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(500).end()
     }
   }
+  if (req.method === 'PUT') {
+    try {
+      const { feature } = updatStepSchema.parse(req.body)
+
+      if (!feature) {
+        throw new Error('No Feature was included in the request body')
+      }
+
+      const validFeature = tryFeature(feature)
+
+      // check if feature has the correct featureType
+      if (
+        !['Point', 'LineString', 'Polygon'].some(
+          e => e === validFeature.geometry.type,
+        )
+      ) {
+        throw new Error('Feature must be Point, LineString or Polygon')
+      }
+
+      const storyStep = await db.storyStep.update({
+        where: {
+          id: req.query.storyStepId as string,
+        },
+        data: {
+          feature: validFeature as any, // any fix for Prisma Json field
+        },
+      })
+
+      res.status(200).json(storyStep)
+      return res.end()
+    } catch (error) {
+      return res.status(500).json({ error: error?.toString() })
+    }
+  }
 
   if (req.method === 'DELETE') {
     try {
       const storyStepId = req.query.storyStepId as string
-      const storyId = req.query.storyId as string
 
+      // TODO: Check if we really need to delete slide Content: oncascade delete story step
       // delete all slideContent associated with the step
       const deletedContent = await db.slideContent.deleteMany({
         where: { storyStepId: storyStepId },
@@ -44,7 +73,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const updatedStory = await db.story.findFirst({
         where: {
-          id: storyId,
+          id: deletedStep.storyId,
         },
         include: {
           steps: true,
@@ -84,6 +113,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default withMethods(
-  ['PUT', 'DELETE'],
+  ['GET', 'PUT', 'DELETE'],
   withAuthentication(withMapstory(handler)),
 )
