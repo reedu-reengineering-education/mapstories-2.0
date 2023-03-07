@@ -47,6 +47,14 @@
   // filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9));
 }
 
+.re-basic-box-no-filter {
+  border: 3px solid #000000;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+
+  box-shadow: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.9));
+}
+
 .re-hover-element {
   transition: background 0.2s linear;
 }

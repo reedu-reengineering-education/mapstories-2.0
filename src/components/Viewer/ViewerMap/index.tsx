@@ -10,7 +10,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 // import 'maplibre-gl/dist/maplibre-gl.css'
 import { forwardRef } from 'react'
 
-const Map = forwardRef<MapRef, MapProps>(
+const ViewerMap = forwardRef<MapRef, MapProps>(
   (
     // take fog and terrain out of props to resolve error
     // eslint-disable-next-line unused-imports/no-unused-vars
@@ -32,12 +32,15 @@ const Map = forwardRef<MapRef, MapProps>(
           latitude: 51.5,
           zoom: 7,
         }}
+        interactiveLayerIds={props.interactiveLayerIds}
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
-        // mapLib={maplibregl}
         mapStyle={
           mapStyle ||
           `https://api.maptiler.com/maps/outdoor/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_KEY}`
         }
+        // mapStyle={'mapbox://styles/mapbox/satellite-v9'}
+        onLoad={props.onLoad}
+        onMouseMove={props.onMouseMove}
         pitchWithRotate={false}
         preserveDrawingBuffer
         projection={'globe'}
@@ -59,6 +62,6 @@ const Map = forwardRef<MapRef, MapProps>(
   },
 )
 
-Map.displayName = 'Map'
+ViewerMap.displayName = 'ViewerMap'
 
-export default Map
+export default ViewerMap
