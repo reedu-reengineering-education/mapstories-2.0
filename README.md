@@ -55,8 +55,10 @@ You will need to have Node.js and Yarn installed.
    ```sh
    yarn dev
    ```
+
 ### Setup of MinIO
-For the image store [MinIO](https://min.io/) is used. After `docker-compose up -d` is run, go to `localhost:9000`. Login with the Name `minioadmin` and the password `minioadmin`. Navigate to buckets (on the left) and select `mapstories20`. There set the `Access Policy` to `public`. 
+
+For the image store [MinIO](https://min.io/) is used. After `docker-compose up -d` is run, go to `localhost:9000`. Login with the Name `minioadmin` and the password `minioadmin`. Navigate to buckets (on the left) and select `mapstories20`. There set the `Access Policy` to `public`.
 
 Next go to `Access Keys` and click `create access key` (at the top). Click `create` again and paste the `access key` and `secret key` to your `.env` file. An example is given in `.env.example`.
 

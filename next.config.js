@@ -16,9 +16,9 @@ const nextConfig = {
         hostname: 'localhost',
         port: '9000',
         pathname: '/mapstories20/**',
-      }
+      },
     ],
-  }
+  },
 }
 
 const removeImports = require('next-remove-imports')()
