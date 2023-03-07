@@ -2,8 +2,6 @@ import '@/src/styles/globals.scss'
 import { Inter } from '@next/font/google'
 import { cx } from 'class-variance-authority'
 import { dir } from 'i18next'
-import dynamic from 'next/dynamic'
-
 import Providers from './Providers'
 
 const font = Inter({
