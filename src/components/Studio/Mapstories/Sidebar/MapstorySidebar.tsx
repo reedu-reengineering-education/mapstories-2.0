@@ -86,6 +86,20 @@ export default function MapstorySidebar({
   return (
     <>
       <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
+        <Link href={`/studio/${story.slug}/${story.firstStepId}`}>
+          <SidebarSlide active={stepId === story.firstStepId} variant={'title'}>
+            <div className="flex justify-around">
+              <div className="flex flex-col">
+                <p>ID: {story.firstStepId?.slice(-4)}</p>
+                <p>
+                  Pos:
+                  {story.steps?.find(s => s.id === story.firstStepId)?.position}
+                </p>
+              </div>
+            </div>
+          </SidebarSlide>
+        </Link>
+        <hr className="my-4 border-gray-400" />
         <DraggableList
           items={steps.map((s, i) => ({
             id: s.id,
@@ -107,7 +121,9 @@ export default function MapstorySidebar({
                   </SidebarSlide>
                 </Link>
                 <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
-                  <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
+                  {s.storyId && (
+                    <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
+                  )}
                 </div>
                 {!s.feature && (
                   <div

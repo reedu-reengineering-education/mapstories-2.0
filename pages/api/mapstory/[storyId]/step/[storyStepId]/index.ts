@@ -71,9 +71,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         where: { id: storyStepId },
       })
 
+      //TODO: THis can never happen but we need this code for TS?
+      if (!deletedStep.storyId) {
+        return res.status(422).end()
+      }
+
       const updatedStory = await db.story.findFirst({
         where: {
-          id: deletedStep.storyId,
+          id: deletedStep.storyId.toString(),
         },
         include: {
           steps: true,

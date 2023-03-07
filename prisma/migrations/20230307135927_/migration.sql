@@ -55,6 +55,10 @@ CREATE TABLE "verification_tokens" (
 CREATE TABLE "stories" (
     "id" TEXT NOT NULL,
     "name" TEXT,
+    "slug" TEXT NOT NULL,
+    "description" TEXT,
+    "theme" TEXT,
+    "firstStepId" TEXT,
     "ownerId" TEXT,
     "visibility" "Visibility" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -66,11 +70,20 @@ CREATE TABLE "stories" (
 -- CreateTable
 CREATE TABLE "storysteps" (
     "id" TEXT NOT NULL,
-    "storyId" TEXT,
+    "position" INTEGER NOT NULL,
+    "storyId" TEXT NOT NULL,
     "feature" JSONB,
     "viewport" JSONB NOT NULL,
 
     CONSTRAINT "storysteps_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Theme" (
+    "name" TEXT NOT NULL,
+    "fontFamily" TEXT NOT NULL,
+
+    CONSTRAINT "Theme_pkey" PRIMARY KEY ("name")
 );
 
 -- CreateTable
@@ -125,6 +138,12 @@ CREATE UNIQUE INDEX "verification_tokens_token_key" ON "verification_tokens"("to
 CREATE UNIQUE INDEX "verification_tokens_identifier_token_key" ON "verification_tokens"("identifier", "token");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "stories_slug_key" ON "stories"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "stories_firstStepId_key" ON "stories"("firstStepId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_contributors_AB_unique" ON "_contributors"("A", "B");
 
 -- CreateIndex
@@ -135,6 +154,9 @@ ALTER TABLE "accounts" ADD CONSTRAINT "accounts_userId_fkey" FOREIGN KEY ("userI
 
 -- AddForeignKey
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "stories" ADD CONSTRAINT "stories_firstStepId_fkey" FOREIGN KEY ("firstStepId") REFERENCES "storysteps"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "stories" ADD CONSTRAINT "stories_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;

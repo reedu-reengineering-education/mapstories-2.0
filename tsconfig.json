@@ -23,6 +23,12 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "C:\\Users\\Jonas\\Desktop\\mapstories-2.0\\.next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
