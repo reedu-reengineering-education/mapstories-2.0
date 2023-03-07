@@ -4,14 +4,15 @@ import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { useStoryStore } from '@/src/lib/store/story'
 import { toast } from '@/src/lib/toast'
-import { PlusIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import { StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
 import { useTranslation } from '@/src/app/i18n/client'
+import AddStoryStepButton from './AddStoryStepButton'
 
 export default function MapstorySidebar({
   storyID,

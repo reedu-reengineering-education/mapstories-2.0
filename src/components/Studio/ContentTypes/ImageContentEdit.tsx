@@ -142,8 +142,8 @@ export function ImageContentEdit({ storyStepId, lng, stepItem, ...props } : Imag
         <div className="flex flex-col">
             {(showInputs || stepItem) && (
                 <div>
-                    <div ><InputLabel>Height</InputLabel> <Input defaultValue={stepItem? stepItem.imageHeight: 200} handleChange={(e)=> {setHeight(parseInt(e))} } label="height" type="number"  /> </div>
-                    <div> <InputLabel>Width</InputLabel><Input defaultValue={stepItem? stepItem.imageWidth: 200} handleChange={(e)=>setWidth(parseInt(e))} label="width" type="number" /> </div>
+                    <div ><InputLabel>Height</InputLabel> <Input defaultValue={stepItem? stepItem.imageHeight: 200} onChange={(e)=> {setHeight(parseInt(e.target.value))} } type="number"  /> </div>
+                    <div> <InputLabel>Width</InputLabel><Input defaultValue={stepItem? stepItem.imageWidth: 200} onChange={(e)=>setWidth(parseInt(e.target.value))} type="number" /> </div>
                 </div>
             )}
         </div>
