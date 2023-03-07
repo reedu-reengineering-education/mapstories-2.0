@@ -1,12 +1,10 @@
-// TODO: redirect to the first story step
-
 import { db } from '@/src/lib/db'
 import { redirect } from 'next/navigation'
 
 export default async function EditorPage({
-  params: { slug, storyId },
+  params: { slug },
 }: {
-  params: { slug: string; storyId: string }
+  params: { slug: string  }
 }) {
   const story = await db.story.findFirst({
     where: {
@@ -23,19 +21,11 @@ export default async function EditorPage({
 
   // redirect to first storystep
   if (story.firstStepId) {
-    // const { id } = story.steps[0]
     redirect(`/studio/${story.slug}/${story.firstStepId}`)
   }
 
-  // create initial step if not exists
-  // const initStep = await db.storyStep.create({
-  //   data: {
-  //     storyId: story.id,
-  //     viewport: {},
-  //     position: 0,
-  //   },
-  // })
-  // redirect(`/studio/${story.slug}/${initStep.id}`)
+  //this should never happen since firstStep gets created on story create. But app throws error if you dont do this
+  redirect('/studio')
 
-  // return <p>Redirecting...</p>
+  return <p>Redirecting...</p>
 }

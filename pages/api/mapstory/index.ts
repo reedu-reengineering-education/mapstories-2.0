@@ -32,7 +32,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
         const firstStep = await db.storyStep.create({
           data: {
-            storyId: newMapstory.id,
             viewport: {},
             position: 0,
           },

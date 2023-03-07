@@ -99,8 +99,8 @@ model Story {
 model StoryStep {
   id          String         @id @default(cuid())
   position    Int
-  Story       Story          @relation("steps", fields: [storyId], references: [id], onDelete: Cascade)
-  storyId     String
+  Story       Story?          @relation("steps", fields: [storyId], references: [id], onDelete: Cascade)
+  storyId     String?
   feature     Json?
   content     SlideContent[]
   connections Connection[] //incoming

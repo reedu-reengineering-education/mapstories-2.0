@@ -102,7 +102,6 @@ export default function MapstorySidebar({
         <hr className="my-4 border-gray-400" />
         <DraggableList
           items={steps
-            .filter(s => s.position != 0)
             .map((s, i) => ({
               id: s.id,
               s: s,
@@ -123,7 +122,9 @@ export default function MapstorySidebar({
                     </SidebarSlide>
                   </Link>
                   <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
-                    <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
+                    {s.storyId && 
+                      <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
+                    }
                   </div>
                   {!s.feature && (
                     <div
