@@ -5,7 +5,7 @@ export default APIRoute.configure({
     accessKeyId: process.env.S3_ACCESS_KEY,
     secretAccessKey: process.env.S3_SECRET_KEY,
     bucket: process.env.S3_BUCKET,
-    region: 'us-east-1',
+    region: process.env.S3_REGION,
     endpoint: process.env.S3_ENDPOINT,
     forcePathStyle: true
   });
