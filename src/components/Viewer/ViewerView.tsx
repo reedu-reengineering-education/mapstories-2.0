@@ -18,13 +18,13 @@ type ViewerViewProps = {
   stories:
     | (Story & {
         steps: (StoryStep & { content: SlideContent[] })[]
-    })[]
+      })[]
 }
 
 export default function ViewerView({ stories }: ViewerViewProps) {
   // const mapRef = useRef<MapRef | undefined>()
   const mapRef = React.createRef<MapRef>()
-  
+
   const path = usePathname()
   const storyID = useStoryStore(state => state.storyID)
   const setStoryID = useStoryStore(state => state.setStoryID)
@@ -44,7 +44,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   const router = useRouter()
 
   useEffect(() => {
-    if(selectedStepIndex != undefined) {
+    if (selectedStepIndex != undefined) {
       updateToStep(selectedStepIndex)
     }
   }, [selectedStepIndex])
@@ -153,7 +153,10 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       const coordinates = m.geometry.coordinates
 
       // Create a 'LngLatBounds' with both corners at the first coordinate.
-      const bounds = new mapboxgl.LngLatBounds([coordinates[0][0], coordinates[0][1]], [coordinates[0][0], coordinates[0][1]])
+      const bounds = new mapboxgl.LngLatBounds(
+        [coordinates[0][0], coordinates[0][1]],
+        [coordinates[0][0], coordinates[0][1]],
+      )
 
       // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
       for (const coord of coordinates) {
@@ -170,11 +173,12 @@ export default function ViewerView({ stories }: ViewerViewProps) {
     router.push(`/viewer/story/${m.properties?.slug}/0`)
   }
 
-  function updateToStep(index:number) {
+  function updateToStep(index: number) {
     const story = stories?.filter(story => story.id === storyID)[0]
     if (story?.steps?.length && story?.steps?.length > index) {
-      if (mapRef && story.steps[index].feature) {      
-        const feature: Feature<GeoJSON.Point> =  story?.steps[index].feature  as unknown as Feature<GeoJSON.Point>;
+      if (mapRef && story.steps[index].feature) {
+        const feature: Feature<GeoJSON.Point> = story?.steps[index]
+          .feature as unknown as Feature<GeoJSON.Point>
         mapRef.current?.flyTo({
           center: [
             feature.geometry.coordinates[0],

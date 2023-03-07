@@ -51,10 +51,9 @@ export function Slides({ slug, page }: Props) {
 
   return (
     <div className="py-4">
-
-      {story?.steps && story?.steps[parseInt(page)] && 
+      {story?.steps && story?.steps[parseInt(page)] && (
         <Slide step={story?.steps[parseInt(page)]}></Slide>
-      }
+      )}
       <Button onClick={() => nextStep()}>
         {parseInt(page) < 1 ? 'Abspielen' : 'Weiter'}
       </Button>

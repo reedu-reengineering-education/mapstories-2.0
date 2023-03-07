@@ -5,7 +5,6 @@ interface StoryPageProps {
 }
 
 export default async function StoryPage({ params: { slug } }: StoryPageProps) {
-
   return (
     <div>
       <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">

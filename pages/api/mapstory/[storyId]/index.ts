@@ -14,7 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           OR: [
             { id: req.query.storyId as string },
             { slug: req.query.storyId as string },
-          ]
+          ],
         },
         include: {
           steps: {

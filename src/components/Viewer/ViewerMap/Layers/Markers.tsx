@@ -60,7 +60,9 @@ export default function Markers({ markers, onClick }: Props) {
                 : m.color
             }
             key={(i + 1) * Math.random() * 100}
-            onClick={() => router.push(`/viewer/story/${storyID}/${m.position}`)}
+            onClick={() =>
+              router.push(`/viewer/story/${storyID}/${m.position}`)
+            }
             // rotationAlignment='horizon'
             style={{
               padding: '10px',

@@ -12,9 +12,7 @@ export default function StorySourceLayer({
   storyID: string
   selectedStepIndex: any
 }) {
-  const [lineData, setLineData] = useState<
-    GeoJSON.Feature[] | undefined
-  >()
+  const [lineData, setLineData] = useState<GeoJSON.Feature[] | undefined>()
 
   const [lineDataDone, setLineDataDone] = useState<
     GeoJSON.Feature | undefined
@@ -27,7 +25,7 @@ export default function StorySourceLayer({
   // generate Line string
   useEffect(() => {
     let newLineData: GeoJSON.Feature[] | undefined = undefined
-   
+
     geojsons?.map((m, i) => {
       if (!newLineData) {
         newLineData = [m]
@@ -43,7 +41,9 @@ export default function StorySourceLayer({
       let newLineData: GeoJSON.Feature | undefined = undefined
       let newLineDataTodo: GeoJSON.Feature | undefined = undefined
 
-      const storyGeoJson = geojsons?.filter(geo => geo.properties?.id == storyID)
+      const storyGeoJson = geojsons?.filter(
+        geo => geo.properties?.id == storyID,
+      )
       if (storyGeoJson && storyGeoJson[0]) {
         newLineData = {
           ...storyGeoJson[0],
@@ -61,7 +61,8 @@ export default function StorySourceLayer({
           ...storyGeoJson[0],
           geometry: {
             ...storyGeoJson[0].geometry,
-            coordinates: storyGeoJson[0].geometry.coordinates.slice(selectedStepIndex),
+            coordinates:
+              storyGeoJson[0].geometry.coordinates.slice(selectedStepIndex),
           },
         }
         setLineDataTodo(newLineDataTodo)
@@ -71,12 +72,11 @@ export default function StorySourceLayer({
     }
   }, [selectedStepIndex, storyID])
 
-
-  function resetSelectedStoryData(){
+  function resetSelectedStoryData() {
     setLineDataDone(undefined)
     setLineDataTodo(undefined)
   }
-  
+
   const lineStyle = {
     type: 'line' as 'sky',
     paint: {
@@ -91,7 +91,7 @@ export default function StorySourceLayer({
     layout: {
       'line-join': 'round',
       'line-cap': 'round',
-      'visibility': storyID === '' ? 'visible' : 'none' 
+      visibility: storyID === '' ? 'visible' : 'none',
     },
   }
 
@@ -105,7 +105,7 @@ export default function StorySourceLayer({
     layout: {
       'line-join': 'round',
       'line-cap': 'round',
-      'visibility': storyID === '' ? 'visible' : 'none' 
+      visibility: storyID === '' ? 'visible' : 'none',
     },
   }
 
@@ -136,7 +136,7 @@ export default function StorySourceLayer({
     layout: {
       'line-join': 'round',
       'line-cap': 'round',
-      'visibility': storyID != '' ? 'visible' : 'none' 
+      visibility: storyID != '' ? 'visible' : 'none',
     },
   }
 
@@ -146,7 +146,7 @@ export default function StorySourceLayer({
       'line-color': '#d4da68',
       'line-width': 10,
       'line-blur': 3,
-      'line-opacity': 1
+      'line-opacity': 1,
     },
     layout: {
       'line-join': 'round',
@@ -221,7 +221,6 @@ export default function StorySourceLayer({
             key={'linesource' + i}
             type="geojson"
           >
-
             {/* @ts-ignore */}
             {/* <Layer
             {...hightLineStyle}
@@ -235,10 +234,7 @@ export default function StorySourceLayer({
               id={m.properties?.id.toString() + 'outline'}
             />
             {/* @ts-ignore */}
-            <Layer
-              {...lineStyle}
-              id={m.properties?.id.toString() + 'normal'}
-            />
+            <Layer {...lineStyle} id={m.properties?.id.toString() + 'normal'} />
 
             {/* <Layer
               {...lineStyle}
