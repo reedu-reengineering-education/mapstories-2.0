@@ -3,9 +3,15 @@ import { UserSettingsForm } from '@/src/components/Studio/Settings/UserSettingsF
 import { StudioShell } from '@/src/components/Studio/Shell'
 import { getCurrentUser } from '@/src/lib/session'
 import { redirect } from 'next/navigation'
+import { useTranslation } from '@/src/app/i18n'
 
-export default async function SettingsPage() {
+export default async function SettingsPage({
+  params: { lng },
+}: {
+  params: { lng: string }
+}) {
   const user = await getCurrentUser()
+  const { t } = await useTranslation(lng, 'settings')
 
   if (!user) {
     redirect('/')
@@ -14,10 +20,10 @@ export default async function SettingsPage() {
   return (
     <StudioShell>
       <StudioHeader
-        heading="Einstellungen"
-        text="Bearbeite deinen Account"
+        heading={t('settings')}
+        text={t('edit your account')}
       ></StudioHeader>
-      <UserSettingsForm user={user} />
+      <UserSettingsForm lng={lng} user={user} />
     </StudioShell>
   )
 }

@@ -13,11 +13,13 @@ import { cx } from 'class-variance-authority'
 import { userNameSchema } from '@/src/lib/validations/user'
 import { Input } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from '@/src/app/i18n/client'
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
   user: Pick<User, 'id'> & {
     name?: string | null
   }
+  lng: string
 }
 
 type FormData = z.infer<typeof userNameSchema>
@@ -25,9 +27,12 @@ type FormData = z.infer<typeof userNameSchema>
 export function UserSettingsForm({
   user,
   className,
+  lng,
   ...props
 }: UserNameFormProps) {
   const router = useRouter()
+  const { t } = useTranslation(lng, 'userSettingsForm')
+
   const {
     handleSubmit,
     register,
@@ -79,10 +84,8 @@ export function UserSettingsForm({
     >
       <Card>
         <Card.Header>
-          <Card.Title>Name</Card.Title>
-          <Card.Description>
-            Hier kannst du deinen Namen ändern
-          </Card.Description>
+          <Card.Title>{t('name')}</Card.Title>
+          <Card.Description>{t('change your name here')}</Card.Description>
         </Card.Header>
         <Card.Content>
           <div className="w-80 max-w-full">
@@ -97,7 +100,7 @@ export function UserSettingsForm({
         </Card.Content>
         <Card.Footer>
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
-            Speichern
+            {t('save')}
           </Button>
         </Card.Footer>
       </Card>
