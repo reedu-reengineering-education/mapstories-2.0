@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 export default async function EditorPage({
   params: { slug },
 }: {
-  params: { slug: string  }
+  params: { slug: string }
 }) {
   const story = await db.story.findFirst({
     where: {

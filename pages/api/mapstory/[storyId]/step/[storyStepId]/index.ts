@@ -56,7 +56,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
 
       //TODO: THis can never happen but we need this code for TS?
-      if(!deletedStep.storyId){
+      if (!deletedStep.storyId) {
         return res.status(422).end()
       }
 
