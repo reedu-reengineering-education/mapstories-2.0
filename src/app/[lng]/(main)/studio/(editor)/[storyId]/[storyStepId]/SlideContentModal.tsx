@@ -74,7 +74,7 @@ export default function SlideContentModal({
                     <div className="flex justify-center">
                       <VideoIcon className="h-14 w-14"></VideoIcon>
                     </div>
-                    <h3 className="text-center">Video/Bssild</h3>
+                    <h3 className="text-center">Video/Bild</h3>
                   </div>
 
                   <div
