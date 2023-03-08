@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 on:
   push:
-    branches: [feat/deployment]
+    branches: ['feat/deployment']
     tags: ['v*.*.*']
   pull_request:
     branches:
