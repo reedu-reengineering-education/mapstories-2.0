@@ -65,12 +65,12 @@ export default async function DashboardLayout({
             Zurück
           </Button>
         </Link>
-        <SettingsModal lng={lng} storyId={story.id} />
+        <SettingsModal storyId={story.id} />
       </div>
 
       <div className="re-studio-height-full-screen mt-8 grid w-full flex-1 flex-col gap-12 overflow-hidden md:grid-cols-[200px_1fr]">
         <aside className="re-studio-height-full-screen flex-col md:flex md:w-[200px]">
-          <MapstorySidebar lng={lng} storyID={story.id} />
+          <MapstorySidebar storyID={story.id} />
         </aside>
         <main className="re-studio-height-full-screen relative flex w-full flex-1 flex-col overflow-hidden">
           <EditMapstoryView data-superjson story={story} />

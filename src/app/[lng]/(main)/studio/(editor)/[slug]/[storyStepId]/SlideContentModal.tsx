@@ -110,19 +110,16 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
 
                     {contentType == 'title' && (
                       <TitleContentEdit
-                        lng={lng}
                         storyStepId={storyStepId}
                       ></TitleContentEdit>
                     )}
                     {contentType == 'embed' && (
                       <EmbedContentEdit
-                        lng={lng}
                         storyStepId={storyStepId}
                       ></EmbedContentEdit>
                     )}
                     {contentType == 'text' && (
                       <TextContentEdit
-                        lng={lng}
                         setContentType={setContentType}
                         storyStepId={storyStepId}
                       ></TextContentEdit>

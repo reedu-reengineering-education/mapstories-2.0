@@ -35,14 +35,12 @@ export default async function StepPage({
         <h3 className="pb-4">Media / Text</h3>
         <div>
           <SlideContentListEdit
-            lng={''}
             stepId={storyStepId}
             storyId={story.id}
           ></SlideContentListEdit>
         </div>
 
         <SlideContentModal
-          lng={lng}
           storyStepId={storyStepId}
           trigger={
             <Button
