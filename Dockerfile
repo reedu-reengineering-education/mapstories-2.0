@@ -47,6 +47,10 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/package.json ./package.json
+
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
