@@ -30,10 +30,9 @@ RUN npx prisma generate
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn build
-
 # If using npm comment out above and use below instead
 # RUN npm run build
+RUN POSTMARK_API_TOKEN=APP_NEXT_POSTMARK_API_TOKEN yarn build
 
 # Production image, copy all the files and run next
 FROM node:18-alpine AS runner
