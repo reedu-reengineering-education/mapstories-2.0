@@ -29,6 +29,11 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
       ownerId: userId,
     },
     include: {
+      firstStep: {
+        include: {
+          content: true
+        }
+      },
       steps: {
         include: {
           content: true,

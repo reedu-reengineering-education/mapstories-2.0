@@ -9,7 +9,10 @@ import { StudioShell } from '../../Shell'
 import EditMapstoryMap from './EditMapstoryMap'
 
 type EditMapstoryViewProps = {
-  story: Story
+  story: Story & {
+    steps?: StoryStep[],
+    firstStep?: StoryStep
+  }
 }
 
 export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
@@ -21,7 +24,12 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
 
   useEffect(() => {
     const stepId = path?.split('/').at(-1)
-    setCurrentStep(currentStory?.steps?.find(s => s.id === stepId))
+    const currentStep = currentStory?.steps?.find(s => s.id === stepId);
+    if(currentStep){
+      setCurrentStep(currentStep);
+    } else {
+      setCurrentStep(currentStory?.firstStep);
+    }
   }, [path, currentStory])
 
   if (!currentStory || !currentStep) {
@@ -39,14 +47,17 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
       <div className="re-studio-height-full-screen absolute top-0 z-10 w-full overflow-hidden rounded-lg shadow">
         <div className="absolute top-0 z-20  w-full ">
           <div className=" mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
-            {!currentStep?.feature && (
+            {currentStep.id === story.firstStepId ? (
+              <span>Dies ist ihre Titelfolie. </span>
+            ) : 
+             (!currentStep?.feature ? (
               <span>Klicke auf die Karte um deinen Marker hinzuzufügen</span>
-            )}
-            {currentStep?.feature && (
-              <span>
+            ) :
+              (<span>
                 Verschiebe den roten Marker um dessen Position zu ändern
               </span>
-            )}
+            ))
+            }
           </div>
         </div>
 

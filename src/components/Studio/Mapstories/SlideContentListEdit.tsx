@@ -22,6 +22,7 @@ import dynamic from 'next/dynamic'
 import { EditContentType } from '../ContentTypes/EditContentType'
 import useStory from '@/src/lib/api/story/useStory'
 import { urlToMedia } from '../../HelperFunctions'
+import { useEffect, useState } from 'react'
 
 type Props = {
   storyId: string
@@ -91,9 +92,12 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
 
 export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
   const { story } = useStory(storyId)
-  const step: (StoryStep & { content?: SlideContent[] }) | undefined =
-    story?.steps?.filter(step => step.id === stepId)[0]
   const [disabled, setDisabled] = React.useState(false)
+  const [step, setStep] = useState<StoryStep & {content?: SlideContent[]}>()
+
+  useEffect(() => {
+   setStep(story?.steps?.filter(step => step.id === stepId)[0] ?? story?.firstStep)
+  }, [stepId])
 
   return (
     <div className="py-4">

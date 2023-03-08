@@ -92,8 +92,7 @@ export default function MapstorySidebar({
               <div className="flex flex-col">
                 <p>ID: {story.firstStepId?.slice(-4)}</p>
                 <p>
-                  Pos:
-                  {story.steps?.find(s => s.id === story.firstStepId)?.position}
+                  Titelfolie
                 </p>
               </div>
             </div>
