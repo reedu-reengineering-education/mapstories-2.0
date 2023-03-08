@@ -106,13 +106,20 @@ Modal.Content = function ModalContent({
   return <div className={cx('px-6 pb-4', className)} {...props} />
 }
 
-interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+  trigger?: React.ReactElement
+}
 
-Modal.Footer = function ModalFooter({ className, ...props }: ModalFooterProps) {
+Modal.Footer = function ModalFooter({
+  className,
+  trigger,
+  ...props
+}: ModalFooterProps) {
   return (
-    <div
-      className={cx('border-t bg-slate-50 px-6 py-4', className)}
-      {...props}
-    />
+    <div className={cx('border-t bg-slate-50 px-6 py-4', className)} {...props}>
+      {trigger && (
+        <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger>
+      )}
+    </div>
   )
 }
