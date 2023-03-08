@@ -31,8 +31,8 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
     include: {
       firstStep: {
         include: {
-          content: true
-        }
+          content: true,
+        },
       },
       steps: {
         include: {

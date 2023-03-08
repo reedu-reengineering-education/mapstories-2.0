@@ -91,9 +91,7 @@ export default function MapstorySidebar({
             <div className="flex justify-around">
               <div className="flex flex-col">
                 <p>ID: {story.firstStepId?.slice(-4)}</p>
-                <p>
-                  Titelfolie
-                </p>
+                <p>Titelfolie</p>
               </div>
             </div>
           </SidebarSlide>

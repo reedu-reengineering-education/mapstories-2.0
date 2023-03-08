@@ -93,10 +93,12 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
 export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
   const { story } = useStory(storyId)
   const [disabled, setDisabled] = React.useState(false)
-  const [step, setStep] = useState<StoryStep & {content?: SlideContent[]}>()
+  const [step, setStep] = useState<StoryStep & { content?: SlideContent[] }>()
 
   useEffect(() => {
-   setStep(story?.steps?.filter(step => step.id === stepId)[0] ?? story?.firstStep)
+    setStep(
+      story?.steps?.filter(step => step.id === stepId)[0] ?? story?.firstStep,
+    )
   }, [stepId])
 
   return (

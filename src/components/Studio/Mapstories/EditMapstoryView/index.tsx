@@ -10,7 +10,7 @@ import EditMapstoryMap from './EditMapstoryMap'
 
 type EditMapstoryViewProps = {
   story: Story & {
-    steps?: StoryStep[],
+    steps?: StoryStep[]
     firstStep?: StoryStep
   }
 }
@@ -24,11 +24,11 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
 
   useEffect(() => {
     const stepId = path?.split('/').at(-1)
-    const currentStep = currentStory?.steps?.find(s => s.id === stepId);
-    if(currentStep){
-      setCurrentStep(currentStep);
+    const currentStep = currentStory?.steps?.find(s => s.id === stepId)
+    if (currentStep) {
+      setCurrentStep(currentStep)
     } else {
-      setCurrentStep(currentStory?.firstStep);
+      setCurrentStep(currentStory?.firstStep)
     }
   }, [path, currentStory])
 
@@ -48,16 +48,14 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
         <div className="absolute top-0 z-20  w-full ">
           <div className=" mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
             {currentStep.id === story.firstStepId ? (
-              <span>Dies ist ihre Titelfolie. </span>
-            ) : 
-             (!currentStep?.feature ? (
+              <span>Dies ist deine Titelfolie. </span>
+            ) : !currentStep?.feature ? (
               <span>Klicke auf die Karte um deinen Marker hinzuzufügen</span>
-            ) :
-              (<span>
+            ) : (
+              <span>
                 Verschiebe den roten Marker um dessen Position zu ändern
               </span>
-            ))
-            }
+            )}
           </div>
         </div>
 

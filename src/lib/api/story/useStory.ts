@@ -12,7 +12,7 @@ import { updateStory } from './updateStory'
 const useStory = (storyId: string) => {
   const { data: story, mutate } = useSWR<
     Story & {
-      steps?: StoryStep[],
+      steps?: StoryStep[]
       firstStep?: StoryStep
     }
   >(`/api/mapstory/${storyId}`)

@@ -82,8 +82,9 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
     if (story?.steps) {
-      const newMarkers = story?.steps.map(
-        ({ id, feature, position, content }) => {
+      const newMarkers = story?.steps
+        .filter(step => step.feature)
+        .map(({ id, feature, position, content }) => {
           const geoFeature =
             feature as unknown as GeoJSON.Feature<GeoJSON.Point>
           const title = content.filter((item: SlideContent) => item.title)
@@ -98,8 +99,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
             }
             return newMarker
           }
-        },
-      )
+        })
       // @ts-ignore
       setMarkers(newMarkers)
     }
@@ -121,16 +121,18 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       if (!s?.steps) {
         return
       }
-      s.steps.forEach((step: StoryStep) => {
-        const geoFeature =
-          step.feature as unknown as GeoJSON.Feature<GeoJSON.Point>
-        if (geoFeature?.geometry?.coordinates?.length > 0) {
-          story.push([
-            geoFeature.geometry.coordinates[0],
-            geoFeature.geometry.coordinates[1],
-          ])
-        }
-      })
+      s.steps
+        .sort((a, b) => a.position - b.position)
+        .forEach((step: StoryStep) => {
+          const geoFeature =
+            step.feature as unknown as GeoJSON.Feature<GeoJSON.Point>
+          if (geoFeature?.geometry?.coordinates?.length > 0) {
+            story.push([
+              geoFeature.geometry.coordinates[0],
+              geoFeature.geometry.coordinates[1],
+            ])
+          }
+        })
       geojsons.push({
         type: 'Feature',
         properties: {
@@ -170,7 +172,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       }
     }
     setSelectedStorySlug(m.properties?.slug)
-    router.push(`/viewer/story/${m.properties?.slug}/0`)
+    router.push(`/viewer/story/${m.properties?.slug}/start`)
   }
 
   function updateToStep(index: number) {
