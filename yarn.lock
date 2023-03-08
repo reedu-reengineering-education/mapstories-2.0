@@ -4302,11 +4302,6 @@ react-hot-toast@^2.4.0:
   dependencies:
     goober "^2.1.10"
 
-react-html-props@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/react-html-props/-/react-html-props-2.0.2.tgz#291b30f67a1c8b22e60d49d42fafaf58ef61d8a6"
-  integrity sha512-5spuo3V4d39C8EGFPkI7k2XpOP0Nu3SwG2g5LwBZ9C0eT6VTxIpYo3skm1lOtp6Zla461MutNMA9HCoFqnM4vg==
-
 react-i18next@^12.2.0:
   version "12.2.0"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-12.2.0.tgz#010e3f6070b8d700442947233352ebe4b252d7a1"
