@@ -23,7 +23,7 @@ export default async function SettingsPage({
         heading={t('settings')}
         text={t('edit your account')}
       ></StudioHeader>
-      <UserSettingsForm lng={lng} user={user} />
+      <UserSettingsForm user={user} />
     </StudioShell>
   )
 }

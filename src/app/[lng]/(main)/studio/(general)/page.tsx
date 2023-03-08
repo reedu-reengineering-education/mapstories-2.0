@@ -68,7 +68,7 @@ export default async function Studio({
       )}
       {mapstories.length > 0 &&
         mapstories.map(m => (
-          <MapstoryCard data-superjson key={m.id} lng={lng} mapstory={m} />
+          <MapstoryCard data-superjson key={m.id} mapstory={m} />
         ))}
     </StudioShell>
   )

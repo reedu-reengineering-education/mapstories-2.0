@@ -8,13 +8,14 @@ import { Button } from '@/src/components/Elements/Button'
 import Link from 'next/link'
 import DeleteMapstoryButton from './DeleteMapstoryButton'
 import { useTranslation } from '@/src/app/i18n/client'
+import { useUIStore } from '@/src/lib/store/language'
 
 type Props = {
   mapstory: Story
-  lng: string
 }
 
-export function MapstoryCard({ mapstory, lng }: Props) {
+export function MapstoryCard({ mapstory }: Props) {
+  const lng = useUIStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstoryCard')
 
   return (

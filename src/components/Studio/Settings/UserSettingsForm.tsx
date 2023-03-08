@@ -14,12 +14,12 @@ import { userNameSchema } from '@/src/lib/validations/user'
 import { Input } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from '@/src/app/i18n/client'
+import { useUIStore } from '@/src/lib/store/language'
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
   user: Pick<User, 'id'> & {
     name?: string | null
   }
-  lng: string
 }
 
 type FormData = z.infer<typeof userNameSchema>
@@ -27,10 +27,10 @@ type FormData = z.infer<typeof userNameSchema>
 export function UserSettingsForm({
   user,
   className,
-  lng,
   ...props
 }: UserNameFormProps) {
   const router = useRouter()
+  const lng = useUIStore(state => state.language)
   const { t } = useTranslation(lng, 'userSettingsForm')
 
   const {
