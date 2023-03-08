@@ -17,7 +17,7 @@ import useStory from '@/src/lib/api/story/useStory'
 import Switch from '../../Elements/Switch'
 import { Spacer } from '../../Elements/Spacer'
 import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
 type FormData = z.infer<typeof mapstoryOptionsSchema>

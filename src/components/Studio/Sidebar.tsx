@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslation } from '@/src/app/i18n/client'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 import {
   Cog6ToothIcon,
   CreditCardIcon,

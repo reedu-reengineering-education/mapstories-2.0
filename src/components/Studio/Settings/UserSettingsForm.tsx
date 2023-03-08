@@ -14,7 +14,7 @@ import { userNameSchema } from '@/src/lib/validations/user'
 import { Input } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from '@/src/app/i18n/client'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
   user: Pick<User, 'id'> & {

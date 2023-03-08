@@ -15,7 +15,7 @@ import { useState } from 'react'
 import { SlideContent } from '@prisma/client'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string

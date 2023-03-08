@@ -11,7 +11,7 @@ import dynamic from 'next/dynamic'
 import { toast } from '@/src/lib/toast'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string

@@ -5,7 +5,7 @@ import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { DropdownMenu } from '../Dropdown'
 import { UserAvatar } from './UserAvatar'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 import { useTranslation } from '@/src/app/i18n/client'
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {

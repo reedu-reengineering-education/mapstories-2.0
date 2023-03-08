@@ -2,7 +2,9 @@ import '@/src/styles/globals.scss'
 import { Inter } from '@next/font/google'
 import { cx } from 'class-variance-authority'
 import { dir } from 'i18next'
-import Providers from './Providers'
+import dynamic from 'next/dynamic'
+
+const Providers = dynamic(() => import('./Providers'), { ssr: false })
 
 const font = Inter({
   subsets: ['latin'],

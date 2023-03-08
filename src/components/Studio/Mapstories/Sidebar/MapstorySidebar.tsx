@@ -13,7 +13,7 @@ import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
 import { useTranslation } from '@/src/app/i18n/client'
 import AddStoryStepButton from './AddStoryStepButton'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const lng = useUIStore(state => state.language)

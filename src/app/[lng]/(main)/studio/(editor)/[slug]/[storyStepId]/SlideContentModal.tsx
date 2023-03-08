@@ -15,7 +15,7 @@ import { TitleContentEdit } from '@/src/components/Studio/ContentTypes/TitleCont
 import { EmbedContentEdit } from '@/src/components/Studio/ContentTypes/EmbedContentEdit'
 import { useTranslation } from '@/src/app/i18n/client'
 import { TextContentEdit } from '@/src/components/Studio/ContentTypes/TextContentEdit'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 
 type Props = {
   trigger: React.ReactElement

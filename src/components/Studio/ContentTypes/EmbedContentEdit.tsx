@@ -18,7 +18,7 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
 import { SlideContent } from '@prisma/client'
 import { urlToMedia } from '../../HelperFunctions'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string

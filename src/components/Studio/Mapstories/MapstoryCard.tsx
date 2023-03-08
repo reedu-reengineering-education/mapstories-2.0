@@ -8,7 +8,7 @@ import { Button } from '@/src/components/Elements/Button'
 import Link from 'next/link'
 import DeleteMapstoryButton from './DeleteMapstoryButton'
 import { useTranslation } from '@/src/app/i18n/client'
-import { useUIStore } from '@/src/lib/store/language'
+import { useUIStore } from '@/src/lib/store/ui'
 
 type Props = {
   mapstory: Story
