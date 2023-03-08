@@ -38,6 +38,28 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(422).end()
     }
   }
+  if (req.method === 'DELETE') {
+    try {
+      const session = await getServerSession(req, res, authOptions)
+      const user = session?.user
+
+      if (user) {
+        await db.user.delete({
+          where: {
+            id: user.id,
+          },
+        })
+      }
+
+      return res.end()
+    } catch (error) {
+      if (error) {
+        return res.status(422)
+      }
+
+      return res.status(422).end()
+    }
+  }
 }
 
-export default withMethods(['PATCH'], withCurrentUser(handler))
+export default withMethods(['PATCH', 'DELETE'], withCurrentUser(handler))
