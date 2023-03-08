@@ -1,7 +1,5 @@
 name: Build and publish to Github Container Registry
 
-on: workflow_dispatch
-
 on:
   push:
     branches: ['feat/deployment']
