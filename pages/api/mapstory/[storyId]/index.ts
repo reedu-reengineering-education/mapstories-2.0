@@ -19,8 +19,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         include: {
           firstStep: {
             include: {
-              content: true
-            }
+              content: true,
+            },
           },
           steps: {
             include: {

@@ -1,6 +1,6 @@
 'use client'
 
-import { Story, StoryStep } from '@prisma/client'
+import { SlideContent, Story, StoryStep } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import useStory from '@/src/lib/api/story/useStory'
@@ -11,7 +11,7 @@ import EditMapstoryMap from './EditMapstoryMap'
 type EditMapstoryViewProps = {
   story: Story & {
     steps?: StoryStep[]
-    firstStep?: StoryStep
+    firstStep?: (StoryStep & { content?: SlideContent[] | null }) | null
   }
 }
 
