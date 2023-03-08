@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslation } from '@/src/app/i18n/client'
+import { useUIStore } from '@/src/lib/store/language'
 import {
   Cog6ToothIcon,
   CreditCardIcon,
@@ -8,27 +10,50 @@ import {
 import { cx } from 'class-variance-authority'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-const items = [
-  {
-    title: 'Mapstories',
-    href: '/studio',
-    icon: GlobeAltIcon,
-  },
-  {
-    title: 'Einstellungen',
-    href: '/studio/settings',
-    icon: Cog6ToothIcon,
-  },
-  {
-    title: 'Billing',
-    href: '/studio/billing',
-    icon: CreditCardIcon,
-    disabled: true,
-  },
-]
+import { useEffect, useState } from 'react'
 
 export function StudioSidebar() {
+  const lng = useUIStore(state => state.language)
+  const { t } = useTranslation(lng, 'settings')
+  const [items, setItems] = useState([
+    {
+      title: 'Mapstories',
+      href: '/studio',
+      icon: GlobeAltIcon,
+    },
+    {
+      title: t('settings'),
+      href: `/${lng}/studio/settings`,
+      icon: Cog6ToothIcon,
+    },
+    {
+      title: 'Billing',
+      href: '/studio/billing',
+      icon: CreditCardIcon,
+      disabled: true,
+    },
+  ])
+
+  useEffect(() => {
+    setItems([
+      {
+        title: 'Mapstories',
+        href: '/studio',
+        icon: GlobeAltIcon,
+      },
+      {
+        title: t('settings'),
+        href: `/${lng}/studio/settings`,
+        icon: Cog6ToothIcon,
+      },
+      {
+        title: 'Billing',
+        href: '/studio/billing',
+        icon: CreditCardIcon,
+        disabled: true,
+      },
+    ])
+  }, [lng])
   const path = usePathname()
 
   if (!items?.length) {
