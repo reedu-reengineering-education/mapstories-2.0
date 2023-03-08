@@ -12,17 +12,18 @@ import { toast } from '@/src/lib/toast'
 import { Input, InputLabel } from '../Elements/Input'
 import { createStory } from '@/src/lib/api/story/createStory'
 import { useTranslation } from '@/src/app/i18n/client'
+import { useUIStore } from '@/src/lib/store/language'
 
 type FormData = z.infer<typeof createMapstorySchema>
 
 type Props = {
   trigger: React.ReactElement
-  lng: string
 }
 
-export default function CreateMapstoryModal({ trigger, lng }: Props) {
+export default function CreateMapstoryModal({ trigger }: Props) {
   const router = useRouter()
-  const { t } = useTranslation(lng, 'editModal')
+  const language = useUIStore(state => state.language)
+  const { t } = useTranslation(language, 'editModal')
 
   const {
     handleSubmit,

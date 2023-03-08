@@ -39,7 +39,6 @@ export default async function Studio({
       >
         <div className="p-1">
           <CreateMapstoryModal
-            lng={lng}
             trigger={
               <Button startIcon={<PlusIcon className="w-4" />}>
                 {t('newMapstory')}
@@ -56,7 +55,6 @@ export default async function Studio({
             Du hast noch keine Mapstory erstellt.
           </EmptyPlaceholder.Description>
           <CreateMapstoryModal
-            lng={lng}
             trigger={
               <Button
                 startIcon={<PlusIcon className="w-4" />}

@@ -11,11 +11,11 @@ import dynamic from 'next/dynamic'
 import { toast } from '@/src/lib/toast'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useUIStore } from '@/src/lib/store/language'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
-  lng: string
   setContentType?: any
 }
 
@@ -26,9 +26,9 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
 export function TextContentEdit({
   storyStepId,
   stepItem,
-  lng,
   setContentType,
 }: TextContentEditProps) {
+  let lng = useUIStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }

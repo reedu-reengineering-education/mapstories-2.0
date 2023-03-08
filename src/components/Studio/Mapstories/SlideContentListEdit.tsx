@@ -26,7 +26,6 @@ import { urlToMedia } from '../../HelperFunctions'
 type Props = {
   storyId: string
   stepId: string
-  lng: string
 }
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
@@ -89,7 +88,7 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
   return 'content undefined...'
 }
 
-export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
+export function SlideContentListEdit({ storyId, stepId }: Props) {
   const { story } = useStory(storyId)
   const step: (StoryStep & { content?: SlideContent[] }) | undefined =
     story?.steps?.filter(step => step.id === stepId)[0]
@@ -123,7 +122,6 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
                   >
                     <Modal.Content>
                       <EditContentType
-                        lng={lng}
                         stepItem={stepItem}
                         storyStepId={stepItem.storyStepId}
                       ></EditContentType>

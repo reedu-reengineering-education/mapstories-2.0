@@ -15,19 +15,16 @@ import { TitleContentEdit } from '@/src/components/Studio/ContentTypes/TitleCont
 import { EmbedContentEdit } from '@/src/components/Studio/ContentTypes/EmbedContentEdit'
 import { useTranslation } from '@/src/app/i18n/client'
 import { TextContentEdit } from '@/src/components/Studio/ContentTypes/TextContentEdit'
+import { useUIStore } from '@/src/lib/store/language'
 
 type Props = {
   trigger: React.ReactElement
   storyStepId: string
-  lng: string
 }
 
-export default function SlideContentModal({
-  trigger,
-  storyStepId,
-  lng,
-}: Props) {
+export default function SlideContentModal({ trigger, storyStepId }: Props) {
   const [contentType, setContentType] = useState<string>('')
+  const lng = useUIStore(state => state.language)
   const { t } = useTranslation(lng, 'editModal')
   return (
     <>

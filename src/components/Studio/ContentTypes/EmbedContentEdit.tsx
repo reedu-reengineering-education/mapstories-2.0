@@ -18,11 +18,11 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
 import { SlideContent } from '@prisma/client'
 import { urlToMedia } from '../../HelperFunctions'
+import { useUIStore } from '@/src/lib/store/language'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
-  lng: string
 }
 
 type FormData = z.infer<typeof slideEmbedContentSchema>
@@ -31,7 +31,6 @@ export function EmbedContentEdit({
   storyStepId,
   stepItem,
   className,
-  lng,
   ...props
 }: EmbedContentEditProps) {
   const router = useRouter()
@@ -43,6 +42,7 @@ export function EmbedContentEdit({
   } = useForm<FormData>({
     resolver: zodResolver(slideEmbedContentSchema),
   })
+  let lng = useUIStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
