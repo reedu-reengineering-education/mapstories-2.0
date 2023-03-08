@@ -5,7 +5,7 @@ import { useSelectedLayoutSegment } from 'next/navigation'
 import { cx } from 'class-variance-authority'
 import { Bars3Icon, GlobeAltIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from '@/src/app/i18n/client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUIStore } from '@/src/lib/store/language'
 
 export function Navbar({ children }: { children: React.ReactNode }) {
@@ -13,10 +13,9 @@ export function Navbar({ children }: { children: React.ReactNode }) {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   const lng = useUIStore(state => state.language)
-  console.log(lng)
   const { t } = useTranslation(lng, 'navbar')
 
-  const [routes] = useState([
+  const [routes, setRoutes] = useState([
     {
       title: 'Studio',
       href: `/${lng}/studio`,
@@ -35,6 +34,28 @@ export function Navbar({ children }: { children: React.ReactNode }) {
       href: `/${lng}/viewer`,
     },
   ])
+
+  useEffect(() => {
+    setRoutes([
+      {
+        title: 'Studio',
+        href: `/${lng}/studio`,
+      },
+      {
+        title: t('about'),
+        href: `/${lng}/about`,
+      },
+      {
+        title: t('contact'),
+        href: `/${lng}/contact`,
+        disabled: true,
+      },
+      {
+        title: t('viewer'),
+        href: `/${lng}/viewer`,
+      },
+    ])
+  }, [lng])
 
   return (
     <>
