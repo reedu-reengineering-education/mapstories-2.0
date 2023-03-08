@@ -15,9 +15,25 @@ services:
     restart: always
     ports:
       - 8080:8080
-  app:
-    build: .
+  app: 
+    image: ghcr.io/reedu-reengineering-education/mapstories-2.0:feat-deployment
     ports:
       - 3000:3000
     env_file:
       - ./.env
+  minio:
+    image: minio/minio
+    restart: always
+    ports:
+      - '9000:9000'
+      - '9090:9090'
+    environment:
+      MINIO_ACCESS_KEY: GENERATE_ACCESS_KEY
+      MINIO_SECRET_KEY: GENERATE_ACCESS_SECRET
+      MINIO_ROOT_USER: ROOTUSER
+      MINIO_ROOT_PASSWORD: CHANGEME123
+    volumes:
+      - storage-minio:/data
+    command: server --address ":9000" --console-address ":9090" /data
+volumes:
+  storage-minio:
