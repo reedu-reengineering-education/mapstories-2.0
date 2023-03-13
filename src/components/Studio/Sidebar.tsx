@@ -11,28 +11,12 @@ import { cx } from 'class-variance-authority'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { Route } from '@/src/types/Routes'
 
 export function StudioSidebar() {
   const lng = useUIStore(state => state.language)
   const { t } = useTranslation(lng, 'settings')
-  const [items, setItems] = useState([
-    {
-      title: 'Mapstories',
-      href: '/studio',
-      icon: GlobeAltIcon,
-    },
-    {
-      title: t('settings'),
-      href: `/${lng}/studio/settings`,
-      icon: Cog6ToothIcon,
-    },
-    {
-      title: 'Billing',
-      href: '/studio/billing',
-      icon: CreditCardIcon,
-      disabled: true,
-    },
-  ])
+  const [items, setItems] = useState<Route[]>([])
 
   useEffect(() => {
     setItems([
@@ -53,7 +37,7 @@ export function StudioSidebar() {
         disabled: true,
       },
     ])
-  }, [lng])
+  }, [lng, t])
   const path = usePathname()
 
   if (!items?.length) {
@@ -72,8 +56,12 @@ export function StudioSidebar() {
                 item.disabled ? 'cursor-not-allowed opacity-80' : '',
               )}
             >
-              <item.icon className="mr-2 h-4 w-4 stroke-2" />
-              <span>{item.title}</span>
+              {item.icon && (
+                <>
+                  <item.icon className="mr-2 h-4 w-4 stroke-2" />
+                  <span>{item.title}</span>
+                </>
+              )}
             </span>
           </Link>
         )
