@@ -3,7 +3,7 @@ import * as z from 'zod'
 import { getServerSession } from 'next-auth/next'
 
 import { db } from '@/src/lib/db'
-import { userNameSchema } from '@/src/lib/validations/user'
+import { userEmailSchema, userNameSchema } from '@/src/lib/validations/user'
 import { authOptions } from '@/src/lib/auth'
 import { withCurrentUser } from '@/src/lib/apiMiddlewares/withCurrentUser'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
@@ -25,6 +25,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
           data: {
             name: payload.name,
+          },
+        })
+      }
+
+      if (body?.email && user) {
+        const payload = userEmailSchema.parse(body)
+
+        await db.user.update({
+          where: {
+            id: user.id,
+          },
+          data: {
+            email: payload.email,
           },
         })
       }
