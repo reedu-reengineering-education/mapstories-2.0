@@ -86,7 +86,7 @@ model Story {
   steps       StoryStep[] @relation("steps")
   firstStep   StoryStep?   @relation("firstStep", fields: [firstStepId], references: [id])
   firstStepId String?      @unique
-  owner       User?       @relation("owner", fields: [ownerId], references: [id])
+  owner       User?       @relation("owner", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String?
   contributor User[]      @relation("contributors")
   visibility  Visibility
