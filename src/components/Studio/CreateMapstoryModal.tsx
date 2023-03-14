@@ -68,7 +68,7 @@ export default function CreateMapstoryModal({ trigger, lng }: Props) {
           />
         </Modal.Content>
         <Modal.Footer
-          trigger={
+          close={
             <Button disabled={isSaving} isLoading={isSaving} type="submit">
               {t('save')}
             </Button>

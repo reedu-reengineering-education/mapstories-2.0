@@ -12,6 +12,7 @@ interface Props {
   description?: React.ReactElement | String
   children?: React.ReactElement | React.ReactElement[]
   setDisabled?: React.Dispatch<React.SetStateAction<boolean>>
+  onClose?: () => void
 }
 
 export function Modal({
@@ -20,6 +21,7 @@ export function Modal({
   description,
   children,
   setDisabled,
+  onClose,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -86,6 +88,7 @@ export function Modal({
                 className={cx(
                   'absolute top-3.5 right-3.5 inline-flex items-center justify-center rounded-full p-1',
                 )}
+                onClick={onClose ? onClose : undefined}
               >
                 <XMarkIcon className="w-5" />
               </DialogPrimitive.Close>
@@ -107,19 +110,17 @@ Modal.Content = function ModalContent({
 }
 
 interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-  trigger?: React.ReactElement
+  close?: React.ReactElement
 }
 
 Modal.Footer = function ModalFooter({
   className,
-  trigger,
+  close,
   ...props
 }: ModalFooterProps) {
   return (
     <div className={cx('border-t bg-slate-50 px-6 py-4', className)} {...props}>
-      {trigger && (
-        <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger>
-      )}
+      {close && <DialogPrimitive.Close asChild>{close}</DialogPrimitive.Close>}
     </div>
   )
 }

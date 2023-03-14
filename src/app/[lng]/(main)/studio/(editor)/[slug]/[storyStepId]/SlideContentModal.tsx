@@ -31,7 +31,7 @@ export default function SlideContentModal({
   const { t } = useTranslation(lng, 'editModal')
   return (
     <>
-      <Modal title={''} trigger={trigger}>
+      <Modal onClose={() => setContentType('')} title={''} trigger={trigger}>
         <Modal.Content>
           <div className="relative">
             <CSSTransition
@@ -114,6 +114,7 @@ export default function SlideContentModal({
                     {contentType == 'title' && (
                       <TitleContentEdit
                         lng={lng}
+                        setContentType={setContentType}
                         storyStepId={storyStepId}
                       ></TitleContentEdit>
                     )}

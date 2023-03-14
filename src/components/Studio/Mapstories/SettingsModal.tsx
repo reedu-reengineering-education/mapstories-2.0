@@ -220,7 +220,7 @@ export default function SettingsModal({
           </div>
         </Modal.Content>
         <Modal.Footer
-          trigger={
+          close={
             <Button
               className="w-full"
               disabled={isSaving}
