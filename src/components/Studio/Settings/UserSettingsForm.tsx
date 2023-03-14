@@ -9,11 +9,7 @@ import { toast } from '@/src/lib/toast'
 import { Card } from '@/src/components/Card'
 import { Button } from '@/src/components/Elements/Button'
 import { cx } from 'class-variance-authority'
-import {
-  userEmailSchema,
-  userNameSchema,
-  userUpdateSchema,
-} from '@/src/lib/validations/user'
+import { userUpdateSchema } from '@/src/lib/validations/user'
 import { Input } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import DeleteAccountModal from './DeleteAccountModal'
@@ -27,7 +23,7 @@ interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
   }
 }
 
-type FormData = z.infer<typeof userNameSchema> & z.infer<typeof userEmailSchema>
+type FormData = z.infer<typeof userUpdateSchema>
 
 export function UserSettingsForm({
   user,
@@ -41,74 +37,73 @@ export function UserSettingsForm({
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(userUpdateSchema),
-    defaultValues: {
-      name: user.name ?? '',
-    },
+    // defaultValues: {
+    //   name: user.name ?? '',
+    // },
   })
   const [isSavingName, setIsSavingName] = useState(false)
   const [isSavingEmail, setIsSavingEmail] = useState(false)
   const [isSavingAccount, setIsSavingAccount] = useState(false)
 
-  async function onSubmitName(data: FormData) {
-    setIsSavingName(true)
-
-    const response = await fetch(`/api/users/${user.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: data.name,
-      }),
-    })
-
-    setIsSavingName(false)
-
-    if (!response?.ok) {
-      return toast({
-        title: 'Something went wrong.',
-        message: 'Your name was not updated. Please try again.',
-        type: 'error',
+  async function onSubmit(data: FormData) {
+    if ('name' in data) {
+      setIsSavingName(true)
+      const response = await fetch(`/api/users/${user.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+        }),
       })
-    }
 
-    toast({
-      message: 'Your name has been updated.',
-      type: 'success',
-    })
+      if (!response?.ok) {
+        return toast({
+          title: 'Something went wrong.',
+          message: 'Your name was not updated. Please try again.',
+          type: 'error',
+        })
+      }
 
-    router.refresh()
-  }
-
-  async function onEmailSubmit(data: FormData) {
-    setIsSavingEmail(true)
-
-    const response = await fetch(`/api/users/${user.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: data.email,
-      }),
-    })
-
-    setIsSavingEmail(false)
-
-    if (!response?.ok) {
-      return toast({
-        title: 'Something went wrong.',
-        message: 'Your email was not updated. Please try again.',
-        type: 'error',
+      toast({
+        message: 'Your name has been updated.',
+        type: 'success',
       })
+
+      setIsSavingName(false)
+
+      router.refresh()
+    } else if ('email' in data) {
+      setIsSavingEmail(true)
+
+      const response = await fetch(`/api/users/${user.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: data.email,
+        }),
+      })
+
+      setIsSavingEmail(false)
+
+      if (!response?.ok) {
+        return toast({
+          title: 'Something went wrong.',
+          message: 'Your email was not updated. Please try again.',
+          type: 'error',
+        })
+      }
+
+      toast({
+        message: 'Your email has been updated.',
+        type: 'success',
+      })
+
+      router.refresh()
     }
-
-    toast({
-      message: 'Your email has been updated.',
-      type: 'success',
-    })
-
-    router.refresh()
   }
 
   async function deleteAccount() {
@@ -143,7 +138,7 @@ export function UserSettingsForm({
     <>
       <form
         className={cx(className)}
-        onSubmit={handleSubmit(onSubmitName)}
+        onSubmit={handleSubmit(onSubmit)}
         {...props}
       >
         <Card>
@@ -156,9 +151,9 @@ export function UserSettingsForm({
           <Card.Content>
             <div className="w-80 max-w-full">
               <Input
-                defaultValue={user.name ?? ''}
-                errors={errors.name}
+                errors={'name' in errors ? errors.name : undefined}
                 label="Name"
+                placeholder={user.name ?? ''}
                 size={32}
                 {...register('name')}
               />
@@ -177,7 +172,7 @@ export function UserSettingsForm({
       </form>
       <form
         className={cx(className)}
-        onSubmit={handleSubmit(onEmailSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         {...props}
       >
         <Card>
@@ -204,7 +199,7 @@ export function UserSettingsForm({
                 {...register('email')}
               /> */}
               <Input
-                errors={errors.email}
+                errors={'email' in errors ? errors.email : undefined}
                 label="Email"
                 placeholder={'Geben Sie hier Ihre neue Email Adresse ein'}
                 size={100}
