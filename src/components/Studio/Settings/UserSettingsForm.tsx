@@ -17,7 +17,7 @@ import { useState } from 'react'
 import { signOut } from 'next-auth/react'
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  user: Pick<User, 'id' | 'name' | 'email'>
+  user: Pick<User, 'id'> & Partial<Pick<User, 'name' | 'email'>>
 }
 
 type FormData = z.infer<typeof userUpdateSchema>
