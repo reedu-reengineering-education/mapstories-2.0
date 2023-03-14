@@ -3,7 +3,6 @@
 // import { useState } from 'react'
 import { Button } from '../../Elements/Button'
 import { Modal } from '../../Modal'
-import { useForm } from 'react-hook-form'
 
 type Props = {
   trigger: React.ReactElement
@@ -18,16 +17,9 @@ export default function DeleteAccountModal({
 }: Props) {
   //   const { t } = useTranslation(lng, 'editModal')
 
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    // resolver: zodResolver(createMapstorySchema),
-  })
-
   return (
     <Modal title={'Account löschen'} trigger={trigger}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <Modal.Content>
           <div className="text-center font-bold">
             <p>

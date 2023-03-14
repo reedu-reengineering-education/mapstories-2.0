@@ -5,7 +5,7 @@ export const userNameSchema = z.object({
 })
 
 export const userEmailSchema = z.object({
-  email: z.string().min(6).max(50),
+  email: z.string().email(),
 })
 
 export const userUpdateSchema = z.union([userNameSchema, userEmailSchema])

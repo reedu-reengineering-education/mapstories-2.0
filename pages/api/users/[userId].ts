@@ -3,7 +3,7 @@ import * as z from 'zod'
 import { getServerSession } from 'next-auth/next'
 
 import { db } from '@/src/lib/db'
-import { userEmailSchema, userNameSchema } from '@/src/lib/validations/user'
+import { userUpdateSchema } from '@/src/lib/validations/user'
 import { authOptions } from '@/src/lib/auth'
 import { withCurrentUser } from '@/src/lib/apiMiddlewares/withCurrentUser'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
@@ -16,30 +16,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const body = req.body
 
-      if (body?.name && user) {
-        const payload = userNameSchema.parse(body)
+      if (user) {
+        const payload = userUpdateSchema.safeParse(body)
 
-        await db.user.update({
-          where: {
-            id: user.id,
-          },
-          data: {
-            name: payload.name,
-          },
-        })
-      }
-
-      if (body?.email && user) {
-        const payload = userEmailSchema.parse(body)
-
-        await db.user.update({
-          where: {
-            id: user.id,
-          },
-          data: {
-            email: payload.email,
-          },
-        })
+        if (payload.success) {
+          await db.user.update({
+            where: {
+              id: user.id,
+            },
+            data: payload.data,
+          })
+        } else {
+          res.status(422).json(payload.error)
+        }
       }
 
       return res.end()
@@ -64,10 +53,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         })
       }
 
-      return res.end()
+      return res.status(200).end()
     } catch (error) {
-      if (error) {
-        return res.status(422)
+      if (error instanceof z.ZodError) {
+        return res.status(422).json(error.issues)
       }
 
       return res.status(422).end()
