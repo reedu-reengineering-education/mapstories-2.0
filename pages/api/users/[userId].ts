@@ -16,28 +16,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const body = req.body
 
-      if (user) {
-        const payload = userUpdateSchema.safeParse(body)
-
-        if (payload.success) {
-          await db.user.update({
-            where: {
-              id: user.id,
-            },
-            data: payload.data,
-          })
-        } else {
-          res.status(422).json(payload.error)
-        }
+      if (!user) {
+        throw new Error('Unauthenticated')
       }
+      const payload = userUpdateSchema.parse(body)
 
-      return res.end()
+      const updatedUser = await db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: payload,
+      })
+
+      return res.status(200).json(updatedUser)
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(422).json(error.issues)
-      }
-
-      return res.status(422).end()
+      return res.status(422).json(error)
     }
   }
   if (req.method === 'DELETE') {
