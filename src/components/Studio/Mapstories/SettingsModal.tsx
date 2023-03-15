@@ -219,17 +219,19 @@ export default function SettingsModal({
             ></Input>
           </div>
         </Modal.Content>
-        <Modal.Footer>
-          <Button
-            className="w-full"
-            disabled={isSaving}
-            isLoading={isSaving}
-            type="submit"
-            variant={'inverse'}
-          >
-            {t('save')}
-          </Button>
-        </Modal.Footer>
+        <Modal.Footer
+          close={
+            <Button
+              className="w-full"
+              disabled={isSaving}
+              isLoading={isSaving}
+              type="submit"
+              variant={'inverse'}
+            >
+              {t('save')}
+            </Button>
+          }
+        ></Modal.Footer>
       </form>
     </Modal>
   )
