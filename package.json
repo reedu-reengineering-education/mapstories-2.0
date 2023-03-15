@@ -61,6 +61,7 @@
     "slugify": "^1.6.5",
     "superjson": "^1.12.2",
     "swr": "^2.0.4",
+    "viewport-mercator-project": "^7.0.4",
     "zod": "^3.20.6",
     "zustand": "^4.3.5"
   },
