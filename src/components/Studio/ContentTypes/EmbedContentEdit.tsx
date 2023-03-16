@@ -86,7 +86,7 @@ export function EmbedContentEdit({
         body = JSON.stringify({
           content: media.content,
           type: media.type,
-          options: optionState,
+          options: media.type == 'YOUTUBE' ? optionState : undefined,
         })
       }
       const response = await fetch(url, { method, headers, body })
@@ -140,9 +140,6 @@ export function EmbedContentEdit({
     >
       <div className="top-0">
         <div className="pt-4">
-          <InputLabel>
-            Gib eine URL zu einem Social Media Beitrag ein
-          </InputLabel>
           <Input
             defaultValue={stepItem ? stepItem.content : ''}
             errors={errors.content}
@@ -150,19 +147,22 @@ export function EmbedContentEdit({
             size={32}
             {...register('content')}
           />
+          <InputLabel>
+            Gib eine URL zu einem Social Media Beitrag ein
+          </InputLabel>
         </div>
         <div className="re-data-media-preview pt-4 pb-4">
           <Embed height="50vh" media={media} />
-          {optionState?.autoplay != undefined && (
-            <>
-              <InputLabel>Autoplay</InputLabel>
+          {media?.type == 'YOUTUBE' && optionState?.autoplay != undefined && (
+            <div className="flex items-center">
               <Input
                 defaultChecked={optionState.autoplay}
                 label="autoplay"
                 type="checkbox"
                 {...register('options.autoplay')}
               />
-            </>
+              <InputLabel>Autoplay</InputLabel>
+            </div>
           )}
         </div>
         <Button disabled={media == null} isLoading={isSaving} type="submit">
