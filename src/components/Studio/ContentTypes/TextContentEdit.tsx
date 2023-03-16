@@ -48,8 +48,8 @@ export function TextContentEdit({
         'Content-Type': 'application/json',
       }
       const body = stepItem
-        ? JSON.stringify({ ...stepItem, text: text })
-        : JSON.stringify({ text: text })
+        ? JSON.stringify({ ...stepItem, content: text })
+        : JSON.stringify({ content: text, type: 'TEXT' })
       const response = await fetch(url, { method, headers, body })
 
       setIsSaving(false)
@@ -74,7 +74,7 @@ export function TextContentEdit({
   }
 
   let textInEditor = 'Your text here'
-  stepItem ? (textInEditor = stepItem.text) : ''
+  stepItem ? (textInEditor = stepItem.content) : ''
 
   const [value, setValue] = useState(textInEditor)
   return (

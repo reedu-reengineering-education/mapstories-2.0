@@ -31,6 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       // TODO: check schema
       const slideContentId = req.body.id as string
+      req.body.options = req.body.options ? req.body.options : undefined
       const updatedContent = await db.slideContent.update({
         where: { id: slideContentId },
         data: req.body,

@@ -60,8 +60,8 @@ export function TitleContentEdit({
         'Content-Type': 'application/json',
       }
       const body = stepItem
-        ? JSON.stringify({ ...stepItem, title: data.title })
-        : JSON.stringify({ ...data })
+        ? JSON.stringify({ ...stepItem, content: data.title })
+        : JSON.stringify({ content: data.title, type: 'TITLE' })
       const response = await fetch(url, { method, headers, body })
 
       setIsSaving(false)
@@ -104,7 +104,7 @@ export function TitleContentEdit({
         <div className="pt-4">
           <InputLabel>Gib eine Überschrift für deine Folie ein</InputLabel>
           <Input
-            defaultValue={stepItem ? stepItem.title : ''}
+            defaultValue={stepItem ? stepItem.content : ''}
             errors={errors.title}
             label="title"
             size={32}

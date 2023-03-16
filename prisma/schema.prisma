@@ -115,14 +115,6 @@ model Theme {
   fontFamily String
 }
 
-// model Media {
-//   id           String         @id @default(cuid())
-//   content      String
-//   type         MediaType
-//   options      Json?
-//   SlideContent SlideContent[]
-// }
-
 model SlideContent {
   id          String    @id @default(cuid())
   content     String

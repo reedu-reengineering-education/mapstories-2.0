@@ -58,8 +58,6 @@ export function EmbedContentEdit({
     stepItem ? stepItem : null,
   )
 
-  console.log(media)
-
   async function onSubmit(data: FormData) {
     if (media) {
       setIsSaving(true)
