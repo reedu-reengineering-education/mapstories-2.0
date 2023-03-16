@@ -54,56 +54,63 @@ export function EmbedContentEdit({
 
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [media, setMedia] = useState<media_type>(
-    stepItem
-      ? urlToMedia(stepItem.media)
-      : {
-          type: 'unknown',
-          name: 'Unknown',
-          match_str: / /,
-          url: '',
-        },
+  const [media, setMedia] = useState<media_type | null>(
+    stepItem ? stepItem : null,
   )
 
+  console.log(media)
+
   async function onSubmit(data: FormData) {
-    setIsSaving(true)
-    const url = `/api/mapstory/step/${
-      stepItem ? stepItem.storyStepId : storyStepId
-    }/content`
-    const method = stepItem ? 'PUT' : 'POST'
-    const headers = {
-      'Content-Type': 'application/json',
-    }
-    const body = stepItem
-      ? JSON.stringify({ ...stepItem })
-      : JSON.stringify({ ...data })
-    const response = await fetch(url, { method, headers, body })
+    if (media) {
+      setIsSaving(true)
+      const url = `/api/mapstory/step/${
+        stepItem ? stepItem.storyStepId : storyStepId
+      }/content`
+      const method = stepItem ? 'PUT' : 'POST'
+      const headers = {
+        'Content-Type': 'application/json',
+      }
+      let body
+      if (stepItem) {
+        body = JSON.stringify({ ...stepItem })
+      } else {
+        body = JSON.stringify({
+          content: data.media,
+          type: media.type,
+        })
+      }
+      const response = await fetch(url, { method, headers, body })
 
-    setIsSaving(false)
+      setIsSaving(false)
 
-    if (!response?.ok) {
-      return toast({
-        title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again',
+      if (!response?.ok) {
+        return toast({
+          title: 'Something went wrong.',
+          message: 'Your content was not created. Please try again',
+          type: 'error',
+        })
+      }
+
+      const newContent = (await response.json()) as SlideContent
+
+      toast({
+        message: 'Your content has been created.',
+        type: 'success',
+      })
+
+      router.refresh()
+    } else {
+      toast({
+        message: 'The embedded media is not recognized.',
         type: 'error',
       })
     }
-
-    const newContent = (await response.json()) as SlideContent
-
-    toast({
-      message: 'Your content has been created.',
-      type: 'success',
-    })
-
-    router.refresh()
-    // router.push(`/studio/${newStory.id}`)
   }
 
   async function handleUrl(url: string) {
     setMedia(urlToMedia(url))
-    if (url && media.type != 'unknown' && stepItem) {
-      stepItem.media = url
+    if (url && media && stepItem) {
+      stepItem.content = url
     }
   }
 
@@ -119,7 +126,7 @@ export function EmbedContentEdit({
             Gib eine URL zu einem Social Media Beitrag ein
           </InputLabel>
           <Input
-            defaultValue={stepItem ? stepItem.media : ''}
+            defaultValue={stepItem ? stepItem.content : ''}
             errors={errors.media}
             label="media"
             size={32}
@@ -128,12 +135,18 @@ export function EmbedContentEdit({
         </div>
         <div className="re-data-media-preview pt-4 pb-4">
           <Embed height="50vh" media={media} />
+          {
+            media && media.type == 'YOUTUBE' && <div>autoplay option</div>
+            // <Input
+            //   defaultValue={stepItem ? stepItem.media.options.autoplay : ''}
+            //   errors={errors.media}
+            //   label="autoplay"
+            //   size={32}
+            //   {...register('autoplay')}
+            // />
+          }
         </div>
-        <Button
-          disabled={media.type == 'unknown'}
-          isLoading={isSaving}
-          type="submit"
-        >
+        <Button disabled={media == null} isLoading={isSaving} type="submit">
           {stepItem && t('save')}
           {!stepItem && t('create')}
         </Button>

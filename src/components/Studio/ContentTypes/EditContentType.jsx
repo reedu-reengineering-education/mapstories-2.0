@@ -13,9 +13,23 @@ export function EditContentType(props) {
 
   return (
     <div>
-      {props.stepItem.title && <TitleContentEdit stepItem={props.stepItem} />}
-      {props.stepItem.text && <TextContentEdit stepItem={props.stepItem} />}
-      {props.stepItem.media && <EmbedContentEdit stepItem={props.stepItem} />}
+      {props.stepItem.type == 'TITLE' && (
+        <TitleContentEdit stepItem={props.stepItem} />
+      )}
+      {props.stepItem.type == 'TEXT' && (
+        <TextContentEdit stepItem={props.stepItem} />
+      )}
+      {[
+        'YOUTUBE',
+        'INSTAGRAM',
+        'TIKTOK',
+        'FACEBOOK',
+        'TWITTER',
+        'WIKIPEDIA',
+        'PADLET',
+      ].includes(props.stepItem.type) && (
+        <EmbedContentEdit stepItem={props.stepItem} />
+      )}
     </div>
   )
 }
