@@ -47,15 +47,26 @@ export function EmbedContentEdit({
     lng = fallbackLng
   }
 
-  const { media: url } = watch()
+  const { content: url } = watch()
   useEffect(() => {
     handleUrl(url)
   }, [url])
+
+  const { options: options } = watch()
+  useEffect(() => {
+    setOptionState(options)
+    if (options && media && stepItem) {
+      stepItem.options = options
+    }
+  }, [options?.autoplay])
 
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [media, setMedia] = useState<media_type | null>(
     stepItem ? stepItem : null,
+  )
+  const [optionState, setOptionState] = useState<any | null>(
+    stepItem?.options ? stepItem.options : null,
   )
 
   async function onSubmit(data: FormData) {
@@ -73,8 +84,9 @@ export function EmbedContentEdit({
         body = JSON.stringify({ ...stepItem })
       } else {
         body = JSON.stringify({
-          content: data.media,
+          content: media.content,
           type: media.type,
+          options: optionState,
         })
       }
       const response = await fetch(url, { method, headers, body })
@@ -106,9 +118,17 @@ export function EmbedContentEdit({
   }
 
   async function handleUrl(url: string) {
-    setMedia(urlToMedia(url))
-    if (url && media && stepItem) {
-      stepItem.content = url
+    const new_media = urlToMedia(url)
+    setMedia(new_media)
+    if (new_media && url && stepItem) {
+      if (stepItem) {
+        stepItem.content = url
+      }
+    }
+    if (new_media?.type == 'YOUTUBE' && !optionState) {
+      setOptionState({ autoplay: false })
+    } else if (new_media && new_media.type != 'YOUTUBE' && optionState) {
+      setOptionState(null)
     }
   }
 
@@ -125,24 +145,25 @@ export function EmbedContentEdit({
           </InputLabel>
           <Input
             defaultValue={stepItem ? stepItem.content : ''}
-            errors={errors.media}
-            label="media"
+            errors={errors.content}
+            label="content"
             size={32}
-            {...register('media')}
+            {...register('content')}
           />
         </div>
         <div className="re-data-media-preview pt-4 pb-4">
           <Embed height="50vh" media={media} />
-          {
-            media && media.type == 'YOUTUBE' && <div>autoplay option</div>
-            // <Input
-            //   defaultValue={stepItem ? stepItem.media.options.autoplay : ''}
-            //   errors={errors.media}
-            //   label="autoplay"
-            //   size={32}
-            //   {...register('autoplay')}
-            // />
-          }
+          {optionState?.autoplay != undefined && (
+            <>
+              <InputLabel>Autoplay</InputLabel>
+              <Input
+                defaultChecked={optionState.autoplay}
+                label="autoplay"
+                type="checkbox"
+                {...register('options.autoplay')}
+              />
+            </>
+          )}
         </div>
         <Button disabled={media == null} isLoading={isSaving} type="submit">
           {stepItem && t('save')}
