@@ -19,10 +19,14 @@ const useStep = (stepId: string) => {
     `/api/mapstory/${storyId}/step/${stepId}`,
   )
 
-  const mutation = async (
+  const mutateRequest = async (
     request: Promise<AxiosResponse<StepWithContent, APIError>>,
   ) => {
     const { data: step } = await request
+    mutation(step)
+  }
+
+  const mutation = async (step?: StepWithContent) => {
     stepMutate(step)
     // also mutate the story
     mutate(`/api/mapstory/${storyId}`)
@@ -31,59 +35,46 @@ const useStep = (stepId: string) => {
 
   const APIUpdateStep = async (step: Partial<StoryStep>) => {
     const updateStoryStepRequest = updateStoryStep(storyId, stepId, step)
-    return await mutation(updateStoryStepRequest)
+    return await mutateRequest(updateStoryStepRequest)
   }
 
   const APIAddContent = async (content: Partial<SlideContent>) => {
     const addSlideContentRequest = addContent(storyId, stepId, content)
     const newContent = (await addSlideContentRequest).data
-    if (step) {
-      stepMutate({
-        ...step,
-        content: [...step.content, newContent],
-      })
+    if (!step) {
+      return
     }
-    // also mutate the story
-    mutate(`/api/mapstory/${storyId}`)
-    return {
+    return mutation({
       ...step,
-      content: [...(step?.content ?? []), newContent],
-    }
+      content: [...step.content, newContent],
+    })
   }
 
   const APIUpdateContent = async (content: Partial<SlideContent>) => {
     const updateContentRequest = updateContent(storyId, stepId, content)
     const updatedContent = (await updateContentRequest).data
-
-    if (step) {
-      stepMutate({
-        ...step,
-        content: [
-          ...step.content.filter(s => s.id !== updatedContent.id),
-          updatedContent,
-        ],
-      })
+    if (!step) {
+      return
     }
-    // also mutate the story
-    mutate(`/api/mapstory/${storyId}`)
-    return {
+    return mutation({
       ...step,
       content: [
-        ...(step?.content.filter(s => s.id !== updatedContent.id) ?? []),
+        ...step.content.filter(s => s.id !== updatedContent.id),
         updatedContent,
       ],
-    }
+    })
   }
 
   const APIDeleteContent = async (contentId: Pick<SlideContent, 'id'>) => {
     const deleteContentRequest = deleteContent(storyId, stepId, contentId)
     const deletedContent = await (await deleteContentRequest).data
-    if (step) {
-      return await stepMutate({
-        ...step,
-        content: step.content.filter(c => c.id !== deletedContent.id),
-      })
+    if (!step) {
+      return
     }
+    return mutation({
+      ...step,
+      content: step.content.filter(c => c.id !== deletedContent.id),
+    })
   }
 
   return {
