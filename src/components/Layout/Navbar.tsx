@@ -38,7 +38,7 @@ export function Navbar({
       href: `/${lng}/viewer`,
     },
     {
-      title: t('Impressum'),
+      title: t('impressum'),
       href: `/${lng}/impressum`,
     },
   ])
