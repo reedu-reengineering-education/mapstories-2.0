@@ -37,6 +37,10 @@ export function Navbar({
       title: t('viewer'),
       href: `/${lng}/viewer`,
     },
+    {
+      title: t('Impressum'),
+      href: `/${lng}/impressum`,
+    },
   ])
 
   return (
