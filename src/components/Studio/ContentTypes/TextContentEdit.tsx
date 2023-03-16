@@ -11,6 +11,7 @@ import dynamic from 'next/dynamic'
 import { toast } from '@/src/lib/toast'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import useStep from '@/src/lib/api/step/useStep'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -37,40 +38,36 @@ export function TextContentEdit({
 
   const { t } = useTranslation(lng, 'editModal')
 
-  async function onSubmit(text: String) {
+  const { addContent, updateContent } = useStep(storyStepId)
+
+  async function onSubmit(text: string) {
     try {
       setIsSaving(true)
-      const url = `/api/mapstory/step/${
-        stepItem ? stepItem.storyStepId : storyStepId
-      }/content`
-      const method = stepItem ? 'PUT' : 'POST'
-      const headers = {
-        'Content-Type': 'application/json',
-      }
-      const body = stepItem
-        ? JSON.stringify({ ...stepItem, text: text })
-        : JSON.stringify({ text: text })
-      const response = await fetch(url, { method, headers, body })
-
-      setIsSaving(false)
-
-      if (!response.ok) {
-        throw new Error('Something went wrong')
+      if (stepItem) {
+        await updateContent({ ...stepItem, text })
+        toast({
+          message: 'Your content has been updated.',
+          type: 'success',
+        })
+      } else {
+        await addContent({ text })
+        toast({
+          message: 'Your content has been created.',
+          type: 'success',
+        })
       }
 
-      const newContent = await response.json()
-      setIsSaving(false)
-      toast({ message: 'Your content has been created.', type: 'success' })
       router.refresh()
-      // router.push(`/studio/${newStory.id}`)
-    } catch (error: any) {
-      setIsSaving(false)
+    } catch (error) {
       toast({
-        title: 'Error',
-        message: error.message,
+        title: 'Something went wrong.',
+        message: 'Your content was not created. Please try again.',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
+    setContentType && setContentType('')
   }
 
   let textInEditor = 'Your text here'

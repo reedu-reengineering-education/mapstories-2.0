@@ -12,9 +12,9 @@ import { slideTitleContentSchema } from '@/src/lib/validations/slidecontent'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { SlideContent } from '@prisma/client'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import useStep from '@/src/lib/api/step/useStep'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -44,54 +44,40 @@ export function TitleContentEdit({
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
-
   const { t } = useTranslation(lng, 'editModal')
 
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
+  const { addContent, updateContent } = useStep(storyStepId)
+
   async function onSubmit(data: FormData) {
     try {
       setIsSaving(true)
-      const url = `/api/mapstory/step/${
-        stepItem ? stepItem.storyStepId : storyStepId
-      }/content`
-      const method = stepItem ? 'PUT' : 'POST'
-      const headers = {
-        'Content-Type': 'application/json',
-      }
-      const body = stepItem
-        ? JSON.stringify({ ...stepItem, title: data.title })
-        : JSON.stringify({ ...data })
-      const response = await fetch(url, { method, headers, body })
-
-      setIsSaving(false)
-
-      if (!response.ok) {
-        return toast({
-          title: 'Something went wrong.',
-          message: 'Your content was not created. Please try again.',
-          type: 'error',
+      if (stepItem) {
+        await updateContent({ ...stepItem, title: data.title })
+        toast({
+          message: 'Your content has been updated.',
+          type: 'success',
+        })
+      } else {
+        await addContent(data)
+        toast({
+          message: 'Your content has been created.',
+          type: 'success',
         })
       }
 
-      const newContent = (await response.json()) as SlideContent
-
-      toast({
-        message: 'Your content has been created.',
-        type: 'success',
-      })
-
       router.refresh()
     } catch (error) {
-      console.error(error)
-
       toast({
         title: 'Something went wrong.',
         message: 'Your content was not created. Please try again.',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
-    setContentType('')
+    setContentType && setContentType('')
   }
 
   return (

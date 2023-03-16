@@ -16,8 +16,9 @@ import { media_type } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
-import { SlideContent } from '@prisma/client'
 import { urlToMedia } from '../../HelperFunctions'
+import { useStoryStore } from '@/src/lib/store/story'
+import useStep from '@/src/lib/api/step/useStep'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -52,6 +53,8 @@ export function EmbedContentEdit({
     handleUrl(url)
   }, [url])
 
+  const storyId = useStoryStore(store => store.storyID)
+
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [media, setMedia] = useState<media_type>(
@@ -65,39 +68,35 @@ export function EmbedContentEdit({
         },
   )
 
+  const { addContent, updateContent } = useStep(storyStepId)
+
   async function onSubmit(data: FormData) {
-    setIsSaving(true)
-    const url = `/api/mapstory/step/${
-      stepItem ? stepItem.storyStepId : storyStepId
-    }/content`
-    const method = stepItem ? 'PUT' : 'POST'
-    const headers = {
-      'Content-Type': 'application/json',
-    }
-    const body = stepItem
-      ? JSON.stringify({ ...stepItem })
-      : JSON.stringify({ ...data })
-    const response = await fetch(url, { method, headers, body })
+    try {
+      setIsSaving(true)
+      if (stepItem) {
+        await updateContent(stepItem)
+        toast({
+          message: 'Your content has been updated.',
+          type: 'success',
+        })
+      } else {
+        await addContent(data)
+        toast({
+          message: 'Your content has been created.',
+          type: 'success',
+        })
+      }
 
-    setIsSaving(false)
-
-    if (!response?.ok) {
-      return toast({
+      router.refresh()
+    } catch (error) {
+      toast({
         title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again',
+        message: 'Your content was not created. Please try again.',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
-
-    const newContent = (await response.json()) as SlideContent
-
-    toast({
-      message: 'Your content has been created.',
-      type: 'success',
-    })
-
-    router.refresh()
-    // router.push(`/studio/${newStory.id}`)
   }
 
   async function handleUrl(url: string) {
