@@ -6,14 +6,15 @@ import { cx } from 'class-variance-authority'
 import { Bars3Icon, GlobeAltIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useEffect, useState } from 'react'
-import { useUIStore } from '@/src/lib/store/ui'
+// import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
+import { useBoundStore } from '@/src/lib/store/store'
 
 export function Navbar({ children }: { children: React.ReactNode }) {
   const segment = useSelectedLayoutSegment()
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
-  const lng = useUIStore(state => state.language)
+  const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'navbar')
 
   const [routes, setRoutes] = useState<Route[]>([])

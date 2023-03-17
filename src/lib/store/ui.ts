@@ -1,11 +1,22 @@
-import { create } from 'zustand'
+import { StateCreator } from 'zustand'
+import { StoryState } from './story'
 
-interface UIState {
+export interface UIState {
   language: string
   setLanguage: (lng: string) => void
 }
 
-export const useUIStore = create<UIState>(set => ({
+export const useUIStore: StateCreator<
+  StoryState & UIState,
+  [],
+  [],
+  UIState
+> = set => ({
   language: '',
   setLanguage: (lng: string) => set({ language: lng }),
-}))
+})
+
+// create<UIState>(set => ({
+//   language: '',
+//   setLanguage: (lng: string) => set({ language: lng }),
+// }))

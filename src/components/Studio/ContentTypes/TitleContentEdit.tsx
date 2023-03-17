@@ -15,7 +15,8 @@ import { useState } from 'react'
 import { SlideContent } from '@prisma/client'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useUIStore } from '@/src/lib/store/ui'
+import { useBoundStore } from '@/src/lib/store/store'
+// import { useUIStore } from '@/src/lib/store/ui'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -40,7 +41,7 @@ export function TitleContentEdit({
   } = useForm<FormData>({
     resolver: zodResolver(slideTitleContentSchema),
   })
-  let lng = useUIStore(state => state.language)
+  let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }

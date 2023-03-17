@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslation } from '@/src/app/i18n/client'
-import { useUIStore } from '@/src/lib/store/ui'
+// import { useUIStore } from '@/src/lib/store/ui'
 import {
   Cog6ToothIcon,
   CreditCardIcon,
@@ -12,9 +12,10 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Route } from '@/src/types/Routes'
+import { useBoundStore } from '@/src/lib/store/store'
 
 export function StudioSidebar() {
-  const lng = useUIStore(state => state.language)
+  const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'settings')
   const [items, setItems] = useState<Route[]>([])
 

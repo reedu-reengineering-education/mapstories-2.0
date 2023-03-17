@@ -1,6 +1,7 @@
-import { create } from 'zustand'
+import { StateCreator } from 'zustand'
+import { UIState } from './ui'
 
-interface StoryState {
+export interface StoryState {
   storyID: string
   setStoryID: (storyID: string) => void
   selectedStepIndex: number | undefined
@@ -9,11 +10,25 @@ interface StoryState {
   setHoverMarkerId: (hoverMarkerId: string) => void
 }
 
-export const useStoryStore = create<StoryState>()((set, get) => ({
+export const useStoryStore: StateCreator<
+  StoryState & UIState,
+  [],
+  [],
+  StoryState
+> = set => ({
   storyID: '', // TODO: undefined would be better
   setStoryID: (storyID: string) => set({ storyID }),
   selectedStepIndex: undefined,
   updateSelectedStepIndex: (index: number) => set({ selectedStepIndex: index }),
   hoverMarkerId: '',
   setHoverMarkerId: (hoverMarkerId: string) => set({ hoverMarkerId }),
-}))
+})
+
+// create<StoryState>()((set, get) => ({
+//   storyID: '', // TODO: undefined would be better
+//   setStoryID: (storyID: string) => set({ storyID }),
+//   selectedStepIndex: undefined,
+//   updateSelectedStepIndex: (index: number) => set({ selectedStepIndex: index }),
+//   hoverMarkerId: '',
+//   setHoverMarkerId: (hoverMarkerId: string) => set({ hoverMarkerId }),
+// }))

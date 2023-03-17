@@ -2,7 +2,8 @@
 
 import { Button } from '@/src/components/Elements/Button'
 import useStory from '@/src/lib/api/story/useStory'
-import { useStoryStore } from '@/src/lib/store/story'
+import { useBoundStore } from '@/src/lib/store/store'
+// import { useStoryStore } from '@/src/lib/store/story'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
@@ -15,13 +16,13 @@ type Props = {
 
 export function Slides({ slug, page }: Props) {
   const router = useRouter()
-  const setStoryID = useStoryStore(state => state.setStoryID)
+  const setStoryID = useBoundStore(state => state.setStoryID)
   const { story } = useStory(slug)
 
-  const updateSelectedStepIndex = useStoryStore(
+  const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
   )
-  const selectedStepIndex = useStoryStore(state => state.selectedStepIndex)
+  const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
 
   useEffect(() => {
     if (story) {

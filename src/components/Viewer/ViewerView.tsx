@@ -9,10 +9,11 @@ import ViewerMap from './ViewerMap'
 import { Button } from './../Elements/Button'
 import { usePathname, useRouter } from 'next/navigation'
 import mapboxgl from 'mapbox-gl'
-import { useStoryStore } from '@/src/lib/store/story'
+// import { useStoryStore } from '@/src/lib/store/story'
 import React from 'react'
 import Markers from './ViewerMap/Layers/Markers'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
+import { useBoundStore } from '@/src/lib/store/store'
 
 type ViewerViewProps = {
   stories:
@@ -26,10 +27,10 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   const mapRef = React.createRef<MapRef>()
 
   const path = usePathname()
-  const storyID = useStoryStore(state => state.storyID)
-  const setStoryID = useStoryStore(state => state.setStoryID)
+  const storyID = useBoundStore(state => state.storyID)
+  const setStoryID = useBoundStore(state => state.setStoryID)
 
-  const selectedStepIndex = useStoryStore(state => state.selectedStepIndex)
+  const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
 
   const [mapData, setMapData] = useState<
     GeoJSON.Feature<GeoJSON.LineString>[] | undefined

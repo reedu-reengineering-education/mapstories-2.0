@@ -1,4 +1,5 @@
-import { useStoryStore } from '@/src/lib/store/story'
+import { useBoundStore } from '@/src/lib/store/store'
+// import { useStoryStore } from '@/src/lib/store/story'
 import { StepMarker } from '@/src/types/Stepmarker'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -23,8 +24,8 @@ export default function Markers({ markers, onClick }: Props) {
   const [triggerHoverLayerData, setTriggerHoverLayerData] = useState<
     GeoJSON.FeatureCollection | undefined
   >()
-  const selectedStepIndex = useStoryStore(state => state.selectedStepIndex)
-  const storyID = useStoryStore(state => state.storyID)
+  const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
+  const storyID = useBoundStore(state => state.storyID)
 
   const router = useRouter()
 

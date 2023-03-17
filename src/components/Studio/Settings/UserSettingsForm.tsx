@@ -14,7 +14,8 @@ import { userNameSchema } from '@/src/lib/validations/user'
 import { Input } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from '@/src/app/i18n/client'
-import { useUIStore } from '@/src/lib/store/ui'
+import { useBoundStore } from '@/src/lib/store/store'
+// import { useUIStore } from '@/src/lib/store/ui'
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
   user: Pick<User, 'id'> & {
@@ -30,7 +31,7 @@ export function UserSettingsForm({
   ...props
 }: UserNameFormProps) {
   const router = useRouter()
-  const lng = useUIStore(state => state.language)
+  const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'userSettingsForm')
 
   const {

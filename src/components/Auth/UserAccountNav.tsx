@@ -5,15 +5,16 @@ import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { DropdownMenu } from '../Dropdown'
 import { UserAvatar } from './UserAvatar'
-import { useUIStore } from '@/src/lib/store/ui'
+// import { useUIStore } from '@/src/lib/store/ui'
 import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, 'name' | 'image' | 'email'>
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
-  const lng = useUIStore(state => state.language)
+  const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'settings')
   return (
     <DropdownMenu>
