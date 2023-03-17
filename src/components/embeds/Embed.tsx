@@ -14,16 +14,27 @@ export interface EmbedProps
     HTMLDListElement
   > {
   media: media_type | null
+  options?: object
   width?: string | number
   height?: string | number
   linkText?: string
 }
 
-export function Embed({ media, width = '100%', height = '100%' }: EmbedProps) {
+export function Embed({
+  media,
+  width = '100%',
+  height = '100%',
+  options,
+}: EmbedProps) {
   return (
     <div className="h-full w-full">
       {media && media.type == 'YOUTUBE' && (
-        <YouTubeEmbed height={height} url={media.content} width={width} />
+        <YouTubeEmbed
+          height={height}
+          options={options as { autoplay: boolean }}
+          url={media.content}
+          width={width}
+        />
       )}
       {media && media.type == 'TWITTER' && (
         <TwitterEmbed height={height} url={media.content} width={width} />

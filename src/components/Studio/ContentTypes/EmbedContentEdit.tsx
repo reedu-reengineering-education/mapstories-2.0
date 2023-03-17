@@ -152,7 +152,11 @@ export function EmbedContentEdit({
           </InputLabel>
         </div>
         <div className="re-data-media-preview pt-4 pb-4">
-          <Embed height="50vh" media={media} />
+          <Embed
+            height="50vh"
+            media={media}
+            options={optionState ? optionState : undefined}
+          />
           {media?.type == 'YOUTUBE' && optionState?.autoplay != undefined && (
             <div className="flex items-center">
               <Input
