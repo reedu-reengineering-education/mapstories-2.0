@@ -7,6 +7,8 @@ interface StoryState {
   updateSelectedStepIndex: (index: number) => void
   hoverMarkerId: string
   setHoverMarkerId: (hoverMarkerId: string) => void
+  showSlidePreview: boolean
+  setShowSlidePreview: (showSlidePreview: boolean) => void
 }
 
 export const useStoryStore = create<StoryState>()((set, get) => ({
@@ -16,4 +18,6 @@ export const useStoryStore = create<StoryState>()((set, get) => ({
   updateSelectedStepIndex: (index: number) => set({ selectedStepIndex: index }),
   hoverMarkerId: '',
   setHoverMarkerId: (hoverMarkerId: string) => set({ hoverMarkerId }),
+  showSlidePreview: false,
+  setShowSlidePreview: showSlidePreview => set({ showSlidePreview }),
 }))

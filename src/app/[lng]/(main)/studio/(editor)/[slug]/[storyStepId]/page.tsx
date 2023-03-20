@@ -4,8 +4,8 @@ import { db } from '@/src/lib/db'
 import PlusIcon from '@heroicons/react/24/outline/PlusIcon'
 import { Story } from '@prisma/client'
 import SlideContentModal from './SlideContentModal'
-import SlidePreviewModal from '@/src/components/Studio/Mapstories/SlidePreviewModal'
-import { EyeIcon } from '@heroicons/react/24/outline'
+import PreviewSlide from '@/src/components/Studio/Mapstories/PreviewSlide'
+import PreviewSlideButton from '@/src/components/Studio/Mapstories/PreviewSlideButton'
 
 interface EditorPageProps {
   params: { slug: string; storyStepId: string; lng: string }
@@ -47,20 +47,9 @@ export default async function StepPage({
 
   return (
     <div>
+      {storyStep && <PreviewSlide step={storyStep} />}
       <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">
-        {storyStep && (
-          <SlidePreviewModal
-            step={storyStep}
-            trigger={
-              // <Button
-              //   className="absolute top-0 right-0 m-2"
-              //   startIcon={<EyeIcon className="w-5" />}
-              //   variant={'inverse'}
-              // />
-              <EyeIcon className="absolute top-0 right-0 m-2 w-5 hover:cursor-pointer" />
-            }
-          />
-        )}
+        <PreviewSlideButton />
         <h3 className="pb-4">Media / Text</h3>
         <div>
           <SlideContentListEdit
