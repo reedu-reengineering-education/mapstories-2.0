@@ -91,6 +91,7 @@ export function TitleContentEdit({
         type: 'error',
       })
     }
+    setContentType('')
   }
 
   return (
