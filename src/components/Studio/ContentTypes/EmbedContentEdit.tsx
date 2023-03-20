@@ -17,7 +17,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
 import { SlideContent } from '@prisma/client'
-import { urlToMedia } from '../../HelperFunctions'
+import { urlToMedia } from '../../../helper/urlToMedia'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -62,12 +62,8 @@ export function EmbedContentEdit({
 
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [media, setMedia] = useState<media_type | null>(
-    stepItem ? stepItem : null,
-  )
-  const [optionState, setOptionState] = useState<any | null>(
-    stepItem?.options ? stepItem.options : null,
-  )
+  const [media, setMedia] = useState<media_type | undefined>(stepItem)
+  const [optionState, setOptionState] = useState(stepItem?.options)
 
   async function onSubmit(data: FormData) {
     if (media) {

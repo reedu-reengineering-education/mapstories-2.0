@@ -13,7 +13,7 @@ export interface EmbedProps
     React.HTMLAttributes<HTMLDListElement>,
     HTMLDListElement
   > {
-  media: media_type | null
+  media: media_type | undefined
   options?: object
   width?: string | number
   height?: string | number

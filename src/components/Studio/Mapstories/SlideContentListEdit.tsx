@@ -19,7 +19,7 @@ import { Button } from '../../Elements/Button'
 import { Modal } from '../../Modal'
 import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import dynamic from 'next/dynamic'
-import { EditContentType } from '../ContentTypes/EditContentType'
+import { ContentEditFactory } from '../ContentTypes/ContentEditFactory'
 import useStory from '@/src/lib/api/story/useStory'
 
 type Props = {
@@ -120,11 +120,11 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
                     }
                   >
                     <Modal.Content>
-                      <EditContentType
+                      <ContentEditFactory
                         lng={lng}
                         stepItem={stepItem}
                         storyStepId={stepItem.storyStepId}
-                      ></EditContentType>
+                      ></ContentEditFactory>
                     </Modal.Content>
                   </Modal>
                   <DeleteContentButton
