@@ -54,13 +54,13 @@ export function TitleContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        await updateContent({ ...stepItem, title: data.title })
+        await updateContent({ ...stepItem, content: data.title })
         toast({
           message: 'Your content has been updated.',
           type: 'success',
         })
       } else {
-        await addContent(data)
+        await addContent({ content: data.title, type: 'TITLE' })
         toast({
           message: 'Your content has been created.',
           type: 'success',
@@ -90,7 +90,7 @@ export function TitleContentEdit({
         <div className="pt-4">
           <InputLabel>Gib eine Überschrift für deine Folie ein</InputLabel>
           <Input
-            defaultValue={stepItem ? stepItem.title : ''}
+            defaultValue={stepItem ? stepItem.content : ''}
             errors={errors.title}
             label="title"
             size={32}

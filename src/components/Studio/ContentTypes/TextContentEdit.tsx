@@ -44,13 +44,13 @@ export function TextContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        await updateContent({ ...stepItem, text })
+        await updateContent({ ...stepItem, content: text })
         toast({
           message: 'Your content has been updated.',
           type: 'success',
         })
       } else {
-        await addContent({ text })
+        await addContent({ content: text, type: 'TEXT' })
         toast({
           message: 'Your content has been created.',
           type: 'success',
@@ -71,7 +71,7 @@ export function TextContentEdit({
   }
 
   let textInEditor = 'Your text here'
-  stepItem ? (textInEditor = stepItem.text) : ''
+  stepItem ? (textInEditor = stepItem.content) : ''
 
   const [value, setValue] = useState(textInEditor)
   return (

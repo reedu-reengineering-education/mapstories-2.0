@@ -21,10 +21,10 @@ const markdownPreviewStyles = {
 export function TextContent({ content }: TextContentProps) {
   return (
     <div>
-      {content.text && (
+      {content.content && (
         <MarkdownPreview
           // className="hover:bg-hover"
-          source={content.text}
+          source={content.content}
           style={markdownPreviewStyles}
         />
       )}

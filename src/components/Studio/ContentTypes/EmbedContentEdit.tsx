@@ -16,9 +16,9 @@ import { media_type } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
-import { urlToMedia } from '../../HelperFunctions'
 import { useStoryStore } from '@/src/lib/store/story'
 import useStep from '@/src/lib/api/step/useStep'
+import { urlToMedia } from '../../../helper/urlToMedia'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -48,25 +48,24 @@ export function EmbedContentEdit({
     lng = fallbackLng
   }
 
-  const { media: url } = watch()
+  const { content: url } = watch()
   useEffect(() => {
     handleUrl(url)
   }, [url])
 
   const storyId = useStoryStore(store => store.storyID)
+  const { options: options } = watch()
+  useEffect(() => {
+    setOptionState(options)
+    if (options && media && stepItem) {
+      stepItem.options = options
+    }
+  }, [options?.autoplay])
 
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [media, setMedia] = useState<media_type>(
-    stepItem
-      ? urlToMedia(stepItem.media)
-      : {
-          type: 'unknown',
-          name: 'Unknown',
-          match_str: / /,
-          url: '',
-        },
-  )
+  const [media, setMedia] = useState<media_type | undefined>(stepItem)
+  const [optionState, setOptionState] = useState(stepItem?.options)
 
   const { addContent, updateContent } = useStep(storyStepId)
 
@@ -100,9 +99,17 @@ export function EmbedContentEdit({
   }
 
   async function handleUrl(url: string) {
-    setMedia(urlToMedia(url))
-    if (url && media.type != 'unknown' && stepItem) {
-      stepItem.media = url
+    const new_media = urlToMedia(url)
+    setMedia(new_media)
+    if (new_media && url && stepItem) {
+      if (stepItem) {
+        stepItem.content = url
+      }
+    }
+    if (new_media?.type == 'YOUTUBE' && !optionState) {
+      setOptionState({ autoplay: false })
+    } else if (new_media && new_media.type != 'YOUTUBE' && optionState) {
+      setOptionState(null)
     }
   }
 
@@ -114,25 +121,36 @@ export function EmbedContentEdit({
     >
       <div className="top-0">
         <div className="pt-4">
+          <Input
+            defaultValue={stepItem ? stepItem.content : ''}
+            errors={errors.content}
+            label="content"
+            size={32}
+            {...register('content')}
+          />
           <InputLabel>
             Gib eine URL zu einem Social Media Beitrag ein
           </InputLabel>
-          <Input
-            defaultValue={stepItem ? stepItem.media : ''}
-            errors={errors.media}
-            label="media"
-            size={32}
-            {...register('media')}
-          />
         </div>
         <div className="re-data-media-preview pt-4 pb-4">
-          <Embed height="50vh" media={media} />
+          <Embed
+            height="50vh"
+            media={media}
+            options={optionState ? optionState : undefined}
+          />
+          {media?.type == 'YOUTUBE' && optionState?.autoplay != undefined && (
+            <div className="flex items-center">
+              <Input
+                defaultChecked={optionState.autoplay}
+                label="autoplay"
+                type="checkbox"
+                {...register('options.autoplay')}
+              />
+              <InputLabel>Autoplay</InputLabel>
+            </div>
+          )}
         </div>
-        <Button
-          disabled={media.type == 'unknown'}
-          isLoading={isSaving}
-          type="submit"
-        >
+        <Button disabled={media == null} isLoading={isSaving} type="submit">
           {stepItem && t('save')}
           {!stepItem && t('create')}
         </Button>
