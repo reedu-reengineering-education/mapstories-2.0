@@ -1,5 +1,8 @@
 #!/bin/sh
 
+find /app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXT_PUBLIC_MAPTILER_KEY#$NEXT_PUBLIC_MAPTILER_KEY#g"
+find /app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXT_PUBLIC_MAPBOX_TOKEN#$NEXT_PUBLIC_MAPBOX_TOKEN#g"
+
 if [ "$MIGRATE_DATABASE" = true ]
 then
   echo "Running database migrations"
