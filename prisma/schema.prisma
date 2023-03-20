@@ -117,6 +117,7 @@ model Theme {
 
 model SlideContent {
   id          String    @id @default(cuid())
+  position    Int
   text        String?
   title       String?
   media       String?

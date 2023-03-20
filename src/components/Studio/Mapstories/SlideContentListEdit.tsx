@@ -22,6 +22,9 @@ import dynamic from 'next/dynamic'
 import { EditContentType } from '../ContentTypes/EditContentType'
 import useStory from '@/src/lib/api/story/useStory'
 import { urlToMedia } from '../../HelperFunctions'
+import { toast } from '@/src/lib/toast'
+import useStep from '@/src/lib/api/step/useStep'
+import { useEffect, useState } from 'react'
 
 type Props = {
   storyId: string
@@ -91,17 +94,45 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
 
 export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
   const { story } = useStory(storyId)
+  const { reorderSlideContent } = useStep(storyId, stepId)
   const step: (StoryStep & { content?: SlideContent[] }) | undefined =
     story?.steps?.filter(step => step.id === stepId)[0]
-  const [disabled, setDisabled] = React.useState(false)
+  const [disabled, setDisabled] = useState(false)
+  const [content, setContent] = useState<SlideContent[]>()
+
+  useEffect(() => {
+    if (!step?.content) {
+      return
+    }
+    //@ts-ignore
+    setContent(step.content.sort((a, b) => a.position - b.position))
+  }, [story])
+
+  async function onReorder(update: SlideContent[]) {
+    try {
+      const reorderedSlideContent = await reorderSlideContent(update)
+      if (reorderedSlideContent) {
+        toast({
+          message: 'Your Slide content was updated successfully',
+          type: 'success',
+        })
+      }
+    } catch (e) {
+      return toast({
+        title: 'Something went wrong.',
+        message: 'Your content has not been updated. Please try again',
+        type: 'error',
+      })
+    }
+  }
 
   return (
     <div className="py-4">
-      {step && step.content && step.content.length > 0 && (
+      {content && content.length > 0 && (
         <DraggableList
           disabled={disabled}
           items={
-            step?.content?.map(stepItem => ({
+            content?.map(stepItem => ({
               id: stepItem.id,
               s: stepItem,
               component: (
@@ -137,7 +168,7 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
               ),
             }))!
           }
-          onChange={e => console.log(e)}
+          onChange={e => onReorder(e.map(({ s }) => s))}
         ></DraggableList>
       )}
     </div>

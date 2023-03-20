@@ -1,7 +1,8 @@
 import { APIError } from '@/types'
-import { StoryStep } from '@prisma/client'
+import { SlideContent, StoryStep } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 import useSWR, { mutate } from 'swr'
+import { reorderSlideContent } from './reorderSlideContent'
 import { updateStoryStep } from './updateStep'
 
 const useStep = (storyId: string, stepId: string) => {
@@ -24,9 +25,15 @@ const useStep = (storyId: string, stepId: string) => {
     return await mutation(updateStoryStepRequest)
   }
 
+  const APIReorderSlideContent = async (update: SlideContent[]) => {
+    const reorderSlideContentRequest = reorderSlideContent(storyId, update)
+    return await mutation(reorderSlideContentRequest)
+  }
+
   return {
     step,
     mutate: stepMutate,
+    reorderSlideContent: APIReorderSlideContent,
     updateStep: APIUpdateStep,
   }
 }
