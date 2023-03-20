@@ -86,7 +86,9 @@ export default function ViewerView({ stories }: ViewerViewProps) {
         ({ id, feature, position, content }) => {
           const geoFeature =
             feature as unknown as GeoJSON.Feature<GeoJSON.Point>
-          const title = content.filter((item: SlideContent) => item.title)
+          const title = content.filter(
+            (item: SlideContent) => item.type == 'TITLE',
+          )
           if (geoFeature?.geometry?.coordinates?.length > 0) {
             const newMarker: any = {
               longitude: geoFeature.geometry.coordinates[0],
@@ -94,7 +96,10 @@ export default function ViewerView({ stories }: ViewerViewProps) {
               position: position,
               stepId: id,
               color: '#18325b',
-              title: title[0] ? title[0].title : 'No title',
+              title:
+                title[0] && title[0].type == 'TITLE'
+                  ? title[0].content
+                  : 'No title',
             }
             return newMarker
           }
