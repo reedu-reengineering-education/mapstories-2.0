@@ -8,6 +8,7 @@ import { SlideContent } from '@prisma/client'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
+      //TODO: Check schema
       const storyStepId = req.query.storyStepId as string
 
       const newSlideContent = await db.slideContent.create({
@@ -36,8 +37,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(422).end()
     }
   } else if (req.method === 'PUT') {
-    //
     try {
+      //TODO: Check schema
       const story = await db.story.findFirst({
         where: {
           id: req.query.storyStepId as string,
@@ -51,7 +52,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
 
-      // room ids from the request
       const contentIds = (req.body as SlideContent[]).map(r => r.id)
 
       const newSlideContentOrder = contentIds.map((s, i) => ({

@@ -104,7 +104,6 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
     if (!step?.content) {
       return
     }
-    //@ts-ignore
     setContent(step.content.sort((a, b) => a.position - b.position))
   }, [story])
 
@@ -113,7 +112,7 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
       const reorderedSlideContent = await reorderSlideContent(update)
       if (reorderedSlideContent) {
         toast({
-          message: 'Your Slide content was updated successfully',
+          message: 'Your content was updated successfully',
           type: 'success',
         })
       }
