@@ -14,6 +14,31 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           id: slideContentId,
         },
       })
+
+      // Get all slide contents for the given story step id
+      const slideContents = await db.slideContent.findMany({
+        where: {
+          storyStepId,
+        },
+        orderBy: {
+          position: 'asc',
+        },
+      })
+
+      // Update the position of each slide content
+      const updatedSlideContents = await Promise.all(
+        slideContents.map((content, index) => {
+          return db.slideContent.update({
+            where: {
+              id: content.id,
+            },
+            data: {
+              position: index,
+            },
+          })
+        }),
+      )
+
       res.json(deletedContent)
 
       return res.end()
