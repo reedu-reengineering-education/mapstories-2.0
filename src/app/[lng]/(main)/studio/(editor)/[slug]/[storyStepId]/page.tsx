@@ -47,7 +47,7 @@ export default async function StepPage({
 
   return (
     <div>
-      {storyStep && <PreviewSlide step={storyStep} />}
+      {storyStep && <PreviewSlide stepId={storyStep.id} />}
       <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">
         <PreviewSlideButton />
         <h3 className="pb-4">Media / Text</h3>

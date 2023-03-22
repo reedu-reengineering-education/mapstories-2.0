@@ -1,19 +1,17 @@
 'use client'
 
-import { SlideContent, StoryStep } from '@prisma/client'
 import { Slide } from '../../Viewer/Slide'
 import { useBoundStore } from '@/src/lib/store/store'
+import useStep from '@/src/lib/api/step/useStep'
 
 type Props = {
-  step:
-    | (StoryStep & {
-        content?: SlideContent[] | undefined
-      })
-    | undefined
+  stepId: string
 }
 
-export default function PreviewSlide({ step }: Props) {
+export default function PreviewSlide({ stepId }: Props) {
   const { showSlidePreview } = useBoundStore()
+  const { step } = useStep(stepId)
+
   return (
     <>
       {showSlidePreview && (
