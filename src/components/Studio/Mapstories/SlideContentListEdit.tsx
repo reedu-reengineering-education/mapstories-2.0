@@ -48,7 +48,7 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
           <TextIcon className="h-14 w-14"></TextIcon>
           <MarkdownPreview
             className="hover:bg-hover"
-            source={content.content}
+            source={content.content.substring(0, 12) + '...'}
             style={markdownPreviewStyles}
           />
         </div>
