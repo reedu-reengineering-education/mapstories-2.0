@@ -4,7 +4,6 @@ import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useRouter } from 'next/navigation'
-
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { cx } from 'class-variance-authority'
@@ -16,8 +15,7 @@ import { media_type } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
-import { useUIStore } from '@/src/lib/store/ui'
-import { useStoryStore } from '@/src/lib/store/story'
+import { useBoundStore } from '@/src/lib/store/store'
 import useStep from '@/src/lib/api/step/useStep'
 import { urlToMedia } from '../../../helper/urlToMedia'
 
@@ -43,7 +41,7 @@ export function EmbedContentEdit({
   } = useForm<FormData>({
     resolver: zodResolver(slideEmbedContentSchema),
   })
-  let lng = useUIStore(state => state.language)
+  let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
@@ -53,7 +51,7 @@ export function EmbedContentEdit({
     handleUrl(url)
   }, [url])
 
-  const storyId = useStoryStore(store => store.storyID)
+  const storyId = useBoundStore(store => store.storyID)
   const { options: options } = watch()
   useEffect(() => {
     setOptionState(options)
@@ -73,20 +71,18 @@ export function EmbedContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        await updateContent(stepItem)
+        await updateContent(stepItem.id, { ...stepItem, type: media?.type })
         toast({
           message: 'Your content has been updated.',
           type: 'success',
         })
       } else {
-        await addContent(data)
+        await addContent({ ...data, type: media?.type })
         toast({
           message: 'Your content has been created.',
           type: 'success',
         })
       }
-
-      router.refresh()
     } catch (error) {
       toast({
         title: 'Something went wrong.',

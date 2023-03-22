@@ -2,18 +2,19 @@ import { APIError } from '@/types'
 import { SlideContent, StoryStep } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 import useSWR, { mutate } from 'swr'
-import { useStoryStore } from '../../store/story'
+import { reorderSlideContent } from './reorderSlideContent'
 import { addContent } from './addContent'
 import { deleteContent } from './deleteContent'
 import { updateContent } from './updateContent'
 import { updateStoryStep } from './updateStep'
+import { useBoundStore } from '../../store/store'
 
 export type StepWithContent = StoryStep & {
   content: SlideContent[]
 }
 
 const useStep = (stepId: string) => {
-  const storyId = useStoryStore(store => store.storyID)
+  const storyId = useBoundStore(store => store.storyID)
 
   const { data: step, mutate: stepMutate } = useSWR<StepWithContent>(
     `/api/mapstory/${storyId}/step/${stepId}`,
@@ -50,8 +51,16 @@ const useStep = (stepId: string) => {
     })
   }
 
-  const APIUpdateContent = async (content: Partial<SlideContent>) => {
-    const updateContentRequest = updateContent(storyId, stepId, content)
+  const APIUpdateContent = async (
+    contentId: string,
+    content: Partial<SlideContent>,
+  ) => {
+    const updateContentRequest = updateContent(
+      storyId,
+      stepId,
+      contentId,
+      content,
+    )
     const updatedContent = (await updateContentRequest).data
     if (!step) {
       return
@@ -77,9 +86,19 @@ const useStep = (stepId: string) => {
     })
   }
 
+  const APIReorderSlideContent = async (update: SlideContent[]) => {
+    const reorderSlideContentRequest = reorderSlideContent(
+      storyId,
+      stepId,
+      update,
+    )
+    return await mutateRequest(reorderSlideContentRequest)
+  }
+
   return {
     step,
     mutate: stepMutate,
+    reorderSlideContent: APIReorderSlideContent,
     updateStep: APIUpdateStep,
     addContent: APIAddContent,
     updateContent: APIUpdateContent,

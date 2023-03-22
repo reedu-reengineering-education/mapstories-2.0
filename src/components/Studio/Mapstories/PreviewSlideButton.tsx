@@ -1,10 +1,10 @@
 'use client'
 
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
-import { useStoryStore } from '@/src/lib/store/story'
+import { useBoundStore } from '@/src/lib/store/store'
 
 export default function PreviewSlideButton() {
-  const { showSlidePreview, setShowSlidePreview } = useStoryStore()
+  const { showSlidePreview, setShowSlidePreview } = useBoundStore()
   if (showSlidePreview) {
     return (
       <EyeIcon

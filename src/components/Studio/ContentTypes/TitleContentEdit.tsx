@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useUIStore } from '@/src/lib/store/ui'
+import { useBoundStore } from '@/src/lib/store/store'
 import useStep from '@/src/lib/api/step/useStep'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
@@ -40,7 +40,7 @@ export function TitleContentEdit({
   } = useForm<FormData>({
     resolver: zodResolver(slideTitleContentSchema),
   })
-  let lng = useUIStore(state => state.language)
+  let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
@@ -54,7 +54,11 @@ export function TitleContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        await updateContent({ ...stepItem, content: data.title })
+        await updateContent(stepItem.id, {
+          ...stepItem,
+          content: data.title,
+          type: 'TITLE',
+        })
         toast({
           message: 'Your content has been updated.',
           type: 'success',
@@ -66,8 +70,6 @@ export function TitleContentEdit({
           type: 'success',
         })
       }
-
-      router.refresh()
     } catch (error) {
       toast({
         title: 'Something went wrong.',

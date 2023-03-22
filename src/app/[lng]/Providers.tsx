@@ -6,7 +6,8 @@ import { ReactNode } from 'react'
 import { SWRConfig } from 'swr'
 import { Toaster } from '@/src/lib/toast'
 import { useEffect } from 'react'
-import { useUIStore } from '@/src/lib/store/ui'
+// import { useUIStore } from '@/src/lib/store/ui'
+import { useBoundStore } from '@/src/lib/store/store'
 // import { useTranslation } from '../i18n/client'
 
 export default function Providers({
@@ -16,7 +17,7 @@ export default function Providers({
   children: ReactNode
   lng: string
 }) {
-  const setLanguage = useUIStore(state => state.setLanguage)
+  const setLanguage = useBoundStore(state => state.setLanguage)
 
   useEffect(() => {
     setLanguage(lng)

@@ -11,7 +11,7 @@ import dynamic from 'next/dynamic'
 import { toast } from '@/src/lib/toast'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useUIStore } from '@/src/lib/store/ui'
+import { useBoundStore } from '@/src/lib/store/store'
 import useStep from '@/src/lib/api/step/useStep'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
@@ -29,7 +29,7 @@ export function TextContentEdit({
   stepItem,
   setContentType,
 }: TextContentEditProps) {
-  let lng = useUIStore(state => state.language)
+  let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
@@ -44,7 +44,11 @@ export function TextContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        await updateContent({ ...stepItem, content: text })
+        await updateContent(stepItem.id, {
+          ...stepItem,
+          content: text,
+          type: 'TEXT',
+        })
         toast({
           message: 'Your content has been updated.',
           type: 'success',
@@ -56,8 +60,6 @@ export function TextContentEdit({
           type: 'success',
         })
       }
-
-      router.refresh()
     } catch (error) {
       toast({
         title: 'Something went wrong.',

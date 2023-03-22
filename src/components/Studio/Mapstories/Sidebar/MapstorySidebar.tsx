@@ -2,7 +2,6 @@
 
 import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
-import { useStoryStore } from '@/src/lib/store/story'
 import { toast } from '@/src/lib/toast'
 import { MapPinIcon } from '@heroicons/react/24/outline'
 import { StoryStep } from '@prisma/client'
@@ -13,19 +12,20 @@ import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
 import { useTranslation } from '@/src/app/i18n/client'
 import AddStoryStepButton from './AddStoryStepButton'
-import { useUIStore } from '@/src/lib/store/ui'
+// import { useUIStore } from '@/src/lib/store/ui'
+import { useBoundStore } from '@/src/lib/store/store'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
-  const lng = useUIStore(state => state.language)
+  const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstorySidebar')
 
-  const setStoryID = useStoryStore(state => state.setStoryID)
+  const setStoryID = useBoundStore(state => state.setStoryID)
 
   useEffect(() => {
     setStoryID(storyID)
   }, [storyID])
 
-  const markerId = useStoryStore(state => state.hoverMarkerId)
+  const markerId = useBoundStore(state => state.hoverMarkerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const { story, reorderStorySteps } = useStory(storyID)

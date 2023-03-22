@@ -17,7 +17,8 @@ import useStory from '@/src/lib/api/story/useStory'
 import Switch from '../../Elements/Switch'
 import { Spacer } from '../../Elements/Spacer'
 import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
-import { useUIStore } from '@/src/lib/store/ui'
+import { useBoundStore } from '@/src/lib/store/store'
+// import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
 type FormData = z.infer<typeof mapstoryOptionsSchema>
@@ -32,7 +33,7 @@ const options: Pick<DropdownMenuItemProps, 'children'>[] = [
 
 export default function SettingsModal({ storyId }: { storyId: string }) {
   const router = useRouter()
-  const lng = useUIStore(state => state.language)
+  const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'settingsModal')
   const [isSaving, setIsSaving] = useState(false)
   const [image, setImage] = useState<string | any>()
