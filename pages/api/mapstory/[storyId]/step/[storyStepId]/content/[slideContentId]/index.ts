@@ -40,23 +40,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         where: {
           storyStepId,
         },
-        orderBy: {
-          position: 'asc',
-        },
       })
 
       // Update the position of each slide content
       await db.$transaction(
-        slideContents.map((content, index) => {
-          return db.slideContent.update({
-            where: {
-              id: content.id,
-            },
-            data: {
-              position: index,
-            },
-          })
-        }),
+        slideContents
+          .sort((a, b) => a.position - b.position)
+          .map((content, index) => {
+            return db.slideContent.update({
+              where: {
+                id: content.id,
+              },
+              data: {
+                position: index,
+              },
+            })
+          }),
       )
 
       res.json(deletedContent)
