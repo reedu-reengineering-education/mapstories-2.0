@@ -5,17 +5,17 @@ import MapstorySidebar from '@/src/components/Studio/Mapstories/Sidebar/Mapstory
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
-import { ArrowLeftIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon, EyeIcon } from '@heroicons/react/24/outline'
 import { Story, User } from '@prisma/client'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
-export const generateStaticParams =
-  process.env.NODE_ENV !== 'development'
-    ? async () => {
-        return []
-      }
-    : undefined
+// export const generateStaticParams =
+//   process.env.NODE_ENV !== 'development'
+//     ? async () => {
+//         return []
+//       }
+//     : undefined
 
 interface DashboardLayoutProps {
   params: { storyId: string; slug: string; lng: string }
@@ -70,6 +70,11 @@ export default async function DashboardLayout({
             Zurück
           </Button>
         </Link>
+        <a href={`/viewer/story/${slug}/0}`} target="_blank">
+          <Button startIcon={<EyeIcon className="w-5" />} variant={'inverse'}>
+            Preview
+          </Button>
+        </a>
         <SettingsModal lng={lng} storyId={story.id} />
       </div>
 

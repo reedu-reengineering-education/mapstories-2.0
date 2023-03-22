@@ -7,6 +7,7 @@ import { z } from 'zod'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
+      // TODO: check schema
       const storyStepId = req.query.storyStepId as string
 
       const newSlideContent = await db.slideContent.create({
@@ -28,7 +29,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
   } else if (req.method === 'PUT') {
     try {
+      // TODO: check schema
       const slideContentId = req.body.id as string
+      req.body.options = req.body.options ? req.body.options : undefined
       const updatedContent = await db.slideContent.update({
         where: { id: slideContentId },
         data: req.body,

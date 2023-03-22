@@ -13,37 +13,48 @@ export interface EmbedProps
     React.HTMLAttributes<HTMLDListElement>,
     HTMLDListElement
   > {
-  media: media_type
+  media: media_type | undefined
+  options?: object
   width?: string | number
   height?: string | number
   linkText?: string
 }
 
-export function Embed({ media, width = '100%', height = '100%' }: EmbedProps) {
+export function Embed({
+  media,
+  width = '100%',
+  height = '100%',
+  options,
+}: EmbedProps) {
   return (
     <div className="h-full w-full">
-      {media.type == 'youtube' && (
-        <YouTubeEmbed height={height} url={media.url} width={width} />
+      {media && media.type == 'YOUTUBE' && (
+        <YouTubeEmbed
+          height={height}
+          options={options as { autoplay: boolean }}
+          url={media.content}
+          width={width}
+        />
       )}
-      {media.type == 'twitter' && (
-        <TwitterEmbed height={height} url={media.url} width={width} />
+      {media && media.type == 'TWITTER' && (
+        <TwitterEmbed height={height} url={media.content} width={width} />
       )}
-      {media.type == 'instagram' && (
-        <InstagramEmbed height={height} url={media.url} width={width} />
+      {media && media.type == 'INSTAGRAM' && (
+        <InstagramEmbed height={height} url={media.content} width={width} />
       )}
-      {media.type == 'tiktok' && (
-        <TikTokEmbed height={height} url={media.url} width={width} />
+      {media && media.type == 'TIKTOK' && (
+        <TikTokEmbed height={height} url={media.content} width={width} />
       )}
-      {media.type == 'padlet' && (
-        <PadletEmbed height={height} url={media.url} width={width} />
+      {media && media.type == 'PADLET' && (
+        <PadletEmbed height={height} url={media.content} width={width} />
       )}
-      {media.type == 'facebook' && (
-        <FacebookEmbed height={height} url={media.url} width={width} />
+      {media && media.type == 'FACEBOOK' && (
+        <FacebookEmbed height={height} url={media.content} width={width} />
       )}
-      {media.type == 'wikipedia' && (
-        <WikipediaEmbed height={height} url={media.url} width={width} />
+      {media && media.type == 'WIKIPEDIA' && (
+        <WikipediaEmbed height={height} url={media.content} width={width} />
       )}
-      {media.type == 'unknown' && <p>Media not recognized...</p>}
+      {media == null && <p>Media not recognized...</p>}
     </div>
   )
 }

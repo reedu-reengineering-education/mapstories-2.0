@@ -1,6 +1,6 @@
 'use client'
 
-import { SlideContent, StoryStep } from '@prisma/client'
+import { SlideContent } from '@prisma/client'
 import {
   ClipboardIcon,
   ClockIcon,
@@ -19,10 +19,9 @@ import { Button } from '../../Elements/Button'
 import { Modal } from '../../Modal'
 import DeleteContentButton from '../ContentTypes/DeleteContentButton'
 import dynamic from 'next/dynamic'
-import { EditContentType } from '../ContentTypes/EditContentType'
+import { ContentEditFactory } from '../ContentTypes/ContentEditFactory'
 import useStory from '@/src/lib/api/story/useStory'
-import { urlToMedia } from '../../HelperFunctions'
-import { useEffect, useState } from 'react'
+import useStep from '@/src/lib/api/step/useStep'
 
 type Props = {
   storyId: string
@@ -41,49 +40,48 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
     fontFamily: 'inherit',
   }
 
-  if (content.text != null) {
-    return (
-      <div className="flex">
-        <TextIcon className="h-14 w-14"></TextIcon>
-        <MarkdownPreview
-          className="hover:bg-hover"
-          source={content.text}
-          style={markdownPreviewStyles}
-        />
-      </div>
-    )
-  }
-  if (content.title != null) {
+  if (content.content != null) {
+    if (content.type == 'TEXT') {
+      return (
+        <div className="flex">
+          <TextIcon className="h-14 w-14"></TextIcon>
+          <MarkdownPreview
+            className="hover:bg-hover"
+            source={content.content}
+            style={markdownPreviewStyles}
+          />
+        </div>
+      )
+    } else if (content.type == 'TITLE') {
+      return (
+        <div className="relativ z-750 flex">
+          <HeadingIcon className="h-14 w-14"></HeadingIcon>
+          {content.content.substring(0, 12)}...
+        </div>
+      )
+    }
+    const media = content.content
     return (
       <div className="relativ z-750 flex">
-        <HeadingIcon className="h-14 w-14"></HeadingIcon>
-        {content.title.substring(0, 12)}...
-      </div>
-    )
-  }
-  if (content.media != null) {
-    const media = urlToMedia(content.media)
-    return (
-      <div className="relativ z-750 flex">
-        {media.type == 'twitter' ? (
+        {content.type == 'TWITTER' ? (
           <TwitterLogoIcon className="h-14 w-14" />
-        ) : media.type == 'youtube' ? (
+        ) : content.type == 'YOUTUBE' ? (
           <PlayIcon className="h-14 w-14" />
-        ) : media.type == 'instagram' ? (
+        ) : content.type == 'INSTAGRAM' ? (
           <InstagramLogoIcon className="h-14 w-14" />
-        ) : media.type == 'tiktok' ? (
+        ) : content.type == 'TIKTOK' ? (
           <ClockIcon className="h-14 w-14" />
-        ) : media.type == 'padlet' ? (
+        ) : content.type == 'PADLET' ? (
           <ClipboardIcon className="h-14 w-14" />
-        ) : media.type == 'facebook' ? (
+        ) : content.type == 'FACEBOOK' ? (
           <FaceIcon className="h-14 w-14" />
-        ) : media.type == 'wikipedia' ? (
+        ) : content.type == 'WIKIPEDIA' ? (
           <MagnifyingGlassIcon className="h-14 w-14" />
         ) : (
           <PersonIcon className="h-14 w-14"></PersonIcon>
         )}
         ...
-        {content.media.substring(content.media.length - 12)}
+        {content.content.substring(content.content.length - 12)}
       </div>
     )
   }
@@ -92,14 +90,18 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
 
 export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
   const { story } = useStory(storyId)
+  const { step } = useStep(stepId)
+  // const step: (StoryStep & { content?: SlideContent[] }) | undefined =
+  //   story?.steps?.filter(step => step.id === stepId)[0]
+
   const [disabled, setDisabled] = React.useState(false)
   const [step, setStep] = useState<StoryStep & { content?: SlideContent[] }>()
 
-  useEffect(() => {
-    setStep(
-      story?.steps?.filter(step => step.id === stepId)[0] ?? story?.firstStep,
-    )
-  }, [stepId])
+  // useEffect(() => {
+  //   setStep(
+  //     story?.steps?.filter(step => step.id === stepId)[0] ?? story?.firstStep,
+  //   )
+  // }, [stepId])
 
   return (
     <div className="py-4">
@@ -128,11 +130,11 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
                     }
                   >
                     <Modal.Content>
-                      <EditContentType
+                      <ContentEditFactory
                         lng={lng}
                         stepItem={stepItem}
                         storyStepId={stepItem.storyStepId}
-                      ></EditContentType>
+                      ></ContentEditFactory>
                     </Modal.Content>
                   </Modal>
                   <DeleteContentButton
