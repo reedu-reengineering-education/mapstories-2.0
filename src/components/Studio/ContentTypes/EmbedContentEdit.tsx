@@ -73,7 +73,7 @@ export function EmbedContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        await updateContent(stepItem)
+        await updateContent(stepItem.id, { ...stepItem, type: media?.type })
         toast({
           message: 'Your content has been updated.',
           type: 'success',

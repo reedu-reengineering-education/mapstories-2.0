@@ -54,7 +54,11 @@ export function TitleContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        await updateContent({ ...stepItem, content: data.title })
+        await updateContent(stepItem.id, {
+          ...stepItem,
+          content: data.title,
+          type: 'TITLE',
+        })
         toast({
           message: 'Your content has been updated.',
           type: 'success',

@@ -51,8 +51,16 @@ const useStep = (stepId: string) => {
     })
   }
 
-  const APIUpdateContent = async (content: Partial<SlideContent>) => {
-    const updateContentRequest = updateContent(storyId, stepId, content)
+  const APIUpdateContent = async (
+    contentId: string,
+    content: Partial<SlideContent>,
+  ) => {
+    const updateContentRequest = updateContent(
+      storyId,
+      stepId,
+      contentId,
+      content,
+    )
     const updatedContent = (await updateContentRequest).data
     if (!step) {
       return
