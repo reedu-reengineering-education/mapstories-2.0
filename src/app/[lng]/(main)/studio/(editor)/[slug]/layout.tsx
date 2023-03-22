@@ -70,7 +70,7 @@ export default async function DashboardLayout({
             Zurück
           </Button>
         </Link>
-        <a href={`/viewer/story/${slug}/0}`} target="_blank">
+        <a href={`/viewer/story/${slug}/0`} target="_blank">
           <Button startIcon={<EyeIcon className="w-5" />} variant={'inverse'}>
             Preview
           </Button>
