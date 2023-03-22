@@ -8,7 +8,6 @@ import { SlideContent } from '@prisma/client'
 interface ContentEditFactoryProps {
   stepItem: SlideContent
   storyStepId: string
-  lng: string
 }
 
 export function ContentEditFactory({
