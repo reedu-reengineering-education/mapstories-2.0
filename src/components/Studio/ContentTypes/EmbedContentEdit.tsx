@@ -4,7 +4,6 @@ import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useRouter } from 'next/navigation'
-
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { cx } from 'class-variance-authority'
@@ -16,9 +15,7 @@ import { media_type } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
-import { SlideContent } from '@prisma/client'
 import { useBoundStore } from '@/src/lib/store/store'
-import { useStoryStore } from '@/src/lib/store/story'
 import useStep from '@/src/lib/api/step/useStep'
 import { urlToMedia } from '../../../helper/urlToMedia'
 
@@ -54,7 +51,7 @@ export function EmbedContentEdit({
     handleUrl(url)
   }, [url])
 
-  const storyId = useStoryStore(store => store.storyID)
+  const storyId = useBoundStore(store => store.storyID)
   const { options: options } = watch()
   useEffect(() => {
     setOptionState(options)

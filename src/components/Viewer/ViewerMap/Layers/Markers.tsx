@@ -1,5 +1,4 @@
 import { useBoundStore } from '@/src/lib/store/store'
-// import { useStoryStore } from '@/src/lib/store/story'
 import { StepMarker } from '@/src/types/Stepmarker'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'

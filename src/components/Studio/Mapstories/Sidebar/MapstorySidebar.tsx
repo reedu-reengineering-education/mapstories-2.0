@@ -2,7 +2,6 @@
 
 import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
-// import { useStoryStore } from '@/src/lib/store/story'
 import { toast } from '@/src/lib/toast'
 import { MapPinIcon } from '@heroicons/react/24/outline'
 import { StoryStep } from '@prisma/client'
