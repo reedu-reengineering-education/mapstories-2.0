@@ -31,12 +31,12 @@ export var media_types: media_type[] = [
   //     match_str: /(player.)?vimeo\.com/,
   //     url: ''
   // },
-  // {
-  //     type: 'dailymotion',
-  //     name: 'DailyMotion',
-  //     match_str: /(www.)?dailymotion\.com/,
-  //     url: ''
-  // },
+  {
+    type: 'dailymotion',
+    name: 'DailyMotion',
+    match_str: /(www.)?dailymotion\.com/,
+    url: '',
+  },
   // {
   //     type: 'vine',
   //     name: 'Vine',
@@ -44,10 +44,10 @@ export var media_types: media_type[] = [
   //     url: ''
   // },
   // {
-  //     type: 'soundcloud',
-  //     name: 'SoundCloud',
-  //     match_str: /(player.)?soundcloud\.com/,
-  //     url: ''
+  //   type: 'soundcloud',
+  //   name: 'SoundCloud',
+  //   match_str: /(player.)?soundcloud\.com/,
+  //   url: '',
   // },
   {
     type: 'twitter',

@@ -7,6 +7,7 @@ import { TikTokEmbed } from './TikTokEmbed'
 import { TwitterEmbed } from './TwitterEmbed'
 import { WikipediaEmbed } from './WikipediaEmbed'
 import { YouTubeEmbed } from './YoutubeEmbed'
+import { DailyMotionEmbed } from './DailymotionEmbed'
 
 export interface EmbedProps
   extends React.DetailedHTMLProps<
@@ -42,6 +43,9 @@ export function Embed({ media, width = '100%', height = '100%' }: EmbedProps) {
       )}
       {media.type == 'wikipedia' && (
         <WikipediaEmbed height={height} url={media.url} width={width} />
+      )}
+      {media.type == 'Dailymotion' && (
+        <DailyMotionEmbed height={height} url={media.url} width={width} />
       )}
       {media.type == 'unknown' && <p>Media not recognized...</p>}
     </div>
