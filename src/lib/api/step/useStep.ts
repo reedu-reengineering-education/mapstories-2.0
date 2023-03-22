@@ -2,6 +2,7 @@ import { APIError } from '@/types'
 import { SlideContent, StoryStep } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 import useSWR, { mutate } from 'swr'
+import { reorderSlideContent } from './reorderSlideContent'
 import { useStoryStore } from '../../store/story'
 import { addContent } from './addContent'
 import { deleteContent } from './deleteContent'
@@ -50,8 +51,16 @@ const useStep = (stepId: string) => {
     })
   }
 
-  const APIUpdateContent = async (content: Partial<SlideContent>) => {
-    const updateContentRequest = updateContent(storyId, stepId, content)
+  const APIUpdateContent = async (
+    contentId: string,
+    content: Partial<SlideContent>,
+  ) => {
+    const updateContentRequest = updateContent(
+      storyId,
+      stepId,
+      contentId,
+      content,
+    )
     const updatedContent = (await updateContentRequest).data
     if (!step) {
       return
@@ -77,9 +86,19 @@ const useStep = (stepId: string) => {
     })
   }
 
+  const APIReorderSlideContent = async (update: SlideContent[]) => {
+    const reorderSlideContentRequest = reorderSlideContent(
+      storyId,
+      stepId,
+      update,
+    )
+    return await mutateRequest(reorderSlideContentRequest)
+  }
+
   return {
     step,
     mutate: stepMutate,
+    reorderSlideContent: APIReorderSlideContent,
     updateStep: APIUpdateStep,
     addContent: APIAddContent,
     updateContent: APIUpdateContent,

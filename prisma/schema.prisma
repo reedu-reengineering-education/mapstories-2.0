@@ -84,8 +84,8 @@ model Story {
   description String?
   theme       String?
   steps       StoryStep[] @relation("steps")
-  firstStep   StoryStep?   @relation("firstStep", fields: [firstStepId], references: [id])
-  firstStepId String?      @unique
+  firstStep   StoryStep?  @relation("firstStep", fields: [firstStepId], references: [id])
+  firstStepId String?     @unique
   owner       User?       @relation("owner", fields: [ownerId], references: [id])
   ownerId     String?
   contributor User[]      @relation("contributors")
@@ -119,6 +119,7 @@ model SlideContent {
   id          String    @id @default(cuid())
   content     String
   type        MediaType
+  position    Int
   options     Json?
   storyStep   StoryStep @relation(fields: [storyStepId], references: [id])
   storyStepId String

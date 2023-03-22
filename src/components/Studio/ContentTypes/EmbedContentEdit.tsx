@@ -74,20 +74,18 @@ export function EmbedContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        await updateContent(stepItem)
+        await updateContent(stepItem.id, { ...stepItem, type: media?.type })
         toast({
           message: 'Your content has been updated.',
           type: 'success',
         })
       } else {
-        await addContent(data)
+        await addContent({ ...data, type: media?.type })
         toast({
           message: 'Your content has been created.',
           type: 'success',
         })
       }
-
-      router.refresh()
     } catch (error) {
       toast({
         title: 'Something went wrong.',
