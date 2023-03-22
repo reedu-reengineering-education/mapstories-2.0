@@ -60,8 +60,6 @@ export function TextContentEdit({
           type: 'success',
         })
       }
-
-      router.refresh()
     } catch (error) {
       toast({
         title: 'Something went wrong.',
