@@ -79,7 +79,11 @@ const useStep = (stepId: string) => {
   }
 
   const APIReorderSlideContent = async (update: SlideContent[]) => {
-    const reorderSlideContentRequest = reorderSlideContent(storyId, update)
+    const reorderSlideContentRequest = reorderSlideContent(
+      storyId,
+      stepId,
+      update,
+    )
     return await mutateRequest(reorderSlideContentRequest)
   }
 

@@ -108,13 +108,11 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
 
   async function onReorder(update: SlideContent[]) {
     try {
-      const reorderedSlideContent = await reorderSlideContent(update)
-      if (reorderedSlideContent) {
-        toast({
-          message: 'Your content was updated successfully',
-          type: 'success',
-        })
-      }
+      await reorderSlideContent(update)
+      toast({
+        message: 'Your content was updated successfully',
+        type: 'success',
+      })
     } catch (e) {
       return toast({
         title: 'Something went wrong.',

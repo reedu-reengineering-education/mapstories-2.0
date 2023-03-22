@@ -79,7 +79,7 @@ export function EmbedContentEdit({
           type: 'success',
         })
       } else {
-        await addContent(data)
+        await addContent({ ...data, type: media?.type })
         toast({
           message: 'Your content has been created.',
           type: 'success',

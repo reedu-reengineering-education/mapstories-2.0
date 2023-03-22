@@ -5,11 +5,12 @@ import { AxiosResponse } from 'axios'
 import { StepWithContent } from './useStep'
 
 export const reorderSlideContent = (
+  storyId: string,
   storyStepId: string,
   update: SlideContent[],
 ) => {
   return axios.put<SlideContent[], AxiosResponse<StepWithContent, APIError>>(
-    `/api/mapstory/step/${storyStepId}/content/reorder`,
+    `/api/mapstory/${storyId}/step/${storyStepId}/content/reorder`,
     update,
   )
 }
