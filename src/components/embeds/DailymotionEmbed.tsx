@@ -6,7 +6,7 @@ import { EmbedStyle } from './EmbedStyle'
 const borderRadius = 0
 
 export interface DailyMotionEmbedProps extends React.HTMLAttributes<HTMLDivElement> {
-  url: string
+  url: String
   width?: string | number
   height?: string | number
 }
