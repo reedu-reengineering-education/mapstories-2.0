@@ -26,4 +26,4 @@ export const useStoryStore: StateCreator<
   setHoverMarkerId: (hoverMarkerId: string) => set({ hoverMarkerId }),
   showSlidePreview: false,
   setShowSlidePreview: showSlidePreview => set({ showSlidePreview }),
-}))
+})
