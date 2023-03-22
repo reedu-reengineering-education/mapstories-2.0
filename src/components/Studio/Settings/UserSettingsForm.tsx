@@ -161,6 +161,5 @@ export function UserSettingsForm({
         />
       </div>
     </>
-
   )
 }
