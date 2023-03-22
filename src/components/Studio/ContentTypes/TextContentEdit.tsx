@@ -44,7 +44,11 @@ export function TextContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        await updateContent({ ...stepItem, content: text })
+        await updateContent(stepItem.id, {
+          ...stepItem,
+          content: text,
+          type: 'TEXT',
+        })
         toast({
           message: 'Your content has been updated.',
           type: 'success',
@@ -56,8 +60,6 @@ export function TextContentEdit({
           type: 'success',
         })
       }
-
-      router.refresh()
     } catch (error) {
       toast({
         title: 'Something went wrong.',
