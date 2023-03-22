@@ -12,14 +12,14 @@ import { slideTitleContentSchema } from '@/src/lib/validations/slidecontent'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { SlideContent } from '@prisma/client'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
+import useStep from '@/src/lib/api/step/useStep'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
-  lng: string
   setContentType?: any
 }
 
@@ -29,7 +29,6 @@ export function TitleContentEdit({
   storyStepId,
   className,
   stepItem,
-  lng,
   setContentType,
   ...props
 }: TitleContentEditProps) {
@@ -41,56 +40,46 @@ export function TitleContentEdit({
   } = useForm<FormData>({
     resolver: zodResolver(slideTitleContentSchema),
   })
+  let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
-
   const { t } = useTranslation(lng, 'editModal')
 
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
+  const { addContent, updateContent } = useStep(storyStepId)
+
   async function onSubmit(data: FormData) {
     try {
       setIsSaving(true)
-      const url = `/api/mapstory/step/${
-        stepItem ? stepItem.storyStepId : storyStepId
-      }/content`
-      const method = stepItem ? 'PUT' : 'POST'
-      const headers = {
-        'Content-Type': 'application/json',
-      }
-      const body = stepItem
-        ? JSON.stringify({ ...stepItem, title: data.title })
-        : JSON.stringify({ ...data })
-      const response = await fetch(url, { method, headers, body })
-
-      setIsSaving(false)
-
-      if (!response.ok) {
-        return toast({
-          title: 'Something went wrong.',
-          message: 'Your content was not created. Please try again.',
-          type: 'error',
+      if (stepItem) {
+        await updateContent(stepItem.id, {
+          ...stepItem,
+          content: data.title,
+          type: 'TITLE',
+        })
+        toast({
+          message: 'Your content has been updated.',
+          type: 'success',
+        })
+      } else {
+        await addContent({ content: data.title, type: 'TITLE' })
+        toast({
+          message: 'Your content has been created.',
+          type: 'success',
         })
       }
-
-      const newContent = (await response.json()) as SlideContent
-
-      toast({
-        message: 'Your content has been created.',
-        type: 'success',
-      })
-
-      router.refresh()
     } catch (error) {
-      console.error(error)
-
       toast({
         title: 'Something went wrong.',
         message: 'Your content was not created. Please try again.',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
+    setContentType && setContentType('')
   }
 
   return (
@@ -103,7 +92,7 @@ export function TitleContentEdit({
         <div className="pt-4">
           <InputLabel>Gib eine Überschrift für deine Folie ein</InputLabel>
           <Input
-            defaultValue={stepItem ? stepItem.title : ''}
+            defaultValue={stepItem ? stepItem.content : ''}
             errors={errors.title}
             label="title"
             size={32}

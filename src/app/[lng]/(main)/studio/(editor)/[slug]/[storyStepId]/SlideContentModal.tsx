@@ -15,23 +15,21 @@ import { TitleContentEdit } from '@/src/components/Studio/ContentTypes/TitleCont
 import { EmbedContentEdit } from '@/src/components/Studio/ContentTypes/EmbedContentEdit'
 import { useTranslation } from '@/src/app/i18n/client'
 import { TextContentEdit } from '@/src/components/Studio/ContentTypes/TextContentEdit'
+// import { useUIStore } from '@/src/lib/store/ui'
+import { useBoundStore } from '@/src/lib/store/store'
 
 type Props = {
   trigger: React.ReactElement
   storyStepId: string
-  lng: string
 }
 
-export default function SlideContentModal({
-  trigger,
-  storyStepId,
-  lng,
-}: Props) {
+export default function SlideContentModal({ trigger, storyStepId }: Props) {
   const [contentType, setContentType] = useState<string>('')
+  const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'editModal')
   return (
     <>
-      <Modal title={''} trigger={trigger}>
+      <Modal onClose={() => setContentType('')} title={''} trigger={trigger}>
         <Modal.Content>
           <div className="relative">
             <CSSTransition
@@ -113,19 +111,17 @@ export default function SlideContentModal({
 
                     {contentType == 'title' && (
                       <TitleContentEdit
-                        lng={lng}
+                        setContentType={setContentType}
                         storyStepId={storyStepId}
                       ></TitleContentEdit>
                     )}
                     {contentType == 'embed' && (
                       <EmbedContentEdit
-                        lng={lng}
                         storyStepId={storyStepId}
                       ></EmbedContentEdit>
                     )}
                     {contentType == 'text' && (
                       <TextContentEdit
-                        lng={lng}
                         setContentType={setContentType}
                         storyStepId={storyStepId}
                       ></TextContentEdit>

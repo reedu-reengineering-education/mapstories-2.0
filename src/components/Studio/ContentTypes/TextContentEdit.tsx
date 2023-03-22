@@ -11,11 +11,12 @@ import dynamic from 'next/dynamic'
 import { toast } from '@/src/lib/toast'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
+import useStep from '@/src/lib/api/step/useStep'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
-  lng: string
   setContentType?: any
 }
 
@@ -26,9 +27,9 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
 export function TextContentEdit({
   storyStepId,
   stepItem,
-  lng,
   setContentType,
 }: TextContentEditProps) {
+  let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
@@ -37,44 +38,42 @@ export function TextContentEdit({
 
   const { t } = useTranslation(lng, 'editModal')
 
-  async function onSubmit(text: String) {
+  const { addContent, updateContent } = useStep(storyStepId)
+
+  async function onSubmit(text: string) {
     try {
       setIsSaving(true)
-      const url = `/api/mapstory/step/${
-        stepItem ? stepItem.storyStepId : storyStepId
-      }/content`
-      const method = stepItem ? 'PUT' : 'POST'
-      const headers = {
-        'Content-Type': 'application/json',
+      if (stepItem) {
+        await updateContent(stepItem.id, {
+          ...stepItem,
+          content: text,
+          type: 'TEXT',
+        })
+        toast({
+          message: 'Your content has been updated.',
+          type: 'success',
+        })
+      } else {
+        await addContent({ content: text, type: 'TEXT' })
+        toast({
+          message: 'Your content has been created.',
+          type: 'success',
+        })
       }
-      const body = stepItem
-        ? JSON.stringify({ ...stepItem, text: text })
-        : JSON.stringify({ text: text })
-      const response = await fetch(url, { method, headers, body })
-
-      setIsSaving(false)
-
-      if (!response.ok) {
-        throw new Error('Something went wrong')
-      }
-
-      const newContent = await response.json()
-      setIsSaving(false)
-      toast({ message: 'Your content has been created.', type: 'success' })
-      router.refresh()
-      // router.push(`/studio/${newStory.id}`)
-    } catch (error: any) {
-      setIsSaving(false)
+    } catch (error) {
       toast({
-        title: 'Error',
-        message: error.message,
+        title: 'Something went wrong.',
+        message: 'Your content was not created. Please try again.',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
+    setContentType && setContentType('')
   }
 
   let textInEditor = 'Your text here'
-  stepItem ? (textInEditor = stepItem.text) : ''
+  stepItem ? (textInEditor = stepItem.content) : ''
 
   const [value, setValue] = useState(textInEditor)
   return (

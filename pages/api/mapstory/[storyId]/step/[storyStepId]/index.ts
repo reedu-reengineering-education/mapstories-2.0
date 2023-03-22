@@ -15,6 +15,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         where: {
           id: req.query.storyStepId as string,
         },
+        include: {
+          content: true,
+        },
       })
       res.status(200).json(storyStep)
       return res.end()
@@ -48,6 +51,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: {
           feature: validFeature as any, // any fix for Prisma Json field
         },
+        include: {
+          content: true,
+        },
       })
 
       res.status(200).json(storyStep)
@@ -71,9 +77,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         where: { id: storyStepId },
       })
 
+      //TODO: THis can never happen but we need this code for TS?
+      if (!deletedStep.storyId) {
+        return res.status(422).end()
+      }
+
       const updatedStory = await db.story.findFirst({
         where: {
-          id: deletedStep.storyId,
+          id: deletedStep.storyId.toString(),
         },
         include: {
           steps: true,

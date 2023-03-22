@@ -1,18 +1,19 @@
 import classNames from 'classnames'
 import * as React from 'react'
-import { DivPropsWithoutRef } from 'react-html-props'
 import YouTube, { YouTubeProps } from 'react-youtube'
 import { Options } from 'youtube-player/dist/types'
 import { EmbedStyle } from './EmbedStyle'
 
 const borderRadius = 0
 
-export interface YouTubeEmbedProps extends DivPropsWithoutRef {
+export interface YouTubeEmbedProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   url: String
   width?: string | number
   height?: string | number
   linkText?: string
   youTubeProps?: YouTubeProps
+  options?: { autoplay: boolean }
 }
 
 export function YouTubeEmbed({
@@ -20,6 +21,7 @@ export function YouTubeEmbed({
   width,
   height,
   youTubeProps,
+  options,
   ...divProps
 }: YouTubeEmbedProps) {
   const [ready, setReady] = React.useState(false)
@@ -33,7 +35,6 @@ export function YouTubeEmbed({
   const start = +(url.match(/(.+?)(?:$|[&?])start=(\d+)/)?.[2] ?? 0)
 
   const isPercentageWidth = !!width?.toString().includes('%')
-  const isPercentageHeight = !!height?.toString().includes('%')
 
   let opts: Options = {}
   if (!!start) {
@@ -44,9 +45,16 @@ export function YouTubeEmbed({
     width = +width * 2
   }
   if (typeof height !== 'undefined') {
-    opts.height = isPercentageHeight ? '100%' : `${height}`
+    opts.height = '300px'
   }
-  opts = { ...opts, ...youTubeProps?.opts }
+  opts = {
+    ...opts,
+    ...youTubeProps?.opts,
+    playerVars: {
+      autoplay: options?.autoplay ? 1 : 0,
+    },
+  }
+  console.log(opts)
 
   return (
     <div
@@ -56,9 +64,9 @@ export function YouTubeEmbed({
         divProps.className,
       )}
       style={{
-        overflow: 'hidden',
+        overflow: 'auto',
         width: width ?? undefined,
-        height: height ?? undefined,
+        maxHeight: height ?? undefined,
         borderRadius,
         ...divProps.style,
       }}

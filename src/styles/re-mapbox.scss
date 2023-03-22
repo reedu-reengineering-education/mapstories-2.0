@@ -1,0 +1,21 @@
+/* Marker tweaks */
+.mapboxgl-popup-close-button {
+  display: none;
+}
+
+.mapboxgl-popup-content {
+  padding: 0 !important;
+}
+
+.mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
+  margin-top: 15px;
+}
+
+.mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
+  display: none;
+}
+
+.label-shadow {
+  text-shadow: 1px 0px 3px rgba(255, 255, 255, 0.8),
+    -1px 0px 3px rgba(255, 255, 255, 0.8);
+}

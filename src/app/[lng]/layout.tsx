@@ -2,8 +2,9 @@ import '@/src/styles/globals.scss'
 import { Inter } from '@next/font/google'
 import { cx } from 'class-variance-authority'
 import { dir } from 'i18next'
-import { languages } from '../i18n/settings'
-import Providers from './Providers'
+import dynamic from 'next/dynamic'
+
+const Providers = dynamic(() => import('./Providers'), { ssr: false })
 
 const font = Inter({
   subsets: ['latin'],
@@ -15,12 +16,12 @@ const font = Inter({
 //   return languages.map(lng => ({ lng }))
 // }
 
-export const generateStaticParams =
-  process.env.NODE_ENV !== 'development'
-    ? async () => {
-        return languages.map(lng => ({ lng }))
-      }
-    : undefined
+// export const generateStaticParams =
+//   process.env.NODE_ENV !== 'development'
+//     ? async () => {
+//         return languages.map(lng => ({ lng }))
+//       }
+//     : undefined
 
 export default function RootLayout({
   children,
@@ -39,7 +40,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen">
         <main>
-          <Providers>{children}</Providers>
+          <Providers lng={lng}>{children}</Providers>
         </main>
       </body>
     </html>

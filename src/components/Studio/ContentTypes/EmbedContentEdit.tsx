@@ -4,7 +4,6 @@ import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useRouter } from 'next/navigation'
-
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { cx } from 'class-variance-authority'
@@ -12,25 +11,25 @@ import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
-import { SlideContent } from '@prisma/client'
-import { media_type, media_types } from '@/src/lib/media/media'
+import { media_type } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
+import { useBoundStore } from '@/src/lib/store/store'
+import useStep from '@/src/lib/api/step/useStep'
+import { urlToMedia } from '../../../helper/urlToMedia'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
-  slideContent?: any
-  lng: string
+  stepItem?: any
 }
 
 type FormData = z.infer<typeof slideEmbedContentSchema>
 
 export function EmbedContentEdit({
   storyStepId,
-  slideContent,
+  stepItem,
   className,
-  lng,
   ...props
 }: EmbedContentEditProps) {
   const router = useRouter()
@@ -42,97 +41,71 @@ export function EmbedContentEdit({
   } = useForm<FormData>({
     resolver: zodResolver(slideEmbedContentSchema),
   })
+  let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
 
-  const { media: url } = watch()
+  const { content: url } = watch()
   useEffect(() => {
     handleUrl(url)
   }, [url])
 
+  const storyId = useBoundStore(store => store.storyID)
+  const { options: options } = watch()
+  useEffect(() => {
+    setOptionState(options)
+    if (options && media && stepItem) {
+      stepItem.options = options
+    }
+  }, [options?.autoplay])
+
   const { t } = useTranslation(lng, 'editModal')
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [media, setMedia] = useState<media_type>(
-    slideContent
-      ? urlToMedia(slideContent.media)
-      : {
-          type: 'unknown',
-          name: 'Unknown',
-          match_str: / /,
-          url: '',
-        },
-  )
+  const [media, setMedia] = useState<media_type | undefined>(stepItem)
+  const [optionState, setOptionState] = useState(stepItem?.options)
+
+  const { addContent, updateContent } = useStep(storyStepId)
 
   async function onSubmit(data: FormData) {
-    setIsSaving(true)
-    const url = `/api/mapstory/step/${
-      slideContent ? slideContent.storyStepId : storyStepId
-    }/content`
-    const method = slideContent ? 'PUT' : 'POST'
-    const headers = {
-      'Content-Type': 'application/json',
-    }
-    const body = slideContent
-      ? JSON.stringify({ ...slideContent })
-      : JSON.stringify({ ...data })
-    const response = await fetch(url, { method, headers, body })
-
-    setIsSaving(false)
-
-    if (!response?.ok) {
-      return toast({
+    try {
+      setIsSaving(true)
+      if (stepItem) {
+        await updateContent(stepItem.id, { ...stepItem, type: media?.type })
+        toast({
+          message: 'Your content has been updated.',
+          type: 'success',
+        })
+      } else {
+        await addContent({ ...data, type: media?.type })
+        toast({
+          message: 'Your content has been created.',
+          type: 'success',
+        })
+      }
+    } catch (error) {
+      toast({
         title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again',
+        message: 'Your content was not created. Please try again.',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
-
-    toast({
-      message: 'Your content has been created.',
-      type: 'success',
-    })
-
-    const newContent = (await response.json()) as SlideContent
-    router.refresh()
-    // router.push(`/studio/${newStory.id}`)
   }
 
   async function handleUrl(url: string) {
-    setMedia(urlToMedia(url))
-    if (media.type != 'unknown' && slideContent) {
-      slideContent.media = url
+    const new_media = urlToMedia(url)
+    setMedia(new_media)
+    if (new_media && url && stepItem) {
+      if (stepItem) {
+        stepItem.content = url
+      }
     }
-  }
-
-  function urlToMedia(url: string): media_type {
-    // check if url is a valid url with zod
-    try {
-      z.string().url().parse(url)
-
-      // check if url ir a known media url
-      for (var i = 0; i < media_types.length; i++) {
-        if (url.toString().match(media_types[i].match_str)) {
-          const media = { ...media_types[i] }
-          media.url = url
-          return media
-        }
-      }
-      // return unknown media
-      return {
-        type: 'unknown',
-        name: 'Unknown',
-        match_str: / /,
-        url: '',
-      }
-    } catch {
-      // return unknown media
-      return {
-        type: 'unknown',
-        name: 'Unknown',
-        match_str: / /,
-        url: '',
-      }
+    if (new_media?.type == 'YOUTUBE' && !optionState) {
+      setOptionState({ autoplay: false })
+    } else if (new_media && new_media.type != 'YOUTUBE' && optionState) {
+      setOptionState(null)
     }
   }
 
@@ -144,27 +117,38 @@ export function EmbedContentEdit({
     >
       <div className="top-0">
         <div className="pt-4">
+          <Input
+            defaultValue={stepItem ? stepItem.content : ''}
+            errors={errors.content}
+            label="content"
+            size={32}
+            {...register('content')}
+          />
           <InputLabel>
             Gib eine URL zu einem Social Media Beitrag ein
           </InputLabel>
-          <Input
-            defaultValue={slideContent ? slideContent.media : ''}
-            errors={errors.media}
-            label="media"
-            size={32}
-            {...register('media')}
+        </div>
+        <div className="re-data-media-preview pt-4 pb-4">
+          <Embed
+            height="50vh"
+            media={media}
+            options={optionState ? optionState : undefined}
           />
+          {media?.type == 'YOUTUBE' && optionState?.autoplay != undefined && (
+            <div className="flex items-center">
+              <Input
+                defaultChecked={optionState.autoplay}
+                label="autoplay"
+                type="checkbox"
+                {...register('options.autoplay')}
+              />
+              <InputLabel>Autoplay</InputLabel>
+            </div>
+          )}
         </div>
-        <div className="re-data-media-preview">
-          <Embed height="200" media={media} width="300" />
-        </div>
-        <Button
-          disabled={media.type == 'unknown'}
-          isLoading={isSaving}
-          type="submit"
-        >
-          {slideContent && t('save')}
-          {!slideContent && t('create')}
+        <Button disabled={media == null} isLoading={isSaving} type="submit">
+          {stepItem && t('save')}
+          {!stepItem && t('create')}
         </Button>
       </div>
     </form>

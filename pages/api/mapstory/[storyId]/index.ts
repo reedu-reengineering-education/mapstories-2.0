@@ -2,18 +2,26 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { db } from '@/src/lib/db'
-import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 import { generateSlug } from '@/src/lib/slug'
+import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
       const story = await db.story.findFirst({
         where: {
-          id: req.query.storyId as string,
+          OR: [
+            { id: req.query.storyId as string },
+            { slug: req.query.storyId as string },
+          ],
         },
         include: {
+          firstStep: {
+            include: {
+              content: true,
+            },
+          },
           steps: {
             include: {
               content: true,
@@ -21,7 +29,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       })
-
       return res.status(200).json(story)
     } catch (error) {
       return res.status(500).end()

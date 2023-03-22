@@ -3,14 +3,13 @@ import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
 import { MarkerDragEvent, MarkerProps } from 'react-map-gl'
 import { useEffect, useRef, useState } from 'react'
-import { useStoryStore } from '@/src/lib/store/story'
 import useStep from '@/src/lib/api/step/useStep'
 import { GeoJsonProperties } from 'geojson'
 import useStory from '@/src/lib/api/story/useStory'
 import ConnectionLines from './Layers/ConnectionLines'
-import { useRouter } from 'next/navigation'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import { GeoJSONFeature } from 'maplibre-gl'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
@@ -26,14 +25,13 @@ export default function EditMapstoryMap({
   steps,
   currentStepId,
 }: EditMapstoryMapProps) {
-  const router = useRouter()
   const drawRef = useRef<MapboxDraw>(null)
 
-  const storyId = useStoryStore(store => store.storyID)
-  const setHoverMarkerId = useStoryStore(state => state.setHoverMarkerId)
+  const storyId = useBoundStore(state => state.storyID)
+  const setHoverMarkerId = useBoundStore(state => state.setHoverMarkerId)
 
   const { story } = useStory(storyId)
-  const { updateStep } = useStep(storyId, currentStepId)
+  const { updateStep } = useStep(currentStepId)
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
 

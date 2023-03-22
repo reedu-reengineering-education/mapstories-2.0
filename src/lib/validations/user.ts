@@ -1,5 +1,6 @@
 import * as z from 'zod'
 
-export const userNameSchema = z.object({
-  name: z.string().min(3).max(32),
+export const userUpdateSchema = z.object({
+  name: z.string().min(3).max(32).optional(),
+  email: z.string().email().optional(),
 })

@@ -2,7 +2,6 @@
 
 import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
-import { useStoryStore } from '@/src/lib/store/story'
 import { toast } from '@/src/lib/toast'
 import { MapPinIcon } from '@heroicons/react/24/outline'
 import { StoryStep } from '@prisma/client'
@@ -13,23 +12,20 @@ import DeleteStepButton from '../DeleteStepButton'
 import SidebarSlide from './SidebarSlide'
 import { useTranslation } from '@/src/app/i18n/client'
 import AddStoryStepButton from './AddStoryStepButton'
+// import { useUIStore } from '@/src/lib/store/ui'
+import { useBoundStore } from '@/src/lib/store/store'
 
-export default function MapstorySidebar({
-  storyID,
-  lng,
-}: {
-  storyID: string
-  lng: string
-}) {
+export default function MapstorySidebar({ storyID }: { storyID: string }) {
+  const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstorySidebar')
 
-  const setStoryID = useStoryStore(state => state.setStoryID)
+  const setStoryID = useBoundStore(state => state.setStoryID)
 
   useEffect(() => {
     setStoryID(storyID)
   }, [storyID])
 
-  const markerId = useStoryStore(state => state.hoverMarkerId)
+  const markerId = useBoundStore(state => state.hoverMarkerId)
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const { story, reorderStorySteps } = useStory(storyID)
@@ -86,6 +82,17 @@ export default function MapstorySidebar({
   return (
     <>
       <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
+        <Link href={`/studio/${story.slug}/${story.firstStepId}`}>
+          <SidebarSlide active={stepId === story.firstStepId} variant={'title'}>
+            <div className="flex justify-around">
+              <div className="flex flex-col">
+                <p>ID: {story.firstStepId?.slice(-4)}</p>
+                <p>Titelfolie</p>
+              </div>
+            </div>
+          </SidebarSlide>
+        </Link>
+        <hr className="my-4 border-gray-400" />
         <DraggableList
           items={steps.map((s, i) => ({
             id: s.id,
@@ -107,7 +114,9 @@ export default function MapstorySidebar({
                   </SidebarSlide>
                 </Link>
                 <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
-                  <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
+                  {s.storyId && (
+                    <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
+                  )}
                 </div>
                 {!s.feature && (
                   <div

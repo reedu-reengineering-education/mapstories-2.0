@@ -1,13 +1,13 @@
 import classNames from 'classnames'
 import * as React from 'react'
-import { DivPropsWithoutRef } from 'react-html-props'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
 import { TwitterTweetEmbedProps } from 'react-twitter-embed/dist/components/TwitterTweetEmbed'
 import { EmbedStyle } from './EmbedStyle'
 
 const borderRadius = 12
 
-export interface TwitterEmbedProps extends DivPropsWithoutRef {
+export interface TwitterEmbedProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   url: String
   width?: string | number
   height?: string | number
@@ -33,9 +33,9 @@ export function TwitterEmbed({
         divProps.className,
       )}
       style={{
-        overflow: 'hidden',
+        overflow: 'auto',
         width: width ?? undefined,
-        height: height ?? undefined,
+        maxHeight: height ?? undefined,
         borderRadius,
         ...divProps.style,
       }}
