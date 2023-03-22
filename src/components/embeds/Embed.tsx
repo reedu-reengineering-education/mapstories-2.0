@@ -44,7 +44,7 @@ export function Embed({ media, width = '100%', height = '100%' }: EmbedProps) {
       {media.type == 'wikipedia' && (
         <WikipediaEmbed height={height} url={media.url} width={width} />
       )}
-      {media.type == 'Dailymotion' && (
+      {media.type == 'dailymotion' && (
         <DailyMotionEmbed height={height} url={media.url} width={width} />
       )}
       {media.type == 'unknown' && <p>Media not recognized...</p>}
