@@ -6,7 +6,7 @@ import { AxiosResponse } from 'axios'
 export const updateContent = (
   storyId: string,
   stepId: string,
-  contentId: Pick<SlideContent, 'id'>,
+  contentId: string,
   props: Partial<SlideContent>,
 ) => {
   return axios.put<typeof props, AxiosResponse<SlideContent, APIError>>(
