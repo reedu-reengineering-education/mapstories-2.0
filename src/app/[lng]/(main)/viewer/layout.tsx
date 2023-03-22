@@ -13,6 +13,11 @@ const getMapstories = async (userId: string) => {
       ownerId: userId,
     },
     include: {
+      firstStep: {
+        include: {
+          content: true,
+        },
+      },
       steps: {
         include: {
           content: true,
