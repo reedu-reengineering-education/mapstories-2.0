@@ -6,6 +6,7 @@ import { TrashIcon } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from '@/src/lib/toast'
+import useStep from '@/src/lib/api/step/useStep'
 
 export default function DeleteContentButton({
   storyStepId,
@@ -14,37 +15,29 @@ export default function DeleteContentButton({
   storyStepId: any
   stepContentId: any
 }) {
-  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  //const { story, deleteContent } = useStory(id)
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
+  const { deleteContent } = useStep(storyStepId)
+
   async function handleClick() {
-    setIsSaving(true)
-
-    const response = await fetch(
-      `/api/mapstory/step/${storyStepId}/content/${stepContentId}`,
-      {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-      },
-    )
-
-    setIsSaving(false)
-
-    if (!response?.ok) {
+    try {
+      setIsSaving(true)
+      await deleteContent(stepContentId)
+      toast({
+        message: 'Der Inhalt wurde gelöscht.',
+        type: 'success',
+      })
+    } catch (e) {
       return toast({
         title: 'Something went wrong.',
         message: 'Your content was not created. Please try again',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
-
-    toast({
-      message: 'Der Inhalt wurde gelöscht.',
-      type: 'success',
-    })
 
     router.refresh()
   }
@@ -67,16 +60,18 @@ export default function DeleteContentButton({
           </div>
         }
       >
-        <Modal.Footer>
-          <Button
-            disabled={loading}
-            isLoading={loading}
-            onClick={handleClick}
-            variant={'danger'}
-          >
-            Löschen
-          </Button>
-        </Modal.Footer>
+        <Modal.Footer
+          close={
+            <Button
+              disabled={isSaving}
+              isLoading={isSaving}
+              onClick={handleClick}
+              variant={'danger'}
+            >
+              Löschen
+            </Button>
+          }
+        />
       </Modal>
     </div>
   )

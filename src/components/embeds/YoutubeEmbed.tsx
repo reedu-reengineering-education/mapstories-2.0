@@ -13,6 +13,7 @@ export interface YouTubeEmbedProps
   height?: string | number
   linkText?: string
   youTubeProps?: YouTubeProps
+  options?: { autoplay: boolean }
 }
 
 export function YouTubeEmbed({
@@ -20,6 +21,7 @@ export function YouTubeEmbed({
   width,
   height,
   youTubeProps,
+  options,
   ...divProps
 }: YouTubeEmbedProps) {
   const [ready, setReady] = React.useState(false)
@@ -45,7 +47,14 @@ export function YouTubeEmbed({
   if (typeof height !== 'undefined') {
     opts.height = '300px'
   }
-  opts = { ...opts, ...youTubeProps?.opts }
+  opts = {
+    ...opts,
+    ...youTubeProps?.opts,
+    playerVars: {
+      autoplay: options?.autoplay ? 1 : 0,
+    },
+  }
+  console.log(opts)
 
   return (
     <div

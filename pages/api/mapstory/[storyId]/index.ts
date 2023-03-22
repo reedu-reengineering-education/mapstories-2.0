@@ -17,6 +17,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           ],
         },
         include: {
+          firstStep: {
+            include: {
+              content: true,
+            },
+          },
           steps: {
             include: {
               content: true,
@@ -24,7 +29,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       })
-
       return res.status(200).json(story)
     } catch (error) {
       return res.status(500).end()

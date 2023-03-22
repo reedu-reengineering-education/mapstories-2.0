@@ -17,9 +17,19 @@ export function ContentType({ content }: Props) {
 
   return (
     <div>
-      {content.title && <TitleContent content={content} />}
-      {content.text && <TextContent content={content} />}
-      {content.media && <EmbedContent content={content}></EmbedContent>}
+      {content.type == 'TITLE' && <TitleContent content={content} />}
+      {content.type == 'TEXT' && <TextContent content={content} />}
+      {[
+        'YOUTUBE',
+        'INSTAGRAM',
+        'TIKTOK',
+        'FACEBOOK',
+        'TWITTER',
+        'WIKIPEDIA',
+        'PADLET',
+      ].includes(content.type) && (
+        <EmbedContent content={content}></EmbedContent>
+      )}
     </div>
   )
 }

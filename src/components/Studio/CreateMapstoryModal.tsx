@@ -68,11 +68,13 @@ export default function CreateMapstoryModal({ trigger }: Props) {
             {...register('name')}
           />
         </Modal.Content>
-        <Modal.Footer>
-          <Button disabled={isSaving} isLoading={isSaving} type="submit">
-            {t('save')}
-          </Button>
-        </Modal.Footer>
+        <Modal.Footer
+          close={
+            <Button disabled={isSaving} isLoading={isSaving} type="submit">
+              {t('save')}
+            </Button>
+          }
+        ></Modal.Footer>
       </form>
     </Modal>
   )
