@@ -4,36 +4,44 @@ services:
   postgis:
     image: postgis/postgis:14-3.2
     ports:
-      - '5432:5432'
+      - 127.0.0.1:5432:5432
     env_file:
       - .env
     restart: on-failure
     healthcheck:
       test: 'exit 0'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
-  app: 
+  app:
     image: ghcr.io/reedu-reengineering-education/mapstories-2.0:feat-deployment
     ports:
-      - 3000:3000
+      - 127.0.0.1:3000:3000
     env_file:
       - ./.env
+    depends_on:
+      - postgis
   minio:
     image: minio/minio
     restart: always
     ports:
-      - '9000:9000'
-      - '9090:9090'
+      - 127.0.0.1:9000:9000
+      - 127.0.0.1:9090:9090
     environment:
       MINIO_ACCESS_KEY: GENERATE_ACCESS_KEY
-      MINIO_SECRET_KEY: GENERATE_ACCESS_SECRET
-      MINIO_ROOT_USER: ROOTUSER
-      MINIO_ROOT_PASSWORD: CHANGEME123
+      MINIO_SECRET_KEY: ${S3_SECRET_KEY}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - storage-minio:/data
     command: server --address ":9000" --console-address ":9090" /data
+    env_file:
+      - ./.env
 volumes:
   storage-minio:
+  pgdata:
+    external: true
