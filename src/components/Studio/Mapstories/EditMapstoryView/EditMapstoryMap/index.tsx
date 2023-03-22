@@ -31,7 +31,7 @@ export default function EditMapstoryMap({
   const setHoverMarkerId = useStoryStore(state => state.setHoverMarkerId)
 
   const { story } = useStory(storyId)
-  const { updateStep } = useStep(storyId, currentStepId)
+  const { updateStep } = useStep(currentStepId)
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
 

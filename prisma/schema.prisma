@@ -84,9 +84,9 @@ model Story {
   description String?
   theme       String?
   steps       StoryStep[] @relation("steps")
-  firstStep   StoryStep?   @relation("firstStep", fields: [firstStepId], references: [id])
-  firstStepId String?      @unique
-  owner       User?       @relation("owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  firstStep   StoryStep?  @relation("firstStep", fields: [firstStepId], references: [id])
+  firstStepId String?     @unique
+  owner       User?       @relation("owner", fields: [ownerId], references: [id])
   ownerId     String?
   contributor User[]      @relation("contributors")
   visibility  Visibility
@@ -97,15 +97,15 @@ model Story {
 }
 
 model StoryStep {
-  id          String         @id @default(cuid())
-  position    Int
-  Story       Story?          @relation("steps", fields: [storyId], references: [id], onDelete: Cascade)
-  storyId     String?
-  feature     Json?
-  content     SlideContent[]
-  connections Connection[] //incoming
-  viewport    Json
-  storyTitleStep  Story? @relation("firstStep")
+  id             String         @id @default(cuid())
+  position       Int
+  Story          Story?         @relation("steps", fields: [storyId], references: [id], onDelete: Cascade)
+  storyId        String?
+  feature        Json?
+  content        SlideContent[]
+  connections    Connection[] //incoming
+  viewport       Json
+  storyTitleStep Story?         @relation("firstStep")
 
   @@map(name: "storysteps")
 }
@@ -117,12 +117,10 @@ model Theme {
 
 model SlideContent {
   id          String    @id @default(cuid())
+  content     String
+  type        MediaType
   position    Int
-  text        String?
-  title       String?
-  media       String?
-  image       String?
-  video       String?
+  options     Json?
   storyStep   StoryStep @relation(fields: [storyStepId], references: [id])
   storyStepId String
 
@@ -143,4 +141,18 @@ model Connection {
 enum Visibility {
   PRIVATE
   PUBLIC
+}
+
+enum MediaType {
+  YOUTUBE
+  INSTAGRAM
+  TIKTOK
+  FACEBOOK
+  TWITTER
+  WIKIPEDIA
+  PADLET
+  TEXT
+  TITLE
+  VIDEO
+  IMAGE
 }
