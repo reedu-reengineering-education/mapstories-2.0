@@ -35,11 +35,10 @@ export default async function Studio({
     <StudioShell>
       <StudioHeader
         heading="Studio"
-        text="Mapstories erstellen, bearbeiten und teilen"
+        text={t('create, edit and share mapstories')}
       >
         <div className="p-1">
           <CreateMapstoryModal
-            lng={lng}
             trigger={
               <Button startIcon={<PlusIcon className="w-4" />}>
                 {t('newMapstory')}
@@ -51,18 +50,17 @@ export default async function Studio({
       {mapstories.length === 0 && (
         <EmptyPlaceholder>
           <EmptyPlaceholder.Icon icon={GlobeAltIcon} />
-          <EmptyPlaceholder.Title>Keine Mapstories</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Title>{t('no mapstories')}</EmptyPlaceholder.Title>
           <EmptyPlaceholder.Description>
-            Du hast noch keine Mapstory erstellt.
+            {t('you have not created any mapstories yet.')}
           </EmptyPlaceholder.Description>
           <CreateMapstoryModal
-            lng={lng}
             trigger={
               <Button
                 startIcon={<PlusIcon className="w-4" />}
                 variant={'inverse'}
               >
-                Neue Mapstory
+                {t('newMapstory')}
               </Button>
             }
           />

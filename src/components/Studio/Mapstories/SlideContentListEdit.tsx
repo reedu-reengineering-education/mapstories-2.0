@@ -28,7 +28,6 @@ import useStep from '@/src/lib/api/step/useStep'
 type Props = {
   storyId: string
   stepId: string
-  lng: string
 }
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
@@ -90,7 +89,7 @@ const renderSwitch = function renderSwitch(content: SlideContent) {
   return 'content undefined...'
 }
 
-export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
+export function SlideContentListEdit({ storyId, stepId }: Props) {
   const { story } = useStory(storyId)
   const { step, reorderSlideContent } = useStep(stepId)
   // const step: (StoryStep & { content?: SlideContent[] }) | undefined =
@@ -151,7 +150,6 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
                   >
                     <Modal.Content>
                       <ContentEditFactory
-                        lng={lng}
                         stepItem={stepItem}
                         storyStepId={stepItem.storyStepId}
                       ></ContentEditFactory>

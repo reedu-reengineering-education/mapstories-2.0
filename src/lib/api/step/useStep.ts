@@ -3,18 +3,18 @@ import { SlideContent, StoryStep } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 import useSWR, { mutate } from 'swr'
 import { reorderSlideContent } from './reorderSlideContent'
-import { useStoryStore } from '../../store/story'
 import { addContent } from './addContent'
 import { deleteContent } from './deleteContent'
 import { updateContent } from './updateContent'
 import { updateStoryStep } from './updateStep'
+import { useBoundStore } from '../../store/store'
 
 export type StepWithContent = StoryStep & {
   content: SlideContent[]
 }
 
 const useStep = (stepId: string) => {
-  const storyId = useStoryStore(store => store.storyID)
+  const storyId = useBoundStore(store => store.storyID)
 
   const { data: step, mutate: stepMutate } = useSWR<StepWithContent>(
     `/api/mapstory/${storyId}/step/${stepId}`,

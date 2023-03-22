@@ -5,12 +5,17 @@ import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { DropdownMenu } from '../Dropdown'
 import { UserAvatar } from './UserAvatar'
+// import { useUIStore } from '@/src/lib/store/ui'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, 'name' | 'image' | 'email'>
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'settings')
   return (
     <DropdownMenu>
       <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
@@ -36,7 +41,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           </DropdownMenu.Item>
           <DropdownMenu.Item>
             <Link className="w-full" href="/studio/settings">
-              Einstellungen
+              {t('settings')}
             </Link>
           </DropdownMenu.Item>
           <DropdownMenu.Item disabled>

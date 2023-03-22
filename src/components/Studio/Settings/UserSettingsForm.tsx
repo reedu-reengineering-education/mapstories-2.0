@@ -12,6 +12,10 @@ import { cx } from 'class-variance-authority'
 import { userUpdateSchema } from '@/src/lib/validations/user'
 import { Input } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
+// import { useUIStore } from '@/src/lib/store/ui'
+
 import DeleteAccountModal from './DeleteAccountModal'
 import { useState } from 'react'
 import { signOut } from 'next-auth/react'
@@ -28,6 +32,8 @@ export function UserSettingsForm({
   ...props
 }: UserNameFormProps) {
   const router = useRouter()
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'userSettingsForm')
 
   const {
     handleSubmit,
@@ -123,36 +129,23 @@ export function UserSettingsForm({
       >
         <Card>
           <Card.Header>
-            <Card.Title>Name</Card.Title>
+            <Card.Title>{t('name')}</Card.Title>
+            <Card.Description>{t('change your name here')}</Card.Description>
           </Card.Header>
           <Card.Content>
             <div className="w-80 max-w-full">
               <Input
+                defaultValue={user.name ?? ''}
                 errors={errors.name}
                 label="Name"
-                placeholder={user.name ?? ''}
                 size={32}
                 {...register('name')}
               />
             </div>
           </Card.Content>
-          <Card.Header>
-            <Card.Title>Email</Card.Title>
-          </Card.Header>
-          <Card.Content>
-            <div className="w-80 max-w-full">
-              <Input
-                errors={errors.email}
-                label="Email"
-                placeholder={'Geben Sie hier Ihre neue Email Adresse ein'}
-                size={100}
-                {...register('email')}
-              />
-            </div>
-          </Card.Content>
           <Card.Footer>
             <Button disabled={isSaving} isLoading={isSaving} type="submit">
-              Speichern
+              {t('save')}
             </Button>
           </Card.Footer>
         </Card>

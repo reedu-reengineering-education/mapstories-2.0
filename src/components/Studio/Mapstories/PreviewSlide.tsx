@@ -2,7 +2,7 @@
 
 import { SlideContent, StoryStep } from '@prisma/client'
 import { Slide } from '../../Viewer/Slide'
-import { useStoryStore } from '@/src/lib/store/story'
+import { useBoundStore } from '@/src/lib/store/store'
 
 type Props = {
   step:
@@ -13,7 +13,7 @@ type Props = {
 }
 
 export default function PreviewSlide({ step }: Props) {
-  const { showSlidePreview } = useStoryStore()
+  const { showSlidePreview } = useBoundStore()
   return (
     <>
       {showSlidePreview && (
