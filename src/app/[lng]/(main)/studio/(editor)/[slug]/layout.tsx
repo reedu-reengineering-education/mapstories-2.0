@@ -10,12 +10,12 @@ import { Story, User } from '@prisma/client'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
-export const generateStaticParams =
-  process.env.NODE_ENV !== 'development'
-    ? async () => {
-        return []
-      }
-    : undefined
+// export const generateStaticParams =
+//   process.env.NODE_ENV !== 'development'
+//     ? async () => {
+//         return []
+//       }
+//     : undefined
 
 interface DashboardLayoutProps {
   params: { storyId: string; slug: string; lng: string }
@@ -29,6 +29,11 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
       ownerId: userId,
     },
     include: {
+      firstStep: {
+        include: {
+          content: true,
+        },
+      },
       steps: {
         include: {
           content: true,

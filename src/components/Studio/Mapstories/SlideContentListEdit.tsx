@@ -95,6 +95,7 @@ export function SlideContentListEdit({ storyId, stepId, lng }: Props) {
   const { step, reorderSlideContent } = useStep(stepId)
   // const step: (StoryStep & { content?: SlideContent[] }) | undefined =
   //   story?.steps?.filter(step => step.id === stepId)[0]
+
   const [disabled, setDisabled] = React.useState(false)
 
   const [content, setContent] = useState<SlideContent[]>()

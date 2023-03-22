@@ -30,10 +30,9 @@ RUN npx prisma generate
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn build
-
 # If using npm comment out above and use below instead
 # RUN npm run build
+RUN POSTMARK_API_TOKEN=APP_NEXT_POSTMARK_API_TOKEN NEXT_PUBLIC_MAPTILER_KEY=APP_NEXT_PUBLIC_MAPTILER_KEY NEXT_PUBLIC_MAPBOX_TOKEN=APP_NEXT_PUBLIC_MAPBOX_TOKEN yarn build
 
 # Production image, copy all the files and run next
 FROM node:18-alpine AS runner
@@ -47,6 +46,11 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/package.json ./package.json
+
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
@@ -59,5 +63,7 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
+
+ENTRYPOINT [ "/app/entrypoint.sh" ]
 
 CMD ["node", "server.js"]
