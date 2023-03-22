@@ -55,16 +55,18 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
         </div>
       }
     >
-      <Modal.Footer>
-        <Button
-          disabled={loading}
-          isLoading={loading}
-          onClick={handleClick}
-          variant={'danger'}
-        >
-          Löschen
-        </Button>
-      </Modal.Footer>
+      <Modal.Footer
+        close={
+          <Button
+            disabled={loading}
+            isLoading={loading}
+            onClick={handleClick}
+            variant={'danger'}
+          >
+            Löschen
+          </Button>
+        }
+      />
     </Modal>
   )
 }

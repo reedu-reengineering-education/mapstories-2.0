@@ -5,5 +5,10 @@ export const slideTitleContentSchema = z.object({
 })
 
 export const slideEmbedContentSchema = z.object({
-  media: z.string().url(),
+  content: z.string().url(),
+  options: z
+    .object({
+      autoplay: z.boolean(),
+    })
+    .optional(),
 })

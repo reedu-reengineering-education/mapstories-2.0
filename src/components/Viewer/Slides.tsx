@@ -40,6 +40,9 @@ export function Slides({ slug, page }: Props) {
     updateSelectedStepIndex(parseInt(page))
   }, [])
 
+  function startStory() {
+    router.push(`/viewer/story/${slug}/0`)
+  }
   function nextStep() {
     // const length = story?.steps?.length
     router.push(`/viewer/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
@@ -52,21 +55,25 @@ export function Slides({ slug, page }: Props) {
 
   return (
     <div className="py-4">
-      {story?.steps && story?.steps[parseInt(page)] && (
-        <Slide step={story?.steps[parseInt(page)]}></Slide>
+      {story?.steps && page && (
+        <Slide
+          step={
+            page == 'start' ? story?.firstStep : story?.steps[parseInt(page)]
+          }
+        ></Slide>
       )}
-      <Button onClick={() => nextStep()}>
-        {parseInt(page) < 1 ? 'Abspielen' : 'Weiter'}
-      </Button>
-      <Button onClick={() => prevStep()}>
-        {parseInt(page) > 1 ? 'Zurück' : 'NIX'}
-      </Button>
 
-      {parseInt(page) < 1 && (
-        <div>
-          <Button onClick={() => router.push('viewer')}>Abbrechen</Button>
-        </div>
+      {page === 'start' && (
+        <Button onClick={() => startStory()}>Abspielen</Button>
       )}
+
+      {page != 'start' && <Button onClick={() => nextStep()}>Weiter</Button>}
+
+      {parseInt(page) > 0 && <Button onClick={() => prevStep()}>Zurück</Button>}
+
+      <div>
+        <Button onClick={() => router.push('viewer')}>Abbrechen</Button>
+      </div>
     </div>
   )
 }

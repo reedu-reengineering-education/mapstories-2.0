@@ -3,7 +3,7 @@ import * as z from 'zod'
 import { getServerSession } from 'next-auth/next'
 
 import { db } from '@/src/lib/db'
-import { userNameSchema } from '@/src/lib/validations/user'
+import { userUpdateSchema } from '@/src/lib/validations/user'
 import { authOptions } from '@/src/lib/auth'
 import { withCurrentUser } from '@/src/lib/apiMiddlewares/withCurrentUser'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
@@ -16,20 +16,37 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const body = req.body
 
-      if (body?.name && user) {
-        const payload = userNameSchema.parse(body)
+      if (!user) {
+        throw new Error('Unauthenticated')
+      }
+      const payload = userUpdateSchema.parse(body)
 
-        await db.user.update({
+      const updatedUser = await db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: payload,
+      })
+
+      return res.status(200).json(updatedUser)
+    } catch (error) {
+      return res.status(422).json(error)
+    }
+  }
+  if (req.method === 'DELETE') {
+    try {
+      const session = await getServerSession(req, res, authOptions)
+      const user = session?.user
+
+      if (user) {
+        await db.user.delete({
           where: {
             id: user.id,
-          },
-          data: {
-            name: payload.name,
           },
         })
       }
 
-      return res.end()
+      return res.status(200).end()
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(422).json(error.issues)
@@ -40,4 +57,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(['PATCH'], withCurrentUser(handler))
+export default withMethods(['PATCH', 'DELETE'], withCurrentUser(handler))
