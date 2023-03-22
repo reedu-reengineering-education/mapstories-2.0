@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
 
       // Update the position of each slide content
-      const updatedSlideContents = await Promise.all(
+      await db.$transaction(
         slideContents.map((content, index) => {
           return db.slideContent.update({
             where: {
