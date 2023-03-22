@@ -16,7 +16,8 @@ import { media_type } from '@/src/lib/media/media'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Embed } from '../../embeds/Embed'
-import { SlideContent } from '@prisma/client'
+import { useStoryStore } from '@/src/lib/store/story'
+import useStep from '@/src/lib/api/step/useStep'
 import { urlToMedia } from '../../../helper/urlToMedia'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
@@ -52,6 +53,7 @@ export function EmbedContentEdit({
     handleUrl(url)
   }, [url])
 
+  const storyId = useStoryStore(store => store.storyID)
   const { options: options } = watch()
   useEffect(() => {
     setOptionState(options)
@@ -65,51 +67,34 @@ export function EmbedContentEdit({
   const [media, setMedia] = useState<media_type | undefined>(stepItem)
   const [optionState, setOptionState] = useState(stepItem?.options)
 
+  const { addContent, updateContent } = useStep(storyStepId)
+
   async function onSubmit(data: FormData) {
-    if (media) {
+    try {
       setIsSaving(true)
-      const url = `/api/mapstory/step/${
-        stepItem ? stepItem.storyStepId : storyStepId
-      }/content`
-      const method = stepItem ? 'PUT' : 'POST'
-      const headers = {
-        'Content-Type': 'application/json',
-      }
-      let body
       if (stepItem) {
-        body = JSON.stringify({ ...stepItem })
+        await updateContent(stepItem)
+        toast({
+          message: 'Your content has been updated.',
+          type: 'success',
+        })
       } else {
-        body = JSON.stringify({
-          content: media.content,
-          type: media.type,
-          options: media.type == 'YOUTUBE' ? optionState : undefined,
+        await addContent(data)
+        toast({
+          message: 'Your content has been created.',
+          type: 'success',
         })
       }
-      const response = await fetch(url, { method, headers, body })
-
-      setIsSaving(false)
-
-      if (!response?.ok) {
-        return toast({
-          title: 'Something went wrong.',
-          message: 'Your content was not created. Please try again',
-          type: 'error',
-        })
-      }
-
-      const newContent = (await response.json()) as SlideContent
-
-      toast({
-        message: 'Your content has been created.',
-        type: 'success',
-      })
 
       router.refresh()
-    } else {
+    } catch (error) {
       toast({
-        message: 'The embedded media is not recognized.',
+        title: 'Something went wrong.',
+        message: 'Your content was not created. Please try again.',
         type: 'error',
       })
+    } finally {
+      setIsSaving(false)
     }
   }
 
