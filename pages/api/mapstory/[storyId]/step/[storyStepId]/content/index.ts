@@ -13,7 +13,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const { content: url } = req.body
 
-      const ogData = await parseOG({ url })
+      const ogData = (await parseOG({ url })) ?? {}
 
       const newSlideContent = await db.slideContent.create({
         data: {
