@@ -8,10 +8,9 @@ export default async function parseOG(props: OpenGraphScraperOptions) {
     if (error) {
       return undefined
     }
+
     return result
   } catch (e) {
-    return undefined
-  } finally {
     return undefined
   }
 }
