@@ -123,6 +123,7 @@ model SlideContent {
   options     Json?
   storyStep   StoryStep @relation(fields: [storyStepId], references: [id])
   storyStepId String
+  ogData      Json?
 
   @@map(name: "slidecontent")
 }
