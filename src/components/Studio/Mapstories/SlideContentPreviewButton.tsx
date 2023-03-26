@@ -13,7 +13,7 @@ import {
 } from '@radix-ui/react-icons'
 import { cx } from 'class-variance-authority'
 import dynamic from 'next/dynamic'
-import { OgObject } from 'open-graph-scraper/lib/types'
+import { OgObject } from 'open-graph-scraper/dist/lib/types'
 import { HTMLAttributes } from 'react'
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {

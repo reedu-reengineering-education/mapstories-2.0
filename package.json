@@ -46,7 +46,7 @@
     "next-remove-imports": "^1.0.10",
     "next-superjson-plugin": "^0.5.6",
     "nodemailer": "^6.9.1",
-    "open-graph-scraper": "^5.2.2",
+    "open-graph-scraper": "^5.2.3",
     "postmark": "^3.0.15",
     "prisma": "^4.11.0",
     "pure-geojson-validation": "^0.3.0",
