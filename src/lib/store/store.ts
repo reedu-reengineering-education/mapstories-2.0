@@ -11,7 +11,6 @@ export const useBoundStore = create(
     }),
     {
       name: 'bound-store',
-      getStorage: () => localStorage, // or sessionStorage
     },
   ),
 )
