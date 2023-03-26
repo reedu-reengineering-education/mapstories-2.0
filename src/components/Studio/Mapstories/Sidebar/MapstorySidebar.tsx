@@ -4,7 +4,7 @@ import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
 import { MapPinIcon } from '@heroicons/react/24/outline'
-import { StoryStep } from '@prisma/client'
+import { SlideContent, StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -14,6 +14,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 import AddStoryStepButton from './AddStoryStepButton'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { useBoundStore } from '@/src/lib/store/store'
+import { getSlideTitle } from '@/src/lib/getSlideTitle'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const lng = useBoundStore(state => state.language)
@@ -46,7 +47,8 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
     setHoverMarkerIcon(newHoverStates)
   }
 
-  const [steps, setSteps] = useState<StoryStep[]>()
+  const [steps, setSteps] =
+    useState<(StoryStep & { content: SlideContent[] })[]>()
   useEffect(() => {
     if (!story?.steps) {
       return
@@ -88,6 +90,11 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
             stepId={story.firstStepId!}
             variant={'title'}
           />
+          {story?.firstStep?.content ? (
+            <p>{getSlideTitle(story.firstStep?.content)}</p>
+          ) : (
+            <p>No title</p>
+          )}
         </Link>
         <hr className="my-4 border-gray-400" />
         <DraggableList
@@ -98,11 +105,15 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
             component: (
               <div className="group relative">
                 <Link href={`/studio/${story.slug}/${s.id}`}>
+                  {/* <p>{s.position}</p> */}
                   <SidebarSlide
                     active={stepId === s.id}
                     markerHover={s.id === markerId}
                     stepId={s.id}
                   />
+                  <p className="max-w-[50%] truncate">
+                    {getSlideTitle(s.content)}
+                  </p>
                 </Link>
                 <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
                   {s.storyId && (

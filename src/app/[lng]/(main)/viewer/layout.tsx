@@ -39,7 +39,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
   return (
     <div className="h-full w-full">
       <div className="absolute top-0 left-0 h-full w-full">{children}</div>
-      <ViewerView stories={mapstories}></ViewerView>
+      <ViewerView data-superjson stories={mapstories}></ViewerView>
     </div>
   )
 }
