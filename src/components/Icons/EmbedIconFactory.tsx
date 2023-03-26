@@ -1,5 +1,6 @@
 import { MediaType } from '@prisma/client'
 import {
+  DotsHorizontalIcon,
   HeadingIcon,
   InstagramLogoIcon,
   PersonIcon,
@@ -20,7 +21,7 @@ interface EmbedIconFactoryProps
 
 type cvaType = {
   type: {
-    [_key in MediaType]: string
+    [_key in MediaType | 'MORE']: string
   }
 }
 
@@ -41,12 +42,13 @@ const iconStyle = cva<cvaType>(
         WIKIPEDIA: 'bg-white',
         IMAGE: '',
         VIDEO: '',
+        MORE: 'bg-white',
       },
     },
   },
 )
 
-const getIcon = (type: MediaType) => {
+const getIcon = (type: MediaType | 'MORE') => {
   switch (type) {
     case 'TEXT':
       return TextIcon
@@ -66,6 +68,8 @@ const getIcon = (type: MediaType) => {
       return SvgFacebookIcon
     case 'WIKIPEDIA':
       return SvgWikipediaIcon
+    case 'MORE':
+      return DotsHorizontalIcon
     default:
       return PersonIcon
   }
