@@ -4,6 +4,7 @@ import { cva, cx } from 'class-variance-authority'
 import type { VariantProps } from 'class-variance-authority'
 import useStep from '@/src/lib/api/step/useStep'
 import EmbedIconFactory from '@/src/components/Icons/EmbedIconFactory'
+import BaseIcon from '@/src/components/Icons/BaseIcon'
 
 type SidebarSlideProps = VariantProps<typeof slideStyle> & {
   stepId: string
@@ -47,7 +48,11 @@ export default function SidebarSlide({
           {step.content.slice(0, 3).map(c => (
             <EmbedIconFactory key={c.id} type={c.type} />
           ))}
-          {step.content.length > 3 && <EmbedIconFactory type={'MORE'} />}
+          {step.content.length > 3 && (
+            <BaseIcon className="flex items-center justify-center bg-white text-sm">
+              +{step.content.length - 3}
+            </BaseIcon>
+          )}
         </div>
       )}
     </div>
