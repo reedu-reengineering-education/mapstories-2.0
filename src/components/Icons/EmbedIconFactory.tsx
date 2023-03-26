@@ -1,11 +1,12 @@
 import { MediaType } from '@prisma/client'
 import {
   HeadingIcon,
+  ImageIcon,
   InstagramLogoIcon,
-  PersonIcon,
   PlayIcon,
   TextIcon,
   TwitterLogoIcon,
+  VideoIcon,
 } from '@radix-ui/react-icons'
 import { cva, VariantProps } from 'class-variance-authority'
 import { HTMLAttributes } from 'react'
@@ -44,8 +45,8 @@ const iconStyle = cva<cvaType>('', {
   },
 })
 
-const getIcon = (type: MediaType) => {
-  switch (type) {
+const getIcon = (myType: MediaType) => {
+  switch (myType) {
     case 'TEXT':
       return TextIcon
     case 'TITLE':
@@ -64,8 +65,12 @@ const getIcon = (type: MediaType) => {
       return SvgFacebookIcon
     case 'WIKIPEDIA':
       return SvgWikipediaIcon
+    case 'IMAGE':
+      return ImageIcon
+    case 'VIDEO':
+      return VideoIcon
     default:
-      return PersonIcon
+      myType satisfies never // This makes sure the switch case is exhaustive (https://stackoverflow.com/a/75217377/5660646)
   }
 }
 
@@ -78,6 +83,10 @@ export default function EmbedIconFactory({
   }
 
   const Icon = getIcon(type)
+
+  if (!Icon) {
+    return <BaseIcon {...props} />
+  }
 
   return (
     <BaseIcon className={iconStyle({ type })} {...props}>

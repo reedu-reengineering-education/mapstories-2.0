@@ -45,9 +45,12 @@ export default function SidebarSlide({
     >
       {step?.content && step?.content.length > 0 && (
         <div className="flex w-full items-center justify-center -space-x-3 overflow-scroll p-4">
-          {step.content.slice(0, 3).map(c => (
-            <EmbedIconFactory key={c.id} type={c.type} />
-          ))}
+          {step.content
+            .sort((a, b) => a.position - b.position)
+            .slice(0, 3)
+            .map(c => (
+              <EmbedIconFactory key={c.id} type={c.type} />
+            ))}
           {step.content.length > 3 && (
             <BaseIcon className="flex items-center justify-center bg-white text-sm">
               +{step.content.length - 3}
