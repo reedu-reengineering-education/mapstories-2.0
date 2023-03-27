@@ -5,8 +5,9 @@ import { EmbedStyle } from './EmbedStyle'
 
 const borderRadius = 0
 
-export interface DailyMotionEmbedProps extends React.HTMLAttributes<HTMLDivElement> {
-  url: String
+export interface ReactPlayerEmbedProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  url: string
   width?: string | number
   height?: string | number
 }
@@ -16,7 +17,7 @@ export function DailyMotionEmbed({
   width,
   height,
   ...divProps
-}: DailyMotionEmbedProps) {
+}: ReactPlayerEmbedProps) {
   return (
     <div
       {...divProps}
@@ -31,7 +32,7 @@ export function DailyMotionEmbed({
     >
       <EmbedStyle />
 
-      <ReactPlayer video={url} width={400} />
+      <ReactPlayer url={url} width={400} />
     </div>
   )
 }
