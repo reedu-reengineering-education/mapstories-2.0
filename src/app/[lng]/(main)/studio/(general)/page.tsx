@@ -10,6 +10,10 @@ import { getCurrentUser } from '@/src/lib/session'
 import { GlobeAltIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { redirect } from 'next/navigation'
 
+export const metadata = {
+  title: 'Studio',
+}
+
 const getMapstories = async (userId: string) => {
   return await db.story.findMany({
     where: {

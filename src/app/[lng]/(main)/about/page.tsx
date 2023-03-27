@@ -1,5 +1,9 @@
 import { PageHeader } from '@/src/components/PageHeader'
 
+export const metadata = {
+  title: 'About',
+}
+
 export default function Page() {
   return (
     <div>

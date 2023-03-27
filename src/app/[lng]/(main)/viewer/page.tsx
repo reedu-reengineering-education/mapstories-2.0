@@ -1,6 +1,10 @@
 import { getCurrentUser } from '@/src/lib/session'
 import { notFound } from 'next/navigation'
 
+export const metadata = {
+  title: 'Viewer',
+}
+
 interface ViewerPageProps {}
 
 export default async function ViewerPage({}: ViewerPageProps) {

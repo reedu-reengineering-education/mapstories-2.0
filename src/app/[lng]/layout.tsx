@@ -11,6 +11,20 @@ const font = Inter({
   variable: '--font-inter',
 })
 
+export const metadata = {
+  openGraph: {
+    title: {
+      default: 'Mapstories',
+      template: '%s | Mapstories',
+    },
+    description: 'Globale Geschichten interaktiv erzählen',
+    type: 'website',
+    robots: {
+      index: true,
+    },
+  },
+}
+
 // ISR not working at the moment
 // export async function generateStaticParams() {
 //   return languages.map(lng => ({ lng }))
@@ -38,6 +52,7 @@ export default function RootLayout({
       dir={dir(lng)}
       lang={lng}
     >
+      {/* <meta charSet="utf-8" /> */}
       <body className="min-h-screen">
         <main>
           <Providers lng={lng}>{children}</Providers>
