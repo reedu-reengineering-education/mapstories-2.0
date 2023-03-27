@@ -48,7 +48,7 @@ export default function SidebarSlide({
         )}
       >
         {step?.content && step?.content.length > 0 && (
-          <div className="flex w-full items-center justify-center -space-x-3 overflow-scroll p-4">
+          <div className="flex w-full max-w-[145px] items-center justify-center -space-x-3 overflow-hidden p-4">
             {step.content
               .sort((a, b) => a.position - b.position)
               .slice(0, 3)

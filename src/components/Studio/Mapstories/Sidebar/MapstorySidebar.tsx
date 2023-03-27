@@ -150,7 +150,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
           onChange={e => onReorder(e.map(({ s }) => s))}
         ></DraggableList>
 
-        <div className="sticky bottom-0 z-20 w-full bg-white py-2">
+        <div className="sticky bottom-0 z-20 w-full bg-white py-2 pl-4">
           <AddStoryStepButton storyID={storyID} />
         </div>
       </aside>
