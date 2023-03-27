@@ -85,18 +85,20 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
     <>
       <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
         <Link href={`/studio/${story.slug}/${story.firstStepId}`}>
-          <SidebarSlide
-            active={stepId === story.firstStepId}
-            stepId={story.firstStepId!}
-            variant={'title'}
-          />
-          {story?.firstStep?.content ? (
-            <p>{getSlideTitle(story.firstStep?.content)}</p>
-          ) : (
-            <p>No title</p>
-          )}
+          <div className="ml-4">
+            <SidebarSlide
+              active={stepId === story.firstStepId}
+              stepId={story.firstStepId!}
+              variant={'title'}
+            />
+            {story?.firstStep?.content ? (
+              <p>{getSlideTitle(story.firstStep?.content)}</p>
+            ) : (
+              <p>No title</p>
+            )}
+          </div>
         </Link>
-        <hr className="my-4 border-gray-400" />
+        <hr className="my-4 ml-4 border-gray-400" />
         <DraggableList
           items={steps.map((s, i) => ({
             id: s.id,
@@ -105,13 +107,13 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
             component: (
               <div className="group relative">
                 <Link href={`/studio/${story.slug}/${s.id}`}>
-                  {/* <p>{s.position}</p> */}
                   <SidebarSlide
                     active={stepId === s.id}
                     markerHover={s.id === markerId}
+                    position={s.position}
                     stepId={s.id}
                   />
-                  <p className="max-w-[50%] truncate">
+                  <p className="ml-4 max-w-[50%] truncate">
                     {getSlideTitle(s.content)}
                   </p>
                 </Link>
