@@ -10,6 +10,7 @@ type SidebarSlideProps = VariantProps<typeof slideStyle> & {
   stepId: string
   active?: boolean
   markerHover?: boolean
+  position?: number
 }
 
 const slideStyle = cva(
@@ -31,33 +32,37 @@ export default function SidebarSlide({
   stepId,
   active,
   markerHover,
+  position,
   variant,
 }: SidebarSlideProps) {
   const { step } = useStep(stepId)
 
   return (
-    <div
-      className={cx(
-        slideStyle({ variant }),
-        active ? 'border-2 bg-active' : 'bg-slate-100',
-        markerHover ? 'border-2 border-red-600' : '',
-      )}
-    >
-      {step?.content && step?.content.length > 0 && (
-        <div className="flex w-full items-center justify-center -space-x-3 overflow-scroll p-4">
-          {step.content
-            .sort((a, b) => a.position - b.position)
-            .slice(0, 3)
-            .map(c => (
-              <EmbedIconFactory key={c.id} type={c.type} />
-            ))}
-          {step.content.length > 3 && (
-            <BaseIcon className="flex items-center justify-center bg-white text-sm">
-              +{step.content.length - 3}
-            </BaseIcon>
-          )}
-        </div>
-      )}
+    <div className="flex items-center">
+      {position != null && <p className="mr-2">{position + 1}</p>}
+      <div
+        className={cx(
+          slideStyle({ variant }),
+          active ? 'border-2 bg-active' : 'bg-slate-100',
+          markerHover ? 'border-2 border-red-600' : '',
+        )}
+      >
+        {step?.content && step?.content.length > 0 && (
+          <div className="flex w-full items-center justify-center -space-x-3 overflow-scroll p-4">
+            {step.content
+              .sort((a, b) => a.position - b.position)
+              .slice(0, 3)
+              .map(c => (
+                <EmbedIconFactory key={c.id} type={c.type} />
+              ))}
+            {step.content.length > 3 && (
+              <BaseIcon className="flex items-center justify-center bg-white text-sm">
+                +{step.content.length - 3}
+              </BaseIcon>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

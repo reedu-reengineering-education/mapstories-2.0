@@ -4,7 +4,7 @@ import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
 import { MapPinIcon } from '@heroicons/react/24/outline'
-import { StoryStep } from '@prisma/client'
+import { SlideContent, StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -14,6 +14,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 import AddStoryStepButton from './AddStoryStepButton'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { useBoundStore } from '@/src/lib/store/store'
+import { getSlideTitle } from '@/src/lib/getSlideTitle'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const lng = useBoundStore(state => state.language)
@@ -46,7 +47,8 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
     setHoverMarkerIcon(newHoverStates)
   }
 
-  const [steps, setSteps] = useState<StoryStep[]>()
+  const [steps, setSteps] =
+    useState<(StoryStep & { content: SlideContent[] })[]>()
   useEffect(() => {
     if (!story?.steps) {
       return
@@ -83,13 +85,22 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
     <>
       <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
         <Link href={`/studio/${story.slug}/${story.firstStepId}`}>
-          <SidebarSlide
-            active={stepId === story.firstStepId}
-            stepId={story.firstStepId!}
-            variant={'title'}
-          />
+          <div className="ml-4">
+            <SidebarSlide
+              active={stepId === story.firstStepId}
+              stepId={story.firstStepId!}
+              variant={'title'}
+            />
+            {story?.firstStep?.content ? (
+              <p className="max-w-[80%] truncate pt-1 text-xs">
+                {getSlideTitle(story.firstStep?.content)}
+              </p>
+            ) : (
+              <p>No title</p>
+            )}
+          </div>
         </Link>
-        <hr className="my-4 border-gray-400" />
+        <hr className="my-4 ml-4 border-gray-400" />
         <DraggableList
           items={steps.map((s, i) => ({
             id: s.id,
@@ -101,8 +112,12 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                   <SidebarSlide
                     active={stepId === s.id}
                     markerHover={s.id === markerId}
+                    position={s.position}
                     stepId={s.id}
                   />
+                  <p className="ml-6 max-w-[80%] truncate text-xs">
+                    {getSlideTitle(s.content)}
+                  </p>
                 </Link>
                 <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
                   {s.storyId && (
