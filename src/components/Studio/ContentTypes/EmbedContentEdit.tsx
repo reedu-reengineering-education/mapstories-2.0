@@ -117,6 +117,9 @@ export function EmbedContentEdit({
       {...props}
     >
       <div className="top-0">
+        <InputLabel>Gib eine URL zu einem Social Media Beitrag ein</InputLabel>
+        <p className="my-2 text-sm font-bold">Unterstützte Plattformen: </p>
+        <MediaIconList />
         <div className="pt-4">
           <Input
             defaultValue={stepItem ? stepItem.content : ''}
@@ -125,11 +128,6 @@ export function EmbedContentEdit({
             size={32}
             {...register('content')}
           />
-          <InputLabel>
-            Gib eine URL zu einem Social Media Beitrag ein
-          </InputLabel>
-          <p className="my-2 text-sm ">Unterstützte Plattformen: </p>
-          <MediaIconList />
         </div>
         <div className="re-data-media-preview pt-4 pb-4">
           <Embed
