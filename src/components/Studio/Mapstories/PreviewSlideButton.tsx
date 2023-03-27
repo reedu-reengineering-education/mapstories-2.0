@@ -19,4 +19,6 @@ export default function PreviewSlideButton() {
       onClick={() => setShowSlidePreview(true)}
     />
   )
+
+  return null
 }
