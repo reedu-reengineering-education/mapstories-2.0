@@ -39,7 +39,7 @@ export default function SidebarSlide({
 
   return (
     <div className="flex items-center">
-      {position != null && <p className="mr-2">{position}</p>}
+      {position != null && <p className="mr-2">{position + 1}</p>}
       <div
         className={cx(
           slideStyle({ variant }),

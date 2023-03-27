@@ -92,7 +92,9 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
               variant={'title'}
             />
             {story?.firstStep?.content ? (
-              <p>{getSlideTitle(story.firstStep?.content)}</p>
+              <p className="max-w-[80%] truncate pt-1 text-xs">
+                {getSlideTitle(story.firstStep?.content)}
+              </p>
             ) : (
               <p>No title</p>
             )}
@@ -113,7 +115,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     position={s.position}
                     stepId={s.id}
                   />
-                  <p className="ml-4 max-w-[80%] truncate">
+                  <p className="ml-6 max-w-[80%] truncate text-xs">
                     {getSlideTitle(s.content)}
                   </p>
                 </Link>
