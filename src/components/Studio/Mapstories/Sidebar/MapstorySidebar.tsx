@@ -113,7 +113,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     position={s.position}
                     stepId={s.id}
                   />
-                  <p className="ml-4 max-w-[50%] truncate">
+                  <p className="ml-4 max-w-[80%] truncate">
                     {getSlideTitle(s.content)}
                   </p>
                 </Link>
