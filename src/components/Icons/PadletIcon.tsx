@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { SVGProps } from 'react'
+import { IconProps } from '@/src/types/Icon'
 
-type PadletIconProps = SVGProps<SVGSVGElement>
-
-const SvgPadletIcon = React.forwardRef<SVGSVGElement, PadletIconProps>(
+const SvgPadletIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => {
     return (
       <svg

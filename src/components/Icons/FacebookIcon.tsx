@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { SVGProps } from 'react'
+import { IconProps } from '@/src/types/Icon'
 
-type FacebookIconProps = SVGProps<SVGSVGElement>
-
-const SvgFacebookIcon = React.forwardRef<SVGSVGElement, FacebookIconProps>(
+const SvgFacebookIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => {
     return (
       <svg

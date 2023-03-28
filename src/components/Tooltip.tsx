@@ -3,7 +3,7 @@ import React from 'react'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 
 type TooltipProps = {
-  children: any
+  children: React.ReactNode
   content: string
   // open?: boolean
   // defaultOpen?: boolean

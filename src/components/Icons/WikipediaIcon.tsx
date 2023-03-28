@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { SVGProps } from 'react'
+import { IconProps } from '@/src/types/Icon'
 
-type WikipediaIconProps = SVGProps<SVGSVGElement>
-
-const SvgWikipediaIcon = React.forwardRef<SVGSVGElement, WikipediaIconProps>(
+const SvgWikipediaIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => {
     return (
       <svg

@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { SVGProps } from 'react'
+import { IconProps } from '@/src/types/Icon'
 
-type TikTokIconProps = SVGProps<SVGSVGElement>
-
-const SvgTikTokIcon = React.forwardRef<SVGSVGElement, TikTokIconProps>(
+const SvgTikTokIcon = React.forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => {
     return (
       <svg
