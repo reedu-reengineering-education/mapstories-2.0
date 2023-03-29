@@ -136,6 +136,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                       content={
                         t('please set a marker for this slide') as string
                       }
+                      maxwidth={'200px'}
                     >
                       <span className="relative">
                         <MapPinIcon className="h-5 w-5" />

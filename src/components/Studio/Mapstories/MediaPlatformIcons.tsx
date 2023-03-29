@@ -25,7 +25,7 @@ export default function MediaIconList() {
   return (
     <div className="flex">
       {icons.map(icon => (
-        <Tooltip content={icon.key as string} key={icon.key}>
+        <Tooltip content={icon.key as string} key={icon.key} maxwidth={'350px'}>
           {icon}
         </Tooltip>
       ))}

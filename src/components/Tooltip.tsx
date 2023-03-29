@@ -5,6 +5,7 @@ import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 type TooltipProps = {
   children: React.ReactNode
   content: string
+  maxwidth?: string
   // open?: boolean
   // defaultOpen?: boolean
   // onOpenChange?: () => any
@@ -13,6 +14,7 @@ type TooltipProps = {
 export function Tooltip({
   children,
   content,
+  maxwidth,
   // open,
   // defaultOpen,
   // onOpenChange,
@@ -27,8 +29,9 @@ export function Tooltip({
       >
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
-          className="TooltipContent content-center"
+          className="TooltipContent content-center break-words"
           side="top"
+          style={{ maxWidth: maxwidth ?? '' }}
           {...props}
         >
           {content}
