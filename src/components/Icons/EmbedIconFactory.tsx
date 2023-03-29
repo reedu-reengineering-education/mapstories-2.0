@@ -8,7 +8,7 @@ import {
   TwitterLogoIcon,
   VideoIcon,
 } from '@radix-ui/react-icons'
-import { cva, VariantProps } from 'class-variance-authority'
+import { cva, cx, VariantProps } from 'class-variance-authority'
 import { HTMLAttributes } from 'react'
 import { PadletIcon } from '.'
 import BaseIcon from './BaseIcon'
@@ -76,6 +76,7 @@ const getIcon = (myType: MediaType) => {
 
 export default function EmbedIconFactory({
   type,
+  className,
   ...props
 }: EmbedIconFactoryProps) {
   if (!type) {
@@ -89,7 +90,7 @@ export default function EmbedIconFactory({
   }
 
   return (
-    <BaseIcon className={iconStyle({ type })} {...props}>
+    <BaseIcon className={cx(iconStyle({ type }), className)} {...props}>
       <Icon className="h-full w-auto" />
     </BaseIcon>
   )

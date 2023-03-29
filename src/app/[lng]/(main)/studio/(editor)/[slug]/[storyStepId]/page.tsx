@@ -48,7 +48,7 @@ export default async function StepPage({
   return (
     <div>
       {storyStep && <PreviewSlide stepId={storyStep.id} />}
-      <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">
+      <div className="re-basic-box absolute bottom-10 right-5 z-20 min-w-[18rem] bg-white p-4">
         {storyStep?.content && storyStep.content.length > 0 && (
           <PreviewSlideButton />
         )}
@@ -64,12 +64,12 @@ export default async function StepPage({
           storyStepId={storyStepId}
           trigger={
             <Button
-              className="re-basic-button-noShadow"
-              startIcon={<PlusIcon className="w-4" />}
-              variant={'inverse'}
+              className="w-full"
+              startIcon={<PlusIcon className="h-10"></PlusIcon>}
+              variant={'primary'}
             >
-              Medien, Texte, Bilder <br />
-              oder Videos Hinzufügen
+              Medien, Texte <br />
+              Bilder, Videos
             </Button>
           }
         />

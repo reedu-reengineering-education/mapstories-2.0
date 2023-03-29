@@ -98,7 +98,7 @@ export default function StorySourceLayer({
   const lineOutlineStyle = {
     type: 'line' as 'sky',
     paint: {
-      'line-color': '#000000',
+      'line-color': '#38383a',
       'line-width': 6,
       'line-opacity': ['match', ['get', 'id'], storyID, 0, 1],
     },

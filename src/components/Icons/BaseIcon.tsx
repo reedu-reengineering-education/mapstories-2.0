@@ -8,7 +8,7 @@ export default function BaseIcon(props: BaseIconProps) {
     <div
       {...props}
       className={cx(
-        'flex aspect-square h-10 items-center justify-center rounded-full border-2 border-zinc-200 p-2 shadow',
+        'flex aspect-square h-10 items-center justify-center rounded-full border-2 border-white p-2',
         props.className,
       )}
     />
