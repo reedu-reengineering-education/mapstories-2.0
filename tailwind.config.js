@@ -27,7 +27,7 @@ module.exports = {
       },
       colors: {
         black: {
-          DEFAULT: '#38383a'
+          DEFAULT: '#38383a',
         },
         primary: {
           DEFAULT: '#005b79',
