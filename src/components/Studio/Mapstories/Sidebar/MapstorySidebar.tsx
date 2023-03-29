@@ -15,6 +15,7 @@ import AddStoryStepButton from './AddStoryStepButton'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
+import { Tooltip } from '@/src/components/Tooltip'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const lng = useBoundStore(state => state.language)
@@ -131,17 +132,23 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     onMouseEnter={() => handleMouseEnter(i)}
                     onMouseLeave={() => handleMouseLeave(i)}
                   >
-                    <span className="relative">
-                      <MapPinIcon className="h-5 w-5" />
-                      <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-black"></span>
-                    </span>
-                    {hoverMarkerIcon[i] && (
+                    <Tooltip
+                      content={
+                        t('please set a marker for this slide') as string
+                      }
+                    >
+                      <span className="relative">
+                        <MapPinIcon className="h-5 w-5" />
+                        <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-black"></span>
+                      </span>
+                    </Tooltip>
+                    {/* {hoverMarkerIcon[i] && (
                       <div className="relative h-full w-full">
                         <div className="absolute right-4 bottom-1 z-20 w-36 rounded bg-white p-2">
                           {t('please set a marker for this slide')}
                         </div>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 )}
               </div>

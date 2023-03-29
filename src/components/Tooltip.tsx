@@ -19,7 +19,7 @@ export function Tooltip({
   ...props
 }: TooltipProps) {
   return (
-    <TooltipPrimitive.Provider>
+    <TooltipPrimitive.Provider delayDuration={300}>
       <TooltipPrimitive.Root
       // defaultOpen={defaultOpen}
       // onOpenChange={onOpenChange}
@@ -27,12 +27,16 @@ export function Tooltip({
       >
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
-          className="content-center"
+          className="TooltipContent content-center"
           side="top"
           {...props}
         >
           {content}
-          {/* <TooltipPrimitive.Arrow height={5} width={11} /> */}
+          <TooltipPrimitive.Arrow
+            className="TooltipArrow"
+            height={5}
+            width={11}
+          />
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Root>
     </TooltipPrimitive.Provider>
