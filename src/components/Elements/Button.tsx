@@ -10,11 +10,11 @@ const buttonStyle = cva(
     variants: {
       variant: {
         primary:
-          'border-transparent text-white bg-black hover:bg-hover justify-center focus:ring-2 focus:ring-black focus:ring-offset-2',
+          'border-transparent text-white bg-black hover:bg-hover justify-center hover:text-black hover:border-black',
         inverse:
-          'border-zinc-300 text-black bg-white hover:bg-hover justify-center focus:ring-2 focus:ring-black focus:ring-offset-2',
+          'border-zinc-300 text-black bg-white hover:bg-hover justify-center ',
         danger:
-          'border-transparent text-white bg-red-500 hover:bg-red-400 justify-center focus:ring-2 focus:ring-black focus:ring-offset-2',
+          'border-transparent text-white bg-red-500 hover:bg-red-400 justify-center',
         noStyle: 'border-0 justify-left',
       },
       size: {
