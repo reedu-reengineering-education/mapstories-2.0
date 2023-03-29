@@ -56,7 +56,7 @@ export default function DeleteContentButton({
         }
         trigger={
           <div className="flex cursor-pointer  p-2 transition-colors hover:bg-red-200">
-            <TrashIcon className="w-5 text-red-500" />
+            <TrashIcon className="w-5 text-black" />
           </div>
         }
       >

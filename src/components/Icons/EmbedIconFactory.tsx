@@ -91,7 +91,7 @@ export default function EmbedIconFactory({
 
   return (
     <BaseIcon className={cx(iconStyle({ type }), className)} {...props}>
-      <Icon className="h-full w-auto" />
+      <Icon className="h-full w-auto opacity-80" />
     </BaseIcon>
   )
 }
