@@ -32,7 +32,7 @@ export default function SlideContentPreviewButton({
   const og = ogData as OgObject | null
 
   function IconComponent() {
-    return <EmbedIconFactory type={type} />
+    return <EmbedIconFactory className="my-1 h-8 border-none" type={type} />
   }
 
   if (type == 'TEXT') {
