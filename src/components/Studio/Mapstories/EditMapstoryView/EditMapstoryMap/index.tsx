@@ -116,6 +116,16 @@ export default function EditMapstoryMap({
       }}
       onMouseMove={handleMouseMove}
     >
+      <GeocoderControl
+        language="de"
+        onResult={e =>
+          setGeocoderCoords({
+            lat: e.result.geometry.coordinates[0],
+            lng: e.result.geometry.coordinates[1],
+          })
+        }
+        position="top-left"
+      />
       <DrawControl
         controls={{
           polygon: true,
@@ -138,16 +148,7 @@ export default function EditMapstoryMap({
           longitude={geocoder_Coords.lat}
         ></Marker>
       )} */}
-      <GeocoderControl
-        language="de"
-        onResult={e =>
-          setGeocoderCoords({
-            lat: e.result.geometry.coordinates[0],
-            lng: e.result.geometry.coordinates[1],
-          })
-        }
-        position="top-left"
-      />
+
       <ConnectionLines markers={markers} />
     </Map>
   )
