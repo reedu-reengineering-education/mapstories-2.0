@@ -133,7 +133,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                   >
                     <span className="relative">
                       <MapPinIcon className="h-5 w-5" />
-                      <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-black"></span>
+                      <span className="absolute inset-y-1/2 left-0 right-[2px] h-0.5 rotate-[35deg] bg-black"></span>
                     </span>
                     {hoverMarkerIcon[i] && (
                       <div className="relative h-full w-full">
