@@ -17,6 +17,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { TextContentEdit } from '@/src/components/Studio/ContentTypes/TextContentEdit'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { useBoundStore } from '@/src/lib/store/store'
+import { MediaContentEdit } from '@/src/components/Studio/ContentTypes/MediaContentType'
 
 type Props = {
   trigger: React.ReactElement
@@ -66,7 +67,10 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                     <h3 className="text-center">Text</h3>
                   </div>
 
-                  <div className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2">
+                  <div
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    onClick={() => setContentType('media')}
+                  >
                     <div className="flex justify-center">
                       <VideoIcon className="h-14 w-14"></VideoIcon>
                     </div>
@@ -88,7 +92,8 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
 
             {(contentType == 'title' ||
               contentType == 'embed' ||
-              contentType == 'text') && (
+              contentType == 'text' ||
+              contentType == 'media') && (
               <>
                 <CSSTransition
                   appear
@@ -125,6 +130,12 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                         setContentType={setContentType}
                         storyStepId={storyStepId}
                       ></TextContentEdit>
+                    )}
+                    {contentType == 'media' && (
+                      <MediaContentEdit
+                        setContentType={setContentType}
+                        storyStepId={storyStepId}
+                      ></MediaContentEdit>
                     )}
                   </div>
                 </CSSTransition>
