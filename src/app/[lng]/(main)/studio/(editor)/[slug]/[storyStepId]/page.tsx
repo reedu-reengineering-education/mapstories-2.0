@@ -6,6 +6,7 @@ import { Story } from '@prisma/client'
 import SlideContentModal from './SlideContentModal'
 import PreviewSlide from '@/src/components/Studio/Mapstories/PreviewSlide'
 import PreviewSlideButton from '@/src/components/Studio/Mapstories/PreviewSlideButton'
+import BaseIcon from '@/src/components/Icons/BaseIcon'
 
 interface EditorPageProps {
   params: { slug: string; storyStepId: string; lng: string }
@@ -64,12 +65,16 @@ export default async function StepPage({
           storyStepId={storyStepId}
           trigger={
             <Button
-              className="re-basic-button-noShadow"
-              startIcon={<PlusIcon className="w-4" />}
-              variant={'inverse'}
+              className="w-full"
+              startIcon={
+                <BaseIcon className="h-10">
+                  <PlusIcon></PlusIcon>
+                </BaseIcon>
+              }
+              variant={'primary'}
             >
-              Medien, Texte, Bilder <br />
-              oder Videos Hinzufügen
+              Medien, Texte <br />
+              Bilder, Videos
             </Button>
           }
         />
