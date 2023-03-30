@@ -1,11 +1,12 @@
 import { create } from 'zustand'
-import { StoryState, useStoryStore } from './story'
-import { UIState, useUIStore } from './ui'
+import { useStoryStore } from './story'
+import { useUIStore } from './ui'
 import { persist } from 'zustand/middleware'
-import { TutorialState, useTutorialStore } from './tutorial'
+import { useTutorialStore } from './tutorial'
+import { CombinedState } from './CombinedState'
 
 export const useBoundStore = create(
-  persist<StoryState & UIState & TutorialState>(
+  persist<CombinedState>(
     (set, get, api) => ({
       ...useStoryStore(set, get, api),
       ...useUIStore(set, get, api),

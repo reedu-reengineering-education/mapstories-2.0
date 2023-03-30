@@ -1,6 +1,5 @@
 import { StateCreator } from 'zustand'
-import { StoryState } from './story'
-import { TutorialState } from './tutorial'
+import { CombinedState } from './CombinedState'
 
 export interface UIState {
   language: string
@@ -8,7 +7,7 @@ export interface UIState {
 }
 
 export const useUIStore: StateCreator<
-  StoryState & UIState & TutorialState,
+  CombinedState,
   [],
   [],
   UIState
