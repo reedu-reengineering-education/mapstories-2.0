@@ -26,7 +26,7 @@ type Props = {
 export default function SlideContentModal({ trigger, storyStepId }: Props) {
   const [contentType, setContentType] = useState<string>('')
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, 'editModal')
+  const { t } = useTranslation(lng, ['editModal', 'embeds'])
   return (
     <>
       <Modal onClose={() => setContentType('')} title={''} trigger={trigger}>
@@ -80,7 +80,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                     <div className="flex justify-center">
                       <TwitterLogoIcon className="h-14 w-14"></TwitterLogoIcon>
                     </div>
-                    <h3 className="text-center">Embed</h3>
+                    <h3 className="text-center">{t('embeds:EmbedName')}</h3>
                   </div>
                 </div>
               </div>
