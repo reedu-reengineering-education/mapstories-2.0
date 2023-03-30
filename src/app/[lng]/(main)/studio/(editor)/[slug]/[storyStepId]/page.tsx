@@ -6,6 +6,20 @@ import { Story } from '@prisma/client'
 import SlideContentModal from './SlideContentModal'
 import PreviewSlide from '@/src/components/Studio/Mapstories/PreviewSlide'
 import PreviewSlideButton from '@/src/components/Studio/Mapstories/PreviewSlideButton'
+import { Metadata } from 'next/types'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<Metadata> {
+  return {
+    title: params.slug,
+    openGraph: {
+      title: params.slug,
+    },
+  }
+}
 
 interface EditorPageProps {
   params: { slug: string; storyStepId: string; lng: string }

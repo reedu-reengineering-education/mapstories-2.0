@@ -3,6 +3,7 @@ import { Inter } from '@next/font/google'
 import { cx } from 'class-variance-authority'
 import { dir } from 'i18next'
 import dynamic from 'next/dynamic'
+import type { Metadata } from 'next/types'
 
 const Providers = dynamic(() => import('./Providers'), { ssr: false })
 
@@ -10,6 +11,24 @@ const font = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Mapstories',
+    template: '%s | Mapstories',
+  },
+  description: 'Globale Geschichten interaktiv erzählen',
+  robots: {
+    index: true,
+  },
+  openGraph: {
+    title: {
+      default: 'Mapstories',
+      template: '%s | Mapstories',
+    },
+    type: 'website',
+  },
+}
 
 // ISR not working at the moment
 // export async function generateStaticParams() {
@@ -38,6 +57,7 @@ export default function RootLayout({
       dir={dir(lng)}
       lang={lng}
     >
+      {/* <meta charSet="utf-8" /> */}
       <body className="min-h-screen">
         <main>
           <Providers lng={lng}>{children}</Providers>
