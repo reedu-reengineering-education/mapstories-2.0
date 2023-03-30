@@ -61,7 +61,7 @@ export function EmbedContentEdit({
     }
   }, [options?.autoplay])
 
-  const { t } = useTranslation(lng, 'editModal')
+  const { t } = useTranslation(lng, ['editModal', 'embeds'])
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [media, setMedia] = useState<media_type | undefined>(stepItem)
   const [optionState, setOptionState] = useState(stepItem?.options)
@@ -117,8 +117,10 @@ export function EmbedContentEdit({
       {...props}
     >
       <div className="top-0">
-        <InputLabel>Gib eine URL zu einem Social Media Beitrag ein</InputLabel>
-        <p className="my-2 text-sm font-bold">Unterstützte Plattformen: </p>
+        <InputLabel>{t('embeds:EmbedContentEdit.InputLabel')}</InputLabel>
+        <p className="my-2 text-sm font-bold">
+          {t('embeds:EmbedContentEdit.platforms')}
+        </p>
         <MediaIconList />
         <div className="pt-4">
           <Input
@@ -143,13 +145,13 @@ export function EmbedContentEdit({
                 type="checkbox"
                 {...register('options.autoplay')}
               />
-              <InputLabel>Autoplay</InputLabel>
+              <InputLabel>{t('embeds:EmbedContentEdit.autoplay')}</InputLabel>
             </div>
           )}
         </div>
         <Button disabled={media == null} isLoading={isSaving} type="submit">
-          {stepItem && t('save')}
-          {!stepItem && t('create')}
+          {stepItem && t('editModal:save')}
+          {!stepItem && t('editModal:create')}
         </Button>
       </div>
     </form>
