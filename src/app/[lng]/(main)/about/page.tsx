@@ -1,7 +1,11 @@
 import { PageHeader } from '@/src/components/PageHeader'
+import type { Metadata } from 'next/types'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'About',
+  openGraph: {
+    title: 'About',
+  },
 }
 
 export default function Page() {

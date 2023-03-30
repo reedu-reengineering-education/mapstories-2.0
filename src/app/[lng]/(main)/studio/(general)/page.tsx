@@ -9,9 +9,13 @@ import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
 import { GlobeAltIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { redirect } from 'next/navigation'
+import type { Metadata } from 'next/types'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Studio',
+  openGraph: {
+    title: 'Studio',
+  },
 }
 
 const getMapstories = async (userId: string) => {

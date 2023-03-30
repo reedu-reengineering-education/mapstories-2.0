@@ -3,6 +3,7 @@ import { Inter } from '@next/font/google'
 import { cx } from 'class-variance-authority'
 import { dir } from 'i18next'
 import dynamic from 'next/dynamic'
+import type { Metadata } from 'next/types'
 
 const Providers = dynamic(() => import('./Providers'), { ssr: false })
 
@@ -11,17 +12,21 @@ const font = Inter({
   variable: '--font-inter',
 })
 
-export const metadata = {
+export const metadata: Metadata = {
+  title: {
+    default: 'Mapstories',
+    template: '%s | Mapstories',
+  },
+  description: 'Globale Geschichten interaktiv erzählen',
+  robots: {
+    index: true,
+  },
   openGraph: {
     title: {
       default: 'Mapstories',
       template: '%s | Mapstories',
     },
-    description: 'Globale Geschichten interaktiv erzählen',
     type: 'website',
-    robots: {
-      index: true,
-    },
   },
 }
 

@@ -1,10 +1,13 @@
 import { getCurrentUser } from '@/src/lib/session'
 import { notFound } from 'next/navigation'
+import { Metadata } from 'next/types'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Viewer',
+  openGraph: {
+    title: 'Viewer',
+  },
 }
-
 interface ViewerPageProps {}
 
 export default async function ViewerPage({}: ViewerPageProps) {
