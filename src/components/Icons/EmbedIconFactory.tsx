@@ -35,12 +35,12 @@ const iconStyle = cva<cvaType>('', {
       YOUTUBE: 'bg-[#FF0000] text-white',
       INSTAGRAM:
         'bg-gradient-to-br from-[#405DE6] via-[#E1306C] to-[#FFDC80] text-white',
-      TIKTOK: 'bg-black text-zinc-[#00f2ea]',
-      PADLET: 'bg-white',
+      TIKTOK: 'bg-[#000] text-zinc-[#00f2ea]',
+      PADLET: 'bg-zinc-100',
       FACEBOOK: 'bg-[#4267B2] text-white',
-      WIKIPEDIA: 'bg-white',
-      IMAGE: '',
-      VIDEO: '',
+      WIKIPEDIA: 'bg-zinc-100',
+      IMAGE: 'bg-zinc-100',
+      VIDEO: 'bg-zinc-100',
     },
   },
 })

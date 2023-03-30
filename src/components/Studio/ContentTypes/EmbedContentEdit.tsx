@@ -119,7 +119,7 @@ export function EmbedContentEdit({
       <div className="top-0">
         <InputLabel>Gib eine URL zu einem Social Media Beitrag ein</InputLabel>
         <p className="my-2 text-sm font-bold">Unterstützte Plattformen: </p>
-        <MediaIconList />
+        <MediaIconList usedMediaType={media?.type} />
         <div className="pt-4">
           <Input
             defaultValue={stepItem ? stepItem.content : ''}
