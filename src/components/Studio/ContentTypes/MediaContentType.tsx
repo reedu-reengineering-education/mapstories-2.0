@@ -63,7 +63,6 @@ export function MediaContentEdit({
     lng = fallbackLng
   }
   const { t } = useTranslation(lng, 'editModal')
-
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>(null)
@@ -174,6 +173,43 @@ export function MediaContentEdit({
     const src = URL.createObjectURL(blob)
     setImageUrl(src)
     setIsLoading(false)
+  }
+
+  async function uploadImage(file: File) {
+    const preSignedUrl = await retrievePresignedUrl(
+      'PUT',
+      storyStepId,
+      file.name,
+    )
+
+    const response2 = await fetch(preSignedUrl, { method: 'PUT', body: file })
+
+    return response2
+  }
+
+  async function getImage(fileName: string) {
+    setIsLoading(true)
+    const preSignedUrl = await retrievePresignedUrl(
+      'GET',
+      storyStepId,
+      fileName,
+    )
+
+    const response = await fetch(preSignedUrl, { method: 'GET' })
+    const blob = await response.blob()
+    const src = URL.createObjectURL(blob)
+    setImageUrl(src)
+    setIsLoading(false)
+  }
+
+  async function deleteImage(fileName: string) {
+    const preSignedUrl = await retrievePresignedUrl(
+      'DELETE',
+      storyStepId,
+      fileName,
+    )
+
+    const response = await fetch(preSignedUrl, { method: 'DELETE' })
   }
 
   return (
