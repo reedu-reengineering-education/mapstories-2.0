@@ -52,6 +52,7 @@ export default function GeocoderControl(props: GeocoderControlProps) {
     () => {
       const control = new MaplibreGeocoder(geocoder_api, {
         mapboxgl: maplibregl,
+        showResultsWhileTyping: true,
       })
 
       control.on('result', props.onResult)
