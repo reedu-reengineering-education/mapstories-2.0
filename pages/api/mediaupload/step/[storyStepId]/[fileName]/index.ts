@@ -7,13 +7,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
     // uploads image to minio via minio client 
     const minioClient = new minio.Client({
-        endPoint: 'localhost',
-        port: 9000,
+        endPoint: process.env.S3_ENDPOINT!,
+        port: parseInt(process.env.S3_PORT!),
         useSSL: false,
-        accessKey: 'X754NhqDHFcSuPgs',
-        secretKey: 'kwYV6Qv20uckFwe8uHDsTSAUcLNbbH08'
+        accessKey: process.env.S3_ACCESS_KEY!,
+        secretKey: process.env.S3_SECRET_KEY!
     })
-    
+
     const fileName = req.query.fileName as string
     const method = req.method as string
 
