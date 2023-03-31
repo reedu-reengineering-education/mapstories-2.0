@@ -104,10 +104,7 @@ export function MediaContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        // first delete old picture, then upload new picture
-        await deleteImage(stepItem.content)
         await uploadImage(file)
-
         await updateContent(stepItem.id, { content: file.name, type: 'IMAGE' })
         toast({
           message: 'Your content has been updated',
@@ -150,14 +147,6 @@ export function MediaContentEdit({
     const src = URL.createObjectURL(blob)
     setImageUrl(src)
     setIsLoading(false)
-  }
-
-  async function deleteImage(fileName: string) {
-    const preSignedUrl = await retrievePresignedUrl('DELETE', fileName)
-
-    const response = await fetch(preSignedUrl, { method: 'DELETE' })
-
-    return response
   }
 
   return (

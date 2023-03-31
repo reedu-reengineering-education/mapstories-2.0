@@ -36,12 +36,14 @@ export function MediaContent({ content }: MediaContentProps) {
           <Spinner />
         </div>
       )}
-      <Image
-        alt={content.content}
-        height={500}
-        src={imageUrl ? imageUrl : ''}
-        width={500}
-      />
+      {!isLoading && imageUrl && (
+        <Image
+          alt={content.content}
+          height={200}
+          src={imageUrl ? imageUrl : ''}
+          width={200}
+        />
+      )}
     </div>
   )
 }
