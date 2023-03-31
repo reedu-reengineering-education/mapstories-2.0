@@ -66,6 +66,7 @@ export function MediaContentEdit({
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>(null)
   const { addContent, updateContent } = useStep(storyStepId)
+  const [selectedValue, setSelectedValue] = useState('S')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // Do something with the files
@@ -94,6 +95,10 @@ export function MediaContentEdit({
     }
     getImageWrapper()
   }, [])
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedValue(event.target.value)
+  }
 
   async function onSubmit() {
     try {
@@ -174,15 +179,33 @@ export function MediaContentEdit({
         <div className="flex justify-between">
           <div className="p-2">
             <InputLabel>S</InputLabel>
-            <Input name="image_size" type="radio" value="s" />
+            <Input
+              checked={selectedValue === 's'}
+              name="image_size"
+              onChange={handleRadioChange}
+              type="radio"
+              value="s"
+            />
           </div>
           <div className="p-2">
             <InputLabel>M</InputLabel>
-            <Input name="image_size" type="radio" value="m" />
+            <Input
+              checked={selectedValue === 'm'}
+              name="image_size"
+              onChange={handleRadioChange}
+              type="radio"
+              value="m"
+            />
           </div>
           <div className="p-2">
             <InputLabel>L</InputLabel>
-            <Input name="image_size" type="radio" value="l" />
+            <Input
+              checked={selectedValue === 'l'}
+              name="image_size"
+              onChange={handleRadioChange}
+              type="radio"
+              value="l"
+            />
           </div>
         </div>
         {isLoading && (
@@ -196,7 +219,6 @@ export function MediaContentEdit({
             <Image alt={imageUrl} height={200} src={imageUrl} width={200} />
           </div>
         )}
-
         <Button className="mt-10" onClick={() => onSubmit()}>
           {t('save')}
         </Button>
