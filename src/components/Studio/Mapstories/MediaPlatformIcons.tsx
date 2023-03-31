@@ -9,6 +9,16 @@ type MediaIconListProps = {
   usedMediaType?: MediaType
 }
 
+const mediaNames = new Map<MediaType, string>([
+  ['YOUTUBE', 'YouTube'],
+  ['INSTAGRAM', 'Instagram'],
+  ['TIKTOK', 'TikTok'],
+  ['WIKIPEDIA', 'Wikipedia'],
+  ['PADLET', 'Padlet'],
+  ['TWITTER', 'Twitter'],
+  ['FACEBOOK', 'Facebook'],
+])
+
 export default function MediaIconList({ usedMediaType }: MediaIconListProps) {
   return (
     <div className="flex -space-x-2">
@@ -44,8 +54,13 @@ export default function MediaIconList({ usedMediaType }: MediaIconListProps) {
                 },
               }}
             >
-              <Tooltip content={icon} maxwidth={'350px'}>
-                <EmbedIconFactory type={icon as MediaType} />
+              <Tooltip
+                content={mediaNames.get(icon) as string}
+                maxwidth={'350px'}
+              >
+                <div>
+                  <EmbedIconFactory type={icon as MediaType} />
+                </div>
               </Tooltip>
             </motion.div>
           ))}
