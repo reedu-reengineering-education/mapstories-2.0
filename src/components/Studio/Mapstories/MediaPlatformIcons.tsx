@@ -1,34 +1,70 @@
-import {
-  InstagramLogoIcon,
-  TwitterLogoIcon,
-  VideoIcon,
-} from '@radix-ui/react-icons'
-import { PadletIcon } from '../../Icons'
-import { FacebookIcon } from '../../Icons'
-import { WikipediaIcon } from '../../Icons'
-import { TiktokIcon } from '../../Icons'
+import { MediaType } from '@prisma/client'
+
+import EmbedIconFactory from '../../Icons/EmbedIconFactory'
 import { Tooltip } from '../../Tooltip'
 
-export default function MediaIconList() {
-  const icons = [
-    <InstagramLogoIcon className="h-6 w-6 pl-2" key={'Instagram'} />,
-    <TwitterLogoIcon className="h-6 w-6 pl-2" key={'Twitter'} />,
-    <VideoIcon className="h-6 w-6 pl-2" key={'Youtube'} />,
-    <PadletIcon className="h-6 w-6 pl-2" key={'Padlet'} />,
-    <FacebookIcon
-      className="h-5 w-5 bg-[#4267B2] pl-2 text-white"
-      key={'Facebook'}
-    />,
-    <WikipediaIcon className="h-6 w-6 pl-2" key={'Wikipedia'} />,
-    <TiktokIcon className="h-6 w-6 pl-2" key={'Tiktok'} />,
-  ]
+import { AnimatePresence, motion } from 'framer-motion'
+
+type MediaIconListProps = {
+  usedMediaType?: MediaType
+}
+
+const mediaNames = new Map<MediaType, string>([
+  ['YOUTUBE', 'YouTube'],
+  ['INSTAGRAM', 'Instagram'],
+  ['TIKTOK', 'TikTok'],
+  ['WIKIPEDIA', 'Wikipedia'],
+  ['PADLET', 'Padlet'],
+  ['TWITTER', 'Twitter'],
+  ['FACEBOOK', 'Facebook'],
+])
+
+export default function MediaIconList({ usedMediaType }: MediaIconListProps) {
   return (
-    <div className="flex">
-      {icons.map(icon => (
-        <Tooltip content={icon.key as string} key={icon.key} maxwidth={'350px'}>
-          {icon}
-        </Tooltip>
-      ))}
+    <div className="flex -space-x-2">
+      <AnimatePresence>
+        {Object.keys(MediaType)
+          .filter(t => !['TITLE', 'TEXT', 'IMAGE', 'VIDEO'].includes(t)) // Only the social media types
+          .filter(t => {
+            if (!usedMediaType) {
+              return true
+            }
+            return t === usedMediaType
+          })
+          .map(icon => (
+            <motion.div
+              animate={{
+                y: 0,
+                x: 0,
+                opacity: 1,
+              }}
+              exit={{
+                opacity: 0,
+              }}
+              initial={{
+                y: 0,
+                x: -100,
+                opacity: 0,
+              }}
+              key={icon}
+              layout
+              transition={{
+                layout: {
+                  duration: 0.3,
+                },
+              }}
+            >
+              <Tooltip
+                content={mediaNames.get(icon as MediaType) as string}
+                maxwidth={'350px'}
+              >
+                <div>
+                  <EmbedIconFactory type={icon as MediaType} />
+                </div>
+              </Tooltip>
+            </motion.div>
+          ))}
+      </AnimatePresence>
     </div>
   )
 }
