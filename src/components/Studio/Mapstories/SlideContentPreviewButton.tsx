@@ -3,6 +3,7 @@ import { SlideContent } from '@prisma/client'
 
 import { cx } from 'class-variance-authority'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { OgObject } from 'open-graph-scraper/dist/lib/types'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import EmbedIconFactory from '../../Icons/EmbedIconFactory'
@@ -62,6 +63,17 @@ export default function SlideContentPreviewButton({
     setIsLoading(false)
   }
 
+  async function getImage(fileName: string) {
+    setIsLoading(true)
+    const preSignedUrl = await retrievePresignedUrl('GET', fileName)
+
+    const response = await fetch(preSignedUrl, { method: 'GET' })
+    const blob = await response.blob()
+    const src = URL.createObjectURL(blob)
+    setImageUrl(src)
+    setIsLoading(false)
+  }
+
   if (type == 'TEXT') {
     return (
       <Wrapper>
@@ -90,7 +102,7 @@ export default function SlideContentPreviewButton({
     return (
       <Wrapper>
         <IconComponent />
-        <SizedImage alt={content} size='xs' src={imageUrl} />
+        <SizedImage alt={content} size="xs" src={imageUrl} />
       </Wrapper>
     )
   }

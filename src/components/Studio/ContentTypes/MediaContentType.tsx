@@ -106,6 +106,7 @@ export function MediaContentEdit({
       setIsSaving(true)
       if (stepItem) {
         await uploadImage(file)
+
         await updateContent(stepItem.id, { content: file.name, type: 'IMAGE' })
         toast({
           message: 'Your content has been updated',
@@ -176,11 +177,7 @@ export function MediaContentEdit({
   }
 
   async function uploadImage(file: File) {
-    const preSignedUrl = await retrievePresignedUrl(
-      'PUT',
-      storyStepId,
-      file.name,
-    )
+    const preSignedUrl = await retrievePresignedUrl('PUT', file.name)
 
     const response2 = await fetch(preSignedUrl, { method: 'PUT', body: file })
 
@@ -189,11 +186,7 @@ export function MediaContentEdit({
 
   async function getImage(fileName: string) {
     setIsLoading(true)
-    const preSignedUrl = await retrievePresignedUrl(
-      'GET',
-      storyStepId,
-      fileName,
-    )
+    const preSignedUrl = await retrievePresignedUrl('GET', fileName)
 
     const response = await fetch(preSignedUrl, { method: 'GET' })
     const blob = await response.blob()
@@ -203,13 +196,11 @@ export function MediaContentEdit({
   }
 
   async function deleteImage(fileName: string) {
-    const preSignedUrl = await retrievePresignedUrl(
-      'DELETE',
-      storyStepId,
-      fileName,
-    )
+    const preSignedUrl = await retrievePresignedUrl('DELETE', fileName)
 
     const response = await fetch(preSignedUrl, { method: 'DELETE' })
+
+    return response
   }
 
   return (
