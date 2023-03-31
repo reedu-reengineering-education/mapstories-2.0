@@ -55,7 +55,7 @@ export default function MediaIconList({ usedMediaType }: MediaIconListProps) {
               }}
             >
               <Tooltip
-                content={mediaNames.get(icon) as string}
+                content={mediaNames.get(icon as MediaType) as string}
                 maxwidth={'350px'}
               >
                 <div>
