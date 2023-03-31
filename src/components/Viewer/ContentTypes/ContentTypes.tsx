@@ -4,6 +4,7 @@ import { SlideContent } from '@prisma/client'
 import { TextContent } from './TextContent'
 import { TitleContent } from './TitleContent'
 import { EmbedContent } from './EmbedContent'
+import { MediaContent } from './MediaContent'
 type Props = {
   content: SlideContent
 }
@@ -19,6 +20,7 @@ export function ContentType({ content }: Props) {
     <div>
       {content.type == 'TITLE' && <TitleContent content={content} />}
       {content.type == 'TEXT' && <TextContent content={content} />}
+      {content.type == 'IMAGE' && <MediaContent content={content} />}
       {[
         'YOUTUBE',
         'INSTAGRAM',
