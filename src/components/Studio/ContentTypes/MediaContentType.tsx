@@ -5,6 +5,7 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { useDropzone } from 'react-dropzone'
+import Image from 'next/image'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
@@ -263,6 +264,7 @@ export function MediaContentEdit({
             <SizedImage alt={imageUrl} size={selectedValue} src={imageUrl} />
           </div>
         )}
+
         <Button className="mt-10" onClick={() => onSubmit()}>
           {t('save')}
         </Button>
