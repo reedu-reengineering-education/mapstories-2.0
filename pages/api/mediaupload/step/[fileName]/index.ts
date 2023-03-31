@@ -9,6 +9,7 @@ import { authOptions } from '@/src/lib/auth'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
     const session = await getServerSession(req, res, authOptions)
+    console.log(session);
     const userid = session?.user.id;
     // uploads image to minio via minio client 
     const minioClient = new minio.Client({
@@ -23,11 +24,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const method = req.method as string
     
-    minioClient.presignedUrl(method,'mapstories', fileName, (err, url)=>{
-        if(err){ return console.log(err)}
-        res.json(url);
-      })
-
+    minioClient.presignedUrl(method,process.env.S3_BUCKET_NAME!, fileName, (err, url)=>{
+        return res.status(200).json(url)
+    })
     } catch (error) {
         if (error instanceof z.ZodError) {
             return res.status(422).json(error.issues)
