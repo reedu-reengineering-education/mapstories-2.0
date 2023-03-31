@@ -130,6 +130,7 @@ export function MediaContentEdit({
     } finally {
       setIsSaving(false)
     }
+    setContentType && setContentType('')
   }
 
   async function uploadImage(file: File) {
