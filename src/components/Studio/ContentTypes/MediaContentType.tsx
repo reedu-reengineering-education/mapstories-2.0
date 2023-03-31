@@ -6,7 +6,7 @@ import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { useDropzone } from 'react-dropzone'
 import Image from 'next/image'
-import { InputLabel } from '@/src/components/Elements/Input'
+import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useStep from '@/src/lib/api/step/useStep'
@@ -171,6 +171,20 @@ export function MediaContentEdit({
           <input {...getInputProps()} />
           {t('dropFiles')}
         </div>
+        <div className="flex justify-between">
+          <div className="p-2">
+            <InputLabel>S</InputLabel>
+            <Input name="image_size" type="radio" value="s" />
+          </div>
+          <div className="p-2">
+            <InputLabel>M</InputLabel>
+            <Input name="image_size" type="radio" value="m" />
+          </div>
+          <div className="p-2">
+            <InputLabel>L</InputLabel>
+            <Input name="image_size" type="radio" value="l" />
+          </div>
+        </div>
         {isLoading && (
           // show simple spinner while loading center this spinner in the div
           <div className="flex justify-center">
@@ -182,6 +196,7 @@ export function MediaContentEdit({
             <Image alt={imageUrl} height={200} src={imageUrl} width={200} />
           </div>
         )}
+
         <Button className="mt-10" onClick={() => onSubmit()}>
           {t('save')}
         </Button>
