@@ -1,9 +1,8 @@
 export async function retrievePresignedUrl(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-  storyStepId: string,
   fileName: string,
 ) {
-  const url = `/api/mediaupload/step/${storyStepId}/${fileName}`
+  const url = `/api/mediaupload/step/${fileName}`
   const response = await fetch(url, {
     method,
     headers: {},
