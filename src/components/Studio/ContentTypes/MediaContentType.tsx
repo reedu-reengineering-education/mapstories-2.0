@@ -264,7 +264,6 @@ export function MediaContentEdit({
             <SizedImage alt={imageUrl} size={selectedValue} src={imageUrl} />
           </div>
         )}
-
         <Button className="mt-10" onClick={() => onSubmit()}>
           {t('save')}
         </Button>
