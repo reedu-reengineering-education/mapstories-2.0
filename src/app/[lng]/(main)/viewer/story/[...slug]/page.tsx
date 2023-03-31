@@ -1,4 +1,19 @@
 import { Slides } from '@/src/components/Viewer/Slides'
+import { Metadata } from 'next/types'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<Metadata> {
+  const name = params.slug[0].split('-')[0]
+  return {
+    title: name,
+    openGraph: {
+      title: name,
+    },
+  }
+}
 
 interface StoryPageProps {
   params: { slug: string[] }

@@ -13,10 +13,11 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
+  const name = params.slug.split('-')[0]
   return {
-    title: params.slug,
+    title: name,
     openGraph: {
-      title: params.slug,
+      title: name,
     },
   }
 }
