@@ -1,5 +1,5 @@
 import '@/src/styles/globals.scss'
-import { Inter } from '@next/font/google'
+import { Inter } from 'next/font/google'
 import { cx } from 'class-variance-authority'
 import { dir } from 'i18next'
 import dynamic from 'next/dynamic'
@@ -53,13 +53,15 @@ export default function RootLayout({
 }) {
   return (
     <html
-      className={cx('bg-white text-slate-900 antialiased', font.className)}
+      className={cx(
+        'h-full w-full bg-white text-slate-900 antialiased',
+        font.className,
+      )}
       dir={dir(lng)}
       lang={lng}
     >
-      {/* <meta charSet="utf-8" /> */}
-      <body className="min-h-screen">
-        <main>
+      <body className="h-full w-full">
+        <main className="h-full w-full">
           <Providers lng={lng}>{children}</Providers>
         </main>
       </body>
