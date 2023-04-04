@@ -54,7 +54,6 @@ export function YouTubeEmbed({
       autoplay: options?.autoplay ? 1 : 0,
     },
   }
-  console.log(opts)
 
   return (
     <div
