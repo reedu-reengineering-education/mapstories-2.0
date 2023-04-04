@@ -118,7 +118,9 @@ export function EmbedContentEdit({
     >
       <div className="top-0">
         <InputLabel>{t('embeds:EmbedContentEdit.InputLabel')}</InputLabel>
-        <p className="my-2 text-sm font-bold">{t('embeds:EmbedContentEdit.platforms')}</p>
+        <p className="my-2 text-sm font-bold">
+          {t('embeds:EmbedContentEdit.platforms')}
+        </p>
         <MediaIconList usedMediaType={media?.type} />
         <div className="pt-4">
           <Input
