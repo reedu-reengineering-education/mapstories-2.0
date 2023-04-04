@@ -34,22 +34,6 @@ const useMedia = (stepId: string) => {
     });
   };
 
-
-  const APIDeleteImage = async (content: Partial<Image>) => {
-    const deleteSlideContentRequest = deleteContent(storyId, stepId, content);
-    const newContent = (await deleteSlideContentRequest).data;
-    if (!step) {
-      return;
-    }
-    return mutation({
-      ...step,
-      content: [...step.content, newContent],
-    });
-  };
-
-
-
-
   return {
     step,
     addImage: APIAddImage,

@@ -5,7 +5,6 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { useDropzone } from 'react-dropzone'
-import Image from 'next/image'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
@@ -14,6 +13,7 @@ import useMedia from '@/src/lib/api/media/useMedia'
 import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
 import { Spinner } from '../../Elements/Spinner'
 import { SlideContent } from '@prisma/client'
+import SizedImage from '../../Elements/SizedImage'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
@@ -69,7 +69,7 @@ export function MediaContentEdit({
   const [file, setFile] = useState<File>(null)
   const { addContent, updateContent } = useStep(storyStepId)
   const { addImage } = useMedia(storyStepId)
-  const [selectedValue, setSelectedValue] = useState('S')
+  const [selectedValue, setSelectedValue] = useState('s')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -114,9 +114,8 @@ export function MediaContentEdit({
         })
       } else {
         const uploadedImage = await uploadImage(file)
-
         await addContent({
-          imageId: uploadedImage.id,
+          imageId: uploadedImage!.id,
           content: file.name,
           type: 'IMAGE',
         })
@@ -229,7 +228,7 @@ export function MediaContentEdit({
         )}
         {imageUrl && (
           <div className="m-2 flex justify-center">
-            <Image alt={imageUrl} height={200} src={imageUrl} width={200} />
+            <SizedImage alt={imageUrl} size={selectedValue} src={imageUrl} />
           </div>
         )}
         <Button className="mt-10" onClick={() => onSubmit()}>
