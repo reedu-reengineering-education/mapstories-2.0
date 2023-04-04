@@ -43,7 +43,7 @@
     "immer": "^9.0.19",
     "mapbox-gl": "^2.12.1",
     "maplibre-gl": "^2.4.0",
-    "next": "13.2.3",
+    "next": "13.2.4",
     "next-auth": "^4.20.1",
     "next-remove-imports": "^1.0.10",
     "next-superjson-plugin": "^0.5.6",
