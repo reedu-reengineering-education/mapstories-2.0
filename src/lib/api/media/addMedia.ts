@@ -8,7 +8,6 @@ export const addMedia = (
   stepId: string,
   props: Partial<SlideContent>,
 ) => {
-  
   return axios.post<typeof props, AxiosResponse<Image, APIError>>(
     `/api/mapstory/${storyId}/step/${stepId}/content/media`,
     props,

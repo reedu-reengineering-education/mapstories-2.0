@@ -6,8 +6,7 @@ import { z } from 'zod'
 import parseOG from '@/src/lib/media/ogParser'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-
-      if (req.method === 'PUT') {
+  if (req.method === 'PUT') {
     try {
       const mediaId = req.query.mediaId as string
 
@@ -51,4 +50,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(['GET','PUT', 'DELETE'], withAuthentication(handler))
+export default withMethods(['PUT', 'DELETE'], withAuthentication(handler))

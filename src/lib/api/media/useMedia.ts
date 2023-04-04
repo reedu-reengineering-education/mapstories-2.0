@@ -25,27 +25,26 @@ const useMedia = (stepId: string) => {
   }
 
   const APIAddMedia = async (content: Partial<Image>) => {
-    const addSlideContentRequest = addMedia(storyId, stepId, content);
-    const newContent = (await addSlideContentRequest).data;
+    const addSlideContentRequest = addMedia(storyId, stepId, content)
+    const newContent = (await addSlideContentRequest).data
     if (!step) {
-      return;
+      return
     }
     return mutation({
-      content: newContent
-    });
-  };
+      content: newContent,
+    })
+  }
 
-
-  const APIGetMedia = async ( imageId: string) => {
-    const getImageRequest = getMedia(stepId,imageId );
-    const newContent = (await getImageRequest).data;
+  const APIGetMedia = async (imageId: string) => {
+    const getImageRequest = getMedia(stepId, imageId)
+    const newContent = (await getImageRequest).data
     if (!step) {
-      return;
+      return
     }
     return mutation({
-      content: newContent
-    });
-  };
+      content: newContent,
+    })
+  }
 
   return {
     step,

@@ -184,8 +184,9 @@ export function MediaContentEdit({
     return response2
   }
 
-  async function getImage(fileName: string) {
+  async function getImage(stepItem: SlideContent) {
     setIsLoading(true)
+    const fileName = stepItem.imageId + '_' + stepItem.content
     const preSignedUrl = await retrievePresignedUrl('GET', fileName)
 
     const response = await fetch(preSignedUrl, { method: 'GET' })
