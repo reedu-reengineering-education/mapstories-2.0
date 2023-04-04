@@ -1,14 +1,14 @@
 import axios from '@/src/lib/axios'
 import { APIError } from '@/types'
-import { SlideContent } from '@prisma/client'
+import { Image, SlideContent } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 
-export const addImage = (
+export const addMedia = (
   storyId: string,
   stepId: string,
   props: Partial<SlideContent>,
 ) => {
-  return axios.post<typeof props, AxiosResponse<SlideContent, APIError>>(
+  return axios.post<typeof props, AxiosResponse<Image, APIError>>(
     `/api/mapstory/${storyId}/step/${stepId}/content/media`,
     props,
   )

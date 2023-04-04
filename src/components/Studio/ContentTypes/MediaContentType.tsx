@@ -68,7 +68,7 @@ export function MediaContentEdit({
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>(null)
   const { addContent, updateContent } = useStep(storyStepId)
-  const { addImage } = useMedia(storyStepId)
+  const { addMedia, getMedia } = useMedia(storyStepId)
   const [selectedValue, setSelectedValue] = useState('s')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -92,7 +92,7 @@ export function MediaContentEdit({
   useEffect(() => {
     const getImageWrapper = async () => {
       if (stepItem) {
-        await getImage(stepItem)
+        await getImage2(stepItem)
       }
     }
     getImageWrapper()
@@ -138,7 +138,7 @@ export function MediaContentEdit({
 
   async function uploadImage(file: File) {
     try {
-      const imageContent = await addImage({
+      const imageContent = await addMedia({
         name: file.name,
         size: selectedValue,
       })
@@ -159,8 +159,13 @@ export function MediaContentEdit({
     }
   }
 
-  async function getImage(stepItem: SlideContent) {
+  async function getImage2(stepItem: SlideContent) {
     setIsLoading(true)
+    // get the image using the imageid
+    const imageEntry = await getMedia(stepItem.imageId as string)
+    console.log(imageEntry)
+    // filter array and return only image with the same imageid
+    setSelectedValue(imageEntry.size)
     const fileName = stepItem.imageId + '_' + stepItem.content
     const preSignedUrl = await retrievePresignedUrl('GET', fileName)
 
