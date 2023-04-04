@@ -34,10 +34,7 @@ const Map = forwardRef<MapRef, MapProps>(
         }}
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
         // mapLib={maplibregl}
-        mapStyle={
-          mapStyle ||
-          `https://api.maptiler.com/maps/outdoor/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_KEY}`
-        }
+        mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v12'}
         pitchWithRotate={false}
         preserveDrawingBuffer
         projection={'globe'}
