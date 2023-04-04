@@ -9,7 +9,6 @@ import { authOptions } from '@/src/lib/auth'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
     const session = await getServerSession(req, res, authOptions)
-    console.log(session);
     const userid = session?.user.id;
     // uploads image to minio via minio client 
     const minioClient = new minio.Client({
