@@ -4,7 +4,7 @@ import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
 import { MapPinIcon } from '@heroicons/react/24/outline'
-import { StoryStep } from '@prisma/client'
+import { SlideContent, StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -14,6 +14,8 @@ import { useTranslation } from '@/src/app/i18n/client'
 import AddStoryStepButton from './AddStoryStepButton'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { useBoundStore } from '@/src/lib/store/store'
+import { getSlideTitle } from '@/src/lib/getSlideTitle'
+import { Tooltip } from '@/src/components/Tooltip'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const lng = useBoundStore(state => state.language)
@@ -46,7 +48,8 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
     setHoverMarkerIcon(newHoverStates)
   }
 
-  const [steps, setSteps] = useState<StoryStep[]>()
+  const [steps, setSteps] =
+    useState<(StoryStep & { content: SlideContent[] })[]>()
   useEffect(() => {
     if (!story?.steps) {
       return
@@ -83,16 +86,22 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
     <>
       <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
         <Link href={`/studio/${story.slug}/${story.firstStepId}`}>
-          <SidebarSlide active={stepId === story.firstStepId} variant={'title'}>
-            <div className="flex justify-around">
-              <div className="flex flex-col">
-                <p>ID: {story.firstStepId?.slice(-4)}</p>
-                <p>Titelfolie</p>
-              </div>
-            </div>
-          </SidebarSlide>
+          <div className="ml-4">
+            <SidebarSlide
+              active={stepId === story.firstStepId}
+              stepId={story.firstStepId!}
+              variant={'title'}
+            />
+            {story?.firstStep?.content ? (
+              <p className="max-w-[80%] truncate pt-1 text-xs">
+                {getSlideTitle(story.firstStep?.content)}
+              </p>
+            ) : (
+              <p>No title</p>
+            )}
+          </div>
         </Link>
-        <hr className="my-4 border-gray-400" />
+        <hr className="my-4 ml-4 border-gray-400" />
         <DraggableList
           items={steps.map((s, i) => ({
             id: s.id,
@@ -104,14 +113,12 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                   <SidebarSlide
                     active={stepId === s.id}
                     markerHover={s.id === markerId}
-                  >
-                    <div className="flex justify-around">
-                      <div className="flex flex-col">
-                        <p>ID: {s.id.slice(-4)}</p>
-                        <p>Pos: {s.position}</p>
-                      </div>
-                    </div>
-                  </SidebarSlide>
+                    position={s.position}
+                    stepId={s.id}
+                  />
+                  <p className="ml-6 max-w-[80%] truncate text-xs">
+                    {getSlideTitle(s.content)}
+                  </p>
                 </Link>
                 <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
                   {s.storyId && (
@@ -125,17 +132,20 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     onMouseEnter={() => handleMouseEnter(i)}
                     onMouseLeave={() => handleMouseLeave(i)}
                   >
-                    <span className="relative">
-                      <MapPinIcon className="h-5 w-5" />
-                      <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 bg-black"></span>
-                    </span>
-                    {hoverMarkerIcon[i] && (
-                      <div className="relative h-full w-full">
-                        <div className="absolute right-4 bottom-1 z-20 w-36 rounded bg-white p-2">
-                          {t('please set a marker for this slide')}
-                        </div>
-                      </div>
-                    )}
+                    <Tooltip
+                      content={
+                        t('please set a marker for this slide') as string
+                      }
+                      maxwidth={'200px'}
+                    >
+                      <span className="relative">
+                        <MapPinIcon className="h-5 w-5" />
+                        <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 rotate-[35deg] bg-black"></span>
+                      </span>
+                    </Tooltip>
+                    {/* {hoverMarkerIcon[i] && (
+
+                    )} */}
                   </div>
                 )}
               </div>
@@ -144,7 +154,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
           onChange={e => onReorder(e.map(({ s }) => s))}
         ></DraggableList>
 
-        <div className="sticky bottom-0 z-20 w-full bg-white py-2">
+        <div className="sticky bottom-0 z-20 w-full bg-white py-2 pl-4">
           <AddStoryStepButton storyID={storyID} />
         </div>
       </aside>

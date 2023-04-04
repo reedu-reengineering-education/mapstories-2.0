@@ -38,6 +38,10 @@ export function Navbar({ children }: { children: React.ReactNode }) {
         title: t('viewer'),
         href: `/${lng}/viewer`,
       },
+      {
+        title: t('impressum'),
+        href: `/${lng}/impressum`,
+      },
     ])
   }, [lng, t])
 

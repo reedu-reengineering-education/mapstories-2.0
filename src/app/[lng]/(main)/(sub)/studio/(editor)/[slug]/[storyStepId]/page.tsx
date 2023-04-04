@@ -6,6 +6,20 @@ import { Story } from '@prisma/client'
 import SlideContentModal from './SlideContentModal'
 import PreviewSlide from '@/src/components/Studio/Mapstories/PreviewSlide'
 import PreviewSlideButton from '@/src/components/Studio/Mapstories/PreviewSlideButton'
+import { Metadata } from 'next/types'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<Metadata> {
+  return {
+    title: params.slug,
+    openGraph: {
+      title: params.slug,
+    },
+  }
+}
 
 interface EditorPageProps {
   params: { slug: string; storyStepId: string; lng: string }
@@ -48,8 +62,10 @@ export default async function StepPage({
   return (
     <div>
       {storyStep && <PreviewSlide stepId={storyStep.id} />}
-      <div className="re-basic-box absolute bottom-10 right-5 z-20 bg-white p-4">
-        <PreviewSlideButton />
+      <div className="re-basic-box absolute bottom-10 right-5 z-20 min-w-[18rem] bg-white p-4">
+        {storyStep?.content && storyStep.content.length > 0 && (
+          <PreviewSlideButton />
+        )}
         <h3 className="pb-4">Media / Text</h3>
         <div>
           <SlideContentListEdit
@@ -62,12 +78,12 @@ export default async function StepPage({
           storyStepId={storyStepId}
           trigger={
             <Button
-              className="re-basic-button-noShadow"
-              startIcon={<PlusIcon className="w-4" />}
-              variant={'inverse'}
+              className="w-full"
+              startIcon={<PlusIcon className="h-10"></PlusIcon>}
+              variant={'primary'}
             >
-              Medien, Texte, Bilder <br />
-              oder Videos Hinzufügen
+              Medien, Texte <br />
+              Bilder, Videos
             </Button>
           }
         />

@@ -18,6 +18,7 @@ import { Embed } from '../../embeds/Embed'
 import { useBoundStore } from '@/src/lib/store/store'
 import useStep from '@/src/lib/api/step/useStep'
 import { urlToMedia } from '../../../helper/urlToMedia'
+import MediaIconList from '../Mapstories/MediaPlatformIcons'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -116,6 +117,9 @@ export function EmbedContentEdit({
       {...props}
     >
       <div className="top-0">
+        <InputLabel>Gib eine URL zu einem Social Media Beitrag ein</InputLabel>
+        <p className="my-2 text-sm font-bold">Unterstützte Plattformen: </p>
+        <MediaIconList usedMediaType={media?.type} />
         <div className="pt-4">
           <Input
             defaultValue={stepItem ? stepItem.content : ''}
@@ -124,9 +128,6 @@ export function EmbedContentEdit({
             size={32}
             {...register('content')}
           />
-          <InputLabel>
-            Gib eine URL zu einem Social Media Beitrag ein
-          </InputLabel>
         </div>
         <div className="re-data-media-preview pt-4 pb-4">
           <Embed

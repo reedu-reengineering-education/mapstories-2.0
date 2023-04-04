@@ -45,7 +45,7 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
   return (
     <StudioShell>
       <div className="re-studio-height-full-screen absolute top-0 z-10 w-full overflow-hidden rounded-lg shadow">
-        <div className="absolute top-0 z-20  w-full ">
+        <div className="absolute top-0 left-1/3 z-20 w-fit">
           <div className=" mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
             {currentStep.id === story.firstStepId ? (
               <span>Dies ist deine Titelfolie. </span>
