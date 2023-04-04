@@ -30,6 +30,7 @@ export default function SlideContentPreviewButton({
   content,
   type,
   ogData,
+  ...props
 }: SlideContent) {
   const og = ogData as OgObject | null
 
@@ -37,10 +38,9 @@ export default function SlideContentPreviewButton({
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    console.log(content, ogData)
     if (type == 'IMAGE') {
       const getImageWrapper = async () => {
-        await getImage(content)
+        await getImage(props as SlideContent)
       }
       getImageWrapper()
     }
@@ -50,8 +50,9 @@ export default function SlideContentPreviewButton({
     return <EmbedIconFactory type={type} />
   }
 
-  async function getImage(fileName: string) {
+  async function getImage(stepItem: SlideContent) {
     setIsLoading(true)
+    const fileName = stepItem.imageId + '_' + content
     const preSignedUrl = await retrievePresignedUrl('GET', fileName)
 
     const response = await fetch(preSignedUrl, { method: 'GET' })

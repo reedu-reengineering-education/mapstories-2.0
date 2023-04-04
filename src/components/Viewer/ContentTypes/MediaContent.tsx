@@ -14,13 +14,14 @@ export function MediaContent({ content }: MediaContentProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   React.useEffect(() => {
     const getImageWrapper = async () => {
-      await getImage(content.content)
+      await getImage(content)
     }
     getImageWrapper()
   }, [])
 
-  async function getImage(fileName: string) {
+  async function getImage(stepItem: SlideContent) {
     setIsLoading(true)
+    const fileName = stepItem.imageId + '_' + stepItem.content
     const preSignedUrl = await retrievePresignedUrl('GET', fileName)
     const response = await fetch(preSignedUrl, { method: 'GET' })
     const blob = await response.blob()

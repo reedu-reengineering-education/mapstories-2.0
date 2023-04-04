@@ -10,8 +10,10 @@ import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useStep from '@/src/lib/api/step/useStep'
+import useMedia from '@/src/lib/api/media/useMedia'
 import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
 import { Spinner } from '../../Elements/Spinner'
+import { SlideContent } from '@prisma/client'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
@@ -66,10 +68,10 @@ export function MediaContentEdit({
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>(null)
   const { addContent, updateContent } = useStep(storyStepId)
+  const { addImage } = useMedia(storyStepId)
   const [selectedValue, setSelectedValue] = useState('S')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    // Do something with the files
     setFile(acceptedFiles[0])
     setImageUrl(URL.createObjectURL(acceptedFiles[0]))
   }, [])
@@ -90,7 +92,7 @@ export function MediaContentEdit({
   useEffect(() => {
     const getImageWrapper = async () => {
       if (stepItem) {
-        await getImage(stepItem.content)
+        await getImage(stepItem)
       }
     }
     getImageWrapper()
@@ -111,8 +113,13 @@ export function MediaContentEdit({
           type: 'success',
         })
       } else {
-        await uploadImage(file)
-        await addContent({ content: file.name, type: 'IMAGE' })
+        const uploadedImage = await uploadImage(file)
+
+        await addContent({
+          imageId: uploadedImage.id,
+          content: file.name,
+          type: 'IMAGE',
+        })
         toast({
           message: 'Your content has been added',
           type: 'success',
@@ -131,15 +138,31 @@ export function MediaContentEdit({
   }
 
   async function uploadImage(file: File) {
-    const preSignedUrl = await retrievePresignedUrl('PUT', file.name)
-
-    const response2 = await fetch(preSignedUrl, { method: 'PUT', body: file })
-
-    return response2
+    try {
+      const imageContent = await addImage({
+        name: file.name,
+        size: selectedValue,
+      })
+      const savedImage = imageContent!.content.reverse()[0]
+      const fileName = savedImage.id + '_' + file.name
+      const preSignedUrl = await retrievePresignedUrl('PUT', fileName)
+      const responseS3 = await fetch(preSignedUrl, {
+        method: 'PUT',
+        body: file,
+      })
+      return savedImage
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        message: error.message,
+        type: 'error',
+      })
+    }
   }
 
-  async function getImage(fileName: string) {
+  async function getImage(stepItem: SlideContent) {
     setIsLoading(true)
+    const fileName = stepItem.imageId + '_' + stepItem.content
     const preSignedUrl = await retrievePresignedUrl('GET', fileName)
 
     const response = await fetch(preSignedUrl, { method: 'GET' })
