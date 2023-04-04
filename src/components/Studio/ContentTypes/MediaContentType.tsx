@@ -185,6 +185,11 @@ export function MediaContentEdit({
 
   async function getImage(stepItem: SlideContent) {
     setIsLoading(true)
+    // get the image using the imageid
+    const imageEntry = await getMedia(stepItem.imageId as string)
+    console.log(imageEntry)
+    // filter array and return only image with the same imageid
+    setSelectedValue(imageEntry.size)
     const fileName = stepItem.imageId + '_' + stepItem.content
     const preSignedUrl = await retrievePresignedUrl('GET', fileName)
 
