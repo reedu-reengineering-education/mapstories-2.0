@@ -1,7 +1,7 @@
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
-import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
+import AnimatedMap from './AnimatedMap'
 import PageContent from './PageContent'
 
 const getPublicMapstories = async () => {
@@ -35,13 +35,13 @@ export default async function Page({
     lng = fallbackLng
   }
 
-  const stories = await getPublicMapstories()
+  // const stories = await getPublicMapstories()
 
   return (
     <>
       <div className="relative h-[75vh] w-full">
-        <div className="absolute bottom-0 z-20 h-1/2 w-full bg-gradient-to-b from-transparent to-white" />
-        <ViewerView stories={stories} />
+        <div className="absolute bottom-0 z-20 h-1/4 w-full bg-gradient-to-b from-transparent to-white" />
+        <AnimatedMap />
       </div>
       <div className="container relative z-50 mx-auto my-6 flex-1 -translate-y-[20vh]">
         <PageContent />

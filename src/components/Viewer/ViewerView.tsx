@@ -1,7 +1,7 @@
 'use client'
 
 import { SlideContent, Story, StoryStep } from '@prisma/client'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { MapRef, Popup, Source } from 'react-map-gl'
 import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
@@ -205,27 +205,14 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   //   // }
   // }, [])
 
-  const onMapLoad = () => {
+  const onMapLoad = useCallback(() => {
     if (selectedStepIndex) {
       updateToStep(selectedStepIndex)
     }
-    mapRef.current?.flyTo({
-      animate: true,
-      duration: 5000,
-      zoom: 4,
-      pitch: 45,
-      center: [5, 40],
-    })
-  }
+  }, [])
 
   return (
     <Map
-      initialViewState={{
-        zoom: 0,
-        pitch: 0,
-        latitude: 0,
-        longitude: 0,
-      }}
       interactiveLayerIds={interactiveLayerIds}
       onLoad={onMapLoad}
       // onMouseMove={onHover}
