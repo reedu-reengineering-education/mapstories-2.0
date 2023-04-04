@@ -7,17 +7,18 @@ import SlideContentModal from './SlideContentModal'
 import PreviewSlide from '@/src/components/Studio/Mapstories/PreviewSlide'
 import PreviewSlideButton from '@/src/components/Studio/Mapstories/PreviewSlideButton'
 import { Metadata } from 'next/types'
+import { getStoryName } from '@/src/lib/getStoryName'
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const name = params.slug.split('-')[0]
+  const name = (await getStoryName(params.slug))?.name
   return {
-    title: name,
+    title: name ?? params.slug.toString().split('-')[0],
     openGraph: {
-      title: name,
+      title: name ?? params.slug.toString().split('-')[0],
     },
   }
 }

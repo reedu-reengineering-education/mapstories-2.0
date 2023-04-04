@@ -1,16 +1,17 @@
 import { Slides } from '@/src/components/Viewer/Slides'
 import { Metadata } from 'next/types'
+import { getStoryName } from '@/src/lib/getStoryName'
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const name = params.slug[0].split('-')[0]
+  const name = (await getStoryName(params.slug))?.name
   return {
-    title: name,
+    title: name ?? params.slug.toString().split('-')[0],
     openGraph: {
-      title: name,
+      title: name ?? params.slug.toString().split('-')[0],
     },
   }
 }
