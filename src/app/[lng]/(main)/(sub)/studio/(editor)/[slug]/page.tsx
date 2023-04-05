@@ -27,5 +27,5 @@ export default async function EditorPage({
   //this should never happen since firstStep gets created on story create. But app throws error if you dont do this
   redirect('/studio')
 
-  return <p>Redirecting...</p>
+  return
 }
