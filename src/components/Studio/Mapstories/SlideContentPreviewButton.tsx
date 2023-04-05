@@ -3,10 +3,10 @@ import { SlideContent } from '@prisma/client'
 
 import { cx } from 'class-variance-authority'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { OgObject } from 'open-graph-scraper/dist/lib/types'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import EmbedIconFactory from '../../Icons/EmbedIconFactory'
+import SizedImage from '../../Elements/SizedImage'
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
@@ -90,7 +90,7 @@ export default function SlideContentPreviewButton({
     return (
       <Wrapper>
         <IconComponent />
-        <Image alt={content} height={50} src={imageUrl} width={50} />
+        <SizedImage alt={content} size='xs' src={imageUrl} />
       </Wrapper>
     )
   }

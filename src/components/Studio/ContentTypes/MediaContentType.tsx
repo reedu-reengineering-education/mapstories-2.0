@@ -63,7 +63,7 @@ export function MediaContentEdit({
     lng = fallbackLng
   }
   const { t } = useTranslation(lng, 'editModal')
-  const [isSaving, setIsSaving] = useState<boolean>(false)
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>(null)
