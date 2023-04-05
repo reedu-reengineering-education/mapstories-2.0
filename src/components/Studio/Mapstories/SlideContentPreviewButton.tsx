@@ -3,7 +3,6 @@ import { SlideContent } from '@prisma/client'
 
 import { cx } from 'class-variance-authority'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { OgObject } from 'open-graph-scraper/dist/lib/types'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import EmbedIconFactory from '../../Icons/EmbedIconFactory'
