@@ -21,6 +21,10 @@ export default function SizedImage({ src, size, alt }: ImageProps) {
       width = 300
       height = 300
       break
+    case 'xs':
+      width = 50
+      height = 50
+      break
     default:
       width = 100
       height = 100
