@@ -65,6 +65,7 @@ export function MediaContentEdit({
   const { t } = useTranslation(lng, 'editModal')
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isSaving, setIsSaving] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>(null)
   const { addContent, updateContent } = useStep(storyStepId)
@@ -142,14 +143,15 @@ export function MediaContentEdit({
         name: file.name,
         size: selectedValue,
       })
-      const savedImage = imageContent!.content.reverse()[0]
-      const fileName = savedImage.id + '_' + file.name
+      const fileName = imageContent!.id + '_' + file.name
+      // get a presigned url using the fileName
       const preSignedUrl = await retrievePresignedUrl('PUT', fileName)
+      // upload image to s3 using presignedUrl
       const responseS3 = await fetch(preSignedUrl, {
         method: 'PUT',
         body: file,
       })
-      return savedImage
+      return imageContent
     } catch (error: any) {
       toast({
         title: 'Error',
@@ -163,7 +165,6 @@ export function MediaContentEdit({
     setIsLoading(true)
     // get the image using the imageid
     const imageEntry = await getMedia(stepItem.imageId as string)
-    console.log(imageEntry)
     // filter array and return only image with the same imageid
     setSelectedValue(imageEntry.size)
     const fileName = stepItem.imageId + '_' + stepItem.content

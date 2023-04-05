@@ -17,11 +17,11 @@ const useMedia = (stepId: string) => {
     `/api/mapstory/${storyId}/step/${stepId}`,
   )
 
-  const mutation = async (image?: Media) => {
+  const mutation = async (image?: Image) => {
     stepMutate(step)
     // also mutate the story
     mutate(`/api/mapstory/${storyId}`)
-    return step
+    return image
   }
 
   const APIAddMedia = async (content: Partial<Image>) => {
@@ -30,9 +30,7 @@ const useMedia = (stepId: string) => {
     if (!step) {
       return;
     }
-    return mutation({
-      content: newContent
-    });
+    return mutation(newContent);
   };
 
 
@@ -42,9 +40,7 @@ const useMedia = (stepId: string) => {
     if (!step) {
       return;
     }
-    return mutation({
-      content: newContent
-    });
+    return mutation(newContent);
   };
 
   return {
