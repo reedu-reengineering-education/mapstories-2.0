@@ -17,6 +17,7 @@ const mediaNames = new Map<MediaType, string>([
   ['PADLET', 'Padlet'],
   ['TWITTER', 'Twitter'],
   ['FACEBOOK', 'Facebook'],
+  ['SPOTIFY', 'Spotify'],
 ])
 
 export default function MediaIconList({ usedMediaType }: MediaIconListProps) {

@@ -10,7 +10,7 @@ import {
 } from '@radix-ui/react-icons'
 import { cva, cx, VariantProps } from 'class-variance-authority'
 import { HTMLAttributes } from 'react'
-import { PadletIcon } from '.'
+import { PadletIcon, Spotify } from '.'
 import BaseIcon from './BaseIcon'
 import SvgFacebookIcon from './FacebookIcon'
 import SvgTiktokIcon from './TiktokIcon'
@@ -41,6 +41,7 @@ const iconStyle = cva<cvaType>('', {
       WIKIPEDIA: 'bg-zinc-100',
       IMAGE: 'bg-zinc-100',
       VIDEO: 'bg-zinc-100',
+      SPOTIFY: 'bg-[#1DB954] p-[4px]',
     },
   },
 })
@@ -69,6 +70,8 @@ const getIcon = (myType: MediaType) => {
       return ImageIcon
     case 'VIDEO':
       return VideoIcon
+    case 'SPOTIFY':
+      return Spotify
     default:
       myType satisfies never // This makes sure the switch case is exhaustive (https://stackoverflow.com/a/75217377/5660646)
   }
