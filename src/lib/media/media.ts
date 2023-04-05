@@ -48,6 +48,11 @@ export var media_types: media_type[] = [
   //     options: {}
   // },
   {
+    type: 'SPOTIFY',
+    match_str: /(player.)?spotify\.com/,
+    content: '',
+  },
+  {
     type: 'TWITTER',
     match_str: /(www.)?twitter\.com/,
     content: '',

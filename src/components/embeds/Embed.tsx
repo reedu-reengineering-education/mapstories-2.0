@@ -7,6 +7,7 @@ import { TikTokEmbed } from './TikTokEmbed'
 import { TwitterEmbed } from './TwitterEmbed'
 import { WikipediaEmbed } from './WikipediaEmbed'
 import { YouTubeEmbed } from './YoutubeEmbed'
+import { SpotifyEmbed } from 'spotify-embed'
 
 export interface EmbedProps
   extends React.DetailedHTMLProps<
@@ -18,6 +19,8 @@ export interface EmbedProps
   width?: string | number
   height?: string | number
   linkText?: string
+  url: string
+  src: string
 }
 
 export function Embed({
@@ -53,6 +56,9 @@ export function Embed({
       )}
       {media && media.type == 'WIKIPEDIA' && (
         <WikipediaEmbed height={height} url={media.content} width={width} />
+      )}
+      {media && media.type == 'SPOTIFY' && (
+        <SpotifyEmbed height={height} src={media.content} width={width} />
       )}
       {media == null && <p>Media not recognized...</p>}
     </div>
