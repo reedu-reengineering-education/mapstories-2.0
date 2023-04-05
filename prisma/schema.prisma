@@ -145,6 +145,7 @@ enum Visibility {
 }
 
 enum MediaType {
+  SPOTIFY
   YOUTUBE
   INSTAGRAM
   TIKTOK
