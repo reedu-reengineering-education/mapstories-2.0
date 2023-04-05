@@ -1,5 +1,5 @@
 import { APIError } from '@/types'
-import { Story, StoryStep } from '@prisma/client'
+import { SlideContent, Story, StoryStep } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 import useSWR from 'swr'
 import { createStory, ICreateStoryProps } from './createStory'
@@ -12,8 +12,8 @@ import { updateStory } from './updateStory'
 const useStory = (storyId: string) => {
   const { data: story, mutate } = useSWR<
     Story & {
-      steps?: StoryStep[]
-      firstStep?: StoryStep
+      steps?: (StoryStep & { content: SlideContent[] })[]
+      firstStep?: StoryStep & { content: SlideContent[] }
     }
   >(`/api/mapstory/${storyId}`)
 
@@ -44,7 +44,7 @@ const useStory = (storyId: string) => {
     if (story) {
       await mutate({
         ...story,
-        steps: [...(story.steps || []), newStep],
+        steps: [...(story.steps || []), { ...newStep, content: [] }],
       })
     }
     return newStep

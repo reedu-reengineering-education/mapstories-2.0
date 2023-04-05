@@ -1,20 +1,10 @@
-import { MediaType, SlideContent } from '@prisma/client'
-import {
-  ClipboardIcon,
-  ClockIcon,
-  FaceIcon,
-  HeadingIcon,
-  InstagramLogoIcon,
-  MagnifyingGlassIcon,
-  PersonIcon,
-  PlayIcon,
-  TextIcon,
-  TwitterLogoIcon,
-} from '@radix-ui/react-icons'
+import { SlideContent } from '@prisma/client'
+
 import { cx } from 'class-variance-authority'
 import dynamic from 'next/dynamic'
 import { OgObject } from 'open-graph-scraper/dist/lib/types'
 import { HTMLAttributes } from 'react'
+import EmbedIconFactory from '../../Icons/EmbedIconFactory'
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
@@ -23,31 +13,6 @@ const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
 const markdownPreviewStyles = {
   background: 'white',
   fontFamily: 'inherit',
-}
-
-const getIcon = (type: MediaType) => {
-  switch (type) {
-    case 'TEXT':
-      return TextIcon
-    case 'TITLE':
-      return HeadingIcon
-    case 'TWITTER':
-      return TwitterLogoIcon
-    case 'YOUTUBE':
-      return PlayIcon
-    case 'INSTAGRAM':
-      return InstagramLogoIcon
-    case 'TIKTOK':
-      return ClockIcon
-    case 'PADLET':
-      return ClipboardIcon
-    case 'FACEBOOK':
-      return FaceIcon
-    case 'WIKIPEDIA':
-      return MagnifyingGlassIcon
-    default:
-      return PersonIcon
-  }
 }
 
 function Wrapper(props: HTMLAttributes<HTMLDivElement>) {
@@ -66,13 +31,8 @@ export default function SlideContentPreviewButton({
 }: SlideContent) {
   const og = ogData as OgObject | null
 
-  const Icon = getIcon(type)
   function IconComponent() {
-    return (
-      <div className="flex aspect-square h-10 items-center justify-center rounded-full bg-emerald-200 p-2">
-        <Icon className="h-full w-auto text-emerald-900" />
-      </div>
-    )
+    return <EmbedIconFactory className="my-1 h-8 border-none" type={type} />
   }
 
   if (type == 'TEXT') {

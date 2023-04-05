@@ -1,4 +1,7 @@
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { media_type } from '@/src/lib/media/media'
+import { useBoundStore } from '@/src/lib/store/store'
 import * as React from 'react'
 import { FacebookEmbed } from './FacebookEmbed'
 import { InstagramEmbed } from './InstagramEmbed'
@@ -18,9 +21,6 @@ export interface EmbedProps
   options?: object
   width?: string | number
   height?: string | number
-  linkText?: string
-  url: string
-  src: string
 }
 
 export function Embed({
@@ -29,6 +29,11 @@ export function Embed({
   height = '100%',
   options,
 }: EmbedProps) {
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'embeds')
   return (
     <div className="h-full w-full">
       {media && media.type == 'YOUTUBE' && (
@@ -60,7 +65,7 @@ export function Embed({
       {media && media.type == 'SPOTIFY' && (
         <SpotifyEmbed height={height} src={media.content} width={width} />
       )}
-      {media == null && <p>Media not recognized...</p>}
+      {media == null && <p>{t('Embed.notRecognized')}</p>}
     </div>
   )
 }

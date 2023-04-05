@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
 
-export function Navbar({ children }: { children: React.ReactNode }) {
+export function InverseNavbar({ children }: { children: React.ReactNode }) {
   const segment = useSelectedLayoutSegment()
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
@@ -38,18 +38,17 @@ export function Navbar({ children }: { children: React.ReactNode }) {
         title: t('viewer'),
         href: `/${lng}/viewer`,
       },
-      {
-        title: t('impressum'),
-        href: `/${lng}/impressum`,
-      },
     ])
   }, [lng, t])
 
   return (
     <>
       <div className="flex gap-6 md:gap-10">
-        <Link className="hidden items-center space-x-2 md:flex" href="/">
-          <GlobeAltIcon className="w-8" />
+        <Link
+          className="hidden items-center space-x-2 text-zinc-50 md:flex"
+          href="/"
+        >
+          <GlobeAltIcon className="w-8 " />
           <span className="hidden font-bold sm:inline-block">Mapstories</span>
         </Link>
         {routes?.length ? (
@@ -59,8 +58,8 @@ export function Navbar({ children }: { children: React.ReactNode }) {
                 className={cx(
                   'flex items-center text-lg font-semibold sm:text-sm',
                   item.href.includes(`/${segment}`)
-                    ? 'text-slate-900'
-                    : 'text-slate-600',
+                    ? 'text-slate-50'
+                    : 'text-slate-100',
                   item.disabled ? 'cursor-not-allowed opacity-80' : '',
                 )}
                 href={item.disabled ? '#' : item.href}
@@ -95,7 +94,7 @@ function MobileNav({ routes }: { children?: React.ReactNode; routes: any[] }) {
         'animate-in slide-in-from-bottom-80 fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md md:hidden',
       )}
     >
-      <div className="relative z-20 grid gap-6 rounded-md bg-white p-4 shadow-md">
+      <div className="relative z-20 grid gap-6 rounded-md p-4 shadow-md">
         <Link className="flex items-center space-x-2" href="/">
           <GlobeAltIcon className="w-8" />
           <span className="font-bold">Mapstories</span>

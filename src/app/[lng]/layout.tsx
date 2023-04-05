@@ -1,8 +1,9 @@
 import '@/src/styles/globals.scss'
-import { Inter } from '@next/font/google'
+import { Inter } from 'next/font/google'
 import { cx } from 'class-variance-authority'
 import { dir } from 'i18next'
 import dynamic from 'next/dynamic'
+import type { Metadata } from 'next/types'
 
 const Providers = dynamic(() => import('./Providers'), { ssr: false })
 
@@ -10,6 +11,24 @@ const font = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Mapstories',
+    template: '%s | Mapstories',
+  },
+  description: 'Globale Geschichten interaktiv erzählen',
+  robots: {
+    index: true,
+  },
+  openGraph: {
+    title: {
+      default: 'Mapstories',
+      template: '%s | Mapstories',
+    },
+    type: 'website',
+  },
+}
 
 // ISR not working at the moment
 // export async function generateStaticParams() {
@@ -34,12 +53,15 @@ export default function RootLayout({
 }) {
   return (
     <html
-      className={cx('bg-white text-slate-900 antialiased', font.className)}
+      className={cx(
+        'h-full w-full bg-white text-slate-900 antialiased',
+        font.className,
+      )}
       dir={dir(lng)}
       lang={lng}
     >
-      <body className="min-h-screen">
-        <main>
+      <body className="h-full w-full">
+        <main className="h-full w-full">
           <Providers lng={lng}>{children}</Providers>
         </main>
       </body>

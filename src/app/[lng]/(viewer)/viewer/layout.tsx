@@ -1,3 +1,4 @@
+import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
@@ -37,9 +38,18 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
   const mapstories = await getMapstories(user.id)
 
   return (
-    <div className="h-full w-full">
+    <div className="relative h-full w-full">
+      <div className="absolute top-0 left-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
+        <header className="container sticky top-0">
+          <div className="flex h-16 items-center justify-between py-4">
+            <InverseNavbar>
+              <></>
+            </InverseNavbar>
+          </div>
+        </header>
+      </div>
       <div className="absolute top-0 left-0 h-full w-full">{children}</div>
-      <ViewerView stories={mapstories}></ViewerView>
+      <ViewerView data-superjson stories={mapstories}></ViewerView>
     </div>
   )
 }

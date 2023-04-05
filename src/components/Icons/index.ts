@@ -1,1 +1,5 @@
 export { default as Logo } from './Logo'
+export { default as FacebookIcon } from './FacebookIcon'
+export { default as PadletIcon } from './PadletIcon'
+export { default as TiktokIcon } from './TiktokIcon'
+export { default as WikipediaIcon } from './WikipediaIcon'

@@ -10,6 +10,7 @@ import ConnectionLines from './Layers/ConnectionLines'
 import Markers from './Layers/Markers'
 import { useRouter } from 'next/navigation'
 import { useBoundStore } from '@/src/lib/store/store'
+import GeocoderControl from '@/src/components/Map/GeocoderControl'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
@@ -34,6 +35,13 @@ export default function EditMapstoryMap({
   const { updateStep } = useStep(currentStepId)
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
+  const [geocoder_Coords, setGeocoderCoords] = useState<{
+    lat: number | undefined
+    lng: number | undefined
+  }>({
+    lat: undefined,
+    lng: undefined,
+  })
 
   // generate markers
   useEffect(() => {
@@ -108,6 +116,16 @@ export default function EditMapstoryMap({
       }}
       onMouseMove={handleMouseMove}
     >
+      <GeocoderControl
+        language="de"
+        onResult={e =>
+          setGeocoderCoords({
+            lat: e.result.geometry.coordinates[0],
+            lng: e.result.geometry.coordinates[1],
+          })
+        }
+        position="top-left"
+      />
       <DrawControl
         controls={{
           polygon: true,
@@ -123,6 +141,14 @@ export default function EditMapstoryMap({
         onChange={addMarker}
         onClick={m => router.replace(`/studio/${story?.slug}/${m.stepId}`)}
       />
+      {/* {geocoder_Coords.lat != undefined && geocoder_Coords.lng != undefined && (
+        <Marker
+          color={'red'}
+          latitude={geocoder_Coords.lng}
+          longitude={geocoder_Coords.lat}
+        ></Marker>
+      )} */}
+
       <ConnectionLines markers={markers} />
     </Map>
   )
