@@ -1,21 +1,18 @@
-import { SpotifyEmbed } from 'spotify-embed'
+import { SpotifyEmbed as Spotify } from 'spotify-embed'
 import * as React from 'react'
 import classNames from 'classnames'
 import { EmbedStyle } from './EmbedStyle'
-import { media_type } from '@/src/lib/media/media'
 
 const borderRadius = 0
 
 export interface SpotifyEmbedProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  media: media_type | undefined
   url: string
   width?: string | number
   height?: string | number
-  src: string
 }
 
-export function SpotifyEmbedUrl({
+export function SpotifyEmbed({
   url,
   width,
   height,
@@ -34,7 +31,7 @@ export function SpotifyEmbedUrl({
     >
       <EmbedStyle />
 
-      <SpotifyEmbed height={height} src={url} width={width} />
+      <Spotify height={height} src={url} width={width} />
     </div>
   )
 }

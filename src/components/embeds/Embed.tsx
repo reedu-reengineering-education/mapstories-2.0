@@ -6,11 +6,11 @@ import * as React from 'react'
 import { FacebookEmbed } from './FacebookEmbed'
 import { InstagramEmbed } from './InstagramEmbed'
 import { PadletEmbed } from './PadletEmbed'
+import { SpotifyEmbed } from './SpotifyEmbed'
 import { TikTokEmbed } from './TikTokEmbed'
 import { TwitterEmbed } from './TwitterEmbed'
 import { WikipediaEmbed } from './WikipediaEmbed'
 import { YouTubeEmbed } from './YoutubeEmbed'
-import { SpotifyEmbed } from 'spotify-embed'
 
 export interface EmbedProps
   extends React.DetailedHTMLProps<
@@ -63,7 +63,7 @@ export function Embed({
         <WikipediaEmbed height={height} url={media.content} width={width} />
       )}
       {media && media.type == 'SPOTIFY' && (
-        <SpotifyEmbed height={height} src={media.content} width={width} />
+        <SpotifyEmbed height={height} url={media.content} width={width} />
       )}
       {media == null && <p>{t('Embed.notRecognized')}</p>}
     </div>
