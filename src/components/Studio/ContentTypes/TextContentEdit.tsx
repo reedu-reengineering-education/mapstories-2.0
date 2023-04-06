@@ -78,7 +78,7 @@ export function TextContentEdit({
   const [value, setValue] = useState<string | undefined>(textInEditor)
   return (
     <div className="top-0">
-      <div className="pt-4 pb-4">
+      <div className="pb-4 pt-4">
         <MDEditor
           data-color-mode="dark"
           onChange={setValue}

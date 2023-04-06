@@ -17,7 +17,7 @@ export default async function RootLayout({
 
   return (
     <div className="relative flex h-full flex-col">
-      <header className="absolute top-0 left-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
+      <header className="absolute left-0 top-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
         <div className="container flex h-16 items-center justify-between py-4">
           <InverseNavbar>
             <div className="flex space-x-2">

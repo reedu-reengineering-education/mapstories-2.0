@@ -8,14 +8,14 @@ export default function PreviewSlideButton() {
   if (showSlidePreview) {
     return (
       <EyeIcon
-        className="absolute top-0 right-0 m-2 w-5 hover:cursor-pointer"
+        className="absolute right-0 top-0 m-2 w-5 hover:cursor-pointer"
         onClick={() => setShowSlidePreview(false)}
       />
     )
   }
   return (
     <EyeSlashIcon
-      className="absolute top-0 right-0 m-2 w-5 hover:cursor-pointer"
+      className="absolute right-0 top-0 m-2 w-5 hover:cursor-pointer"
       onClick={() => setShowSlidePreview(true)}
     />
   )

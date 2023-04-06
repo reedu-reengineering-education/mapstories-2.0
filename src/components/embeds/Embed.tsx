@@ -6,6 +6,7 @@ import * as React from 'react'
 import { FacebookEmbed } from './FacebookEmbed'
 import { InstagramEmbed } from './InstagramEmbed'
 import { PadletEmbed } from './PadletEmbed'
+import { SpotifyEmbed } from './SpotifyEmbed'
 import { TikTokEmbed } from './TikTokEmbed'
 import { TwitterEmbed } from './TwitterEmbed'
 import { WikipediaEmbed } from './WikipediaEmbed'
@@ -20,7 +21,6 @@ export interface EmbedProps
   options?: object
   width?: string | number
   height?: string | number
-  linkText?: string
 }
 
 export function Embed({
@@ -61,6 +61,9 @@ export function Embed({
       )}
       {media && media.type == 'WIKIPEDIA' && (
         <WikipediaEmbed height={height} url={media.content} width={width} />
+      )}
+      {media && media.type == 'SPOTIFY' && (
+        <SpotifyEmbed height={height} url={media.content} width={width} />
       )}
       {media == null && <p>{t('Embed.notRecognized')}</p>}
     </div>

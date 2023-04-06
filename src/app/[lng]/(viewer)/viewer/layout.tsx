@@ -39,7 +39,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
 
   return (
     <div className="relative h-full w-full">
-      <div className="absolute top-0 left-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
+      <div className="absolute left-0 top-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
         <header className="container sticky top-0">
           <div className="flex h-16 items-center justify-between py-4">
             <InverseNavbar>
@@ -48,7 +48,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
           </div>
         </header>
       </div>
-      <div className="absolute top-0 left-0 h-full w-full">{children}</div>
+      <div className="absolute left-0 top-0 h-full w-full">{children}</div>
       <ViewerView data-superjson stories={mapstories}></ViewerView>
     </div>
   )
