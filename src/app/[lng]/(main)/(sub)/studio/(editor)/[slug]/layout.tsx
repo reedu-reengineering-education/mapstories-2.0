@@ -84,7 +84,7 @@ export default async function DashboardLayout({
         </aside>
         <main className="re-studio-height-full-screen relative flex w-full flex-1 flex-col overflow-hidden">
           <EditMapstoryView data-superjson story={story} />
-          <div className="absolute top-0 left-0 h-full w-full">{children}</div>
+          <div className="absolute left-0 top-0 h-full w-full">{children}</div>
         </main>
       </div>
     </>

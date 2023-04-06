@@ -45,7 +45,7 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
       title={
         <span>
           Willst du die Mapstory{' '}
-          <span className="rounded bg-slate-100 py-1 px-2">{story?.name}</span>{' '}
+          <span className="rounded bg-slate-100 px-2 py-1">{story?.name}</span>{' '}
           wirklich löschen?
         </span>
       }

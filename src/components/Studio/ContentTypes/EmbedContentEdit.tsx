@@ -131,7 +131,7 @@ export function EmbedContentEdit({
             {...register('content')}
           />
         </div>
-        <div className="re-data-media-preview pt-4 pb-4">
+        <div className="re-data-media-preview pb-4 pt-4">
           <Embed
             height="50vh"
             media={media}
