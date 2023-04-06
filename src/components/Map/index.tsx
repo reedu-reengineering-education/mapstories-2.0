@@ -34,7 +34,7 @@ const Map = forwardRef<MapRef, MapProps>(
         }}
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
         // mapLib={maplibregl}
-        mapStyle={mapStyle || 'mapbox://styles/mapbox/outdoors-v12'}
+        mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v12'}
         preserveDrawingBuffer
         projection={'globe'}
         ref={ref}
