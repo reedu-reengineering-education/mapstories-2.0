@@ -6,6 +6,22 @@ import * as minio from 'minio'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/src/lib/auth'
 
+async function generatePresignedUrl(
+  method: string,
+  fileName: string,
+  minioClient: minio.Client,
+  bucketName: string,
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    minioClient.presignedUrl(method, bucketName, fileName, (err, url) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(url)
+    })
+  })
+}
+
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const session = await getServerSession(req, res, authOptions)
