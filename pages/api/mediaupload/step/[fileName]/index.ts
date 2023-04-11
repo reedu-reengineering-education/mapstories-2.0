@@ -6,6 +6,18 @@ import * as minio from 'minio'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/src/lib/auth'
 
+async function generatePresignedUrl (method: string, fileName: string, minioClient: minio.Client, bucketName: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        minioClient.presignedUrl(method, bucketName, fileName, (err, url)=>{
+            if(err) {
+                reject(err)
+            }
+            resolve(url)
+        })
+    })
+}
+
+
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
     const session = await getServerSession(req, res, authOptions)
@@ -22,10 +34,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const fileName = `${userid}/${req.query.fileName}`;
 
     const method = req.method as string
-    
-    minioClient.presignedUrl(method,process.env.S3_BUCKET_NAME!, fileName, (err, url)=>{
-        return res.status(200).json(url)
-    })
+    const url = await generatePresignedUrl(method, fileName, minioClient, process.env.S3_BUCKET_NAME!);
+    return res.status(200).json(url);
     } catch (error) {
         if (error instanceof z.ZodError) {
             return res.status(422).json(error.issues)
