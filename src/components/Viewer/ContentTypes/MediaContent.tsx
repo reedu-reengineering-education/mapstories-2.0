@@ -17,10 +17,11 @@ export function MediaContent({ content }: MediaContentProps) {
   const { getMedia } = useMedia(content.storyStepId)
 
   React.useEffect(() => {
-    const getImageWrapper = async () => {
+    const getMediaWrapper = async () => {
       if (content.type === 'IMAGE' && imageUrl === null) {
         setIsLoading(true)
         // get image table from db
+        console.log('content.imageId', content.imageId)
         const image = (await getMedia(content.imageId!)) as Image
         // get image file from s3
         const response = await getS3Image(image)
@@ -30,7 +31,7 @@ export function MediaContent({ content }: MediaContentProps) {
       }
       //const response = await getS3Image(im//await getImage2(stepItem)
     }
-    getImageWrapper()
+    getMediaWrapper()
   }, [])
 
   return (

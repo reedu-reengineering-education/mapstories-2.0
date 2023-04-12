@@ -15,6 +15,8 @@ import SizedImage from '../../Elements/SizedImage'
 import { Image } from '@prisma/client'
 import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
 import { getS3Image } from '@/src/helper/getS3Image'
+import * as z from 'zod'
+
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
@@ -67,7 +69,7 @@ export function MediaContentEdit({
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState(String)
-  const [file, setFile] = useState<File>(null)
+  const [file, setFile] = useState<File>()
   const { addContent, updateContent } = useStep(storyStepId)
   const [selectedValue, setSelectedValue] = useState<string>('s')
   const { updateMedia } = useMedia(storyStepId)
@@ -93,7 +95,7 @@ export function MediaContentEdit({
   )
 
   useEffect(() => {
-    const getImageWrapper = async () => {
+    const getMediaWrapper = async () => {
       if (stepItem) {
         if (stepItem.type === 'IMAGE') {
           setIsLoading(true)
@@ -108,7 +110,7 @@ export function MediaContentEdit({
         //const response = await getS3Image(im//await getImage2(stepItem)
       }
     }
-    getImageWrapper()
+    getMediaWrapper()
   }, [])
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,7 +123,7 @@ export function MediaContentEdit({
     // so only users with access to the image id can access the image
     const preSignedUrl = await retrievePresignedUrl(
       'PUT',
-      uploadedImage!.id + '.' + uploadedImage!.name,
+      uploadedImage.id + '.' + uploadedImage.name,
     )
     // use presigned url to upload local media file to s3
     const response = await fetch(preSignedUrl, {
@@ -133,6 +135,9 @@ export function MediaContentEdit({
     try {
       setIsSaving(true)
       // if size is changed
+      if (!file) {
+        throw new Error('No file selected')
+      }
       if (stepItem) {
         await updateMedia(stepItem.imageId, { size: selectedValue } as Image)
         toast({
@@ -146,14 +151,13 @@ export function MediaContentEdit({
           size: selectedValue,
         } as Image)
         // upload image to s3
-        await uploadImage(file, uploadedImage!)
-
-        // create content table with image id as reference
+        await uploadImage(file, uploadedImage)
         await addContent({
-          imageId: uploadedImage!.id,
+          imageId: uploadedImage.id,
           content: file.name,
           type: 'IMAGE',
         })
+        // create content table with image id as reference
         toast({
           message: 'Your content has been added',
           type: 'success',
@@ -184,6 +188,7 @@ export function MediaContentEdit({
           <code>.jpg</code>
           <br></br>
         </span>
+        {/* @ts-ignore */}
         <div {...getRootProps({ style })}>
           <input {...getInputProps()} />
           {t('dropFiles')}

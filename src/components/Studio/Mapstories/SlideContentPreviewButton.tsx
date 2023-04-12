@@ -42,13 +42,13 @@ export default function SlideContentPreviewButton({
 
   useEffect(() => {
     if (type == 'IMAGE') {
-      const getImageWrapper = async () => {
+      const getMediaWrapper = async () => {
         const image = await getMedia(props.imageId!)
         const response = await getS3Image(image as Image)
         setImageUrl(response)
       }
 
-      getImageWrapper()
+      getMediaWrapper()
     }
   }, [])
 

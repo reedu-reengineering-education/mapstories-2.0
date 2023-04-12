@@ -10,10 +10,6 @@ type Props = {
 }
 
 export function ContentType({ content }: Props) {
-  if (content.type == 'TITLE') {
-    return <TitleContent content={content} />
-  }
-
   return (
     <div>
       {content.type == 'TITLE' && <TitleContent content={content} />}

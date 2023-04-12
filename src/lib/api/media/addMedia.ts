@@ -6,10 +6,10 @@ import { AxiosResponse } from 'axios'
 export const addMedia = (
   storyId: string,
   stepId: string,
-  content: Partial<Image>,
+  props: Partial<Image>,
 ) => {
-  return axios.post<AxiosResponse<Image, APIError>>(
-    `/api/mediaupload/${content.name}`,
-    content,
+  return axios.post<typeof props, AxiosResponse<Image, APIError>>(
+    `/api/mediaupload/${props.name}`,
+    props,
   )
 }
