@@ -35,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       secretKey: process.env.S3_SECRET_KEY!,
     })
 
-    const fileName = `${userid}/${req.query.fileName}`
+    const fileName = `${req.query.fileName}`
 
     const method = req.method as string
     const url = await generatePresignedUrl(

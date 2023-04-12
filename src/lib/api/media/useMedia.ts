@@ -29,10 +29,11 @@ const useMedia = (stepId: string) => {
     const addSlideContentRequest = addMedia(storyId, stepId, content)
 
     const newContent = (await addSlideContentRequest).data
+    console.log(newContent)
     if (!step) {
       return
     }
-    return mutation(newContent)
+    return newContent
   }
 
   const APIGetMedia = async (mediaId: string) => {
@@ -41,7 +42,7 @@ const useMedia = (stepId: string) => {
     if (!step) {
       return
     }
-    return mutation(newContent)
+    return newContent
   }
 
   const APIDeleteMedia = async (fileName: string, mediaId: string) => {

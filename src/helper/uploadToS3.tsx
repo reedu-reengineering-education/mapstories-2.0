@@ -6,8 +6,6 @@ export async function uploadToS3(
   file: File,
 ) {
   const preSignedUrl = await retrievePresignedUrl(method, fileName)
-  console.log(file)
   const response = await fetch(preSignedUrl, { method: 'PUT', body: file })
-  console.log(response)
   return response
 }
