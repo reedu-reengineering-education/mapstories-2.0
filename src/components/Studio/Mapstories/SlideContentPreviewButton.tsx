@@ -62,18 +62,6 @@ export default function SlideContentPreviewButton({
     setIsLoading(false)
   }
 
-  async function getImage(stepItem: SlideContent) {
-    setIsLoading(true)
-    const fileName = stepItem.imageId + '_' + content
-    const preSignedUrl = await retrievePresignedUrl('GET', fileName)
-
-    const response = await fetch(preSignedUrl, { method: 'GET' })
-    const blob = await response.blob()
-    const src = URL.createObjectURL(blob)
-    setImageUrl(src)
-    setIsLoading(false)
-  }
-
   if (type == 'TEXT') {
     return (
       <Wrapper>
