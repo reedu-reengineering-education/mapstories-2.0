@@ -2,7 +2,7 @@ export async function retrievePresignedUrl(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   fileName: string,
 ) {
-  const url = `/api/mediaupload/step/${fileName}`
+  const url = `/api/mediaupload/preSignedUrl/${fileName}`
   const response = await fetch(url, {
     method,
     headers: {},

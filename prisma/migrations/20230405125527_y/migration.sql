@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "Visibility" AS ENUM ('PRIVATE', 'PUBLIC');
 
+-- CreateEnum
+CREATE TYPE "MediaType" AS ENUM ('YOUTUBE', 'INSTAGRAM', 'TIKTOK', 'FACEBOOK', 'TWITTER', 'WIKIPEDIA', 'PADLET', 'TEXT', 'TITLE', 'VIDEO', 'IMAGE');
+
 -- CreateTable
 CREATE TABLE "accounts" (
     "id" TEXT NOT NULL,
@@ -71,7 +74,7 @@ CREATE TABLE "stories" (
 CREATE TABLE "storysteps" (
     "id" TEXT NOT NULL,
     "position" INTEGER NOT NULL,
-    "storyId" TEXT NOT NULL,
+    "storyId" TEXT,
     "feature" JSONB,
     "viewport" JSONB NOT NULL,
 
@@ -89,12 +92,13 @@ CREATE TABLE "Theme" (
 -- CreateTable
 CREATE TABLE "slidecontent" (
     "id" TEXT NOT NULL,
-    "text" TEXT,
-    "title" TEXT,
-    "media" TEXT,
-    "image" TEXT,
-    "video" TEXT,
+    "content" TEXT NOT NULL,
+    "type" "MediaType" NOT NULL,
+    "position" INTEGER NOT NULL,
+    "options" JSONB,
     "storyStepId" TEXT NOT NULL,
+    "ogData" JSONB,
+    "imageId" TEXT,
 
     CONSTRAINT "slidecontent_pkey" PRIMARY KEY ("id")
 );
@@ -108,6 +112,17 @@ CREATE TABLE "connections" (
     "color" TEXT,
 
     CONSTRAINT "connections_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "images" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "size" TEXT NOT NULL,
+    "altText" TEXT,
+    "caption" TEXT,
+
+    CONSTRAINT "images_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -144,6 +159,9 @@ CREATE UNIQUE INDEX "stories_slug_key" ON "stories"("slug");
 CREATE UNIQUE INDEX "stories_firstStepId_key" ON "stories"("firstStepId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "slidecontent_imageId_key" ON "slidecontent"("imageId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_contributors_AB_unique" ON "_contributors"("A", "B");
 
 -- CreateIndex
@@ -166,6 +184,9 @@ ALTER TABLE "storysteps" ADD CONSTRAINT "storysteps_storyId_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "slidecontent" ADD CONSTRAINT "slidecontent_storyStepId_fkey" FOREIGN KEY ("storyStepId") REFERENCES "storysteps"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "slidecontent" ADD CONSTRAINT "slidecontent_imageId_fkey" FOREIGN KEY ("imageId") REFERENCES "images"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "connections" ADD CONSTRAINT "connections_storyStepId_fkey" FOREIGN KEY ("storyStepId") REFERENCES "storysteps"("id") ON DELETE SET NULL ON UPDATE CASCADE;

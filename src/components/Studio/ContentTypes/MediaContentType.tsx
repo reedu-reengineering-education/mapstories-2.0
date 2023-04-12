@@ -10,10 +10,11 @@ import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useStep from '@/src/lib/api/step/useStep'
 import useMedia from '@/src/lib/api/media/useMedia'
-import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
 import { Spinner } from '../../Elements/Spinner'
-import { SlideContent } from '@prisma/client'
 import SizedImage from '../../Elements/SizedImage'
+import { Image } from '@prisma/client'
+import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
+import { getS3Image } from '@/src/helper/getS3Image'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
@@ -69,7 +70,6 @@ export function MediaContentEdit({
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>(null)
   const { addContent, updateContent } = useStep(storyStepId)
-  const { addMedia, getMedia } = useMedia(storyStepId)
   const [selectedValue, setSelectedValue] = useState('s')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -79,6 +79,8 @@ export function MediaContentEdit({
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({ accept: { 'image/*': [] }, onDrop })
+
+  const { getMedia, addMedia } = useMedia(storyStepId)
 
   const style = useMemo(
     () => ({
@@ -93,7 +95,16 @@ export function MediaContentEdit({
   useEffect(() => {
     const getImageWrapper = async () => {
       if (stepItem) {
-        await getImage2(stepItem)
+        if (stepItem.type === 'IMAGE') {
+          setIsLoading(true)
+          // get image table from db
+          const image = (await getMedia(stepItem.imageId)) as Image
+          // get image file from s3
+          const response = await getS3Image(image)
+          setImageUrl(response)
+          setIsLoading(false)
+        }
+        //const response = await getS3Image(im//await getImage2(stepItem)
       }
     }
     getImageWrapper()
@@ -103,18 +114,39 @@ export function MediaContentEdit({
     setSelectedValue(event.target.value)
   }
 
+  const uploadImage = async (file: File, uploadedImage: Image) => {
+    // retrieve presigned url from back end
+    // name of the file on the minio client is the id of the image + the name of the file
+    // so only users with access to the image id can access the image
+    const preSignedUrl = await retrievePresignedUrl(
+      'PUT',
+      uploadedImage!.id + '.' + uploadedImage!.name,
+    )
+    // use presigned url to upload local media file to s3
+    const response = await fetch(preSignedUrl, {
+      method: 'PUT',
+      body: file,
+    })
+  }
   async function onSubmit() {
     try {
       setIsSaving(true)
       if (stepItem) {
-        await uploadImage(file)
         await updateContent(stepItem.id, { content: file.name, type: 'IMAGE' })
         toast({
           message: 'Your content has been updated',
           type: 'success',
         })
       } else {
-        const uploadedImage = await uploadImage(file)
+        // create image table
+        const uploadedImage = await addMedia({
+          name: file.name,
+          size: selectedValue,
+        } as Image)
+        // upload image to s3
+        await uploadImage(file, uploadedImage!)
+
+        // create content table with image id as reference
         await addContent({
           imageId: uploadedImage!.id,
           content: file.name,
@@ -135,46 +167,6 @@ export function MediaContentEdit({
       setIsSaving(false)
     }
     setContentType && setContentType('')
-  }
-
-  async function uploadImage(file: File) {
-    try {
-      const imageContent = await addMedia({
-        name: file.name,
-        size: selectedValue,
-      })
-      const fileName = imageContent!.id + '_' + file.name
-      // get a presigned url using the fileName
-      const preSignedUrl = await retrievePresignedUrl('PUT', fileName)
-      // upload image to s3 using presignedUrl
-      const responseS3 = await fetch(preSignedUrl, {
-        method: 'PUT',
-        body: file,
-      })
-      return imageContent
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        message: error.message,
-        type: 'error',
-      })
-    }
-  }
-
-  async function getImage2(stepItem: SlideContent) {
-    setIsLoading(true)
-    // get the image using the imageid
-    const imageEntry = await getMedia(stepItem.imageId as string)
-    // filter array and return only image with the same imageid
-    setSelectedValue(imageEntry.size)
-    const fileName = stepItem.imageId + '_' + stepItem.content
-    const preSignedUrl = await retrievePresignedUrl('GET', fileName)
-
-    const response = await fetch(preSignedUrl, { method: 'GET' })
-    const blob = await response.blob()
-    const src = URL.createObjectURL(blob)
-    setImageUrl(src)
-    setIsLoading(false)
   }
 
   return (

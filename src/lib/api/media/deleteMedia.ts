@@ -1,12 +1,11 @@
 import axios from '@/src/lib/axios'
+import { APIError } from '@/types'
 import { Image } from '@prisma/client'
+import { AxiosResponse } from 'axios'
 
-export const deleteMedia = (
-  storyId: string,
-  stepId: string,
-  mediaId: Pick<Image, 'id'>,
-) => {
-  return axios.delete<Image>(
-    `/api/mapstory/${storyId}/step/${stepId}/content/media/${mediaId}`,
+export const deleteMedia = (fileName: string, mediaId: string) => {
+  return axios.delete<AxiosResponse<Image, APIError>>(
+    `/api/mediaupload/${fileName}`,
+    { data: { mediaId } },
   )
 }

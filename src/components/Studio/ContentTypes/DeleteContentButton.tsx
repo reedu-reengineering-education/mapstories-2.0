@@ -24,7 +24,7 @@ export default function DeleteContentButton({
   async function handleClick() {
     try {
       setIsSaving(true)
-      await deleteContent(stepContentId)
+      const deletedContent = await deleteContent(stepContentId)
       toast({
         message: 'Der Inhalt wurde gelöscht.',
         type: 'success',
