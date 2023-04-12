@@ -28,9 +28,8 @@ const useMedia = (stepId: string) => {
 
   const APIAddMedia = async (content: Partial<Image>) => {
     const addSlideContentRequest = addMedia(storyId, stepId, content)
-
     const newContent = (await addSlideContentRequest).data
-    console.log(newContent)
+
     if (!step) {
       return
     }
