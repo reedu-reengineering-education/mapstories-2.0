@@ -25,6 +25,7 @@ export function MediaContent({ content }: MediaContentProps) {
         // get image file from s3
         const response = await getS3Image(image)
         setImageUrl(response)
+        setImageSize(image.size)
         setIsLoading(false)
       }
       //const response = await getS3Image(im//await getImage2(stepItem)

@@ -69,7 +69,8 @@ export function MediaContentEdit({
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>(null)
   const { addContent, updateContent } = useStep(storyStepId)
-  const [selectedValue, setSelectedValue] = useState('s')
+  const [selectedValue, setSelectedValue] = useState<string>('s')
+  const { updateMedia } = useMedia(storyStepId)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -101,6 +102,7 @@ export function MediaContentEdit({
           // get image file from s3
           const response = await getS3Image(image)
           setImageUrl(response)
+          setSelectedValue(image.size)
           setIsLoading(false)
         }
         //const response = await getS3Image(im//await getImage2(stepItem)
@@ -130,8 +132,9 @@ export function MediaContentEdit({
   async function onSubmit() {
     try {
       setIsSaving(true)
+      // if size is changed
       if (stepItem) {
-        await updateContent(stepItem.id, { content: file.name, type: 'IMAGE' })
+        await updateMedia(stepItem.imageId, { size: selectedValue } as Image)
         toast({
           message: 'Your content has been updated',
           type: 'success',

@@ -4,6 +4,7 @@ import { useBoundStore } from '../../store/store'
 import { addMedia } from './addMedia'
 import { getMedia } from './getMedia'
 import { deleteMedia } from './deleteMedia'
+import { updateMedia } from './updateMedia'
 export type StepWithContent = StoryStep & {
   content: SlideContent[]
 }
@@ -54,11 +55,16 @@ const useMedia = (stepId: string) => {
     return mutation(deletedContent)
   }
 
+  const APIUpdateMedia = async (mediaId: string, image: Partial<Image>) => {
+    const updateImageRequest = updateMedia(mediaId, image)
+    return await updateImageRequest
+  }
   return {
     step,
     addMedia: APIAddMedia,
     getMedia: APIGetMedia,
     deleteMedia: APIDeleteMedia,
+    updateMedia: APIUpdateMedia,
   }
 }
 
