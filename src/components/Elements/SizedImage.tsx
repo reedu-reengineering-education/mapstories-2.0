@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { Spinner } from './Spinner'
 
 type ImageProps = {
   src: string
@@ -29,5 +30,10 @@ export default function SizedImage({ src, size, alt }: ImageProps) {
       width = 100
       height = 100
   }
-  return <Image alt={alt ? alt : src} height={height} src={src} width={width} />
+  if (src) {
+    return (
+      <Image alt={alt ? alt : src} height={height} src={src} width={width} />
+    )
+  }
+  return <Spinner></Spinner>
 }
