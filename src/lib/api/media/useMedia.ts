@@ -3,6 +3,7 @@ import useSWR, { mutate } from 'swr'
 import { useBoundStore } from '../../store/store'
 import { addMedia } from './addMedia'
 import { getMedia } from './getMedia'
+import { deleteMedia } from './deleteMedia'
 export type StepWithContent = StoryStep & {
   content: SlideContent[]
 }
@@ -26,30 +27,37 @@ const useMedia = (stepId: string) => {
 
   const APIAddMedia = async (content: Partial<Image>) => {
     const addSlideContentRequest = addMedia(storyId, stepId, content)
+
     const newContent = (await addSlideContentRequest).data
     if (!step) {
       return
     }
-    return mutation({
-      content: newContent,
-    })
+    return mutation(newContent)
   }
 
-  const APIGetMedia = async (imageId: string) => {
-    const getImageRequest = getMedia(stepId, imageId)
+  const APIGetMedia = async (mediaId: string) => {
+    const getImageRequest = getMedia(mediaId)
     const newContent = (await getImageRequest).data
     if (!step) {
       return
     }
-    return mutation({
-      content: newContent,
-    })
+    return mutation(newContent)
+  }
+
+  const APIDeleteMedia = async (fileName: string, mediaId: string) => {
+    const deleteImageRequest = deleteMedia(fileName, mediaId)
+    const deletedContent = (await deleteImageRequest).data
+    if (!step) {
+      return
+    }
+    return mutation(deletedContent)
   }
 
   return {
     step,
     addMedia: APIAddMedia,
     getMedia: APIGetMedia,
+    deleteMedia: APIDeleteMedia,
   }
 }
 
