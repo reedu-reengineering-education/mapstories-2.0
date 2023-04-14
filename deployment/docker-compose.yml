@@ -32,8 +32,6 @@ services:
       - 127.0.0.1:9000:9000
       - 127.0.0.1:9090:9090
     environment:
-      MINIO_ACCESS_KEY: GENERATE_ACCESS_KEY
-      MINIO_SECRET_KEY: ${S3_SECRET_KEY}
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
@@ -43,5 +41,6 @@ services:
       - ./.env
 volumes:
   storage-minio:
+    external: true
   pgdata:
     external: true
