@@ -121,7 +121,7 @@ model SlideContent {
   type        MediaType
   position    Int
   options     Json?
-  storyStep   StoryStep @relation(fields: [storyStepId], references: [id])
+  storyStep   StoryStep @relation(fields: [storyStepId], references: [id], onDelete: Cascade)
   storyStepId String
   ogData      Json?
 
