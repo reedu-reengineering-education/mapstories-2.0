@@ -183,7 +183,7 @@ ALTER TABLE "stories" ADD CONSTRAINT "stories_ownerId_fkey" FOREIGN KEY ("ownerI
 ALTER TABLE "storysteps" ADD CONSTRAINT "storysteps_storyId_fkey" FOREIGN KEY ("storyId") REFERENCES "stories"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "slidecontent" ADD CONSTRAINT "slidecontent_storyStepId_fkey" FOREIGN KEY ("storyStepId") REFERENCES "storysteps"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "slidecontent" ADD CONSTRAINT "slidecontent_storyStepId_fkey" FOREIGN KEY ("storyStepId") REFERENCES "storysteps"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "slidecontent" ADD CONSTRAINT "slidecontent_imageId_fkey" FOREIGN KEY ("imageId") REFERENCES "images"("id") ON DELETE SET NULL ON UPDATE CASCADE;
