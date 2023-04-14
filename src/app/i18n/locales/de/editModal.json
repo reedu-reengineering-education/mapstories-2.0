@@ -1,4 +1,6 @@
 {
   "save": "Speichern",
-  "create": "Erstellen"
+  "create": "Erstellen",
+  "uploadImage": "Bild hochladen",
+  "dropFiles": "Dateien hier ablegen"
 }

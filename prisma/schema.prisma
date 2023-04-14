@@ -124,6 +124,8 @@ model SlideContent {
   storyStep   StoryStep @relation(fields: [storyStepId], references: [id], onDelete: Cascade)
   storyStepId String
   ogData      Json?
+  image       Image?    @relation(fields: [imageId], references: [id])
+  imageId     String?   @unique
 
   @@map(name: "slidecontent")
 }
@@ -137,6 +139,17 @@ model Connection {
   color       String?
 
   @@map(name: "connections")
+}
+
+model Image {
+  id      String         @id @default(cuid())
+  name    String
+  size    String
+  altText String?
+  caption String?
+  slide   SlideContent[]
+
+  @@map(name: "images")
 }
 
 enum Visibility {
