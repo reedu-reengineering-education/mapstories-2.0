@@ -55,7 +55,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
       minioClient.removeObject(
         process.env.S3_BUCKET_NAME!,
-        `${userid}/${fileName}`,
+        `${fileName}`,
         err => {
           if (err) {
             console.log(err)
