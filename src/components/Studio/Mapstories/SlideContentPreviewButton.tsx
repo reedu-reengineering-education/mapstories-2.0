@@ -1,10 +1,13 @@
-import { SlideContent } from '@prisma/client'
+import { Image, SlideContent } from '@prisma/client'
 
 import { cx } from 'class-variance-authority'
 import dynamic from 'next/dynamic'
 import { OgObject } from 'open-graph-scraper/dist/lib/types'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react'
 import EmbedIconFactory from '../../Icons/EmbedIconFactory'
+import SizedImage from '../../Elements/SizedImage'
+import { getS3Image } from '@/src/helper/getS3Image'
+import useMedia from '@/src/lib/api/media/useMedia'
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,
@@ -28,8 +31,26 @@ export default function SlideContentPreviewButton({
   content,
   type,
   ogData,
+  ...props
 }: SlideContent) {
   const og = ogData as OgObject | null
+
+  const { getMedia } = useMedia(props.storyStepId)
+
+  const [imageUrl, setImageUrl] = useState(String)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (type == 'IMAGE') {
+      const getMediaWrapper = async () => {
+        const image = await getMedia(props.imageId!)
+        const response = await getS3Image(image as Image)
+        setImageUrl(response)
+      }
+
+      getMediaWrapper()
+    }
+  }, [])
 
   function IconComponent() {
     return <EmbedIconFactory className="my-1 h-8 border-none" type={type} />
@@ -58,6 +79,16 @@ export default function SlideContentPreviewButton({
       </Wrapper>
     )
   }
+
+  if (type == 'IMAGE') {
+    return (
+      <Wrapper>
+        <IconComponent />
+        <SizedImage alt={content} size="xs" src={imageUrl} />
+      </Wrapper>
+    )
+  }
+
   return (
     <Wrapper>
       <IconComponent />

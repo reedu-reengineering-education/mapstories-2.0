@@ -32,7 +32,7 @@ export function Tooltip({
         <TooltipPrimitive.Content
           className="TooltipContent content-center break-words"
           side="top"
-          style={{ maxWidth: maxwidth ?? '' }}
+          style={{ maxWidth: maxwidth ?? '', zIndex: 99999 }}
           {...props}
         >
           {content}

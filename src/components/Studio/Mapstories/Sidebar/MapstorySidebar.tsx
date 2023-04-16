@@ -120,14 +120,14 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     {getSlideTitle(s.content)}
                   </p>
                 </Link>
-                <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
+                <div className="absolute right-1 top-1 z-10 overflow-hidden rounded-md group-hover:visible">
                   {s.storyId && (
                     <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
                   )}
                 </div>
                 {!s.feature && (
                   <div
-                    className="absolute top-12 right-1 z-10 flex cursor-pointer rounded-md p-2 group-hover:visible"
+                    className="absolute right-1 top-12 z-10 flex cursor-pointer rounded-md p-2 group-hover:visible"
                     key={s.id}
                     onMouseEnter={() => handleMouseEnter(i)}
                     onMouseLeave={() => handleMouseLeave(i)}

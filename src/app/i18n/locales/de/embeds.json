@@ -1,0 +1,11 @@
+{
+  "EmbedName": "Einbetten",
+  "Embed": {
+    "notRecognized": "Medium nicht erkannt..."
+  },
+  "EmbedContentEdit": {
+    "InputLabel": "Gib eine URL zu einem Social Media Beitrag ein",
+    "platforms": "Unterstützte Plattformen: ",
+    "autoplay": " automatisch abspielen"
+  }
+}

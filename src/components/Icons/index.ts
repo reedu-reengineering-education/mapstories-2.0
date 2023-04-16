@@ -1,3 +1,4 @@
+export { default as Spotify } from './Spotify'
 export { default as Logo } from './Logo'
 export { default as FacebookIcon } from './FacebookIcon'
 export { default as PadletIcon } from './PadletIcon'

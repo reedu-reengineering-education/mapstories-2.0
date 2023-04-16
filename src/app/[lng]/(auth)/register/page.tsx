@@ -7,7 +7,7 @@ import { GlobeAltIcon } from '@heroicons/react/24/outline'
 export default function RegisterPage() {
   return (
     <div className="container grid h-screen w-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <Link className="absolute top-4 right-4" href="/login">
+      <Link className="absolute right-4 top-4" href="/login">
         <Button variant={'inverse'}>Login</Button>
       </Link>
       <div className="hidden h-full bg-slate-100 lg:block" />

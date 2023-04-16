@@ -12,6 +12,7 @@ import type footer from '../src/app/i18n/locales/en/footer.json'
 import type main from '../src/app/i18n/locales/en/main.json'
 import type navbar from '../src/app/i18n/locales/en/navbar.json'
 import type editModal from '../src/app/i18n/locales/en/editModal.json'
+import type embeds from '../src/app/i18n/locales/en/embeds.json'
 import type studio from '../src/app/i18n/locales/en/studio.json'
 import type settingsModal from '../src/app/i18n/locales/en/settingsModal.json'
 import type mapstorySidebar from '../src/app/i18n/locales/en/mapstorySidebar.json'
@@ -25,6 +26,7 @@ interface I18nNamespaces {
   main: typeof main
   navbar: typeof navbar
   editModal: typeof editModal
+  embeds: typeof embeds
   settingsModal: typeof settingsModal
   studio: typeof studio
   mapstorySidebar: typeof mapstorySidebar

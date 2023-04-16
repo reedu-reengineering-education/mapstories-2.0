@@ -36,7 +36,7 @@ export function Modal({
       <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger>
       <DialogPrimitive.Portal forceMount>
         <Transition.Root
-          className="absolute top-0 left-0 flex h-full w-full items-center justify-center"
+          className="absolute left-0 top-0 flex h-full w-full items-center justify-center"
           show={isOpen}
         >
           <Transition.Child
@@ -86,7 +86,7 @@ export function Modal({
 
               <DialogPrimitive.Close
                 className={cx(
-                  'absolute top-3.5 right-3.5 inline-flex items-center justify-center rounded-full p-1',
+                  'absolute right-3.5 top-3.5 inline-flex items-center justify-center rounded-full p-1',
                 )}
                 onClick={onClose ? onClose : undefined}
               >

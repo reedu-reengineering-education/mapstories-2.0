@@ -86,13 +86,15 @@ export default function RootLayout({
 }) {
   return (
     <html
-      className={cx('bg-white text-slate-900 antialiased', interLocal.variable)}
+      className={cx(
+        'g-white h-full w-full text-slate-900 antialiased',
+        interLocal.variable,
+      )}
       dir={dir(lng)}
       lang={lng}
     >
-      {/* <meta charSet="utf-8" /> */}
-      <body className="min-h-screen">
-        <main>
+      <body className="h-full w-full">
+        <main className="h-full w-full">
           <Providers lng={lng}>{children}</Providers>
         </main>
       </body>

@@ -7,7 +7,7 @@ import { ChevronLeftIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 export default function LoginPage() {
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
-      <Link className="absolute top-4 left-4" href="/">
+      <Link className="absolute left-4 top-4" href="/">
         <Button
           startIcon={<ChevronLeftIcon className="w-4" />}
           variant={'inverse'}

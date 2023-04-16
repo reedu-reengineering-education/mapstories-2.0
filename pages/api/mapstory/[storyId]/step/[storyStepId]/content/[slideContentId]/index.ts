@@ -39,7 +39,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           id: slideContentId,
         },
       })
-
       // Get all slide contents for the given story step id
       const slideContents = await db.slideContent.findMany({
         where: {

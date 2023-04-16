@@ -50,7 +50,7 @@ export default function DeleteStepButton({
       title={
         <span>
           Willst du die Slide
-          <span className="rounded bg-slate-100 py-1 px-2">{storyStepId}</span>
+          <span className="rounded bg-slate-100 px-2 py-1">{storyStepId}</span>
           wirklich löschen?
         </span>
       }
