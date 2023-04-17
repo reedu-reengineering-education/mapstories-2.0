@@ -46,13 +46,15 @@ export function StoryOverviewControls({ slug, page }: Props) {
   }, [story])
 
   useEffect(() => {
-    if (page === 'start') {
-      setSlidesOpen(false)
-    }
+    // if (page === 'start') {
+    //   setSlidesOpen(false)
+    // }
+
+    updateSelectedStepIndex(parseInt(page))
+    console.log(parseInt(page))
     if (parseInt(page) == 0) {
       setSlidesOpen(true)
     }
-    updateSelectedStepIndex(parseInt(page))
   }, [page])
 
   function nextStep() {

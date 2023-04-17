@@ -58,7 +58,8 @@ export default function Markers({ markers, onClick }: Props) {
               <Marker
                 {...m}
                 color={
-                  selectedStepIndex && selectedStepIndex >= m.position
+                  selectedStepIndex != undefined &&
+                  selectedStepIndex >= m.position
                     ? selectedStepIndex == m.position
                       ? '#eb5933'
                       : '#d4da68'
