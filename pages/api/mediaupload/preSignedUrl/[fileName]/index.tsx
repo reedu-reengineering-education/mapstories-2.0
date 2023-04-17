@@ -3,8 +3,6 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import { z } from 'zod'
 import * as minio from 'minio'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/src/lib/auth'
 
 async function generatePresignedUrl(
   method: string,
@@ -13,6 +11,7 @@ async function generatePresignedUrl(
   bucketName: string,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
+    console.log(method, bucketName, fileName)
     minioClient.presignedUrl(method, bucketName, fileName, (err, url) => {
       if (err) {
         reject(err)
@@ -24,8 +23,7 @@ async function generatePresignedUrl(
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const session = await getServerSession(req, res, authOptions)
-    const userid = session?.user.id
+    console.log('req.query', req.query)
     // uploads image to minio via minio client
     const minioClient = new minio.Client({
       endPoint: process.env.S3_ENDPOINT!,
@@ -34,9 +32,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       accessKey: process.env.S3_ACCESS_KEY!,
       secretKey: process.env.S3_SECRET_KEY!,
     })
-
+    console.log('minioClient', minioClient)
     const fileName = `${req.query.fileName}`
-
+    console.log('filename', fileName)
     const method = req.method as string
     const url = await generatePresignedUrl(
       method,
@@ -44,8 +42,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       minioClient,
       process.env.S3_BUCKET_NAME!,
     )
+    console.log('url', url)
     return res.status(200).json(url)
   } catch (error) {
+    console.log(error);
     if (error instanceof z.ZodError) {
       return res.status(422).json(error.issues)
     }
