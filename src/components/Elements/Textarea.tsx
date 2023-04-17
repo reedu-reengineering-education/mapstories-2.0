@@ -19,7 +19,7 @@ export const Textarea = React.forwardRef<
       </label>
       <textarea
         className={cx(
-          'my-0 mb-2 block h-9 w-full rounded-md border border-slate-300 px-3 py-2 text-sm placeholder:text-slate-400 hover:border-slate-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-800 focus:ring-offset-1',
+          'my-0 mb-2 block w-full rounded-md border border-slate-300 px-3 py-2 text-sm placeholder:text-slate-400 hover:border-slate-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-800 focus:ring-offset-1',
           className,
         )}
         ref={ref}
