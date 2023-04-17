@@ -17,5 +17,5 @@ export const useUIStore: StateCreator<
   language: '',
   setLanguage: (lng: string) => set({ language: lng }),
   slidesOpen: false,
-  setSlidesOpen: (open: boolean ) => set({slidesOpen: open})
+  setSlidesOpen: (open: boolean) => set({ slidesOpen: open }),
 })
