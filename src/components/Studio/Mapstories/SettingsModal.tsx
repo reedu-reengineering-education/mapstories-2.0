@@ -2,10 +2,10 @@
 
 import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
-import { ChevronDownIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
+import { Cog6ToothIcon } from '@heroicons/react/24/outline'
 import { toast } from '@/src/lib/toast'
 import * as z from 'zod'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { Input, InputLabel } from '../../Elements/Input'
 import { mapstoryOptionsSchema } from '@/src/lib/validations/mapstory-options'
@@ -14,8 +14,6 @@ import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/src/app/i18n/client'
 import { Textarea, TextareaLabel } from '@/src/components/Elements/Textarea'
 import useStory from '@/src/lib/api/story/useStory'
-import Switch from '../../Elements/Switch'
-import { Spacer } from '../../Elements/Spacer'
 import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { useBoundStore } from '@/src/lib/store/store'
 // import { useUIStore } from '@/src/lib/store/ui'
@@ -125,11 +123,11 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
             defaultValue={story.description || ''}
             errors={errors.description}
             label={t('description')}
-            rows={3}
+            rows={5}
             {...register('description')}
           ></Textarea>
 
-          <Controller
+          {/* <Controller
             control={control}
             defaultValue={story.visibility === 'PUBLIC'}
             name="public"
@@ -164,7 +162,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
                 }}
               />
             ))}
-          </select>
+          </select> */}
           {/* <DropdownMenu {...register('theme')}>
             <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
               <span className="mb-2 flex text-sm font-medium text-gray-700">
@@ -189,7 +187,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu> */}
-          <Spacer />
+          {/* <Spacer />
           <InputLabel>{t('image')}</InputLabel>
           <div className="flex">
             <label htmlFor="imageupload">
@@ -214,7 +212,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               value={image}
               {...register('image')}
             ></Input>
-          </div>
+          </div> */}
         </Modal.Content>
         <Modal.Footer
           close={

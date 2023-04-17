@@ -39,9 +39,6 @@ export function Slides({ slug, page }: Props) {
     updateSelectedStepIndex(parseInt(page))
   }, [])
 
-  function startStory() {
-    router.push(`/viewer/story/${slug}/0`)
-  }
   function nextStep() {
     // const length = story?.steps?.length
     router.push(`/viewer/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
@@ -61,18 +58,9 @@ export function Slides({ slug, page }: Props) {
           }
         ></Slide>
       )}
-
-      {page === 'start' && (
-        <Button onClick={() => startStory()}>Abspielen</Button>
+      {page != 'start' && parseInt(page) + 1 < (story?.steps?.length ?? 0) && (
+        <Button onClick={() => nextStep()}>Weiter</Button>
       )}
-
-      {page != 'start' && <Button onClick={() => nextStep()}>Weiter</Button>}
-
-      {parseInt(page) > 0 && <Button onClick={() => prevStep()}>Zurück</Button>}
-
-      <div>
-        <Button onClick={() => router.push('viewer')}>Abbrechen</Button>
-      </div>
     </div>
   )
 }

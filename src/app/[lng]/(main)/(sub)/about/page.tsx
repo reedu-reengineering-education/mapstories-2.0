@@ -12,17 +12,20 @@ export default function Page() {
   return (
     <div>
       <PageHeader heading="Über Mapstories"></PageHeader>
-      <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti,
-        voluptatum a molestiae itaque natus amet? Deleniti esse, ipsum placeat,
-        inventore omnis dolore ducimus, fugit ipsam incidunt molestiae sunt
-        accusamus nam! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-        Deleniti, voluptatum a molestiae itaque natus amet? Deleniti esse, ipsum
-        placeat, inventore omnis dolore ducimus, fugit ipsam incidunt molestiae
-        sunt accusamus nam! Lorem ipsum dolor sit amet consectetur, adipisicing
-        elit. Deleniti, voluptatum a molestiae itaque natus amet? Deleniti esse,
-        ipsum placeat, inventore omnis dolore ducimus, fugit ipsam incidunt
-        molestiae sunt accusamus nam!
+
+      <h3>Wer steckt hinter mapstories.de?</h3>
+
+      <p className="py-4">
+        Mapstories.de ist im Rahmen einer Zusammenarbeit zwischen Re:edu GmbH &
+        Co.KG und Vamos e.V. entstanden. Der Ausgangspunkt des Projekts war die
+        Durchführung eines ko-kreativen Labs zur globalen Bekleidungsindustrie.
+        Dabei stellt Mapstories ein webbasiertes OpenSource-Tool dar, mit dem
+        die Schüler*innen eigenständig einen Einstieg in die
+        entwicklungspolitische Bildungsarbeit zum oben genannten Thema
+        konzipierten. Die Mapstories sind durch die Möglichkeit der
+        anschaulichen Herstellung systemischer Verknüpfungen vor allem im
+        Kontext der Bildung für nachhaltige Entwicklung einsetzbar und
+        ermöglichen einen umfassenden Blick auf globale Themen.
       </p>
     </div>
   )

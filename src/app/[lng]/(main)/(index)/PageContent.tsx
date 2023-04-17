@@ -32,6 +32,7 @@ export default function PageContent() {
       <div className="flex flex-col gap-8">
         <div className="re-basic-box flex w-full flex-col items-center bg-white p-20">
           <PageHeader heading="Mapstories" />
+
           <div className="flex items-center justify-center gap-4">
             <Link href="/login">
               <Button>{t('getStarted')}</Button>
@@ -42,7 +43,8 @@ export default function PageContent() {
           </div>
         </div>
         <div className="re-basic-box flex w-full flex-col items-center bg-white p-20">
-          <PageHeader heading="Features" />
+          {/* <PageHeader heading="Features" /> */}
+          <p>{t('startText')}</p>
         </div>
       </div>
     </Transition>
