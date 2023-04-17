@@ -1,6 +1,5 @@
 import { Slides } from '@/src/components/Viewer/Slides'
 import { StoryOverviewControls } from '@/src/components/Viewer/StoryOverviewContols'
-import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListViewer'
 
 interface StoryPageProps {
   params: { slug: string[] }
@@ -9,17 +8,12 @@ interface StoryPageProps {
 export default async function StoryPage({ params: { slug } }: StoryPageProps) {
   return (
     <>
-      <div className="absolute top-20 left-5 z-20">
-        <div className="re-basic-box re-slide bg-white p-4">
-          <StoryOverviewControls
-            page={slug[1]}
-            slug={slug[0]}
-          ></StoryOverviewControls>
-        </div>
-        <StorySlideListViewer
+      <div className="absolute left-5 top-20 z-20">
+        <StoryOverviewControls
           page={slug[1]}
           slug={slug[0]}
-        ></StorySlideListViewer>
+          // toggleSlides={toggleSlidesOpen}
+        ></StoryOverviewControls>
       </div>
       <div>
         {slug[1] != 'start' && (

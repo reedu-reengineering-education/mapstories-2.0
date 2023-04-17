@@ -128,3 +128,9 @@
   max-width: 50%;
   width: 500px;
 }
+
+.re-viewer-slides {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 50VH;
+}

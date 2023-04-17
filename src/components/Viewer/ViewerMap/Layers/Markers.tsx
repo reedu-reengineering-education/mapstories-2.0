@@ -85,7 +85,7 @@ export default function Markers({ markers, onClick }: Props) {
                 }}
               >
                 <h3 className="label-shadow">
-                  {m.position}. {m.title}{' '}
+                  {m.position + 1}. {m.title}{' '}
                 </h3>
               </Marker>
             </>

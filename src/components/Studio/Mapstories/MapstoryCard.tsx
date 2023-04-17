@@ -30,7 +30,7 @@ export function MapstoryCard({ mapstory }: Props) {
             <Link href={`/studio/${mapstory.slug}`}>
               <Button variant={'inverse'}>{t('edit')}</Button>
             </Link>
-            <Link href={`/studio/${mapstory.slug}`}>
+            <Link href={`/viewer/story/${mapstory.slug}/start`}>
               <Button>{t('play')}</Button>
             </Link>
           </div>

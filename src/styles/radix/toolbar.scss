@@ -1,0 +1,80 @@
+
+/* reset */
+
+.ToolbarRoot {
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  min-width: max-content;
+  border-radius: 6px;
+  background-color: white;
+//   box-shadow: 0 2px 10px #38383a;
+}
+
+.ToolbarToggleItem,
+.ToolbarLink,
+.ToolbarButton {
+  flex: 0 0 auto;
+  color: #aab315;
+  height: 25px;
+  padding: 0 5px;
+  border-radius: 4px;
+  display: inline-flex;
+  font-size: 13px;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+}
+.ToolbarToggleItem:hover,
+.ToolbarLink:hover,
+.ToolbarButton:hover {
+  background-color: #E0F2E8;
+  color: #38383a;
+}
+.ToolbarToggleItem:focus,
+.ToolbarLink:focus,
+.ToolbarButton:focus {
+  position: relative;
+  box-shadow: 0 0 0 2px #f1f5fd;
+}
+
+.ToolbarToggleItem {
+  background-color: white;
+  margin-left: 2px;
+}
+.ToolbarToggleItem:first-child {
+  margin-left: 0;
+}
+.ToolbarToggleItem[data-state='on'] {
+  background-color:#f1f5fd;
+  color: var(--violet11);
+}
+
+.ToolbarSeparator {
+  width: 1px;
+  background-color: #aab315;
+  margin: 0 10px;
+}
+
+.ToolbarLink {
+  background-color: transparent;
+  color: var(--mauve11);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.ToolbarLink:hover {
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.ToolbarButton {
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+  background-color: #f1f5fd;
+}
+.ToolbarButton:hover {
+  background-color: #f1f5fd;
+  color: white;
+}
