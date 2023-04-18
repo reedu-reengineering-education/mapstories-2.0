@@ -127,7 +127,7 @@ export function EmbedContentEdit({
             defaultValue={stepItem ? stepItem.content : ''}
             errors={errors.content}
             label="content"
-            size={32}
+            size={100}
             {...register('content')}
           />
         </div>

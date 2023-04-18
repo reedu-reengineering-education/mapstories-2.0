@@ -114,7 +114,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
             defaultValue={story.name || ''}
             errors={errors.name}
             label={t('name')}
-            size={32}
+            size={100}
             {...register('name')}
           />
           <TextareaLabel>{t('description')}</TextareaLabel>

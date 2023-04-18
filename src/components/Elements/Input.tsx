@@ -24,7 +24,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputFieldProps>(
             className,
           )}
           ref={ref}
-          size={32}
+          size={props.size ?? 32}
           type={type}
           {...registration}
           {...props}
