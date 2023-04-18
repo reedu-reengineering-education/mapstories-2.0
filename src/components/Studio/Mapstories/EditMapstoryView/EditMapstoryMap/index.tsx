@@ -1,7 +1,7 @@
 import DrawControl from '@/src/components/Map/DrawControl'
 import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
-import { MarkerDragEvent, MarkerProps } from 'react-map-gl'
+import { MapLayerTouchEvent, MarkerDragEvent, MarkerProps } from 'react-map-gl'
 import { useEffect, useState } from 'react'
 import useStep from '@/src/lib/api/step/useStep'
 import { GeoJsonProperties } from 'geojson'
@@ -90,7 +90,7 @@ export default function EditMapstoryMap({
   }
 
   const addMarker = async (
-    e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent,
+    e: mapboxgl.MapLayerMouseEvent | MarkerDragEvent | MapLayerTouchEvent,
   ) => {
     const point: GeoJSON.Feature<GeoJSON.Point> = {
       type: 'Feature',
@@ -115,6 +115,11 @@ export default function EditMapstoryMap({
         }
       }}
       onMouseMove={handleMouseMove}
+      onTouchStart={e => {
+        if (!steps?.find(s => s.id === currentStepId)?.feature) {
+          addMarker(e)
+        }
+      }}
     >
       <GeocoderControl
         language="de"
