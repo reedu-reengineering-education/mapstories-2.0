@@ -9,8 +9,8 @@ const ACCEPTED_IMAGE_TYPES = [
 ]
 
 export const mapstoryOptionsSchema = z.object({
-  name: z.string().min(3).max(32),
-  description: z.string().max(100),
+  name: z.string().min(3).max(100),
+  description: z.string().max(350),
   public: z.boolean(),
   theme: z.string(),
   image:

@@ -51,7 +51,6 @@ export function StoryOverviewControls({ slug, page }: Props) {
     // }
 
     updateSelectedStepIndex(parseInt(page))
-    console.log(parseInt(page))
     if (parseInt(page) == 0) {
       setSlidesOpen(true)
     }
