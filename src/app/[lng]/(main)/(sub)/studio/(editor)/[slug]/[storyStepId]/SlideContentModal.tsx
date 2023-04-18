@@ -68,8 +68,8 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                   </div>
 
                   <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
-                    onClick={() => setContentType('media')}
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-not-allowed px-4 py-2"
+                    // onClick={() => setContentType('media')}
                   >
                     <div className="flex justify-center">
                       <VideoIcon className="h-14 w-14"></VideoIcon>

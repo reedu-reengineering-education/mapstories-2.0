@@ -19,3 +19,7 @@
   text-shadow: 1px 0px 3px rgba(255, 255, 255, 0.8),
     -1px 0px 3px rgba(255, 255, 255, 0.8);
 }
+
+.mapboxgl-popup {
+  max-width: 320px !important;
+}

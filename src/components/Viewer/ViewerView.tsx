@@ -245,7 +245,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
                       longitude={m.geometry.coordinates[0][0]}
                       // onClose={() => setPopupInfo(null)}
                     >
-                      <div className="re-basic-box-no-filter">
+                      <div className="re-basic-box-no-filter overflow-hidden">
                         <div className="p-5">
                           <h3>{m.properties?.name}</h3>
                           <p> {m.properties?.desc}</p>
