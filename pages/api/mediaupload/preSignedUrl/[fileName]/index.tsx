@@ -34,7 +34,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     })
     const fileName = `${req.query.fileName}`
     const method = req.method as string
-    console.log(process.env.S3_BUCKET_NAME!, process.env.S3_PORT!, process.env.S3_USE_SSL!, process.env.S3_ACCESS_KEY!, process.env.S3_SECRET_KEY!)
+    console.log(
+      process.env.S3_BUCKET_NAME!,
+      process.env.S3_PORT!,
+      process.env.S3_USE_SSL!,
+      process.env.S3_ACCESS_KEY!,
+      process.env.S3_SECRET_KEY!,
+    )
     const url = await generatePresignedUrl(
       method,
       fileName,
@@ -43,7 +49,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     )
     return res.status(200).json(url)
   } catch (error: any) {
-    console.log(error.code, error.message);
+    console.log(error.code, error.message)
     if (error instanceof z.ZodError) {
       return res.status(422).json(error.issues)
     }
