@@ -49,6 +49,8 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
 
   const { story, updateStory } = useStory(storyId)
 
+  const [modalOpen, setModalOpen] = useState(false)
+
   // let { uploadToS3 } = useS3Upload();
 
   function handleImageUpload(event: any) {
@@ -73,6 +75,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
       if (updatedStory?.slug !== story?.slug) {
         router.replace(`/studio/${updatedStory?.slug}`)
       }
+      setModalOpen(false)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
@@ -84,52 +87,46 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
     }
   }
 
-  // show loading state
   if (!story) {
-    return (
+    return <></>
+  }
+
+  return (
+    <>
       <Button
-        disabled
+        disabled={!story}
+        onClick={() => setModalOpen(true)}
         startIcon={<Cog6ToothIcon className="w-5" />}
         variant={'inverse'}
       >
         {t('options')}
       </Button>
-    )
-  }
+      <Modal
+        onClose={() => setModalOpen(false)}
+        show={modalOpen}
+        title={t('options')}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Modal.Content>
+            <InputLabel>{t('name')}</InputLabel>
+            <Input
+              defaultValue={story.name || ''}
+              errors={errors.name}
+              label={t('name')}
+              size={100}
+              {...register('name')}
+            />
+            <TextareaLabel>{t('description')}</TextareaLabel>
+            <Textarea
+              cols={60}
+              defaultValue={story.description || ''}
+              errors={errors.description}
+              label={t('description')}
+              rows={5}
+              {...register('description')}
+            ></Textarea>
 
-  return (
-    <Modal
-      title={t('options')}
-      trigger={
-        <Button
-          startIcon={<Cog6ToothIcon className="w-5" />}
-          variant={'inverse'}
-        >
-          {t('options')}
-        </Button>
-      }
-    >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Modal.Content>
-          <InputLabel>{t('name')}</InputLabel>
-          <Input
-            defaultValue={story.name || ''}
-            errors={errors.name}
-            label={t('name')}
-            size={100}
-            {...register('name')}
-          />
-          <TextareaLabel>{t('description')}</TextareaLabel>
-          <Textarea
-            cols={60}
-            defaultValue={story.description || ''}
-            errors={errors.description}
-            label={t('description')}
-            rows={5}
-            {...register('description')}
-          ></Textarea>
-
-          {/* <Controller
+            {/* <Controller
             control={control}
             defaultValue={story.visibility === 'PUBLIC'}
             name="public"
@@ -165,7 +162,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               />
             ))}
           </select> */}
-          {/* <DropdownMenu {...register('theme')}>
+            {/* <DropdownMenu {...register('theme')}>
             <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
               <span className="mb-2 flex text-sm font-medium text-gray-700">
                 {t('theme')} <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
@@ -189,7 +186,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu> */}
-          {/* <Spacer />
+            {/* <Spacer />
           <InputLabel>{t('image')}</InputLabel>
           <div className="flex">
             <label htmlFor="imageupload">
@@ -215,9 +212,8 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               {...register('image')}
             ></Input>
           </div> */}
-        </Modal.Content>
-        <Modal.Footer
-          close={
+          </Modal.Content>
+          <Modal.Footer>
             <Button
               className="w-full"
               disabled={isSaving}
@@ -227,9 +223,9 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
             >
               {t('save')}
             </Button>
-          }
-        ></Modal.Footer>
-      </form>
-    </Modal>
+          </Modal.Footer>
+        </form>
+      </Modal>
+    </>
   )
 }

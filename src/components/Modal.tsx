@@ -4,10 +4,11 @@ import { Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cx } from 'class-variance-authority'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 
 interface Props {
-  trigger: React.ReactElement
+  trigger?: React.ReactElement
+  show?: boolean
   title: React.ReactElement | String
   description?: React.ReactElement | String
   children?: React.ReactElement | React.ReactElement[]
@@ -17,23 +18,35 @@ interface Props {
 
 export function Modal({
   trigger,
+  show,
   title,
   description,
   children,
   setDisabled,
   onClose,
 }: Props) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(show ? show : false)
+
+  useEffect(() => {
+    if (show != undefined) {
+      setIsOpen(show)
+    }
+  }, [show])
 
   return (
     <DialogPrimitive.Root
       onOpenChange={e => {
         setIsOpen(e)
         setDisabled ? setDisabled(e) : null
+        if (!e && onClose) {
+          onClose()
+        }
       }}
       open={isOpen}
     >
-      <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger>
+      {trigger && (
+        <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger>
+      )}
       <DialogPrimitive.Portal forceMount>
         <Transition.Root
           className="absolute left-0 top-0 flex h-full w-full items-center justify-center"
@@ -121,6 +134,7 @@ Modal.Footer = function ModalFooter({
   return (
     <div className={cx('border-t bg-slate-50 px-6 py-4', className)} {...props}>
       {close && <DialogPrimitive.Close asChild>{close}</DialogPrimitive.Close>}
+      {props.children}
     </div>
   )
 }
