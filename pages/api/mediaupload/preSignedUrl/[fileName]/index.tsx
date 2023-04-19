@@ -11,7 +11,7 @@ async function generatePresignedUrl(
   bucketName: string,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
-    console.log(method, bucketName, fileName)
+    console.log(minioClient)
     minioClient.presignedUrl(method, bucketName, fileName, (err, url) => {
       if (err) {
         reject(err)
@@ -49,6 +49,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     )
     return res.status(200).json(url)
   } catch (error: any) {
+    console.log(error)
+
     console.log(error.code, error.message)
     if (error instanceof z.ZodError) {
       return res.status(422).json(error.issues)
