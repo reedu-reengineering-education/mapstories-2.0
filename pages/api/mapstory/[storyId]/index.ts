@@ -7,14 +7,13 @@ import { generateSlug } from '@/src/lib/slug'
 import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const storyId = req.query.storyId as string
+
   if (req.method === 'GET') {
     try {
       const story = await db.story.findFirst({
         where: {
-          OR: [
-            { id: req.query.storyId as string },
-            { slug: req.query.storyId as string },
-          ],
+          OR: [{ id: storyId }, { slug: storyId }],
         },
         include: {
           firstStep: {
@@ -38,18 +37,40 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const payload = updateMapstorySchema.parse(req.body)
 
-      const slug = await generateSlug(payload.name)
+      const storyToUpdate = await db.story.findFirst({
+        where: {
+          id: storyId,
+        },
+        select: {
+          name: true,
+        },
+      })
+
+      if (!storyToUpdate) {
+        return res.status(404).end()
+      }
+
+      let data: any = payload
+
+      const nameChanged = payload.name !== storyToUpdate.name
+      if (nameChanged) {
+        const slug = await generateSlug(payload.name)
+        data = {
+          ...data,
+          slug,
+        }
+      }
 
       const story = await db.story.update({
         where: {
-          id: req.query.storyId as string,
+          id: storyId,
         },
-        data: { ...payload, slug },
+        data,
       })
 
       return res.status(200).json(story)
     } catch (error) {
-      return res.status(500).end()
+      return res.status(500).json(error)
     }
   }
 
@@ -57,7 +78,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       await db.story.delete({
         where: {
-          id: req.query.storyId as string,
+          id: storyId,
         },
       })
 

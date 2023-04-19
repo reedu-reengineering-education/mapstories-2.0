@@ -8,7 +8,6 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { Input, InputLabel } from '../../Elements/Input'
-import { mapstoryOptionsSchema } from '@/src/lib/validations/mapstory-options'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/src/app/i18n/client'
@@ -16,10 +15,11 @@ import { Textarea, TextareaLabel } from '@/src/components/Elements/Textarea'
 import useStory from '@/src/lib/api/story/useStory'
 import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { useBoundStore } from '@/src/lib/store/store'
+import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
-type FormData = z.infer<typeof mapstoryOptionsSchema>
+type FormData = z.infer<typeof updateMapstorySchema>
 
 const options: Pick<DropdownMenuItemProps, 'children'>[] = [
   { children: 'Theme 1' },
@@ -44,7 +44,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
     register,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(mapstoryOptionsSchema),
+    resolver: zodResolver(updateMapstorySchema),
   })
 
   const { story, updateStory } = useStory(storyId)
@@ -63,14 +63,16 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
     try {
       const updatedStory = await updateStory({
         ...data,
-        visibility: data.public ? 'PUBLIC' : 'PRIVATE',
+        // TODO: update again after zod schema change
+        // visibility: data.public ? 'PUBLIC' : 'PRIVATE',
       })
       toast({
         message: 'Your changes were applied.',
         type: 'success',
       })
-      // TODO: if the slug changes, we need to redirect / replace the route
-      // router.push(`/studio/${updatedStory.slug}`)
+      if (updatedStory?.slug !== story?.slug) {
+        router.replace(`/studio/${updatedStory?.slug}`)
+      }
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
@@ -97,7 +99,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
 
   return (
     <Modal
-      title={<span>{t('options')}</span>}
+      title={t('options')}
       trigger={
         <Button
           startIcon={<Cog6ToothIcon className="w-5" />}
