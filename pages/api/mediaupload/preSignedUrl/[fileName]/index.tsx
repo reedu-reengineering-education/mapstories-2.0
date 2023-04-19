@@ -14,6 +14,7 @@ async function generatePresignedUrl(
     console.log(minioClient)
     minioClient.presignedUrl(method, bucketName, fileName, (err, url) => {
       if (err) {
+        console.log(err)
         reject(err)
       }
       resolve(url)
