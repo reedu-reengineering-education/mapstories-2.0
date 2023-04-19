@@ -32,20 +32,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       accessKey: process.env.S3_ACCESS_KEY!,
       secretKey: process.env.S3_SECRET_KEY!,
     })
-    console.log('minioClient', minioClient)
     const fileName = `${req.query.fileName}`
-    console.log('filename', fileName)
     const method = req.method as string
+    console.log(process.env.S3_BUCKET_NAME!, process.env.S3_PORT!, process.env.S3_USE_SSL!, process.env.S3_ACCESS_KEY!, process.env.S3_SECRET_KEY!)
     const url = await generatePresignedUrl(
       method,
       fileName,
       minioClient,
       process.env.S3_BUCKET_NAME!,
     )
-    console.log('url', url)
     return res.status(200).json(url)
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.log(error.code, error.message);
     if (error instanceof z.ZodError) {
       return res.status(422).json(error.issues)
     }
