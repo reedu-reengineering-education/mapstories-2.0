@@ -1,7 +1,6 @@
 import Link from 'next/link'
 
 import { Button } from '@/src/components/Elements/Button'
-import { UserAuthForm } from '@/src/components/Auth/UserAuthForm'
 import { ChevronLeftIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from '@/src/app/i18n'
 
@@ -25,17 +24,11 @@ export default async function LoginPage({
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
           <GlobeAltIcon className="mx-auto h-6 w-6" />
-          <h1 className="text-2xl font-bold">{t('welcome_back')}</h1>
+          <h1 className="text-2xl font-bold">{t('success')}</h1>
           <p className="text-sm text-slate-600">
-            {t('enter_email_for-signin')}
+            {t('check_mail_for_sign_in')}
           </p>
         </div>
-        <UserAuthForm />
-        <p className="px-8 text-center text-sm text-slate-600">
-          <Link className="hover:text-brand underline" href="/register">
-            {t('no_account')}
-          </Link>
-        </p>
       </div>
     </div>
   )

@@ -1,0 +1,13 @@
+{
+  "welcome_back": "Welcome back",
+  "enter_email_for-signin": "Enter your email to sign in to your account",
+  "no_account": "No account yet? Sign Up",
+  "back": "Back",
+  "sign_in_with_email": "Sign in with E-Mail",
+  "something_wrong": "Something went wrong.",
+  "signin_fail": "Your sign in request failed. Please try again.",
+  "check_mail": "Check your email",
+  "send_login_link": "We sent you a login link. Be sure to check your spam too.",
+  "success": "E-Mail send",
+  "check_mail_for_sign_in": "Click the Link in the e-mail to sign in."
+}
