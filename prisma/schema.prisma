@@ -145,6 +145,7 @@ model Image {
   id      String         @id @default(cuid())
   name    String
   size    String
+  url     String?
   altText String?
   caption String?
   slide   SlideContent[]
@@ -170,4 +171,5 @@ enum MediaType {
   TITLE
   VIDEO
   IMAGE
+  EXTERNALIMAGE
 }

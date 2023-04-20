@@ -85,10 +85,11 @@ const useStep = (stepId: string) => {
 
     if (deletedContent.imageId) {
       // delete the image from the s3 service also
-      const deletedMedia = await deleteMedia(
-        deletedContent.content,
-        deletedContent.imageId,
-      )
+        const deletedMedia = await deleteMedia(
+          deletedContent.content,
+          deletedContent.imageId,
+        )
+      
     }
 
     if (!step) {

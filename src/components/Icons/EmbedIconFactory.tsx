@@ -68,6 +68,8 @@ const getIcon = (myType: MediaType) => {
       return SvgWikipediaIcon
     case 'IMAGE':
       return ImageIcon
+    case 'EXTERNALIMAGE':
+      return ImageIcon
     case 'VIDEO':
       return VideoIcon
     case 'SPOTIFY':

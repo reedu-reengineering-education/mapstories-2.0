@@ -47,8 +47,14 @@ export default function SlideContentPreviewButton({
         const response = await getS3Image(image as Image)
         setImageUrl(response)
       }
-
       getMediaWrapper()
+    }
+    if (type == 'EXTERNALIMAGE') {
+      const getExternalMediaWrapper = async () => {
+        const image = await getMedia(props.imageId!)
+        setImageUrl(image.url)
+      }
+      getExternalMediaWrapper()
     }
   }, [])
 
@@ -80,7 +86,7 @@ export default function SlideContentPreviewButton({
     )
   }
 
-  if (type == 'IMAGE') {
+  if (type == 'IMAGE' || type == 'EXTERNALIMAGE') {
     return (
       <Wrapper>
         <IconComponent />

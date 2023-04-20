@@ -22,6 +22,8 @@ export function ContentEditFactory({
       return <TextContentEdit stepItem={stepItem} storyStepId={storyStepId} />
     case 'IMAGE' || 'VIDEO':
       return <MediaContentEdit stepItem={stepItem} storyStepId={storyStepId} />
+    case 'EXTERNALIMAGE':
+      return <MediaContentEdit stepItem={stepItem} storyStepId={storyStepId} />
     default:
       return <EmbedContentEdit stepItem={stepItem} storyStepId={storyStepId} />
   }

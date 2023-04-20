@@ -15,6 +15,7 @@ export function ContentType({ content }: Props) {
       {content.type == 'TITLE' && <TitleContent content={content} />}
       {content.type == 'TEXT' && <TextContent content={content} />}
       {content.type == 'IMAGE' && <MediaContent content={content} />}
+      {content.type == 'EXTERNALIMAGE' && <MediaContent content={content} />}
       {[
         'YOUTUBE',
         'INSTAGRAM',

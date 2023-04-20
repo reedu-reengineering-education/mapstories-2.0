@@ -10,12 +10,15 @@ import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useStep from '@/src/lib/api/step/useStep'
 import useMedia from '@/src/lib/api/media/useMedia'
-import { Spinner } from '../../Elements/Spinner'
 import SizedImage from '../../Elements/SizedImage'
 import { Image } from '@prisma/client'
 import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
 import { getS3Image } from '@/src/helper/getS3Image'
 import * as z from 'zod'
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
+import 'react-tabs/style/react-tabs.css'
+import { isValidLink } from '@/src/helper/isValidLink'
+import { generateRandomName } from '@/src/helper/generateRandomName'
 
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -66,13 +69,17 @@ export function MediaContentEdit({
     lng = fallbackLng
   }
   const { t } = useTranslation(lng, 'editModal')
+
+  const { updateMedia } = useMedia(storyStepId)
+  const { addContent, updateContent } = useStep(storyStepId)
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>()
-  const { addContent, updateContent } = useStep(storyStepId)
   const [selectedValue, setSelectedValue] = useState<string>('s')
-  const { updateMedia } = useMedia(storyStepId)
+  const [externalImageUrl, setExternalImageUrl] = useState<string>('')
+  const [tabIndex, setTabIndex] = useState<number>(0)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -97,15 +104,19 @@ export function MediaContentEdit({
   useEffect(() => {
     const getMediaWrapper = async () => {
       if (stepItem) {
+        // get image table from db
+        const image = (await getMedia(stepItem.imageId)) as Image
+        setSelectedValue(image.size)
         if (stepItem.type === 'IMAGE') {
           setIsLoading(true)
-          // get image table from db
-          const image = (await getMedia(stepItem.imageId)) as Image
           // get image file from s3
           const response = await getS3Image(image)
           setImageUrl(response)
-          setSelectedValue(image.size)
           setIsLoading(false)
+        }
+        if (stepItem.type === 'EXTERNALIMAGE') {
+          setImageUrl(image.url)
+          setTabIndex(1)
         }
         //const response = await getS3Image(im//await getImage2(stepItem)
       }
@@ -135,9 +146,7 @@ export function MediaContentEdit({
     try {
       setIsSaving(true)
       // if size is changed
-      if (!file) {
-        throw new Error('No file selected')
-      }
+
       if (stepItem) {
         await updateMedia(stepItem.imageId, { size: selectedValue } as Image)
         toast({
@@ -146,17 +155,35 @@ export function MediaContentEdit({
         })
       } else {
         // create image table
-        const uploadedImage = await addMedia({
-          name: file.name,
-          size: selectedValue,
-        } as Image)
-        // upload image to s3
-        await uploadImage(file, uploadedImage)
-        await addContent({
-          imageId: uploadedImage.id,
-          content: file.name,
-          type: 'IMAGE',
-        })
+        if (!tabIndex) {
+          if (!file) {
+            throw new Error('No file selected')
+          }
+          const uploadedImage = await addMedia({
+            name: file.name,
+            size: selectedValue,
+          })
+          // upload image to s3
+          await uploadImage(file, uploadedImage)
+          await addContent({
+            imageId: uploadedImage.id,
+            content: file.name,
+            type: 'IMAGE',
+          })
+        }
+        if (tabIndex) {
+          const image = await addMedia({
+            name: generateRandomName(),
+            url: imageUrl,
+            size: selectedValue,
+          })
+          await addContent({
+            imageId: image.id,
+            content: image.name,
+            type: 'EXTERNALIMAGE',
+          })
+        }
+
         // create content table with image id as reference
         toast({
           message: 'Your content has been added',
@@ -175,24 +202,49 @@ export function MediaContentEdit({
     setContentType && setContentType('')
   }
 
+  function handleExternalImageUrl(e: any) {
+    const valid = isValidLink(e.target.value)
+    valid ? setImageUrl(e.target.value) : console.log('kein gültiger link')
+    setIsLoading(false)
+  }
+
   return (
     <div>
+      <Tabs onSelect={index => setTabIndex(index)} selectedIndex={tabIndex}>
+        <TabList>
+          <Tab>{t('uploadImage')}</Tab>
+          <Tab>{t('externalImage')}</Tab>
+        </TabList>
+        <TabPanel>
+          <InputLabel>{t('uploadImage')}</InputLabel>
+          <p className="my-2 text-sm font-bold">Unterstützte Formate: </p>
+          <span>
+            <code>.jpg</code>
+            <code>.png</code>
+            <code>.mp4</code>
+            <code>.mp3</code>
+            <code>.jpg</code>
+            <br></br>
+          </span>
+          {/* @ts-ignore */}
+          <div {...getRootProps({ style })}>
+            <input {...getInputProps()} />
+            {t('dropFiles')}
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div className="">
+            <InputLabel>{t('externalImageUrl')}</InputLabel>
+            <Input
+              // disabled={file ? true : false}
+              onChange={(e: any) => handleExternalImageUrl(e)}
+              type="text"
+              value={imageUrl}
+            />
+          </div>{' '}
+        </TabPanel>
+      </Tabs>
       <div>
-        <InputLabel>{t('uploadImage')}</InputLabel>
-        <p className="my-2 text-sm font-bold">Unterstützte Formate: </p>
-        <span>
-          <code>.jpg</code>
-          <code>.png</code>
-          <code>.mp4</code>
-          <code>.mp3</code>
-          <code>.jpg</code>
-          <br></br>
-        </span>
-        {/* @ts-ignore */}
-        <div {...getRootProps({ style })}>
-          <input {...getInputProps()} />
-          {t('dropFiles')}
-        </div>
         <div className="flex justify-between">
           <div className="p-2">
             <InputLabel>S</InputLabel>
@@ -225,15 +277,19 @@ export function MediaContentEdit({
             />
           </div>
         </div>
-        {isLoading && (
+        {/* {isLoading && (
           // show simple spinner while loading center this spinner in the div
           <div className="flex justify-center">
             <Spinner className="flex" />
           </div>
-        )}
+        )} */}
         {imageUrl && (
           <div className="m-2 flex justify-center">
-            <SizedImage alt={imageUrl} size={selectedValue} src={imageUrl} />
+            <SizedImage
+              alt={imageUrl ? imageUrl : externalImageUrl}
+              size={selectedValue}
+              src={imageUrl}
+            />
           </div>
         )}
         <Button className="mt-10" onClick={() => onSubmit()}>

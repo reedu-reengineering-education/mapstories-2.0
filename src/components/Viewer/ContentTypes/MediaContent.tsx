@@ -29,6 +29,11 @@ export function MediaContent({ content }: MediaContentProps) {
         setImageSize(image.size)
         setIsLoading(false)
       }
+      if (content.type === 'EXTERNALIMAGE' && imageUrl === null) {
+        const image = (await getMedia(content.imageId!)) as Image
+        setImageUrl(image.url)
+        setImageSize(image.size)
+      }
       //const response = await getS3Image(im//await getImage2(stepItem)
     }
     getMediaWrapper()
