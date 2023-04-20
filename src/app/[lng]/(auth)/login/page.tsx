@@ -27,7 +27,7 @@ export default async function LoginPage({
           <GlobeAltIcon className="mx-auto h-6 w-6" />
           <h1 className="text-2xl font-bold">{t('welcome_back')}</h1>
           <p className="text-sm text-slate-600">
-            {t('enter_email_for-signin')}
+            {t('enter_email_for_signin')}
           </p>
         </div>
         <UserAuthForm />
