@@ -2,5 +2,8 @@
   "save": "Save",
   "create": "Create",
   "uploadImage": "upload image",
-  "dropFiles": "Drop files here to upload"
+  "dropFiles": "Drop files here to upload",
+  "externalImage": "Upload image from URL",
+  "externalImageUrl": "URL"
+
 }
