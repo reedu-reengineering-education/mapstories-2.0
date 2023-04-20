@@ -8,7 +8,6 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { Input, InputLabel } from '../../Elements/Input'
-import { mapstoryOptionsSchema } from '@/src/lib/validations/mapstory-options'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/src/app/i18n/client'
@@ -16,10 +15,11 @@ import { Textarea, TextareaLabel } from '@/src/components/Elements/Textarea'
 import useStory from '@/src/lib/api/story/useStory'
 import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { useBoundStore } from '@/src/lib/store/store'
+import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
-type FormData = z.infer<typeof mapstoryOptionsSchema>
+type FormData = z.infer<typeof updateMapstorySchema>
 
 const options: Pick<DropdownMenuItemProps, 'children'>[] = [
   { children: 'Theme 1' },
@@ -44,10 +44,12 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
     register,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(mapstoryOptionsSchema),
+    resolver: zodResolver(updateMapstorySchema),
   })
 
   const { story, updateStory } = useStory(storyId)
+
+  const [modalOpen, setModalOpen] = useState(false)
 
   // let { uploadToS3 } = useS3Upload();
 
@@ -63,14 +65,17 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
     try {
       const updatedStory = await updateStory({
         ...data,
-        visibility: data.public ? 'PUBLIC' : 'PRIVATE',
+        // TODO: update again after zod schema change
+        // visibility: data.public ? 'PUBLIC' : 'PRIVATE',
       })
       toast({
         message: 'Your changes were applied.',
         type: 'success',
       })
-      // TODO: if the slug changes, we need to redirect / replace the route
-      // router.push(`/studio/${updatedStory.slug}`)
+      if (updatedStory?.slug !== story?.slug) {
+        router.replace(`/studio/${updatedStory?.slug}`)
+      }
+      setModalOpen(false)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
@@ -82,52 +87,46 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
     }
   }
 
-  // show loading state
   if (!story) {
-    return (
+    return <></>
+  }
+
+  return (
+    <>
       <Button
-        disabled
+        disabled={!story}
+        onClick={() => setModalOpen(true)}
         startIcon={<Cog6ToothIcon className="w-5" />}
         variant={'inverse'}
       >
         {t('options')}
       </Button>
-    )
-  }
+      <Modal
+        onClose={() => setModalOpen(false)}
+        show={modalOpen}
+        title={t('options')}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Modal.Content>
+            <InputLabel>{t('name')}</InputLabel>
+            <Input
+              defaultValue={story.name || ''}
+              errors={errors.name}
+              label={t('name')}
+              size={100}
+              {...register('name')}
+            />
+            <TextareaLabel>{t('description')}</TextareaLabel>
+            <Textarea
+              cols={60}
+              defaultValue={story.description || ''}
+              errors={errors.description}
+              label={t('description')}
+              rows={5}
+              {...register('description')}
+            ></Textarea>
 
-  return (
-    <Modal
-      title={<span>{t('options')}</span>}
-      trigger={
-        <Button
-          startIcon={<Cog6ToothIcon className="w-5" />}
-          variant={'inverse'}
-        >
-          {t('options')}
-        </Button>
-      }
-    >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Modal.Content>
-          <InputLabel>{t('name')}</InputLabel>
-          <Input
-            defaultValue={story.name || ''}
-            errors={errors.name}
-            label={t('name')}
-            size={100}
-            {...register('name')}
-          />
-          <TextareaLabel>{t('description')}</TextareaLabel>
-          <Textarea
-            cols={60}
-            defaultValue={story.description || ''}
-            errors={errors.description}
-            label={t('description')}
-            rows={5}
-            {...register('description')}
-          ></Textarea>
-
-          {/* <Controller
+            {/* <Controller
             control={control}
             defaultValue={story.visibility === 'PUBLIC'}
             name="public"
@@ -163,7 +162,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               />
             ))}
           </select> */}
-          {/* <DropdownMenu {...register('theme')}>
+            {/* <DropdownMenu {...register('theme')}>
             <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
               <span className="mb-2 flex text-sm font-medium text-gray-700">
                 {t('theme')} <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
@@ -187,7 +186,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu> */}
-          {/* <Spacer />
+            {/* <Spacer />
           <InputLabel>{t('image')}</InputLabel>
           <div className="flex">
             <label htmlFor="imageupload">
@@ -213,9 +212,8 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               {...register('image')}
             ></Input>
           </div> */}
-        </Modal.Content>
-        <Modal.Footer
-          close={
+          </Modal.Content>
+          <Modal.Footer>
             <Button
               className="w-full"
               disabled={isSaving}
@@ -225,9 +223,9 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
             >
               {t('save')}
             </Button>
-          }
-        ></Modal.Footer>
-      </form>
-    </Modal>
+          </Modal.Footer>
+        </form>
+      </Modal>
+    </>
   )
 }
