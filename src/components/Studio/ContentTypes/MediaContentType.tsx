@@ -160,7 +160,7 @@ export function MediaContentEdit({
       // if size is changed
 
       if (stepItem) {
-        await updateMedia(stepItem.imageId, { size: selectedValue } as Image)
+        await updateMedia(stepItem.imageId, { size: selectedValue } as Media)
         toast({
           message: 'Your content has been updated',
           type: 'success',
