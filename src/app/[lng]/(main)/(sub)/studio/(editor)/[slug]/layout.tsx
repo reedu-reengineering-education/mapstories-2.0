@@ -1,3 +1,4 @@
+import { useTranslation } from '@/src/app/i18n'
 import { Button } from '@/src/components/Elements/Button'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
 import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
@@ -52,7 +53,7 @@ export default async function DashboardLayout({
   if (!user) {
     redirect(authOptions.pages?.signIn!)
   }
-
+  const { t } = await useTranslation(lng, 'dashboardLayout')
   const story = await getStoryForUser(user.id, slug)
 
   if (!story) {
@@ -67,12 +68,12 @@ export default async function DashboardLayout({
             startIcon={<ArrowLeftIcon className="w-5" />}
             variant={'inverse'}
           >
-            Zurück
+            {t('back')}
           </Button>
         </Link>
         <a href={`/viewer/story/${slug}/0`} target="_blank">
           <Button startIcon={<EyeIcon className="w-5" />} variant={'inverse'}>
-            Preview
+            {t('preview')}
           </Button>
         </a>
         <SettingsModal storyId={story.id} />

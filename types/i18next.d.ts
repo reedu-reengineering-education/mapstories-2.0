@@ -20,8 +20,8 @@ import type mapstoryCard from '../src/app/i18n/locales/en/mapstoryCard.json'
 import type settings from '../src/app/i18n/locales/en/settings.json'
 import type userSettingsForm from '../src/app/i18n/locales/en/userSettingsForm.json'
 import type editMapstory from '../src/app/i18n/locales/en/editMapstory.json'
-
 import type login from '../src/app/i18n/locales/en/login.json'
+import type dashboardLayout from '../src/app/i18n/locales/en/dashboardLayout.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -38,6 +38,7 @@ interface I18nNamespaces {
   userSettingsForm: typeof userSettingsForm
   editMapstory: typeof editMapstory
   login: typeof login
+  dashboardLayout: typeof dashboardLayout
 }
 
 declare module 'i18next' {
