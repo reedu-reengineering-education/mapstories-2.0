@@ -210,15 +210,22 @@ export function MediaContentEdit({
 
   return (
     <div>
-      <Tabs
-        className="justify-between"
-        onSelect={index => setTabIndex(index)}
-        selectedIndex={tabIndex}
-      >
+      <Tabs onSelect={index => setTabIndex(index)} selectedIndex={tabIndex}>
         <TabList>
-          <Tab>{t('uploadImage')}</Tab>
           <Tab>{t('externalImage')}</Tab>
+          <Tab disabled={true}>{t('uploadImage')}</Tab>
         </TabList>
+        <TabPanel>
+          <div>
+            <InputLabel>{t('externalImageUrl')}</InputLabel>
+            <Input
+              // disabled={file ? true : false}
+              onChange={(e: any) => handleExternalImageUrl(e)}
+              type="text"
+              value={imageUrl}
+            />
+          </div>
+        </TabPanel>
         <TabPanel>
           <InputLabel>{t('uploadImage')}</InputLabel>
           <p className="my-2 text-sm font-bold">Unterstützte Formate: </p>
@@ -235,17 +242,6 @@ export function MediaContentEdit({
             <input {...getInputProps()} />
             {t('dropFiles')}
           </div>
-        </TabPanel>
-        <TabPanel>
-          <div className="">
-            <InputLabel>{t('externalImageUrl')}</InputLabel>
-            <Input
-              // disabled={file ? true : false}
-              onChange={(e: any) => handleExternalImageUrl(e)}
-              type="text"
-              value={imageUrl}
-            />
-          </div>{' '}
         </TabPanel>
       </Tabs>
       <div>
