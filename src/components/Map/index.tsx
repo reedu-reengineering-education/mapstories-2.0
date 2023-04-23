@@ -30,7 +30,7 @@ const Map = forwardRef<MapRef, MapProps>(
         initialViewState={{
           longitude: 7.5,
           latitude: 51.5,
-          zoom: 7,
+          zoom: 3,
         }}
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
         // mapLib={maplibregl}

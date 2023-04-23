@@ -59,7 +59,7 @@ export default function DraggableList<
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 300,
+        delay: 200,
         tolerance: 8,
       },
     }),
@@ -150,7 +150,13 @@ export function SortableItem({ id, children }: SortableItemProps) {
   }
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div
+      className="touch-manipulation"
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       {children}
     </div>
   )
