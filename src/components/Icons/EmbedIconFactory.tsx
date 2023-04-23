@@ -42,6 +42,7 @@ const iconStyle = cva<cvaType>('', {
       IMAGE: 'bg-zinc-100',
       VIDEO: 'bg-zinc-100',
       SPOTIFY: 'bg-[#1DB954] p-[4px]',
+      EXTERNALIMAGE: 'bg-zinc-100',
     },
   },
 })
