@@ -42,7 +42,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
               unmountOnExit
             >
               <div className="mx-2 px-2">
-                <p className="pb-2">{t('choose_element')}</p>
+                <p className="pb-2">{t('editModal:choose_element')}</p>
 
                 <div className="flex flex-wrap justify-center py-4">
                   <div
@@ -52,7 +52,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                     <div className="flex justify-center">
                       <HeadingIcon className="h-14 w-14"></HeadingIcon>
                     </div>
-                    <h3 className="text-center">{t('heading')}</h3>
+                    <h3 className="text-center">{t('editModal:heading')}</h3>
                   </div>
 
                   <div
@@ -62,7 +62,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                     <div className="flex justify-center">
                       <TextIcon className="h-14 w-14"></TextIcon>
                     </div>
-                    <h3 className="text-center">{t('text')}</h3>
+                    <h3 className="text-center">{t('editModal:text')}</h3>
                   </div>
 
                   <div
@@ -72,7 +72,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                     <div className="flex justify-center">
                       <VideoIcon className="h-14 w-14"></VideoIcon>
                     </div>
-                    <h3 className="text-center">{t('upload')}</h3>
+                    <h3 className="text-center">{t('editModal:upload')}</h3>
                   </div>
 
                   <div

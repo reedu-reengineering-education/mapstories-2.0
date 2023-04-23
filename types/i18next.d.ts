@@ -23,7 +23,6 @@ import type editMapstory from '../src/app/i18n/locales/en/editMapstory.json'
 
 import type login from '../src/app/i18n/locales/en/login.json'
 
-
 interface I18nNamespaces {
   translation: typeof translation
   footer: typeof footer
