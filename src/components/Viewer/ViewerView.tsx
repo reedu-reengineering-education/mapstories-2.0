@@ -39,6 +39,8 @@ export default function ViewerView({ stories }: ViewerViewProps) {
 
   const [interactiveLayerIds, setInteractiveLayerIds] = useState<any[]>()
   const [savedView, setSavedView] = useState<any>()
+  const [startView, setStartView] = useState<any>()
+
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
 
@@ -83,12 +85,30 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
     if (story?.steps) {
+      let bounds: any = undefined
       const newMarkers = story?.steps
         .filter(step => step.feature)
         .map(({ id, feature, position, content }) => {
           const geoFeature =
             feature as unknown as GeoJSON.Feature<GeoJSON.Point>
           if (geoFeature?.geometry?.coordinates?.length > 0) {
+            if (bounds === undefined) {
+              bounds = new mapboxgl.LngLatBounds(
+                [
+                  geoFeature?.geometry?.coordinates[0],
+                  geoFeature?.geometry?.coordinates[1],
+                ],
+                [
+                  geoFeature?.geometry?.coordinates[0],
+                  geoFeature?.geometry?.coordinates[1],
+                ],
+              )
+            } else {
+              bounds.extend([
+                geoFeature?.geometry?.coordinates[0],
+                geoFeature?.geometry?.coordinates[1],
+              ])
+            }
             const newMarker: any = {
               longitude: geoFeature.geometry.coordinates[0],
               latitude: geoFeature.geometry.coordinates[1],
@@ -102,6 +122,8 @@ export default function ViewerView({ stories }: ViewerViewProps) {
         })
       // @ts-ignore
       setMarkers(newMarkers)
+      //save bounds to zoomTo once map is initiated
+      setStartView(bounds)
     }
   }, [storyID])
 
@@ -209,7 +231,10 @@ export default function ViewerView({ stories }: ViewerViewProps) {
     if (selectedStepIndex) {
       updateToStep(selectedStepIndex)
     }
-  }, [])
+    if (Number.isNaN(selectedStepIndex)) {
+      mapRef.current?.fitBounds(startView)
+    }
+  }, [startView, mapRef])
 
   return (
     <Map
