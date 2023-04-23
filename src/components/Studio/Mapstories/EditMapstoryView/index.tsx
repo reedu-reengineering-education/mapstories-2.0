@@ -7,6 +7,10 @@ import useStory from '@/src/lib/api/story/useStory'
 import { Spinner } from '@/src/components/Elements/Spinner'
 import { StudioShell } from '../../Shell'
 import EditMapstoryMap from './EditMapstoryMap'
+import { useBoundStore } from '@/src/lib/store/store'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useTranslation } from '@/src/app/i18n/client'
+import { Trans } from 'react-i18next'
 
 type EditMapstoryViewProps = {
   story: Story & {
@@ -21,6 +25,12 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
   const path = usePathname()
 
   const { story: currentStory } = useStory(story.id)
+
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'editMapstory')
 
   useEffect(() => {
     const stepId = path?.split('/').at(-1)
@@ -46,15 +56,17 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
     <StudioShell>
       <div className="re-studio-height-full-screen absolute top-0 z-10 w-full overflow-hidden rounded-lg shadow">
         <div className="absolute left-1/3 top-0 z-20 w-fit">
-          <div className=" mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
+          <div className="mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
             {currentStep.id === story.firstStepId ? (
-              <span>Dies ist deine Titelfolie. </span>
-            ) : !currentStep?.feature ? (
-              <span>Klicke auf die Karte um deinen Marker hinzuzufügen</span>
-            ) : (
               <span>
-                Verschiebe den roten Marker um dessen Position zu ändern
+                <Trans>{t('your_titlepage')}</Trans>
               </span>
+            ) : !currentStep?.feature ? (
+              <span>
+                <Trans>{t('click_on_map_to_set_marker')}</Trans>
+              </span>
+            ) : (
+              <span>{t('move_the_red_marker')}</span>
             )}
           </div>
         </div>
