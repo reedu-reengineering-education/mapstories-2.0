@@ -210,7 +210,11 @@ export function MediaContentEdit({
 
   return (
     <div>
-      <Tabs onSelect={index => setTabIndex(index)} selectedIndex={tabIndex}>
+      <Tabs
+        className="justify-between"
+        onSelect={index => setTabIndex(index)}
+        selectedIndex={tabIndex}
+      >
         <TabList>
           <Tab>{t('uploadImage')}</Tab>
           <Tab>{t('externalImage')}</Tab>

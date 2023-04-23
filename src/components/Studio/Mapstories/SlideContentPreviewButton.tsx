@@ -52,7 +52,9 @@ export default function SlideContentPreviewButton({
     if (type == 'EXTERNALIMAGE') {
       const getExternalMediaWrapper = async () => {
         const image = await getMedia(props.imageId!)
-        setImageUrl(image.url)
+        if (image.url) {
+          setImageUrl(image.url)
+        }
       }
       getExternalMediaWrapper()
     }
