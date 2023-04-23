@@ -42,6 +42,8 @@ const iconStyle = cva<cvaType>('', {
       IMAGE: 'bg-zinc-100',
       VIDEO: 'bg-zinc-100',
       SPOTIFY: 'bg-[#1DB954] p-[4px]',
+      EXTERNALIMAGE: 'bg-zinc-100',
+      AUDIO: 'bg-zinc-100',
     },
   },
 })
@@ -68,10 +70,14 @@ const getIcon = (myType: MediaType) => {
       return SvgWikipediaIcon
     case 'IMAGE':
       return ImageIcon
+    case 'EXTERNALIMAGE':
+      return ImageIcon
     case 'VIDEO':
       return VideoIcon
     case 'SPOTIFY':
       return Spotify
+    case 'AUDIO':
+      return PlayIcon
     default:
       myType satisfies never // This makes sure the switch case is exhaustive (https://stackoverflow.com/a/75217377/5660646)
   }

@@ -83,11 +83,11 @@ const useStep = (stepId: string) => {
       await deleteContentRequest
     ).data) as SlideContent
 
-    if (deletedContent.imageId) {
+    if (deletedContent.mediaId) {
       // delete the image from the s3 service also
       const deletedMedia = await deleteMedia(
         deletedContent.content,
-        deletedContent.imageId,
+        deletedContent.mediaId,
       )
     }
 

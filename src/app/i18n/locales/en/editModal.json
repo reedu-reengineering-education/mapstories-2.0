@@ -1,8 +1,10 @@
 {
   "save": "Save",
   "create": "Create",
-  "uploadImage": "upload image",
+  "uploadFile": "Upload file",
   "dropFiles": "Drop files here to upload",
+  "externalImage": "Upload image from URL",
+  "externalImageUrl": "URL",
   "choose_element": "Choose which element you want to add to your slide.",
   "heading": "Heading",
   "text": "Text",

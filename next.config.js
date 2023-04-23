@@ -9,6 +9,18 @@ const nextConfig = {
   },
   output: 'standalone',
   staticPageGenerationTimeout: 100,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
 }
 
 const removeImports = require('next-remove-imports')()

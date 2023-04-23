@@ -6,16 +6,16 @@ import { NextApiRequest, NextApiResponse } from 'next'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === 'GET') {
-      const imageTable = await db.image.findFirst({
+      const mediaTable = await db.media.findFirst({
         where: {
           id: req.query.mediaId as string,
         },
       })
-      res.status(200).json(imageTable)
+      res.status(200).json(mediaTable)
       return res.end()
     }
     if (req.method === 'PUT') {
-      const updatedImage = await db.image.update({
+      const updatedImage = await db.media.update({
         where: {
           id: req.query.mediaId as string,
         },

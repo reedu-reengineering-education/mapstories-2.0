@@ -10,12 +10,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
       const session = await getServerSession(req, res, authOptions)
       // get the image from the prisma table using the media id which is provided in the body
-      const imageTable = await db.image.findFirst({
+      const mediaTable = await db.media.findFirst({
         where: {
           id: req.query.mediaId as string,
         },
       })
-      res.status(200).json(imageTable)
+      res.status(200).json(mediaTable)
       return res.end
     }
   } catch (error) {
