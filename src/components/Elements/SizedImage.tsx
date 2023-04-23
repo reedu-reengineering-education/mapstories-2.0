@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { cx } from 'class-variance-authority'
 import { Spinner } from './Spinner'
 
 type ImageProps = {
@@ -32,7 +32,25 @@ export default function SizedImage({ src, size, alt }: ImageProps) {
   }
   if (src) {
     return (
-      <Image alt={alt ? alt : src} height={height} src={src} width={width} />
+      <div className="relative ">
+        <img
+          className={cx(
+            'max-h-[20rem] object-scale-down',
+            size == 'xs' ? 'h-10 w-10' : '',
+          )}
+          // className="max-h-[20rem] object-scale-down"
+          src={src}
+        ></img>
+        {/* <Image
+          alt={alt ? alt : src}
+          className="max-w-[100%]"
+          layout="fill"
+          src={src}
+          // width={1000}
+          // objectFit="contain"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw,  33vw"
+        /> */}
+      </div>
     )
   }
   return <Spinner></Spinner>

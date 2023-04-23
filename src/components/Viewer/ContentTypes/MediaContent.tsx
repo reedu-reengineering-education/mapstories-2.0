@@ -48,13 +48,14 @@ export function MediaContent({ content }: MediaContentProps) {
           <Spinner />
         </div>
       )}
-      {!isLoading && content.type === 'IMAGE' && (
-        <SizedImage
-          alt={content.content}
-          size={imageSize}
-          src={mediaUrl ? mediaUrl : ''}
-        />
-      )}
+      {!isLoading &&
+        (content.type === 'IMAGE' || content.type === 'EXTERNALIMAGE') && (
+          <SizedImage
+            alt={content.content}
+            size={imageSize}
+            src={mediaUrl ? mediaUrl : ''}
+          />
+        )}
       {!isLoading && content.type === 'VIDEO' && (
         <ReactPlayer
           controls={true}
