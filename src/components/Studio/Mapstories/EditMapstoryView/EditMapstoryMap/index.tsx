@@ -1,4 +1,3 @@
-import DrawControl from '@/src/components/Map/DrawControl'
 import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
 import { MarkerDragEvent, MarkerProps } from 'react-map-gl'
@@ -110,9 +109,9 @@ export default function EditMapstoryMap({
     <Map
       interactiveLayerIds={['step-hover']}
       onClick={e => {
-        if (!steps?.find(s => s.id === currentStepId)?.feature) {
-          addMarker(e)
-        }
+        // if (!steps?.find(s => s.id === currentStepId)?.feature) {
+        addMarker(e)
+        // }
       }}
       onMouseMove={handleMouseMove}
     >
@@ -126,7 +125,7 @@ export default function EditMapstoryMap({
         }
         position="top-left"
       />
-      <DrawControl
+      {/* <DrawControl
         controls={{
           polygon: true,
           point: true,
@@ -134,7 +133,7 @@ export default function EditMapstoryMap({
         }}
         displayControlsDefault={false}
         position="top-left"
-      />
+      /> */}
 
       <Markers
         markers={markers}
