@@ -58,20 +58,20 @@ export function TitleContentEdit({
           type: 'TITLE',
         })
         toast({
-          message: 'Your content has been updated.',
+          message: t('content_updated'),
           type: 'success',
         })
       } else {
         await addContent({ content: data.title, type: 'TITLE' })
         toast({
-          message: 'Your content has been created.',
+          message: t('content_created'),
           type: 'success',
         })
       }
     } catch (error) {
       toast({
-        title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again.',
+        title: t('something_wrong'),
+        message: t('content_not_created'),
         type: 'error',
       })
     } finally {
@@ -88,7 +88,7 @@ export function TitleContentEdit({
     >
       <div className="top-0">
         <div className="pt-4">
-          <InputLabel>Gib eine Überschrift für deine Folie ein</InputLabel>
+          <InputLabel>{t('headline_for_your_slide')}</InputLabel>
           <Input
             defaultValue={stepItem ? stepItem.content : ''}
             errors={errors.title}

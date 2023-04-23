@@ -28,6 +28,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
   const [contentType, setContentType] = useState<string>('')
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, ['editModal', 'embeds'])
+
   return (
     <>
       <Modal onClose={() => setContentType('')} title={''} trigger={trigger}>
@@ -110,30 +111,31 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                         Zurück
                       </button>
                     </div>
-
-                    {contentType == 'title' && (
-                      <TitleContentEdit
-                        setContentType={setContentType}
-                        storyStepId={storyStepId}
-                      ></TitleContentEdit>
-                    )}
-                    {contentType == 'embed' && (
-                      <EmbedContentEdit
-                        storyStepId={storyStepId}
-                      ></EmbedContentEdit>
-                    )}
-                    {contentType == 'text' && (
-                      <TextContentEdit
-                        setContentType={setContentType}
-                        storyStepId={storyStepId}
-                      ></TextContentEdit>
-                    )}
-                    {contentType == 'media' && (
-                      <MediaContentEdit
-                        setContentType={setContentType}
-                        storyStepId={storyStepId}
-                      ></MediaContentEdit>
-                    )}
+                    <div className="pt-2">
+                      {contentType == 'title' && (
+                        <TitleContentEdit
+                          setContentType={setContentType}
+                          storyStepId={storyStepId}
+                        ></TitleContentEdit>
+                      )}
+                      {contentType == 'embed' && (
+                        <EmbedContentEdit
+                          storyStepId={storyStepId}
+                        ></EmbedContentEdit>
+                      )}
+                      {contentType == 'text' && (
+                        <TextContentEdit
+                          setContentType={setContentType}
+                          storyStepId={storyStepId}
+                        ></TextContentEdit>
+                      )}
+                      {contentType == 'media' && (
+                        <MediaContentEdit
+                          setContentType={setContentType}
+                          storyStepId={storyStepId}
+                        ></MediaContentEdit>
+                      )}
+                    </div>
                   </div>
                 </CSSTransition>
               </>

@@ -6,6 +6,10 @@
   "choose_element": "Choose which element you want to add to your slide.",
   "heading": "Heading",
   "text": "Text",
-  "upload": "Upload"
-
+  "upload": "Upload",
+  "content_updated": "Your content has been updated",
+  "content_created": "Your content has been created",
+  "something_wrong": "Something went wrong.",
+  "content_not_created": "Your content was not created. Please try again.",
+  "headline_for_your_slide": "Add a title to your slide."
 }

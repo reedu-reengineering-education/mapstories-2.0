@@ -29,6 +29,7 @@ export default function EditMapstoryMap({
 
   const storyId = useBoundStore(state => state.storyID)
   const setHoverMarkerId = useBoundStore(state => state.setHoverMarkerId)
+  const hoverMarkerId = useBoundStore(state => state.hoverMarkerId)
 
   const { story } = useStory(storyId)
   const { updateStep } = useStep(currentStepId)
@@ -110,7 +111,9 @@ export default function EditMapstoryMap({
       interactiveLayerIds={['step-hover']}
       onClick={e => {
         // if (!steps?.find(s => s.id === currentStepId)?.feature) {
-        addMarker(e)
+        if (hoverMarkerId == '') {
+          addMarker(e)
+        }
         // }
       }}
       onMouseMove={handleMouseMove}
