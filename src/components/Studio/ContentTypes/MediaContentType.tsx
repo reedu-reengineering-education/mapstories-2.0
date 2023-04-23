@@ -87,7 +87,10 @@ export function MediaContentEdit({
   }, [])
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
-    useDropzone({ accept: { 'image/*': [] }, onDrop })
+    useDropzone({
+      accept: { image: ['*'], video: ['*'], audio: ['*'] },
+      onDrop,
+    })
 
   const { getMedia, addMedia } = useMedia(storyStepId)
 
@@ -213,7 +216,7 @@ export function MediaContentEdit({
       <Tabs onSelect={index => setTabIndex(index)} selectedIndex={tabIndex}>
         <TabList>
           <Tab>{t('externalImage')}</Tab>
-          <Tab disabled={true}>{t('uploadImage')}</Tab>
+          <Tab>{t('uploadImage')}</Tab>
         </TabList>
         <TabPanel>
           <div>
