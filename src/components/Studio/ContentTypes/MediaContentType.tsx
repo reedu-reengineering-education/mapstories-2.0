@@ -9,9 +9,9 @@ import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useStep from '@/src/lib/api/step/useStep'
-import useMedia, { Media } from '@/src/lib/api/media/useMedia'
+import useMedia from '@/src/lib/api/media/useMedia'
 import SizedImage from '../../Elements/SizedImage'
-import { Image, MediaType } from '@prisma/client'
+import { Media, MediaType } from '@prisma/client'
 import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
 import { getS3Image } from '@/src/helper/getS3Image'
 import * as z from 'zod'
@@ -109,21 +109,25 @@ export function MediaContentEdit({
 
   useEffect(() => {
     const getMediaWrapper = async () => {
-      if (stepItem.type) {
+      if (stepItem) {
         // get image table from db
-        const image = (await getMedia(stepItem.imageId)) as Image
-        setSelectedValue(image.size)
-        if (stepItem.type === 'IMAGE') {
+        const media = (await getMedia(stepItem.mediaId)) as Media
+        setFileType(stepItem.type)
+        setSelectedValue(media.size!)
+        if (
+          stepItem.type === 'IMAGE' ||
+          stepItem.type === 'AUDIO' ||
+          stepItem.type === 'VIDEO'
+        ) {
           setTabIndex(1)
-          setFileType(stepItem.type)
           setIsLoading(true)
           // get image file from s3
-          const response = await getS3Image(image)
+          const response = await getS3Image(media)
           setFileUrl(response)
           setIsLoading(false)
         }
-        if (stepItem.type === 'EXTERNALIMAGE' && image.url) {
-          setFileUrl(image.url)
+        if (stepItem.type === 'EXTERNALIMAGE' && media.url) {
+          setFileUrl(media.url)
           setTabIndex(0)
         }
         //const response = await getS3Image(im//await getImage2(stepItem)
@@ -171,23 +175,24 @@ export function MediaContentEdit({
             name: file.name,
             size: selectedValue,
           })
+          console.log(uploadedMedia)
           // upload file to s3
           await uploadFile(file, uploadedMedia)
           await addContent({
-            imageId: uploadedMedia.id,
+            mediaId: uploadedMedia.id,
             content: file.name,
             type: fileType,
           })
         }
         if (!tabIndex) {
-          const image = await addMedia({
+          const uploadedMedia = await addMedia({
             name: generateRandomName(),
             url: fileUrl,
             size: selectedValue,
           })
           await addContent({
-            imageId: image.id,
-            content: image.name,
+            mediaId: uploadedMedia.id,
+            content: uploadedMedia.name,
             type: 'EXTERNALIMAGE',
           })
         }
@@ -300,15 +305,16 @@ export function MediaContentEdit({
           </div>
         )} */}
         <div className="pt-2">
-          {fileUrl && fileType === 'IMAGE' && (
-            <div className="m-2 flex justify-center">
-              <SizedImage
-                alt={fileUrl ? fileUrl : externalImageUrl}
-                size={selectedValue}
-                src={fileUrl}
-              />
-            </div>
-          )}
+          {fileUrl &&
+            (fileType === 'IMAGE' || fileType === 'EXTERNALIMAGE') && (
+              <div className="m-2 flex justify-center">
+                <SizedImage
+                  alt={fileUrl ? fileUrl : externalImageUrl}
+                  size={selectedValue}
+                  src={fileUrl}
+                />
+              </div>
+            )}
           {fileType === 'VIDEO' && (
             <ReactPlayer
               controls={true}
@@ -320,7 +326,7 @@ export function MediaContentEdit({
           {fileType === 'AUDIO' && (
             <ReactPlayer
               controls={true}
-              height="100%"
+              height="20%"
               url={fileUrl}
               width="100%"
             />

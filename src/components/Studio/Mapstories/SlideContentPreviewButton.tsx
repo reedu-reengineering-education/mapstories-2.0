@@ -1,4 +1,4 @@
-import { Image, SlideContent } from '@prisma/client'
+import { Media, SlideContent } from '@prisma/client'
 
 import { cx } from 'class-variance-authority'
 import dynamic from 'next/dynamic'
@@ -37,23 +37,23 @@ export default function SlideContentPreviewButton({
 
   const { getMedia } = useMedia(props.storyStepId)
 
-  const [imageUrl, setImageUrl] = useState(String)
+  const [mediaUrl, setMediaUrl] = useState(String)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if (type == 'IMAGE') {
       const getMediaWrapper = async () => {
-        const image = await getMedia(props.imageId!)
-        const response = await getS3Image(image as Image)
-        setImageUrl(response)
+        const media = await getMedia(props.mediaId!)
+        const response = await getS3Image(media as Media)
+        setMediaUrl(response)
       }
       getMediaWrapper()
     }
     if (type == 'EXTERNALIMAGE') {
       const getExternalMediaWrapper = async () => {
-        const image = await getMedia(props.imageId!)
-        if (image.url) {
-          setImageUrl(image.url)
+        const mediaId = await getMedia(props.mediaId!)
+        if (mediaId.url) {
+          setMediaUrl(mediaId.url)
         }
       }
       getExternalMediaWrapper()
@@ -92,7 +92,7 @@ export default function SlideContentPreviewButton({
     return (
       <Wrapper>
         <IconComponent />
-        <SizedImage alt={content} size="xs" src={imageUrl} />
+        <SizedImage alt={content} size="xs" src={mediaUrl} />
       </Wrapper>
     )
   }

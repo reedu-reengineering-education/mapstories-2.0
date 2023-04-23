@@ -27,23 +27,23 @@ async function generatePresignedUrl(
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    let image
+    let media
     const session = await getServerSession(req, res, authOptions)
     const userid = session?.user.id
     if (req.method === 'POST') {
-      image = await db.image.create({
+      media = await db.media.create({
         data: {
           ...req.body,
         },
       })
 
-      res.json(image)
+      res.json(media)
       return res.end()
     }
 
     if (req.method === 'DELETE') {
       const fileName = req.body.mediaId + '.' + req.query.fileName
-      image = await db.image.delete({
+      media = await db.media.delete({
         where: { id: req.body.mediaId as string },
       })
       const minioClient = new minio.Client({
@@ -67,7 +67,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'PUT') {
       const mediaId = req.query.mediaId as string
 
-      const updatedContent = await db.image.update({
+      const updatedContent = await db.media.update({
         where: { id: mediaId },
         data: { ...req.body, options: req.body.options ?? {} },
       })
@@ -77,7 +77,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.end()
     }
 
-    res.json(image)
+    res.json(media)
     return res.end()
   } catch (error: any) {
     if (error instanceof z.ZodError) {
