@@ -19,6 +19,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import { isValidLink } from '@/src/helper/isValidLink'
 import { generateRandomName } from '@/src/helper/generateRandomName'
+import ReactPlayer from 'react-player'
 
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -77,18 +78,20 @@ export function MediaContentEdit({
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState(String)
   const [file, setFile] = useState<File>()
+  const [fileType, setFileType] = useState<string>('')
   const [selectedValue, setSelectedValue] = useState<string>('s')
   const [externalImageUrl, setExternalImageUrl] = useState<string>('')
   const [tabIndex, setTabIndex] = useState<number>(0)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
+    setFileType(acceptedFiles[0].type)
     setImageUrl(URL.createObjectURL(acceptedFiles[0]))
   }, [])
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
-      accept: { image: ['*'], video: ['*'], audio: ['*'] },
+      accept: { 'image/*': [], 'video/*': [], 'audio/*': [] },
       onDrop,
     })
 
@@ -254,53 +257,74 @@ export function MediaContentEdit({
         </TabPanel>
       </Tabs>
       <div>
-        <div className="flex justify-between">
-          <div className="p-2">
-            <InputLabel>S</InputLabel>
-            <Input
-              checked={selectedValue === 's'}
-              name="image_size"
-              onChange={handleRadioChange}
-              type="radio"
-              value="s"
-            />
+        {fileType.split('/')[0] === 'image' && (
+          <div className="flex justify-between">
+            <div className="p-2">
+              <InputLabel>S</InputLabel>
+              <Input
+                checked={selectedValue === 's'}
+                name="image_size"
+                onChange={handleRadioChange}
+                type="radio"
+                value="s"
+              />
+            </div>
+            <div className="p-2">
+              <InputLabel>M</InputLabel>
+              <Input
+                checked={selectedValue === 'm'}
+                name="image_size"
+                onChange={handleRadioChange}
+                type="radio"
+                value="m"
+              />
+            </div>
+            <div className="p-2">
+              <InputLabel>L</InputLabel>
+              <Input
+                checked={selectedValue === 'l'}
+                name="image_size"
+                onChange={handleRadioChange}
+                type="radio"
+                value="l"
+              />
+            </div>
           </div>
-          <div className="p-2">
-            <InputLabel>M</InputLabel>
-            <Input
-              checked={selectedValue === 'm'}
-              name="image_size"
-              onChange={handleRadioChange}
-              type="radio"
-              value="m"
-            />
-          </div>
-          <div className="p-2">
-            <InputLabel>L</InputLabel>
-            <Input
-              checked={selectedValue === 'l'}
-              name="image_size"
-              onChange={handleRadioChange}
-              type="radio"
-              value="l"
-            />
-          </div>
-        </div>
+        )}
         {/* {isLoading && (
           // show simple spinner while loading center this spinner in the div
           <div className="flex justify-center">
             <Spinner className="flex" />
           </div>
         )} */}
-        {imageUrl && (
-          <div className="m-2 flex justify-center">
-            <SizedImage
-              alt={imageUrl ? imageUrl : externalImageUrl}
-              size={selectedValue}
-              src={imageUrl}
+        <div className="pt-2">
+          {imageUrl && fileType.split('/')[0] === 'image' && (
+            <div className="m-2 flex justify-center">
+              <SizedImage
+                alt={imageUrl ? imageUrl : externalImageUrl}
+                size={selectedValue}
+                src={imageUrl}
+              />
+            </div>
+          )}
+          {fileType.split('/')[0] === 'video' && (
+            <ReactPlayer
+              controls={true}
+              height="100%"
+              url={imageUrl}
+              width="100%"
             />
-          </div>
-        )}
+          )}
+          {fileType.split('/')[0] === 'audio' && (
+            <ReactPlayer
+              controls={true}
+              height="100%"
+              url={imageUrl}
+              width="100%"
+            />
+          )}
+        </div>
+
         <Button className="mt-10" onClick={() => onSubmit()}>
           {t('save')}
         </Button>
