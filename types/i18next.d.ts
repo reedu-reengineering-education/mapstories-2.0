@@ -21,6 +21,9 @@ import type settings from '../src/app/i18n/locales/en/settings.json'
 import type userSettingsForm from '../src/app/i18n/locales/en/userSettingsForm.json'
 import type editMapstory from '../src/app/i18n/locales/en/editMapstory.json'
 
+import type login from '../src/app/i18n/locales/en/login.json'
+
+
 interface I18nNamespaces {
   translation: typeof translation
   footer: typeof footer
@@ -35,6 +38,7 @@ interface I18nNamespaces {
   settings: typeof settings
   userSettingsForm: typeof userSettingsForm
   editMapstory: typeof editMapstory
+  login: typeof login
 }
 
 declare module 'i18next' {
