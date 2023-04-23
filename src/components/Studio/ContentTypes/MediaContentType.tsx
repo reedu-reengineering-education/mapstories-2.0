@@ -114,7 +114,7 @@ export function MediaContentEdit({
           setImageUrl(response)
           setIsLoading(false)
         }
-        if (stepItem.type === 'EXTERNALIMAGE') {
+        if (stepItem.type === 'EXTERNALIMAGE' && image.url) {
           setImageUrl(image.url)
           setTabIndex(1)
         }
