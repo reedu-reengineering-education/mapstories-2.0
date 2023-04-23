@@ -28,6 +28,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
   const [contentType, setContentType] = useState<string>('')
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, ['editModal', 'embeds'])
+
   return (
     <>
       <Modal onClose={() => setContentType('')} title={''} trigger={trigger}>
@@ -40,45 +41,42 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
               timeout={400}
               unmountOnExit
             >
-              <div>
-                <p className="pb-2">
-                  Wähle aus was für ein Element du deiner Folie hinzufügen
-                  möchtest:
-                </p>
+              <div className="mx-2 px-2">
+                <p className="pb-2">{t('editModal:choose_element')}</p>
 
                 <div className="flex flex-wrap justify-center py-4">
                   <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('title')}
                   >
                     <div className="flex justify-center">
                       <HeadingIcon className="h-14 w-14"></HeadingIcon>
                     </div>
-                    <h3 className="text-center">Heading</h3>
+                    <h3 className="text-center">{t('editModal:heading')}</h3>
                   </div>
 
                   <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('text')}
                   >
                     <div className="flex justify-center">
                       <TextIcon className="h-14 w-14"></TextIcon>
                     </div>
-                    <h3 className="text-center">Text</h3>
+                    <h3 className="text-center">{t('editModal:text')}</h3>
                   </div>
 
                   <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('media')}
                   >
                     <div className="flex justify-center">
                       <VideoIcon className="h-14 w-14"></VideoIcon>
                     </div>
-                    <h3 className="text-center">Video/Bild</h3>
+                    <h3 className="text-center">{t('editModal:upload')}</h3>
                   </div>
 
                   <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('embed')}
                   >
                     <div className="flex justify-center">
@@ -113,30 +111,31 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                         Zurück
                       </button>
                     </div>
-
-                    {contentType == 'title' && (
-                      <TitleContentEdit
-                        setContentType={setContentType}
-                        storyStepId={storyStepId}
-                      ></TitleContentEdit>
-                    )}
-                    {contentType == 'embed' && (
-                      <EmbedContentEdit
-                        storyStepId={storyStepId}
-                      ></EmbedContentEdit>
-                    )}
-                    {contentType == 'text' && (
-                      <TextContentEdit
-                        setContentType={setContentType}
-                        storyStepId={storyStepId}
-                      ></TextContentEdit>
-                    )}
-                    {contentType == 'media' && (
-                      <MediaContentEdit
-                        setContentType={setContentType}
-                        storyStepId={storyStepId}
-                      ></MediaContentEdit>
-                    )}
+                    <div className="pt-2">
+                      {contentType == 'title' && (
+                        <TitleContentEdit
+                          setContentType={setContentType}
+                          storyStepId={storyStepId}
+                        ></TitleContentEdit>
+                      )}
+                      {contentType == 'embed' && (
+                        <EmbedContentEdit
+                          storyStepId={storyStepId}
+                        ></EmbedContentEdit>
+                      )}
+                      {contentType == 'text' && (
+                        <TextContentEdit
+                          setContentType={setContentType}
+                          storyStepId={storyStepId}
+                        ></TextContentEdit>
+                      )}
+                      {contentType == 'media' && (
+                        <MediaContentEdit
+                          setContentType={setContentType}
+                          storyStepId={storyStepId}
+                        ></MediaContentEdit>
+                      )}
+                    </div>
                   </div>
                 </CSSTransition>
               </>

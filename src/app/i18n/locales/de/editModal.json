@@ -2,5 +2,14 @@
   "save": "Speichern",
   "create": "Erstellen",
   "uploadImage": "Bild hochladen",
-  "dropFiles": "Dateien hier ablegen"
+  "dropFiles": "Dateien hier ablegen",
+  "choose_element": "Wähle aus, was für ein Element du deiner Folie hinzufügen möchtest.",
+  "heading": "Überschrift",
+  "text": "Text",
+  "upload": "Upload",
+  "content_updated": "Dein Inhalt wurde geupdated",
+  "content_created": "Dein inhalt wurde erstellt.",
+  "something_wrong": "Es hab einen Fehler.",
+  "content_not_created": "Dein Inhalt konnte nicht gespeichert werden. Versuche es nochmal.",
+  "headline_for_your_slide": "Gib eine Überschrift für deine Folie ein"
 }
