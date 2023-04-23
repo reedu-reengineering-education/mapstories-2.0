@@ -19,8 +19,8 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**',
       },
-    ]
-  }
+    ],
+  },
 }
 
 const removeImports = require('next-remove-imports')()

@@ -32,7 +32,7 @@ const useMedia = (stepId: string) => {
   const APIDeleteMedia = async (fileName: string, mediaId: string) => {
     const deleteImageRequest = deleteMedia(fileName, mediaId)
     const deletedContent = (await deleteImageRequest).data
-    
+
     return deletedContent
   }
 
