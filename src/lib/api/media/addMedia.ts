@@ -1,14 +1,14 @@
 import axios from '@/src/lib/axios'
 import { APIError } from '@/types'
-import { Image } from '@prisma/client'
+import { Media } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 
 export const addMedia = (
   storyId: string,
   stepId: string,
-  props: Partial<Image>,
+  props: Partial<Media>,
 ) => {
-  return axios.post<typeof props, AxiosResponse<Image, APIError>>(
+  return axios.post<typeof props, AxiosResponse<Media, APIError>>(
     `/api/mediaupload/${props.name}`,
     props,
   )

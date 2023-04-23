@@ -1,6 +1,6 @@
 import axios from '@/src/lib/axios'
-import { Image } from '@prisma/client'
+import { Media } from '@prisma/client'
 
 export const getMedia = (mediaId: string) => {
-  return axios.get<Image>(`/api/mediaupload/content/${mediaId}`)
+  return axios.get<Media>(`/api/mediaupload/content/${mediaId}`)
 }
