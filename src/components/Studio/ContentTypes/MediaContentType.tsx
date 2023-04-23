@@ -71,7 +71,7 @@ export function MediaContentEdit({
   }
   const { t } = useTranslation(lng, 'editModal')
 
-  const { updateMedia } = useMedia(storyStepId)
+  const { updateMedia, getMedia, addMedia } = useMedia(storyStepId)
   const { addContent, updateContent } = useStep(storyStepId)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -95,8 +95,6 @@ export function MediaContentEdit({
       onDrop,
     })
 
-  const { getMedia, addMedia } = useMedia(storyStepId)
-
   const style = useMemo(
     () => ({
       ...baseStyle,
@@ -113,13 +111,13 @@ export function MediaContentEdit({
         // get image table from db
         const media = (await getMedia(stepItem.mediaId)) as Media
         setFileType(stepItem.type)
+        setTabIndex(1)
         setSelectedValue(media.size!)
         if (
           stepItem.type === 'IMAGE' ||
           stepItem.type === 'AUDIO' ||
           stepItem.type === 'VIDEO'
         ) {
-          setTabIndex(1)
           setIsLoading(true)
           // get image file from s3
           const response = await getS3Image(media)
@@ -157,9 +155,23 @@ export function MediaContentEdit({
   async function onSubmit() {
     try {
       setIsSaving(true)
-      // if size is changed
       if (stepItem) {
-        await updateMedia(stepItem.imageId, { size: selectedValue } as Media)
+        // when image from url is selected
+        if (!tabIndex) {
+          await updateMedia(stepItem.mediaId, {
+            size: selectedValue,
+            url: fileUrl,
+          } as Media)
+        }
+        // when image from file is selected
+        if (tabIndex) {
+          if (!file) {
+            throw new Error('no file selected')
+          }
+          const media = await getMedia(stepItem.mediaId)
+          await uploadFile(file, media)
+          await updateMedia(stepItem.mediaId, { size: selectedValue } as Media)
+        }
         toast({
           message: 'Your content has been updated',
           type: 'success',
@@ -168,7 +180,7 @@ export function MediaContentEdit({
         // create image table
         if (tabIndex) {
           if (!file) {
-            throw new Error('No file selected')
+            throw new Error('no file selected')
           }
           const uploadedMedia = await addMedia({
             name: file.name,
@@ -296,12 +308,6 @@ export function MediaContentEdit({
             </div>
           </div>
         )}
-        {/* {isLoading && (
-          // show simple spinner while loading center this spinner in the div
-          <div className="flex justify-center">
-            <Spinner className="flex" />
-          </div>
-        )} */}
         <div className="pt-2">
           {fileUrl &&
             (fileType === 'IMAGE' ||
