@@ -2,5 +2,10 @@
   "save": "Save",
   "create": "Create",
   "uploadImage": "upload image",
-  "dropFiles": "Drop files here to upload"
+  "dropFiles": "Drop files here to upload",
+  "choose_element": "Choose which element you want to add to your slide.",
+  "heading": "Heading",
+  "text": "Text",
+  "upload": "Upload"
+
 }

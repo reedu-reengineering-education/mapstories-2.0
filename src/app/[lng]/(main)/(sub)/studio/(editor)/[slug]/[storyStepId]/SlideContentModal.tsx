@@ -40,45 +40,42 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
               timeout={400}
               unmountOnExit
             >
-              <div>
-                <p className="pb-2">
-                  Wähle aus was für ein Element du deiner Folie hinzufügen
-                  möchtest:
-                </p>
+              <div className="mx-2 px-2">
+                <p className="pb-2">{t('choose_element')}</p>
 
                 <div className="flex flex-wrap justify-center py-4">
                   <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('title')}
                   >
                     <div className="flex justify-center">
                       <HeadingIcon className="h-14 w-14"></HeadingIcon>
                     </div>
-                    <h3 className="text-center">Heading</h3>
+                    <h3 className="text-center">{t('heading')}</h3>
                   </div>
 
                   <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('text')}
                   >
                     <div className="flex justify-center">
                       <TextIcon className="h-14 w-14"></TextIcon>
                     </div>
-                    <h3 className="text-center">Text</h3>
+                    <h3 className="text-center">{t('text')}</h3>
                   </div>
 
                   <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('media')}
                   >
                     <div className="flex justify-center">
                       <VideoIcon className="h-14 w-14"></VideoIcon>
                     </div>
-                    <h3 className="text-center">Video/Bild</h3>
+                    <h3 className="text-center">{t('upload')}</h3>
                   </div>
 
                   <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-36 cursor-pointer px-4 py-2"
+                    className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('embed')}
                   >
                     <div className="flex justify-center">

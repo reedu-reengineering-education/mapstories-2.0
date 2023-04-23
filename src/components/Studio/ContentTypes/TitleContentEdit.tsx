@@ -3,7 +3,6 @@
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-import { useRouter } from 'next/navigation'
 
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
@@ -32,7 +31,6 @@ export function TitleContentEdit({
   setContentType,
   ...props
 }: TitleContentEditProps) {
-  const router = useRouter()
   const {
     handleSubmit,
     register,
