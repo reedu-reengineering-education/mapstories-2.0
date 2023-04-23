@@ -211,12 +211,18 @@ export function MediaContentEdit({
     setIsLoading(false)
   }
 
+  function changeTabIndex(index: number) {
+    setTabIndex(index)
+    setImageUrl('')
+    setFile(undefined)
+  }
+
   return (
     <div>
-      <Tabs onSelect={index => setTabIndex(index)} selectedIndex={tabIndex}>
+      <Tabs onSelect={index => changeTabIndex(index)} selectedIndex={tabIndex}>
         <TabList>
           <Tab>{t('externalImage')}</Tab>
-          <Tab>{t('uploadImage')}</Tab>
+          <Tab>{t('uploadFile')}</Tab>
         </TabList>
         <TabPanel>
           <div>
@@ -230,7 +236,7 @@ export function MediaContentEdit({
           </div>
         </TabPanel>
         <TabPanel>
-          <InputLabel>{t('uploadImage')}</InputLabel>
+          <InputLabel>{t('uploadFile')}</InputLabel>
           <p className="my-2 text-sm font-bold">Unterstützte Formate: </p>
           <span>
             <code>.jpg</code>

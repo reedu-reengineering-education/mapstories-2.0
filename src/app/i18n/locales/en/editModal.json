@@ -1,7 +1,7 @@
 {
   "save": "Save",
   "create": "Create",
-  "uploadImage": "upload image",
+  "uploadFile": "Upload file",
   "dropFiles": "Drop files here to upload",
   "externalImage": "Upload image from URL",
   "externalImageUrl": "URL",
