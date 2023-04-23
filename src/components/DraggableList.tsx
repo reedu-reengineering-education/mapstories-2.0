@@ -151,7 +151,7 @@ export function SortableItem({ id, children }: SortableItemProps) {
 
   return (
     <div
-      className="touch-manipulation"
+      className="touch-none"
       ref={setNodeRef}
       style={style}
       {...attributes}
