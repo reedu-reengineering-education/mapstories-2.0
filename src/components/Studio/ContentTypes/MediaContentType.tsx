@@ -158,7 +158,6 @@ export function MediaContentEdit({
     try {
       setIsSaving(true)
       // if size is changed
-
       if (stepItem) {
         await updateMedia(stepItem.imageId, { size: selectedValue } as Media)
         toast({
@@ -175,7 +174,6 @@ export function MediaContentEdit({
             name: file.name,
             size: selectedValue,
           })
-          console.log(uploadedMedia)
           // upload file to s3
           await uploadFile(file, uploadedMedia)
           await addContent({
@@ -306,7 +304,9 @@ export function MediaContentEdit({
         )} */}
         <div className="pt-2">
           {fileUrl &&
-            (fileType === 'IMAGE' || fileType === 'EXTERNALIMAGE') && (
+            (fileType === 'IMAGE' ||
+              fileType === 'EXTERNALIMAGE' ||
+              tabIndex === 0) && (
               <div className="m-2 flex justify-center">
                 <SizedImage
                   alt={fileUrl ? fileUrl : externalImageUrl}
