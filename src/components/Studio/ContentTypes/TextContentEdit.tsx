@@ -38,6 +38,7 @@ export function TextContentEdit({
 
   const { t } = useTranslation(lng, 'editModal')
 
+  const [textValue, setTextValue] = useState<string>('Your text here...')
   const { addContent, updateContent } = useStep(storyStepId)
 
   async function onSubmit(text: string) {
@@ -72,19 +73,26 @@ export function TextContentEdit({
     setContentType && setContentType('')
   }
 
+  function handleOnClick() {
+    if (textValue === 'Your text here...') {
+      setTextValue('')
+    }
+  }
+
   let textInEditor = 'Your text here...'
   stepItem ? (textInEditor = stepItem.content) : ''
 
-  const [value, setValue] = useState<string | undefined>(textInEditor)
   return (
     <div className="top-0">
       <div className="pb-4 pt-4">
-        <MDEditor
-          data-color-mode="light"
-          onChange={setValue}
-          preview="edit"
-          value={value}
-        />
+        <div onClick={handleOnClick}>
+          <MDEditor
+            data-color-mode="light"
+            onChange={setTextValue}
+            preview="edit"
+            value={textValue}
+          />
+        </div>
       </div>
       <Button
         disabled={isSaving}
