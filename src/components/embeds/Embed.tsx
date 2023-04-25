@@ -6,7 +6,6 @@ import * as React from 'react'
 import { PadletEmbed } from './PadletEmbed'
 import { SpotifyEmbed } from './SpotifyEmbed'
 import { WikipediaEmbed } from './WikipediaEmbed'
-import { YouTubeEmbed } from './YoutubeEmbed'
 import { VideoEmbed } from './VideoEmbeds'
 import { SocialMediaEmbed } from './SocialMediaEmbed'
 
@@ -45,14 +44,6 @@ export function Embed({
 
   return (
     <div className="h-full w-full">
-      {media && media.type == 'YOUTUBE' && (
-        <YouTubeEmbed
-          height={height}
-          options={options as { autoplay: boolean }}
-          url={media.content}
-          width={width}
-        />
-      )}
       {media && videoEmbedTypes.includes(media.type) && (
         <VideoEmbed height={height} url={media.content} width={width} />
       )}
