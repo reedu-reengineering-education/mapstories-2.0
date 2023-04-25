@@ -72,7 +72,7 @@ export function TextContentEdit({
     setContentType && setContentType('')
   }
 
-  let textInEditor = 'Your text here'
+  let textInEditor = 'Your text here...'
   stepItem ? (textInEditor = stepItem.content) : ''
 
   const [value, setValue] = useState<string | undefined>(textInEditor)
@@ -80,7 +80,7 @@ export function TextContentEdit({
     <div className="top-0">
       <div className="pb-4 pt-4">
         <MDEditor
-          data-color-mode="dark"
+          data-color-mode="light"
           onChange={setValue}
           preview="edit"
           value={value}
