@@ -6,12 +6,14 @@ import * as React from 'react'
 import { FacebookEmbed } from './FacebookEmbed'
 import { InstagramEmbed } from './InstagramEmbed'
 import { PadletEmbed } from './PadletEmbed'
+import { SoundCloudEmbed } from './SoundCloudEmbed'
 import { SpotifyEmbed } from './SpotifyEmbed'
 import { TikTokEmbed } from './TikTokEmbed'
 import { TwitterEmbed } from './TwitterEmbed'
+import { VimeoEmbed } from './VimeoEmbed'
 import { WikipediaEmbed } from './WikipediaEmbed'
 import { YouTubeEmbed } from './YoutubeEmbed'
-
+import { DailymotionEmbed } from './DailymotionEmbed'
 export interface EmbedProps
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDListElement>,
@@ -34,6 +36,7 @@ export function Embed({
     lng = fallbackLng
   }
   const { t } = useTranslation(lng, 'embeds')
+
   return (
     <div className="h-full w-full">
       {media && media.type == 'YOUTUBE' && (
@@ -65,6 +68,16 @@ export function Embed({
       {media && media.type == 'SPOTIFY' && (
         <SpotifyEmbed height={height} url={media.content} width={width} />
       )}
+      {media && media.type == 'SOUNDCLOUD' && (
+        <SoundCloudEmbed height={height} url={media.content} width={width} />
+      )}
+      {media && media.type == 'VIMEO' && (
+        <VimeoEmbed height={height} url={media.content} width={width} />
+      )}
+      {media && media.type == 'DAILYMOTION' && (
+        <DailymotionEmbed height={height} url={media.content} width={width} />
+      )}
+
       {media == null && <p>{t('Embed.notRecognized')}</p>}
     </div>
   )
