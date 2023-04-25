@@ -38,7 +38,9 @@ export function TextContentEdit({
 
   const { t } = useTranslation(lng, 'editModal')
 
-  const [textValue, setTextValue] = useState<string>('Your text here...')
+  const [textValue, setTextValue] = useState<string | undefined>(
+    'Your text here...',
+  )
   const { addContent, updateContent } = useStep(storyStepId)
 
   async function onSubmit(text: string) {
@@ -79,8 +81,7 @@ export function TextContentEdit({
     }
   }
 
-  let textInEditor = 'Your text here...'
-  stepItem ? (textInEditor = stepItem.content) : ''
+  stepItem ? setTextValue(stepItem.content) : ''
 
   return (
     <div className="top-0">
@@ -98,8 +99,8 @@ export function TextContentEdit({
         disabled={isSaving}
         isLoading={isSaving}
         onClick={() => {
-          if (value != undefined) {
-            onSubmit(value)
+          if (textValue != undefined) {
+            onSubmit(textValue)
           }
           setContentType ? setContentType('') : null
         }}
