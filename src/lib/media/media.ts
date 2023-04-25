@@ -27,13 +27,11 @@ export var media_types: media_type[] = [
     type: 'VIMEO',
     match_str: /(player.)?vimeo\.com/,
     content: '',
-    options: {},
   },
   {
     type: 'DAILYMOTION',
     match_str: /(www.)?dailymotion\.com/,
     content: '',
-    options: {},
   },
   // {
   //     type: 'vine',
@@ -45,7 +43,6 @@ export var media_types: media_type[] = [
     type: 'SOUNDCLOUD',
     match_str: /(player.)?soundcloud\.com/,
     content: '',
-    options: {},
   },
   {
     type: 'SPOTIFY',
