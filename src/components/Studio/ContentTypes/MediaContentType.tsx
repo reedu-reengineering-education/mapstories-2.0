@@ -158,6 +158,9 @@ export function MediaContentEdit({
       if (stepItem) {
         // when image from url is selected
         if (!tabIndex) {
+          if (!isValidLink(fileUrl)) {
+            throw new Error('Ungültiger Link/Invalid URL')
+          }
           await updateMedia(stepItem.mediaId, {
             size: selectedValue,
             url: fileUrl,
@@ -195,6 +198,9 @@ export function MediaContentEdit({
           })
         }
         if (!tabIndex) {
+          if (!isValidLink(fileUrl)) {
+            throw new Error('Ungültiger Link/Invalid URL')
+          }
           const uploadedMedia = await addMedia({
             name: generateRandomName(),
             url: fileUrl,
@@ -226,9 +232,7 @@ export function MediaContentEdit({
   }
 
   function handleExternalImageUrl(e: any) {
-    const valid = isValidLink(e.target.value)
-    valid ? setFileUrl(e.target.value) : console.log('kein gültiger link')
-    setIsLoading(false)
+    setFileUrl(e.target.value)
   }
 
   function changeTabIndex(index: number) {
