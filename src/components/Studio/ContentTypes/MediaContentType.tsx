@@ -20,6 +20,7 @@ import 'react-tabs/style/react-tabs.css'
 import { isValidLink } from '@/src/helper/isValidLink'
 import { generateRandomName } from '@/src/helper/generateRandomName'
 import ReactPlayer from 'react-player'
+import { Spinner } from '../../Elements/Spinner'
 
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -109,9 +110,9 @@ export function MediaContentEdit({
     const getMediaWrapper = async () => {
       if (stepItem) {
         // get image table from db
+        stepItem.type === 'EXTERNALIMAGE' ? setTabIndex(0) : setTabIndex(1)
         const media = (await getMedia(stepItem.mediaId)) as Media
         setFileType(stepItem.type)
-        setTabIndex(1)
         setSelectedValue(media.size!)
         if (
           stepItem.type === 'IMAGE' ||
@@ -126,7 +127,6 @@ export function MediaContentEdit({
         }
         if (stepItem.type === 'EXTERNALIMAGE' && media.url) {
           setFileUrl(media.url)
-          setTabIndex(0)
         }
         //const response = await getS3Image(im//await getImage2(stepItem)
       }
@@ -313,6 +313,11 @@ export function MediaContentEdit({
           </div>
         )}
         <div className="pt-2">
+          {isLoading && (
+            <div className="flex justify-center">
+              <Spinner />
+            </div>
+          )}
           {fileUrl &&
             (fileType === 'IMAGE' ||
               fileType === 'EXTERNALIMAGE' ||
