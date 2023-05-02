@@ -65,7 +65,7 @@ export default function CreateMapstoryModal({ trigger }: Props) {
           <Input
             errors={errors.name}
             label="Name"
-            size={32}
+            size={100}
             {...register('name')}
           />
         </Modal.Content>

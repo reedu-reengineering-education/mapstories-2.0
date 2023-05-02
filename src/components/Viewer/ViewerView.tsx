@@ -1,11 +1,10 @@
 'use client'
 
 import { SlideContent, Story, StoryStep } from '@prisma/client'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { MapRef, Popup, Source } from 'react-map-gl'
 import { Feature } from 'geojson'
 // import { LineString } from 'geojson'
-import ViewerMap from './ViewerMap'
 import { Button } from './../Elements/Button'
 import { usePathname, useRouter } from 'next/navigation'
 import mapboxgl from 'mapbox-gl'
@@ -14,6 +13,7 @@ import Markers from './ViewerMap/Layers/Markers'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
+import Map from '../Map'
 
 type ViewerViewProps = {
   stories:
@@ -39,6 +39,8 @@ export default function ViewerView({ stories }: ViewerViewProps) {
 
   const [interactiveLayerIds, setInteractiveLayerIds] = useState<any[]>()
   const [savedView, setSavedView] = useState<any>()
+  const [startView, setStartView] = useState<any>()
+
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
 
@@ -83,12 +85,30 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
     if (story?.steps) {
+      let bounds: any = undefined
       const newMarkers = story?.steps
         .filter(step => step.feature)
         .map(({ id, feature, position, content }) => {
           const geoFeature =
             feature as unknown as GeoJSON.Feature<GeoJSON.Point>
           if (geoFeature?.geometry?.coordinates?.length > 0) {
+            if (bounds === undefined) {
+              bounds = new mapboxgl.LngLatBounds(
+                [
+                  geoFeature?.geometry?.coordinates[0],
+                  geoFeature?.geometry?.coordinates[1],
+                ],
+                [
+                  geoFeature?.geometry?.coordinates[0],
+                  geoFeature?.geometry?.coordinates[1],
+                ],
+              )
+            } else {
+              bounds.extend([
+                geoFeature?.geometry?.coordinates[0],
+                geoFeature?.geometry?.coordinates[1],
+              ])
+            }
             const newMarker: any = {
               longitude: geoFeature.geometry.coordinates[0],
               latitude: geoFeature.geometry.coordinates[1],
@@ -102,6 +122,8 @@ export default function ViewerView({ stories }: ViewerViewProps) {
         })
       // @ts-ignore
       setMarkers(newMarkers)
+      //save bounds to zoomTo once map is initiated
+      setStartView(bounds)
     }
   }, [storyID])
 
@@ -205,77 +227,75 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   //   // }
   // }, [])
 
-  const onMapLoad = React.useCallback(() => {
+  const onMapLoad = useCallback(() => {
     if (selectedStepIndex) {
       updateToStep(selectedStepIndex)
     }
-  }, [])
+    if (Number.isNaN(selectedStepIndex)) {
+      mapRef.current?.fitBounds(startView)
+    }
+  }, [startView, mapRef])
 
   return (
-    <div>
-      <ViewerMap
-        interactiveLayerIds={interactiveLayerIds}
-        onLoad={onMapLoad}
-        // onMouseMove={onHover}
-        ref={mapRef}
-      >
-        <StorySourceLayer
-          geojsons={mapData}
-          selectedFeature={selectedFeature}
-          selectedStepIndex={selectedStepIndex}
-          storyID={storyID}
-        />
+    <Map
+      interactiveLayerIds={interactiveLayerIds}
+      onLoad={onMapLoad}
+      // onMouseMove={onHover}
+      ref={mapRef}
+    >
+      <StorySourceLayer
+        geojsons={mapData}
+        selectedFeature={selectedFeature}
+        selectedStepIndex={selectedStepIndex}
+        storyID={storyID}
+      />
 
-        {mapData &&
-          mapData.map((m, i) => {
-            return (
-              <Fragment key={i}>
-                {m.geometry.coordinates.length > 0 && (
-                  <>
-                    <Source
-                      data={m as Feature}
-                      id={m.properties?.id + 'source'}
-                      type="geojson"
-                    ></Source>
+      {mapData &&
+        mapData.map((m, i) => {
+          return (
+            <Fragment key={i}>
+              {m.geometry.coordinates.length > 0 && (
+                <>
+                  <Source
+                    data={m as Feature}
+                    id={m.properties?.id + 'source'}
+                    type="geojson"
+                  ></Source>
 
-                    {storyID === '' && (
-                      <Popup
-                        anchor="top"
-                        closeOnClick={false}
-                        latitude={m.geometry.coordinates[0][1]}
-                        longitude={m.geometry.coordinates[0][0]}
-                        // onClose={() => setPopupInfo(null)}
-                      >
-                        <div className="re-basic-box-no-filter">
-                          <div className="p-5">
-                            <h3>{m.properties?.name}</h3>
-                            <p> {m.properties?.desc}</p>
-                            <div className="mt-2 flex justify-end">
-                              <Button
-                                className=""
-                                onClick={() => selectStory(m)}
-                              >
-                                Mehr erfahren
-                              </Button>
-                            </div>
+                  {storyID === '' && (
+                    <Popup
+                      anchor="top"
+                      closeOnClick={false}
+                      latitude={m.geometry.coordinates[0][1]}
+                      longitude={m.geometry.coordinates[0][0]}
+                      // onClose={() => setPopupInfo(null)}
+                    >
+                      <div className="re-basic-box-no-filter overflow-hidden">
+                        <div className="p-5">
+                          <h3>{m.properties?.name}</h3>
+                          <p> {m.properties?.desc}</p>
+                          <div className="mt-2 flex justify-end">
+                            <Button className="" onClick={() => selectStory(m)}>
+                              Mehr erfahren
+                            </Button>
                           </div>
                         </div>
-                      </Popup>
-                    )}
-                    {storyID != '' && (
-                      <>
-                        <Markers
-                          markers={markers}
-                          // onClick={m => router.push(`/viewer/story/${SLUGWHERE}}/${m.position}`)}
-                        />
-                      </>
-                    )}
-                  </>
-                )}
-              </Fragment>
-            )
-          })}
-      </ViewerMap>
-    </div>
+                      </div>
+                    </Popup>
+                  )}
+                  {storyID != '' && (
+                    <>
+                      <Markers
+                        markers={markers}
+                        // onClick={m => router.push(`/viewer/story/${SLUGWHERE}}/${m.position}`)}
+                      />
+                    </>
+                  )}
+                </>
+              )}
+            </Fragment>
+          )
+        })}
+    </Map>
   )
 }

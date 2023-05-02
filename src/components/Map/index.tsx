@@ -30,26 +30,18 @@ const Map = forwardRef<MapRef, MapProps>(
         initialViewState={{
           longitude: 7.5,
           latitude: 51.5,
-          zoom: 7,
+          zoom: 3,
         }}
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
         // mapLib={maplibregl}
-        mapStyle={
-          mapStyle ||
-          `https://api.maptiler.com/maps/outdoor/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_KEY}`
-        }
-        pitchWithRotate={false}
+        mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v12'}
         preserveDrawingBuffer
         projection={'globe'}
         ref={ref}
         style={{
           width: '100%',
           height: '100%',
-          position: 'absolute',
-          top: 0,
-          left: 0,
         }}
-        touchZoomRotate={false}
         {...props}
       >
         {children}

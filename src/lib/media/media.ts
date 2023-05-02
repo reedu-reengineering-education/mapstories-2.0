@@ -3,7 +3,7 @@ import { MediaType } from '@prisma/client'
 export interface media_type {
   type: MediaType
   match_str: RegExp
-  content: String
+  content: string
 }
 // better like this: https://stackoverflow.com/questions/33913737/inserting-the-iframe-into-react-component
 
@@ -47,6 +47,11 @@ export var media_types: media_type[] = [
   //     content: '',
   //     options: {}
   // },
+  {
+    type: 'SPOTIFY',
+    match_str: /(player.)?spotify\.com/,
+    content: '',
+  },
   {
     type: 'TWITTER',
     match_str: /(www.)?twitter\.com/,

@@ -15,7 +15,6 @@ export async function generateMetadata({
     },
   }
 }
-
 interface StoryPageProps {
   params: { slug: string[] }
 }

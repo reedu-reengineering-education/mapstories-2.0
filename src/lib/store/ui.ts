@@ -4,6 +4,8 @@ import { StoryState } from './story'
 export interface UIState {
   language: string
   setLanguage: (lng: string) => void
+  slidesOpen: boolean
+  setSlidesOpen: (open: boolean) => void
 }
 
 export const useUIStore: StateCreator<
@@ -14,9 +16,6 @@ export const useUIStore: StateCreator<
 > = set => ({
   language: '',
   setLanguage: (lng: string) => set({ language: lng }),
+  slidesOpen: false,
+  setSlidesOpen: (open: boolean) => set({ slidesOpen: open }),
 })
-
-// create<UIState>(set => ({
-//   language: '',
-//   setLanguage: (lng: string) => set({ language: lng }),
-// }))

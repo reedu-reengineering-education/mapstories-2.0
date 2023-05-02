@@ -121,9 +121,11 @@ model SlideContent {
   type        MediaType
   position    Int
   options     Json?
-  storyStep   StoryStep @relation(fields: [storyStepId], references: [id])
+  storyStep   StoryStep @relation(fields: [storyStepId], references: [id], onDelete: Cascade)
   storyStepId String
   ogData      Json?
+  media       Media?    @relation(fields: [mediaId], references: [id])
+  mediaId     String?   @unique
 
   @@map(name: "slidecontent")
 }
@@ -139,12 +141,25 @@ model Connection {
   @@map(name: "connections")
 }
 
+model Media {
+  id      String         @id @default(cuid())
+  name    String
+  size    String?
+  url     String?
+  altText String?
+  caption String?
+  slide   SlideContent[]
+
+  @@map(name: "media")
+}
+
 enum Visibility {
   PRIVATE
   PUBLIC
 }
 
 enum MediaType {
+  SPOTIFY
   YOUTUBE
   INSTAGRAM
   TIKTOK
@@ -156,4 +171,6 @@ enum MediaType {
   TITLE
   VIDEO
   IMAGE
+  EXTERNALIMAGE
+  AUDIO
 }

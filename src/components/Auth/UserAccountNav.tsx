@@ -44,11 +44,11 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
               {t('settings')}
             </Link>
           </DropdownMenu.Item>
-          <DropdownMenu.Item disabled>
+          {/* <DropdownMenu.Item disabled>
             <Link className="w-full" href="/dashboard/billing">
               Billing
             </Link>
-          </DropdownMenu.Item>
+          </DropdownMenu.Item> */}
           <DropdownMenu.Separator />
           <DropdownMenu.Item
             className="cursor-pointer"

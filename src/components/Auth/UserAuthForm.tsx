@@ -12,6 +12,9 @@ import { toast } from '@/src/lib/toast'
 import { cx } from 'class-variance-authority'
 import { Button } from '../Elements/Button'
 import { Input } from '../Elements/Input'
+import { useBoundStore } from '@/src/lib/store/store'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useRouter } from 'next/navigation'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -25,8 +28,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   } = useForm<FormData>({
     resolver: zodResolver(userAuthSchema),
   })
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'login')
+
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const searchParams = useSearchParams()
+
+  const router = useRouter()
 
   async function onSubmit(data: FormData) {
     setIsLoading(true)
@@ -41,15 +49,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
     if (!signInResult?.ok) {
       return toast({
-        title: 'Something went wrong.',
-        message: 'Your sign in request failed. Please try again.',
+        title: t('something_wrong'),
+        message: t('signin_fail'),
         type: 'error',
       })
     }
 
+    router.push('checkmail')
     return toast({
-      title: 'Check your email',
-      message: 'We sent you a login link. Be sure to check your spam too.',
+      title: t('check_mail'),
+      message: t('send_login_link'),
       type: 'success',
     })
   }
@@ -70,7 +79,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           {...register('email')}
         />
         <Button className="w-full" isLoading={isLoading} type="submit">
-          Sign In with Email
+          {t('sign_in_with_email')}
         </Button>
       </form>
       {/* Below this block we could add further login methods */}

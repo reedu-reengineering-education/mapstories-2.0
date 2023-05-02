@@ -1,4 +1,17 @@
 {
   "save": "Save",
-  "create": "Create"
+  "create": "Create",
+  "uploadFile": "Upload file",
+  "dropFiles": "Drop files here to upload",
+  "externalImage": "Upload image from URL",
+  "externalImageUrl": "URL",
+  "choose_element": "Choose which element you want to add to your slide.",
+  "heading": "Heading",
+  "text": "Text",
+  "upload": "Upload",
+  "content_updated": "Your content has been updated",
+  "content_created": "Your content has been created",
+  "something_wrong": "Something went wrong.",
+  "content_not_created": "Your content was not created. Please try again.",
+  "headline_for_your_slide": "Add a title to your slide."
 }

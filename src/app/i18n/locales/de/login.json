@@ -1,0 +1,13 @@
+{
+  "welcome_back": "Willkommen zurück",
+  "enter_email_for_signin": "Gib deine E-Mail-Adresse ein, um dich anzumelden.",
+  "no_account": "Noch keinen Account? Hier registrieren!",
+  "back": "Zurück",
+  "sign_in_with_email": "Mit E-Mail-Adresse anmelden",
+  "something_wrong": "Etwas ist schiefgelaufen.",
+  "signin_fail": "Die Anmeldung ist fehlgeschlagen. Bitte versuche es erneut.",
+  "check_mail": "Prüfe dein E-Mail-Postfach",
+  "send_login_link": "Wir haben dir einen Link zum Anmelden geschickt.",
+  "success": "E-Mail erfolgreich versendet",
+  "check_mail_for_sign_in": "Klicke auf den Link in deinem E-Mail-Postfach, um dich anzumelden."
+}

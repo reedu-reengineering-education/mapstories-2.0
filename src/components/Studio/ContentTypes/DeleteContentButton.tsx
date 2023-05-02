@@ -24,7 +24,7 @@ export default function DeleteContentButton({
   async function handleClick() {
     try {
       setIsSaving(true)
-      await deleteContent(stepContentId)
+      const deletedContent = await deleteContent(stepContentId)
       toast({
         message: 'Der Inhalt wurde gelöscht.',
         type: 'success',
@@ -43,12 +43,12 @@ export default function DeleteContentButton({
   }
 
   return (
-    <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
+    <div className="absolute right-1 top-1 z-10 overflow-hidden rounded-md group-hover:visible">
       <Modal
         title={
           <span>
             Willst du den Inhalt
-            <span className="rounded bg-slate-100 py-1 px-2">
+            <span className="rounded bg-slate-100 px-2 py-1">
               {stepContentId}
             </span>
             wirklich löschen?

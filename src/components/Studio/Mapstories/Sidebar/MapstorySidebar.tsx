@@ -16,10 +16,13 @@ import AddStoryStepButton from './AddStoryStepButton'
 import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import { Tooltip } from '@/src/components/Tooltip'
+import { useRouter } from 'next/navigation'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstorySidebar')
+
+  const router = useRouter()
 
   const setStoryID = useBoundStore(state => state.setStoryID)
 
@@ -109,7 +112,9 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
             slug: story.slug,
             component: (
               <div className="group relative">
-                <Link href={`/studio/${story.slug}/${s.id}`}>
+                <div
+                  onClick={() => router.push(`/studio/${story.slug}/${s.id}`)}
+                >
                   <SidebarSlide
                     active={stepId === s.id}
                     markerHover={s.id === markerId}
@@ -119,15 +124,15 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                   <p className="ml-6 max-w-[80%] truncate text-xs">
                     {getSlideTitle(s.content)}
                   </p>
-                </Link>
-                <div className="absolute top-1 right-1 z-10 overflow-hidden rounded-md group-hover:visible">
+                </div>
+                <div className="absolute right-1 top-1 z-10 overflow-hidden rounded-md group-hover:visible">
                   {s.storyId && (
                     <DeleteStepButton storyId={s.storyId} storyStepId={s.id} />
                   )}
                 </div>
                 {!s.feature && (
                   <div
-                    className="absolute top-12 right-1 z-10 flex cursor-pointer rounded-md p-2 group-hover:visible"
+                    className="absolute right-1 top-12 z-10 flex cursor-pointer rounded-md p-2 group-hover:visible"
                     key={s.id}
                     onMouseEnter={() => handleMouseEnter(i)}
                     onMouseLeave={() => handleMouseLeave(i)}
