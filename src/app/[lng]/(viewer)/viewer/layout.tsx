@@ -11,7 +11,14 @@ interface ViewerLayoutProps {
 const getMapstories = async (userId: string) => {
   return await db.story.findMany({
     where: {
-      ownerId: userId,
+      OR: [
+        {
+          ownerId: userId,
+        },
+        {
+          visibility: 'PUBLIC',
+        },
+      ],
     },
     include: {
       firstStep: {
