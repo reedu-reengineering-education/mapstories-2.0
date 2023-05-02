@@ -49,11 +49,14 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
     <>
       <div className="flex gap-6 md:gap-10">
         <Link
-          className="hidden items-center space-x-2 text-zinc-50 md:flex"
+          className="relative hidden items-center space-x-2 text-zinc-50 md:flex"
           href="/"
         >
           <GlobeAltIcon className="w-8 " />
           <span className="hidden font-bold sm:inline-block">Mapstories</span>
+          <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary">
+            BETA
+          </span>
         </Link>
         {routes?.length ? (
           <nav className="hidden gap-6 md:flex">

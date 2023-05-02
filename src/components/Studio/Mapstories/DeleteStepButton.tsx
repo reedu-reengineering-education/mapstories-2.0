@@ -49,9 +49,8 @@ export default function DeleteStepButton({
     <Modal
       title={
         <span>
-          Willst du die Slide
-          <span className="rounded bg-slate-100 px-2 py-1">{storyStepId}</span>
-          wirklich löschen?
+          Willst du die Slide wirklich löschen?
+          {/* <span className="rounded bg-slate-100 px-2 py-1">{storyStepId}</span> */}
         </span>
       }
       trigger={
