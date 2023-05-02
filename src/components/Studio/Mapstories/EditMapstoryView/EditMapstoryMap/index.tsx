@@ -42,7 +42,6 @@ export default function EditMapstoryMap({
     lat: undefined,
     lng: undefined,
   })
-  const [cursor, setCursor] = useState<string>('auto')
 
   // generate markers
   useEffect(() => {
@@ -75,10 +74,8 @@ export default function EditMapstoryMap({
 
     if (!hoverSteps || hoverSteps.length < 1) {
       setHoverMarkerId('')
-      setCursor('auto')
       return
     }
-    setCursor('pointer')
 
     const { stepId } = hoverSteps[0].properties as GeoJsonProperties & {
       stepId?: string
@@ -111,7 +108,6 @@ export default function EditMapstoryMap({
 
   return (
     <Map
-      cursor={cursor}
       interactiveLayerIds={['step-hover']}
       onClick={e => {
         // if (!steps?.find(s => s.id === currentStepId)?.feature) {
