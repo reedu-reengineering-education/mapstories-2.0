@@ -14,6 +14,8 @@ import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import Map from '../Map'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useTranslation } from '@/src/app/i18n/client'
 
 type ViewerViewProps = {
   stories:
@@ -45,6 +47,12 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
 
   const router = useRouter()
+
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'viewer')
 
   useEffect(() => {
     if (selectedStepIndex != undefined) {
@@ -276,7 +284,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
                           <p> {m.properties?.desc}</p>
                           <div className="mt-2 flex justify-end">
                             <Button className="" onClick={() => selectStory(m)}>
-                              Mehr erfahren
+                              {t('more')}
                             </Button>
                           </div>
                         </div>

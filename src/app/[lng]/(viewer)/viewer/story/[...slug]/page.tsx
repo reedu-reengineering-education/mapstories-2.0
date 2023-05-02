@@ -8,7 +8,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const name = (await getStoryName(params.slug))?.name
+  const name = (await getStoryName(params.slug[0]))?.name
   return {
     title: name ?? params.slug.toString().split('-')[0],
     openGraph: {
