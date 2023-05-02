@@ -26,8 +26,8 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
         href: `/${lng}/studio`,
       },
       {
-        title: t('about'),
-        href: `/${lng}/about`,
+        title: t('viewer'),
+        href: `/${lng}/viewer`,
       },
       {
         title: t('contact'),
@@ -35,8 +35,12 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
         disabled: true,
       },
       {
-        title: t('viewer'),
-        href: `/${lng}/viewer`,
+        title: t('about'),
+        href: `/${lng}/about`,
+      },
+      {
+        title: t('impressum'),
+        href: `/${lng}/impressum`,
       },
     ])
   }, [lng, t])
