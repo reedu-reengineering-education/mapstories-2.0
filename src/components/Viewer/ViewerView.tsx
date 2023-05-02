@@ -47,6 +47,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
 
   const router = useRouter()
+  const [cursor, setCursor] = useState<string>('auto')
 
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
@@ -223,17 +224,15 @@ export default function ViewerView({ stories }: ViewerViewProps) {
     }
   }
 
-  // const onHover = useCallback(event => {
-  //   //TODO: we want this?
+  // const onHover = (event: mapboxgl.MapLayerMouseEvent) => {
+  //   const hoverSteps = event.features
 
-  //   // const feature = event.features && event.features[0]
-  //   // if (feature) {
-  //   //   // setPopupPosition(event.lngLat)
-  //   //   setSelectedFeature(feature)
-  //   // } else {
-  //   //   setSelectedFeature(undefined)
-  //   // }
-  // }, [])
+  //   if (!hoverSteps || hoverSteps.length < 1) {
+  //     setCursor('auto')
+  //     return
+  //   }
+  //   setCursor('pointer')
+  // }
 
   const onMapLoad = useCallback(() => {
     if (selectedStepIndex) {
@@ -246,6 +245,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
 
   return (
     <Map
+      // cursor={cursor}
       interactiveLayerIds={interactiveLayerIds}
       onLoad={onMapLoad}
       // onMouseMove={onHover}

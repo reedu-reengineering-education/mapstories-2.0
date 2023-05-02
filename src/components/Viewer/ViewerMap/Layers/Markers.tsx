@@ -72,6 +72,7 @@ export default function Markers({ markers, onClick }: Props) {
                 // rotationAlignment='horizon'
                 style={{
                   padding: '10px',
+                  cursor: 'pointer',
                 }}
               >
                 {/* <img height="55px" src={eric.src} width="55px"></img> */}
