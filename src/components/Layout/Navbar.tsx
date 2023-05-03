@@ -22,7 +22,7 @@ export function Navbar({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setRoutes([
       {
-        title: 'Studio',
+        title: 'StoryLab',
         href: `/${lng}/studio`,
       },
       {
