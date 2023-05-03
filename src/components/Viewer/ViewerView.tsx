@@ -217,6 +217,12 @@ export default function ViewerView({ stories }: ViewerViewProps) {
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
+          padding: {
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 150,
+          },
           zoom: 15,
           essential: true,
         })

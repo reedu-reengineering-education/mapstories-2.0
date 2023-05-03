@@ -14,12 +14,12 @@
 .ToolbarLink,
 .ToolbarButton {
   flex: 0 0 auto;
-  color: #aab315;
-  height: 25px;
-  padding: 0 5px;
+  color: #38383a;
+  // height: 39px;
+  padding: 5px 5px;
   border-radius: 4px;
   display: inline-flex;
-  font-size: 13px;
+  font-size: 23px;
   line-height: 1;
   align-items: center;
   justify-content: center;
@@ -57,7 +57,7 @@
 
 .ToolbarLink {
   background-color: transparent;
-  color: var(--mauve11);
+  color: #38383a;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -76,4 +76,7 @@
 .ToolbarButton:hover {
   background-color: #f1f5fd;
   color: white;
+}
+.ToolbarToggleItem:disabled {
+  color: #ccc !important;
 }

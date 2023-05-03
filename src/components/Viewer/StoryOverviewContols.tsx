@@ -13,11 +13,8 @@ import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListView
 import {
   CaretDownIcon,
   Cross1Icon,
-  HomeIcon,
   PlayIcon,
   ReloadIcon,
-  TrackNextIcon,
-  TrackPreviousIcon,
 } from '@radix-ui/react-icons'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
@@ -31,7 +28,6 @@ export function StoryOverviewControls({ slug, page }: Props) {
   const router = useRouter()
   const setStoryID = useBoundStore(state => state.setStoryID)
   const { story } = useStory(slug)
-  // const [slidesOpen, setSlidesOpen] = useState(false)
   const setSlidesOpen = useBoundStore(state => state.setSlidesOpen)
   const slidesOpen = useBoundStore(state => state.slidesOpen)
 
@@ -59,9 +55,9 @@ export function StoryOverviewControls({ slug, page }: Props) {
     // }
 
     updateSelectedStepIndex(parseInt(page))
-    if (parseInt(page) == 0) {
-      setSlidesOpen(true)
-    }
+    // if (parseInt(page) == 0) {
+    //   setSlidesOpen(true)
+    // }
   }, [page])
 
   function nextStep() {
@@ -80,6 +76,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
 
   useEffect(() => {
     updateSelectedStepIndex(parseInt(page))
+    setSlidesOpen(false)
   }, [])
 
   function startStory() {
@@ -133,7 +130,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
                   aria-label="StoryControls"
                   className="ToolbarRoot"
                 >
-                  <Toolbar.ToggleGroup
+                  {/* <Toolbar.ToggleGroup
                     aria-label="Story Contols"
                     type="multiple"
                   >
@@ -162,7 +159,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
                       <TrackNextIcon />
                     </Toolbar.ToggleItem>
                   </Toolbar.ToggleGroup>
-                  <Toolbar.Separator className="ToolbarSeparator" />
+                  <Toolbar.Separator className="ToolbarSeparator" /> */}
                   <Toolbar.ToggleGroup
                     aria-label="Viewer Controls"
                     defaultValue="center"
@@ -172,6 +169,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
                       aria-label="Restart story"
                       className="ToolbarToggleItem"
                       onClick={() => startStory()}
+                      title="Restart Story"
                       value="restart"
                     >
                       <ReloadIcon />
@@ -180,6 +178,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
                       aria-label="Quit story"
                       className="ToolbarToggleItem"
                       onClick={() => router.push('viewer')}
+                      title="Quit Story"
                       value="quit"
                     >
                       <Cross1Icon />
