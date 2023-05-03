@@ -47,11 +47,10 @@ export default function DeleteContentButton({
       <Modal
         title={
           <span>
-            Willst du den Inhalt
-            <span className="rounded bg-slate-100 px-2 py-1">
+            Willst du den Inhalt wirklich löschen?
+            {/* <span className="rounded bg-slate-100 px-2 py-1">
               {stepContentId}
-            </span>
-            wirklich löschen?
+            </span> */}
           </span>
         }
         trigger={

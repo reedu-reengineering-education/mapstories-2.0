@@ -59,6 +59,7 @@ export default function Markers({ markers, onClick, onChange }: Props) {
           onDragEnd={onChange}
           style={{
             padding: '10px',
+            cursor: 'pointer',
           }}
         ></Marker>
       ))}

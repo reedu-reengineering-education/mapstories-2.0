@@ -8,6 +8,7 @@ import PreviewSlide from '@/src/components/Studio/Mapstories/PreviewSlide'
 import PreviewSlideButton from '@/src/components/Studio/Mapstories/PreviewSlideButton'
 import { Metadata } from 'next/types'
 import { getStoryName } from '@/src/lib/getStoryName'
+import { useTranslation } from '@/src/app/i18n'
 
 export async function generateMetadata({
   params,
@@ -54,6 +55,7 @@ export default async function StepPage({
   params: { slug, storyStepId, lng },
 }: EditorPageProps) {
   const story = await getStory(slug)
+  const { t } = await useTranslation(lng, 'step')
 
   if (!story?.id) {
     return <p>Loading...</p>
@@ -68,7 +70,7 @@ export default async function StepPage({
         {storyStep?.content && storyStep.content.length > 0 && (
           <PreviewSlideButton />
         )}
-        <h3 className="pb-4">Media / Text</h3>
+        <h3 className="pb-4"></h3>
         <div>
           <SlideContentListEdit
             stepId={storyStepId}
@@ -84,8 +86,7 @@ export default async function StepPage({
               startIcon={<PlusIcon className="h-10"></PlusIcon>}
               variant={'primary'}
             >
-              Medien, Texte <br />
-              Bilder, Videos
+              {t('addMedia')}
             </Button>
           }
         />

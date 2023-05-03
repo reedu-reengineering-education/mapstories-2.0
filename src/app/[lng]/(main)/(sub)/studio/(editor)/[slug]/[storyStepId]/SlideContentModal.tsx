@@ -4,10 +4,10 @@ import { useState } from 'react'
 import { Modal } from '@/src/components/Modal'
 import {
   ArrowLeftIcon,
+  CaretSortIcon,
   HeadingIcon,
   TextIcon,
-  TwitterLogoIcon,
-  VideoIcon,
+  UploadIcon,
 } from '@radix-ui/react-icons'
 import React from 'react'
 import { CSSTransition } from 'react-transition-group'
@@ -70,7 +70,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                     onClick={() => setContentType('media')}
                   >
                     <div className="flex justify-center">
-                      <VideoIcon className="h-14 w-14"></VideoIcon>
+                      <UploadIcon className="h-14 w-14"></UploadIcon>
                     </div>
                     <h3 className="text-center">{t('editModal:upload')}</h3>
                   </div>
@@ -80,9 +80,9 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                     onClick={() => setContentType('embed')}
                   >
                     <div className="flex justify-center">
-                      <TwitterLogoIcon className="h-14 w-14"></TwitterLogoIcon>
+                      <CaretSortIcon className="h-14 w-14 rotate-90"></CaretSortIcon>
                     </div>
-                    <h3 className="text-center">{t('embeds:EmbedName')}</h3>
+                    <h3 className="text-center">{t('editModal:embed')}</h3>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@/src/components/Elements/Button'
 import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
 import { useRouter } from 'next/navigation'
@@ -58,9 +57,9 @@ export function Slides({ slug, page }: Props) {
           }
         ></Slide>
       )}
-      {page != 'start' && parseInt(page) + 1 < (story?.steps?.length ?? 0) && (
+      {/* {page != 'start' && parseInt(page) + 1 < (story?.steps?.length ?? 0) && (
         <Button onClick={() => nextStep()}>Weiter</Button>
-      )}
+      )} */}
     </div>
   )
 }

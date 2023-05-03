@@ -19,6 +19,8 @@ import {
   TrackNextIcon,
   TrackPreviousIcon,
 } from '@radix-ui/react-icons'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useTranslation } from '@/src/app/i18n/client'
 
 type Props = {
   slug: string
@@ -36,6 +38,12 @@ export function StoryOverviewControls({ slug, page }: Props) {
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
   )
+
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'viewer')
 
   useEffect(() => {
     if (story) {
@@ -96,14 +104,14 @@ export function StoryOverviewControls({ slug, page }: Props) {
                   onClick={() => startStory()}
                   startIcon={<PlayIcon className="w-4" />}
                 >
-                  Abspielen
+                  {t('play')}
                 </Button>
 
                 <Button
                   onClick={() => router.push('viewer')}
                   startIcon={<Cross1Icon className="w-4" />}
                 >
-                  Abbrechen
+                  {t('close')}
                 </Button>
               </div>
             </>
@@ -116,7 +124,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
                   onClick={() => setSlidesOpen(!slidesOpen)}
                 >
                   <span className="whitespace-nowrap">
-                    Schritt {parseInt(page) + 1}/{story?.steps?.length}
+                    {parseInt(page) + 1}/{story?.steps?.length}
                   </span>
                   <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
                 </button>

@@ -14,6 +14,8 @@ import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import Map from '../Map'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useTranslation } from '@/src/app/i18n/client'
 
 type ViewerViewProps = {
   stories:
@@ -45,6 +47,13 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
 
   const router = useRouter()
+  const [cursor, setCursor] = useState<string>('auto')
+
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'viewer')
 
   useEffect(() => {
     if (selectedStepIndex != undefined) {
@@ -215,17 +224,15 @@ export default function ViewerView({ stories }: ViewerViewProps) {
     }
   }
 
-  // const onHover = useCallback(event => {
-  //   //TODO: we want this?
+  // const onHover = (event: mapboxgl.MapLayerMouseEvent) => {
+  //   const hoverSteps = event.features
 
-  //   // const feature = event.features && event.features[0]
-  //   // if (feature) {
-  //   //   // setPopupPosition(event.lngLat)
-  //   //   setSelectedFeature(feature)
-  //   // } else {
-  //   //   setSelectedFeature(undefined)
-  //   // }
-  // }, [])
+  //   if (!hoverSteps || hoverSteps.length < 1) {
+  //     setCursor('auto')
+  //     return
+  //   }
+  //   setCursor('pointer')
+  // }
 
   const onMapLoad = useCallback(() => {
     if (selectedStepIndex) {
@@ -238,6 +245,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
 
   return (
     <Map
+      // cursor={cursor}
       interactiveLayerIds={interactiveLayerIds}
       onLoad={onMapLoad}
       // onMouseMove={onHover}
@@ -276,7 +284,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
                           <p> {m.properties?.desc}</p>
                           <div className="mt-2 flex justify-end">
                             <Button className="" onClick={() => selectStory(m)}>
-                              Mehr erfahren
+                              {t('more')}
                             </Button>
                           </div>
                         </div>

@@ -1,7 +1,11 @@
+import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
+import { Button } from '@/src/components/Elements/Button'
+import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 interface ViewerLayoutProps {
@@ -43,7 +47,16 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
         <header className="container sticky top-0">
           <div className="flex h-16 items-center justify-between py-4">
             <InverseNavbar>
-              <></>
+              <div className="flex space-x-2">
+                <LangSwitcher />
+                {user ? (
+                  <UserAccountNav user={user} />
+                ) : (
+                  <Link href="/login">
+                    <Button>Login</Button>
+                  </Link>
+                )}
+              </div>
             </InverseNavbar>
           </div>
         </header>
