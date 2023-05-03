@@ -23,7 +23,7 @@ interface StoryPageProps {
 export default async function StoryPage({ params: { slug } }: StoryPageProps) {
   return (
     <>
-      <div className="absolute left-5 top-20 z-20">
+      <div className=" absolute left-5 top-20 z-20">
         <StoryOverviewControls
           page={slug[1]}
           slug={slug[0]}

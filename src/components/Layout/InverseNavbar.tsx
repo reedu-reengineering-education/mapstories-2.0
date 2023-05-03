@@ -22,7 +22,7 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setRoutes([
       {
-        title: 'Studio',
+        title: 'StoryLab',
         href: `/${lng}/studio`,
       },
       {

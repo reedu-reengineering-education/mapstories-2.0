@@ -97,7 +97,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
             <h3>{story?.name}</h3>
           </div>
           {page == 'start' && (
-            <>
+            <div className="re-title-slide">
               <Slide step={story?.firstStep}></Slide>
               <div className="flex justify-between">
                 <Button
@@ -114,7 +114,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
                   {t('close')}
                 </Button>
               </div>
-            </>
+            </div>
           )}
           {page != 'start' && (
             <>
