@@ -86,9 +86,12 @@ export default function Markers({ markers, onClick }: Props) {
                   padding: '10px',
                 }}
               >
-                <h3 className="label-shadow">
-                  {m.position + 1}. {m.title}{' '}
-                </h3>
+                {selectedStepIndex == m.position && (
+                  <h3 className="label-shadow">
+                    {m.position + 1}. {m.title}{' '}
+                  </h3>
+                )}
+                {selectedStepIndex != m.position && <h3></h3>}
               </Marker>
             </>
           )}
