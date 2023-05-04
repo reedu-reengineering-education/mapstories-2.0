@@ -83,10 +83,12 @@ export function SlideContentListEdit({ storyId, stepId }: Props) {
                       ></ContentEditFactory>
                     </Modal.Content>
                   </Modal>
-                  <DeleteContentButton
-                    stepContentId={stepItem.id}
-                    storyStepId={stepItem.storyStepId}
-                  />
+                  {stepItem.type !== 'TITLE' && (
+                    <DeleteContentButton
+                      stepContentId={stepItem.id}
+                      storyStepId={stepItem.storyStepId}
+                    />
+                  )}
                 </div>
               ),
             }))!
