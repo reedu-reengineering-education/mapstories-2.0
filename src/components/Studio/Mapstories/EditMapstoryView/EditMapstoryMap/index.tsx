@@ -42,13 +42,6 @@ export default function EditMapstoryMap({
   const { updateStep } = useStep(currentStepId)
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
-  // const [geocoder_Coords, setGeocoderCoords] = useState<{
-  //   lat: number | undefined
-  //   lng: number | undefined
-  // }>({
-  //   lat: undefined,
-  //   lng: undefined,
-  // })
 
   function createPointFeature(
     coordinates: GeoJSON.Position,
@@ -63,11 +56,11 @@ export default function EditMapstoryMap({
     }
   }
 
-  const [geocoder_Coords, setGeocoderCoords] =
+  const [geocoderResult, setGeocoderResult] =
     useState<GeoJSON.Feature<GeoJSON.Point>>()
 
   const handleRemovePoint = useCallback(() => {
-    setGeocoderCoords(undefined)
+    setGeocoderResult(undefined)
   }, [])
 
   // generate markers
@@ -149,9 +142,15 @@ export default function EditMapstoryMap({
         language="de"
         onClear={handleRemovePoint}
         onResult={e => {
-          const coordinates = e.result.geometry.coordinates as GeoJSON.Position
-          const pointFeature = createPointFeature(coordinates)
-          setGeocoderCoords(pointFeature)
+          const [lng, lat] = e.result.geometry.coordinates
+          setGeocoderResult({
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [lng, lat],
+            },
+            properties: e.result.properties,
+          })
         }}
         position="top-left"
       />
@@ -177,19 +176,19 @@ export default function EditMapstoryMap({
           longitude={geocoder_Coords.lat}
         ></Marker>
       )} */}
-      {geocoder_Coords?.geometry?.coordinates && (
+      {geocoderResult?.geometry?.coordinates && (
         <>
           <Popup
             anchor="bottom-left"
-            latitude={geocoder_Coords.geometry.coordinates[1]}
-            longitude={geocoder_Coords.geometry.coordinates[0]}
+            latitude={geocoderResult.geometry.coordinates[1]}
+            longitude={geocoderResult.geometry.coordinates[0]}
           >
             <XMarkIcon
               className="h-5 w-5 hover:cursor-pointer"
               onClick={handleRemovePoint}
             />
           </Popup>
-          <Source data={geocoder_Coords} id="geocode-point" type="geojson">
+          <Source data={geocoderResult} id="geocode-point" type="geojson">
             <Layer
               id="point"
               paint={{
