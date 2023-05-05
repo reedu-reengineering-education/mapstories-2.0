@@ -45,6 +45,7 @@ type GeocoderControlProps = {
   position?: ControlPosition
   language?: string
   onResult?: (e: any) => void
+  onClear?: (e: any) => void
 }
 
 export default function GeocoderControl(props: GeocoderControlProps) {
@@ -56,6 +57,7 @@ export default function GeocoderControl(props: GeocoderControlProps) {
       })
 
       control.on('result', props.onResult)
+      control.on('clear', props.onClear)
       return control
     },
     {

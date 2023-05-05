@@ -147,6 +147,7 @@ export default function EditMapstoryMap({
     >
       <GeocoderControl
         language="de"
+        onClear={handleRemovePoint}
         onResult={e => {
           const coordinates = e.result.geometry.coordinates as GeoJSON.Position
           const pointFeature = createPointFeature(coordinates)
