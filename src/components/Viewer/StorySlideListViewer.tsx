@@ -2,7 +2,7 @@
 
 import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
@@ -17,6 +17,8 @@ type Props = {
 
 export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
   const router = useRouter()
+  const path = usePathname()
+  const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
   const { story } = useStory(slug)
 
@@ -41,11 +43,15 @@ export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
   }, [])
 
   function startStory() {
-    router.push(`/viewer/story/${slug}/0`)
+    onMyStoriesRoute
+      ? router.push(`/mystories/story/${slug}/0`)
+      : router.push(`/gallery/story/${slug}/0`)
   }
 
   function goToStep(position: number) {
-    router.push(`/viewer/story/${slug}/${position}`)
+    onMyStoriesRoute
+      ? router.push(`/mystories/story/${slug}/${position}`)
+      : router.push(`/gallery/story/${slug}/${position}`)
   }
 
   const variantsList = {
