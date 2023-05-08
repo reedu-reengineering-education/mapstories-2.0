@@ -37,6 +37,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         })
 
+        // create default headline
+        await db.slideContent.create({
+          data: {
+            type: 'TITLE',
+            content: payload.name,
+            position: 0,
+            storyStepId: firstStep.id,
+          },
+        })
+
         await db.story.update({
           where: { id: newMapstory.id },
           data: { firstStepId: firstStep.id },

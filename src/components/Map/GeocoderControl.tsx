@@ -8,7 +8,6 @@ const geocoder_api = {
   forwardGeocode: async (config: any) => {
     const features = []
     try {
-      console.log('Starting request')
       const request = `https://nominatim.openstreetmap.org/search?q=${config.query}&format=geojson&polygon_geojson=1&addressdetails=1`
       const response = await fetch(request)
       const geojson = await response.json()
