@@ -1,7 +1,13 @@
 import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
-import { MarkerDragEvent, MarkerProps } from 'react-map-gl'
-import { useEffect, useState } from 'react'
+import {
+  Layer,
+  MarkerDragEvent,
+  MarkerProps,
+  Popup,
+  Source,
+} from 'react-map-gl'
+import { useCallback, useEffect, useState } from 'react'
 import useStep from '@/src/lib/api/step/useStep'
 import { GeoJsonProperties } from 'geojson'
 import useStory from '@/src/lib/api/story/useStory'
@@ -10,6 +16,7 @@ import Markers from './Layers/Markers'
 import { useRouter } from 'next/navigation'
 import { useBoundStore } from '@/src/lib/store/store'
 import GeocoderControl from '@/src/components/Map/GeocoderControl'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
@@ -35,13 +42,26 @@ export default function EditMapstoryMap({
   const { updateStep } = useStep(currentStepId)
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
-  const [geocoder_Coords, setGeocoderCoords] = useState<{
-    lat: number | undefined
-    lng: number | undefined
-  }>({
-    lat: undefined,
-    lng: undefined,
-  })
+
+  function createPointFeature(
+    coordinates: GeoJSON.Position,
+  ): GeoJSON.Feature<GeoJSON.Point> {
+    return {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'Point',
+        coordinates: coordinates,
+      },
+    }
+  }
+
+  const [geocoderResult, setGeocoderResult] =
+    useState<GeoJSON.Feature<GeoJSON.Point>>()
+
+  const handleRemovePoint = useCallback(() => {
+    setGeocoderResult(undefined)
+  }, [])
 
   // generate markers
   useEffect(() => {
@@ -120,12 +140,18 @@ export default function EditMapstoryMap({
     >
       <GeocoderControl
         language="de"
-        onResult={e =>
-          setGeocoderCoords({
-            lat: e.result.geometry.coordinates[0],
-            lng: e.result.geometry.coordinates[1],
+        onClear={handleRemovePoint}
+        onResult={e => {
+          const [lng, lat] = e.result.geometry.coordinates
+          setGeocoderResult({
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [lng, lat],
+            },
+            properties: e.result.properties,
           })
-        }
+        }}
         position="top-left"
       />
       {/* <DrawControl
@@ -150,6 +176,41 @@ export default function EditMapstoryMap({
           longitude={geocoder_Coords.lat}
         ></Marker>
       )} */}
+      {geocoderResult?.geometry?.coordinates && (
+        <>
+          <Popup
+            anchor="bottom-left"
+            latitude={geocoderResult.geometry.coordinates[1]}
+            longitude={geocoderResult.geometry.coordinates[0]}
+          >
+            <XMarkIcon
+              className="h-5 w-5 hover:cursor-pointer"
+              onClick={handleRemovePoint}
+            />
+          </Popup>
+          <Source data={geocoderResult} id="geocode-point" type="geojson">
+            <Layer
+              id="point"
+              paint={{
+                'circle-color': '#FF0000',
+                'circle-radius': {
+                  base: 9,
+                  stops: [
+                    [1, 3],
+                    [7, 5],
+                    [12, 8],
+                    [18, 15],
+                    [22, 22],
+                  ],
+                },
+                'circle-stroke-color': '#FF0000',
+                'circle-stroke-width': 2,
+              }}
+              type="circle"
+            />
+          </Source>
+        </>
+      )}
 
       <ConnectionLines markers={markers} />
     </Map>

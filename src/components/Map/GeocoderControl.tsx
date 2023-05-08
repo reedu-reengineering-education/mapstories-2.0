@@ -44,7 +44,8 @@ const geocoder_api = {
 type GeocoderControlProps = {
   position?: ControlPosition
   language?: string
-  onResult?: (e: any) => void
+  onResult?: (_e: { result: MapboxGeocoder.Result }) => void
+  onClear?: (_e: { query: string }) => void
 }
 
 export default function GeocoderControl(props: GeocoderControlProps) {
@@ -56,6 +57,7 @@ export default function GeocoderControl(props: GeocoderControlProps) {
       })
 
       control.on('result', props.onResult)
+      control.on('clear', props.onClear)
       return control
     },
     {
