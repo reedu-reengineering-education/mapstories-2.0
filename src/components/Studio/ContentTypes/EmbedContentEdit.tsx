@@ -149,7 +149,7 @@ export function EmbedContentEdit({
             </div>
           )}
         </div>
-        <Button disabled={media == null} isLoading={isSaving} type="submit">
+        <Button isLoading={isSaving} type="submit">
           {stepItem && t('editModal:save')}
           {!stepItem && t('editModal:create')}
         </Button>

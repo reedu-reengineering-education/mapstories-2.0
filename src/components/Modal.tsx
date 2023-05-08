@@ -83,6 +83,7 @@ export function Modal({
                 'grid gap-1',
               )}
               forceMount
+              onPointerDownOutside={e => e.preventDefault()}
             >
               <div className="p-6">
                 <DialogPrimitive.Title className="text-lg font-medium">

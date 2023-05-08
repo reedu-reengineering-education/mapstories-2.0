@@ -26,6 +26,7 @@ export function ContentType({ content }: Props) {
         'TWITTER',
         'WIKIPEDIA',
         'PADLET',
+        'SPOTIFY',
       ].includes(content.type) && (
         <EmbedContent content={content}></EmbedContent>
       )}
