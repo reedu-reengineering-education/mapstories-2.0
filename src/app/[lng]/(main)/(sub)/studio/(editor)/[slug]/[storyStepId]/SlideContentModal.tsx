@@ -5,7 +5,6 @@ import { Modal } from '@/src/components/Modal'
 import {
   ArrowLeftIcon,
   CaretSortIcon,
-  HeadingIcon,
   TextIcon,
   UploadIcon,
 } from '@radix-ui/react-icons'
@@ -45,16 +44,6 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                 <p className="pb-2">{t('editModal:choose_element')}</p>
 
                 <div className="flex flex-wrap justify-center py-4">
-                  <div
-                    className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
-                    onClick={() => setContentType('title')}
-                  >
-                    <div className="flex justify-center">
-                      <HeadingIcon className="h-14 w-14"></HeadingIcon>
-                    </div>
-                    <h3 className="text-center">{t('editModal:heading')}</h3>
-                  </div>
-
                   <div
                     className="re-basic-box-no-shadow re-hover-element m-3 w-40 cursor-pointer px-4 py-2"
                     onClick={() => setContentType('text')}
@@ -143,7 +132,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
           </div>
         </Modal.Content>
         {/* <Modal.Footer>
-      
+
         </Modal.Footer> */}
       </Modal>
     </>

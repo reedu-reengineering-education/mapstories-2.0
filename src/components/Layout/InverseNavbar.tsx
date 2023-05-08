@@ -3,12 +3,13 @@
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { cx } from 'class-variance-authority'
-import { Bars3Icon, GlobeAltIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
+import { LogoWithTextAndBackground } from './MapstoriesLogo'
 
 export function InverseNavbar({ children }: { children: React.ReactNode }) {
   const segment = useSelectedLayoutSegment()
@@ -52,8 +53,7 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
           className="relative hidden items-center space-x-2 text-zinc-50 md:flex"
           href="/"
         >
-          <GlobeAltIcon className="w-8 " />
-          <span className="hidden font-bold sm:inline-block">Mapstories</span>
+          <LogoWithTextAndBackground />
           <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary">
             BETA
           </span>
@@ -78,7 +78,7 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
           </nav>
         ) : null}
         <button
-          className="flex items-center space-x-2 md:hidden"
+          className="flex items-center space-x-2 text-white md:hidden"
           onClick={() => setShowMobileMenu(!showMobileMenu)}
         >
           {showMobileMenu ? (
@@ -101,10 +101,9 @@ function MobileNav({ routes }: { children?: React.ReactNode; routes: any[] }) {
         'animate-in slide-in-from-bottom-80 fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md md:hidden',
       )}
     >
-      <div className="relative z-20 grid gap-6 rounded-md p-4 shadow-md">
+      <div className="relative z-20 grid gap-6 rounded-md bg-white p-4 shadow-md">
         <Link className="flex items-center space-x-2" href="/">
-          <GlobeAltIcon className="w-8" />
-          <span className="font-bold">Mapstories</span>
+          <LogoWithTextAndBackground />
         </Link>
         <nav className="grid grid-flow-row auto-rows-max text-sm">
           {routes.map((item, index) => (

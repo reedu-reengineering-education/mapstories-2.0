@@ -2196,6 +2196,14 @@
     "@types/geojson" "*"
     "@types/mapbox-gl" "*"
 
+"@types/mapbox__mapbox-gl-geocoder@^4.7.3":
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/@types/mapbox__mapbox-gl-geocoder/-/mapbox__mapbox-gl-geocoder-4.7.3.tgz#98891cb6e342613e8d20833b6890e15fd447b847"
+  integrity sha512-zGVxbyEnJnVc37KpgCDRh1nTvVwVNTcqIDFgE5aETD2iOGDVVZpVDJRE3TUrTjdHxaq89767U8kxGcc8Pnv/ag==
+  dependencies:
+    "@types/geojson" "*"
+    "@types/mapbox-gl" "*"
+
 "@types/mapbox__point-geometry@*", "@types/mapbox__point-geometry@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/mapbox__point-geometry/-/mapbox__point-geometry-0.1.2.tgz#488a9b76e8457d6792ea2504cdd4ecdd9860a27e"
@@ -7177,6 +7185,16 @@ react-remove-scroll@2.5.5:
     tslib "^2.1.0"
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
+
+react-social-media-embed@^2.3.5:
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/react-social-media-embed/-/react-social-media-embed-2.3.5.tgz#23e3f1cb57c9364f1b6538e0a8afaddc5415841c"
+  integrity sha512-hGxe0iA6nQXnVgk8HllQOtrJ03V+CSQm3Baop6dZn1lqMF9PvZqTYYQgPW28WobVe9nAumPs0qoIaV+OymByvw==
+  dependencies:
+    classnames "^2.3.2"
+    react-sub-unsub "^2.1.6"
+    react-twitter-embed "^4.0.4"
+    react-youtube "^10.1.0"
 
 react-style-singleton@^2.2.1:
   version "2.2.1"
