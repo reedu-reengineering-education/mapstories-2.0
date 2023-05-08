@@ -44,27 +44,27 @@ export default function EditMapstoryMap({
   const { updateStep } = useStep(currentStepId)
 
   const isInteractable = currentStepId !== story?.firstStepId
-  const [initialViewState, setInitialViewState] = useState({})
+  // const [initialViewState, setInitialViewState] = useState({})
 
-  useEffect(() => {
-    const newBounds = steps?.reduce((acc, step) => {
-      if (!step.feature) {
-        return acc
-      }
-      const geoFeature =
-        step.feature as unknown as GeoJSON.Feature<GeoJSON.Point>
-      const [lng, lat] = geoFeature.geometry.coordinates
-      return acc.extend([lng, lat])
-    }, new mapboxgl.LngLatBounds())
+  // useEffect(() => {
+  //   const newBounds = steps?.reduce((acc, step) => {
+  //     if (!step.feature) {
+  //       return acc
+  //     }
+  //     const geoFeature =
+  //       step.feature as unknown as GeoJSON.Feature<GeoJSON.Point>
+  //     const [lng, lat] = geoFeature.geometry.coordinates
+  //     return acc.extend([lng, lat])
+  //   }, new mapboxgl.LngLatBounds())
 
-    if (newBounds) {
-      setInitialViewState({
-        longitude: newBounds.getCenter().lng,
-        latitude: newBounds.getCenter().lat,
-        zoom: 2, //TODO calculate zoom level
-      })
-    }
-  }, [])
+  //   if (newBounds) {
+  //     setInitialViewState({
+  //       longitude: newBounds.getCenter().lng,
+  //       latitude: newBounds.getCenter().lat,
+  //       zoom: 2, //TODO calculate zoom level
+  //     })
+  //   }
+  // }, [])
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
 
@@ -153,8 +153,8 @@ export default function EditMapstoryMap({
 
   return (
     <Map
-      {...initialViewState}
-      initialViewState={initialViewState}
+      // {...initialViewState}
+      // initialViewState={initialViewState}
       interactive={isInteractable}
       interactiveLayerIds={['step-hover']}
       onClick={e => {
