@@ -4,6 +4,7 @@ import { EmbedStyle } from './EmbedStyle'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useBoundStore } from '@/src/lib/store/store'
+import { Spinner } from '../Elements/Spinner'
 
 const borderRadius = 8
 
@@ -29,7 +30,8 @@ export function WikipediaEmbed({
   const { t } = useTranslation(lng, 'embeds')
 
   const [ready, setReady] = React.useState(false)
-  const [wikipediaData, setWikipediaData] = React.useState(null)
+  // set this to any
+  const [wikipediaData, setWikipediaData] = React.useState<any>(null)
   // when component is mounted use url to fetch the preview of the article
   React.useEffect(() => {
     fetch(urlPreview)
@@ -65,19 +67,28 @@ export function WikipediaEmbed({
       }}
     >
       <EmbedStyle />
-      <div>
-        {wikipediaData ? <img src={wikipediaData.thumbnail.source} /> : null}
-        {wikipediaData ? wikipediaData.extract : null}
-        {/* show a button which links to the original article */}
-        {wikipediaData ? (
-          <a
-            className="text-blue-500 hover:text-blue-700"
-            href={wikipediaData.content_urls.desktop.page}
-          >
-            {t('readMore')}
-          </a>
-        ) : null}
-      </div>
+      {wikipediaData ? (
+        <div>
+          {wikipediaData.thumbnail ? (
+            <img
+              alt="wikipedia_thumbnail"
+              src={wikipediaData.thumbnail.source}
+            />
+          ) : null}
+          {wikipediaData ? wikipediaData.extract : null}
+          {/* show a button which links to the original article */}
+          {wikipediaData ? (
+            <a
+              className="text-blue-500 hover:text-blue-700"
+              href={wikipediaData.content_urls.desktop.page}
+            >
+              {t('readMore')}
+            </a>
+          ) : null}
+        </div>
+      ) : (
+        <Spinner />
+      )}
 
       {/* {!ready && placeholder} */}
     </div>
