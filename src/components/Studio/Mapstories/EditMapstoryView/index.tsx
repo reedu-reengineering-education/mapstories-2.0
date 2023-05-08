@@ -59,7 +59,7 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
           <div className="mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
             {currentStep.id === story.firstStepId ? (
               <span>
-                <Trans>{t('your_titlepage')}</Trans>
+                <Trans components={{ 1: <br /> }}>{t('your_titlepage')}</Trans>
               </span>
             ) : !currentStep?.feature ? (
               <span>
