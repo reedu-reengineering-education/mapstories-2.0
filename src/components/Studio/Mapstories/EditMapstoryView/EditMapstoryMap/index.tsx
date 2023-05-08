@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { useBoundStore } from '@/src/lib/store/store'
 import GeocoderControl from '@/src/components/Map/GeocoderControl'
 import { toast } from '@/src/lib/toast'
+import mapboxgl from 'mapbox-gl'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
@@ -36,6 +37,27 @@ export default function EditMapstoryMap({
   const { updateStep } = useStep(currentStepId)
 
   const isInteractable = currentStepId !== story?.firstStepId
+  const [initialViewState, setInitialViewState] = useState({})
+
+  useEffect(() => {
+    const newBounds = steps?.reduce((acc, step) => {
+      if (!step.feature) {
+        return acc
+      }
+      const geoFeature =
+        step.feature as unknown as GeoJSON.Feature<GeoJSON.Point>
+      const [lng, lat] = geoFeature.geometry.coordinates
+      return acc.extend([lng, lat])
+    }, new mapboxgl.LngLatBounds())
+
+    if (newBounds) {
+      setInitialViewState({
+        longitude: newBounds.getCenter().lng,
+        latitude: newBounds.getCenter().lat,
+        zoom: 2, //TODO calculate zoom level
+      })
+    }
+  }, [])
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
   const [geocoder_Coords, setGeocoderCoords] = useState<{
@@ -111,6 +133,8 @@ export default function EditMapstoryMap({
 
   return (
     <Map
+      {...initialViewState}
+      initialViewState={initialViewState}
       interactive={isInteractable}
       interactiveLayerIds={['step-hover']}
       onClick={e => {
