@@ -12,3 +12,7 @@ export const slideEmbedContentSchema = z.object({
     })
     .optional(),
 })
+
+export const slideContentLinkSchema = z.object({
+  url: z.string().url(),
+})
