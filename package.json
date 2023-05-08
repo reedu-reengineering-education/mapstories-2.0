@@ -76,6 +76,7 @@
     "react-map-gl": "^7.0.21",
     "react-map-gl-geocoder": "^2.2.0",
     "react-player": "^2.12.0",
+    "react-social-media-embed": "^2.3.5",
     "react-sub-unsub": "^2.1.6",
     "react-tabs": "^6.0.0",
     "react-transition-group": "^4.4.5",
