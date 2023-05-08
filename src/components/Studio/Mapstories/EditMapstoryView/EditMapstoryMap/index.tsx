@@ -1,7 +1,7 @@
 import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
 import { MarkerDragEvent, MarkerProps } from 'react-map-gl'
-import { useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 import useStep from '@/src/lib/api/step/useStep'
 import { GeoJsonProperties } from 'geojson'
 import useStory from '@/src/lib/api/story/useStory'
@@ -33,6 +33,12 @@ export default function EditMapstoryMap({
 
   const { story } = useStory(storyId)
   const { updateStep } = useStep(currentStepId)
+
+  const isInteractable = currentStepId !== story?.firstStepId
+
+  const mapStyles: CSSProperties = {
+    pointerEvents: isInteractable ? 'auto' : 'none',
+  }
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
   const [geocoder_Coords, setGeocoderCoords] = useState<{
@@ -117,6 +123,7 @@ export default function EditMapstoryMap({
         // }
       }}
       onMouseMove={handleMouseMove}
+      style={mapStyles}
     >
       <GeocoderControl
         language="de"
