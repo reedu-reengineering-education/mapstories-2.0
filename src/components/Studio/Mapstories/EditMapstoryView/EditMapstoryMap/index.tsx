@@ -1,7 +1,7 @@
 import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
 import { MarkerDragEvent, MarkerProps } from 'react-map-gl'
-import { CSSProperties, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useStep from '@/src/lib/api/step/useStep'
 import { GeoJsonProperties } from 'geojson'
 import useStory from '@/src/lib/api/story/useStory'
@@ -10,6 +10,7 @@ import Markers from './Layers/Markers'
 import { useRouter } from 'next/navigation'
 import { useBoundStore } from '@/src/lib/store/store'
 import GeocoderControl from '@/src/components/Map/GeocoderControl'
+import { toast } from '@/src/lib/toast'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
@@ -35,10 +36,6 @@ export default function EditMapstoryMap({
   const { updateStep } = useStep(currentStepId)
 
   const isInteractable = currentStepId !== story?.firstStepId
-
-  const mapStyles: CSSProperties = {
-    pointerEvents: isInteractable ? 'auto' : 'none',
-  }
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
   const [geocoder_Coords, setGeocoderCoords] = useState<{
@@ -114,8 +111,16 @@ export default function EditMapstoryMap({
 
   return (
     <Map
+      interactive={isInteractable}
       interactiveLayerIds={['step-hover']}
       onClick={e => {
+        if (currentStepId === story?.firstStepId) {
+          toast({
+            title: 'Dies ist deine Titelfolie.',
+            message: 'Hier kannst du <strong>keinen Marker</strong> setzen.',
+            type: 'error',
+          })
+        }
         // if (!steps?.find(s => s.id === currentStepId)?.feature) {
         if (hoverMarkerId == '') {
           addMarker(e)
@@ -123,7 +128,6 @@ export default function EditMapstoryMap({
         // }
       }}
       onMouseMove={handleMouseMove}
-      style={mapStyles}
     >
       <GeocoderControl
         language="de"
