@@ -7,10 +7,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { cx } from 'class-variance-authority'
-import {
-  slideContentLinkSchema,
-  slideEmbedContentSchema,
-} from '@/src/lib/validations/slidecontent'
+import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
@@ -43,7 +40,7 @@ export function EmbedContentEdit({
     formState: { errors },
     watch,
   } = useForm<FormData>({
-    resolver: zodResolver(slideContentLinkSchema),
+    resolver: zodResolver(slideEmbedContentSchema),
   })
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
@@ -152,7 +149,7 @@ export function EmbedContentEdit({
             </div>
           )}
         </div>
-        <Button disabled={media == null} isLoading={isSaving} type="submit">
+        <Button isLoading={isSaving} type="submit">
           {stepItem && t('editModal:save')}
           {!stepItem && t('editModal:create')}
         </Button>
