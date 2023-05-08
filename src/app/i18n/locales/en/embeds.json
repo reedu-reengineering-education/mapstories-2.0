@@ -7,5 +7,6 @@
     "InputLabel": "Give a URL to a social media post",
     "platforms": "Supported platforms: ",
     "autoplay": " play automatically"
-  }
+  },
+  "readMore": "Continue reading on Wikipedia..."
 }
