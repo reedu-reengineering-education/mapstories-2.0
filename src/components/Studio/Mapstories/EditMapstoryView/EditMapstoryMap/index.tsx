@@ -42,8 +42,17 @@ export default function EditMapstoryMap({
 
   const { story } = useStory(storyId)
   const { updateStep } = useStep(currentStepId)
+  const [settings, setSettings] = useState({
+    scrollZoom: true,
+    boxZoom: true,
+    dragRotate: true,
+    dragPan: true,
+    keyboard: true,
+    doubleClickZoom: true,
+    touchZoomRotate: true,
+    touchPitch: true,
+  })
 
-  const isInteractable = currentStepId !== story?.firstStepId
   // const [initialViewState, setInitialViewState] = useState({})
 
   // useEffect(() => {
@@ -93,6 +102,7 @@ export default function EditMapstoryMap({
     if (!steps || !currentStepId) {
       return
     }
+
     setMarkers(_prevMarkers => [])
     const newMarkers = steps
       .map(({ id, feature, position }) => {
@@ -113,6 +123,20 @@ export default function EditMapstoryMap({
     // @ts-ignore
     setMarkers(newMarkers)
   }, [currentStepId, steps])
+
+  useEffect(() => {
+    const settingsValue = currentStepId !== story?.firstStepId
+    setSettings({
+      boxZoom: settingsValue,
+      doubleClickZoom: settingsValue,
+      dragPan: settingsValue,
+      dragRotate: settingsValue,
+      keyboard: settingsValue,
+      scrollZoom: settingsValue,
+      touchPitch: settingsValue,
+      touchZoomRotate: settingsValue,
+    })
+  }, [currentStepId])
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
     const hoverSteps = e.features
@@ -155,7 +179,7 @@ export default function EditMapstoryMap({
     <Map
       // {...initialViewState}
       // initialViewState={initialViewState}
-      interactive={isInteractable}
+      {...settings}
       interactiveLayerIds={['step-hover']}
       onClick={e => {
         if (currentStepId === story?.firstStepId) {
