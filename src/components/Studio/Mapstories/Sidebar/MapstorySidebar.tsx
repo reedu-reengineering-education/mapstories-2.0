@@ -95,10 +95,8 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
               stepId={story.firstStepId!}
               variant={'title'}
             />
-            {story?.firstStep?.content ? (
-              <p className="max-w-[80%] truncate pt-1 text-xs">
-                {getSlideTitle(story.firstStep?.content)}
-              </p>
+            {story.name ? (
+              <p className="max-w-[80%] truncate pt-1 text-xs">{story.name}</p>
             ) : (
               <p>No title</p>
             )}
