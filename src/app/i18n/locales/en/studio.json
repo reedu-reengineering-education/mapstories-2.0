@@ -3,10 +3,12 @@
   "create, edit and share mapstories": "Create, edit and share mapstories",
   "no mapstories": "No Mapstories",
   "you have not created any mapstories yet.": "You have not created any mapstories yet.",
+  "delete": "Delete",
   "contentUpdated": "Your content has been updated!",
   "contentCreated": "Your content has been created!",
   "somethingWrong": "There was an error",
   "contentDeleted": "Your content has been deleted",
   "contentNotDeleted": "Your content was not deleted, please try again!",
-  "confirmDeleteMapstory": "Do you really want to delete the map story?"
+  "confirmDeleteMapstory": "Do you really want to delete the map story?",
+  "confirmDeleteStep": "Do you really want to delete the step?"
 }

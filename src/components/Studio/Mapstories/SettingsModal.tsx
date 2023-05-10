@@ -79,7 +79,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
     } catch (e) {
       return toast({
         title: t('studio:somethingWrong'),
-        message: t('settingsModal::changesNotApplied'),
+        message: t('settingsModal:changesNotApplied'),
         type: 'error',
       })
     } finally {

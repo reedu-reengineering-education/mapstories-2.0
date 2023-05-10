@@ -19,7 +19,7 @@ const EMBED_SUCCESS_STAGE = 'embed-success'
 export interface FacebookEmbedProps
   extends React.HTMLAttributes<HTMLDivElement> {
   /** The URL to the post. */
-  url: String
+  url: string
   width?: string | number
   height?: string | number
 }
@@ -33,13 +33,12 @@ export function FacebookEmbed({
   // === === === === === === === === === === === === === === === === === === ===
   // Embed Stages
   // === === === === === === === === === === === === === === === === === === ===
-  const [facebookLink, setFacebookLink] = React.useState('')
 
-  const getEmbedUrl = videoId => {
+  const getEmbedUrl = (videoId: string) => {
     return `https://www.facebook.com/plugins/post.php?href=https://www.facebook.com/${videoId}`
   }
 
-  const getPostId = url => {
+  const getPostId = (url: string) => {
     // Extrahiere die Post-ID aus der Facebook-URL
     const urlParts = url.split('/')
     const postId = urlParts[urlParts.length - 1]

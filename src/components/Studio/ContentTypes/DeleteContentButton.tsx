@@ -23,20 +23,20 @@ export default function DeleteContentButton({
 
   const { deleteContent } = useStep(storyStepId)
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, ['editModal'])
+  const { t } = useTranslation(lng, 'editModal')
 
   async function handleClick() {
     try {
       setIsSaving(true)
       const deletedContent = await deleteContent(stepContentId)
       toast({
-        message: t('content_deleted') as string,
+        message: t('content_deleted'),
         type: 'success',
       })
     } catch (e) {
       return toast({
-        title: t('something_wrong') as string,
-        message: t('content_not_created') as string,
+        title: t('something_wrong'),
+        message: t('content_not_created'),
         type: 'error',
       })
     } finally {
@@ -52,7 +52,7 @@ export default function DeleteContentButton({
         title={
           <span>
             {' '}
-            {t('confirmDelete')}
+            {t('confirmDeleteAccount')}
             {/* <span className="rounded bg-slate-100 px-2 py-1">
               {stepContentId}
             </span> */}

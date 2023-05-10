@@ -1,5 +1,13 @@
 {
-  "name": "Name",
-  "change your name here": "Change your name here",
-  "save": "Save"
+  "name": "name",
+  "change your name here": "You can change your name here",
+  "save": "Save",
+  "contentUpdated": "Your account has been updated",
+  "contentCreated": "Your account has been created",
+  "contentDeleted": "Your account has been deleted",
+  "somethingWrong": "There was an error.",
+  "contentNotUpdated": "Your account could not be updated. Try again.",
+  "contentNotDeleted": "Your account could not be deleted. Try again.",
+  "logInAgain": "Please log in again.",
+  "deleteAccount": "Delete Account"
 }

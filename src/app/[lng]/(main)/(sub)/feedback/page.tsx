@@ -1,4 +1,3 @@
-import { useTranslation } from '@/src/app/i18n'
 import { PageHeader } from '@/src/components/PageHeader'
 import type { Metadata } from 'next/types'
 
@@ -9,21 +8,24 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page({ params: { lng } }) {
-  const { t } = await useTranslation(lng, 'feedback')
-
+export default async function Page({
+  params: { lng },
+}: {
+  params: { lng: string }
+}) {
   return (
     <div>
-      <PageHeader heading={t('feedbackTitle') as string}></PageHeader>
+      <PageHeader heading="Feedback"></PageHeader>
       <p className="py-4">
         <a
           className="text-blue-500"
           href="https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy"
           target="_blank"
         >
-          {t('here')}
+          Hier
         </a>
-        {t('feedbackVamosText')}
+        kannst Du uns Rückmeldung zu unserer Plattform geben. Ausführliches
+        Feedback kannst Du gerne an mapstories@vamos-muenster.de senden.
       </p>
       <p className="py-4">
         <a
@@ -31,9 +33,10 @@ export default async function Page({ params: { lng } }) {
           href="https://github.com/reedu-reengineering-education/mapstories-2.0"
           target="_blank"
         >
-          {t('here')}
+          Hier
         </a>
-        {t('feedbackReeduText')}
+        kannst du dir den Quellcode von Mapstories anschauen, Bugs direkt an die
+        Entwickler:innen senden, oder dich bei der Entwicklung beteiligen
       </p>
     </div>
   )
