@@ -22,7 +22,7 @@ export default async function Page({
           href="https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy"
           target="_blank"
         >
-          Hier
+          Hier {}
         </a>
         kannst Du uns Rückmeldung zu unserer Plattform geben. Ausführliches
         Feedback kannst Du gerne an mapstories@vamos-muenster.de senden.
@@ -33,7 +33,7 @@ export default async function Page({
           href="https://github.com/reedu-reengineering-education/mapstories-2.0"
           target="_blank"
         >
-          Hier
+          Hier {}
         </a>
         kannst du dir den Quellcode von Mapstories anschauen, Bugs direkt an die
         Entwickler:innen senden, oder dich bei der Entwicklung beteiligen
