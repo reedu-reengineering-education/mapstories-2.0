@@ -32,7 +32,7 @@ const options: Pick<DropdownMenuItemProps, 'children'>[] = [
 export default function SettingsModal({ storyId }: { storyId: string }) {
   const router = useRouter()
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, 'settingsModal')
+  const { t } = useTranslation(lng, ['settingsModal', 'studio'])
   const [isSaving, setIsSaving] = useState(false)
   const [image, setImage] = useState<string | any>()
   const [selectedTheme, setSelectedTheme] = useState('')
@@ -69,7 +69,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
         // visibility: data.public ? 'PUBLIC' : 'PRIVATE',
       })
       toast({
-        message: 'Your changes were applied.',
+        message: t('settingsModal:changesApplied'),
         type: 'success',
       })
       if (updatedStory?.slug !== story?.slug) {
@@ -78,8 +78,8 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
       setModalOpen(false)
     } catch (e) {
       return toast({
-        title: 'Something went wrong.',
-        message: 'Your changes were not applied. Please try again',
+        title: t('studio:somethingWrong'),
+        message: t('settingsModal::changesNotApplied'),
         type: 'error',
       })
     } finally {
@@ -99,29 +99,29 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
         startIcon={<Cog6ToothIcon className="w-5" />}
         variant={'inverse'}
       >
-        {t('options')}
+        {t('settingsModal:name')}
       </Button>
       <Modal
         onClose={() => setModalOpen(false)}
         show={modalOpen}
-        title={t('options')}
+        title={t('settingsModal:name')}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content>
-            <InputLabel>{t('name')}</InputLabel>
+            <InputLabel>{t('settingsModal:name')}</InputLabel>
             <Input
               defaultValue={story.name || ''}
               errors={errors.name}
-              label={t('name')}
+              label={t('settingsModal:name')}
               size={100}
               {...register('name')}
             />
-            <TextareaLabel>{t('description')}</TextareaLabel>
+            <TextareaLabel>{t('settingsModal:description')}</TextareaLabel>
             <Textarea
               cols={60}
               defaultValue={story.description || ''}
               errors={errors.description}
-              label={t('description')}
+              label={t('settingsModal:description')}
               rows={5}
               {...register('description')}
             ></Textarea>
@@ -221,7 +221,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               type="submit"
               variant={'inverse'}
             >
-              {t('save')}
+              {t('settingsModal:save')}
             </Button>
           </Modal.Footer>
         </form>

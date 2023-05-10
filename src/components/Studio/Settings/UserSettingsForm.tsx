@@ -63,8 +63,8 @@ export function UserSettingsForm({
 
       if (!response?.ok) {
         return toast({
-          title: 'Something went wrong.',
-          message: 'Your account was not updated. Please try again.',
+          title: t('somethingWrong'),
+          message: t('contentNotUpdated'),
           type: 'error',
         })
       }
@@ -73,7 +73,7 @@ export function UserSettingsForm({
 
       if (user.email !== updatedUser.email) {
         toast({
-          message: 'Please log in again to update your email',
+          message: t('logInAgain'),
           type: 'success',
         })
         signOut({ callbackUrl: '/login' })
@@ -81,7 +81,7 @@ export function UserSettingsForm({
       }
 
       toast({
-        message: 'Your account has been updated.',
+        message: t('contentUpdated'),
         type: 'success',
       })
 
@@ -104,14 +104,14 @@ export function UserSettingsForm({
 
     if (!response?.ok) {
       return toast({
-        title: 'Something went wrong.',
-        message: 'Your account was not deleted. Please try again.',
+        title: t('somethingWrong'),
+        message: t('contentNotDeleted'),
         type: 'error',
       })
     }
 
     toast({
-      message: 'Your account was deleted successfully.',
+      message: t('contentDeleted'),
       type: 'success',
     })
 
@@ -156,7 +156,7 @@ export function UserSettingsForm({
           onSubmit={deleteAccount}
           trigger={
             <Button className="my-2" variant={'danger'}>
-              Account löschen
+              {t('deleteAccount')}
             </Button>
           }
         />

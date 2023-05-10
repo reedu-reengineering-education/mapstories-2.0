@@ -74,20 +74,20 @@ export function EmbedContentEdit({
       if (stepItem) {
         await updateContent(stepItem.id, { ...stepItem, type: media?.type })
         toast({
-          message: 'Your content has been updated.',
+          message: t('editModal:content_updated'),
           type: 'success',
         })
       } else {
         await addContent({ ...data, type: media?.type })
         toast({
-          message: 'Your content has been created.',
+          message: t('editModal:content_created') as string,
           type: 'success',
         })
       }
     } catch (error) {
       toast({
-        title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again.',
+        title: t('editModal:something_wrong') as string,
+        message: t('editModal:content_not_created') as string,
         type: 'error',
       })
     } finally {

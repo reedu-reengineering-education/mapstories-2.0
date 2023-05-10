@@ -1,8 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
-import { Frame, useFrame } from './useFrame'
 import { EmbedStyle } from './EmbedStyle'
-import { Subs } from 'react-sub-unsub'
 
 const embedJsScriptSrc =
   'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2'
@@ -24,128 +22,50 @@ export interface FacebookEmbedProps
   url: String
   width?: string | number
   height?: string | number
-  scriptLoadDisabled?: boolean
-  retryDelay?: number
-  retryDisabled?: boolean
-  frame?: Frame
 }
 
 export function FacebookEmbed({
   url,
   width,
   height,
-  scriptLoadDisabled = false,
-  retryDelay = 5000,
-  retryDisabled = false,
-  frame = undefined,
   ...divProps
 }: FacebookEmbedProps) {
-  const [stage, setStage] = React.useState(CHECK_SCRIPT_STAGE)
-  const embedSuccess = React.useMemo(
-    () => stage === EMBED_SUCCESS_STAGE,
-    [stage],
-  )
-  const frm = useFrame(frame)
-
   // === === === === === === === === === === === === === === === === === === ===
   // Embed Stages
   // === === === === === === === === === === === === === === === === === === ===
+  const [facebookLink, setFacebookLink] = React.useState('')
 
-  // Check Script Stage
-  React.useEffect(() => {
-    if (stage === CHECK_SCRIPT_STAGE) {
-      if ((frm.window as any)?.FB?.XFBML?.parse) {
-        setStage(PROCESS_EMBED_STAGE)
-      } else if (!scriptLoadDisabled) {
-        setStage(LOAD_SCRIPT_STAGE)
-      } else {
-        // TODO error handling
-        // console.error('Facebook embed script not found. Unable to process Facebook embed:', url);
-      }
+  const getEmbedUrl = videoId => {
+    return `https://www.facebook.com/plugins/post.php?href=https://www.facebook.com/${videoId}`
+  }
+
+  const getPostId = url => {
+    // Extrahiere die Post-ID aus der Facebook-URL
+    const urlParts = url.split('/')
+    const postId = urlParts[urlParts.length - 1]
+    return postId
+  }
+
+  const renderEmbeddedVideo = () => {
+    const videoId = getPostId(url)
+    const embedUrl = getEmbedUrl(videoId)
+
+    if (videoId && embedUrl) {
+      return (
+        <div style={{ width: '100%', maxWidth: '640px', margin: '0 auto' }}>
+          <iframe
+            allowFullScreen
+            height="480px"
+            src={url}
+            title="Facebook Video"
+            width="100%"
+          />
+        </div>
+      )
     }
-  }, [scriptLoadDisabled, stage, url, frm.window])
 
-  // Load Script Stage
-  React.useEffect(() => {
-    if (stage === LOAD_SCRIPT_STAGE) {
-      if (frm.document) {
-        const scriptElement = frm.document.createElement('script')
-        scriptElement.setAttribute('src', embedJsScriptSrc)
-        frm.document.head.appendChild(scriptElement)
-        setStage(CONFIRM_SCRIPT_LOADED_STAGE)
-      }
-    }
-  }, [stage, frm.document])
-
-  // Confirm Script Loaded Stage
-  React.useEffect(() => {
-    const subs = new Subs()
-    if (stage === CONFIRM_SCRIPT_LOADED_STAGE) {
-      subs.setInterval(() => {
-        if ((frm.window as any)?.FB?.XFBML?.parse) {
-          setStage(PROCESS_EMBED_STAGE)
-        }
-      }, 1)
-    }
-    return subs.createCleanup()
-  }, [stage, frm.window])
-
-  // Process Embed Stage
-  React.useEffect(() => {
-    if (stage === PROCESS_EMBED_STAGE) {
-      const parse = (frm.window as any)?.FB?.XFBML?.parse
-      if (parse) {
-        parse()
-        setStage(CONFIRM_EMBED_SUCCESS_STAGE)
-      } else {
-        // TODO error handling
-        // console.error('Facebook embed script not found. Unable to process Facebook embed:', url);
-      }
-    }
-  }, [stage, url, frm.window])
-
-  // Confirm Embed Success Stage
-  React.useEffect(() => {
-    const subs = new Subs()
-    if (stage === CONFIRM_EMBED_SUCCESS_STAGE) {
-      subs.setInterval(() => {
-        if (frm.document) {
-          const fbPostContainerElement = frm.document.getElementById(
-            'facebook-media-pre-embed',
-          )
-          if (fbPostContainerElement) {
-            const fbPostElem =
-              fbPostContainerElement.getElementsByClassName('fb-post')[0]
-            if (fbPostElem) {
-              if (fbPostElem.children.length > 0) {
-                setStage(EMBED_SUCCESS_STAGE)
-              }
-            }
-          }
-        }
-      }, 1)
-      if (!retryDisabled) {
-        subs.setTimeout(() => {
-          setStage(RETRYING_STAGE)
-        }, retryDelay)
-      }
-    }
-    return subs.createCleanup()
-  }, [retryDisabled, retryDelay, stage, frm.document])
-
-  // Retrying Stage
-  React.useEffect(() => {
-    if (stage === RETRYING_STAGE) {
-      // This forces the embed container to remount
-      setStage(PROCESS_EMBED_STAGE)
-    }
-  }, [stage])
-
-  // END Embed Stages
-  // === === === === === === === === === === === === === === === === === === ===
-
-  const isPercentageWidth = !!width?.toString().includes('%')
-  const isPercentageHeight = !!height?.toString().includes('%')
+    return null
+  }
 
   return (
     <div
@@ -163,19 +83,8 @@ export function FacebookEmbed({
       }}
     >
       <EmbedStyle />
-      <div
-        className={classNames(!embedSuccess && 'rsme-d-none')}
-        id="facebook-media-pre-embed"
-      >
-        <div
-          className="fb-post"
-          data-href={url}
-          data-width={isPercentageWidth ? '100%' : width ?? defaultEmbedWidth}
-          style={{
-            width: isPercentageWidth ? '100%' : width ?? defaultEmbedWidth,
-            height: isPercentageHeight ? '100%' : height ?? undefined,
-          }}
-        ></div>
+      <div>
+        <div>{renderEmbeddedVideo()}</div>
       </div>
       {/* {!ready && placeholder} */}
     </div>

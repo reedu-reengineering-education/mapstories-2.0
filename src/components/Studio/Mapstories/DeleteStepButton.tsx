@@ -7,7 +7,9 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from '@/src/lib/toast'
 import useStory from '@/src/lib/api/story/useStory'
-
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
 export default function DeleteStepButton({
   storyId,
   storyStepId,
@@ -15,6 +17,12 @@ export default function DeleteStepButton({
   storyId: string
   storyStepId: string
 }) {
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'studio')
+
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { story, deleteStoryStep } = useStory(storyId)
@@ -36,8 +44,8 @@ export default function DeleteStepButton({
       router.replace(`/studio/${story.slug}/${redirectStepId}`)
     } catch (e) {
       return toast({
-        title: 'Something went wrong.',
-        message: 'Your step was not deleted. Please try again',
+        title: t('somethingWrong'),
+        message: t('contentNotDeleted'),
         type: 'error',
       })
     } finally {
@@ -49,7 +57,7 @@ export default function DeleteStepButton({
     <Modal
       title={
         <span>
-          Willst du die Slide wirklich löschen?
+          {t('confirmDeleteStep')}
           {/* <span className="rounded bg-slate-100 px-2 py-1">{storyStepId}</span> */}
         </span>
       }
@@ -67,7 +75,7 @@ export default function DeleteStepButton({
             onClick={handleClick}
             variant={'danger'}
           >
-            Löschen
+            {t('delete')}
           </Button>
         }
       />
