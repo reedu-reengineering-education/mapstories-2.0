@@ -9,7 +9,10 @@ import { useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
-import { LogoWithTextAndBackground } from './MapstoriesLogo'
+import {
+  LogoWithTextAndBackground,
+  LogoWithTextTransparent,
+} from './MapstoriesLogo'
 
 export function InverseNavbar({ children }: { children: React.ReactNode }) {
   const segment = useSelectedLayoutSegment()
@@ -57,7 +60,7 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
           className="relative hidden items-center space-x-2 text-zinc-50 md:flex"
           href="/"
         >
-          <LogoWithTextAndBackground />
+          <LogoWithTextTransparent />
           <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary">
             BETA
           </span>
