@@ -176,7 +176,7 @@ export function MediaContentEdit({
           await updateMedia(stepItem.mediaId, { size: selectedValue } as Media)
         }
         toast({
-          message: 'Your content has been updated',
+          message: t('content_updated'),
           type: 'success',
         })
       } else {
@@ -215,7 +215,7 @@ export function MediaContentEdit({
 
         // create content table with image id as reference
         toast({
-          message: 'Your content has been added',
+          message: t('content_created'),
           type: 'success',
         })
       }
@@ -261,7 +261,7 @@ export function MediaContentEdit({
         </TabPanel>
         <TabPanel>
           <InputLabel>{t('uploadFile')}</InputLabel>
-          <p className="my-2 text-sm font-bold">Unterstützte Formate: </p>
+          <p className="my-2 text-sm font-bold">{t('supportedFormats')} </p>
           <span>
             <code>.jpg</code>
             <code>.png</code>

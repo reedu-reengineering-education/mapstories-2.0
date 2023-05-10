@@ -1,5 +1,13 @@
 {
   "name": "Name",
   "change your name here": "Hier kannst du deinen Namen ändern",
-  "save": "Speichern"
+  "save": "Speichern",
+  "contentUpdated": "Dein Account wurde geupdated",
+  "contentCreated": "Dein Account wurde erstellt.",
+  "contentDeleted": "Dein Account wurde gelöscht.",
+  "somethingWrong": "Es gab einen Fehler.",
+  "contentNotUpdated": "Dein Account konnte nicht aktualisiert werden. Versuche es nochmal.",
+  "contentNotDeleted": "Dein Account konnte nicht gelöscht werden. Versuche es nochmal.",
+  "logInAgain": "Bitte logge dich erneut ein.",
+  "deleteAccount": "Account löschen"
 }

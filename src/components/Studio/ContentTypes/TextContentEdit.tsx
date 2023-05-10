@@ -39,7 +39,7 @@ export function TextContentEdit({
   const { t } = useTranslation(lng, 'editModal')
 
   const [textValue, setTextValue] = useState<string | undefined>(
-    'Your text here...',
+    t('placeholderTextInput'),
   )
   const { addContent, updateContent } = useStep(storyStepId)
 
@@ -53,20 +53,20 @@ export function TextContentEdit({
           type: 'TEXT',
         })
         toast({
-          message: 'Your content has been updated.',
+          message: t('content_updated'),
           type: 'success',
         })
       } else {
         await addContent({ content: text, type: 'TEXT' })
         toast({
-          message: 'Your content has been created.',
+          message: t('content_created'),
           type: 'success',
         })
       }
     } catch (error) {
       toast({
-        title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again.',
+        title: t('something_wrong'),
+        message: t('content_not_created'),
         type: 'error',
       })
     } finally {
@@ -76,7 +76,7 @@ export function TextContentEdit({
   }
 
   function handleOnClick() {
-    if (textValue === 'Your text here...') {
+    if (textValue === t('placeholderTextInput')) {
       setTextValue('')
     }
   }

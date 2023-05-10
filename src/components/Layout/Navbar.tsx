@@ -44,6 +44,10 @@ export function Navbar({ children }: { children: React.ReactNode }) {
         title: t('impressum'),
         href: `/${lng}/impressum`,
       },
+      {
+        title: t('feedback'),
+        href: `/${lng}/feedback`,
+      },
     ])
   }, [lng, t])
 
