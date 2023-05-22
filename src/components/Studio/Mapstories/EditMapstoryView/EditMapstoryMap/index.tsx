@@ -87,6 +87,7 @@ export default function EditMapstoryMap({
       .filter(Boolean)
     // @ts-ignore
     setMarkers(newMarkers)
+    handleRemovePoint()
   }, [currentStepId, steps])
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
