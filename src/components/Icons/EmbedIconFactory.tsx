@@ -50,6 +50,7 @@ const iconStyle = cva<cvaType>('', {
       SPOTIFY: 'bg-[#1DB954] p-[4px]',
       EXTERNALIMAGE: 'bg-zinc-100',
       AUDIO: 'bg-zinc-100',
+      GOOGLESTREETVIEW: 'bg-zinc-100',
     },
   },
 })
@@ -89,6 +90,8 @@ const getIcon = (myType: MediaType) => {
     case 'SPOTIFY':
       return Spotify
     case 'AUDIO':
+      return PlayIcon
+    case 'GOOGLESTREETVIEW':
       return PlayIcon
     default:
       myType satisfies never // This makes sure the switch case is exhaustive (https://stackoverflow.com/a/75217377/5660646)
