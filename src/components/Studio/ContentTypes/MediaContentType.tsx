@@ -134,10 +134,6 @@ export function MediaContentEdit({
     getMediaWrapper()
   }, [])
 
-  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value)
-  }
-
   const uploadFile = async (file: File, uploadedFile: Media) => {
     // retrieve presigned url from back end
     // name of the file on the minio client is the id of the image + the name of the file
@@ -278,40 +274,6 @@ export function MediaContentEdit({
         </TabPanel>
       </Tabs>
       <div>
-        {fileType === 'IMAGE' && (
-          <div className="flex justify-between">
-            <div className="p-2">
-              <InputLabel>S</InputLabel>
-              <Input
-                checked={selectedValue === 's'}
-                name="image_size"
-                onChange={handleRadioChange}
-                type="radio"
-                value="s"
-              />
-            </div>
-            <div className="p-2">
-              <InputLabel>M</InputLabel>
-              <Input
-                checked={selectedValue === 'm'}
-                name="image_size"
-                onChange={handleRadioChange}
-                type="radio"
-                value="m"
-              />
-            </div>
-            <div className="p-2">
-              <InputLabel>L</InputLabel>
-              <Input
-                checked={selectedValue === 'l'}
-                name="image_size"
-                onChange={handleRadioChange}
-                type="radio"
-                value="l"
-              />
-            </div>
-          </div>
-        )}
         <div className="pt-2">
           {isLoading && (
             <div className="flex justify-center">
