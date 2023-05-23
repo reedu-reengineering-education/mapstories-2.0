@@ -26,7 +26,7 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setRoutes([
       {
-        title: 'StoryLab',
+        title: 'StoryMaker',
         href: `/${lng}/studio`,
       },
       {
