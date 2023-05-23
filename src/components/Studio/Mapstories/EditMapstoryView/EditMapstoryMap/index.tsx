@@ -126,6 +126,7 @@ export default function EditMapstoryMap({
       .filter(Boolean)
     // @ts-ignore
     setMarkers(newMarkers)
+    handleRemovePoint()
   }, [currentStepId, steps])
 
   useEffect(() => {
