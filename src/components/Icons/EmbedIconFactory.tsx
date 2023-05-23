@@ -12,8 +12,11 @@ import { cva, cx, VariantProps } from 'class-variance-authority'
 import { HTMLAttributes } from 'react'
 import { PadletIcon, Spotify } from '.'
 import BaseIcon from './BaseIcon'
+import SvgDailymotionIcon from './DailymotionIcon'
 import SvgFacebookIcon from './FacebookIcon'
+import SvgSoundcloudIcon from './SoundcloudIcon'
 import SvgTiktokIcon from './TiktokIcon'
+import SvgVimeoIcon from './VimeoIcon'
 import SvgWikipediaIcon from './WikipediaIcon'
 
 interface EmbedIconFactoryProps
@@ -72,11 +75,11 @@ const getIcon = (myType: MediaType) => {
     case 'WIKIPEDIA':
       return SvgWikipediaIcon
     case 'SOUNDCLOUD':
-      return PlayIcon
+      return SvgSoundcloudIcon
     case 'DAILYMOTION':
-      return PlayIcon
+      return SvgDailymotionIcon
     case 'VIMEO':
-      return PlayIcon
+      return SvgVimeoIcon
     case 'IMAGE':
       return ImageIcon
     case 'EXTERNALIMAGE':
