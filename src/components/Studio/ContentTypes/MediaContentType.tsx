@@ -311,7 +311,7 @@ export function MediaContentEdit({
         </div>
 
         <Button className="mt-10" onClick={() => onSubmit()}>
-          {t('save')}
+          {t('create')}
         </Button>
       </div>
     </div>
