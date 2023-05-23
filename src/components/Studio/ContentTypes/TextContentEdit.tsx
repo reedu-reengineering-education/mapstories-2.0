@@ -43,6 +43,12 @@ export function TextContentEdit({
   )
   const { addContent, updateContent } = useStep(storyStepId)
 
+  React.useEffect(() => {
+    if (stepItem) {
+      setTextValue(stepItem.content)
+    }
+  }, [])
+
   async function onSubmit(text: string) {
     try {
       setIsSaving(true)
@@ -80,8 +86,6 @@ export function TextContentEdit({
       setTextValue('')
     }
   }
-
-  stepItem ? setTextValue(stepItem.content) : ''
 
   return (
     <div className="top-0">
