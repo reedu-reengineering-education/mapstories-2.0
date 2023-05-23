@@ -8,6 +8,7 @@ import { SpotifyEmbed } from './SpotifyEmbed'
 import { WikipediaEmbed } from './WikipediaEmbed'
 import { VideoEmbed } from './VideoEmbeds'
 import { SocialMediaEmbed } from './SocialMediaEmbed'
+import { GoogleStreetViewEmbed } from './GoogleStreetViewEmbed'
 
 export interface EmbedProps
   extends React.DetailedHTMLProps<
@@ -63,6 +64,13 @@ export function Embed({
       )}
       {media && media.type == 'SPOTIFY' && (
         <SpotifyEmbed height={height} url={media.content} width={width} />
+      )}
+      {media && media.type == 'GOOGLESTREETVIEW' && (
+        <GoogleStreetViewEmbed
+          height={height}
+          url={media.content}
+          width={width}
+        />
       )}
       {media && media.type == 'EXTERNALIMAGE' && (
         <img alt={media.content} src={media.content} />
