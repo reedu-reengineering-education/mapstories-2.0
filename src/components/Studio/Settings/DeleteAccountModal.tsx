@@ -3,7 +3,9 @@
 // import { useState } from 'react'
 import { Button } from '../../Elements/Button'
 import { Modal } from '../../Modal'
-
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
 type Props = {
   trigger: React.ReactElement
   onSubmit: () => void
@@ -16,19 +18,21 @@ export default function DeleteAccountModal({
   isSaving,
 }: Props) {
   //   const { t } = useTranslation(lng, 'editModal')
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+
+  const { t } = useTranslation(lng, 'editModal')
 
   return (
-    <Modal title={'Account löschen'} trigger={trigger}>
+    <Modal title={t('deleteAccount')} trigger={trigger}>
       <form onSubmit={onSubmit}>
         <Modal.Content>
           <div className="text-center font-bold">
-            <p>
-              Wenn Sie ihren Account löschen gehen alle ihre Stories verloren!
-            </p>
+            <p>{t('deleteAccountWarning')}</p>
             <br />
-            <p className="text-red-600">
-              Sind Sie sicher dass Sie ihren Account löschen möchten?
-            </p>
+            <p className="text-red-600">{t('deleteAccount')}</p>
           </div>
         </Modal.Content>
         <Modal.Footer>
@@ -39,9 +43,9 @@ export default function DeleteAccountModal({
               onClick={onSubmit}
               variant={'danger'}
             >
-              Ja
+              {t('yes')}
             </Button>
-            <Button>Abbrechen</Button>
+            <Button>{t('cancel')}</Button>
           </div>
         </Modal.Footer>
       </form>

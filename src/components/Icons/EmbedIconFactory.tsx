@@ -39,6 +39,9 @@ const iconStyle = cva<cvaType>('', {
       PADLET: 'bg-zinc-100',
       FACEBOOK: 'bg-[#4267B2] text-white',
       WIKIPEDIA: 'bg-zinc-100',
+      SOUNDCLOUD: 'bg-zinc-100',
+      DAILYMOTION: 'bg-zinc-100',
+      VIMEO: 'bg-zinc-100',
       IMAGE: 'bg-zinc-100',
       VIDEO: 'bg-zinc-100',
       SPOTIFY: 'bg-[#1DB954] p-[4px]',
@@ -68,6 +71,12 @@ const getIcon = (myType: MediaType) => {
       return SvgFacebookIcon
     case 'WIKIPEDIA':
       return SvgWikipediaIcon
+    case 'SOUNDCLOUD':
+      return PlayIcon
+    case 'DAILYMOTION':
+      return PlayIcon
+    case 'VIMEO':
+      return PlayIcon
     case 'IMAGE':
       return ImageIcon
     case 'EXTERNALIMAGE':

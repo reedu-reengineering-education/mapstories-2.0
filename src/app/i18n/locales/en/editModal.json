@@ -9,10 +9,19 @@
   "heading": "Heading",
   "text": "Text",
   "upload": "File",
+  "yes": "Ja",
+  "cancel": "Cancel",
+  "delete": "Delete",
   "embed": "Link",
   "content_updated": "Your content has been updated",
   "content_created": "Your content has been created",
+  "content_deleted": "Your content has been deleted",
   "something_wrong": "Something went wrong.",
   "content_not_created": "Your content was not created. Please try again.",
-  "headline_for_your_slide": "Add a title to your slide."
+  "headline_for_your_slide": "Add a title to your slide.",
+  "supportedFormats": "Supported formats",
+  "placeholderTextInput": "Your text here...",
+  "deleteAccountWarning": "Your account will be irrevocably deleted. This also deletes all map stories associated with the account",
+  "confirmDeleteAccount": "Are you sure you want to delete your account?",
+  "deleteAccount": "Do you really want to delete your account?"
 }

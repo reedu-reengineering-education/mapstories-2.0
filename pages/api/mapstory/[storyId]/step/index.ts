@@ -26,6 +26,23 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               })
             )?.steps.length || 0,
         },
+        include: {
+          Story: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      })
+
+      // create default headline (TODO: translate placeholder text)
+      await db.slideContent.create({
+        data: {
+          type: 'TITLE',
+          content: 'Deine Überschrift',
+          position: 0,
+          storyStepId: newStep.id,
+        },
       })
 
       res.json(newStep)

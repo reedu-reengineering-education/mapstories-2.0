@@ -1,8 +1,11 @@
 'use client'
 
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
 import useStory from '@/src/lib/api/story/useStory'
+import { useBoundStore } from '@/src/lib/store/store'
 import { toast } from '@/src/lib/toast'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
@@ -13,6 +16,12 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
   const router = useRouter()
 
   const { story, deleteStory } = useStory(id)
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+
+  const { t } = useTranslation(lng, 'studio')
 
   async function handleClick() {
     if (loading) {
@@ -24,15 +33,15 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
     try {
       await deleteStory()
       toast({
-        message: 'Your mapstory has been deleted.',
+        message: t('contentCreated'),
         type: 'success',
       })
 
       router.refresh()
     } catch (e) {
       return toast({
-        title: 'Something went wrong.',
-        message: 'Your mapstory was not deleted. Please try again',
+        title: t('somethingWrong'),
+        message: t('contentNotDeleted'),
         type: 'error',
       })
     } finally {
@@ -44,9 +53,10 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
     <Modal
       title={
         <span>
-          Willst du die Mapstory{' '}
-          <span className="rounded bg-slate-100 px-2 py-1">{story?.name}</span>{' '}
-          wirklich löschen?
+          {t('confirmDeleteMapstory')}
+          <span className="rounded bg-slate-100 px-2 py-1">
+            {story?.name}
+          </span>{' '}
         </span>
       }
       trigger={

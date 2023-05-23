@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from '@/src/lib/toast'
 import useStep from '@/src/lib/api/step/useStep'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 export default function DeleteContentButton({
   storyStepId,
@@ -20,19 +22,21 @@ export default function DeleteContentButton({
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
   const { deleteContent } = useStep(storyStepId)
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'editModal')
 
   async function handleClick() {
     try {
       setIsSaving(true)
       const deletedContent = await deleteContent(stepContentId)
       toast({
-        message: 'Der Inhalt wurde gelöscht.',
+        message: t('content_deleted'),
         type: 'success',
       })
     } catch (e) {
       return toast({
-        title: 'Something went wrong.',
-        message: 'Your content was not created. Please try again',
+        title: t('something_wrong'),
+        message: t('content_not_created'),
         type: 'error',
       })
     } finally {
@@ -47,7 +51,8 @@ export default function DeleteContentButton({
       <Modal
         title={
           <span>
-            Willst du den Inhalt wirklich löschen?
+            {' '}
+            {t('confirmDeleteAccount')}
             {/* <span className="rounded bg-slate-100 px-2 py-1">
               {stepContentId}
             </span> */}
@@ -67,7 +72,7 @@ export default function DeleteContentButton({
               onClick={handleClick}
               variant={'danger'}
             >
-              Löschen
+              {t('delete')}
             </Button>
           }
         />

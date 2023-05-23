@@ -23,30 +23,27 @@ export var media_types: media_type[] = [
     match_str: /(www.)?facebook\.com/,
     content: '',
   },
-  // {
-  //     type: 'vimeo',
-  //     match_str: /(player.)?vimeo\.com/,
-  //     content: '',
-  //     options: {}
-  // },
-  // {
-  //     type: 'dailymotion',
-  //     match_str: /(www.)?dailymotion\.com/,
-  //     content: '',
-  //     options: {}
-  // },
+  {
+    type: 'VIMEO',
+    match_str: /(player.)?vimeo\.com/,
+    content: '',
+  },
+  {
+    type: 'DAILYMOTION',
+    match_str: /(www.)?dailymotion\.com/,
+    content: '',
+  },
   // {
   //     type: 'vine',
   //     match_str: /(www.)?vine\.co/,
   //     content: '',
   //     options: {}
   // },
-  // {
-  //     type: 'soundcloud',
-  //     match_str: /(player.)?soundcloud\.com/,
-  //     content: '',
-  //     options: {}
-  // },
+  {
+    type: 'SOUNDCLOUD',
+    match_str: /(player.)?soundcloud\.com/,
+    content: '',
+  },
   {
     type: 'SPOTIFY',
     match_str: /(player.)?spotify\.com/,

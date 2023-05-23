@@ -3,12 +3,14 @@
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { cx } from 'class-variance-authority'
-import { Bars3Icon, GlobeAltIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
+
+import { LogoWithTextAndBackground } from './MapstoriesLogo'
 
 export function Navbar({ children }: { children: React.ReactNode }) {
   const segment = useSelectedLayoutSegment()
@@ -46,6 +48,10 @@ export function Navbar({ children }: { children: React.ReactNode }) {
         title: t('impressum'),
         href: `/${lng}/impressum`,
       },
+      {
+        title: t('feedback'),
+        href: `/${lng}/feedback`,
+      },
     ])
   }, [lng, t])
 
@@ -56,8 +62,7 @@ export function Navbar({ children }: { children: React.ReactNode }) {
           className="relative hidden items-center space-x-2 md:flex"
           href="/"
         >
-          <GlobeAltIcon className="w-8" />
-          <span className="hidden font-bold sm:inline-block">Mapstories</span>
+          <LogoWithTextAndBackground />
           <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary">
             BETA
           </span>
@@ -107,8 +112,7 @@ function MobileNav({ routes }: { children?: React.ReactNode; routes: any[] }) {
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-white p-4 shadow-md">
         <Link className="flex items-center space-x-2" href="/">
-          <GlobeAltIcon className="w-8" />
-          <span className="font-bold">Mapstories</span>
+          <LogoWithTextAndBackground />
         </Link>
         <nav className="grid grid-flow-row auto-rows-max text-sm">
           {routes.map((item, index) => (

@@ -8,11 +8,20 @@
   "choose_element": "Wähle aus, was für ein Element du deiner Folie hinzufügen möchtest.",
   "heading": "Überschrift",
   "text": "Text",
+  "cancel": "Abbrechen",
   "upload": "Datei",
   "embed": "Link",
+  "yes": "Ja",
+  "delete": "Löschen",
   "content_updated": "Dein Inhalt wurde geupdated",
   "content_created": "Dein inhalt wurde erstellt.",
-  "something_wrong": "Es hab einen Fehler.",
+  "content_deleted": "Dein Inhalt wurde gelöscht.",
+  "something_wrong": "Es gab einen Fehler.",
   "content_not_created": "Dein Inhalt konnte nicht gespeichert werden. Versuche es nochmal.",
-  "headline_for_your_slide": "Gib eine Überschrift für deine Folie ein"
+  "headline_for_your_slide": "Gib eine Überschrift für deine Folie ein",
+  "supportedFormats": "Unterstützte Formate:",
+  "placeholderTextInput": "Text eingeben...",
+  "deleteAccountWarning": "Dein Account wird unwiderruflich gelöscht. Damit löscht du auch alle mit dem Account verbundenen Mapstories!",
+  "confirmDeleteAccount": "Bist du sicher dass du deinen Account löschen möchtest?",
+  "deleteAccount": "Möchtest du deinen Account wirklich löschen?"
 }

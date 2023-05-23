@@ -1,11 +1,13 @@
 {
-  "name": "Name",
+  "name": "name",
   "description": "Description",
   "private": "Private",
   "public": "Public",
-  "theme": "Theme",
+  "theme": "map type",
   "image": "Image",
-  "select an image or enter a URL": "select an image or enter a URL",
-  "options": "Options",
-  "save": "Save"
+  "Select an image or enter a URL": "Select an image or enter a URL",
+  "options": "options",
+  "save": "Apply",
+  "changesApplied": "Changes saved",
+  "changesNotApplied": "Changes could not be saved"
 }
