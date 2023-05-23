@@ -64,6 +64,9 @@ export function Embed({
       {media && media.type == 'SPOTIFY' && (
         <SpotifyEmbed height={height} url={media.content} width={width} />
       )}
+      {media && media.type == 'EXTERNALIMAGE' && (
+        <img alt={media.content} src={media.content} />
+      )}
       {media == null && <p>{t('Embed.notRecognized')}</p>}
     </div>
   )

@@ -19,6 +19,8 @@ import { useBoundStore } from '@/src/lib/store/store'
 import useStep from '@/src/lib/api/step/useStep'
 import { urlToMedia } from '../../../helper/urlToMedia'
 import MediaIconList from '../Mapstories/MediaPlatformIcons'
+import { generateRandomName } from '@/src/helper/generateRandomName'
+import useMedia from '@/src/lib/api/media/useMedia'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -46,6 +48,8 @@ export function EmbedContentEdit({
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
+
+  const { addMedia } = useMedia(storyStepId)
 
   const { content: url } = watch()
   useEffect(() => {
@@ -78,7 +82,20 @@ export function EmbedContentEdit({
           type: 'success',
         })
       } else {
-        await addContent({ ...data, type: media?.type })
+        if (media?.type == 'EXTERNALIMAGE') {
+          const uploadedMedia = await addMedia({
+            name: generateRandomName(),
+            url: media?.content,
+            size: 's',
+          })
+          await addContent({
+            mediaId: uploadedMedia.id,
+            content: uploadedMedia.name,
+            type: media?.type,
+          })
+        } else {
+          await addContent({ ...data, type: media?.type })
+        }
         toast({
           message: t('editModal:contentCreated') as string,
           type: 'success',

@@ -5,7 +5,7 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { useDropzone } from 'react-dropzone'
-import { Input, InputLabel } from '@/src/components/Elements/Input'
+import { InputLabel } from '@/src/components/Elements/Input'
 import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useStep from '@/src/lib/api/step/useStep'
@@ -15,10 +15,7 @@ import { Media, MediaType } from '@prisma/client'
 import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
 import { getS3Image } from '@/src/helper/getS3Image'
 import * as z from 'zod'
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
-import { isValidLink } from '@/src/helper/isValidLink'
-import { generateRandomName } from '@/src/helper/generateRandomName'
 import ReactPlayer from 'react-player'
 import { Spinner } from '../../Elements/Spinner'
 
@@ -153,61 +150,36 @@ export function MediaContentEdit({
       setIsSaving(true)
       if (stepItem) {
         // when image from url is selected
-        if (!tabIndex) {
-          if (!isValidLink(fileUrl)) {
-            throw new Error('Ungültiger Link/Invalid URL')
-          }
-          await updateMedia(stepItem.mediaId, {
-            size: selectedValue,
-            url: fileUrl,
-          } as Media)
-        }
         // when image from file is selected
-        if (tabIndex) {
-          if (!file) {
-            throw new Error('no file selected')
-          }
-          const media = await getMedia(stepItem.mediaId)
-          await uploadFile(file, media)
-          await updateMedia(stepItem.mediaId, { size: selectedValue } as Media)
+
+        if (!file) {
+          throw new Error('no file selected')
         }
+        const media = await getMedia(stepItem.mediaId)
+        await uploadFile(file, media)
+        await updateMedia(stepItem.mediaId, { size: selectedValue } as Media)
+
         toast({
           message: t('contentUpdated'),
           type: 'success',
         })
       } else {
         // create image table
-        if (tabIndex) {
-          if (!file) {
-            throw new Error('no file selected')
-          }
-          const uploadedMedia = await addMedia({
-            name: file.name,
-            size: selectedValue,
-          })
-          // upload file to s3
-          await uploadFile(file, uploadedMedia)
-          await addContent({
-            mediaId: uploadedMedia.id,
-            content: file.name,
-            type: fileType,
-          })
+
+        if (!file) {
+          throw new Error('no file selected')
         }
-        if (!tabIndex) {
-          if (!isValidLink(fileUrl)) {
-            throw new Error('Ungültiger Link/Invalid URL')
-          }
-          const uploadedMedia = await addMedia({
-            name: generateRandomName(),
-            url: fileUrl,
-            size: selectedValue,
-          })
-          await addContent({
-            mediaId: uploadedMedia.id,
-            content: uploadedMedia.name,
-            type: 'EXTERNALIMAGE',
-          })
-        }
+        const uploadedMedia = await addMedia({
+          name: file.name,
+          size: selectedValue,
+        })
+        // upload file to s3
+        await uploadFile(file, uploadedMedia)
+        await addContent({
+          mediaId: uploadedMedia.id,
+          content: file.name,
+          type: fileType,
+        })
 
         // create content table with image id as reference
         toast({
@@ -239,40 +211,23 @@ export function MediaContentEdit({
 
   return (
     <div>
-      <Tabs onSelect={index => changeTabIndex(index)} selectedIndex={tabIndex}>
-        <TabList>
-          <Tab>{t('externalImage')}</Tab>
-          <Tab>{t('uploadFile')}</Tab>
-        </TabList>
-        <TabPanel>
-          <div>
-            <InputLabel>{t('externalImageUrl')}</InputLabel>
-            <Input
-              // disabled={file ? true : false}
-              onChange={(e: any) => handleExternalImageUrl(e)}
-              type="text"
-              value={fileUrl}
-            />
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <InputLabel>{t('uploadFile')}</InputLabel>
-          <p className="my-2 text-sm font-bold">{t('supportedFormats')} </p>
-          <span>
-            <code>.jpg</code>
-            <code>.png</code>
-            <code>.mp4</code>
-            <code>.mp3</code>
-            <code>.jpg</code>
-            <br></br>
-          </span>
-          {/* @ts-ignore */}
-          <div {...getRootProps({ style })}>
-            <input {...getInputProps()} />
-            {t('dropFiles')}
-          </div>
-        </TabPanel>
-      </Tabs>
+      <div>
+        <InputLabel>{t('uploadFile')}</InputLabel>
+        <p className="my-2 text-sm font-bold">{t('supportedFormats')} </p>
+        <span>
+          <code>.jpg</code>
+          <code>.png</code>
+          <code>.mp4</code>
+          <code>.mp3</code>
+          <code>.jpg</code>
+          <br></br>
+        </span>
+        {/* @ts-ignore */}
+        <div {...getRootProps({ style })}>
+          <input {...getInputProps()} />
+          {t('dropFiles')}
+        </div>
+      </div>
       <div>
         <div className="pt-2">
           {isLoading && (

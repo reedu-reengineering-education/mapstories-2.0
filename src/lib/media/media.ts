@@ -83,12 +83,11 @@ export var media_types: media_type[] = [
   //     content: '',
   //     options: {}
   // },
-  // {
-  //     type: 'image',
-  //     match_str: /jpg|jpeg|png|gif/i,
-  //     content: '',
-  //     options: {}
-  // },
+  {
+    type: 'EXTERNALIMAGE',
+    match_str: /\.(jpg|jpeg|png|gif|bmp)$/i,
+    content: '',
+  },
   // {
   //     type: 'mp3',
   //     match_str: /mp3|MP3/i,
