@@ -176,7 +176,7 @@ export function MediaContentEdit({
           await updateMedia(stepItem.mediaId, { size: selectedValue } as Media)
         }
         toast({
-          message: t('content_updated'),
+          message: t('contentUpdated'),
           type: 'success',
         })
       } else {
@@ -215,7 +215,7 @@ export function MediaContentEdit({
 
         // create content table with image id as reference
         toast({
-          message: t('content_created'),
+          message: t('contentCreated'),
           type: 'success',
         })
       }

@@ -53,20 +53,20 @@ export function TextContentEdit({
           type: 'TEXT',
         })
         toast({
-          message: t('content_updated'),
+          message: t('contentUpdated'),
           type: 'success',
         })
       } else {
         await addContent({ content: text, type: 'TEXT' })
         toast({
-          message: t('content_created'),
+          message: t('contentCreated'),
           type: 'success',
         })
       }
     } catch (error) {
       toast({
-        title: t('something_wrong'),
-        message: t('content_not_created'),
+        title: t('somethingWrong'),
+        message: t('contentNotCreated'),
         type: 'error',
       })
     } finally {
