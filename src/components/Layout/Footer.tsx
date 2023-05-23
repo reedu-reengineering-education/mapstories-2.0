@@ -24,6 +24,13 @@ export async function Footer({ lng }: { lng: string }) {
             >
               reedu
             </Link>
+            {'|'}
+            <Link
+              className="font-medium underline underline-offset-4"
+              href={'#'}
+            >
+              {t('imprint')}
+            </Link>
           </p>
         </div>
         <p className="text-center text-sm md:text-left">
