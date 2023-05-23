@@ -45,7 +45,7 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
   if (!currentStory || !currentStep) {
     return (
       <StudioShell>
-        <div className="re-studio-height-full-screen absolute top-0 z-10 flex w-full animate-pulse items-center justify-center overflow-hidden rounded-lg bg-zinc-100 shadow">
+        <div className="absolute top-0 z-10 flex h-full w-full animate-pulse items-center justify-center overflow-hidden rounded-lg bg-zinc-100 shadow">
           <Spinner />
         </div>
       </StudioShell>
@@ -53,29 +53,29 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
   }
 
   return (
-    <StudioShell>
-      <div className="re-studio-height-full-screen absolute top-0 z-10 w-full overflow-hidden rounded-lg shadow">
-        <div className="absolute left-1/3 top-0 z-20 w-fit">
-          <div className="mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
-            {currentStep.id === story.firstStepId ? (
-              <span>
-                <Trans components={{ 1: <br /> }}>{t('your_titlepage')}</Trans>
-              </span>
-            ) : !currentStep?.feature ? (
-              <span>
-                <Trans>{t('click_on_map_to_set_marker')}</Trans>
-              </span>
-            ) : (
-              <span>{t('move_the_red_marker')}</span>
-            )}
-          </div>
+    // <StudioShell>
+    <div className="absolute top-0 z-10 h-full w-full overflow-hidden rounded-lg shadow">
+      <div className="absolute left-1/2 top-40 z-20 w-fit -translate-x-2/4">
+        <div className="mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
+          {currentStep.id === story.firstStepId ? (
+            <span>
+              <Trans components={{ 1: <br /> }}>{t('your_titlepage')}</Trans>
+            </span>
+          ) : !currentStep?.feature ? (
+            <span>
+              <Trans>{t('click_on_map_to_set_marker')}</Trans>
+            </span>
+          ) : (
+            <span>{t('move_the_red_marker')}</span>
+          )}
         </div>
-
-        <EditMapstoryMap
-          currentStepId={currentStep.id}
-          steps={currentStory.steps}
-        />
       </div>
-    </StudioShell>
+
+      <EditMapstoryMap
+        currentStepId={currentStep.id}
+        steps={currentStory.steps}
+      />
+    </div>
+    // </StudioShell>
   )
 }

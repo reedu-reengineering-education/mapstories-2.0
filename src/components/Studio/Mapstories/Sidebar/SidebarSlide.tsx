@@ -39,7 +39,6 @@ export default function SidebarSlide({
 
   return (
     <div className="flex items-center">
-      {position != null && <p className="mr-2">{position + 1}</p>}
       <div
         className={cx(
           slideStyle({ variant }),
@@ -47,6 +46,10 @@ export default function SidebarSlide({
           markerHover ? 'border-2 border-red-600' : '',
         )}
       >
+        {position != null && (
+          <p className="absolute left-2 top-2">{position + 1}</p>
+        )}
+
         {step?.content && step?.content.length > 0 && (
           <div className="flex w-full max-w-[145px] items-center justify-center -space-x-3 overflow-hidden p-4">
             {step.content

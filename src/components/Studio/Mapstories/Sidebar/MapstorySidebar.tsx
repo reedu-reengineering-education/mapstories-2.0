@@ -87,9 +87,10 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   return (
     <>
-      <aside className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
+      <aside className="re-basic-box relative left-5 z-40 flex h-full w-full overflow-y-auto overflow-x-hidden bg-white px-4 md:h-full md:flex-col">
+        <h3 className="py-2">{t('steps')}</h3>
         <Link href={`/studio/${story.slug}/${story.firstStepId}`}>
-          <div className="ml-4">
+          <div className="">
             <SidebarSlide
               active={stepId === story.firstStepId}
               stepId={story.firstStepId!}
@@ -102,7 +103,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
             )}
           </div>
         </Link>
-        <hr className="my-4 ml-4 border-gray-400" />
+        <hr className="my-4 border-gray-400" />
         <DraggableList
           items={steps.map((s, i) => ({
             id: s.id,
@@ -119,7 +120,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     position={s.position}
                     stepId={s.id}
                   />
-                  <p className="ml-6 max-w-[80%] truncate text-xs">
+                  <p className="ml-2 max-w-[80%] truncate text-xs">
                     {getSlideTitle(s.content)}
                   </p>
                 </div>
@@ -157,7 +158,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
           onChange={e => onReorder(e.map(({ s }) => s))}
         ></DraggableList>
 
-        <div className="sticky bottom-0 z-20 w-full bg-white py-2 pl-4">
+        <div className="sticky bottom-0 z-20 w-full bg-white py-2">
           <AddStoryStepButton storyID={storyID} />
         </div>
       </aside>

@@ -9,5 +9,7 @@
   "options": "options",
   "save": "Apply",
   "changesApplied": "Changes saved",
-  "changesNotApplied": "Changes could not be saved"
+  "changesNotApplied": "Changes could not be saved",
+  "share": "Share",
+  "embed": "Embed"
 }

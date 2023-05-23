@@ -9,5 +9,7 @@
   "options": "Optionen",
   "save": "Übernehmen",
   "changesApplied": "Änderungen gespeichert",
-  "changesNotApplied": "Änderungen konnten nicht gespeichert werden"
+  "changesNotApplied": "Änderungen konnten nicht gespeichert werden",
+  "share": "Teilen",
+  "embed": "Einbetten"
 }

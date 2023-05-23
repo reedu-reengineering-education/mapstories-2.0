@@ -249,7 +249,7 @@ export default function EditMapstoryMap({
             properties: e.result.properties,
           })
         }}
-        position="top-left"
+        position="top-right"
       />
       {/* <DrawControl
         controls={{
@@ -266,13 +266,6 @@ export default function EditMapstoryMap({
         onChange={addMarker}
         onClick={m => router.replace(`/studio/${story?.slug}/${m.stepId}`)}
       />
-      {/* {geocoder_Coords.lat != undefined && geocoder_Coords.lng != undefined && (
-        <Marker
-          color={'red'}
-          latitude={geocoder_Coords.lng}
-          longitude={geocoder_Coords.lat}
-        ></Marker>
-      )} */}
       {geocoderResult?.geometry?.coordinates && (
         <>
           <Popup
