@@ -18,7 +18,7 @@ export async function Footer({ lng }: { lng: string }) {
             {t('builtBy')}{' '}
             <Link
               className="font-medium underline underline-offset-4"
-              href={'#'}
+              href={'https://reedu.de'}
               rel="noreferrer"
               target="_blank"
             >
@@ -27,7 +27,7 @@ export async function Footer({ lng }: { lng: string }) {
             {'|'}
             <Link
               className="font-medium underline underline-offset-4"
-              href={'#'}
+              href={`/${lng}/impressum`}
             >
               {t('imprint')}
             </Link>
