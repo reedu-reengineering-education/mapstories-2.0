@@ -67,7 +67,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
       const updatedStory = await updateStory({
         ...data,
         // TODO: update again after zod schema change
-        // visibility: data.public ? 'PUBLIC' : 'PRIVATE',
+        visibility: data.visibility === true ? 'PUBLIC' : 'PRIVATE',
       })
       toast({
         message: t('settingsModal:changesApplied'),
@@ -129,8 +129,9 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
 
             <Controller
               control={control}
-              defaultValue={'PRIVATE'}
+              defaultValue={false}
               name="visibility"
+              // {...register('visibility')}
               render={({ field: { onChange, value, ref } }) => {
                 return (
                   <div className="jusify-center flex items-center gap-4">
