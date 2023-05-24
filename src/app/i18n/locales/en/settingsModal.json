@@ -11,5 +11,7 @@
   "changesApplied": "Changes saved",
   "changesNotApplied": "Changes could not be saved",
   "share": "Share",
-  "embed": "Embed"
+  "embed": "Embed",
+  "you_want_to_embed": "You want to embed this story in your Website. Just use the iframe code below.",
+  "you_want_to_share": "You want to share this story with other people. Simply copy the link below."
 }

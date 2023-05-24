@@ -4,18 +4,21 @@ import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
 import { ShareIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
-// import { useUIStore } from '@/src/lib/store/ui'
-// import { useS3Upload } from "next-s3-upload";
+import AnimatedCopyIcon from '../../Icons/AnimatedCopyIcon'
 
 export default function ShareModal({ storyId }: { storyId: string }) {
-  const router = useRouter()
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, ['settingsModal', 'studio'])
 
   const [modalOpen, setModalOpen] = useState(false)
+
+  const link = `${window.location.origin}/gallery/story/${storyId}`
+
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(link)
+  }
 
   return (
     <>
@@ -32,8 +35,23 @@ export default function ShareModal({ storyId }: { storyId: string }) {
         show={modalOpen}
         title={t('settingsModal:share')}
       >
-        <Modal.Content></Modal.Content>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Content>
+          <p className="pb-4 pt-2">{t('you_want_to_share')}</p>
+
+          <div className="flex rounded bg-slate-100 p-4">
+            <pre className="m-4 flex-1 whitespace-pre-wrap break-all text-sm">
+              {link}
+            </pre>
+            <div className="relative w-7">
+              <AnimatedCopyIcon onClick={copyToClipboard} />
+            </div>
+          </div>
+        </Modal.Content>
+        <Modal.Footer>
+          <div className="flex justify-end">
+            <Button onClick={() => setModalOpen(false)}>Ok</Button>
+          </div>
+        </Modal.Footer>
       </Modal>
     </>
   )

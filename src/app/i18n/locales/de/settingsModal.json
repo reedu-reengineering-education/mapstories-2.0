@@ -11,5 +11,7 @@
   "changesApplied": "Änderungen gespeichert",
   "changesNotApplied": "Änderungen konnten nicht gespeichert werden",
   "share": "Teilen",
-  "embed": "Einbetten"
+  "embed": "Einbetten",
+  "you_want_to_embed": "Du möchtest diese Story auch auf deiner Website darstellen? Dafür kannst du diesen iframe Code benutzen",
+  "you_want_to_share": "Du möchtest diese Story mit anderen teilen? Kopiere dafür einfach diesen Link."
 }
