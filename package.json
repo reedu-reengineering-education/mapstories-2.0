@@ -37,6 +37,7 @@
     "@react-email/render": "^0.0.7",
     "@react-email/tailwind": "0.0.7",
     "@react-email/text": "0.0.5",
+    "@react-spring/web": "^9.7.2",
     "@types/minio": "^7.0.18",
     "@types/multer": "^1.4.7",
     "@types/node": "18.14.2",
