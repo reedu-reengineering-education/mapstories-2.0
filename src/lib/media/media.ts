@@ -83,12 +83,11 @@ export var media_types: media_type[] = [
   //     content: '',
   //     options: {}
   // },
-  // {
-  //     type: 'image',
-  //     match_str: /jpg|jpeg|png|gif/i,
-  //     content: '',
-  //     options: {}
-  // },
+  {
+    type: 'EXTERNALIMAGE',
+    match_str: /\.(jpg|jpeg|png|gif|bmp)$/i,
+    content: '',
+  },
   // {
   //     type: 'mp3',
   //     match_str: /mp3|MP3/i,
@@ -121,6 +120,13 @@ export var media_types: media_type[] = [
   {
     type: 'PADLET',
     match_str: /padlet.com/,
+    content: '',
+  },
+  {
+    type: 'GOOGLESTREETVIEW',
+    match_str: /google.de/,
+    // match_str:
+    //   /^https:\/\/www\.google\.(?:com|de)\/maps\/(@[0-9a-zA-Z]+,){2}[0-9a-zA-Z]+,(\d+\.?\d*)z\/data=(?:!3m1!4b1|[\w\d]+)$/,
     content: '',
   },
   // {

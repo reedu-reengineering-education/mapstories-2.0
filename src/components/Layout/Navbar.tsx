@@ -24,7 +24,7 @@ export function Navbar({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setRoutes([
       {
-        title: 'StoryLab',
+        title: 'StoryMaker',
         href: `/${lng}/studio`,
       },
       {
@@ -32,17 +32,8 @@ export function Navbar({ children }: { children: React.ReactNode }) {
         href: `/${lng}/viewer`,
       },
       {
-        title: t('contact'),
-        href: `/${lng}/contact`,
-        disabled: true,
-      },
-      {
         title: t('about'),
         href: `/${lng}/about`,
-      },
-      {
-        title: t('impressum'),
-        href: `/${lng}/impressum`,
       },
       {
         title: t('feedback'),

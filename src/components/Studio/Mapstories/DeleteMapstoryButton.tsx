@@ -33,7 +33,7 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
     try {
       await deleteStory()
       toast({
-        message: t('contentCreated'),
+        message: t('contentDeleted'),
         type: 'success',
       })
 
