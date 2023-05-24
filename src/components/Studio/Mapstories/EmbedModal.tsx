@@ -12,7 +12,7 @@ import AnimatedCopyIcon from '../../Icons/AnimatedCopyIcon'
 
 export default function EmbedModal({ storyId }: { storyId: string }) {
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, ['settingsModal', 'studio'])
+  const { t } = useTranslation(lng, ['settingsModal'])
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -40,7 +40,7 @@ export default function EmbedModal({ storyId }: { storyId: string }) {
         title={t('settingsModal:embed')}
       >
         <Modal.Content>
-          <p className="pb-4 pt-2">{t('you_want_to_embed')}</p>
+          <p className="pb-4 pt-2">{t('settingsModal:you_want_to_embed')}</p>
 
           <div className="flex rounded bg-slate-100 p-4">
             <pre className="m-4 flex-1 whitespace-pre-wrap break-all text-sm">
