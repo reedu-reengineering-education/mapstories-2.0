@@ -58,20 +58,20 @@ export function TitleContentEdit({
           type: 'TITLE',
         })
         toast({
-          message: t('content_updated'),
+          message: t('contentUpdated'),
           type: 'success',
         })
       } else {
         await addContent({ content: data.title, type: 'TITLE' })
         toast({
-          message: t('content_created'),
+          message: t('contentCreated'),
           type: 'success',
         })
       }
     } catch (error) {
       toast({
-        title: t('something_wrong'),
-        message: t('content_not_created'),
+        title: t('somethingWrong'),
+        message: t('contentNotCreated'),
         type: 'error',
       })
     } finally {
@@ -88,7 +88,7 @@ export function TitleContentEdit({
     >
       <div className="top-0">
         <div className="pt-4">
-          <InputLabel>{t('headline_for_your_slide')}</InputLabel>
+          <InputLabel>{t('headlineForYourSlide')}</InputLabel>
           <Input
             defaultValue={stepItem ? stepItem.content : ''}
             errors={errors.title}

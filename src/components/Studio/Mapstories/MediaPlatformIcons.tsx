@@ -18,6 +18,9 @@ const mediaNames = new Map<MediaType, string>([
   ['TWITTER', 'Twitter'],
   ['FACEBOOK', 'Facebook'],
   ['SPOTIFY', 'Spotify'],
+  ['SOUNDCLOUD', 'Soundcloud'],
+  ['VIMEO', 'Vimeo'],
+  ['DAILYMOTION', 'Dailymotion'],
 ])
 
 export default function MediaIconList({ usedMediaType }: MediaIconListProps) {

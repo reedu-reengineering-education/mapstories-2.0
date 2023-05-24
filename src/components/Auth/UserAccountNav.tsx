@@ -36,7 +36,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           <DropdownMenu.Separator />
           <DropdownMenu.Item>
             <Link className="w-full" href="/studio">
-              StoryLab
+              StoryMaker
             </Link>
           </DropdownMenu.Item>
           <DropdownMenu.Item>

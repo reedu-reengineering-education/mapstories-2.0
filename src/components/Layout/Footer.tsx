@@ -18,11 +18,18 @@ export async function Footer({ lng }: { lng: string }) {
             {t('builtBy')}{' '}
             <Link
               className="font-medium underline underline-offset-4"
-              href={'#'}
+              href={'https://reedu.de'}
               rel="noreferrer"
               target="_blank"
             >
               reedu
+            </Link>
+            {'|'}
+            <Link
+              className="font-medium underline underline-offset-4"
+              href={`/${lng}/impressum`}
+            >
+              {t('imprint')}
             </Link>
           </p>
         </div>
