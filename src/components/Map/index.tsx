@@ -19,6 +19,7 @@ const Map = forwardRef<MapRef, MapProps>(
   ) => {
     return (
       <ReactMap
+        customAttribution={'<a href="/de/impressum/">Imprint</a>'}
         dragRotate={false}
         fog={{
           color: 'rgb(186, 210, 235)',
@@ -45,7 +46,7 @@ const Map = forwardRef<MapRef, MapProps>(
         {...props}
       >
         {children}
-        <NavigationControl position="bottom-left" showCompass={false} />
+        <NavigationControl position="top-right" showCompass={false} />
       </ReactMap>
     )
   },

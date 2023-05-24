@@ -62,6 +62,9 @@
 .re-hover-element:hover {
   background: #e0f2e8;
 }
+.re-studio-height-full-minus-header {
+  height: calc(100vh - 10rem);
+}
 
 .re-studio-height-full-screen {
   height: calc(100vh - 18rem);

@@ -12,7 +12,7 @@ import { redirect } from 'next/navigation'
 import type { Metadata } from 'next/types'
 
 export const metadata: Metadata = {
-  title: 'StoryLab',
+  title: 'StoryMaker',
   openGraph: {
     title: 'StoryLab',
   },
@@ -42,7 +42,7 @@ export default async function Studio({
   return (
     <StudioShell>
       <StudioHeader
-        heading="StoryLab"
+        heading="StoryMaker"
         text={t('create, edit and share mapstories')}
       >
         <div className="p-1">

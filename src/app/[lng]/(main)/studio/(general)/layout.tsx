@@ -1,18 +1,27 @@
-import { getCurrentUser } from '@/src/lib/session'
 import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
+import { Footer } from '@/src/components/Layout/Footer'
 import { Navbar } from '@/src/components/Layout/Navbar'
+import { StudioSidebar } from '@/src/components/Studio/Sidebar'
+import { getCurrentUser } from '@/src/lib/session'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
-export default async function RootLayout({
+interface DashboardLayoutProps {
+  children?: React.ReactNode
+  params: { lng: string }
+}
+
+export default async function DashboardLayout({
   children,
   params: { lng },
-}: {
-  children: React.ReactNode
-  params: { lng: string }
-}) {
+}: DashboardLayoutProps) {
   const user = await getCurrentUser()
+
+  if (!user) {
+    return notFound()
+  }
 
   return (
     <>
@@ -32,10 +41,18 @@ export default async function RootLayout({
           </Navbar>
         </div>
       </header>
-
-      <div className="flex h-full flex-col">
-        <main className="h-full">{children}</main>
+      <div className="mx-auto my-6 flex flex-col">
+        <div className="container grid gap-12 md:grid-cols-[200px_1fr]">
+          <aside className="hidden w-[200px] flex-col md:flex">
+            <StudioSidebar />
+          </aside>
+          <main className="flex w-full flex-1 flex-col overflow-hidden">
+            {children}
+          </main>
+        </div>
       </div>
+      {/* @ts-expect-error Server Component */}
+      <Footer lng={lng} />
     </>
   )
 }

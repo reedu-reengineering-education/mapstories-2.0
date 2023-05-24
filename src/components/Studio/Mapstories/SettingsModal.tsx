@@ -95,6 +95,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
   return (
     <>
       <Button
+        className="re-basic-box"
         disabled={!story}
         onClick={() => setModalOpen(true)}
         startIcon={<Cog6ToothIcon className="w-5" />}

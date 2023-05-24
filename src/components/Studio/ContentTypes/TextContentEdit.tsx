@@ -43,6 +43,12 @@ export function TextContentEdit({
   )
   const { addContent, updateContent } = useStep(storyStepId)
 
+  React.useEffect(() => {
+    if (stepItem) {
+      setTextValue(stepItem.content)
+    }
+  }, [])
+
   async function onSubmit(text: string) {
     try {
       setIsSaving(true)
@@ -53,20 +59,20 @@ export function TextContentEdit({
           type: 'TEXT',
         })
         toast({
-          message: t('content_updated'),
+          message: t('contentUpdated'),
           type: 'success',
         })
       } else {
         await addContent({ content: text, type: 'TEXT' })
         toast({
-          message: t('content_created'),
+          message: t('contentCreated'),
           type: 'success',
         })
       }
     } catch (error) {
       toast({
-        title: t('something_wrong'),
-        message: t('content_not_created'),
+        title: t('somethingWrong'),
+        message: t('contentNotCreated'),
         type: 'error',
       })
     } finally {
@@ -80,8 +86,6 @@ export function TextContentEdit({
       setTextValue('')
     }
   }
-
-  stepItem ? setTextValue(stepItem.content) : ''
 
   return (
     <div className="top-0">
