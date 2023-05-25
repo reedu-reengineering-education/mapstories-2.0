@@ -13,8 +13,19 @@ import {
   LogoWithTextAndBackground,
   LogoWithTextTransparent,
 } from './MapstoriesLogo'
+import { User } from 'next-auth'
 
-export function InverseNavbar({ children }: { children: React.ReactNode }) {
+export function InverseNavbar({
+  children,
+  user,
+}: {
+  children: React.ReactNode
+  user:
+    | (User & {
+        id: string
+      })
+    | undefined
+}) {
   const segment = useSelectedLayoutSegment()
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
@@ -32,6 +43,7 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
       {
         title: t('viewer'),
         href: `/${lng}/mystories`,
+        disabled: user === undefined,
       },
       {
         title: t('gallery'),
@@ -63,19 +75,23 @@ export function InverseNavbar({ children }: { children: React.ReactNode }) {
         {routes?.length ? (
           <nav className="hidden gap-6 md:flex">
             {routes?.map((item, index) => (
-              <Link
-                className={cx(
-                  'flex items-center text-lg font-semibold sm:text-sm',
-                  item.href.includes(`/${segment}`)
-                    ? 'text-slate-50'
-                    : 'text-slate-100',
-                  item.disabled ? 'cursor-not-allowed opacity-80' : '',
+              <>
+                {!item.disabled && (
+                  <Link
+                    className={cx(
+                      'flex items-center text-lg font-semibold sm:text-sm',
+                      item.href.includes(`/${segment}`)
+                        ? 'text-slate-50'
+                        : 'text-slate-100',
+                      item.disabled ? 'cursor-not-allowed opacity-80' : '',
+                    )}
+                    href={item.disabled ? '#' : item.href}
+                    key={index}
+                  >
+                    {item.title}
+                  </Link>
                 )}
-                href={item.disabled ? '#' : item.href}
-                key={index}
-              >
-                {item.title}
-              </Link>
+              </>
             ))}
           </nav>
         ) : null}

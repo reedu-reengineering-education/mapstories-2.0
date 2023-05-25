@@ -6,7 +6,7 @@ import { Navbar } from '@/src/components/Layout/Navbar'
 import { StudioSidebar } from '@/src/components/Studio/Sidebar'
 import { getCurrentUser } from '@/src/lib/session'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 interface DashboardLayoutProps {
   children?: React.ReactNode
@@ -20,14 +20,14 @@ export default async function DashboardLayout({
   const user = await getCurrentUser()
 
   if (!user) {
-    return notFound()
+    return redirect('login')
   }
 
   return (
     <>
       <header className="container sticky top-0 z-50 bg-white">
         <div className="flex h-16 items-center justify-between border-b border-b-slate-200 py-4">
-          <Navbar>
+          <Navbar user={user}>
             <div className="flex space-x-2">
               <LangSwitcher />
               {user ? (
