@@ -63,7 +63,7 @@ export default async function DashboardLayout({
       <div className="absolute left-0 top-0 z-10 z-50 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
         <header className="container sticky top-0">
           <div className="flex h-16 items-center justify-between py-4">
-            <InverseNavbar>
+            <InverseNavbar user={user}>
               <div className="flex space-x-2">
                 <LangSwitcher />
                 {user ? (
