@@ -11,7 +11,9 @@ export interface StoryState {
   setHoverMarkerId: (hoverMarkerId: string) => void
   showSlidePreview: boolean
   setShowSlidePreview: (showSlidePreview: boolean) => void
-  viewerStories: Story[]
+  viewerStories: (Story & {
+    steps: (StoryStep & { content: SlideContent[] })[]
+  })[],
   setViewerStories: (
     viewerStories: (Story & {
       steps: (StoryStep & { content: SlideContent[] })[]
