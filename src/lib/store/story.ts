@@ -11,10 +11,12 @@ export interface StoryState {
   setHoverMarkerId: (hoverMarkerId: string) => void
   showSlidePreview: boolean
   setShowSlidePreview: (showSlidePreview: boolean) => void
-  viewerStories: Story[],
-  setViewerStories: (viewerStories:  (Story & {
-    steps: (StoryStep & { content: SlideContent[] })[]
-  })[]) => void
+  viewerStories: Story[]
+  setViewerStories: (
+    viewerStories: (Story & {
+      steps: (StoryStep & { content: SlideContent[] })[]
+    })[],
+  ) => void
 }
 
 export const useStoryStore: StateCreator<
@@ -32,7 +34,9 @@ export const useStoryStore: StateCreator<
   showSlidePreview: false,
   setShowSlidePreview: showSlidePreview => set({ showSlidePreview }),
   viewerStories: [],
-  setViewerStories: (viewerStories: (Story & {
-    steps: (StoryStep & { content: SlideContent[] })[]
-  })[])  => set({viewerStories})
+  setViewerStories: (
+    viewerStories: (Story & {
+      steps: (StoryStep & { content: SlideContent[] })[]
+    })[],
+  ) => set({ viewerStories }),
 })
