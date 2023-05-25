@@ -74,9 +74,7 @@ export default function Markers({ markers, onClick }: Props) {
                   padding: '10px',
                   cursor: 'pointer',
                 }}
-              >
-                {/* <img height="55px" src={eric.src} width="55px"></img> */}
-              </Marker>
+              ></Marker>
               <Marker
                 {...m}
                 key={i + '_text'}

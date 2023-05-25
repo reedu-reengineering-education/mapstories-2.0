@@ -4,6 +4,7 @@ import { Button } from '@/src/components/Elements/Button'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { Navbar } from '@/src/components/Layout/Navbar'
 import Link from 'next/link'
+import { Footer } from '@/src/components/Layout/Footer'
 
 export default async function RootLayout({
   children,
@@ -36,6 +37,8 @@ export default async function RootLayout({
       <div className="flex h-full flex-col">
         <main className="h-full">{children}</main>
       </div>
+      {/* @ts-expect-error Server Component */}
+      <Footer lng={lng}></Footer>
     </>
   )
 }

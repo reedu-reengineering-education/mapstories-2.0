@@ -1,5 +1,6 @@
 import { StateCreator } from 'zustand'
 import { UIState } from './ui'
+import { SlideContent, Story, StoryStep } from '@prisma/client'
 
 export interface StoryState {
   storyID: string
@@ -10,6 +11,10 @@ export interface StoryState {
   setHoverMarkerId: (hoverMarkerId: string) => void
   showSlidePreview: boolean
   setShowSlidePreview: (showSlidePreview: boolean) => void
+  viewerStories: Story[],
+  setViewerStories: (viewerStories:  (Story & {
+    steps: (StoryStep & { content: SlideContent[] })[]
+  })[]) => void
 }
 
 export const useStoryStore: StateCreator<
@@ -26,4 +31,8 @@ export const useStoryStore: StateCreator<
   setHoverMarkerId: (hoverMarkerId: string) => set({ hoverMarkerId }),
   showSlidePreview: false,
   setShowSlidePreview: showSlidePreview => set({ showSlidePreview }),
+  viewerStories: [],
+  setViewerStories: (viewerStories: (Story & {
+    steps: (StoryStep & { content: SlideContent[] })[]
+  })[])  => set({viewerStories})
 })
