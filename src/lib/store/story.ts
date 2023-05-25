@@ -13,7 +13,7 @@ export interface StoryState {
   setShowSlidePreview: (showSlidePreview: boolean) => void
   viewerStories: (Story & {
     steps: (StoryStep & { content: SlideContent[] })[]
-  })[],
+  })[]
   setViewerStories: (
     viewerStories: (Story & {
       steps: (StoryStep & { content: SlideContent[] })[]
