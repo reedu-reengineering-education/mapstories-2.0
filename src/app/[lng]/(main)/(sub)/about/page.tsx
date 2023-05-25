@@ -27,11 +27,6 @@ export default function Page() {
         Kontext der Bildung für nachhaltige Entwicklung einsetzbar und
         ermöglichen einen umfassenden Blick auf globale Themen.
       </p>
-      <iframe
-        src="http://localhost:3000/gallery/story/clglzvqh00001t0pdc7tfgfp1"
-        // style={{border:none, width:100%, height:100%}}
-        title="Mapstories"
-      ></iframe>
     </div>
   )
 }
