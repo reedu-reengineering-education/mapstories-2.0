@@ -24,6 +24,7 @@ import type login from '../src/app/i18n/locales/en/login.json'
 import type dashboardLayout from '../src/app/i18n/locales/en/dashboardLayout.json'
 import type viewer from '../src/app/i18n/locales/en/viewer.json'
 import type step from '../src/app/i18n/locales/en/step.json'
+import type gallery from '../src/app/i18n/locales/en/gallery.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -43,6 +44,7 @@ interface I18nNamespaces {
   dashboardLayout: typeof dashboardLayout
   viewer: typeof viewer
   step: typeof step
+  gallery: typeof gallery
 }
 
 declare module 'i18next' {

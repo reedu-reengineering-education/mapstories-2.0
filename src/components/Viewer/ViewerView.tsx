@@ -3,7 +3,7 @@
 import { SlideContent, Story, StoryStep } from '@prisma/client'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { MapRef, Popup, Source } from 'react-map-gl'
-import { Feature } from 'geojson'
+import { Feature, GeoJsonProperties, LineString } from 'geojson'
 // import { LineString } from 'geojson'
 import { Button } from './../Elements/Button'
 import { usePathname, useRouter } from 'next/navigation'
@@ -18,17 +18,17 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 
 type ViewerViewProps = {
-  stories:
+  inputStories:
     | (Story & {
         steps: (StoryStep & { content: SlideContent[] })[]
       })[]
 }
 
-export default function ViewerView({ stories }: ViewerViewProps) {
-  // const mapRef = useRef<MapRef | undefined>()
+export default function ViewerView({ inputStories }: ViewerViewProps) {
   const mapRef = React.createRef<MapRef>()
 
   const path = usePathname()
+  const onMyStoriesRoute = path?.includes('mystories')
   const storyID = useBoundStore(state => state.storyID)
   const setStoryID = useBoundStore(state => state.setStoryID)
 
@@ -54,6 +54,8 @@ export default function ViewerView({ stories }: ViewerViewProps) {
     lng = fallbackLng
   }
   const { t } = useTranslation(lng, 'viewer')
+  const setViewerStories = useBoundStore(state => state.setViewerStories)
+  const stories = useBoundStore(state => state.viewerStories)
 
   useEffect(() => {
     if (selectedStepIndex != undefined) {
@@ -62,17 +64,27 @@ export default function ViewerView({ stories }: ViewerViewProps) {
   }, [selectedStepIndex])
 
   useEffect(() => {
+    if (inputStories && inputStories.length > 0) {
+      setViewerStories(inputStories)
+    }
+  }, [inputStories])
+
+  useEffect(() => {
     extractGeoJson(stories)
   }, [stories])
 
   useEffect(() => {
     // Zoom back to former extend if not viewing a story
     const pathend = path?.split('/').at(-1)
-    if (pathend === 'viewer') {
+    if (pathend === 'mystories') {
       setStoryID('')
       if (savedView) {
         mapRef.current?.fitBounds(savedView)
       }
+    }
+    if (pathend === 'gallery') {
+      setStoryID('')
+      setViewerStories([])
     }
   }, [path])
 
@@ -89,6 +101,16 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       setInteractiveLayerIds(ids)
     }
   }, [mapData])
+
+  useEffect(() => {
+    if (storyID != undefined && mapData != undefined) {
+      const m: Feature<LineString, GeoJsonProperties> | undefined =
+        mapData.find(story => story?.properties?.id === storyID)
+      if (m) {
+        selectStory(m)
+      }
+    }
+  }, [storyID])
 
   // generate markers
   useEffect(() => {
@@ -203,7 +225,9 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       }
     }
     setSelectedStorySlug(m.properties?.slug)
-    router.push(`/viewer/story/${m.properties?.slug}/start`)
+    onMyStoriesRoute
+      ? router.push(`/mystories/story/${m.properties?.slug}/start`)
+      : router.push(`/gallery/story/${m.properties?.slug}/start`)
   }
 
   function updateToStep(index: number) {
@@ -267,7 +291,7 @@ export default function ViewerView({ stories }: ViewerViewProps) {
       {mapData &&
         mapData.map((m, i) => {
           return (
-            <Fragment key={i}>
+            <Fragment key={m.properties?.id}>
               {m.geometry.coordinates.length > 0 && (
                 <>
                   <Source

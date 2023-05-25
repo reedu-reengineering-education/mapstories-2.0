@@ -9,15 +9,26 @@ import { useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
-
 import { LogoWithTextAndBackground } from './MapstoriesLogo'
+import { User } from 'next-auth'
 
-export function Navbar({ children }: { children: React.ReactNode }) {
+export function Navbar({
+  children,
+  user,
+}: {
+  children: React.ReactNode
+  user:
+    | (User & {
+        id: string
+      })
+    | undefined
+}) {
   const segment = useSelectedLayoutSegment()
   const [showMobileMenu, setShowMobileMenu] = useState(false)
-
+  // const user = getCurrentUser
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'navbar')
+  // const { data: session } = useSession()
 
   const [routes, setRoutes] = useState<Route[]>([])
 
@@ -29,7 +40,12 @@ export function Navbar({ children }: { children: React.ReactNode }) {
       },
       {
         title: t('viewer'),
-        href: `/${lng}/viewer`,
+        href: `/${lng}/mystories`,
+        disabled: user === undefined,
+      },
+      {
+        title: t('gallery'),
+        href: `/${lng}/gallery`,
       },
       {
         title: t('about'),
@@ -57,19 +73,23 @@ export function Navbar({ children }: { children: React.ReactNode }) {
         {routes?.length ? (
           <nav className="hidden gap-6 md:flex">
             {routes?.map((item, index) => (
-              <Link
-                className={cx(
-                  'flex items-center text-lg font-semibold sm:text-sm',
-                  item.href.includes(`/${segment}`)
-                    ? 'text-slate-900'
-                    : 'text-slate-600',
-                  item.disabled ? 'cursor-not-allowed opacity-80' : '',
+              <>
+                {!item.disabled && (
+                  <Link
+                    className={cx(
+                      'flex items-center text-lg font-semibold sm:text-sm',
+                      item.href.includes(`/${segment}`)
+                        ? 'text-slate-900'
+                        : 'text-slate-600',
+                      item.disabled ? 'cursor-not-allowed opacity-80' : '',
+                    )}
+                    href={item.disabled ? '#' : item.href}
+                    key={index}
+                  >
+                    {item.title}
+                  </Link>
                 )}
-                href={item.disabled ? '#' : item.href}
-                key={index}
-              >
-                {item.title}
-              </Link>
+              </>
             ))}
           </nav>
         ) : null}

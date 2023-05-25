@@ -5,7 +5,7 @@ import { Modal } from '@/src/components/Modal'
 import { Cog6ToothIcon } from '@heroicons/react/24/outline'
 import { toast } from '@/src/lib/toast'
 import * as z from 'zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { Input, InputLabel } from '../../Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,6 +16,7 @@ import useStory from '@/src/lib/api/story/useStory'
 import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { useBoundStore } from '@/src/lib/store/store'
 import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
+import Switch from '../../Elements/Switch'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
@@ -66,7 +67,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
       const updatedStory = await updateStory({
         ...data,
         // TODO: update again after zod schema change
-        // visibility: data.public ? 'PUBLIC' : 'PRIVATE',
+        visibility: data.visibility === true ? 'PUBLIC' : 'PRIVATE',
       })
       toast({
         message: t('settingsModal:changesApplied'),
@@ -100,7 +101,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
         startIcon={<Cog6ToothIcon className="w-5" />}
         variant={'inverse'}
       >
-        {t('settingsModal:name')}
+        {t('settingsModal:options')}
       </Button>
       <Modal
         onClose={() => setModalOpen(false)}
@@ -127,30 +128,31 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
               {...register('description')}
             ></Textarea>
 
-            {/* <Controller
-            control={control}
-            defaultValue={story.visibility === 'PUBLIC'}
-            name="public"
-            render={({ field: { onChange, value, ref } }) => {
-              return (
-                <div className="jusify-center flex items-center gap-4">
-                  <span className="text-sm font-medium text-gray-700">
-                    {t('private')}
-                  </span>
-                  <Switch
-                    defaultChecked={value}
-                    onCheckedChange={onChange}
-                    ref={ref}
-                  ></Switch>
+            <Controller
+              control={control}
+              defaultValue={false}
+              name="visibility"
+              // {...register('visibility')}
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <div className="jusify-center flex items-center gap-4">
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:private')}
+                    </span>
+                    <Switch
+                      defaultChecked={false}
+                      onCheckedChange={onChange}
+                      ref={ref}
+                    ></Switch>
 
-                  <span className="text-sm font-medium text-gray-700">
-                    {t('public')}
-                  </span>
-                </div>
-              )
-            }}
-          />
-          <Spacer />
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:public')}
+                    </span>
+                  </div>
+                )
+              }}
+            />
+            {/* <Spacer />
           <select {...register('theme')}>
             {options.map((option, index) => (
               <option

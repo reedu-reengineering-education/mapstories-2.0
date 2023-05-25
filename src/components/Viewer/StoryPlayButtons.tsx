@@ -2,7 +2,7 @@
 
 import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import * as Toolbar from '@radix-ui/react-toolbar'
@@ -18,6 +18,8 @@ type Props = {
 
 export function StoryPlayButtons({ slug, page }: Props) {
   const router = useRouter()
+  const path = usePathname()
+  const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
   const { story } = useStory(slug)
 
@@ -46,14 +48,26 @@ export function StoryPlayButtons({ slug, page }: Props) {
   function nextStep() {
     // const length = story?.steps?.length
     if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
-      router.push(`/viewer/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+      onMyStoriesRoute
+        ? router.push(
+            `/mystories/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
+          )
+        : router.push(
+            `/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
+          )
     }
   }
 
   function prevStep() {
     // const length = story?.steps?.length
     if (parseInt(page) > 0) {
-      router.push(`/viewer/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+      onMyStoriesRoute
+        ? router.push(
+            `/mystories/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
+          )
+        : router.push(
+            `/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
+          )
     }
   }
 

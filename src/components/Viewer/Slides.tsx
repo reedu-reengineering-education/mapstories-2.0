@@ -2,7 +2,7 @@
 
 import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { Slide } from './Slide'
@@ -14,6 +14,7 @@ type Props = {
 
 export function Slides({ slug, page }: Props) {
   const router = useRouter()
+  const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)
   const { story } = useStory(slug)
 
@@ -40,12 +41,18 @@ export function Slides({ slug, page }: Props) {
 
   function nextStep() {
     // const length = story?.steps?.length
-    router.push(`/viewer/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+    if (path?.includes('mystories')) {
+      router.push(`/mystories/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+    }
+    router.push(`/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
   }
 
   function prevStep() {
     // const length = story?.steps?.length
-    router.push(`/viewer/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+    if (path?.includes('mystories')) {
+      router.push(`/mystories/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+    }
+    router.push(`/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
   }
 
   return (

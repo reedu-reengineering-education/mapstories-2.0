@@ -3,7 +3,7 @@
 import { Button } from '@/src/components/Elements/Button'
 import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { Slide } from './Slide'
@@ -26,6 +26,8 @@ type Props = {
 
 export function StoryOverviewControls({ slug, page }: Props) {
   const router = useRouter()
+  const path = usePathname()
+  const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
   const { story } = useStory(slug)
   const setSlidesOpen = useBoundStore(state => state.setSlidesOpen)
@@ -60,17 +62,33 @@ export function StoryOverviewControls({ slug, page }: Props) {
     // }
   }, [page])
 
+  function onClose() {
+    onMyStoriesRoute ? router.push('mystories') : router.push('gallery')
+  }
+
   function nextStep() {
     // const length = story?.steps?.length
     if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
-      router.push(`/viewer/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+      onMyStoriesRoute
+        ? router.push(
+            `/mystories/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
+          )
+        : router.push(
+            `/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
+          )
     }
   }
 
   function prevStep() {
     // const length = story?.steps?.length
     if (parseInt(page) > 0) {
-      router.push(`/viewer/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+      onMyStoriesRoute
+        ? router.push(
+            `/mystories/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
+          )
+        : router.push(
+            `/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
+          )
     }
   }
 
@@ -80,10 +98,14 @@ export function StoryOverviewControls({ slug, page }: Props) {
   }, [])
 
   function startStory() {
-    router.push(`/viewer/story/${slug}/0`)
+    onMyStoriesRoute
+      ? router.push(`/mystories/story/${slug}/0`)
+      : router.push(`/gallery/story/${slug}/0`)
   }
   function backToStart() {
-    router.push(`/viewer/story/${slug}/start`)
+    onMyStoriesRoute
+      ? router.push(`/mystories/story/${slug}/start`)
+      : router.push(`/gallery/story/${slug}/start`)
   }
 
   return (
@@ -105,7 +127,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
                 </Button>
 
                 <Button
-                  onClick={() => router.push('viewer')}
+                  onClick={onClose}
                   startIcon={<Cross1Icon className="w-4" />}
                 >
                   {t('close')}
@@ -177,7 +199,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
                     <Toolbar.ToggleItem
                       aria-label="Quit story"
                       className="ToolbarToggleItem"
-                      onClick={() => router.push('viewer')}
+                      onClick={onClose}
                       title="Quit Story"
                       value="quit"
                     >
