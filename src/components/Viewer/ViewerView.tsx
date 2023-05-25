@@ -3,7 +3,7 @@
 import { SlideContent, Story, StoryStep } from '@prisma/client'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { MapRef, Popup, Source } from 'react-map-gl'
-import { Feature } from 'geojson'
+import { Feature, GeoJsonProperties, LineString } from 'geojson'
 // import { LineString } from 'geojson'
 import { Button } from './../Elements/Button'
 import { usePathname, useRouter } from 'next/navigation'
@@ -104,9 +104,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
   useEffect(() => {
     if (storyID != undefined && mapData != undefined) {
-      const m: any = mapData.findLast(
-        story => story?.properties?.id === storyID,
-      )
+      const m: Feature<LineString, GeoJsonProperties> | undefined =
+        mapData.find(story => story?.properties?.id === storyID)
       if (m) {
         selectStory(m)
       }
