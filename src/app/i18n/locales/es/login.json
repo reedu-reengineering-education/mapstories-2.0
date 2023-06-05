@@ -1,0 +1,13 @@
+{
+  "welcome_back": "Bienvenido de nuevo",
+  "enter_email_for_signin": "Ingresa tu correo electrónico para iniciar sesión en tu cuenta.",
+  "no_account": "¿Todavía no tienes una cuenta? ¡Regístrate ahora!",
+  "back": "Atrás",
+  "sign_in_with_email": "Iniciar sesión con correo electrónico",
+  "something_wrong": "Algo salió mal.",
+  "signin_fail": "Tu solicitud de inicio de sesión ha fallado. Por favor, inténtalo de nuevo.",
+  "check_mail": "Verifica tu correo electrónico",
+  "send_login_link": "Te hemos enviado un enlace de inicio de sesión. No olvides revisar tu carpeta de spam.",
+  "success": "Correo electrónico enviado exitosamente",
+  "check_mail_for_sign_in": "Haz clic en el enlace del correo electrónico para iniciar sesión."
+}

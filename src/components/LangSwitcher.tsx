@@ -37,6 +37,12 @@ export function LangSwitcher() {
           >
             🇬🇧 EN
           </DropdownMenu.Item>
+          <DropdownMenu.Item
+            className="cursor-pointer"
+            onClick={() => changeLanguage('es')}
+          >
+            🇪🇸 ES
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu>
