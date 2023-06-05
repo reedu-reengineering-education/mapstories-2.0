@@ -100,7 +100,7 @@ export default function SlideContentPreviewButton({
   return (
     <Wrapper>
       <IconComponent />
-      {previewContent.substring(0, 24)}
+      {previewContent.substring(0, 10)}...
     </Wrapper>
   )
 }
