@@ -23,7 +23,7 @@ export default function ShareModal({ storyId }: { storyId: string }) {
   return (
     <>
       <Button
-        className="re-basic-box"
+        className=""
         onClick={() => setModalOpen(true)}
         startIcon={<ShareIcon className="w-5" />}
         variant={'inverse'}

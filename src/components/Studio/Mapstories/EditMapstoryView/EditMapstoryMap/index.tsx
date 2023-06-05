@@ -19,7 +19,6 @@ import { useBoundStore } from '@/src/lib/store/store'
 import GeocoderControl from '@/src/components/Map/GeocoderControl'
 import { toast } from '@/src/lib/toast'
 import mapboxgl from 'mapbox-gl'
-import { XMarkIcon } from '@heroicons/react/24/outline'
 import React from 'react'
 
 interface EditMapstoryMapProps {
@@ -278,10 +277,10 @@ export default function EditMapstoryMap({
             latitude={geocoderResult.geometry.coordinates[1]}
             longitude={geocoderResult.geometry.coordinates[0]}
           >
-            <XMarkIcon
+            {/* <XMarkIcon
               className="h-5 w-5 hover:cursor-pointer"
               onClick={handleRemovePoint}
-            />
+            /> */}
           </Popup>
           <Source data={geocoderResult} id="geocode-point" type="geojson">
             <Layer

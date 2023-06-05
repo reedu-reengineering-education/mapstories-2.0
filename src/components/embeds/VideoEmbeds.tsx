@@ -13,5 +13,13 @@ export function VideoEmbed({
   height,
   ...divProps
 }: VideoEmbedProps) {
-  return <ReactPlayer controls={true} height={height} url={url} width={width} />
+  return (
+    <ReactPlayer
+      controls={true}
+      height="100%"
+      style={{ aspectRatio: '4/3' }}
+      url={url}
+      width="100%"
+    />
+  )
 }

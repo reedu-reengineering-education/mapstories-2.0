@@ -1,0 +1,12 @@
+{
+  "EmbedName": "Incrustar",
+  "Embed": {
+    "notRecognized": "Medio no reconocido..."
+  },
+  "EmbedContentEdit": {
+    "InputLabel": "Ingresa una URL de un medio",
+    "platforms": "Plataformas compatibles: ",
+    "autoplay": " reproducir automáticamente"
+  },
+  "readMore": "Continuar leyendo en Wikipedia..."
+}

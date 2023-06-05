@@ -1,0 +1,13 @@
+{
+  "name": "Nombre",
+  "change your name here": "Puedes cambiar tu nombre aquí",
+  "save": "Guardar",
+  "contentUpdated": "Tu cuenta ha sido actualizada",
+  "contentCreated": "Tu cuenta ha sido creada",
+  "contentDeleted": "Tu cuenta ha sido eliminada",
+  "somethingWrong": "Hubo un error",
+  "contentNotUpdated": "No se pudo actualizar tu cuenta. Inténtalo de nuevo.",
+  "contentNotDeleted": "No se pudo eliminar tu cuenta. Inténtalo de nuevo.",
+  "logInAgain": "Por favor, inicia sesión de nuevo.",
+  "deleteAccount": "Eliminar cuenta"
+}

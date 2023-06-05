@@ -37,7 +37,7 @@ export function InverseNavbar({
   useEffect(() => {
     setRoutes([
       {
-        title: 'StoryMaker',
+        title: 'StoryLab',
         href: `/${lng}/studio`,
       },
       {
@@ -52,10 +52,6 @@ export function InverseNavbar({
       {
         title: t('about'),
         href: `/${lng}/about`,
-      },
-      {
-        title: t('feedback'),
-        href: `/${lng}/feedback`,
       },
     ])
   }, [lng, t])

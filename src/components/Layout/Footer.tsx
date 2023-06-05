@@ -37,7 +37,9 @@ export async function Footer({ lng }: { lng: string }) {
           The source code is available on{' '}
           <Link
             className="font-medium underline underline-offset-4"
-            href={'#'}
+            href={
+              'https://github.com/reedu-reengineering-education/mapstories-2.0'
+            }
             rel="noreferrer"
             target="_blank"
           >

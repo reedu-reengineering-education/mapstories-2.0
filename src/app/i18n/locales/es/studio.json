@@ -1,0 +1,14 @@
+{
+  "newMapstory": "Nueva Mapstory",
+  "create, edit and share mapstories": "Crear, editar y compartir Mapstories",
+  "no mapstories": "Sin Mapstories",
+  "you have not created any mapstories yet.": "Aún no has creado ningún Mapstory.",
+  "delete": "Eliminar",
+  "contentUpdated": "¡Tu contenido ha sido actualizado!",
+  "contentCreated": "¡Tu contenido ha sido creado!",
+  "somethingWrong": "Hubo un error",
+  "contentDeleted": "Tu contenido ha sido eliminado",
+  "contentNotDeleted": "Tu contenido no ha sido eliminado, ¡por favor inténtalo de nuevo!",
+  "confirmDeleteMapstory": "¿Realmente deseas eliminar el Mapstory?",
+  "confirmDeleteStep": "¿Realmente deseas eliminar el paso?"
+}

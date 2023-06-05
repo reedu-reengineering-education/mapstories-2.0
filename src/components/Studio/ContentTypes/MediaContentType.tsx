@@ -236,9 +236,7 @@ export function MediaContentEdit({
             </div>
           )}
           {fileUrl &&
-            (fileType === 'IMAGE' ||
-              fileType === 'EXTERNALIMAGE' ||
-              tabIndex === 0) && (
+            (fileType === 'IMAGE' || fileType === 'EXTERNALIMAGE') && (
               <div className="m-2 flex justify-center">
                 <SizedImage
                   alt={fileUrl ? fileUrl : externalImageUrl}
@@ -258,7 +256,7 @@ export function MediaContentEdit({
           {fileType === 'AUDIO' && (
             <ReactPlayer
               controls={true}
-              height="20%"
+              height="5rem"
               url={fileUrl}
               width="100%"
             />

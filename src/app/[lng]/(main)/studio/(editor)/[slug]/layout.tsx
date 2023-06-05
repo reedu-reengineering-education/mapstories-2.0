@@ -1,17 +1,17 @@
 import { useTranslation } from '@/src/app/i18n'
 import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
+import { FeedbackButton } from '@/src/components/FeedbackButton'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
+import { PreviewButton } from '@/src/components/PreviewButton'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
-import EmbedModal from '@/src/components/Studio/Mapstories/EmbedModal'
 import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
-import ShareModal from '@/src/components/Studio/Mapstories/ShareModal'
 import MapstorySidebar from '@/src/components/Studio/Mapstories/Sidebar/MapstorySidebar'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
-import { ArrowLeftIcon, EyeIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { Story, User } from '@prisma/client'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
@@ -65,6 +65,7 @@ export default async function DashboardLayout({
           <div className="flex h-16 items-center justify-between py-4">
             <InverseNavbar user={user}>
               <div className="flex space-x-2">
+                <FeedbackButton />
                 <LangSwitcher />
                 {user ? (
                   <UserAccountNav user={user} />
@@ -89,20 +90,8 @@ export default async function DashboardLayout({
               {t('back')}
             </Button>
           </Link>
-          <a href={`/mystories/story/${slug}/start`} target="_blank">
-            <Button
-              className="re-basic-box"
-              startIcon={<EyeIcon className="w-5" />}
-              variant={'inverse'}
-            >
-              {t('preview')}
-            </Button>
-          </a>
+          <PreviewButton story={story} />
           <SettingsModal storyId={story.id} />
-        </div>
-        <div className="flex flex-row gap-2">
-          <ShareModal storyId={story.id} />
-          <EmbedModal storyId={story.id} />
         </div>
       </div>
 

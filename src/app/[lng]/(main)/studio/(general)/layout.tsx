@@ -1,5 +1,6 @@
 import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
+import { FeedbackButton } from '@/src/components/FeedbackButton'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { Footer } from '@/src/components/Layout/Footer'
 import { Navbar } from '@/src/components/Layout/Navbar'
@@ -29,6 +30,7 @@ export default async function DashboardLayout({
         <div className="flex h-16 items-center justify-between border-b border-b-slate-200 py-4">
           <Navbar user={user}>
             <div className="flex space-x-2">
+              <FeedbackButton />
               <LangSwitcher />
               {user ? (
                 <UserAccountNav user={user} />

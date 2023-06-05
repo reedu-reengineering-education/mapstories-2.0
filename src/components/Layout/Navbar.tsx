@@ -35,7 +35,7 @@ export function Navbar({
   useEffect(() => {
     setRoutes([
       {
-        title: 'StoryMaker',
+        title: 'StoryLab',
         href: `/${lng}/studio`,
       },
       {
@@ -50,10 +50,6 @@ export function Navbar({
       {
         title: t('about'),
         href: `/${lng}/about`,
-      },
-      {
-        title: t('feedback'),
-        href: `/${lng}/feedback`,
       },
     ])
   }, [lng, t])

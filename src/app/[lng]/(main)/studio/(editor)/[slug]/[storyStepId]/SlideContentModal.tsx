@@ -109,6 +109,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                       )}
                       {contentType == 'embed' && (
                         <EmbedContentEdit
+                          setContentType={setContentType}
                           storyStepId={storyStepId}
                         ></EmbedContentEdit>
                       )}

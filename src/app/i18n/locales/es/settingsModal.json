@@ -1,0 +1,17 @@
+{
+  "name": "Cambiar historia",
+  "description": "Descripción",
+  "private": "Privado",
+  "public": "Público",
+  "theme": "Tipo de mapa",
+  "image": "Imagen",
+  "Select an image or enter a URL": "Selecciona una imagen o ingresa una URL",
+  "options": "Opciones",
+  "save": "Guardar",
+  "changesApplied": "Cambios guardados",
+  "changesNotApplied": "No se pudieron guardar los cambios",
+  "share": "Compartir",
+  "embed": "Incrustar",
+  "you_want_to_embed": "Deseas incrustar esta historia en tu sitio web. Simplemente utiliza el código de iframe a continuación.",
+  "you_want_to_share": "Deseas compartir esta historia con otras personas. Simplemente copia el enlace a continuación."
+}
