@@ -110,13 +110,13 @@ export function StoryOverviewControls({ slug, page }: Props) {
 
   return (
     <>
-      <div className="re-basic-box bg-white p-4">
+      <div className="re-basic-box  bg-white p-4">
         <div className="">
           <div className="bg-gray">
             <h3>{story?.name}</h3>
           </div>
           {page == 'start' && (
-            <div className="re-title-slide">
+            <div className="re-title-slide max-w-full overflow-x-hidden">
               <Slide step={story?.firstStep}></Slide>
               <div className="flex justify-between">
                 <Button
