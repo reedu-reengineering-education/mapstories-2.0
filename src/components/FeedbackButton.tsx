@@ -27,7 +27,7 @@ export function FeedbackButton() {
               Feedback über Padlet{' '}
             </a>
           </DropdownMenu.Item>
-          <DropdownMenu.Item className="cursor-pointer">
+          {/* <DropdownMenu.Item className="cursor-pointer">
             <a
               href="https://github.com/reedu-reengineering-education/mapstories-2.0"
               rel="noopener noreferrer"
@@ -35,7 +35,7 @@ export function FeedbackButton() {
             >
               Anmerkungen zum Code{' '}
             </a>
-          </DropdownMenu.Item>
+          </DropdownMenu.Item> */}
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu>
