@@ -4,7 +4,7 @@
     "notRecognized": "Media not recognized..."
   },
   "EmbedContentEdit": {
-    "InputLabel": "Give a URL to a social media post",
+    "InputLabel": "Give a URL to a media",
     "platforms": "Supported platforms: ",
     "autoplay": " play automatically"
   },

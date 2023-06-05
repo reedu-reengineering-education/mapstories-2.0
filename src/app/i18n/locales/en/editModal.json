@@ -24,5 +24,7 @@
   "deleteAccountWarning": "Your account will be irrevocably deleted. This also deletes all map stories associated with the account",
   "confirmDeleteAccount": "Are you sure you want to delete your account?",
   "confirmDeleteContent": "Are you sure you want to delete this content?",
-  "deleteAccount": "Do you really want to delete your account?"
+  "deleteAccount": "Do you really want to delete your account?",
+  "textEditor": "Enter your text here",
+  "dataUpload": "Upload your file here"
 }
