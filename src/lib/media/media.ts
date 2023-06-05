@@ -85,7 +85,7 @@ export var media_types: media_type[] = [
   // },
   {
     type: 'EXTERNALIMAGE',
-    match_str: /\.(jpg|jpeg|png|gif|bmp)$/i,
+    match_str: /(^data:image).*|(jpg|jpeg|png|gif|bmp)$/i,
     content: '',
   },
   // {
