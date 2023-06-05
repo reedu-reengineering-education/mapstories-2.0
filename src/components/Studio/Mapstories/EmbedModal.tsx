@@ -27,7 +27,7 @@ export default function EmbedModal({ storyId }: { storyId: string }) {
   return (
     <>
       <Button
-        className="re-basic-box"
+        className=""
         onClick={() => setModalOpen(true)}
         startIcon={<CodeBracketIcon className="w-5" />}
         variant={'inverse'}

@@ -10,6 +10,9 @@ import DeleteMapstoryButton from './DeleteMapstoryButton'
 import { useTranslation } from '@/src/app/i18n/client'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { useBoundStore } from '@/src/lib/store/store'
+import ShareModal from './ShareModal'
+import EmbedModal from './EmbedModal'
+import { PencilIcon } from '@heroicons/react/24/outline'
 
 type Props = {
   mapstory: Story
@@ -28,8 +31,15 @@ export function MapstoryCard({ mapstory }: Props) {
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
             <Link href={`/studio/${mapstory.slug}`}>
-              <Button variant={'inverse'}>{t('edit')}</Button>
+              <Button
+                startIcon={<PencilIcon className="w-5" />}
+                variant={'inverse'}
+              >
+                {t('edit')}
+              </Button>
             </Link>
+            <ShareModal storyId={mapstory.id} />
+            <EmbedModal storyId={mapstory.id} />
             <Link href={`/mystories/story/${mapstory.slug}/start`}>
               <Button>{t('play')}</Button>
             </Link>
