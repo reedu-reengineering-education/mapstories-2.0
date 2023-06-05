@@ -1,6 +1,8 @@
 import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
+import { FeedbackButton } from '@/src/components/FeedbackButton'
+
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
@@ -48,6 +50,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
           <div className="flex h-16 items-center justify-between py-4">
             <InverseNavbar user={user}>
               <div className="flex space-x-2">
+                <FeedbackButton />
                 <LangSwitcher />
                 {user ? (
                   <UserAccountNav user={user} />
