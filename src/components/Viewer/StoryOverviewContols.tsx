@@ -116,7 +116,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
             <h3>{story?.name}</h3>
           </div>
           {page == 'start' && (
-            <div className="re-title-slide max-w-full overflow-x-hidden">
+            <div className="re-title-slide overflow-x-hidden pr-5">
               <Slide step={story?.firstStep}></Slide>
               <div className="flex justify-between">
                 <Button

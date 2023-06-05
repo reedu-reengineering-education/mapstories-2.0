@@ -67,7 +67,7 @@ export function MediaContent({ content }: MediaContentProps) {
       {!isLoading && content.type === 'AUDIO' && (
         <ReactPlayer
           controls={true}
-          height="15rem"
+          height="5rem"
           url={mediaUrl}
           width="100%"
         />
