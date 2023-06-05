@@ -26,7 +26,11 @@ export function PreviewButton(story: any) {
   const storyid = pathnameArr[3]
   const slideid = pathnameArr[4]
   if (pathnameArr.length > 4) {
-    slidePosition = getSlidePositionById(story, slideid)
+    if (slideid === story.story.firstStepId) {
+      slidePosition = 'start'
+    } else {
+      slidePosition = getSlidePositionById(story, slideid)
+    }
   }
   return (
     <a href={`/mystories/story/${storyid}/${slidePosition}`} target="_blank">
