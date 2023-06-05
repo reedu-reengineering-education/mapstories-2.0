@@ -4,8 +4,6 @@ import { db } from '@/src/lib/db'
 import PlusIcon from '@heroicons/react/24/outline/PlusIcon'
 import { Story } from '@prisma/client'
 import SlideContentModal from './SlideContentModal'
-import PreviewSlide from '@/src/components/Studio/Mapstories/PreviewSlide'
-import PreviewSlideButton from '@/src/components/Studio/Mapstories/PreviewSlideButton'
 import { Metadata } from 'next/types'
 import { getStoryName } from '@/src/lib/getStoryName'
 import { useTranslation } from '@/src/app/i18n'
@@ -65,11 +63,11 @@ export default async function StepPage({
 
   return (
     <div>
-      {storyStep && <PreviewSlide stepId={storyStep.id} />}
+      {/* {storyStep && <PreviewSlide stepId={storyStep.id} />} */}
       <div className="re-basic-box absolute bottom-14 right-5 z-20 min-w-[18rem] bg-white p-4">
-        {storyStep?.content && storyStep.content.length > 0 && (
+        {/* {storyStep?.content && storyStep.content.length > 0 && (
           <PreviewSlideButton />
-        )}
+        )} */}
         <h3 className="pb-4"></h3>
         <div>
           <SlideContentListEdit
