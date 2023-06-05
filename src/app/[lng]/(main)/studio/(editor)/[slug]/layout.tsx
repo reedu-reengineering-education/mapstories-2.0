@@ -4,9 +4,7 @@ import { Button } from '@/src/components/Elements/Button'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
-import EmbedModal from '@/src/components/Studio/Mapstories/EmbedModal'
 import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
-import ShareModal from '@/src/components/Studio/Mapstories/ShareModal'
 import MapstorySidebar from '@/src/components/Studio/Mapstories/Sidebar/MapstorySidebar'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
@@ -99,10 +97,6 @@ export default async function DashboardLayout({
             </Button>
           </a>
           <SettingsModal storyId={story.id} />
-        </div>
-        <div className="flex flex-row gap-2">
-          <ShareModal storyId={story.id} />
-          <EmbedModal storyId={story.id} />
         </div>
       </div>
 
