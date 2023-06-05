@@ -190,7 +190,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
                     <Toolbar.ToggleItem
                       aria-label="Restart story"
                       className="ToolbarToggleItem"
-                      onClick={() => startStory()}
+                      onClick={() => backToStart()}
                       title="Restart Story"
                       value="restart"
                     >
