@@ -25,6 +25,7 @@ import useMedia from '@/src/lib/api/media/useMedia'
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
+  setContentType?: any
 }
 
 type FormData = z.infer<typeof slideEmbedContentSchema>
@@ -33,6 +34,7 @@ export function EmbedContentEdit({
   storyStepId,
   stepItem,
   className,
+  setContentType,
   ...props
 }: EmbedContentEditProps) {
   const router = useRouter()
@@ -110,6 +112,7 @@ export function EmbedContentEdit({
     } finally {
       setIsSaving(false)
     }
+    setContentType && setContentType('')
   }
 
   async function handleUrl(url: string) {
