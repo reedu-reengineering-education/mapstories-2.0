@@ -53,10 +53,6 @@ export function InverseNavbar({
         title: t('about'),
         href: `/${lng}/about`,
       },
-      {
-        title: t('feedback'),
-        href: `/${lng}/feedback`,
-      },
     ])
   }, [lng, t])
 
