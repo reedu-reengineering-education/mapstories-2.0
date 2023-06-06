@@ -36,7 +36,7 @@ export default async function RootLayout({
           </InverseNavbar>
         </div>
       </header>
-      <main className="flex-1">{children}</main>
+      <main className="max-w-full flex-1 overflow-hidden">{children}</main>
       {/* @ts-expect-error Server Component */}
       <Footer lng={lng} />
     </div>
