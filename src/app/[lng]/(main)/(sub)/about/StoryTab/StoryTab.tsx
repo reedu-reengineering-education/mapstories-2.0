@@ -11,13 +11,16 @@ import ReeduLogo from '@/assets/images/partners/logo_reedu.svg'
 export default function StoryTab() {
   const lng = useBoundStore(state => state.language)
 
+  /* @ts-ignore */
   const { t } = useTranslation(lng, 'about')
   return (
     <div className="flex flex-col gap-10 p-10">
       <div>
+        {/* @ts-ignore */}
         <p>{t('tab1_text')}</p>
       </div>
       <div className="flex flex-row items-center gap-10">
+        {/* @ts-ignore */}
         <h3> {t('partners')} </h3>
         <div className="flex flex-col">
           <Image alt="BMZ Logo" height={200} src={BMZLogo} width={400} />
@@ -35,6 +38,7 @@ export default function StoryTab() {
         </div>
       </div>
       <div className="flex flex-row items-center justify-evenly">
+        {/* @ts-ignore */}
         <h3>{t('supportersAndDevelopers')}</h3>
         <div className="flex flex-col">
           <Image alt="Vamos logo" height={200} src={VamosLogo} width={200} />

@@ -8,6 +8,7 @@ import { EnvelopeClosedIcon } from '@radix-ui/react-icons'
 
 export default function OfferTab() {
   const lng = useBoundStore(state => state.language)
+  //@ts-ignore
   const { t } = useTranslation(lng, 'offerTab')
 
   return (
@@ -15,7 +16,8 @@ export default function OfferTab() {
       <div className="align-center flex flex-row gap-10">
         <div>
           <div>
-            <p>{t('offerText')}</p>
+            {/* @ts-ignore */}
+            <div>{t('offerText')}</div>
           </div>
         </div>
         <div className="p-10">
@@ -25,6 +27,7 @@ export default function OfferTab() {
       <div className="flex">
         <Link href="mailto:mapstories@vamos-muenster.de">
           <Button startIcon={<EnvelopeClosedIcon className="w-5" />}>
+            {/* @ts-ignore */}
             {t('mailToButton')}
           </Button>
         </Link>

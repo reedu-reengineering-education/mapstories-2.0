@@ -18,6 +18,7 @@ export default function PageContent() {
   }, [])
 
   const lng = useBoundStore(state => state.language)
+  /* @ts-ignore */
   const { t } = useTranslation(lng, 'about')
 
   return (
@@ -35,8 +36,11 @@ export default function PageContent() {
         <div className="re-basic-box  p-15  bg-white">
           <Tabs className="" selectedTabClassName="font-extrabold text-3xl">
             <TabList className="bg-slate-50 px-10 pt-5">
+              {/* @ts-ignore */}
               <Tab>{t('tab1_title')}</Tab>
+              {/* @ts-ignore */}
               <Tab>{t('tab2_title')}</Tab>
+              {/* @ts-ignore */}
               <Tab>{t('tab3_title')}</Tab>
               {/* <Tab>{t('tab4_title')}</Tab> */}
             </TabList>
