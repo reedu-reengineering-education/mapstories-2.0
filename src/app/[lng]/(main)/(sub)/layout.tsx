@@ -2,9 +2,10 @@ import { getCurrentUser } from '@/src/lib/session'
 import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
-import { Navbar } from '@/src/components/Layout/Navbar'
 import Link from 'next/link'
 import { Footer } from '@/src/components/Layout/Footer'
+import { FeedbackButton } from '@/src/components/FeedbackButton'
+import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 
 export default async function RootLayout({
   children,
@@ -16,11 +17,13 @@ export default async function RootLayout({
   const user = await getCurrentUser()
 
   return (
-    <>
-      <header className="container sticky top-0 z-50 bg-white">
-        <div className="flex h-16 items-center justify-between border-b border-b-slate-200 py-4">
-          <Navbar user={user}>
+    <div className="relative flex h-full flex-col">
+      <header className="absolute left-0 top-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
+        <div className="container flex h-16 items-center justify-between py-4">
+          <InverseNavbar user={user}>
             <div className="flex space-x-2">
+              <FeedbackButton />
+
               <LangSwitcher />
               {user ? (
                 <UserAccountNav user={user} />
@@ -30,15 +33,12 @@ export default async function RootLayout({
                 </Link>
               )}
             </div>
-          </Navbar>
+          </InverseNavbar>
         </div>
       </header>
-
-      <div className="flex h-full flex-col">
-        <main className="h-full">{children}</main>
-      </div>
+      <main className="max-w-full flex-1 overflow-hidden">{children}</main>
       {/* @ts-expect-error Server Component */}
-      <Footer lng={lng}></Footer>
-    </>
+      <Footer lng={lng} />
+    </div>
   )
 }

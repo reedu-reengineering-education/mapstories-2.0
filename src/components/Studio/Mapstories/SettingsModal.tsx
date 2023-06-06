@@ -30,7 +30,13 @@ const options: Pick<DropdownMenuItemProps, 'children'>[] = [
   { children: 'Theme 5' },
 ]
 
-export default function SettingsModal({ storyId }: { storyId: string }) {
+export default function SettingsModal({
+  storyId,
+  shadow,
+}: {
+  storyId: string
+  shadow?: boolean
+}) {
   const router = useRouter()
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, ['settingsModal', 'studio'])
@@ -95,7 +101,7 @@ export default function SettingsModal({ storyId }: { storyId: string }) {
   return (
     <>
       <Button
-        className="re-basic-box"
+        className={shadow ? 're-basic-box' : ''}
         disabled={!story}
         onClick={() => setModalOpen(true)}
         startIcon={<Cog6ToothIcon className="w-5" />}

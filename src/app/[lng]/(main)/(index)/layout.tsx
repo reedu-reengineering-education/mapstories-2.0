@@ -1,5 +1,6 @@
 import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
+import { FeedbackButton } from '@/src/components/FeedbackButton'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { Footer } from '@/src/components/Layout/Footer'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
@@ -21,6 +22,8 @@ export default async function RootLayout({
         <div className="container flex h-16 items-center justify-between py-4">
           <InverseNavbar user={user}>
             <div className="flex space-x-2">
+              <FeedbackButton />
+
               <LangSwitcher />
               {user ? (
                 <UserAccountNav user={user} />
@@ -33,7 +36,7 @@ export default async function RootLayout({
           </InverseNavbar>
         </div>
       </header>
-      <main className="flex-1">{children}</main>
+      <main className="max-w-full flex-1 overflow-hidden">{children}</main>
       {/* @ts-expect-error Server Component */}
       <Footer lng={lng} />
     </div>

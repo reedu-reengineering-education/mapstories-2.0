@@ -91,7 +91,7 @@ export default async function DashboardLayout({
             </Button>
           </Link>
           <PreviewButton story={story} />
-          <SettingsModal storyId={story.id} />
+          <SettingsModal shadow storyId={story.id} />
         </div>
       </div>
 

@@ -9,7 +9,41 @@ type MediaIconListProps = {
   usedMediaType?: MediaType
 }
 
+function moveElementToPosition<T>(
+  obj: Record<string, T>,
+  elementKey: string,
+  position: number,
+): Record<string, T> {
+  const newObj: Record<string, T> = {}
+  let index = 0
+
+  // Füge das Element an der gewünschten Position hinzu
+  if (position === 0) {
+    newObj[elementKey] = obj[elementKey]
+  }
+
+  // Durchlaufe das ursprüngliche Objekt und füge die restlichen Elemente hinzu
+  for (const key in obj) {
+    if (key !== elementKey) {
+      // Füge das Element an der gewünschten Position hinzu
+      if (index === position) {
+        newObj[elementKey] = obj[elementKey]
+      }
+      newObj[key] = obj[key]
+      index++
+    }
+  }
+
+  // Füge das Element am Ende hinzu, falls die Position größer als die Anzahl der Elemente im Objekt ist
+  if (position >= index) {
+    newObj[elementKey] = obj[elementKey]
+  }
+
+  return newObj
+}
+
 const mediaNames = new Map<MediaType, string>([
+  ['EXTERNALIMAGE', 'Bild von URL'],
   ['YOUTUBE', 'YouTube'],
   ['INSTAGRAM', 'Instagram'],
   ['TIKTOK', 'TikTok'],
@@ -24,10 +58,12 @@ const mediaNames = new Map<MediaType, string>([
 ])
 
 export default function MediaIconList({ usedMediaType }: MediaIconListProps) {
+  // redeclare as let variable if more postions need to moved
+  const newObject = moveElementToPosition(MediaType, 'EXTERNALIMAGE', 1)
   return (
     <div className="flex -space-x-2">
       <AnimatePresence>
-        {Object.keys(MediaType)
+        {Object.keys(newObject)
           .filter(t => !['TITLE', 'TEXT', 'IMAGE', 'VIDEO'].includes(t)) // Only the social media types
           .filter(t => {
             if (!usedMediaType) {
