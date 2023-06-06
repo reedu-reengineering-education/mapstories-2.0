@@ -12,7 +12,8 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import ShareModal from './ShareModal'
 import EmbedModal from './EmbedModal'
-import { PencilIcon } from '@heroicons/react/24/outline'
+import { EyeIcon, PencilIcon } from '@heroicons/react/24/outline'
+import SettingsModal from './SettingsModal'
 
 type Props = {
   mapstory: Story
@@ -30,6 +31,11 @@ export function MapstoryCard({ mapstory }: Props) {
       <Card.Footer>
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
+            <Link href={`/mystories/story/${mapstory.slug}/start`}>
+              <Button startIcon={<EyeIcon className="w-5" />}>
+                {t('play')}
+              </Button>
+            </Link>
             <Link href={`/studio/${mapstory.slug}`}>
               <Button
                 startIcon={<PencilIcon className="w-5" />}
@@ -38,11 +44,9 @@ export function MapstoryCard({ mapstory }: Props) {
                 {t('edit')}
               </Button>
             </Link>
+            <SettingsModal storyId={mapstory.id} />
             <ShareModal storyId={mapstory.id} />
             <EmbedModal storyId={mapstory.id} />
-            <Link href={`/mystories/story/${mapstory.slug}/start`}>
-              <Button>{t('play')}</Button>
-            </Link>
           </div>
           <DeleteMapstoryButton id={mapstory.id} />
         </div>
