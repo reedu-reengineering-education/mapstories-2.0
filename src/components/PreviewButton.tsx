@@ -5,16 +5,17 @@ import { Button } from '@/src/components/Elements/Button'
 import { EyeIcon } from '@heroicons/react/24/outline'
 
 function getSlidePositionById(story: any, slideid: any) {
-  const slides = story?.story.steps
-  const slidePosition = slides?.filter((slide: any) => slide.id === slideid)[0]
-    .position
-  return slidePosition
+  try {
+    const slides = story?.story.steps
+    const slidePosition = slides?.filter((slide: any) => slide.id === slideid)
+    return slidePosition
+  } catch (e) {
+    return 'start'
+  }
 }
-
 export function PreviewButton(story: any) {
   const pathname = usePathname()
   const pathnameArr = pathname?.split('/')
-  let slidePosition = 'start'
   if (!pathnameArr) {
     return null
   }
@@ -25,13 +26,8 @@ export function PreviewButton(story: any) {
 
   const storyid = pathnameArr[3]
   const slideid = pathnameArr[4]
-  if (pathnameArr.length > 4) {
-    if (slideid === story.story.firstStepId) {
-      slidePosition = 'start'
-    } else {
-      slidePosition = getSlidePositionById(story, slideid)
-    }
-  }
+  const slidePosition = getSlidePositionById(story, slideid)
+
   return (
     <a href={`/mystories/story/${storyid}/${slidePosition}`} target="_blank">
       <Button
