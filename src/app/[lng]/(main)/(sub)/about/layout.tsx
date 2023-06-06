@@ -3,5 +3,7 @@ interface LayoutProps {
 }
 
 export default async function Layout({ children }: LayoutProps) {
-  return <div className="container mx-auto my-6">{children}</div>
+  //const user = await getCurrentUser()
+
+  return <div>{children}</div>
 }

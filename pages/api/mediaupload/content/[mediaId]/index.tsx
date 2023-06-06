@@ -1,4 +1,3 @@
-import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { db } from '@/src/lib/db'
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -31,4 +30,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(['GET', 'PUT'], withAuthentication(handler))
+export default withMethods(['GET', 'PUT'], handler)

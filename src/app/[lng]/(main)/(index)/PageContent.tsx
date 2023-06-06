@@ -30,21 +30,18 @@ export default function PageContent() {
       show={isShowing}
     >
       <div className="flex flex-col gap-8">
-        <div className="re-basic-box flex w-full flex-col items-center bg-white p-20">
+        <div className="re-basic-box  p-15 flex w-full flex-col items-center bg-white">
           <PageHeader heading="Mapstories" />
 
-          <div className="flex items-center justify-center gap-4">
-            <Link href="/login">
-              <Button>{t('getStarted')}</Button>
-            </Link>
-            <Link href={'/about'}>
-              <Button variant={'inverse'}>{t('infos')}</Button>
-            </Link>
-          </div>
+          <p className="p-5">{t('startText')}</p>
         </div>
-        <div className="re-basic-box flex w-full flex-col items-center bg-white p-20">
-          {/* <PageHeader heading="Features" /> */}
-          <p>{t('startText')}</p>
+        <div className=" flex items-center justify-center gap-4">
+          <Link href="/login">
+            <Button>{t('getStarted')}</Button>
+          </Link>
+          <Link href={'/about'}>
+            <Button variant={'inverse'}>{t('infos')}</Button>
+          </Link>
         </div>
       </div>
     </Transition>
