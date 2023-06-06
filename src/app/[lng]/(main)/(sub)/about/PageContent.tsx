@@ -33,8 +33,8 @@ export default function PageContent() {
     >
       <div>
         <div className="re-basic-box  p-15  bg-white">
-          <Tabs>
-            <TabList>
+          <Tabs className="" selectedTabClassName="font-extrabold text-3xl">
+            <TabList className="bg-slate-50 px-10 pt-5">
               <Tab>{t('tab1_title')}</Tab>
               <Tab>{t('tab2_title')}</Tab>
               <Tab>{t('tab3_title')}</Tab>

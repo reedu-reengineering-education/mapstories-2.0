@@ -15,7 +15,6 @@ export default function OfferTab() {
       <div className="align-center flex flex-row gap-10">
         <div>
           <div>
-            <h3>{t('offerTitle')}</h3>
             <p>{t('offerText')}</p>
           </div>
         </div>

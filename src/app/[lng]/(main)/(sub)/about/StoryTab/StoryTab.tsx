@@ -15,8 +15,6 @@ export default function StoryTab() {
   return (
     <div className="flex flex-col gap-10 p-10">
       <div>
-        <h3>{t('tab1_title')}</h3>
-        <br></br>
         <p>{t('tab1_text')}</p>
       </div>
       <div className="flex flex-row items-center gap-10">
