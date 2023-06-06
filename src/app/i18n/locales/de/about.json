@@ -1,5 +1,7 @@
 {
-  "tab1_title": "Story",
+  "partners": "Partner",
+  "supportersAndDevelopers": "Förder:innen und Entwickler:innen",
+  "tab1_title": "Unsere Story",
   "tab1_text": "Mapstories ist im Rahmen einer Zusammenarbeit zwischen re:edu GmbH & Co.KG und Vamos e.V. entstanden. Der Ausgangspunkt des Projekts war die Durchführung eines ko-kreativen Labs zur globalen Bekleidungsindustrie. Dabei stellt Mapstories ein webbasiertes OpenSource-Tool dar, mit dem die Schüler:innen eigenständig einen Einstieg in die entwicklungspolitische Bildungsarbeitzum oben genannten Thema konzipierten. Die Mapstories sind durch die Möglichkeit der anschaulichen Herstellung systemischer Verknüpfungen vor allem im Kontext der Bildung für nachhaltige Entwicklung einsetzbar und ermöglichen einen umfassenden Blick auf globale Themen",
   "tab2_title": "FAQ",
   "tab2_text": "Wie im alten Mapstories",

@@ -8,7 +8,7 @@ import {
 } from 'react-accessible-accordion'
 import 'react-accessible-accordion/dist/fancy-example.css'
 import { useBoundStore } from '@/src/lib/store/store'
-export default function FAQPage() {
+export default function FAQTab() {
   const lng = useBoundStore(state => state.language)
 
   const { t } = useTranslation(lng, 'faq')

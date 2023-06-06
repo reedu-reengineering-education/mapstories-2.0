@@ -1,10 +1,13 @@
 {
-  "tab1_title": "Story",
+  "partners": "Partners",
+  "supportersAndDevelopers": "Supporters and Developers",
+  "introTextPartners": "Mapstories is made possible via various partners:  ",
+  "tab1_title": "Our Story",
   "tab1_text": "Mapstories emerged as a result of a collaboration between re:edu GmbH & Co.KG and Vamos e.V. The starting point of the project was the implementation of a co-creative lab on the global garment industry. Mapstories is a web-based open-source tool that enables students to independently engage in development education related to the aforementioned topic. The visual representation of interconnected systems offered by Mapstories makes it particularly valuable in the context of education for sustainable development, providing a comprehensive perspective on global issues.",
   "tab2_title": "FAQ",
   "tab2_text": "As in the old Mapstories...",
-  "tab3_title": "Support",
-  "tab3_text": "Call for support in collaboration project",
-  "tab4_title": "Our Offers",
-  "tab4_text": "Do you want to showcase places or projects of social cohesion in the digital space and how they are interconnected? And that too in relation to your own themes? We offer online training sessions for different target groups on how to use the platform. A first..."
+  "tab3_title": "Our Offers",
+  "tab3_text": "Do you want to showcase places or projects of social cohesion in the digital space and how they are interconnected? And that too in relation to your own themes? We offer online training sessions for different target groups on how to use the platform. A first...",
+  "tab4_title": "Support",
+  "tab4_text": "Call for support"
 }
