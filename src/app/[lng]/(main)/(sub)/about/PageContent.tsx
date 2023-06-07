@@ -9,6 +9,7 @@ import 'react-tabs/style/react-tabs.css'
 import FAQTab from './FAQTab/FAQTab'
 import OfferTab from './OfferTab/OfferTab'
 import StoryTab from './StoryTab/StoryTab'
+import MapstoriesTab from './MapstoriesTab/MapstoriesTab'
 
 export default function PageContent() {
   const [isShowing, setIsShowing] = useState(false)
@@ -52,19 +53,19 @@ export default function PageContent() {
               {/* <Tab>{t('tab4_title')}</Tab> */}
             </TabList>
             <TabPanel>
+              <MapstoriesTab />
+            </TabPanel>
+            <TabPanel>
               <StoryTab />
             </TabPanel>
             <TabPanel>
+              <OfferTab />
+            </TabPanel>
+            <TabPanel>
+              <OfferTab />
+            </TabPanel>
+            <TabPanel>
               <FAQTab />
-            </TabPanel>
-            <TabPanel>
-              <OfferTab />
-            </TabPanel>
-            <TabPanel>
-              <OfferTab />
-            </TabPanel>
-            <TabPanel>
-              <OfferTab />
             </TabPanel>
             {/* <TabPanel>
               <div className="flex flex-col gap-8">
