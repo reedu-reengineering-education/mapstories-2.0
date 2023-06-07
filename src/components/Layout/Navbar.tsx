@@ -5,7 +5,7 @@ import { useSelectedLayoutSegment } from 'next/navigation'
 import { cx } from 'class-variance-authority'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from '@/src/app/i18n/client'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
@@ -69,7 +69,7 @@ export function Navbar({
         {routes?.length ? (
           <nav className="hidden gap-6 md:flex">
             {routes?.map((item, index) => (
-              <>
+              <Fragment key={index}>
                 {!item.disabled && (
                   <Link
                     className={cx(
@@ -80,12 +80,11 @@ export function Navbar({
                       item.disabled ? 'cursor-not-allowed opacity-80' : '',
                     )}
                     href={item.disabled ? '#' : item.href}
-                    key={index}
                   >
                     {item.title}
                   </Link>
                 )}
-              </>
+              </Fragment>
             ))}
           </nav>
         ) : null}
