@@ -5,8 +5,6 @@ import Image from 'next/image'
 import BMZLogo from '@/assets/images/partners/BMZ-Logo-4c.jpg'
 import fachStelleWeltkirche from '@/assets/images/partners/Fachstelle Weltkirche - Logo.png'
 import SUELogo from '@/assets/images/partners/SUE_Logo_CMYK_300dpi.jpg'
-import VamosLogo from '@/assets/images/partners/logo_vamos.jpeg'
-import ReeduLogo from '@/assets/images/partners/logo_reedu.svg'
 
 export default function StoryTab() {
   const lng = useBoundStore(state => state.language)
@@ -35,16 +33,6 @@ export default function StoryTab() {
         </div>
         <div className="flex flex-col">
           <Image alt="SUE Logo" height={300} src={SUELogo} width={400} />
-        </div>
-      </div>
-      <div className="flex flex-row items-center justify-evenly">
-        {/* @ts-ignore */}
-        <h3>{t('supportersAndDevelopers')}</h3>
-        <div className="flex flex-col">
-          <Image alt="Vamos logo" height={200} src={VamosLogo} width={200} />
-        </div>
-        <div className="flex flex-col">
-          <Image alt="Reedu logo" height={200} src={ReeduLogo} width={200} />
         </div>
       </div>
     </div>

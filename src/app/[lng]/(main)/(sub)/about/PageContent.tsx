@@ -35,17 +35,20 @@ export default function PageContent() {
       <div>
         <div className="re-basic-box  p-15  bg-white">
           <Tabs
-            className=""
             forceRenderTabPanel={true}
-            selectedTabClassName="font-extrabold text-3xl"
+            selectedTabClassName="font-extrabold text-3xl bg-slate-50 rounded p-5"
           >
-            <TabList className="bg-slate-50 px-10 pt-5">
+            <TabList className="rounded bg-zinc-300 px-10 pb-2 pt-5 ">
               {/* @ts-ignore */}
               <Tab>{t('tab1_title')}</Tab>
               {/* @ts-ignore */}
               <Tab>{t('tab2_title')}</Tab>
               {/* @ts-ignore */}
               <Tab>{t('tab3_title')}</Tab>
+              {/* @ts-ignore */}
+              <Tab>{t('tab4_title')}</Tab>
+              {/* @ts-ignore */}
+              <Tab>{t('tab5_title')}</Tab>
               {/* <Tab>{t('tab4_title')}</Tab> */}
             </TabList>
             <TabPanel>
@@ -53,6 +56,12 @@ export default function PageContent() {
             </TabPanel>
             <TabPanel>
               <FAQTab />
+            </TabPanel>
+            <TabPanel>
+              <OfferTab />
+            </TabPanel>
+            <TabPanel>
+              <OfferTab />
             </TabPanel>
             <TabPanel>
               <OfferTab />
