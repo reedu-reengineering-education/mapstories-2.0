@@ -35,7 +35,7 @@ export default function FAQTab() {
               <AccordionItemButton>{t('faq2_title')}</AccordionItemButton>
             </AccordionItemHeading>
             <AccordionItemPanel>
-              <p>
+              <div>
                 {/* @ts-ignore */}
                 <p>{t('faq2_texta')}</p>
                 <br></br>
@@ -59,7 +59,7 @@ export default function FAQTab() {
                   {/* @ts-ignore */}
                   <li>{t('faq2_listg')}</li>
                 </ul>
-              </p>
+              </div>
             </AccordionItemPanel>
           </AccordionItem>
           <AccordionItem>
