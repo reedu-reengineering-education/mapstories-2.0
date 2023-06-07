@@ -8,8 +8,9 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import FAQTab from './FAQTab/FAQTab'
 import OfferTab from './OfferTab/OfferTab'
-import StoryTab from './StoryTab/StoryTab'
 import MapstoriesTab from './MapstoriesTab/MapstoriesTab'
+import OurStoryTab from './OurStoryTab/OurStoryTab'
+import SupportTab from './SupportTab/SupportTab'
 
 export default function PageContent() {
   const [isShowing, setIsShowing] = useState(false)
@@ -56,13 +57,13 @@ export default function PageContent() {
               <MapstoriesTab />
             </TabPanel>
             <TabPanel>
-              <StoryTab />
+              <OurStoryTab />
             </TabPanel>
             <TabPanel>
               <OfferTab />
             </TabPanel>
             <TabPanel>
-              <OfferTab />
+              <SupportTab />
             </TabPanel>
             <TabPanel>
               <FAQTab />

@@ -1,5 +1,15 @@
 {
-  "offerTitle": "Unser Angebot",
-  "offerText": "Du willst im digitalen Raum zeigen, wo es Orte oder Projekte des gesellschaftlichen Zusammenhalts gibt und wie diese zusammenhängen? Und das individuell auf eigene Thematiken bezogen? Wir bieten Online-Schulungen  zur Nutzung der Plattform für die unterschiedlichen Zielgrupoen an.Ein erstes Kennenlernen der Plattform  mitsamt ihren Funktionen und dem Entwickeln eigener Ideen für die erste Story dauert ca. 90  Minuten. Die Kosten variieren je nach  Kontext und Aufwand zwischen 100€ und 250€. Anfragen an: mapstories@vamos-muenster.de",
-  "mailToButton": "Anfrage senden"
+  "title": "Mitwirken",
+  "text1": "Der gemeinnützige Verein Vamos e.V. bietet Ihnen unterschiedliche Möglichkeiten Mapstories kennenzulernen und im Bildungskontext anzuwenden.",
+  "text2Title": "Schulung (60 Minuten):",
+  "text2": " In der Schulung lernen Sie das Potential, sowie die grundlegenden Funktionen von Mapstories kennen. Sie erfahren anhand einer Live-Demo, wie Sie ihre eigenen Mapstories erstellen können. Somit entdecken Sie, wie das digitale Tool Ihren Unterricht oder Ihre Projektarbeit bereichern kann. Die Schulung findet sowohl persönlich als auch digital statt.",
+  "text3Title": "Workshop(90 Minuten):",
+  "text3": "In dem Workshop lernen Sie Mapstories kennen und erstellen in einer praktischen Phase Ihre erste Mapstory. Sie erhalten Anleitungen, um mit Ihren Schüler:innen oder Projektteilnehmenden Mapstories-Projekte umzusetzen und tauschen sich mit anderen Teilnehmenden über mögliche Anwendungskontexte aus. Der Workshop findet präferiert persönlich statt",
+  "text4Title": "Projekttage(1-5 Tage):",
+  "text4": "An (außer-) schulischen Projekttagen setzen Jugendliche und junge Erwachsene Ihre Themen in Mapstories um. Sie werden in dem Prozess pädagogisch begleitet und gestalten zu einem ausgewählten Thema eine Mapstory. Sie können die Projekttage ebenfalls mit anderen Bildungsangeboten von Vamos e.V. kombinieren.",
+  "text5Title": "Weitere Angebote:",
+  "text5": "Wenn Sie weitere Ideen haben, wie Vamos e.V. Sie bei Ihrer Arbeit mit Mapstories unterstützen könnte, kommen Sie gerne auf uns zu.",
+  "textEnd": "Wenn Sie an einem unserer Angebote interessiert sind, wenden Sie sich gerne mit einer Anfrage an uns.",
+  "buttonInquiry": "Anfrage senden",
+  "imageSubtitle": "Bild: Vamos e.V."
 }

@@ -1,11 +1,10 @@
 import { useBoundStore } from '@/src/lib/store/store'
 import { useTranslation } from '@/src/app/i18n/client'
-import VamosLogo from '@/assets/images/partners/logo_vamos.jpeg'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/src/components/Elements/Button'
 import { EnvelopeClosedIcon } from '@radix-ui/react-icons'
-
+import Image from 'next/image'
+import WorkshopFoto from '@/assets/images/workshops/Bildungsangebote-1.jpg'
 export default function OfferTab() {
   const lng = useBoundStore(state => state.language)
   //@ts-ignore
@@ -13,22 +12,40 @@ export default function OfferTab() {
 
   return (
     <div className="flex flex-col gap-10 p-10">
-      <div className="align-center flex flex-row gap-10">
-        <div>
-          <div>
-            {/* @ts-ignore */}
-            <div>{t('offerText')}</div>
-          </div>
+      <div className="flex flex-row items-center gap-20">
+        <div className="flex w-8/12 flex-col gap-2">
+          {/* @ts-ignore */}
+          <div>{t('text1')}</div>
+          <p>
+            <b>{t('text2Title')}</b>
+          </p>
+          <p>{t('text2')}</p>
+
+          <p>
+            <b>{t('text3Title')}</b>
+          </p>
+          <p>{t('text3')}</p>
+
+          <p>
+            <b>{t('text4Title')}</b>
+          </p>
+          <p>{t('text4')}</p>
+
+          <p>
+            <b>{t('text5Title')}</b>
+          </p>
+          <p>{t('text5')}</p>
         </div>
-        <div className="p-10">
-          <Image alt="Vamos logo" src={VamosLogo} />
+        <div className="flex w-4/12 flex-col items-center gap-2">
+          <Image alt="Workshop Foto" src={WorkshopFoto} />
+          <span className="text-slate-600">{t('imageSubtitle')}</span>
         </div>
       </div>
-      <div className="flex">
+      <div>
         <Link href="mailto:mapstories@vamos-muenster.de">
           <Button startIcon={<EnvelopeClosedIcon className="w-5" />}>
             {/* @ts-ignore */}
-            {t('mailToButton')}
+            {t('buttonInquiry')}
           </Button>
         </Link>
       </div>

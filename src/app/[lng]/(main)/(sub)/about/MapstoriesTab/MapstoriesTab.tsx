@@ -22,7 +22,19 @@ export default function MapstoriesTab() {
         </div>
         <div className="flex flex-row justify-evenly">
           {/* @ts-ignore */}
-          <div className="flex flex-1 flex-col items-center gap-4 border-zinc-300 p-8">
+          <div className="flex flex-1 flex-col items-center gap-4 p-8">
+            <div>{t('supportedBy')}</div>
+            <a
+              className="transition duration-300 ease-in-out hover:scale-105"
+              href="https://www.bistum-muenster.de/weltkirche"
+            >
+              <Image
+                alt="Fachstelle Weltkirche Logo"
+                src={fachStelleWeltkirche}
+              />
+            </a>
+          </div>
+          <div className="flex flex-1 flex-col items-center gap-4 border-l-2 border-zinc-300 p-8">
             <div className="text-center">{t('supportBZM')}</div>
             <a
               className="transition duration-300 ease-in-out hover:scale-105"
@@ -35,19 +47,7 @@ export default function MapstoriesTab() {
             <div>{t('supportedBy')}</div>
             <a
               className="transition duration-300 ease-in-out hover:scale-105"
-              href="https://www.fachstelle-weltkirche.de/"
-            >
-              <Image
-                alt="Fachstelle Weltkirche Logo"
-                src={fachStelleWeltkirche}
-              />
-            </a>
-          </div>
-          <div className="flex flex-1 flex-col items-center gap-4 border-l-2 border-zinc-300 p-8">
-            <div>{t('supportedBy')}</div>
-            <a
-              className="transition duration-300 ease-in-out hover:scale-105"
-              href="https://www.sue-umweltstiftung.org/"
+              href="https://www.sue-nrw.de/"
             >
               <Image alt="SUE Logo" src={SUELogo} />
             </a>

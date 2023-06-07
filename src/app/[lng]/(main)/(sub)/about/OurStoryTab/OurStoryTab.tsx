@@ -4,7 +4,7 @@ import Image from 'next/image'
 import VamosLogo from '@/assets/images/partners/logo_vamos.jpeg'
 import ReeduLogo from '@/assets/images/partners/logo_reedu.svg'
 
-export default function StoryTab() {
+export default function OurStoryTab() {
   const lng = useBoundStore(state => state.language)
 
   /* @ts-ignore */
