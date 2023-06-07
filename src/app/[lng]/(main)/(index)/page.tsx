@@ -42,7 +42,7 @@ export default async function Page({
       <div className="relative h-[100vh] w-full ">
         <AnimatedMap />
       </div>
-      <div className="container relative z-50 mx-auto my-6 flex-1 -translate-y-[65vh] ">
+      <div className="container relative z-50 mx-auto my-6 w-7/12 flex-1 -translate-y-[60vh] ">
         <PageContent />
       </div>
     </>

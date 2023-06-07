@@ -33,9 +33,9 @@ export default function PageContent() {
         <div className="re-basic-box  flex w-full flex-col items-center bg-white bg-opacity-90 p-5">
           <Image
             alt="Mapstories"
-            height={200}
+            height={300}
             src={MapstoryWithTextLogo}
-            width={600}
+            width={800}
           />
 
           <p className="p-5">{t('startText')}</p>
