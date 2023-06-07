@@ -14,10 +14,10 @@ export default function AnimatedMap() {
       duration: 5000,
       zoom: 4,
       pitch: 45,
-      center: [5, 40],
+      center: [21, 45],
     })
   }
-
+  // 38°33'03.1"N 19°09'49.6"E
   return (
     <Map
       initialViewState={{

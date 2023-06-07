@@ -29,8 +29,8 @@ export default function PageContent() {
       leaveTo="opacity-0"
       show={isShowing}
     >
-      <div className="flex flex-col gap-8">
-        <div className="re-basic-box  p-15 flex w-full flex-col items-center bg-white">
+      <div blur-sm className="flex flex-col gap-8">
+        <div className="re-basic-box  flex w-full flex-col items-center bg-white bg-opacity-80 p-5">
           <Image
             alt="Mapstories"
             height={200}
