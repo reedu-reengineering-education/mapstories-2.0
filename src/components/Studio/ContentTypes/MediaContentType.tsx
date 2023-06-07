@@ -23,6 +23,7 @@ interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
   setContentType?: any
+  setShowModal?: any
 }
 
 const baseStyle = {
@@ -60,6 +61,7 @@ export function MediaContentEdit({
   stepItem,
   className,
   setContentType,
+  setShowModal,
   ...props
 }: MediaContentEditProps) {
   let lng = useBoundStore(state => state.language)
@@ -197,6 +199,9 @@ export function MediaContentEdit({
       setIsSaving(false)
     }
     setContentType && setContentType('')
+    if (setShowModal) {
+      setShowModal(false)
+    }
   }
 
   function handleExternalImageUrl(e: any) {

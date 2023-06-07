@@ -20,6 +20,7 @@ interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
   setContentType?: any
+  setShowModal?: any
 }
 
 type FormData = z.infer<typeof slideTitleContentSchema>
@@ -29,6 +30,7 @@ export function TitleContentEdit({
   className,
   stepItem,
   setContentType,
+  setShowModal,
   ...props
 }: TitleContentEditProps) {
   const {
@@ -78,6 +80,9 @@ export function TitleContentEdit({
       setIsSaving(false)
     }
     setContentType && setContentType('')
+    if (setShowModal) {
+      setShowModal(false)
+    }
   }
 
   return (

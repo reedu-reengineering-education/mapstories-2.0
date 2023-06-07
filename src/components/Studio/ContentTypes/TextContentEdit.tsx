@@ -18,6 +18,7 @@ interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
   setContentType?: any
+  setShowModal?: any
 }
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
@@ -28,6 +29,7 @@ export function TextContentEdit({
   storyStepId,
   stepItem,
   setContentType,
+  setShowModal,
 }: TextContentEditProps) {
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
@@ -77,6 +79,10 @@ export function TextContentEdit({
       })
     } finally {
       setIsSaving(false)
+    }
+    if (setShowModal) {
+      console.log('smi')
+      setShowModal(false)
     }
     setContentType && setContentType('')
   }
