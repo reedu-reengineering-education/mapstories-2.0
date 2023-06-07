@@ -2,7 +2,6 @@ import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
 import { FeedbackButton } from '@/src/components/FeedbackButton'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
-import { Footer } from '@/src/components/Layout/Footer'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import { getCurrentUser } from '@/src/lib/session'
 import Link from 'next/link'
@@ -37,8 +36,6 @@ export default async function RootLayout({
         </div>
       </header>
       <main className="max-w-full flex-1 overflow-hidden">{children}</main>
-      {/* @ts-expect-error Server Component */}
-      <Footer lng={lng} />
     </div>
   )
 }
