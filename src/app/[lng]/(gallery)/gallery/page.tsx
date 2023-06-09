@@ -3,9 +3,34 @@ import { db } from '@/src/lib/db'
 import { Metadata } from 'next/types'
 
 const getMapstories = async () => {
+  console.log('sss')
+
   return await db.story.findMany({
     where: {
       visibility: 'PUBLIC',
+    },
+    include: {
+      firstStep: {
+        include: {
+          content: true,
+        },
+      },
+      steps: {
+        include: {
+          content: true,
+        },
+      },
+    },
+  })
+}
+
+const getCertifiedMapstories = async (array: Array<string>) => {
+  return await db.story.findMany({
+    where: {
+      visibility: 'PUBLIC',
+      id: {
+        in: array,
+      },
     },
     include: {
       firstStep: {
@@ -31,8 +56,8 @@ export const metadata: Metadata = {
 interface GalleryPageProps {}
 
 export default async function GalleryPage({}: GalleryPageProps) {
-  const mapstories = await getMapstories()
-
+  const certifiedMapstoryIDs: Array<string> = []
+  const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
   return (
     <div className="absolute left-5 top-20 z-20">
       <GalleryList stories={mapstories}></GalleryList>
