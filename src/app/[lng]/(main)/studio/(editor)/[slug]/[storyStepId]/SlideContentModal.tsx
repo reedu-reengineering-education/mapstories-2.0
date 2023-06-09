@@ -27,10 +27,15 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
   const [contentType, setContentType] = useState<string>('')
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, ['editModal', 'embeds'])
-
+  const [show, setShowModal] = useState<boolean>(false)
   return (
     <>
-      <Modal onClose={() => setContentType('')} title={''} trigger={trigger}>
+      <Modal
+        onClose={() => setContentType('')}
+        show={show}
+        title={''}
+        trigger={trigger}
+      >
         <Modal.Content>
           <div className="relative">
             <CSSTransition
@@ -104,24 +109,28 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                       {contentType == 'title' && (
                         <TitleContentEdit
                           setContentType={setContentType}
+                          setShowModal={setShowModal}
                           storyStepId={storyStepId}
                         ></TitleContentEdit>
                       )}
                       {contentType == 'embed' && (
                         <EmbedContentEdit
                           setContentType={setContentType}
+                          setShowModal={setShowModal}
                           storyStepId={storyStepId}
                         ></EmbedContentEdit>
                       )}
                       {contentType == 'text' && (
                         <TextContentEdit
                           setContentType={setContentType}
+                          setShowModal={setShowModal}
                           storyStepId={storyStepId}
                         ></TextContentEdit>
                       )}
                       {contentType == 'media' && (
                         <MediaContentEdit
                           setContentType={setContentType}
+                          setShowModal={setShowModal}
                           storyStepId={storyStepId}
                         ></MediaContentEdit>
                       )}

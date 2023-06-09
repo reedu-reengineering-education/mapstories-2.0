@@ -10,5 +10,6 @@
   "contentDeleted": "Tu contenido ha sido eliminado",
   "contentNotDeleted": "Tu contenido no ha sido eliminado, ¡por favor inténtalo de nuevo!",
   "confirmDeleteMapstory": "¿Realmente deseas eliminar el Mapstory?",
-  "confirmDeleteStep": "¿Realmente deseas eliminar el paso?"
+  "confirmDeleteStep": "¿Realmente deseas eliminar el paso?",
+  "abort": "Abortar"
 }

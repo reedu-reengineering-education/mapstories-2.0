@@ -26,6 +26,7 @@ interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
   setContentType?: any
+  setShowModal?: any
 }
 
 type FormData = z.infer<typeof slideEmbedContentSchema>
@@ -35,6 +36,7 @@ export function EmbedContentEdit({
   stepItem,
   className,
   setContentType,
+  setShowModal,
   ...props
 }: EmbedContentEditProps) {
   const router = useRouter()
@@ -113,6 +115,9 @@ export function EmbedContentEdit({
       setIsSaving(false)
     }
     setContentType && setContentType('')
+    if (setShowModal) {
+      setShowModal(false)
+    }
   }
 
   async function handleUrl(url: string) {

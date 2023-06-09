@@ -88,9 +88,8 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   return (
     <>
       <aside className="re-basic-box relative left-5 z-40 flex h-full w-full overflow-y-auto overflow-x-hidden bg-white px-4 md:h-full md:flex-col">
-        <h3 className="py-2">{t('steps')}</h3>
         <Link href={`/studio/${story.slug}/${story.firstStepId}`}>
-          <div className="">
+          <div className="pt-5">
             <SidebarSlide
               active={stepId === story.firstStepId}
               stepId={story.firstStepId!}

@@ -8,7 +8,9 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import FAQTab from './FAQTab/FAQTab'
 import OfferTab from './OfferTab/OfferTab'
-import StoryTab from './StoryTab/StoryTab'
+import MapstoriesTab from './MapstoriesTab/MapstoriesTab'
+import OurStoryTab from './OurStoryTab/OurStoryTab'
+import SupportTab from './SupportTab/SupportTab'
 
 export default function PageContent() {
   const [isShowing, setIsShowing] = useState(false)
@@ -33,25 +35,38 @@ export default function PageContent() {
       show={isShowing}
     >
       <div>
-        <div className="re-basic-box  p-15  bg-white">
-          <Tabs className="" selectedTabClassName="font-extrabold text-3xl">
-            <TabList className="bg-slate-50 px-10 pt-5">
+        <div className="re-basic-box  p-15 bg-white">
+          <Tabs
+            forceRenderTabPanel={true}
+            selectedTabClassName="font-extrabold text-3xl bg-slate-50 rounded"
+          >
+            <TabList className="rounded bg-zinc-300 bg-opacity-100 px-10 pt-5">
               {/* @ts-ignore */}
               <Tab>{t('tab1_title')}</Tab>
               {/* @ts-ignore */}
               <Tab>{t('tab2_title')}</Tab>
               {/* @ts-ignore */}
               <Tab>{t('tab3_title')}</Tab>
+              {/* @ts-ignore */}
+              <Tab>{t('tab4_title')}</Tab>
+              {/* @ts-ignore */}
+              <Tab>{t('tab5_title')}</Tab>
               {/* <Tab>{t('tab4_title')}</Tab> */}
             </TabList>
             <TabPanel>
-              <StoryTab />
+              <MapstoriesTab />
             </TabPanel>
             <TabPanel>
-              <FAQTab />
+              <OurStoryTab />
             </TabPanel>
             <TabPanel>
               <OfferTab />
+            </TabPanel>
+            <TabPanel>
+              <SupportTab />
+            </TabPanel>
+            <TabPanel>
+              <FAQTab />
             </TabPanel>
             {/* <TabPanel>
               <div className="flex flex-col gap-8">

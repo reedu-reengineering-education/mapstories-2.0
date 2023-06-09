@@ -1,11 +1,11 @@
 import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
-import { FeedbackButton } from '@/src/components/FeedbackButton'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
+import { LinkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
@@ -49,7 +49,19 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
           <div className="flex h-16 items-center justify-between py-4">
             <InverseNavbar user={user}>
               <div className="flex space-x-2">
-                <FeedbackButton />
+                <Button
+                  className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100"
+                  startIcon={<LinkIcon className="w-5" />}
+                >
+                  {' '}
+                  <a
+                    href="https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy"
+                    target="_blank"
+                  >
+                    {' '}
+                    Feedback
+                  </a>{' '}
+                </Button>{' '}
                 <LangSwitcher />
                 {user ? (
                   <UserAccountNav user={user} />

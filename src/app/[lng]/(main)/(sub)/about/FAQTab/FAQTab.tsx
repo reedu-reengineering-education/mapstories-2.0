@@ -35,7 +35,7 @@ export default function FAQTab() {
               <AccordionItemButton>{t('faq2_title')}</AccordionItemButton>
             </AccordionItemHeading>
             <AccordionItemPanel>
-              <p>
+              <div>
                 {/* @ts-ignore */}
                 <p>{t('faq2_texta')}</p>
                 <br></br>
@@ -59,7 +59,7 @@ export default function FAQTab() {
                   {/* @ts-ignore */}
                   <li>{t('faq2_listg')}</li>
                 </ul>
-              </p>
+              </div>
             </AccordionItemPanel>
           </AccordionItem>
           <AccordionItem>
@@ -93,10 +93,10 @@ export default function FAQTab() {
                 {/* @ts-ignore */}
                 {t('faq5_text')}{' '}
                 <a
-                  href="https://padlet.com/VamosMuenster/kkkuk01uwpqsfo8p"
+                  href="https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy"
                   target="_blank"
                 >
-                  https://padlet.com/VamosMuenster/kkkuk01uwpqsfo8p
+                  https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy
                 </a>
               </div>
             </AccordionItemPanel>

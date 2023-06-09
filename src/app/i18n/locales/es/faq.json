@@ -1,34 +1,34 @@
 {
-  "faq1_title": "Wie kann ich eine Mapstory erstellen?",
-  "faq1_texta": "a.) Du kannst dich anmelden und eine eigene Geschichte erstellen.",
-  "faq1_textb": "b.) Du kannst dir fertige Mapstories in der Galerie ansehen und dich von den Themen inspirieren lassen.",
+  "faq1_title": "¿Cómo puedo crear una Mapstory?",
+  "faq1_texta": "a) Puedes registrarte y crear tu propia historia.",
+  "faq1_textb": "b) Puedes ver Mapstories ya creadas en la galería y dejarte inspirar por los temas.",
 
-  "faq2_title": "Wofür kann ich Mapstories nutzen?",
-  "faq2_texta": "Eigentlich für alles. Besonders gut kannst du Mapstories für Geschichten nutzen, die an unterschiedlichen Orten (der Welt) spielen und wo die Orte irgendwie zusammenhängen. Das sind vor allem Lieferketten, Migrationswege und globale Vernetzungen.",
-  "faq2_textb": "Ein paar Beispiele: ",
-  "faq2_lista": "Was sind Stationen deines Schul- oder Arbeitswegs?",
-  "faq2_listb": "Wo kommt das Holz meines Stuhls genau her?",
-  "faq2_listc": "Woher kommt mein T-Shirt und die Einzelteile (Garn, Farben, etc.) und wie leben die Menschen vor Ort?",
-  "faq2_listd": "Wo kommt der Orangensaft her und wie leben die Pflücker:innen und wie geht es der Umwelt dort?",
-  "faq2_liste": "Woher sind meine Großeltern damals nach Deutschland gezogen und welche Orte und Geschichten liegen dazwischen?",
-  "faq2_listf": "Wo leben eigentlich andere Aktivist:innen in der Welt?",
-  "faq2_listg": "Wo sind überall in der Welt ausgetrocknete Seen und was wird dagegen getan?",
+  "faq2_title": "¿Para qué puedo utilizar Mapstories?",
+  "faq2_texta": "En realidad, para todo. Puedes utilizar Mapstories especialmente para historias que se desarrollan en diferentes lugares del mundo y donde los lugares están interconectados de alguna manera. Esto incluye cadenas de suministro, rutas migratorias y redes globales.",
+  "faq2_textb": "Algunos ejemplos:",
+  "faq2_lista": "¿Cuáles son las estaciones de tu camino escolar o laboral?",
+  "faq2_listb": "¿De dónde proviene exactamente la madera de mi silla?",
+  "faq2_listc": "¿De dónde proviene mi camiseta y sus componentes (hilo, colorantes, etc.) y cómo viven las personas en esos lugares?",
+  "faq2_listd": "¿De dónde viene el jugo de naranja y cómo viven los recolectores y qué impacto tiene en el medio ambiente?",
+  "faq2_liste": "¿De dónde emigraron mis abuelos a Alemania y qué lugares e historias hay entre ellos?",
+  "faq2_listf": "¿Dónde viven otros activistas en el mundo?",
+  "faq2_listg": "¿Dónde hay lagos secos en todo el mundo y qué se está haciendo al respecto?",
 
-  "faq3_title": "Kann ich Mapstories kostenlos nutzen?",
-  "faq3_text": "Ja, das Tool ist kostenlos",
+  "faq3_title": "¿Puedo utilizar Mapstories de forma gratuita?",
+  "faq3_text": "Sí, la herramienta es gratuita.",
 
-  "faq4_title": "In welchem Browser funktioniert Mapstories?",
-  "faq4_text": " Mapstories funktioniert in alle gängigen Browsern. Es ist vollständig webbasiert, eine Installation ist also nicht notwendig. ",
+  "faq4_title": "¿En qué navegadores funciona Mapstories?",
+  "faq4_text": "Mapstories funciona en todos los navegadores populares. Es completamente basado en la web, por lo que no es necesario instalar nada.",
 
-  "faq5_title": "Wie kann ich Rückmeldungen an die Entwickler von Mapstories.de senden, z.B. wenn etwas nicht funktioniert?",
-  "faq5_text": "Einfach in das folgende Padlet eintragen: ",
+  "faq5_title": "¿Cómo puedo enviar comentarios a los desarrolladores de Mapstories.de si algo no funciona?",
+  "faq5_text": "Simplemente ingresa tus comentarios en el siguiente Padlet:",
 
-  "faq6_title": "Was braucht es, um eine Story an Freund:innen weiterzuleiten?",
-  "faq6_text": "Einfach auf “Teilen” gehen und den Link über alle gängigen Apps versend.",
+  "faq6_title": "¿Qué se necesita para compartir una historia con amigos?",
+  "faq6_text": "Simplemente haz clic en 'Compartir' y envía el enlace a través de cualquier aplicación popular.",
 
-  "faq7_title": "Kann ich eine Mapstory in eine Website einbetten?",
-  "faq7_text": "Ja, das ist möglich. Beim Button “Teilen” findet sich der Einbettungscode. Die Größe kannst du dort angepasst an deine Seite selbst einstellen.",
+  "faq7_title": "¿Puedo incrustar una Mapstory en un sitio web?",
+  "faq7_text": "Sí, es posible. En el botón 'Compartir' encontrarás el código de incrustación. Allí puedes ajustar el tamaño según tu propio sitio web.",
 
-  "faq8_title": "Kann ich meine Mapstory abspeichern?",
-  "faq8_text": "Deine Mapstory wird automatisch in deinem Account gespeichert. Du kannst sie also abrufen und bearbeiten, sobald du dich eingeloggt hast."
+  "faq8_title": "¿Puedo guardar mi Mapstory?",
+  "faq8_text": "Tu Mapstory se guarda automáticamente en tu cuenta. Por lo tanto, puedes acceder y editarla una vez que hayas iniciado sesión."
 }

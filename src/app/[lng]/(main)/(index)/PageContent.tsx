@@ -2,12 +2,12 @@
 
 import { useTranslation } from '@/src/app/i18n/client'
 import { Button } from '@/src/components/Elements/Button'
-import { PageHeader } from '@/src/components/PageHeader'
 import { useBoundStore } from '@/src/lib/store/store'
 import { Transition } from '@headlessui/react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-
+import MapstoryWithTextLogo from '@/assets/logos/logo_text.png'
 export default function PageContent() {
   const [isShowing, setIsShowing] = useState(false)
 
@@ -29,18 +29,27 @@ export default function PageContent() {
       leaveTo="opacity-0"
       show={isShowing}
     >
-      <div className="flex flex-col gap-8">
-        <div className="re-basic-box  p-15 flex w-full flex-col items-center bg-white">
-          <PageHeader heading="Mapstories" />
+      <div blur-sm className="flex flex-col gap-8">
+        <div className="re-basic-box  flex w-full flex-col items-center bg-white bg-opacity-90 ">
+          <Image
+            alt="Mapstories"
+            height={300}
+            src={MapstoryWithTextLogo}
+            width={800}
+          />
 
           <p className="p-5">{t('startText')}</p>
         </div>
         <div className=" flex items-center justify-center gap-4">
           <Link href="/login">
-            <Button>{t('getStarted')}</Button>
+            <Button className="re-basic-box bg-opacity-90">
+              {t('getStarted')}
+            </Button>
           </Link>
           <Link href={'/about'}>
-            <Button variant={'inverse'}>{t('infos')}</Button>
+            <Button className="re-basic-box bg-opacity-90" variant={'inverse'}>
+              {t('infos')}
+            </Button>
           </Link>
         </div>
       </div>

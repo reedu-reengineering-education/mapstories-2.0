@@ -10,5 +10,6 @@
   "contentDeleted": "Dein Inhalt wurde gelöscht",
   "contentNotDeleted": "Dein Inhalt wurde nicht gelöscht, bitte versuch es nochmal!.",
   "confirmDeleteMapstory": "Willst du die Mapstory wirklich löschen?",
-  "confirmDeleteStep": "Willst du diesen Schritt wirklich löschen?"
+  "confirmDeleteStep": "Willst du diesen Schritt wirklich löschen?",
+  "abort": "Abbrechen"
 }

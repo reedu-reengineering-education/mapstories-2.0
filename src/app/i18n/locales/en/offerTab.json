@@ -1,5 +1,15 @@
 {
-  "offerTitle": "Our Offer",
-  "offerText": "Do you want to showcase places or projects of social cohesion in the digital space and how they are interconnected? And that too in relation to your own themes? We offer online training sessions for different target groups on how to use the platform. An initial introduction to the platform, its features, and developing your own ideas for the first story takes about 90 minutes. The costs vary depending on the context and complexity, ranging from €100 to €250. Inquiries to: mapstories@vamos-muenster.de",
-  "mailToButton": "Send Inquiry"
+  "title": "Mapstories en la Educación",
+  "text1": "La asociación sin fines de lucro Vamos e.V. ofrece diferentes oportunidades para que conozcas Mapstories y lo apliques en un contexto educativo.",
+  "text2Title": "Capacitación (60 minutos):",
+  "text2": "En la capacitación, aprenderás sobre el potencial y las funciones básicas de Mapstories. A través de una demostración en vivo, descubrirás cómo crear tus propios Mapstories. Esto te mostrará cómo la herramienta digital puede enriquecer tu enseñanza o trabajo en proyectos. La capacitación se puede realizar de forma presencial o digital.",
+  "text3Title": "Taller (90 minutos):",
+  "text3": "En el taller, conocerás Mapstories y crearás tu primera Mapstory en una fase práctica. Recibirás instrucciones sobre cómo implementar proyectos de Mapstories con tus estudiantes o participantes en proyectos, y podrás intercambiar ideas con otros participantes sobre posibles contextos de aplicación. Preferentemente, el taller se realiza de forma presencial.",
+  "text4Title": "Días de Proyecto (1-5 días):",
+  "text4": "Durante los días de proyecto (curriculares o extracurriculares), los jóvenes traducen sus temas en Mapstories. Serán guiados en el proceso con apoyo pedagógico y crearán una Mapstory sobre un tema seleccionado. También puedes combinar los días de proyecto con otras ofertas educativas de Vamos e.V.",
+  "text5Title": "Otras Ofertas:",
+  "text5": "Si tienes otras ideas de cómo Vamos e.V. podría apoyarte en tu trabajo con Mapstories, no dudes en contactarnos.",
+  "textEnd": "Si estás interesado en alguna de nuestras ofertas, por favor contáctanos con una consulta.",
+  "buttonInquiry": "Enviar Consulta",
+  "imageSubtitle": "Imagen: Vamos e.V."
 }

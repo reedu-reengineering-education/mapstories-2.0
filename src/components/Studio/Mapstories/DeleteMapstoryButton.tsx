@@ -67,14 +67,12 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
     >
       <Modal.Footer
         close={
-          <Button
-            disabled={loading}
-            isLoading={loading}
-            onClick={handleClick}
-            variant={'danger'}
-          >
-            Löschen
-          </Button>
+          <div className="flex flex-row justify-between">
+            <Button onClick={handleClick} variant={'danger'}>
+              {t('delete')}
+            </Button>
+            <Button>{t('abort')}</Button>
+          </div>
         }
       />
     </Modal>
