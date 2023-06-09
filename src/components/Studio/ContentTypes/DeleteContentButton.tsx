@@ -75,7 +75,8 @@ export default function DeleteContentButton({
               >
                 {t('delete')}
               </Button>
-              <Button disabled={isSaving} isLoading={isSaving} variant={''}>
+              <Button disabled={isSaving} isLoading={isSaving}>
+                {/* @ts-ignore */}
                 {t('abort')}
               </Button>
             </div>
