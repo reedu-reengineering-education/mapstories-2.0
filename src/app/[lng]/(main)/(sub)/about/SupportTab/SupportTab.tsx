@@ -16,23 +16,39 @@ export default function SupportTab() {
           {/* @ts-ignore */}
           <div>{t('text1')}</div>
           <p>
+            {/* @ts-ignore */}
+
             <b>{t('text2Title')}</b>
           </p>
+          {/* @ts-ignore */}
+
           <p>{t('text2')}</p>
 
           <p>
+            {/* @ts-ignore */}
+
             <b>{t('text3Title')}</b>
           </p>
+          {/* @ts-ignore */}
+
           <p>{t('text3')}</p>
 
           <p>
+            {/* @ts-ignore */}
+
             <b>{t('text4Title')}</b>
           </p>
+          {/* @ts-ignore */}
+
           <p>{t('text4')}</p>
 
           <p>
+            {/* @ts-ignore */}
+
             <b>{t('text5Title')}</b>
           </p>
+          {/* @ts-ignore */}
+
           <p>{t('text5')}</p>
         </div>
       </div>

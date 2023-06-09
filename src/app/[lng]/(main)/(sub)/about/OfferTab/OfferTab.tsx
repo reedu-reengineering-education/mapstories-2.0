@@ -17,27 +17,35 @@ export default function OfferTab() {
           {/* @ts-ignore */}
           <div>{t('text1')}</div>
           <p>
+            {/* @ts-ignore */}
+
             <b>{t('text2Title')}</b>
           </p>
+          {/* @ts-ignore */}
           <p>{t('text2')}</p>
-
           <p>
+            {/* @ts-ignore */}
             <b>{t('text3Title')}</b>
           </p>
+          {/* @ts-ignore */}
           <p>{t('text3')}</p>
-
           <p>
+            {/* @ts-ignore */}
             <b>{t('text4Title')}</b>
           </p>
+          {/* @ts-ignore */}
           <p>{t('text4')}</p>
-
           <p>
+            {/* @ts-ignore */}
             <b>{t('text5Title')}</b>
           </p>
+          {/* @ts-ignore */}
           <p>{t('text5')}</p>
         </div>
         <div className="flex w-4/12 flex-col items-center gap-2">
           <Image alt="Workshop Foto" src={WorkshopFoto} />
+          {/* @ts-ignore */}
+
           <span className="text-slate-600">{t('imageSubtitle')}</span>
         </div>
       </div>
