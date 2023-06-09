@@ -3,8 +3,8 @@ import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import Link from 'next/link'
-import { FeedbackButton } from '@/src/components/FeedbackButton'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
+import { LinkIcon } from '@heroicons/react/24/outline'
 
 export default async function RootLayout({
   children,
@@ -21,8 +21,19 @@ export default async function RootLayout({
         <div className="container flex h-16 items-center justify-between py-4">
           <InverseNavbar user={user}>
             <div className="flex space-x-2">
-              <FeedbackButton />
-
+              <Button
+                className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100"
+                startIcon={<LinkIcon className="w-5" />}
+              >
+                {' '}
+                <a
+                  href="https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy"
+                  target="_blank"
+                >
+                  {' '}
+                  Feedback
+                </a>{' '}
+              </Button>
               <LangSwitcher />
               {user ? (
                 <UserAccountNav user={user} />

@@ -4,7 +4,7 @@ import BMZLogo from '@/assets/images/partners/BMZ-Logo-4c.jpg'
 import fachStelleWeltkirche from '@/assets/images/partners/Fachstelle Weltkirche - Logo.png'
 import SUELogo from '@/assets/images/partners/SUE_Logo_CMYK_300dpi.jpg'
 import Image from 'next/image'
-
+import MapstoriesTitlePicture from '@/assets/images/mapstoriesTab.jpg'
 export default function MapstoriesTab() {
   const lng = useBoundStore(state => state.language)
   //@ts-ignore
@@ -13,12 +13,25 @@ export default function MapstoriesTab() {
   return (
     <div className="flex flex-col gap-10 p-10">
       <div className="align-center flex flex-col gap-10">
-        <div>
-          {/* @ts-ignore */}
-          <div>{t('text1')}</div>
-          <p>{t('text2')}</p>
-          <br></br>
-          <h3>{t('sponsoredBy')}</h3>
+        <div className="justiven flex flex-row items-center gap-20">
+          <div className="w-8/12">
+            {/* @ts-ignore */}
+            <div>{t('text1')}</div>
+
+            <div>
+              <span>{t('text2_1')}</span>{' '}
+              <a className="text-blue-500" href={`/${lng}/gallery`}>
+                {t('gallery')}
+              </a>{' '}
+              <span> {t('text2_2')}</span>
+            </div>
+            <br></br>
+            <h3>{t('sponsoredBy')}</h3>
+          </div>
+          <div className="flex w-3/12 flex-col items-center gap-2">
+            <Image alt="Workshop Foto" src={MapstoriesTitlePicture} />
+            <span className="text-slate-600">{t('imageSubtitle')}</span>
+          </div>
         </div>
         <div className="flex flex-row justify-evenly">
           {/* @ts-ignore */}

@@ -66,14 +66,19 @@ export default function DeleteContentButton({
       >
         <Modal.Footer
           close={
-            <Button
-              disabled={isSaving}
-              isLoading={isSaving}
-              onClick={handleClick}
-              variant={'danger'}
-            >
-              {t('delete')}
-            </Button>
+            <div className="flex flex-row justify-between">
+              <Button
+                disabled={isSaving}
+                isLoading={isSaving}
+                onClick={handleClick}
+                variant={'danger'}
+              >
+                {t('delete')}
+              </Button>
+              <Button disabled={isSaving} isLoading={isSaving} variant={''}>
+                {t('abort')}
+              </Button>
+            </div>
           }
         />
       </Modal>

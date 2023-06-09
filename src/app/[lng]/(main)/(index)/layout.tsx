@@ -31,7 +31,7 @@ export default async function RootLayout({
                   target="_blank"
                 >
                   {' '}
-                  Feedback Link
+                  Feedback
                 </a>{' '}
               </Button>
 

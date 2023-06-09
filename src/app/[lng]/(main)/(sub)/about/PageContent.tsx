@@ -35,12 +35,12 @@ export default function PageContent() {
       show={isShowing}
     >
       <div>
-        <div className="re-basic-box  p-15  bg-white">
+        <div className="re-basic-box  p-15 bg-white">
           <Tabs
             forceRenderTabPanel={true}
-            selectedTabClassName="font-extrabold text-3xl bg-slate-50 rounded p-5"
+            selectedTabClassName="font-extrabold text-3xl bg-slate-50 rounded"
           >
-            <TabList className="rounded bg-zinc-300 px-10 pb-2 pt-5 ">
+            <TabList className="rounded bg-zinc-300 bg-opacity-100 px-10 pt-5">
               {/* @ts-ignore */}
               <Tab>{t('tab1_title')}</Tab>
               {/* @ts-ignore */}
