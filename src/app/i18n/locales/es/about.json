@@ -1,12 +1,13 @@
 {
-  "partners": "Partner",
-  "supportersAndDevelopers": "Förder:innen und Entwickler:innen",
-  "tab1_title": "Historia",
-  "tab1_text": "Mapstories surgió como resultado de una colaboración entre re:edu GmbH & Co.KG y Vamos e.V. El punto de partida del proyecto fue la realización de un laboratorio de co-creación sobre la industria global de la moda. Mapstories es una herramienta de código abierto basada en la web que permite a los estudiantes participar de manera independiente en la educación para el desarrollo relacionada con el tema mencionado anteriormente. La representación visual de sistemas interconectados ofrecida por Mapstories resulta especialmente valiosa en el contexto de la educación para el desarrollo sostenible, brindando una perspectiva integral sobre temas globales.",
-  "tab2_title": "Preguntas frecuentes",
-  "tab2_text": "Como en el antiguo Mapstories...",
-  "tab3_title": "Soporte",
-  "tab3_text": "Llamado a la colaboración en el proyecto de cooperación",
-  "tab4_title": "Nuestras Ofertas",
-  "tab4_text": "¿Quieres mostrar lugares o proyectos de cohesión social en el espacio digital y cómo están interconectados? ¿Y esto también en relación con tus propios temas? Ofrecemos sesiones de capacitación en línea para diferentes grupos objetivos sobre cómo utilizar la plataforma. Un primer..."
+  "partners": "Colaboradores",
+  "supportersAndDevelopers": "Patrocinadores y Desarrolladores",
+  "tab1_title": "¿Qué son Mapstories?",
+  "tab1_text": "Mapstories se creó como parte de una colaboración entre re:edu GmbH & Co.KG y Vamos e.V. El proyecto se inició con la realización de un laboratorio de co-creación sobre la industria global de la moda. Mapstories es una herramienta de código abierto basada en la web que permite a los estudiantes involucrarse de forma independiente en la educación para el desarrollo en relación con el tema mencionado anteriormente. Las Mapstories se pueden utilizar en el contexto de la educación para el desarrollo sostenible debido a su capacidad para visualizar conexiones sistémicas, lo que permite obtener una visión integral de temas globales.",
+  "tab2_title": "Nuestra historia",
+  "tab2_text": "Como en el antiguo Mapstories",
+  "tab3_title": "Ofertas educativas",
+  "tab3_text": "Llamado a la colaboración en proyectos de cooperación",
+  "tab4_title": "Colabora",
+  "tab4_text": "¿Quieres mostrar en el espacio digital dónde se encuentran los lugares o proyectos de cohesión social y cómo están relacionados entre sí? ¿Y hacerlo de forma personalizada en base a tus propios temas? Ofrecemos capacitaciones en línea para utilizar la plataforma dirigidas a diferentes grupos objetivo. Una introducción a la plataforma y sus funciones, junto con el desarrollo de ideas para la primera historia, dura aproximadamente 90 minutos. Los costos varían según el contexto y la complejidad, oscilando entre 100€ y 250€. Para consultas, contacta a: mapstories@vamos-muenster.de",
+  "tab5_title": "Preguntas frecuentes"
 }

@@ -19,23 +19,34 @@ export default function MapstoriesTab() {
             <div>{t('text1')}</div>
 
             <div>
+              {/* @ts-ignore */}
               <span>{t('text2_1')}</span>{' '}
               <a className="text-blue-500" href={`/${lng}/gallery`}>
+                {/* @ts-ignore */}
+
                 {t('gallery')}
               </a>{' '}
+              {/* @ts-ignore */}
               <span> {t('text2_2')}</span>
             </div>
             <br></br>
+            {/* @ts-ignore */}
+
             <h3>{t('sponsoredBy')}</h3>
           </div>
           <div className="flex w-3/12 flex-col items-center gap-2">
             <Image alt="Workshop Foto" src={MapstoriesTitlePicture} />
-            <span className="text-slate-600">{t('imageSubtitle')}</span>
+            <span className="text-center text-slate-600">
+              {/* @ts-ignore */}
+
+              {t('imageSubtitle')}
+            </span>
           </div>
         </div>
         <div className="flex flex-row justify-evenly">
           {/* @ts-ignore */}
           <div className="flex flex-1 flex-col items-center gap-4 p-8">
+            {/* @ts-ignore */}
             <div>{t('supportedBy')}</div>
             <a
               className="transition duration-300 ease-in-out hover:scale-105"
@@ -48,6 +59,7 @@ export default function MapstoriesTab() {
             </a>
           </div>
           <div className="flex flex-1 flex-col items-center gap-4 border-l-2 border-zinc-300 p-8">
+            {/* @ts-ignore */}
             <div className="text-center">{t('supportBZM')}</div>
             <a
               className="transition duration-300 ease-in-out hover:scale-105"
@@ -57,6 +69,7 @@ export default function MapstoriesTab() {
             </a>
           </div>
           <div className="flex flex-1 flex-col items-center gap-4 border-l-2 border-zinc-300 p-8">
+            {/* @ts-ignore */}
             <div>{t('supportedBy')}</div>
             <a
               className="transition duration-300 ease-in-out hover:scale-105"
