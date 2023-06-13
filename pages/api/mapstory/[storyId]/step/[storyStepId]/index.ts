@@ -92,10 +92,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
 
       // update step positions after removing one
-      const newStepOrder = updatedStory?.steps.sort((a,b) =>  a.position - b.position).map((s, i) => ({
-        ...updatedStory?.steps.find(step => step.id === s.id),
-        position: i,
-      }))
+      const newStepOrder = updatedStory?.steps
+        .sort((a, b) => a.position - b.position)
+        .map((s, i) => ({
+          ...updatedStory?.steps.find(step => step.id === s.id),
+          position: i,
+        }))
 
       await db.$transaction(
         newStepOrder!.map(s =>
