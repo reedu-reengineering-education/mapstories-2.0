@@ -94,7 +94,9 @@ export function StoryOverviewControls({ slug, page }: Props) {
 
   useEffect(() => {
     updateSelectedStepIndex(parseInt(page))
-    setSlidesOpen(false)
+    if (page === 'start') {
+      setSlidesOpen(false)
+    }
   }, [])
 
   function startStory() {
@@ -147,7 +149,6 @@ export function StoryOverviewControls({ slug, page }: Props) {
                   </span>
                   <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
                 </button>
-
                 <Toolbar.Root
                   aria-label="StoryControls"
                   className="ToolbarRoot"
