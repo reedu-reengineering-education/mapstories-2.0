@@ -81,7 +81,6 @@ export function TextContentEdit({
       setIsSaving(false)
     }
     if (setShowModal) {
-      console.log('smi')
       setShowModal(false)
     }
     setContentType && setContentType('')

@@ -22,6 +22,29 @@ const getMapstories = async () => {
   })
 }
 
+const getCertifiedMapstories = async (array: Array<string>) => {
+  return await db.story.findMany({
+    where: {
+      visibility: 'PUBLIC',
+      id: {
+        in: array,
+      },
+    },
+    include: {
+      firstStep: {
+        include: {
+          content: true,
+        },
+      },
+      steps: {
+        include: {
+          content: true,
+        },
+      },
+    },
+  })
+}
+
 export const metadata: Metadata = {
   title: 'Gallery',
   openGraph: {
@@ -31,8 +54,11 @@ export const metadata: Metadata = {
 interface GalleryPageProps {}
 
 export default async function GalleryPage({}: GalleryPageProps) {
-  const mapstories = await getMapstories()
+  const certifiedMapstoryIDs: Array<string> =
+    //@ts-ignore
+    process.env.GALLERY_STORIES.split(',')
 
+  const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
   return (
     <div className="absolute left-5 top-20 z-20">
       <GalleryList stories={mapstories}></GalleryList>
