@@ -92,7 +92,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
 
       // update step positions after removing one
-      const newStepOrder = updatedStory?.steps.map((s, i) => ({
+      const newStepOrder = updatedStory?.steps.sort((a,b) =>  a.position - b.position).map((s, i) => ({
         ...updatedStory?.steps.find(step => step.id === s.id),
         position: i,
       }))

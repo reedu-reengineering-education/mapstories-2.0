@@ -111,9 +111,9 @@ export function StoryOverviewControls({ slug, page }: Props) {
   return (
     <>
       <div className="re-basic-box  bg-white p-4">
-        <div className="">
+        <div>
           <div className="bg-gray">
-            <h3>{story?.name}</h3>
+            <h3 className="max-w-[500px]">{story?.name}</h3>
           </div>
           {page == 'start' && (
             <div className="re-title-slide overflow-x-hidden pr-5">
