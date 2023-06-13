@@ -7,7 +7,7 @@ import { Transition } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import MapstoryWithTextLogo from '@/assets/logos/logo_text.png'
+import MapstoryWithTextLogo from '@/assets/logos/logo_text_claim.png'
 export default function PageContent() {
   const [isShowing, setIsShowing] = useState(false)
 
