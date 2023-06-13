@@ -26,9 +26,18 @@ const getCertifiedMapstories = async (array: Array<string>) => {
   return await db.story.findMany({
     where: {
       visibility: 'PUBLIC',
-      id: {
-        in: array,
-      },
+      OR: [
+        {
+          id: {
+            in: array,
+          },
+        },
+        {
+          slug: {
+            in: array,
+          },
+        },
+      ],
     },
     include: {
       firstStep: {
