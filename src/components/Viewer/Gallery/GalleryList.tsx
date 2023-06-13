@@ -16,9 +16,9 @@ export function GalleryList({ stories }: Props) {
   const { t } = useTranslation(lng, 'gallery')
 
   return (
-    <div className="re-basic-box max-h-[70VH] overflow-auto bg-white p-6">
-      <h3 className="pb-4">{t('all_public_stories')}</h3>
-
+    <div className="re-basic-box max-h-[70VH] max-w-[50%] overflow-auto bg-white p-6">
+      <h3 className="pb-4">{t('welcome_to_gallery')}</h3>
+      <p>{t('gallery_text')}</p>
       {stories.length > 0 &&
         stories.map(m => (
           <MapstoryCardGallery data-superjson key={m.id} mapstory={m} />
