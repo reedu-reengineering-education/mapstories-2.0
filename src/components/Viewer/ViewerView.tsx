@@ -268,7 +268,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     if (selectedStepIndex) {
       updateToStep(selectedStepIndex)
     }
-    if (Number.isNaN(selectedStepIndex)) {
+    if (Number.isNaN(selectedStepIndex) && mapRef.current && startView) {
       mapRef.current?.fitBounds(startView)
     }
   }, [startView, mapRef])
