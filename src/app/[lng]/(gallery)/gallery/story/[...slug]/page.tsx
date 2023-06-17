@@ -28,7 +28,6 @@ export default async function StoryPage({ params: { slug } }: StoryPageProps) {
         <StoryOverviewControls
           page={slug[1]}
           slug={slug[0]}
-          // toggleSlides={toggleSlidesOpen}
         ></StoryOverviewControls>
       </div>
       <div>

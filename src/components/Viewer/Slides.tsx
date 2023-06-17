@@ -1,11 +1,11 @@
 'use client'
 
-import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
 import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { Slide } from './Slide'
+import useStory from '@/src/lib/api/story/useStory'
 
 type Props = {
   slug: string
