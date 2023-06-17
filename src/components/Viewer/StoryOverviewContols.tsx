@@ -118,47 +118,49 @@ export function StoryOverviewControls({ slug, page }: Props) {
   return (
     <>
       <div className="re-basic-box  bg-white p-4">
-        <div>
-          <div className="bg-gray">
-            <h3 className="max-w-[500px]">{story?.name}</h3>
-          </div>
-          {page == 'start' && (
-            <div className="re-title-slide overflow-x-hidden pr-5">
-              <Slide step={story?.firstStep}></Slide>
-              <div className="flex justify-between">
-                <Button
-                  onClick={() => startStory()}
-                  startIcon={<PlayIcon className="w-4" />}
-                >
-                  {t('play')}
-                </Button>
-
-                <Button
-                  onClick={onClose}
-                  startIcon={<Cross1Icon className="w-4" />}
-                >
-                  {t('close')}
-                </Button>
-              </div>
+        {!story && <p>{t('storyNotAvailable')}</p>}
+        {story && (
+          <div>
+            <div className="bg-gray">
+              <h3 className="max-w-[500px]">{story?.name}</h3>
             </div>
-          )}
-          {page != 'start' && (
-            <>
-              <div className="flex justify-between pt-2">
-                <button
-                  className="flex items-center"
-                  onClick={() => setSlidesOpen(!slidesOpen)}
-                >
-                  <span className="whitespace-nowrap">
-                    {parseInt(page) + 1}/{story?.steps?.length}
-                  </span>
-                  <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
-                </button>
-                <Toolbar.Root
-                  aria-label="StoryControls"
-                  className="ToolbarRoot"
-                >
-                  {/* <Toolbar.ToggleGroup
+            {page == 'start' && (
+              <div className="re-title-slide overflow-x-hidden pr-5">
+                <Slide step={story?.firstStep}></Slide>
+                <div className="flex justify-between">
+                  <Button
+                    onClick={() => startStory()}
+                    startIcon={<PlayIcon className="w-4" />}
+                  >
+                    {t('play')}
+                  </Button>
+
+                  <Button
+                    onClick={onClose}
+                    startIcon={<Cross1Icon className="w-4" />}
+                  >
+                    {t('close')}
+                  </Button>
+                </div>
+              </div>
+            )}
+            {page != 'start' && (
+              <>
+                <div className="flex justify-between pt-2">
+                  <button
+                    className="flex items-center"
+                    onClick={() => setSlidesOpen(!slidesOpen)}
+                  >
+                    <span className="whitespace-nowrap">
+                      {parseInt(page) + 1}/{story?.steps?.length}
+                    </span>
+                    <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
+                  </button>
+                  <Toolbar.Root
+                    aria-label="StoryControls"
+                    className="ToolbarRoot"
+                  >
+                    {/* <Toolbar.ToggleGroup
                     aria-label="Story Contols"
                     type="multiple"
                   >
@@ -188,35 +190,36 @@ export function StoryOverviewControls({ slug, page }: Props) {
                     </Toolbar.ToggleItem>
                   </Toolbar.ToggleGroup>
                   <Toolbar.Separator className="ToolbarSeparator" /> */}
-                  <Toolbar.ToggleGroup
-                    aria-label="Viewer Controls"
-                    defaultValue="center"
-                    type="single"
-                  >
-                    <Toolbar.ToggleItem
-                      aria-label="Restart story"
-                      className="ToolbarToggleItem"
-                      onClick={() => backToStart()}
-                      title="Restart Story"
-                      value="restart"
+                    <Toolbar.ToggleGroup
+                      aria-label="Viewer Controls"
+                      defaultValue="center"
+                      type="single"
                     >
-                      <ReloadIcon />
-                    </Toolbar.ToggleItem>
-                    <Toolbar.ToggleItem
-                      aria-label="Quit story"
-                      className="ToolbarToggleItem"
-                      onClick={onClose}
-                      title="Quit Story"
-                      value="quit"
-                    >
-                      <Cross1Icon />
-                    </Toolbar.ToggleItem>
-                  </Toolbar.ToggleGroup>
-                </Toolbar.Root>
-              </div>
-            </>
-          )}
-        </div>
+                      <Toolbar.ToggleItem
+                        aria-label="Restart story"
+                        className="ToolbarToggleItem"
+                        onClick={() => backToStart()}
+                        title="Restart Story"
+                        value="restart"
+                      >
+                        <ReloadIcon />
+                      </Toolbar.ToggleItem>
+                      <Toolbar.ToggleItem
+                        aria-label="Quit story"
+                        className="ToolbarToggleItem"
+                        onClick={onClose}
+                        title="Quit Story"
+                        value="quit"
+                      >
+                        <Cross1Icon />
+                      </Toolbar.ToggleItem>
+                    </Toolbar.ToggleGroup>
+                  </Toolbar.Root>
+                </div>
+              </>
+            )}
+          </div>
+        )}
       </div>
       <StorySlideListViewer
         page={page}
