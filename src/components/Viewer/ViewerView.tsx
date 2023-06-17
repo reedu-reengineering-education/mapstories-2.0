@@ -31,7 +31,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const onMyStoriesRoute = path?.includes('mystories')
   const storyID = useBoundStore(state => state.storyID)
   const setStoryID = useBoundStore(state => state.setStoryID)
-
   const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
 
   const [mapData, setMapData] = useState<

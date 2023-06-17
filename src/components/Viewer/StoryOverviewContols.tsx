@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@/src/components/Elements/Button'
-import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
 import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
@@ -18,6 +17,7 @@ import {
 } from '@radix-ui/react-icons'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
+import useStory from '@/src/lib/api/story/useStory'
 
 type Props = {
   slug: string
@@ -32,6 +32,7 @@ export function StoryOverviewControls({ slug, page }: Props) {
   const { story } = useStory(slug)
   const setSlidesOpen = useBoundStore(state => state.setSlidesOpen)
   const slidesOpen = useBoundStore(state => state.slidesOpen)
+  const setViewerStories = useBoundStore(state => state.setViewerStories)
 
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
@@ -46,6 +47,10 @@ export function StoryOverviewControls({ slug, page }: Props) {
   useEffect(() => {
     if (story) {
       setStoryID(story.id)
+      if (!onMyStoriesRoute) {
+        //@ts-ignore
+        setViewerStories([story])
+      }
     } else {
       setStoryID('')
     }
