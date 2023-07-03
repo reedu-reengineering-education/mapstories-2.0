@@ -70,7 +70,7 @@ export default function SlideContentPreviewButton({
         <IconComponent />
         <MarkdownPreview
           className="hover:bg-hover"
-          source={content.substring(0, 12) + '...'}
+          source={ content.length > 13? content.substring(0, 12) + '...': content}
           style={markdownPreviewStyles}
         />
       </Wrapper>
@@ -83,7 +83,7 @@ export default function SlideContentPreviewButton({
     return (
       <Wrapper>
         <IconComponent />
-        {previewContent.substring(0, 12)}...
+        {previewContent.length > 13?  previewContent.substring(0, 12): previewContent}...
       </Wrapper>
     )
   }
@@ -100,7 +100,7 @@ export default function SlideContentPreviewButton({
   return (
     <Wrapper>
       <IconComponent />
-      {previewContent.substring(0, 10)}...
+      {previewContent.length > 13 ? previewContent.substring(0, 10): previewContent}...
     </Wrapper>
   )
 }
