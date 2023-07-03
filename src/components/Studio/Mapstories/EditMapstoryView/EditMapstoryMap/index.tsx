@@ -268,7 +268,7 @@ export default function EditMapstoryMap({
       <Markers
         markers={markers}
         onChange={addMarker}
-        onClick={m => router.replace(`/studio/${story?.slug}/${m.stepId}`)}
+        onClick={m => router.replace(`/storylab/${story?.slug}/${m.stepId}`)}
       />
       {geocoderResult?.geometry?.coordinates && (
         <>

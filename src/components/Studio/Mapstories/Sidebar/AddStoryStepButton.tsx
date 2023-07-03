@@ -17,7 +17,7 @@ export default function AddStoryStepButton({ storyID }: { storyID: string }) {
 
     try {
       const newStoryStep = await createStoryStep()
-      router.replace(`/studio/${story?.slug}/${newStoryStep.id}`)
+      router.replace(`/storylab/${story?.slug}/${newStoryStep.id}`)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',

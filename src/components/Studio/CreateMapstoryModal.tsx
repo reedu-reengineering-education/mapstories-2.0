@@ -45,7 +45,7 @@ export default function CreateMapstoryModal({ trigger }: Props) {
         type: 'success',
       })
       const newStory = await response.data
-      router.push(`/studio/${newStory.slug}`)
+      router.push(`/storylab/${newStory.slug}`)
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
