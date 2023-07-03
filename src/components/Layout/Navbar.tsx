@@ -36,7 +36,7 @@ export function Navbar({
     setRoutes([
       {
         title: 'StoryLab',
-        href: `/${lng}/studio`,
+        href: `/${lng}/storylab`,
       },
       {
         title: t('viewer'),
