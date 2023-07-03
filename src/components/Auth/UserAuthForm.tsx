@@ -42,7 +42,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const signInResult = await signIn('email', {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams?.get('from') ?? '/studio',
+      callbackUrl: searchParams?.get('from') ?? '/storylab',
     })
 
     setIsLoading(false)
