@@ -38,7 +38,7 @@ export function InverseNavbar({
     setRoutes([
       {
         title: 'StoryLab',
-        href: `/${lng}/studio`,
+        href: `/${lng}/storylab`,
       },
       {
         title: t('viewer'),
