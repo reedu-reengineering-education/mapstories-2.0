@@ -35,12 +35,12 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           </div>
           <DropdownMenu.Separator />
           <DropdownMenu.Item>
-            <Link className="w-full" href="/studio">
+            <Link className="w-full" href="/storylab">
               StoryLab
             </Link>
           </DropdownMenu.Item>
           <DropdownMenu.Item>
-            <Link className="w-full" href="/studio/settings">
+            <Link className="w-full" href="/storylab/settings">
               {t('settings')}
             </Link>
           </DropdownMenu.Item>
