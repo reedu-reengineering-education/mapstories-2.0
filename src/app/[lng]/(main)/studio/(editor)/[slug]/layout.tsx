@@ -92,7 +92,7 @@ export default async function DashboardLayout({
       </div>
       <div className="absolute top-20 z-20 box-border flex w-full justify-between px-5">
         <div className="flex flex-row gap-2">
-          <Link href={'/studio'}>
+          <Link href={'/storylab'}>
             <Button
               className="re-basic-box"
               startIcon={<ArrowLeftIcon className="w-5" />}

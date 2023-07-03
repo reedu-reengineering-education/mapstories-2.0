@@ -16,16 +16,16 @@ export default async function EditorPage({
   })
 
   if (!story) {
-    redirect('/studio')
+    redirect('/storylab')
   }
 
   // redirect to first storystep
   if (story.firstStepId) {
-    redirect(`/studio/${story.slug}/${story.firstStepId}`)
+    redirect(`/storylab/${story.slug}/${story.firstStepId}`)
   }
 
   //this should never happen since firstStep gets created on story create. But app throws error if you dont do this
-  redirect('/studio')
+  redirect('/storylab')
 
   return
 }

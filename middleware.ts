@@ -4,10 +4,10 @@ import { fallbackLng, languages } from './src/app/i18n/settings'
 import { getToken } from 'next-auth/jwt'
 
 export const config = {
-  matcher: ['/:lng*', '/studio/(.*)', '/login'],
+  matcher: ['/:lng*', '/storylab/(.*)', '/login'],
 }
 
-const authRoutes = ['/studio', '/login']
+const authRoutes = ['/storylab', '/login']
 
 export default async function middleware(req: NextRequest) {
   if (authRoutes.some(r => req.nextUrl.pathname.startsWith(r))) {
@@ -24,7 +24,7 @@ const authMiddleware = async (req: NextRequest) => {
 
   if (isAuth) {
     if (req.nextUrl.pathname.startsWith('/login')) {
-      return NextResponse.redirect(new URL(`/${lng}/studio`, req.url))
+      return NextResponse.redirect(new URL(`/${lng}/storylab`, req.url))
     }
     return NextResponse.redirect(
       new URL(`/${lng}${req.nextUrl.pathname}`, req.url),

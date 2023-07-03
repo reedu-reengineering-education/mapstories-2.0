@@ -80,7 +80,7 @@ export default function SettingsModal({
         type: 'success',
       })
       if (updatedStory?.slug !== story?.slug) {
-        router.replace(`/studio/${updatedStory?.slug}`)
+        router.replace(`/storylab/${updatedStory?.slug}`)
       }
       setModalOpen(false)
     } catch (e) {

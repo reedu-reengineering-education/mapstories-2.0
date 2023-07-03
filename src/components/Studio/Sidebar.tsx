@@ -19,12 +19,12 @@ export function StudioSidebar() {
     setItems([
       {
         title: 'Mapstories',
-        href: '/studio',
+        href: '/storylab',
         icon: GlobeAltIcon,
       },
       {
         title: t('settings'),
-        href: `/${lng}/studio/settings`,
+        href: `/${lng}/storylab/settings`,
         icon: Cog6ToothIcon,
       },
       // {
