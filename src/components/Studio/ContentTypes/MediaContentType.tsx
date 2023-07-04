@@ -268,7 +268,12 @@ export function MediaContentEdit({
           )}
         </div>
 
-        <Button className="mt-10" onClick={() => onSubmit()}>
+        <Button
+          className="mt-10"
+          disabled={isSaving}
+          isLoading={isSaving}
+          onClick={() => onSubmit()}
+        >
           {t('create')}
         </Button>
       </div>
