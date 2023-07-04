@@ -28,6 +28,7 @@ export function ContentType({ content }: Props) {
         'PADLET',
         'SPOTIFY',
         'SOUNDCLOUD',
+        'VIMEO',
       ].includes(content.type) && (
         <EmbedContent content={content}></EmbedContent>
       )}
