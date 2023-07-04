@@ -44,8 +44,11 @@ export async function Footer({ lng }: { lng: string }) {
             target="_blank"
           >
             GitHub
-          </Link>
-          .
+          </Link>{' '}
+          |{t('oldMapstories')}{' '}
+          <a className="text-sky-400" href="http://old.mapstory.org">
+            https://old.mapstory.de
+          </a>{' '}
         </p>
       </div>
     </footer>
