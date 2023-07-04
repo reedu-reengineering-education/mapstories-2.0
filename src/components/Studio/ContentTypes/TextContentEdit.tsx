@@ -13,6 +13,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useBoundStore } from '@/src/lib/store/store'
 import useStep from '@/src/lib/api/step/useStep'
+import rehypeSanitize from 'rehype-sanitize'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
@@ -102,6 +103,9 @@ export function TextContentEdit({
             data-color-mode="light"
             onChange={setTextValue}
             preview="edit"
+            previewOptions={{
+              rehypePlugins: [[rehypeSanitize]],
+            }}
             value={textValue}
           />
         </div>
