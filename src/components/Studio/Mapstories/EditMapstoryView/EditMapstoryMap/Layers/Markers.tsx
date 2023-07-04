@@ -54,7 +54,7 @@ export default function Markers({ markers, onClick, onChange }: Props) {
       {markers.map((m, i) => (
         <Marker
           {...m}
-          key={(i + 1) * Math.random() * 100}
+          key={i}
           onClick={() => onClick(m)}
           onDragEnd={onChange}
           style={{
