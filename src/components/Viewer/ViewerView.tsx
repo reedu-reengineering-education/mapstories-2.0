@@ -207,21 +207,22 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       const coordinates = m.geometry.coordinates
 
       // Create a 'LngLatBounds' with both corners at the first coordinate.
-      const bounds = new mapboxgl.LngLatBounds(
-        [coordinates[0][0], coordinates[0][1]],
-        [coordinates[0][0], coordinates[0][1]],
-      )
-
+      if (coordinates.length !== 0) {
+        const bounds = new mapboxgl.LngLatBounds(
+          [coordinates[0][0], coordinates[0][1]],
+          [coordinates[0][0], coordinates[0][1]],
+        )
+        for (const coord of coordinates) {
+          bounds.extend([coord[0], coord[1]])
+        }
+        if (mapRef) {
+          setSavedView(mapRef.current?.getBounds())
+          mapRef.current?.fitBounds(bounds, {
+            padding: 100,
+          })
+        }
+      }
       // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
-      for (const coord of coordinates) {
-        bounds.extend([coord[0], coord[1]])
-      }
-      if (mapRef) {
-        setSavedView(mapRef.current?.getBounds())
-        mapRef.current?.fitBounds(bounds, {
-          padding: 100,
-        })
-      }
     }
     setSelectedStorySlug(m.properties?.slug)
     onMyStoriesRoute
