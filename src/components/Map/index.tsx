@@ -20,7 +20,7 @@ const Map = forwardRef<MapRef, MapProps>(
     return (
       <ReactMap
         customAttribution={
-          'Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a>'
+          'Old mapstories version can be seen at <a href="https://old.mapstories.de/">old.mapstories</a> | Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a>'
         }
         dragRotate={false}
         fog={{
