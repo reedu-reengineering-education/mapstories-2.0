@@ -1,5 +1,5 @@
 {
   "your_titlepage": "This is your title page. You can not set a Marker here.",
-  "click_on_map_to_set_marker": "Click on the Map to set your Marker.",
-  "move_the_red_marker": "Click on the map to change the position of the Marker."
+  "click_on_map_to_set_marker": "Click on the Map or use the search function to set your Marker.",
+  "move_the_red_marker": "Click on the map or use the search function to change the position of the Marker."
 }

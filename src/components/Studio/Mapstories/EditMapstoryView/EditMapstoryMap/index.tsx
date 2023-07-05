@@ -1,13 +1,6 @@
 import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
-import {
-  Layer,
-  MapRef,
-  MarkerDragEvent,
-  MarkerProps,
-  Popup,
-  Source,
-} from 'react-map-gl'
+import { MapRef, MarkerDragEvent, MarkerProps } from 'react-map-gl'
 import { useCallback, useEffect, useState } from 'react'
 import useStep from '@/src/lib/api/step/useStep'
 import { GeoJsonProperties } from 'geojson'
@@ -125,7 +118,7 @@ export default function EditMapstoryMap({
       .filter(Boolean)
     // @ts-ignore
     setMarkers(newMarkers)
-    handleRemovePoint()
+    // handleRemovePoint()
   }, [currentStepId, steps])
 
   useEffect(() => {
@@ -242,7 +235,7 @@ export default function EditMapstoryMap({
       <GeocoderControl
         language="de"
         onClear={handleRemovePoint}
-        onResult={e => {
+        onResult={async e => {
           const [lng, lat] = e.result.geometry.coordinates
           setGeocoderResult({
             type: 'Feature',
@@ -252,6 +245,15 @@ export default function EditMapstoryMap({
             },
             properties: e.result.properties,
           })
+          const point: GeoJSON.Feature<GeoJSON.Point> = {
+            type: 'Feature',
+            geometry: {
+              coordinates: [lng, lat],
+              type: 'Point',
+            },
+            properties: {},
+          }
+          await updateStep({ feature: point as any })
         }}
         position="top-right"
       />
@@ -270,41 +272,6 @@ export default function EditMapstoryMap({
         onChange={addMarker}
         onClick={m => router.replace(`/storylab/${story?.slug}/${m.stepId}`)}
       />
-      {geocoderResult?.geometry?.coordinates && (
-        <>
-          <Popup
-            anchor="bottom-left"
-            latitude={geocoderResult.geometry.coordinates[1]}
-            longitude={geocoderResult.geometry.coordinates[0]}
-          >
-            {/* <XMarkIcon
-              className="h-5 w-5 hover:cursor-pointer"
-              onClick={handleRemovePoint}
-            /> */}
-          </Popup>
-          <Source data={geocoderResult} id="geocode-point" type="geojson">
-            <Layer
-              id="point"
-              paint={{
-                'circle-color': '#FF0000',
-                'circle-radius': {
-                  base: 9,
-                  stops: [
-                    [1, 3],
-                    [7, 5],
-                    [12, 8],
-                    [18, 15],
-                    [22, 22],
-                  ],
-                },
-                'circle-stroke-color': '#FF0000',
-                'circle-stroke-width': 2,
-              }}
-              type="circle"
-            />
-          </Source>
-        </>
-      )}
 
       <ConnectionLines markers={markers} />
     </Map>
