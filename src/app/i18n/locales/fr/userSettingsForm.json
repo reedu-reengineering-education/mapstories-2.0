@@ -1,0 +1,13 @@
+{
+  "name": "Nom",
+  "change your name here": "Changez votre nom ici",
+  "save": "Enregistrer",
+  "contentUpdated": "Votre compte a été mis à jour",
+  "contentCreated": "Votre compte a été créé",
+  "contentDeleted": "Votre compte a été supprimé",
+  "somethingWrong": "Une erreur s'est produite",
+  "contentNotUpdated": "Votre compte n'a pas pu être mis à jour, veuillez réessayer",
+  "contentNotDeleted": "Votre compte n'a pas pu être supprimé, veuillez réessayer",
+  "logInAgain": "Veuillez vous connecter à nouveau",
+  "deleteAccount": "Supprimer le compte"
+}

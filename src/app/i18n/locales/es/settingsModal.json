@@ -1,9 +1,9 @@
 {
-  "name": "Cambiar historia",
+  "name": "Personalizar Mapstory",
   "description": "Descripción",
   "private": "Privado",
   "public": "Público",
-  "theme": "Tipo de mapa",
+  "theme": "Tipo de Mapa",
   "image": "Imagen",
   "Select an image or enter a URL": "Selecciona una imagen o ingresa una URL",
   "options": "Opciones",
@@ -11,7 +11,7 @@
   "changesApplied": "Cambios guardados",
   "changesNotApplied": "No se pudieron guardar los cambios",
   "share": "Compartir",
-  "embed": "Incrustar",
-  "you_want_to_embed": "Deseas incrustar esta historia en tu sitio web. Simplemente utiliza el código de iframe a continuación.",
-  "you_want_to_share": "Deseas compartir esta historia con otras personas. Simplemente copia el enlace a continuación."
+  "embed": "Insertar",
+  "you_want_to_embed": "¿Quieres insertar esta Mapstory en tu sitio web? Puedes usar este iframe.",
+  "you_want_to_share": "¿Quieres compartir esta Mapstory con otros? Establece la Mapstory como "Pública" en Opciones y usa este enlace."
 }

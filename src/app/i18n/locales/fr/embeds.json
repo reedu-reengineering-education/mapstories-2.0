@@ -1,0 +1,12 @@
+{
+  "EmbedName": "Intégrer",
+  "Embed": {
+    "notRecognized": "Le média n'est pas reconnu."
+  },
+  "EmbedContentEdit": {
+    "InputLabel": "Vous pouvez ici entrer le lien vers le média depuis une plateforme.",
+    "platforms": "Plateformes prises en charge : ",
+    "autoplay": " Lecture automatique"
+  },
+  "readMore": "Lire la suite sur Wikipedia..."
+}

@@ -1,12 +1,12 @@
 {
   "EmbedName": "Einbetten",
   "Embed": {
-    "notRecognized": "Medium nicht erkannt..."
+    "notRecognized": "Das Medium wird nicht erkannt."
   },
   "EmbedContentEdit": {
-    "InputLabel": "Gib eine URL für ein Medium ein.",
+    "InputLabel": "Hier kannst du den Link für das Medium einer Plattform eingeben.",
     "platforms": "Unterstützte Plattformen: ",
-    "autoplay": " automatisch abspielen"
+    "autoplay": " Automatisch abspielen"
   },
   "readMore": "Auf Wikipedia weiterlesen..."
 }

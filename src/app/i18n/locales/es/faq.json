@@ -1,34 +1,34 @@
 {
-  "faq1_title": "¿Cómo puedo crear una Mapstory?",
-  "faq1_texta": "a) Puedes registrarte y crear tu propia historia.",
-  "faq1_textb": "b) Puedes ver Mapstories ya creadas en la galería y dejarte inspirar por los temas.",
+  "faq1_title": "¿Cómo puedo trabajar con Mapstories?",
+  "faq1_texta": "a.) Puedes registrarte y crear tu propia Mapstory.",
+  "faq1_textb": "b.) Puedes ver Mapstories terminadas en la galería y obtener inspiración.",
 
   "faq2_title": "¿Para qué puedo utilizar Mapstories?",
-  "faq2_texta": "En realidad, para todo. Puedes utilizar Mapstories especialmente para historias que se desarrollan en diferentes lugares del mundo y donde los lugares están interconectados de alguna manera. Esto incluye cadenas de suministro, rutas migratorias y redes globales.",
-  "faq2_textb": "Algunos ejemplos:",
-  "faq2_lista": "¿Cuáles son las estaciones de tu camino escolar o laboral?",
+  "faq2_texta": "Puedes utilizar Mapstories para casi cualquier cosa. Es especialmente útil para historias que tienen lugar en diferentes ubicaciones (en todo el mundo) y donde las ubicaciones están de alguna manera conectadas. Esto incluye cadenas de suministro, rutas de migración y conexiones globales.",
+  "faq2_textb": "Algunos ejemplos: ",
+  "faq2_lista": "¿Cuáles son las estaciones de tu trayecto escolar o laboral?",
   "faq2_listb": "¿De dónde proviene exactamente la madera de mi silla?",
-  "faq2_listc": "¿De dónde proviene mi camiseta y sus componentes (hilo, colorantes, etc.) y cómo viven las personas en esos lugares?",
-  "faq2_listd": "¿De dónde viene el jugo de naranja y cómo viven los recolectores y qué impacto tiene en el medio ambiente?",
-  "faq2_liste": "¿De dónde emigraron mis abuelos a Alemania y qué lugares e historias hay entre ellos?",
-  "faq2_listf": "¿Dónde viven otros activistas en el mundo?",
-  "faq2_listg": "¿Dónde hay lagos secos en todo el mundo y qué se está haciendo al respecto?",
+  "faq2_listc": "¿De dónde proviene mi camiseta y sus componentes (hilo, tintes, etc.), y cómo viven las personas allí?",
+  "faq2_listd": "¿De dónde proviene el jugo de naranja y cómo viven los recolectores, y cuál es la situación ambiental allí?",
+  "faq2_liste": "¿De dónde emigraron mis abuelos a Alemania y qué lugares e historias hay en el camino?",
+  "faq2_listf": "¿Dónde viven otros activistas en todo el mundo?",
+  "faq2_listg": "¿Dónde se encuentran todos los lagos secos en el mundo y qué se está haciendo al respecto?",
 
   "faq3_title": "¿Puedo utilizar Mapstories de forma gratuita?",
-  "faq3_text": "Sí, la herramienta es gratuita.",
+  "faq3_text": "Sí, la herramienta es gratuita para usar.",
 
   "faq4_title": "¿En qué navegadores funciona Mapstories?",
-  "faq4_text": "Mapstories funciona en todos los navegadores populares. Es completamente basado en la web, por lo que no es necesario instalar nada.",
+  "faq4_text": "Mapstories funciona en todos los navegadores principales. Es completamente basado en web, por lo que no es necesaria ninguna instalación.",
 
-  "faq5_title": "¿Cómo puedo enviar comentarios a los desarrolladores de Mapstories.de si algo no funciona?",
-  "faq5_text": "Simplemente ingresa tus comentarios en el siguiente Padlet:",
+  "faq5_title": "¿Cómo puedo proporcionar comentarios a los desarrolladores de Mapstories si algo no funciona?",
+  "faq5_text": "Simplemente ingresa tus comentarios en el siguiente Padlet: ",
 
-  "faq6_title": "¿Qué se necesita para compartir una historia con amigos?",
-  "faq6_text": "Simplemente haz clic en 'Compartir' y envía el enlace a través de cualquier aplicación popular.",
+  "faq6_title": "¿Qué necesito para compartir una historia con amigos?",
+  "faq6_text": "En el StoryLab, en Opciones, configura la Mapstory como 'Pública' y luego haz clic en 'Compartir' para copiar el enlace de compartir.",
 
   "faq7_title": "¿Puedo incrustar una Mapstory en un sitio web?",
-  "faq7_text": "Sí, es posible. En el botón 'Compartir' encontrarás el código de incrustación. Allí puedes ajustar el tamaño según tu propio sitio web.",
+  "faq7_text": "Sí, eso es posible. En el StoryLab, haz clic en 'Incrustar' para copiar el código de incrustación. Puedes ajustar el tamaño según los requisitos de tu sitio web.",
 
   "faq8_title": "¿Puedo guardar mi Mapstory?",
-  "faq8_text": "Tu Mapstory se guarda automáticamente en tu cuenta. Por lo tanto, puedes acceder y editarla una vez que hayas iniciado sesión."
+  "faq8_text": "Tu Mapstory se guarda automáticamente en tu cuenta. Puedes acceder y editarla una vez que inicies sesión."
 }
