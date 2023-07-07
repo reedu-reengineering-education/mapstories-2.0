@@ -1,15 +1,15 @@
 {
-  "newMapstory": "Neue Mapstory",
-  "create, edit and share mapstories": "Hier kannst du deine Mapstories bearbeiten, anschauen und teilen",
-  "no mapstories": "Keine Mapstories",
-  "you have not created any mapstories yet.": "Du hast noch keine Mapstory erstellt.",
-  "delete": "Löschen",
-  "contentUpdated": "Dein Inhalt wurde geupdated!",
-  "contentCreated": "Dein inhalt wurde erstellt!",
-  "somethingWrong": "Es gab einen Fehler",
-  "contentDeleted": "Dein Inhalt wurde gelöscht",
-  "contentNotDeleted": "Dein Inhalt wurde nicht gelöscht, bitte versuch es nochmal!.",
-  "confirmDeleteMapstory": "Willst du die Mapstory wirklich löschen?",
-  "confirmDeleteStep": "Willst du diesen Schritt wirklich löschen?",
-  "abort": "Abbrechen"
+  "newMapstory": "Nouvelle Mapstory",
+  "create, edit and share mapstories": "Ici, vous pouvez créer, éditer et partager vos Mapstories.",
+  "no mapstories": "Pas de Mapstories",
+  "you have not created any mapstories yet.": "Vous n'avez pas encore créé de Mapstory.",
+  "delete": "Supprimer",
+  "contentUpdated": "Votre contenu a été mis à jour.",
+  "contentCreated": "Votre contenu a été créé.",
+  "somethingWrong": "Quelque chose s'est mal passé.",
+  "contentDeleted": "Votre contenu a été supprimé.",
+  "contentNotDeleted": "Votre contenu n'a pas été supprimé, veuillez réessayer.",
+  "confirmDeleteMapstory": "Voulez-vous vraiment supprimer la Mapstory ?",
+  "confirmDeleteStep": "Voulez-vous vraiment supprimer cette étape ?",
+  "abort": "Annuler"
 }
