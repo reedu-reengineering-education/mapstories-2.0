@@ -1,7 +1,7 @@
 {
   "EmbedName": "Einbetten",
   "Embed": {
-    "notRecognized": "Medium nicht erkannt..."
+    "notRecognized": "Das Medium wird nicht erkannt."
   },
   "EmbedContentEdit": {
     "InputLabel": "Hier kannst du den Link für das Medium einer Plattform eingeben.",
