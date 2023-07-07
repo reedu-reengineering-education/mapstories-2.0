@@ -1,34 +1,34 @@
 {
-  "faq1_title": "How can I create a Mapstory?",
+  "faq1_title": "How can I create a mapstory?",
   "faq1_texta": "a.) You can sign up and create your own story.",
-  "faq1_textb": "b.) You can view ready-made Mapstories in the gallery and get inspired by the topics.",
+  "faq1_textb": "b.) You can view finished mapstories in the gallery and get inspired by the themes.",
 
   "faq2_title": "What can I use Mapstories for?",
-  "faq2_texta": "You can use Mapstories for virtually anything. It works especially well for stories that take place in different locations (around the world) and where the locations are somehow interconnected. These include supply chains, migration routes, and global networks.",
-  "faq2_textb": "A few examples: ",
-  "faq2_lista": "What are the stations on your school or work commute?",
-  "faq2_listb": "Where does the wood for my chair come from exactly?",
-  "faq2_listc": "Where does my T-shirt and its components (yarn, dyes, etc.) come from, and how do people live there?",
-  "faq2_listd": "Where does the orange juice come from, how do the pickers live, and how is the environment there?",
-  "faq2_liste": "Where did my grandparents migrate from to Germany, and what places and stories are in between?",
-  "faq2_listf": "Where do other activists live around the world?",
-  "faq2_listg": "Where are all the dried-up lakes in the world, and what is being done about it?",
+  "faq2_texta": "Actually, for everything. You can use Mapstories especially well for stories that are set in different places (in the world) and where the places are somehow connected. These are mainly supply chains, migration routes, and global interconnections."
+  "faq2_textb", "A few examples: ",
+  "faq2_lista": "What are stations of your school or work journey?",
+  "faq2_listb": "Where exactly does the wood in my chair come from?",
+  "faq2_listc": "Where does my t-shirt and the individual parts (yarn, colors, etc.) come from and how do the local people live?",
+  "faq2_listd": "Where does the orange juice come from and how do the pickers:inside live and how is the environment there?",
+  "faq2_listf": "Where did my grandparents move to Germany from back then and what are the places and stories in between?",
+  "faq2_listf": "Where do other activist:ins actually live in the world?",
+  "faq2_listg": "Where are dried up lakes everywhere in the world and what is being done about it?",
 
   "faq3_title": "Can I use Mapstories for free?",
-  "faq3_text": "Yes, the tool is free to use.",
+  "faq3_text": "Yes, the tool is free",
 
-  "faq4_title": "Which browsers does Mapstories work in?",
-  "faq4_text": "Mapstories works in all popular browsers. It is completely web-based, so no installation is required.",
+  "faq4_title": "In which browser does Mapstories work?",
+  "faq4_text": "Mapstories works in all major browsers. It is completely web-based, so no installation is necessary. ",
 
-  "faq5_title": "How can I provide feedback to the developers of Mapstories.de if something isn't working?",
-  "faq5_text": "Simply enter it in the following Padlet: ",
+  "faq5_title": "How can I send feedback to the Mapstories developers, e.g. if something doesn't work?",
+  "faq5_text": "Just type in the following padlet: ",
 
-  "faq6_title": "What do I need to share a story with friends?",
-  "faq6_text": "Just click on 'Share' and send the link through any popular apps.",
+  "faq6_title": "What does it take to forward a story to friend:s?",
+  "faq6_text": "Set the map story to "Public" in the options and click "Share" to copy the link to your map story.",
 
-  "faq7_title": "Can I embed a Mapstory into a website?",
-  "faq7_text": "Yes, that is possible. You can find the embedding code under the 'Share' button. You can adjust the size to fit your webpage.",
+  "faq7_title": "Can I embed a mapstory in a website?",
+  "faq7_text": "Yes, click "Embed" to get the embed code. You can adjust the size there to your site itself.",
 
-  "faq8_title": "Can I save my Mapstory?",
-  "faq8_text": "Your Mapstory is automatically saved in your account. You can access and edit it once you have logged in."
+  "faq8_title": "Can I save my map story?",
+  "faq8_text": "Your mapstory is automatically saved to your account. So you can access and edit it as soon as you log in."
 }
