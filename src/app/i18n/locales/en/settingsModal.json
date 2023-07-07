@@ -1,17 +1,17 @@
 {
-  "name": "Change story",
+  "name": "Customize Story",
   "description": "Description",
   "private": "Private",
   "public": "Public",
-  "theme": "map type",
+  "theme": "Map Theme",
   "image": "Image",
   "Select an image or enter a URL": "Select an image or enter a URL",
   "options": "Options",
-  "save": "Apply",
+  "save": "Save",
   "changesApplied": "Changes saved",
   "changesNotApplied": "Changes could not be saved",
   "share": "Share",
   "embed": "Embed",
-  "you_want_to_embed": "You want to embed this story in your Website. Just use the iframe code below.",
-  "you_want_to_share": "You want to share this story with other people. Simply copy the link below."
+  "you_want_to_embed": "Do you want to embed this Mapstory on your website? You can use this iframe.",
+  "you_want_to_share": "Do you want to share this Mapstory with others? Set the Mapstory to "Public" under Options and use this link."
 }
