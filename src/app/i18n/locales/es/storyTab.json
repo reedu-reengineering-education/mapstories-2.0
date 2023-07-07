@@ -1,14 +1,14 @@
 {
-  "title": "Nuestra Mapstory",
-  "text1": "Mapstories surgió en 2021 como resultado de una colaboración entre re:edu GmbH & Co.KG y Vamos e.V. El proyecto 'welt.weit.virtuell' comenzó con la realización de un laboratorio co-creativo sobre la industria global de la moda. En este contexto, Mapstories se presentó como una herramienta digital que permitía a los estudiantes diseñar de manera independiente una introducción al trabajo educativo en el ámbito del desarrollo relacionado con el tema mencionado anteriormente.",
-  "text2": "Mapstories ha llevado a cabo proyectos y colaboraciones exitosas. Después de recibir numerosos comentarios positivos sobre la herramienta y varias solicitudes de ajustes, se lanzó una nueva versión de Mapstories en junio de 2023. Esta versión presenta una serie de mejoras y nuevas funciones.",
+  "title": "Nuestra Historia",
+  "text1": "Mapstories se creó en 2021 como parte de una colaboración entre re:edu GmbH & Co.KG y Vamos e.V. El punto de partida del proyecto 'welt.weit.virtuell' fue un laboratorio de co-creación sobre la industria global de la confección. Mapstories sirvió como una herramienta digital para que los estudiantes se involucraran de manera independiente en la educación para el desarrollo sobre el tema mencionado anteriormente.",
+  "text2": "Mapstories ya se ha utilizado en proyectos y colaboraciones exitosas. Después de recibir comentarios positivos y numerosas solicitudes de mejoras, se lanzó una nueva versión de Mapstories en junio de 2023. Esta versión trae una gran cantidad de mejoras y nuevas funciones.",
   "here": "Aquí ",
-  "text3": "encontrarás la versión anterior de Mapstories.",
-  "textIntroDevelopers": "Mapstories fue desarrollado por las siguientes empresas: ",
-  "textVamosStart": "Vamos e.V. es una asociación comprometida con el desarrollo en Münster. Desde 1987, trabajamos para:",
+  "text3": "puedes encontrar la versión anterior de Mapstories.",
+  "textIntroDevelopers": "Mapstories fue desarrollado por: ",
+  "textVamosStart": "Vamos e.V. es una asociación orientada al desarrollo en Münster. Desde 1987, abogamos por:",
   "textVamosList1": "justicia global",
-  "textVamosList2": "un enfoque ecológicamente responsable de la tierra",
+  "textVamosList2": "uso ecológicamente responsable de la Tierra",
   "textVamosList3": "mejores condiciones de trabajo y vida dignas en todo el mundo",
-  "textVamosEnd": "Ofrecemos alternativas de acción concretas e inspiramos a las personas a participar.",
-  "text_reedu": "re:edu es una joven empresa emergente (spin-off del Instituto de Geoinformática de la Universidad de Münster) que ofrece soluciones educativas, de investigación, sostenibilidad y participación digital y abierta para todas las personas."
+  "textVamosEnd": "Ofrecemos alternativas concretas de acción e inspiramos a las personas a participar.",
+  "text_reedu": "re:edu es una joven startup (spin-off del Instituto de Geoinformática de la Universidad de Münster) que ofrece soluciones para la educación, investigación, sostenibilidad y participación, de manera digital y abierta, para todas las personas."
 }
