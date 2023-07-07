@@ -1,7 +1,7 @@
 {
-  "faq1_title": "Wie kann ich eine Mapstory erstellen?",
-  "faq1_texta": "a.) Du kannst dich anmelden und eine eigene Geschichte erstellen.",
-  "faq1_textb": "b.) Du kannst dir fertige Mapstories in der Galerie ansehen und dich von den Themen inspirieren lassen.",
+  "faq1_title": "Wie kann ich mit Mapstories arbeiten?",
+  "faq1_texta": "a.) Du kannst dich anmelden und eine eigene Mapstory erstellen.",
+  "faq1_textb": "b.) Du kannst dir fertige Mapstories in der Galerie ansehen und dich inspirieren lassen.",
 
   "faq2_title": "Wofür kann ich Mapstories nutzen?",
   "faq2_texta": "Eigentlich für alles. Besonders gut kannst du Mapstories für Geschichten nutzen, die an unterschiedlichen Orten (der Welt) spielen und wo die Orte irgendwie zusammenhängen. Das sind vor allem Lieferketten, Migrationswege und globale Vernetzungen.",
@@ -15,7 +15,7 @@
   "faq2_listg": "Wo sind überall in der Welt ausgetrocknete Seen und was wird dagegen getan?",
 
   "faq3_title": "Kann ich Mapstories kostenlos nutzen?",
-  "faq3_text": "Ja, das Tool ist kostenlos",
+  "faq3_text": "Ja, das Tool ist kostenlos.",
 
   "faq4_title": "In welchem Browser funktioniert Mapstories?",
   "faq4_text": " Mapstories funktioniert in alle gängigen Browsern. Es ist vollständig webbasiert, eine Installation ist also nicht notwendig. ",
@@ -24,10 +24,10 @@
   "faq5_text": "Einfach in das folgende Padlet eintragen: ",
 
   "faq6_title": "Was braucht es, um eine Story an Freund:innen weiterzuleiten?",
-  "faq6_text": "Einfach auf “Teilen” gehen und den Link über alle gängigen Apps versend.",
+  "faq6_text": "Stelle im StoryLab unter Optionen die Mapstory auf "Privat" und klicke dann auf “Teilen”, um den Teilen-Link zu kopieren.",
 
   "faq7_title": "Kann ich eine Mapstory in eine Website einbetten?",
-  "faq7_text": "Ja, das ist möglich. Beim Button “Teilen” findet sich der Einbettungscode. Die Größe kannst du dort angepasst an deine Seite selbst einstellen.",
+  "faq7_text": "Ja, das ist möglich. Klick im StoryLab auf “Einbetten”, um den Einbettungscode zu kopieren. Die Größe kannst du dort angepasst an deine Seite selbst einstellen.",
 
   "faq8_title": "Kann ich meine Mapstory abspeichern?",
   "faq8_text": "Deine Mapstory wird automatisch in deinem Account gespeichert. Du kannst sie also abrufen und bearbeiten, sobald du dich eingeloggt hast."
