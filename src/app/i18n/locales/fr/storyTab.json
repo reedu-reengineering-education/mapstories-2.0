@@ -1,14 +1,12 @@
 {
-  "title": "Unsere Story",
-  "text1": "Mapstories ist im Jahr 2021 im Rahmen einer Zusammenarbeit zwischen re:edu GmbH & Co.KG und Vamos e.V. entstanden. Der Ausgangspunkt des Projektes “welt.weit.virtuell” war die Durchführung eines ko-kreativen Labs zur globalen Bekleidungsindustrie. Dabei stellte Mapstories ein digitales Tool dar, mit dem die Schüler:innen eigenständig einen Einstieg in die entwicklungspolitische Bildungsarbeit zum oben genannten Thema konzipierten.",
-  "text2": "Mit Mapstories wurden bereits erfolgreiche Projekte und Kooperationen durchgeführt. Nachdem viele positive Rückmeldungen zum Tool und zahlreiche Anpassungswünsche geäußert wurden, wurde Mapstories im Juni 2023 in einer neuen Version veröffentlicht. Diese Version bringt eine Fülle von Verbesserungen und neuen Funktionen mit sich.",
-  "here": "Hier ",
-  "text3": "finden Sie die vorherige Version von Mapstories.",
-  "textIntroDevelopers": "Mapstories wurde von folgenden Unternehmen entwickelt: ",
-  "textVamosStart": "Vamos e.V. ist ein entwicklungspolitisch tätiger Verein in Münster. Wir setzen uns seit 1987 ein für:",
-  "textVamosList1": "weltweite Gerechtigkeit",
-  "textVamosList2": "einen ökologisch verantwortlichen Umgang mit der Erde",
-  "textVamosList3": "mehr menschenwürdige Arbeits- und Lebensbedingungen weltweit",
-  "textVamosEnd": "Wir zeigen konkrete Handlungsalternativen auf und bewegen Menschen zum Mitmachen.",
-  "text_reedu": "re:edu ist ein junges Start-Up (Spin-off des Instituts für Geoinformatik der Universität Münster), das Lösungen für Bildung, Forschung, Nachhaltigkeit und Beteiligung - digital und offen - für alle Menschen anbietet."
-}
+  "title": "Notre Histoire",
+  "text1": "Mapstories a été créé en 2021 dans le cadre d'une collaboration entre re:edu GmbH & Co.KG et Vamos e.V. Le point de départ du projet 'welt.weit.virtuell' était un laboratoire de co-création sur l'industrie mondiale de l'habillement. Mapstories a servi d'outil numérique permettant aux étudiants de s'engager de manière indépendante dans le travail d'éducation au développement sur le sujet mentionné ci-dessus.",
+  "text2": "Mapstories a déjà été utilisé dans des projets et des collaborations réussis. Après avoir reçu des commentaires positifs et de nombreuses demandes d'améliorations, une nouvelle version de Mapstories a été publiée en juin 2023. Cette version apporte de nombreuses améliorations et de nouvelles fonctionnalités.",
+  "here": "Ici ",
+  "text3": "vous pouvez trouver la version précédente de Mapstories.",
+  "textIntroDevelopers": "Mapstories a été développé par: ",
+  "textVamosStart": "Vamos e.V. est une association axée sur le développement à Münster. Depuis 1987, nous militons pour:",
+  "textVamosList1": "la justice mondiale",
+  "textVamosList2": "une utilisation écologiquement responsable de la Terre",
+  "textVamosList3": "de meilleures conditions de travail et de vie dignes dans le monde entier",
+  "textVamosEnd": "Nous proposons des alternatives concrètes et incitons les gens à participer
