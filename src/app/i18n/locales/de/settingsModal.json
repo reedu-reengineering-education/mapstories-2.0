@@ -1,17 +1,17 @@
 {
   "name": "Story anpassen",
   "description": "Beschreibung",
-  "private": "Private",
+  "private": "Privat",
   "public": "Öffentlich",
   "theme": "Kartentyp",
   "image": "Bild",
-  "Select an image or enter a URL": "Wähle ein Bild aus oder gib eine URL ein",
+  "Select an image or enter a URL": "Wähle ein Bild aus oder gib eine URL ein.",
   "options": "Optionen",
   "save": "Übernehmen",
   "changesApplied": "Änderungen gespeichert",
   "changesNotApplied": "Änderungen konnten nicht gespeichert werden",
   "share": "Teilen",
   "embed": "Einbetten",
-  "you_want_to_embed": "Du möchtest diese Story auch auf deiner Website darstellen? Dafür kannst du diesen iframe Code benutzen",
-  "you_want_to_share": "Du möchtest diese Story mit anderen teilen? Kopiere dafür einfach diesen Link."
+  "you_want_to_embed": "Du möchtest diese Mapstory auf deiner Website darstellen? Dafür kannst du diesen iframe benutzen.",
+  "you_want_to_share": "Du möchtest diese Mapstory mit anderen teilen? Stelle die Mapstory unter Optionen auf "Öffentlich" und benutze diesen Link."
 }
