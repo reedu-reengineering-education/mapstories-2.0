@@ -1,13 +1,13 @@
 {
-  "name": "Name",
-  "change your name here": "Hier kannst du deinen Namen ändern",
-  "save": "Speichern",
-  "contentUpdated": "Dein Account wurde geupdated",
-  "contentCreated": "Dein Account wurde erstellt.",
-  "contentDeleted": "Dein Account wurde gelöscht.",
-  "somethingWrong": "Es gab einen Fehler.",
-  "contentNotUpdated": "Dein Account konnte nicht aktualisiert werden. Versuche es nochmal.",
-  "contentNotDeleted": "Dein Account konnte nicht gelöscht werden. Versuche es nochmal.",
-  "logInAgain": "Bitte logge dich erneut ein.",
-  "deleteAccount": "Account löschen"
+  "name": "Nom",
+  "change your name here": "Changez votre nom ici",
+  "save": "Enregistrer",
+  "contentUpdated": "Votre compte a été mis à jour",
+  "contentCreated": "Votre compte a été créé",
+  "contentDeleted": "Votre compte a été supprimé",
+  "somethingWrong": "Une erreur s'est produite",
+  "contentNotUpdated": "Votre compte n'a pas pu être mis à jour, veuillez réessayer",
+  "contentNotDeleted": "Votre compte n'a pas pu être supprimé, veuillez réessayer",
+  "logInAgain": "Veuillez vous connecter à nouveau",
+  "deleteAccount": "Supprimer le compte"
 }
