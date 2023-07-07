@@ -1,13 +1,13 @@
 {
   "welcome_back": "Welcome back",
-  "enter_email_for_signin": "Enter your email to sign in to your account.",
-  "no_account": "Don't have an account yet? Sign up now!",
+  "enter_email_for_signin": "Enter your email address to sign in.",
+  "no_account": "Don't have an account? Register here!",
   "back": "Back",
   "sign_in_with_email": "Sign in with email",
   "something_wrong": "Something went wrong.",
-  "signin_fail": "Your sign-in request failed. Please try again.",
+  "signin_fail": "Sign in failed. Please try again.",
   "check_mail": "Check your email",
-  "send_login_link": "We've sent you a login link. Don't forget to check your spam folder.",
+  "send_login_link": "We have sent you a login link.",
   "success": "Email sent successfully",
-  "check_mail_for_sign_in": "Click the link in the email to sign in."
+  "check_mail_for_sign_in": "Click on the link in your email to sign in."
 }
