@@ -1,13 +1,13 @@
 {
-  "welcome_back": "Willkommen zurück",
-  "enter_email_for_signin": "Gib deine E-Mail-Adresse ein, um dich anzumelden.",
-  "no_account": "Noch keinen Account? Hier registrieren!",
-  "back": "Zurück",
-  "sign_in_with_email": "Mit E-Mail-Adresse anmelden",
-  "something_wrong": "Etwas ist schiefgelaufen.",
-  "signin_fail": "Die Anmeldung ist fehlgeschlagen. Bitte versuche es erneut.",
-  "check_mail": "Prüfe dein E-Mail-Postfach",
-  "send_login_link": "Wir haben dir einen Link zum Anmelden geschickt.",
-  "success": "E-Mail erfolgreich versendet",
-  "check_mail_for_sign_in": "Klicke auf den Link in deinem E-Mail-Postfach, um dich anzumelden."
+  "welcome_back": "Bienvenue de retour",
+  "enter_email_for_signin": "Entrez votre adresse e-mail pour vous connecter.",
+  "no_account": "Pas encore de compte ? Inscrivez-vous ici !",
+  "back": "Retour",
+  "sign_in_with_email": "Se connecter avec une adresse e-mail",
+  "something_wrong": "Quelque chose s'est mal passé.",
+  "signin_fail": "Échec de la connexion. Veuillez réessayer.",
+  "check_mail": "Vérifiez votre courrier électronique",
+  "send_login_link": "Nous vous avons envoyé un lien de connexion.",
+  "success": "E-mail envoyé avec succès",
+  "check_mail_for_sign_in": "Cliquez sur le lien dans votre courrier électronique pour vous connecter."
 }
