@@ -1,14 +1,14 @@
 {
   "title": "Our Story",
-  "text1": "Mapstories was born in 2021 as a collaboration between re:edu GmbH & Co.KG and Vamos e.V. The starting point of the 'welt.weit.virtuell' project was the implementation of a co-creative lab on the global clothing industry. Mapstories served as a digital tool for students to independently design an entry point into development education work related to the aforementioned topic.",
-  "text2": "Mapstories has already conducted successful projects and collaborations. After receiving positive feedback about the tool and numerous requests for adjustments, a new version of Mapstories was released in June 2023. This version brings a wealth of improvements and new features.",
+  "text1": "Mapstories was created in 2021 as a collaboration between re:edu GmbH & Co.KG and Vamos e.V. The starting point of the project 'welt.weit.virtuell' was a co-creative lab on the global clothing industry. Mapstories served as a digital tool for students to independently engage in development education work on the aforementioned topic.",
+  "text2": "Mapstories has already been used for successful projects and collaborations. After receiving positive feedback and numerous requests for improvements, a new version of Mapstories was released in June 2023. This version brings a wealth of enhancements and new features.",
   "here": "Here ",
   "text3": "you can find the previous version of Mapstories.",
-  "textIntroDevelopers": "Mapstories was developed by the following companies: ",
-  "textVamosStart": "Vamos e.V. is a development-oriented association in Münster. Since 1987, we have been committed to:",
+  "textIntroDevelopers": "Mapstories was developed by: ",
+  "textVamosStart": "Vamos e.V. is a development-oriented association in Münster. Since 1987, we have been advocating for:",
   "textVamosList1": "global justice",
   "textVamosList2": "ecologically responsible use of the Earth",
-  "textVamosList3": "improving dignified working and living conditions worldwide",
-  "textVamosEnd": "We provide concrete alternatives for action and motivate people to get involved.",
-  "text_reedu": "re:edu is a young start-up (spin-off from the Institute for Geoinformatics at the University of Münster) that offers solutions for education, research, sustainability, and participation - digitally and openly - for all people."
+  "textVamosList3": "more dignified working and living conditions worldwide",
+  "textVamosEnd": "We provide concrete alternatives for action and inspire people to participate.",
+  "text_reedu": "re:edu is a young start-up (spin-off of the Institute for Geoinformatics at the University of Münster) that offers solutions for education, research, sustainability, and participation - digital and open - for all people."
 }
