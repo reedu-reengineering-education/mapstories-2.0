@@ -1,12 +1,12 @@
 {
-  "}, "embedName",
-  }, "embed": {
-    "notRecognized": "Medium not recognized..."
+  "EmbedName": "Embed",
+  "Embed": {
+    "notRecognized": "The media is not recognized."
   },
   "EmbedContentEdit": {
-    "InputLabel": "Here you can enter the link for the medium of a platform.",
+    "InputLabel": "Here you can enter the link for the media from a platform.",
     "platforms": "Supported platforms: ",
-    "autoplay": " autoplay"
+    "autoplay": " Autoplay"
   },
-  "readMore": "Continue reading on Wikipedia..."
+  "readMore": "Read more on Wikipedia..."
 }
