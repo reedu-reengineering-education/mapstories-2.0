@@ -54,7 +54,7 @@ export default function Markers({ markers, onClick, onChange }: Props) {
       {markers.map((m, i) => (
         <Marker
           {...m}
-          key={i}
+          key={m.stepId + m.color}
           onClick={() => onClick(m)}
           onDragEnd={onChange}
           style={{
