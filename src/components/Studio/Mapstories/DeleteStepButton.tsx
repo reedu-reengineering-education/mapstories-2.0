@@ -41,7 +41,7 @@ export default function DeleteStepButton({
       await deleteStoryStep(storyStepId)
 
       const redirectStepId = nextStep?.id ?? prevStep?.id ?? ''
-      router.replace(`/studio/${story.slug}/${redirectStepId}`)
+      router.replace(`/storylab/${story.slug}/${redirectStepId}`)
     } catch (e) {
       return toast({
         title: t('somethingWrong'),
