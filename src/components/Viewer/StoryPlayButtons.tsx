@@ -1,6 +1,5 @@
 'use client'
 
-import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
 import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
@@ -14,14 +13,15 @@ import { useTranslation } from '@/src/app/i18n/client'
 type Props = {
   slug: string
   page: string
+  story: any
 }
 
-export function StoryPlayButtons({ slug, page }: Props) {
+export function StoryPlayButtons({ slug, page, story }: Props) {
   const router = useRouter()
   const path = usePathname()
   const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
-  const { story } = useStory(slug)
+  // const { story } = useStory(slug)
 
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,

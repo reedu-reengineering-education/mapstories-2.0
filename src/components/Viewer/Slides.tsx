@@ -5,18 +5,21 @@ import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { Slide } from './Slide'
-import useStory from '@/src/lib/api/story/useStory'
 
 type Props = {
   slug: string
   page: string
+  story: any
+  //  Story & {
+  //   steps?: (StoryStep & { content: SlideContent[] })[]
+  //   firstStep?: StoryStep & { content: SlideContent[] }
+  // }
 }
 
-export function Slides({ slug, page }: Props) {
+export function Slides({ slug, page, story }: Props) {
   const router = useRouter()
   const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)
-  const { story } = useStory(slug)
 
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
