@@ -234,8 +234,9 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     const story = stories?.filter(story => story.id === storyID)[0]
     if (story?.steps?.length && story?.steps?.length > index) {
       if (mapRef && story.steps[index].feature) {
-        const feature: Feature<GeoJSON.Point> = story?.steps[index]
-          .feature as unknown as Feature<GeoJSON.Point>
+        const feature: Feature<GeoJSON.Point> = story?.steps.sort(
+          (a, b) => a.position - b.position,
+        )[index].feature as unknown as Feature<GeoJSON.Point>
         mapRef.current?.flyTo({
           center: [
             feature.geometry.coordinates[0],

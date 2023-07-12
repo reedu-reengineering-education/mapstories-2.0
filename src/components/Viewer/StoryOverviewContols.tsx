@@ -17,19 +17,22 @@ import {
 } from '@radix-ui/react-icons'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
-import useStory from '@/src/lib/api/story/useStory'
 
 type Props = {
   slug: string
   page: string
+  story: any
+  //  (Story & {
+  //     steps?: (StoryStep & { content: SlideContent[] })[]
+  //     firstStep?: StoryStep & { content: SlideContent[] }
+  //   })
 }
 
-export function StoryOverviewControls({ slug, page }: Props) {
+export function StoryOverviewControls({ slug, page, story }: Props) {
   const router = useRouter()
   const path = usePathname()
   const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
-  const { story } = useStory(slug)
   const setSlidesOpen = useBoundStore(state => state.setSlidesOpen)
   const slidesOpen = useBoundStore(state => state.slidesOpen)
   const setViewerStories = useBoundStore(state => state.setViewerStories)
