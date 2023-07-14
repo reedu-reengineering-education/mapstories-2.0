@@ -28,5 +28,6 @@
   "deleteAccount": "Are you sure you want to delete your account?",
   "textEditor": "Enter your text here.",
   "dataUpload": "Upload a file here.",
-  "source": "Source"
+  "source": "Source",
+  "edit": "Edit"
 }

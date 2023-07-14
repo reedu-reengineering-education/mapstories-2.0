@@ -28,5 +28,6 @@
   "deleteAccount": "Êtes-vous sûr de vouloir supprimer votre compte ?",
   "textEditor": "Saisissez votre texte ici.",
   "dataUpload": "Importez un fichier ici.",
-  "source": "La source "
+  "source": "La source ",
+  "edit": "Modifier"
 }
