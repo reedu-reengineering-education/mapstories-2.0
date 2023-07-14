@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { Slide } from './Slide'
+import { StoryStep } from '@prisma/client'
 
 type Props = {
   slug: string
@@ -60,13 +61,16 @@ export function Slides({ slug, page, story }: Props) {
 
   return (
     <div className="py-4">
-      {story?.steps && page && (
-        <Slide
-          step={
-            page == 'start' ? story?.firstStep : story?.steps[parseInt(page)]
-          }
-        ></Slide>
-      )}
+      {story?.steps.sort(
+        (a: StoryStep, b: StoryStep) => a.position - b.position,
+      ) &&
+        page && (
+          <Slide
+            step={
+              page == 'start' ? story?.firstStep : story?.steps[parseInt(page)]
+            }
+          ></Slide>
+        )}
       {/* {page != 'start' && parseInt(page) + 1 < (story?.steps?.length ?? 0) && (
         <Button onClick={() => nextStep()}>Weiter</Button>
       )} */}
