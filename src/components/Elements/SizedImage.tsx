@@ -53,8 +53,8 @@ export default function SizedImage({ src, size, alt, source }: ImageProps) {
         ></img>
         {/* subtitle below the picture */}
         {source && (
-          <div className="text-center text-sm text-slate-500">
-            {/* @ts-igonore */}
+          <div className="py-2 text-center text-sm text-slate-500">
+            {/* @ts-ignore */}
             <span>{t('embeds:EmbedContentEdit.source') + ': ' + source}</span>
           </div>
         )}

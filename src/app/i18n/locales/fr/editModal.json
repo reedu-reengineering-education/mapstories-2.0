@@ -27,5 +27,6 @@
   "confirmDeleteContent": "Êtes-vous sûr de vouloir supprimer le contenu ?",
   "deleteAccount": "Êtes-vous sûr de vouloir supprimer votre compte ?",
   "textEditor": "Saisissez votre texte ici.",
-  "dataUpload": "Importez un fichier ici."
+  "dataUpload": "Importez un fichier ici.",
+  "source": "La source "
 }

@@ -278,11 +278,11 @@ export function MediaContentEdit({
         </div>
         {/* input field to give a source */}
         <div className="flex items-center">
+          <InputLabel>{t('source')}</InputLabel>
           <Input
             className="bg-slate-50"
             label="Quelle"
             onChange={e => handleFileSource(e)}
-            placeholder="Quelle"
             value={fileSource}
           />
         </div>
