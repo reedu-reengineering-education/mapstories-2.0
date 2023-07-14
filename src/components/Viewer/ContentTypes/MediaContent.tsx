@@ -15,6 +15,7 @@ export function MediaContent({ content }: MediaContentProps) {
   const [mediaUrl, setMediaUrl] = React.useState<any>(null)
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [imageSize, setImageSize] = React.useState<string>('s')
+  const [source, setSource] = React.useState<string>('')
   const { getMedia } = useMedia(content.storyStepId)
   React.useEffect(() => {
     const getMediaWrapper = async () => {
@@ -27,6 +28,7 @@ export function MediaContent({ content }: MediaContentProps) {
         setIsLoading(true)
         // get media table from db
         const media = (await getMedia(content.mediaId!)) as Media
+        media.source ? setSource(media.source) : setSource('')
         // get media file from s3
         const response = await getS3Image(media)
         setMediaUrl(response)
@@ -34,10 +36,13 @@ export function MediaContent({ content }: MediaContentProps) {
       }
       if (content.type === 'EXTERNALIMAGE' && mediaUrl === null) {
         const media = (await getMedia(content.mediaId!)) as Media
+        media.source ? setSource(media.source) : setSource('')
         setMediaUrl(media.url)
       }
+
       //const response = await getS3Image(im//await getImage2(stepItem)
     }
+
     getMediaWrapper()
   }, [])
 
@@ -53,6 +58,7 @@ export function MediaContent({ content }: MediaContentProps) {
           <SizedImage
             alt={content.content}
             size={imageSize}
+            source={source}
             src={mediaUrl ? mediaUrl : ''}
           />
         )}

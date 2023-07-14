@@ -73,7 +73,7 @@ export function EmbedContentEdit({
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [media, setMedia] = useState<media_type | undefined>(stepItem)
   const [optionState, setOptionState] = useState(stepItem?.options)
-
+  const [fileSource, setFileSource] = useState<string | undefined>(undefined)
   const { addContent, updateContent } = useStep(storyStepId)
 
   async function onSubmit(data: FormData) {
@@ -90,6 +90,7 @@ export function EmbedContentEdit({
           const uploadedMedia = await addMedia({
             name: generateRandomName(),
             url: media?.content,
+            source: fileSource,
             size: 's',
           })
           await addContent({
@@ -133,6 +134,14 @@ export function EmbedContentEdit({
     } else if (new_media && new_media.type != 'YOUTUBE' && optionState) {
       setOptionState(null)
     }
+    if (new_media?.type == 'EXTERNALIMAGE') {
+      setFileSource(url.split('/')[0] + '//' + url.split('/')[2])
+    }
+  }
+
+  const handleFileSource = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement
+    setFileSource(target.value)
   }
 
   return (
@@ -173,6 +182,17 @@ export function EmbedContentEdit({
               <InputLabel>{t('embeds:EmbedContentEdit.autoplay')}</InputLabel>
             </div>
           )}
+        </div>
+        {/* input field to give a source */}
+        <div className="flex items-center py-1">
+          <InputLabel>{t('embeds:EmbedContentEdit.source')} </InputLabel>
+          <Input
+            className="bg-slate-50 "
+            label="Quelle"
+            onChange={e => handleFileSource(e)}
+            placeholder="Quelle"
+            value={fileSource}
+          />
         </div>
         <Button disabled={isSaving} isLoading={isSaving} type="submit">
           {stepItem && t('editModal:save')}
