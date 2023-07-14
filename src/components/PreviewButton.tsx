@@ -7,8 +7,11 @@ import { EyeIcon } from '@heroicons/react/24/outline'
 function getSlidePositionById(story: any, slideid: any) {
   try {
     const slides = story?.story.steps
-    const slidePosition = slides?.filter((slide: any) => slide.id === slideid)
-    return slidePosition
+    const slidePosition = slides?.filter(
+      (slide: any) => slide.id === slideid,
+    )[0]
+    console.log(slidePosition)
+    return slidePosition.position || 'start'
   } catch (e) {
     return 'start'
   }

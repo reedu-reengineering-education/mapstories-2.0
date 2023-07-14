@@ -14,9 +14,11 @@ export function Slide({ step }: Props) {
       <div className="py-4">
         {step &&
           step.content &&
-          step.content.map(item => {
-            return <ContentType content={item} key={item.id}></ContentType>
-          })}
+          step.content
+            .sort((a, b) => a.position - b.position)
+            .map(item => {
+              return <ContentType content={item} key={item.id}></ContentType>
+            })}
       </div>
     </>
   )
