@@ -77,6 +77,11 @@ model VerificationToken {
   @@map(name: "verification_tokens")
 }
 
+enum StoryMode {
+  NORMAL
+  TIMELINE
+}
+
 model Story {
   id          String      @id @default(cuid())
   name        String?
@@ -92,6 +97,7 @@ model Story {
   visibility  Visibility
   createdAt   DateTime    @default(now()) @map(name: "created_at")
   updatedAt   DateTime    @default(now()) @map(name: "updated_at")
+  mode        StoryMode   @default(NORMAL)
 
   @@map(name: "stories")
 }
@@ -106,6 +112,7 @@ model StoryStep {
   connections    Connection[] //incoming
   viewport       Json
   storyTitleStep Story?         @relation("firstStep")
+  timestamp      DateTime?
 
   @@map(name: "storysteps")
 }
