@@ -32,7 +32,8 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
     <>
       <Modal
         onClose={() => setContentType('')}
-        show={show}
+        onOpenChange={setShowModal}
+        open={show}
         title={''}
         trigger={trigger}
       >
