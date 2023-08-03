@@ -17,6 +17,8 @@ import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { useBoundStore } from '@/src/lib/store/store'
 import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 import Switch from '../../Elements/Switch'
+import { Spacer } from '../../Elements/Spacer'
+import { StoryMode } from '@prisma/client'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
@@ -110,8 +112,8 @@ export default function SettingsModal({
         {t('settingsModal:options')}
       </Button>
       <Modal
-        onClose={() => setModalOpen(false)}
-        show={modalOpen}
+        onOpenChange={setModalOpen}
+        open={modalOpen}
         title={t('settingsModal:name')}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -133,6 +135,44 @@ export default function SettingsModal({
               rows={5}
               {...register('description')}
             ></Textarea>
+
+            <Spacer />
+            <InputLabel>Modus</InputLabel>
+            <p className="rounded bg-zinc-100 p-2 text-xs text-zinc-700">
+              Im Timeline-Modus kann zu jedem Schritt ein Zeitstempel
+              gespeichert werden. Dadurch lassen sich historische Ereignisse
+              noch besser visualisieren.
+            </p>
+            <Spacer size={'sm'} />
+            {errors.mode && (
+              <p className="px-1 text-xs text-red-600">{errors.mode.message}</p>
+            )}
+            <Controller
+              control={control}
+              defaultValue={StoryMode.NORMAL}
+              name="mode"
+              render={({ field: { onChange, ref } }) => {
+                return (
+                  <div className="jusify-center flex items-center gap-4">
+                    <span className="text-sm font-medium text-gray-700">
+                      NORMAL
+                    </span>
+                    <Switch
+                      defaultChecked={story.mode === StoryMode.TIMELINE}
+                      onCheckedChange={checked =>
+                        onChange(
+                          checked ? StoryMode.TIMELINE : StoryMode.NORMAL,
+                        )
+                      }
+                      ref={ref}
+                    ></Switch>
+                    <span className="text-sm font-medium text-gray-700">
+                      TIMELINE
+                    </span>
+                  </div>
+                )
+              }}
+            />
 
             <Controller
               control={control}

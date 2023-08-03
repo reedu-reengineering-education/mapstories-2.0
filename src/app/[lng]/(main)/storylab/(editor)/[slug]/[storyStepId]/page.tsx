@@ -2,11 +2,14 @@ import { Button } from '@/src/components/Elements/Button'
 import { SlideContentListEdit } from '@/src/components/Studio/Mapstories/SlideContentListEdit'
 import { db } from '@/src/lib/db'
 import PlusIcon from '@heroicons/react/24/outline/PlusIcon'
-import { Story } from '@prisma/client'
+import { Story, StoryMode } from '@prisma/client'
 import SlideContentModal from './SlideContentModal'
 import { Metadata } from 'next/types'
 import { getStoryName } from '@/src/lib/getStoryName'
 import { useTranslation } from '@/src/app/i18n'
+import { Spacer } from '@/src/components/Elements/Spacer'
+import { CalendarDaysIcon } from '@heroicons/react/24/outline'
+import StepCalendarModal from './StepCalendarModal'
 
 export async function generateMetadata({
   params,
@@ -34,6 +37,7 @@ async function getStory(slug: Story['slug']) {
     select: {
       id: true,
       steps: true,
+      mode: true,
     },
   })
 }
@@ -88,6 +92,25 @@ export default async function StepPage({
             </Button>
           }
         />
+        {story.mode === StoryMode.TIMELINE && (
+          <>
+            <Spacer />
+            <StepCalendarModal
+              defaultDate={storyStep?.timestamp ?? undefined}
+              storyStepId={storyStepId}
+              trigger={
+                <Button
+                  className="w-full"
+                  startIcon={<CalendarDaysIcon className="h-6" />}
+                  variant={'inverse'}
+                >
+                  {storyStep?.timestamp?.toLocaleDateString() ??
+                    'setzen hinzufügen'}
+                </Button>
+              }
+            />
+          </>
+        )}
       </div>
     </div>
   )

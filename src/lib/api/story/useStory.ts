@@ -37,8 +37,8 @@ const useStory = (storyId: string) => {
     await mutation(deleteStoryRequest)
   }
 
-  const APICreateStoryStep = async () => {
-    const createStoryStepRequest = createStoryStep({ id: storyId })
+  const APICreateStoryStep = async (props?: Partial<Omit<StoryStep, 'id'>>) => {
+    const createStoryStepRequest = createStoryStep({ id: storyId, ...props })
     const newStep = (await createStoryStepRequest).data
 
     if (story) {

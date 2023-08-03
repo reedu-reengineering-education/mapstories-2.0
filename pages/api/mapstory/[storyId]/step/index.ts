@@ -25,6 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 },
               })
             )?.steps.length || 0,
+          timestamp: req.body.timestamp ?? null,
         },
         include: {
           Story: {
