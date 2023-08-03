@@ -7,8 +7,8 @@ import de from 'apexcharts/dist/locales/de.json'
 import en from 'apexcharts/dist/locales/en.json'
 
 interface TimelineEvent {
-  timestamp: Date
-  title: string
+  timestamp: Date | null
+  title: string | undefined
 }
 
 interface TimelineChartProps {
@@ -22,7 +22,10 @@ export default function TimelineChart({
   onEventClick,
   activeIndex,
 }: TimelineChartProps) {
-  const chartData = data.map(e => [e.timestamp.getTime(), 1])
+  const chartData = data.map(e => [
+    e.timestamp?.getTime() ?? new Date().getTime(),
+    1,
+  ])
 
   const ScatterChart = (
     <Chart
@@ -49,7 +52,8 @@ export default function TimelineChart({
         },
         tooltip: {
           y: {
-            formatter: (_, { dataPointIndex }) => data[dataPointIndex].title,
+            formatter: (_, { dataPointIndex }) =>
+              data[dataPointIndex].title ?? '',
             title: {
               formatter: () => '',
             },

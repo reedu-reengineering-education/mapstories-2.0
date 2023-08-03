@@ -6,6 +6,8 @@ import { StoryPlayButtons } from '@/src/components/Viewer/StoryPlayButtons'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
 import { redirect } from 'next/navigation'
+import { StoryMode } from '@prisma/client'
+import TimelineChartWrapper from '@/src/components/Timeline/TimelineChartWrapper'
 
 export async function generateMetadata({
   params,
@@ -69,6 +71,11 @@ export default async function StoryPage({ params: { slug } }: StoryPageProps) {
           </div>
         )}
       </div>
+      {story?.mode === StoryMode.TIMELINE && (
+        <div className="re-basic-box absolute bottom-10 left-5 z-10 w-2/5 bg-white ">
+          <TimelineChartWrapper activeIndex={Number(slug[1])} story={story} />
+        </div>
+      )}
       <div className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 transform">
         <StoryPlayButtons
           page={slug[1]}

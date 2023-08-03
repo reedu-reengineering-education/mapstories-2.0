@@ -36,6 +36,8 @@ export default function CreateStepCalendarModal({ storyID, trigger }: Props) {
         timestamp: date,
       })
       router.replace(`/storylab/${story?.slug}/${newStoryStep.id}`)
+      setOpen(false)
+      setDate(undefined) // reset date
     } catch (e) {
       return toast({
         title: 'Something went wrong.',
