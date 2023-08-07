@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { useTranslation } from '@/src/app/i18n/client'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { useBoundStore } from '@/src/lib/store/store'
+import { StoryBadge } from '../../Studio/Mapstories/StoryBadge'
 
 type Props = {
   mapstory: Story & {
@@ -32,6 +33,7 @@ export function MapstoryCardGallery({ mapstory }: Props) {
   return (
     <Card className="my-2">
       <Card.Header>
+        <StoryBadge mode={mapstory.mode} />
         <Card.Title>{mapstory.name}</Card.Title>
       </Card.Header>
       <Card.Content>{mapstory.description}</Card.Content>

@@ -16,6 +16,7 @@ import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
+import { StoryBadge } from '../Studio/Mapstories/StoryBadge'
 
 type ViewerViewProps = {
   inputStories:
@@ -192,6 +193,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
           desc: s.description,
           name: s.name,
           slug: s.slug,
+          mode: s.mode,
         },
         geometry: {
           type: 'LineString',
@@ -311,6 +313,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                     >
                       <div className="re-basic-box-no-filter overflow-hidden">
                         <div className="p-5">
+                          <StoryBadge mode={m.properties?.mode} />
                           <h3>{m.properties?.name}</h3>
                           <p> {m.properties?.desc}</p>
                           <div className="mt-2 flex justify-end">

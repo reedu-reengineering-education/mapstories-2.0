@@ -14,6 +14,7 @@ import ShareModal from './ShareModal'
 import EmbedModal from './EmbedModal'
 import { EyeIcon, PencilIcon } from '@heroicons/react/24/outline'
 import SettingsModal from './SettingsModal'
+import { StoryBadge } from './StoryBadge'
 
 type Props = {
   mapstory: Story
@@ -26,7 +27,8 @@ export function MapstoryCard({ mapstory }: Props) {
   return (
     <Card>
       <Card.Header>
-        <Card.Title>{mapstory.name}</Card.Title>
+        <StoryBadge mode={mapstory.mode} />
+        <Card.Title>{mapstory.name} xxx</Card.Title>
       </Card.Header>
       <Card.Footer>
         <div className="flex items-center justify-between">
