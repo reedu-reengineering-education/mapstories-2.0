@@ -277,7 +277,7 @@ export function MediaContentEdit({
           )}
         </div>
         {/* input field to give a source */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <InputLabel>{t('source')}</InputLabel>
           <Input
             className="bg-slate-50"

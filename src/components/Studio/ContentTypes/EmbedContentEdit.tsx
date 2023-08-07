@@ -184,8 +184,8 @@ export function EmbedContentEdit({
           )}
         </div>
         {/* input field to give a source */}
-        <div className="flex items-center py-1">
-          <InputLabel>{t('embeds:EmbedContentEdit.source') + ': '} </InputLabel>
+        <div className="flex items-center gap-2">
+          <InputLabel>{t('embeds:EmbedContentEdit.source') + ' '} </InputLabel>
           <Input
             className="bg-slate-50 "
             onChange={e => handleFileSource(e)}
