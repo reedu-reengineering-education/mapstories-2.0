@@ -19,6 +19,32 @@ export default function CopyModal({ storyId }: { storyId: string }) {
     await navigator.clipboard.writeText(link)
   }
 
+  // TODO: duplicateStory
+  // take story id and duplicate it
+  const duplicateStory = async () => {
+    const mapstory = await fetch(`/api/mapstory/${storyId}`)
+    const mapstoryJson = await mapstory.json()
+    console.log(mapstoryJson)
+
+    // create a new story with the name of the old story but with "copy" appended, also copy the description and the steps to the new copy story
+    const newStory = await fetch('/api/mapstory', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: `${mapstoryJson.name} (copy)`,
+        description: mapstoryJson.description,
+      }),
+    })
+    const newStoryJson = await newStory.json()
+    // now add the steps to the new story
+    //
+    //
+
+    console.log(newStoryJson)
+  }
+
   return (
     <>
       <Button
@@ -42,7 +68,7 @@ export default function CopyModal({ storyId }: { storyId: string }) {
             <Button onClick={() => setModalOpen(false)} variant={'inverse'}>
               {t('settingsModal:cancel')}
             </Button>
-            <Button onClick={() => setModalOpen(false)}>
+            <Button onClick={() => duplicateStory()}>
               {t('settingsModal:copy')}
             </Button>
           </div>
