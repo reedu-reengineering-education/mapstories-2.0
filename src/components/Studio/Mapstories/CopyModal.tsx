@@ -6,12 +6,14 @@ import { DocumentDuplicateIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
+import { toast } from '@/src/lib/toast'
 
 export default function CopyModal({ storyId }: { storyId: string }) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, ['settingsModal'])
 
   const [modalOpen, setModalOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const link = `${window.location.origin}/gallery/story/${storyId}/start`
 
@@ -22,27 +24,38 @@ export default function CopyModal({ storyId }: { storyId: string }) {
   // TODO: duplicateStory
   // take story id and duplicate it
   const duplicateStory = async () => {
-    const mapstory = await fetch(`/api/mapstory/${storyId}`)
-    const mapstoryJson = await mapstory.json()
-    console.log(mapstoryJson)
+    try {
+      setLoading(true)
 
-    // create a new story with the name of the old story but with "copy" appended, also copy the description and the steps to the new copy story
-    const newStory = await fetch('/api/mapstory', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: `${mapstoryJson.name} (copy)`,
-        description: mapstoryJson.description,
-      }),
-    })
-    const newStoryJson = await newStory.json()
-    // now add the steps to the new story
-    //
-    //
+      const mapstoryCopy = await fetch(`/api/mapstory/${storyId}/duplicate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const mapstoryCopyJson = await mapstoryCopy.json()
 
-    console.log(newStoryJson)
+      const newMappstory = await fetch(`/api/mapstory/${mapstoryCopyJson.id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const newMappstoryJson = await newMappstory.json()
+
+      toast({
+        title: t('settingsModal:copied'),
+        message: t('settingsModal:copiedMessage'),
+        type: 'success',
+      })
+    } catch (e) {
+      toast({
+        title: t('settingsModal:somethingWrong'),
+        message: t('settingsModal:copiedMessage'),
+        type: 'error',
+      })
+    }
+    setLoading(false)
   }
 
   return (
@@ -68,8 +81,8 @@ export default function CopyModal({ storyId }: { storyId: string }) {
             <Button onClick={() => setModalOpen(false)} variant={'inverse'}>
               {t('settingsModal:cancel')}
             </Button>
-            <Button onClick={() => duplicateStory()}>
-              {t('settingsModal:copy')}
+            <Button disabled={loading} onClick={() => duplicateStory()}>
+              {loading ? t('settingsModal:copying') : t('settingsModal:copy')}
             </Button>
           </div>
         </Modal.Footer>
