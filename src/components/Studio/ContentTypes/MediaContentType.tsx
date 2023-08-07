@@ -286,15 +286,16 @@ export function MediaContentEdit({
             value={fileSource}
           />
         </div>
-
-        <Button
-          className="mt-10"
-          disabled={isSaving}
-          isLoading={isSaving}
-          onClick={() => onSubmit()}
-        >
-          {t('create')}
-        </Button>
+        <div className="flex flex-row justify-end">
+          <Button
+            className="mt-10"
+            disabled={isSaving}
+            isLoading={isSaving}
+            onClick={() => onSubmit()}
+          >
+            {t('create')}
+          </Button>
+        </div>
       </div>
     </div>
   )

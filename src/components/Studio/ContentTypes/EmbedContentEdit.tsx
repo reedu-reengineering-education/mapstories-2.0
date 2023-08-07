@@ -156,7 +156,7 @@ export function EmbedContentEdit({
           {t('embeds:EmbedContentEdit.platforms')}
         </p>
         <MediaIconList usedMediaType={media?.type} />
-        <div className="pt-4">
+        <div className="mr-10 pt-4">
           <Input
             defaultValue={stepItem ? stepItem.content : ''}
             errors={errors.content}
@@ -192,10 +192,12 @@ export function EmbedContentEdit({
             value={fileSource}
           />
         </div>
-        <Button disabled={isSaving} isLoading={isSaving} type="submit">
-          {stepItem && t('editModal:save')}
-          {!stepItem && t('editModal:create')}
-        </Button>
+        <div className="mr-10 flex justify-end">
+          <Button disabled={isSaving} isLoading={isSaving} type="submit">
+            {stepItem && t('editModal:save')}
+            {!stepItem && t('editModal:create')}
+          </Button>
+        </div>
       </div>
     </form>
   )

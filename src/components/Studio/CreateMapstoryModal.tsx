@@ -71,9 +71,11 @@ export default function CreateMapstoryModal({ trigger }: Props) {
         </Modal.Content>
         <Modal.Footer
           close={
-            <Button disabled={isSaving} isLoading={isSaving} type="submit">
-              {t('save')}
-            </Button>
+            <div className="flex justify-end">
+              <Button disabled={isSaving} isLoading={isSaving} type="submit">
+                {t('save')}
+              </Button>
+            </div>
           }
         ></Modal.Footer>
       </form>
