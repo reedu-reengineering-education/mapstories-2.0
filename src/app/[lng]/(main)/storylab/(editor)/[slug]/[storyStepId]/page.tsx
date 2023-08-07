@@ -10,6 +10,8 @@ import { useTranslation } from '@/src/app/i18n'
 import { Spacer } from '@/src/components/Elements/Spacer'
 import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 import StepCalendarModal from './StepCalendarModal'
+import { format } from 'date-fns'
+import { getDateFnsLocale } from '@/src/app/i18n/date-fns-locale'
 
 export async function generateMetadata({
   params,
@@ -104,8 +106,11 @@ export default async function StepPage({
                   startIcon={<CalendarDaysIcon className="h-6" />}
                   variant={'inverse'}
                 >
-                  {storyStep?.timestamp?.toLocaleDateString() ??
-                    'setzen hinzufügen'}
+                  {storyStep?.timestamp != null
+                    ? format(new Date(storyStep?.timestamp), 'Pp', {
+                        locale: getDateFnsLocale(lng),
+                      })
+                    : 'Zeitpunkt setzen'}
                 </Button>
               }
             />
