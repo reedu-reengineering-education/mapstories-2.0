@@ -1,11 +1,11 @@
 // next js component which has an input where you can upload an image
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { useDropzone } from 'react-dropzone'
-import { InputLabel } from '@/src/components/Elements/Input'
+import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useStep from '@/src/lib/api/step/useStep'
@@ -82,6 +82,7 @@ export function MediaContentEdit({
   const [selectedValue, setSelectedValue] = useState<string>('s')
   const [externalImageUrl, setExternalImageUrl] = useState<string>('')
   const [tabIndex, setTabIndex] = useState<number>(0)
+  const [fileSource, setFileSource] = useState<string>('')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -111,6 +112,7 @@ export function MediaContentEdit({
         // get image table from db
         stepItem.type === 'EXTERNALIMAGE' ? setTabIndex(0) : setTabIndex(1)
         const media = (await getMedia(stepItem.mediaId)) as Media
+        media.source ? setFileSource(media.source!) : setFileSource('')
         setFileType(stepItem.type)
         setSelectedValue(media.size!)
         if (
@@ -125,6 +127,7 @@ export function MediaContentEdit({
           setIsLoading(false)
         }
         if (stepItem.type === 'EXTERNALIMAGE' && media.url) {
+          media.source ? setFileSource(media.source!) : setFileSource('')
           setFileUrl(media.url)
         }
         //const response = await getS3Image(im//await getImage2(stepItem)
@@ -174,6 +177,7 @@ export function MediaContentEdit({
         const uploadedMedia = await addMedia({
           name: file.name,
           size: selectedValue,
+          source: fileSource,
         })
         // upload file to s3
         await uploadFile(file, uploadedMedia)
@@ -204,7 +208,7 @@ export function MediaContentEdit({
     }
   }
 
-  function handleExternalImageUrl(e: any) {
+  function handleExternalImageUrl(e: ChangeEvent<HTMLInputElement>) {
     setFileUrl(e.target.value)
   }
 
@@ -212,6 +216,11 @@ export function MediaContentEdit({
     setTabIndex(index)
     setFileUrl('')
     setFile(undefined)
+  }
+
+  function handleFileSource(e: any) {
+    const target = e.target as HTMLInputElement
+    setFileSource(target.value)
   }
 
   return (
@@ -267,15 +276,26 @@ export function MediaContentEdit({
             />
           )}
         </div>
-
-        <Button
-          className="mt-10"
-          disabled={isSaving}
-          isLoading={isSaving}
-          onClick={() => onSubmit()}
-        >
-          {t('create')}
-        </Button>
+        {/* input field to give a source */}
+        <div className="flex items-center gap-2">
+          <InputLabel>{t('source')}</InputLabel>
+          <Input
+            className="bg-slate-50"
+            label="Quelle"
+            onChange={e => handleFileSource(e)}
+            value={fileSource}
+          />
+        </div>
+        <div className="flex flex-row justify-end">
+          <Button
+            className="mt-10"
+            disabled={isSaving}
+            isLoading={isSaving}
+            onClick={() => onSubmit()}
+          >
+            {t('create')}
+          </Button>
+        </div>
       </div>
     </div>
   )

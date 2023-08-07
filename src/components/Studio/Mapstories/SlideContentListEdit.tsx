@@ -13,6 +13,8 @@ import { useEffect, useState } from 'react'
 import useStep from '@/src/lib/api/step/useStep'
 import SlideContentPreviewButton from './SlideContentPreviewButton'
 import { Button } from '../../Elements/Button'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 type Props = {
   storyId: string
@@ -22,7 +24,8 @@ type Props = {
 export function SlideContentListEdit({ storyId, stepId }: Props) {
   const { story } = useStory(storyId)
   const { step, reorderSlideContent } = useStep(stepId)
-
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'editModal')
   const [disabled, setDisabled] = React.useState(false)
 
   const [content, setContent] = useState<SlideContent[]>()
@@ -66,7 +69,7 @@ export function SlideContentListEdit({ storyId, stepId }: Props) {
                 >
                   <Modal
                     setDisabled={setDisabled}
-                    title={'Editieren'}
+                    title={t('edit')}
                     trigger={
                       <Button
                         className="flex-1 hover:bg-hover"

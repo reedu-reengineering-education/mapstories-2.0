@@ -12,6 +12,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import ShareModal from './ShareModal'
 import EmbedModal from './EmbedModal'
+import CopyModal from './CopyModal'
 import { EyeIcon, PencilIcon } from '@heroicons/react/24/outline'
 import SettingsModal from './SettingsModal'
 
@@ -45,6 +46,7 @@ export function MapstoryCard({ mapstory }: Props) {
               </Button>
             </Link>
             <SettingsModal storyId={mapstory.id} />
+            <CopyModal storyId={mapstory.id} />
             <ShareModal storyId={mapstory.id} />
             <EmbedModal storyId={mapstory.id} />
           </div>
