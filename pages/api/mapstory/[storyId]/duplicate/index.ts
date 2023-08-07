@@ -34,7 +34,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
 
-      const body = req.body
       const storyCopy = await db.story.create({
         data: {
           ownerId: story?.ownerId,
@@ -48,7 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: {
           viewport: {},
           position: 0,
-          feature: story?.steps[0]?.feature!,
+          feature: story?.steps[0]?.feature ? story.steps[0].feature : {},
           storyId: storyCopy.id,
         },
       })
@@ -60,7 +59,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               storyId: storyCopy.id,
               position: step.position,
               viewport: {},
-              feature: step.feature!,
+              feature: step.feature! ? step.feature : {},
             },
             include: {
               Story: {

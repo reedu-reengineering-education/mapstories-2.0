@@ -20,9 +20,6 @@ export default function CopyModal({ storyId }: { storyId: string }) {
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(link)
   }
-
-  // TODO: duplicateStory
-  // take story id and duplicate it
   const duplicateStory = async () => {
     try {
       setLoading(true)
@@ -41,8 +38,6 @@ export default function CopyModal({ storyId }: { storyId: string }) {
           'Content-Type': 'application/json',
         },
       })
-      const newMappstoryJson = await newMappstory.json()
-
       toast({
         title: t('settingsModal:copied'),
         message: t('settingsModal:copiedMessage'),
@@ -51,7 +46,7 @@ export default function CopyModal({ storyId }: { storyId: string }) {
     } catch (e) {
       toast({
         title: t('settingsModal:somethingWrong'),
-        message: t('settingsModal:copiedMessage'),
+        message: t('settingsModal:somethingWrong'),
         type: 'error',
       })
     }
