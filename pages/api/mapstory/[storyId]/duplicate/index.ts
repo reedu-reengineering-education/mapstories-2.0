@@ -70,12 +70,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             },
           })
           step.content.map(async content => {
+            let newMedia = null
+            if (content.type === 'IMAGE') {
+              newMedia = await db.media.create({
+                data: {
+                  url: content.content,
+                  name: content.content,
+                },
+              })
+            }
             const newContent = await db.slideContent.create({
               data: {
                 type: content.type,
                 content: content.content,
                 position: content.position,
                 storyStepId: newStep.id,
+                mediaId: content.mediaId ? newMedia?.id : null,
               },
             })
           })
