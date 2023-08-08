@@ -3,7 +3,7 @@
 import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
-import { MapPinIcon } from '@heroicons/react/24/outline'
+import { MapPinIcon, TagIcon } from '@heroicons/react/24/outline'
 import { SlideContent, StoryMode, StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -37,6 +37,23 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const { story, reorderStorySteps } = useStory(storyID)
 
   const [hoverMarkerIcon, setHoverMarkerIcon] = useState<boolean[]>([])
+  const [filter, setFilter] = useState<string>('')
+  const [filteredSteps, setFilteredSteps] = useState<
+    (StoryStep & { content: SlideContent[] })[]
+  >([])
+
+  useEffect(() => {
+    if (!story?.steps) {
+      return
+    }
+    const filteredStepsTmp = story.steps.filter(step => {
+      if (filter === '') {
+        return true
+      }
+      return step.tags.includes(filter)
+    })
+    setFilteredSteps(filteredStepsTmp)
+  }, [filter])
 
   const handleMouseEnter = (index: number) => {
     // Create a new array with the updated hover state for the current div
@@ -54,6 +71,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   const [steps, setSteps] =
     useState<(StoryStep & { content: SlideContent[] })[]>()
+
   useEffect(() => {
     if (!story?.steps) {
       return
@@ -105,7 +123,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
         </Link>
         <hr className="my-4 border-gray-400" />
         <DraggableList
-          items={steps.map((s, i) => ({
+          items={filteredSteps.map((s, i) => ({
             id: s.id,
             s: s,
             slug: story.slug,
@@ -152,6 +170,21 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     )} */}
                   </div>
                 )}
+                {s.tags.length > 0 && (
+                  <div className="absolute left-1 top-12 z-10 flex cursor-pointer rounded-md group-hover:visible">
+                    <Tooltip
+                      content={t('This slide has tags') as string}
+                      maxwidth={'200px'}
+                    >
+                      <span className="relative">
+                        <TagIcon className="h-5 w-5" />
+                      </span>
+                    </Tooltip>
+                    {/* {hoverMarkerIcon[i] && (
+
+                    )} */}
+                  </div>
+                )}
               </div>
             ),
           }))}
@@ -165,6 +198,12 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
             <AddStoryStepTimelineButton storyID={storyID} />
           )}
         </div>
+        <input
+          className="bottom-0 z-20 mb-2 w-full rounded-md border bg-white py-2"
+          onChange={e => setFilter(e.target.value)}
+          placeholder="Filter for tags"
+          type="text"
+        />
       </aside>
     </>
   )
