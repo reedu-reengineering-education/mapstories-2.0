@@ -113,6 +113,7 @@ model StoryStep {
   viewport       Json
   storyTitleStep Story?         @relation("firstStep")
   timestamp      DateTime?
+  tags           String[]
 
   @@map(name: "storysteps")
 }
@@ -133,7 +134,6 @@ model SlideContent {
   ogData      Json?
   media       Media?    @relation(fields: [mediaId], references: [id])
   mediaId     String?   @unique
-  tags        String[]
 
   @@map(name: "slidecontent")
 }

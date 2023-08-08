@@ -100,6 +100,7 @@ export default async function StepPage({
             <Spacer />
             <StepTagModal
               storyStepId={storyStepId}
+              tags={storyStep?.tags}
               trigger={
                 <Button
                   className="w-full"

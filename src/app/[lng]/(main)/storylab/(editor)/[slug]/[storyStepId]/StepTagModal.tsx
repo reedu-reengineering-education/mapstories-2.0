@@ -9,21 +9,44 @@ import { Button } from '@/src/components/Elements/Button'
 import { Input } from '@/src/components/Elements/Input'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { TagBadge } from '@/src/components/Studio/Mapstories/TagBadge'
+import useStep from '@/src/lib/api/step/useStep'
+import { toast } from '@/src/lib/toast'
 type Props = {
   trigger: React.ReactElement
   storyStepId: string
-  defaultDate?: Date
+  tags?: Array<string>
 }
 
-export default function StepTagModal({
-  trigger,
-  storyStepId,
-  defaultDate,
-}: Props) {
+export default function StepTagModal({ trigger, storyStepId, tags }: Props) {
   const [inputValue, setInputValue] = useState('')
-  const [tags, setTags] = useState<string[]>([])
+  const [tagsTmp, setTagsTmp] = useState<string[]>(tags || [])
   const [open, setOpen] = useState(false)
-  const [saving, setSaving] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const { updateStep } = useStep(storyStepId)
+
+  const onSave = async () => {
+    setLoading(true)
+    setOpen(false)
+    // add the tag list to the slide
+    try {
+      const newSlide = await updateStep({
+        tags: tagsTmp,
+      })
+      toast({
+        message: 'Tags updated',
+        type: 'success',
+      })
+    } catch (e) {
+      console.log(e)
+      toast({
+        message: 'Something went wrong',
+        type: 'error',
+      })
+    }
+
+    setLoading(false)
+  }
 
   return (
     <>
@@ -42,14 +65,14 @@ export default function StepTagModal({
               value={inputValue}
             />
             <Button
-              onClick={() => setTags([...tags, inputValue])}
+              onClick={() => setTagsTmp([...tagsTmp, inputValue])}
               variant={'inverse'}
             >
               <PlusIcon className="h-5 w-5" />
             </Button>
           </div>
           <div className="flex flex-row flex-wrap gap-2">
-            {tags.map((tag, index) => (
+            {tagsTmp?.map((tag, index) => (
               <TagBadge key={index} tagName={tag} />
             ))}
           </div>
@@ -57,7 +80,11 @@ export default function StepTagModal({
 
         <Modal.Footer>
           <div className="flex flex-row-reverse">
-            <Button disabled={saving} isLoading={saving} type="submit">
+            <Button
+              disabled={loading}
+              isLoading={loading}
+              onClick={() => onSave()}
+            >
               Save
             </Button>
           </div>

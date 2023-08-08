@@ -28,7 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
   if (req.method === 'PUT') {
     try {
-      const { feature, timestamp } = updateStepSchema.parse(req.body)
+      const { feature, timestamp, tags } = updateStepSchema.parse(req.body)
 
       let validFeature: Feature | null = null
       if (feature) {
@@ -53,6 +53,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: {
           feature: (validFeature as any) ?? undefined, // any fix for Prisma Json field
           timestamp,
+          tags,
         },
         include: {
           content: true,
