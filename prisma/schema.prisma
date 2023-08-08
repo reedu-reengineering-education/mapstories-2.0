@@ -133,6 +133,7 @@ model SlideContent {
   ogData      Json?
   media       Media?    @relation(fields: [mediaId], references: [id])
   mediaId     String?   @unique
+  tags        String[]
 
   @@map(name: "slidecontent")
 }
