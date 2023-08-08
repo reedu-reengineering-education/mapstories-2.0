@@ -8,8 +8,8 @@ export type DatePickerWrapperProps = React.ComponentPropsWithoutRef<'div'> & {
 }
 
 function DatePickerWrapper({ children, ...props }: DatePickerWrapperProps) {
-  const [day, setDay] = useState<Date | undefined>(new Date())
-  const [time, setTime] = useState('10:00')
+  const [day, setDay] = useState<Date | undefined>(props.date ?? new Date())
+  const [time, setTime] = useState(props.date?.toLocaleTimeString() ?? '')
 
   useEffect(() => {
     const hours = parseInt(time.split(':')[0])
