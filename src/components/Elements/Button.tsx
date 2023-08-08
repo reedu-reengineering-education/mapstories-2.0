@@ -4,7 +4,7 @@ import { cva, cx } from 'class-variance-authority'
 
 import { Spinner } from '@/src/components/Elements/Spinner'
 
-const buttonStyle = cva(
+export const buttonStyle = cva(
   'flex items-center rounded-md font-medium focus:outline-none border disabled:cursor-not-allowed disabled:opacity-70',
   {
     variants: {

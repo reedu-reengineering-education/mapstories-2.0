@@ -4,7 +4,7 @@ import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
 import { MapPinIcon } from '@heroicons/react/24/outline'
-import { SlideContent, StoryStep } from '@prisma/client'
+import { SlideContent, StoryMode, StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -17,6 +17,7 @@ import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import { Tooltip } from '@/src/components/Tooltip'
 import { useRouter } from 'next/navigation'
+import AddStoryStepTimelineButton from './AddStoryStepTimelineButton'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const lng = useBoundStore(state => state.language)
@@ -158,7 +159,11 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
         ></DraggableList>
 
         <div className="sticky bottom-0 z-20 w-full bg-white py-2">
-          <AddStoryStepButton storyID={storyID} />
+          {story.mode === StoryMode.NORMAL ? (
+            <AddStoryStepButton storyID={storyID} />
+          ) : (
+            <AddStoryStepTimelineButton storyID={storyID} />
+          )}
         </div>
       </aside>
     </>

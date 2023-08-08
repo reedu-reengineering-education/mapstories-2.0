@@ -2,7 +2,6 @@
 
 import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
-import { TrashIcon } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from '@/src/lib/toast'
@@ -10,6 +9,8 @@ import useStory from '@/src/lib/api/story/useStory'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useBoundStore } from '@/src/lib/store/store'
+import { TrashIcon } from '@heroicons/react/24/outline'
+
 export default function DeleteStepButton({
   storyId,
   storyStepId,
@@ -27,6 +28,8 @@ export default function DeleteStepButton({
   const router = useRouter()
   const { story, deleteStoryStep } = useStory(storyId)
 
+  const [open, setOpen] = useState(false)
+
   async function handleClick() {
     setLoading(true)
 
@@ -42,6 +45,7 @@ export default function DeleteStepButton({
 
       const redirectStepId = nextStep?.id ?? prevStep?.id ?? ''
       router.replace(`/storylab/${story.slug}/${redirectStepId}`)
+      setOpen(false)
     } catch (e) {
       return toast({
         title: t('somethingWrong'),
@@ -55,6 +59,8 @@ export default function DeleteStepButton({
 
   return (
     <Modal
+      onOpenChange={setOpen}
+      open={open}
       title={
         <span>
           {t('confirmDeleteStep')}
@@ -70,7 +76,12 @@ export default function DeleteStepButton({
       <Modal.Footer
         close={
           <div className="flex flex-row justify-between">
-            <Button onClick={handleClick} variant={'danger'}>
+            <Button
+              disabled={loading}
+              isLoading={loading}
+              onClick={handleClick}
+              variant={'danger'}
+            >
               {t('delete')}
             </Button>
             <Button>{t('abort')}</Button>

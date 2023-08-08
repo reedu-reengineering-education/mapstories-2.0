@@ -12,7 +12,7 @@ export default function ShareModal({ storyId }: { storyId: string }) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, ['settingsModal'])
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const link = `${window.location.origin}/gallery/story/${storyId}/start`
 
@@ -21,37 +21,38 @@ export default function ShareModal({ storyId }: { storyId: string }) {
   }
 
   return (
-    <>
-      <Button
-        className=""
-        onClick={() => setModalOpen(true)}
-        startIcon={<ShareIcon className="w-5" />}
-        variant={'inverse'}
-      >
-        {t('settingsModal:share')}
-      </Button>
-      <Modal
-        onClose={() => setModalOpen(false)}
-        show={modalOpen}
-        title={t('settingsModal:share')}
-      >
-        <Modal.Content>
-          <p className="pb-4 pt-2">{t('settingsModal:you_want_to_share')}</p>
-          <div className="flex rounded bg-slate-100 p-4">
-            <pre className="m-4 flex-1 whitespace-pre-wrap break-all text-sm">
-              {link}
-            </pre>
-            <div className="relative w-7">
-              <AnimatedCopyIcon onClick={copyToClipboard} />
-            </div>
+    <Modal
+      onOpenChange={setOpen}
+      open={open}
+      title={t('settingsModal:share')}
+      trigger={
+        <Button
+          className=""
+          startIcon={<ShareIcon className="w-5" />}
+          variant={'inverse'}
+        >
+          {t('settingsModal:share')}
+        </Button>
+      }
+    >
+      <Modal.Content>
+        <p className="pb-4 pt-2">{t('settingsModal:you_want_to_share')}</p>
+        <div className="flex rounded bg-slate-100 p-4">
+          <pre className="m-4 flex-1 whitespace-pre-wrap break-all text-sm">
+            {link}
+          </pre>
+          <div className="relative w-7">
+            <AnimatedCopyIcon onClick={copyToClipboard} />
           </div>
-        </Modal.Content>
-        <Modal.Footer>
+        </div>
+      </Modal.Content>
+      <Modal.Footer
+        close={
           <div className="flex justify-end">
-            <Button onClick={() => setModalOpen(false)}>Ok</Button>
+            <Button>Ok</Button>
           </div>
-        </Modal.Footer>
-      </Modal>
-    </>
+        }
+      />
+    </Modal>
   )
 }

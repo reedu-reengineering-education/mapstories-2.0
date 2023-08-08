@@ -4,11 +4,12 @@ import { Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cx } from 'class-variance-authority'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment } from 'react'
 
 interface Props {
   trigger?: React.ReactElement
-  show?: boolean
+  open?: boolean
+  onOpenChange?: (_open: boolean) => void
   title: React.ReactElement | String
   description?: React.ReactElement | String
   children?: React.ReactElement | React.ReactElement[]
@@ -18,39 +19,23 @@ interface Props {
 
 export function Modal({
   trigger,
-  show,
+  open,
+  onOpenChange,
   title,
   description,
   children,
   setDisabled,
   onClose,
 }: Props) {
-  const [isOpen, setIsOpen] = useState(show ? show : false)
-
-  useEffect(() => {
-    if (show != undefined) {
-      setIsOpen(show)
-    }
-  }, [show])
-
   return (
-    <DialogPrimitive.Root
-      onOpenChange={e => {
-        setIsOpen(e)
-        setDisabled ? setDisabled(e) : null
-        if (!e && onClose) {
-          onClose()
-        }
-      }}
-      open={isOpen}
-    >
-      {trigger && (
+    <DialogPrimitive.Root onOpenChange={onOpenChange} open={open}>
+      {trigger ? (
         <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger>
-      )}
-      <DialogPrimitive.Portal forceMount>
+      ) : null}
+      <DialogPrimitive.Portal>
         <Transition.Root
           className="absolute left-0 top-0 flex h-full w-full items-center justify-center"
-          show={isOpen}
+          show={open ?? false}
         >
           <Transition.Child
             as={Fragment}
@@ -62,7 +47,7 @@ export function Modal({
             leaveTo="opacity-0"
           >
             <DialogPrimitive.Overlay
-              className="fixed inset-0 z-20 bg-black/50"
+              className="fixed inset-0 z-50 bg-black/50"
               forceMount
             />
           </Transition.Child>
