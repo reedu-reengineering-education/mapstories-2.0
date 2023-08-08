@@ -6,8 +6,7 @@
   "EmbedContentEdit": {
     "InputLabel": "Vous pouvez ici entrer le lien vers le média depuis une plateforme.",
     "platforms": "Plateformes prises en charge : ",
-    "autoplay": " Lecture automatique",
-    "source": "La source"
+    "autoplay": " Lecture automatique"
   },
   "readMore": "Lire la suite sur Wikipedia..."
 }

@@ -10,6 +10,7 @@ function getSlidePositionById(story: any, slideid: any) {
     const slidePosition = slides?.filter(
       (slide: any) => slide.id === slideid,
     )[0]
+    console.log(slidePosition)
     return slidePosition.position || 'start'
   } catch (e) {
     return 'start'

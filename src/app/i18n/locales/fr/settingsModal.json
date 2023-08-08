@@ -13,12 +13,5 @@
   "share": "Partager",
   "embed": "Intégrer",
   "you_want_to_embed": "Vous souhaitez intégrer cette Mapstory sur votre site web ? Vous pouvez utiliser cette balise iframe.",
-  "you_want_to_share": "Vous souhaitez partager cette Mapstory avec d'autres personnes ? Définissez la Mapstory sur \"Public\" dans les options et utilisez ce lien.",
-  "copy": "Copier",
-  "youWantCopy": "Es-tu sûr de vouloir copier cette histoire ?",
-  "cancel": "Annuler",
-  "copied": "Copié !",
-  "copiedMessage": "La mapstory a été copiée avec succès !",
-  "somethingWrong": "Quelque chose s'est mal passé. Veuillez réessayer",
-  "copying": "Copier..."
+  "you_want_to_share": "Vous souhaitez partager cette Mapstory avec d'autres personnes ? Définissez la Mapstory sur \"Public\" dans les options et utilisez ce lien."
 }

@@ -101,9 +101,8 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                         className="flex"
                         onClick={() => setContentType('')}
                       >
-                        <div>
-                          <ArrowLeftIcon className="mr-2 h-6 w-6"></ArrowLeftIcon>
-                        </div>
+                        <ArrowLeftIcon className="mr-2 h-6 w-6"></ArrowLeftIcon>{' '}
+                        Zurück
                       </button>
                     </div>
                     <div className="pt-2">
