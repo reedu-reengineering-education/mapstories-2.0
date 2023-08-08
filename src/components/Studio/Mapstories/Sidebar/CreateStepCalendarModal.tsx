@@ -7,8 +7,8 @@ import React from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Button } from '@/src/components/Elements/Button'
 import { toast } from '@/src/lib/toast'
-import { Calendar } from '@/src/components/Timeline/Calendar'
 import useStory from '@/src/lib/api/story/useStory'
+import { DatePickerWrapper } from '@/src/components/Timeline/DatePicker/DatePickerWrapper'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
@@ -25,7 +25,6 @@ export default function CreateStepCalendarModal({ storyID, trigger }: Props) {
   const [open, setOpen] = useState(false)
 
   const [date, setDate] = useState<Date | undefined>(new Date())
-
   const { handleSubmit } = useForm({})
 
   async function onSubmit() {
@@ -54,12 +53,7 @@ export default function CreateStepCalendarModal({ storyID, trigger }: Props) {
       <Modal onOpenChange={setOpen} open={open} title={''} trigger={trigger}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content className="flex justify-center">
-            <Calendar
-              className="rounded-md border"
-              mode="single"
-              onSelect={setDate}
-              selected={date ?? new Date()}
-            />
+            <DatePickerWrapper date={date} setDate={setDate} />
           </Modal.Content>
           <Modal.Footer>
             <Button disabled={loading} isLoading={loading} type="submit">
