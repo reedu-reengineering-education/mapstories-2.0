@@ -8,8 +8,8 @@ import React from 'react'
 import { Button } from '@/src/components/Elements/Button'
 import { toast } from '@/src/lib/toast'
 import useStep from '@/src/lib/api/step/useStep'
-import { Calendar } from '@/src/components/Timeline/Calendar'
 import { useForm } from 'react-hook-form'
+import { DatePickerWrapper } from '@/src/components/Timeline/DatePicker/DatePickerWrapper'
 
 type Props = {
   trigger: React.ReactElement
@@ -63,12 +63,7 @@ export default function StepCalendarModal({
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content className="flex justify-center">
-            <Calendar
-              className="rounded-md border"
-              mode="single"
-              onSelect={setDate}
-              selected={date ?? new Date()}
-            />
+            <DatePickerWrapper date={defaultDate} setDate={setDate} />
           </Modal.Content>
           <Modal.Footer>
             <Button disabled={saving} isLoading={saving} type="submit">
