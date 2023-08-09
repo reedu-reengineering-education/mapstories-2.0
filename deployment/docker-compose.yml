@@ -39,6 +39,25 @@ services:
     command: server --address ":9000" --console-address ":9090" /data
     env_file:
       - ./.env
+  borgmatic:
+    image: ghcr.io/borgmatic-collective/borgmatic:1.7
+    container_name: borgmatic
+    env_file:
+      - .env
+    volumes:
+      - storage-minio:/mnt/source # backup source
+      - ${VOLUME_TARGET}:/mnt/borg-repository # backup target
+      - ${VOLUME_ETC_BORGMATIC}:/etc/borgmatic.d/ # borgmatic config file(s) + crontab.txt
+      - ${VOLUME_BORG_CONFIG}:/root/.config/borg # config and keyfiles
+      - ${VOLUME_SSH}:/root/.ssh # ssh key for remote repositories
+      - ${VOLUME_BORG_CACHE}:/root/.cache/borg # checksums used for deduplication
+    environment:
+      - TZ=${TZ}
+      - BORG_PASSPHRASE=${BORG_PASSPHRASE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+
 volumes:
   storage-minio:
     external: true

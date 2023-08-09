@@ -1,11 +1,10 @@
 location:
   source_directories:
-    - /mnt/source/config
-    - /mnt/source/data
+    - /mnt/source/
 
   repositories:
     - path: ssh://u330449-sub3@u330449-sub3.your-storagebox.de:23/./mapstories
-      label: mapstoriesbackup
+      label: mapstories
 
 retention:
   keep_daily: 1
@@ -21,7 +20,7 @@ consistency:
 hooks:
   postgresql_databases:
     - name: ${POSTGRES_DB}
-      hostname: postgres
+      hostname: postgis
       username: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
 
