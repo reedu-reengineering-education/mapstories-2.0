@@ -12,6 +12,7 @@ import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 import StepCalendarModal from './StepCalendarModal'
 import { format } from 'date-fns'
 import { getDateFnsLocale } from '@/src/app/i18n/date-fns-locale'
+import EditTimelineWrapper from './EditTimelineWrapper'
 
 export async function generateMetadata({
   params,
@@ -36,10 +37,12 @@ async function getStory(slug: Story['slug']) {
     where: {
       slug: slug,
     },
-    select: {
-      id: true,
-      steps: true,
-      mode: true,
+    include: {
+      steps: {
+        include: {
+          content: true,
+        },
+      },
     },
   })
 }
@@ -69,6 +72,11 @@ export default async function StepPage({
 
   return (
     <div>
+      {story && (
+        <div className="re-basic-box absolute bottom-14 left-60 z-20 min-w-[60rem] bg-white p-4">
+          <EditTimelineWrapper stepId={storyStepId} storyId={story.id} />
+        </div>
+      )}
       {/* {storyStep && <PreviewSlide stepId={storyStep.id} />} */}
       <div className="re-basic-box absolute bottom-14 right-5 z-20 min-w-[18rem] bg-white p-4">
         {/* {storyStep?.content && storyStep.content.length > 0 && (

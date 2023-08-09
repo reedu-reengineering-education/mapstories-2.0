@@ -3,17 +3,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { Timeline, TimelineOptions } from 'vis-timeline/standalone'
 import { DataSet } from 'vis-data/standalone'
-
-interface TimelineEvent {
-  timestamp: Date | null
-  title: string | undefined
-}
+import { SlideContent, StoryStep } from '@prisma/client'
 
 interface TimelineChartProps {
-  data: TimelineEvent[]
-  onEventClick?: (_event: TimelineEvent) => void
+  data: (StoryStep & {
+    content: SlideContent[]
+  })[]
+  onEventClick?: (_event: StoryStep) => void
   onEventAdd?: (_date: Date) => void
-  activeIndex?: number
+  onEventDelete?: (_event: StoryStep) => void
+  onEventMove?: (_event: StoryStep, _date: Date) => void
+  activeEvent?: string
   editable?: boolean
 }
 
@@ -21,7 +21,9 @@ export default function TimelineChart({
   data,
   onEventClick,
   onEventAdd,
-  activeIndex,
+  onEventDelete,
+  onEventMove,
+  activeEvent,
   editable = false,
 }: TimelineChartProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -30,10 +32,10 @@ export default function TimelineChart({
 
   useEffect(() => {
     const items = new DataSet(
-      data.map((e, i) => ({
-        id: i,
-        content: e.title ?? '',
-        start: e.timestamp?.toISOString() ?? '',
+      data.map(e => ({
+        id: e.id,
+        content: e.content.find(e => e.type === 'TITLE')?.content,
+        start: e.timestamp,
       })),
     )
     setItems(items)
@@ -48,8 +50,15 @@ export default function TimelineChart({
     var options: TimelineOptions = {
       editable,
       stack: false,
-      onAdd: (item, callback) => {
+      onAdd: item => {
         onEventAdd && onEventAdd(new Date(item.start))
+      },
+      onRemove: item => {
+        onEventDelete && onEventDelete(data.find(e => e.id === item.id)!)
+      },
+      onMove: item => {
+        onEventMove &&
+          onEventMove(data.find(e => e.id === item.id)!, new Date(item.start))
       },
     }
 
@@ -58,7 +67,9 @@ export default function TimelineChart({
     timeline.on(
       'select',
       ({ items }) =>
-        items.length > 0 && onEventClick && onEventClick(data[items[0]]),
+        items.length > 0 &&
+        onEventClick &&
+        onEventClick(data.find(e => e.id === items[0])!),
     )
 
     setTimeline(timeline)
@@ -72,8 +83,8 @@ export default function TimelineChart({
     if (!timeline) {
       return
     }
-    timeline.setSelection(activeIndex ?? [])
-  }, [activeIndex, timeline])
+    timeline.setSelection(activeEvent ?? [])
+  }, [activeEvent, timeline])
 
   return <div className="p-2" ref={ref} />
 }
