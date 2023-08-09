@@ -1,10 +1,8 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
-
-import de from 'apexcharts/dist/locales/de.json'
-import en from 'apexcharts/dist/locales/en.json'
+import { useEffect, useRef, useState } from 'react'
+import { Timeline, TimelineOptions } from 'vis-timeline/standalone'
+import { DataSet } from 'vis-data/standalone'
 
 interface TimelineEvent {
   timestamp: Date | null
@@ -14,168 +12,68 @@ interface TimelineEvent {
 interface TimelineChartProps {
   data: TimelineEvent[]
   onEventClick?: (_event: TimelineEvent) => void
+  onEventAdd?: (_date: Date) => void
   activeIndex?: number
+  editable?: boolean
 }
 
 export default function TimelineChart({
   data,
   onEventClick,
+  onEventAdd,
   activeIndex,
+  editable = false,
 }: TimelineChartProps) {
-  const chartData = data.map(e => [
-    e.timestamp?.getTime() ?? new Date().getTime(),
-    1,
-  ])
+  const ref = useRef<HTMLDivElement>(null)
+  const [timeline, setTimeline] = useState<Timeline | null>(null)
+  const [items, setItems] = useState<DataSet<any> | null>(null)
 
-  const ScatterChart = (
-    <Chart
-      height={200}
-      options={{
-        chart: {
-          type: 'scatter',
-          id: 'mainChart',
-          height: 200,
-          toolbar: {
-            show: false,
-          },
-          zoom: {
-            enabled: false,
-          },
+  useEffect(() => {
+    const items = new DataSet(
+      data.map((e, i) => ({
+        id: i,
+        content: e.title ?? '',
+        start: e.timestamp?.toISOString() ?? '',
+      })),
+    )
+    setItems(items)
+  }, [data])
 
-          locales: [de, en],
-          defaultLocale: 'de',
-          events: {
-            dataPointSelection: (_, __, { dataPointIndex }) => {
-              onEventClick && onEventClick(data[dataPointIndex])
-            },
-          },
-        },
-        tooltip: {
-          y: {
-            formatter: (_, { dataPointIndex }) =>
-              data[dataPointIndex].title ?? '',
-            title: {
-              formatter: () => '',
-            },
-          },
-        },
-        markers: {
-          discrete: [
-            {
-              seriesIndex: 0,
-              // For dataPointIndex: 0 there is no discrete marker at all!
-              dataPointIndex: activeIndex,
+  useEffect(() => {
+    if (!ref.current) {
+      return
+    }
 
-              // Also docs says its "fill" and "stroke", but "fillColor" and "strokeColor" are working
-              fillColor: '#0A0',
-              strokeColor: '#FFF',
-              size: 7,
-            },
-          ],
-        },
-        xaxis: {
-          type: 'datetime',
-          tooltip: {
-            enabled: false,
-          },
-        },
-        yaxis: {
-          show: false,
-          tooltip: {
-            enabled: false,
-          },
-        },
-        grid: {
-          yaxis: {
-            lines: {
-              show: false,
-            },
-          },
-        },
-      }}
-      series={[
-        {
-          data: chartData,
-        },
-      ]}
-      type="scatter"
-    />
-  )
+    // Configuration for the Timeline
+    var options: TimelineOptions = {
+      editable,
+      stack: false,
+      onAdd: (item, callback) => {
+        onEventAdd && onEventAdd(new Date(item.start))
+      },
+    }
 
-  const TimelineBrush = (
-    <Chart
-      height={85}
-      options={{
-        chart: {
-          type: 'scatter',
-          id: 'brushChart',
-          brush: {
-            target: 'mainChart',
-            enabled: true,
-          },
-          selection: {
-            enabled: true,
-            xaxis: {
-              min: Math.min(...chartData.map(([x]) => x)),
-              max: Math.max(...chartData.map(([x]) => x)),
-            },
-          },
-          height: 85,
-          locales: [de, en],
-          defaultLocale: 'de',
-        },
-        markers: {
-          size: 3,
-          discrete: [
-            {
-              seriesIndex: 0,
-              // For dataPointIndex: 0 there is no discrete marker at all!
-              dataPointIndex: activeIndex,
+    // Create a Timeline
+    const timeline = new Timeline(ref.current, items ?? [], options)
+    timeline.on(
+      'select',
+      ({ items }) =>
+        items.length > 0 && onEventClick && onEventClick(data[items[0]]),
+    )
 
-              // Also docs says its "fill" and "stroke", but "fillColor" and "strokeColor" are working
-              fillColor: '#0A0',
-              strokeColor: '#FFF',
-              size: 3,
-            },
-          ],
-        },
-        xaxis: {
-          type: 'datetime',
-          labels: {
-            style: {
-              fontSize: '0.6rem',
-            },
-          },
-        },
-        yaxis: {
-          min: 0,
-          max: 2,
-          show: false,
-        },
-        grid: {
-          padding: {
-            top: 0,
-          },
-          yaxis: {
-            lines: {
-              show: false,
-            },
-          },
-        },
-      }}
-      series={[
-        {
-          data: chartData,
-        },
-      ]}
-      type="scatter"
-    />
-  )
+    setTimeline(timeline)
 
-  return (
-    <div>
-      <div className="px-2">{ScatterChart}</div>
-      <div className="rounded bg-zinc-100 px-2 opacity-80">{TimelineBrush}</div>
-    </div>
-  )
+    return () => {
+      timeline.destroy()
+    }
+  }, [ref, items])
+
+  useEffect(() => {
+    if (!timeline) {
+      return
+    }
+    timeline.setSelection(activeIndex ?? [])
+  }, [activeIndex, timeline])
+
+  return <div className="p-2" ref={ref} />
 }
