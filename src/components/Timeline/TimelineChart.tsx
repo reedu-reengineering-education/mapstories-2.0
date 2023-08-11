@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Timeline, TimelineOptions } from 'vis-timeline/standalone'
 import { DataSet } from 'vis-data/standalone'
 import { SlideContent, StoryStep } from '@prisma/client'
+import ReactDOM from 'react-dom'
+import SidebarSlide from '../Studio/Mapstories/Sidebar/SidebarSlide'
 
 interface TimelineChartProps {
   data: (StoryStep & {
@@ -36,6 +38,7 @@ export default function TimelineChart({
         id: e.id,
         content: e.content.find(e => e.type === 'TITLE')?.content,
         start: e.timestamp,
+        position: e.position,
       })),
     )
     setItems(items)
@@ -49,7 +52,18 @@ export default function TimelineChart({
     // Configuration for the Timeline
     var options: TimelineOptions = {
       editable,
-      stack: false,
+      stack: true,
+      maxHeight: '12rem',
+      template: (item, element) =>
+        ReactDOM.createPortal(
+          ReactDOM.render(
+            <div className="-p-1">
+              <SidebarSlide position={item.position} stepId={item.id} />
+            </div>,
+            element,
+          ),
+          element,
+        ),
       onAdd: item => {
         onEventAdd && onEventAdd(new Date(item.start))
       },
