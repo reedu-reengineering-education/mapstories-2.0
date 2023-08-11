@@ -72,7 +72,7 @@ export default async function StepPage({
 
   return (
     <div>
-      {story && (
+      {story?.mode === 'TIMELINE' && (
         <div className="re-basic-box absolute bottom-14 left-60 z-20 min-w-[60rem] bg-white p-4">
           <EditTimelineWrapper stepId={storyStepId} storyId={story.id} />
         </div>
