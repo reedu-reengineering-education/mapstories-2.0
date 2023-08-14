@@ -54,8 +54,10 @@ export default function TimelineChart({
       editable,
       stack: true,
       maxHeight: '12rem',
+      // @ts-ignore
       template: (item, element) =>
         ReactDOM.createPortal(
+          // @ts-ignore
           ReactDOM.render(
             <div className="-p-1">
               <SidebarSlide position={item.position} stepId={item.id} />
