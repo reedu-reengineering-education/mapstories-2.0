@@ -111,7 +111,7 @@ const useStep = (stepId: string) => {
 
   return {
     step,
-    mutate: stepMutate,
+    mutate: mutation,
     reorderSlideContent: APIReorderSlideContent,
     updateStep: APIUpdateStep,
     addContent: APIAddContent,
