@@ -31,6 +31,7 @@ export default function EditTimelineWrapper({
         activeEvent={story.steps.find(s => s.id === stepId)?.id}
         data={story.steps}
         editable
+        fitButton
         onEventAdd={date =>
           createStoryStep({
             timestamp: date,
@@ -59,6 +60,7 @@ export default function EditTimelineWrapper({
           })
           mutate(data)
         }}
+        zoomButtons
       />
     </>
   )

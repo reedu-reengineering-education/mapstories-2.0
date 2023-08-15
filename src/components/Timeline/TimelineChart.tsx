@@ -4,6 +4,14 @@ import { useEffect, useRef, useState } from 'react'
 import { Timeline, TimelineOptions } from 'vis-timeline/standalone'
 import { DataSet } from 'vis-data/standalone'
 import { SlideContent, StoryStep } from '@prisma/client'
+import { Button } from '../Elements/Button'
+import {
+  MinusIcon,
+  PlusIcon,
+  ViewfinderCircleIcon,
+} from '@heroicons/react/24/outline'
+import { Tooltip } from '../Tooltip'
+import './TimelineChart.css'
 import ReactDOM from 'react-dom'
 import SidebarSlide from '../Studio/Mapstories/Sidebar/SidebarSlide'
 
@@ -17,7 +25,11 @@ interface TimelineChartProps {
   onEventMove?: (_event: StoryStep, _date: Date) => void
   activeEvent?: string
   editable?: boolean
+  fitButton?: boolean
+  zoomButtons?: boolean
 }
+
+const ZOOM_PERCENTAGE = 0.25
 
 export default function TimelineChart({
   data,
@@ -27,6 +39,8 @@ export default function TimelineChart({
   onEventMove,
   activeEvent,
   editable = false,
+  fitButton = false,
+  zoomButtons = false,
 }: TimelineChartProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [timeline, setTimeline] = useState<Timeline | null>(null)
@@ -53,15 +67,14 @@ export default function TimelineChart({
     var options: TimelineOptions = {
       editable,
       stack: true,
-      maxHeight: '12rem',
+      minHeight: '10rem',
+      maxHeight: '16rem',
       // @ts-ignore
-      template: (item, element) =>
+      template: (item, element, data) =>
         ReactDOM.createPortal(
           // @ts-ignore
           ReactDOM.render(
-            <div className="-p-1">
-              <SidebarSlide position={item.position} stepId={item.id} />
-            </div>,
+            <SidebarSlide position={item.position} stepId={item.id} />,
             element,
           ),
           element,
@@ -102,5 +115,51 @@ export default function TimelineChart({
     timeline.setSelection(activeEvent ?? [])
   }, [activeEvent, timeline])
 
-  return <div className="p-2" ref={ref} />
+  return (
+    <div className="flex items-end">
+      <div className="flex-1 p-2" ref={ref} />
+      <div className="flex flex-col gap-1 rounded bg-zinc-100 p-1">
+        {fitButton && (
+          <Tooltip
+            content="Fit timeline to content"
+            delayDuration={0}
+            side="right"
+          >
+            <Button
+              className="!px-0"
+              onClick={() => timeline?.fit()}
+              size={'sm'}
+              variant={'inverse'}
+            >
+              <ViewfinderCircleIcon className="h-4 w-4" />
+            </Button>
+          </Tooltip>
+        )}
+        {zoomButtons && (
+          <>
+            <Tooltip content="Zoom in" delayDuration={0} side="right">
+              <Button
+                className="!px-0"
+                onClick={() => timeline?.zoomIn(ZOOM_PERCENTAGE)}
+                size={'sm'}
+                variant={'inverse'}
+              >
+                <PlusIcon className="h-4 w-4" />
+              </Button>
+            </Tooltip>
+            <Tooltip content="Zoom out" delayDuration={0} side="right">
+              <Button
+                className="!px-0"
+                onClick={() => timeline?.zoomOut(ZOOM_PERCENTAGE)}
+                size={'sm'}
+                variant={'inverse'}
+              >
+                <MinusIcon className="h-4 w-4" />
+              </Button>
+            </Tooltip>
+          </>
+        )}
+      </div>
+    </div>
+  )
 }

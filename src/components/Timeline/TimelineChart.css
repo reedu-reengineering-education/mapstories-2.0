@@ -1,0 +1,5 @@
+/* Overwriting default TimelineChart styles */
+
+.vis-timeline {
+  border: none !important;
+}
