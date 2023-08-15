@@ -12,8 +12,6 @@ import {
 } from '@heroicons/react/24/outline'
 import { Tooltip } from '../Tooltip'
 import './TimelineChart.css'
-import ReactDOM from 'react-dom'
-import SidebarSlide from '../Studio/Mapstories/Sidebar/SidebarSlide'
 
 interface TimelineChartProps {
   data: (StoryStep & {
@@ -70,15 +68,15 @@ export default function TimelineChart({
       minHeight: '10rem',
       maxHeight: '16rem',
       // @ts-ignore
-      template: (item, element, data) =>
-        ReactDOM.createPortal(
-          // @ts-ignore
-          ReactDOM.render(
-            <SidebarSlide position={item.position} stepId={item.id} />,
-            element,
-          ),
-          element,
-        ),
+      // template: (item, element, data) =>
+      //   ReactDOM.createPortal(
+      //     // @ts-ignore
+      //     ReactDOM.render(
+      //       <SidebarSlide position={item.position} stepId={item.id} />,
+      //       element,
+      //     ),
+      //     element,
+      //   ),
       onAdd: item => {
         onEventAdd && onEventAdd(new Date(item.start))
       },
@@ -118,7 +116,7 @@ export default function TimelineChart({
   return (
     <div className="flex items-end">
       <div className="flex-1 p-2" ref={ref} />
-      <div className="flex flex-col gap-1 rounded bg-zinc-100 p-1">
+      <div className="m-2 flex flex-col gap-1 rounded bg-zinc-100 p-1">
         {fitButton && (
           <Tooltip
             content="Fit timeline to content"

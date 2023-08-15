@@ -26,42 +26,40 @@ export default function EditTimelineWrapper({
   }
 
   return (
-    <>
-      <TimelineChart
-        activeEvent={story.steps.find(s => s.id === stepId)?.id}
-        data={story.steps}
-        editable
-        fitButton
-        onEventAdd={date =>
-          createStoryStep({
-            timestamp: date,
-          })
+    <TimelineChart
+      activeEvent={story.steps.find(s => s.id === stepId)?.id}
+      data={story.steps}
+      editable
+      fitButton
+      onEventAdd={date =>
+        createStoryStep({
+          timestamp: date,
+        })
+      }
+      onEventClick={event =>
+        router.replace(`/storylab/${story.slug}/${event?.id}`)
+      }
+      onEventDelete={async event => {
+        const stepDeleteIndex =
+          story.steps?.findIndex(s => s.id === event.id) ?? -1
+        if (!story.steps || stepDeleteIndex === -1) {
+          return
         }
-        onEventClick={event =>
-          router.replace(`/storylab/${story.slug}/${event?.id}`)
-        }
-        onEventDelete={async event => {
-          const stepDeleteIndex =
-            story.steps?.findIndex(s => s.id === event.id) ?? -1
-          if (!story.steps || stepDeleteIndex === -1) {
-            return
-          }
-          const nextStep = story.steps[stepDeleteIndex + 1]
-          const prevStep = story.steps[stepDeleteIndex - 1]
+        const nextStep = story.steps[stepDeleteIndex + 1]
+        const prevStep = story.steps[stepDeleteIndex - 1]
 
-          await deleteStoryStep(story.steps[stepDeleteIndex].id)
+        await deleteStoryStep(story.steps[stepDeleteIndex].id)
 
-          const redirectStepId = nextStep?.id ?? prevStep?.id ?? ''
-          router.replace(`/storylab/${story.slug}/${redirectStepId}`)
-        }}
-        onEventMove={async (event, date) => {
-          const { data } = await updateStoryStep(storyId, event.id, {
-            timestamp: date,
-          })
-          mutate(data)
-        }}
-        zoomButtons
-      />
-    </>
+        const redirectStepId = nextStep?.id ?? prevStep?.id ?? ''
+        router.replace(`/storylab/${story.slug}/${redirectStepId}`)
+      }}
+      onEventMove={async (event, date) => {
+        const { data } = await updateStoryStep(storyId, event.id, {
+          timestamp: date,
+        })
+        mutate(data)
+      }}
+      zoomButtons
+    />
   )
 }

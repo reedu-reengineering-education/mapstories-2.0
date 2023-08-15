@@ -28,10 +28,12 @@ export default function TimelineChartWrapper({
     <TimelineChart
       activeEvent={story.steps[activeIndex]?.id}
       data={story.steps}
+      fitButton
       onEventClick={event => {
         const idx = story.steps.findIndex(s => s.id === event.id)
         router.replace(`/mystories/story/${story.slug}/${idx}`)
       }}
+      zoomButtons
     ></TimelineChart>
   )
 }
