@@ -39,9 +39,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
   if (!user) {
     redirect('/')
   }
-
   const mapstories = await getMapstories(user.id)
-
   return (
     <div className="relative h-full w-full">
       <div className="absolute left-0 top-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">

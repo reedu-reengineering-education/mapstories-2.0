@@ -1,6 +1,6 @@
 import { useBoundStore } from '@/src/lib/store/store'
 import { StepMarker } from '@/src/types/Stepmarker'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CircleLayer, Layer, Marker, Source } from 'react-map-gl'
 
@@ -23,9 +23,10 @@ export default function Markers({ markers, onClick }: Props) {
   const [triggerHoverLayerData, setTriggerHoverLayerData] = useState<
     GeoJSON.FeatureCollection | undefined
   >()
+  const path = usePathname()
   const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
   const storyID = useBoundStore(state => state.storyID)
-
+  const filter = path?.split('/') ? path.split('/')[3] : 'all'
   const router = useRouter()
 
   useEffect(() => {
@@ -67,7 +68,9 @@ export default function Markers({ markers, onClick }: Props) {
                 }
                 key={(i + 1) * Math.random() * 100}
                 onClick={() =>
-                  router.push(`/mystories/story/${storyID}/${m.position}`)
+                  router.push(
+                    `/mystories/${filter}/story/${storyID}/${m.position}`,
+                  )
                 }
                 // rotationAlignment='horizon'
                 style={{

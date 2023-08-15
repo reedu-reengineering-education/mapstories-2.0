@@ -5,13 +5,14 @@ import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
-import { getCurrentUser } from '@/src/lib/session'
+import { getCurrentUser, getSession } from '@/src/lib/session'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { LinkIcon } from '@heroicons/react/24/outline'
 
 interface ViewerLayoutProps {
   children?: React.ReactNode
+  params: { filter: string }
 }
 
 const getMapstories = async (userId: string) => {
@@ -34,15 +35,52 @@ const getMapstories = async (userId: string) => {
   })
 }
 
-export default async function ViewerLayout({ children }: ViewerLayoutProps) {
+const getMapstoriesWithFilter = async (userId: string, filter: string) => {
+  const unfilteredStories = await db.story.findMany({
+    where: {
+      ownerId: userId,
+    },
+    include: {
+      firstStep: {
+        include: {
+          content: true,
+        },
+      },
+      steps: {
+        include: {
+          content: true,
+        },
+      },
+    },
+  })
+  const filteredStories = unfilteredStories.map(story => {
+    const filteredSteps = (story.steps = story.steps.filter(step =>
+      step.tags.includes(filter),
+    ))
+    return { ...story, steps: filteredSteps }
+  })
+  return filteredStories
+}
+
+export default async function ViewerLayout({
+  children,
+  params: { filter },
+}: ViewerLayoutProps) {
   const user = await getCurrentUser()
 
   if (!user) {
     redirect('/')
   }
 
-  const mapstories = await getMapstories(user.id)
+  const session = await getSession()
 
+  let mapstories
+
+  if (filter === 'all') {
+    mapstories = await getMapstories(user.id)
+  } else {
+    mapstories = await getMapstoriesWithFilter(user.id, filter)
+  }
   return (
     <div className="relative h-full w-full">
       <div className="absolute left-0 top-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">

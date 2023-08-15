@@ -10,12 +10,18 @@ import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import { cx } from 'class-variance-authority'
 
 type Props = {
+  filter: string
   slug: string
   page: string
   slidesOpen: boolean
 }
 
-export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
+export function StorySlideListViewer({
+  filter,
+  slug,
+  page,
+  slidesOpen,
+}: Props) {
   const router = useRouter()
   const path = usePathname()
   const onMyStoriesRoute = path?.includes('mystories')
@@ -50,7 +56,7 @@ export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
 
   function goToStep(position: number) {
     onMyStoriesRoute
-      ? router.push(`/mystories/story/${slug}/${position}`)
+      ? router.push(`/mystories/${filter}/story/${slug}/${position}`)
       : router.push(`/gallery/story/${slug}/${position}`)
   }
 

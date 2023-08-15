@@ -40,7 +40,7 @@ export function Navbar({
       },
       {
         title: t('viewer'),
-        href: `/${lng}/mystories`,
+        href: `/${lng}/all/mystories`,
         disabled: user === undefined,
       },
       {

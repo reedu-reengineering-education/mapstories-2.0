@@ -114,6 +114,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
   // generate markers
   useEffect(() => {
+    console.log('firing')
     const story = stories?.filter(story => story.id === storyID)[0]
     if (story?.steps) {
       let bounds: any = undefined
@@ -156,7 +157,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       //save bounds to zoomTo once map is initiated
       setStartView(bounds)
     }
-  }, [storyID])
+  }, [storyID, stories])
 
   function extractGeoJson(
     currentStories:
@@ -228,17 +229,28 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
     setSelectedStorySlug(m.properties?.slug)
     onMyStoriesRoute
-      ? router.push(`/mystories/story/${m.properties?.slug}/start`)
-      : router.push(`/gallery/story/${m.properties?.slug}/start`)
+      ? router.push(`/mystories/all/story/${m.properties?.slug}/start`)
+      : router.push(`/gallery/all/story/${m.properties?.slug}/start`)
   }
 
   function updateToStep(index: number) {
     const story = stories?.filter(story => story.id === storyID)[0]
-    if (story?.steps?.length && story?.steps?.length > index) {
-      if (mapRef && story.steps[index].feature) {
-        const feature: Feature<GeoJSON.Point> = story?.steps.sort(
-          (a, b) => a.position - b.position,
-        )[index].feature as unknown as Feature<GeoJSON.Point>
+    if (
+      story?.steps?.length &&
+      index <=
+        Math.max.apply(
+          Math,
+          story?.steps?.map(step => step.position),
+        )
+    ) {
+      let stepFeat = story?.steps.filter(step => step.position === index)
+      let stepGeosjon: GeoJSON.Feature<GeoJSON.Point> | undefined
+      // @ts-ignore
+      stepFeat.length > 0 ? (stepFeat = stepFeat[0].feature) : null
+
+      if (mapRef && stepFeat) {
+        const feature: Feature<GeoJSON.Point> =
+          stepFeat as unknown as Feature<GeoJSON.Point>
         mapRef.current?.flyTo({
           center: [
             feature.geometry.coordinates[0],

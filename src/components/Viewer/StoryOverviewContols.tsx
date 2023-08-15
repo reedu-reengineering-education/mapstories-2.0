@@ -13,10 +13,14 @@ import {
   CaretDownIcon,
   Cross1Icon,
   PlayIcon,
+  ReaderIcon,
   ReloadIcon,
 } from '@radix-ui/react-icons'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
+import { Input } from '../Elements/Input'
+import { Modal } from '../Modal'
+import { StoryStep } from '@prisma/client'
 
 type Props = {
   slug: string
@@ -36,11 +40,13 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
   const setSlidesOpen = useBoundStore(state => state.setSlidesOpen)
   const slidesOpen = useBoundStore(state => state.slidesOpen)
   const setViewerStories = useBoundStore(state => state.setViewerStories)
-
+  const [filter, setFilter] = React.useState(path?.split('/')[3])
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
   )
 
+  const userStory = useBoundStore(state => state.viewerStories)
+  const [open, setOpen] = React.useState(false)
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
@@ -74,32 +80,6 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
     onMyStoriesRoute ? router.push('mystories') : router.push('gallery')
   }
 
-  function nextStep() {
-    // const length = story?.steps?.length
-    if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
-      onMyStoriesRoute
-        ? router.push(
-            `/mystories/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
-          )
-        : router.push(
-            `/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
-          )
-    }
-  }
-
-  function prevStep() {
-    // const length = story?.steps?.length
-    if (parseInt(page) > 0) {
-      onMyStoriesRoute
-        ? router.push(
-            `/mystories/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
-          )
-        : router.push(
-            `/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
-          )
-    }
-  }
-
   useEffect(() => {
     updateSelectedStepIndex(parseInt(page))
     if (page === 'start') {
@@ -108,14 +88,23 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
   }, [])
 
   function startStory() {
+    const positions = story?.steps?.map((step: StoryStep) => step?.position)
+    const lowestPosition = Math.min(...positions)
     onMyStoriesRoute
-      ? router.push(`/mystories/story/${slug}/0`)
-      : router.push(`/gallery/story/${slug}/0`)
+      ? router.push(`/mystories/${filter}/story/${slug}/${lowestPosition}`)
+      : router.push(`/gallery/story/${slug}/${filter}/${lowestPosition}`)
   }
   function backToStart() {
     onMyStoriesRoute
-      ? router.push(`/mystories/story/${slug}/start`)
+      ? router.push(`/mystories/${filter}/story/${slug}/start`)
+      : router.push(`/gallery/story/${slug}/${filter}/start`)
+  }
+
+  function applyFilter() {
+    onMyStoriesRoute
+      ? router.push(`/mystories/${filter}/story/${slug}/start`)
       : router.push(`/gallery/story/${slug}/start`)
+    setOpen(false)
   }
 
   return (
@@ -137,6 +126,44 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
                   >
                     {t('play')}
                   </Button>
+                  <Modal
+                    onOpenChange={setOpen}
+                    open={open}
+                    title={'apply filter'}
+                    trigger={
+                      <Button startIcon={<ReaderIcon className="w-4" />}>
+                        {t('filter')}
+                      </Button>
+                    }
+                  >
+                    <Modal.Content>
+                      <div className="flex flex-col gap-2">
+                        <Input
+                          label={t('filter')}
+                          onChange={e => setFilter(e.target.value)}
+                          value={filter}
+                        ></Input>
+                        <div className="flex flex-row justify-evenly gap-2">
+                          <Button
+                            onClick={() => {
+                              setFilter('all')
+                              applyFilter()
+                            }}
+                            startIcon={<ReloadIcon className="w-4" />}
+                            variant={'inverse'}
+                          >
+                            {t('reset')}
+                          </Button>
+                          <Button
+                            onClick={() => applyFilter()}
+                            startIcon={<ReloadIcon className="w-4" />}
+                          >
+                            {t('apply')}
+                          </Button>
+                        </div>
+                      </div>
+                    </Modal.Content>
+                  </Modal>
 
                   <Button
                     onClick={onClose}
@@ -163,36 +190,6 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
                     aria-label="StoryControls"
                     className="ToolbarRoot"
                   >
-                    {/* <Toolbar.ToggleGroup
-                    aria-label="Story Contols"
-                    type="multiple"
-                  >
-                    <Toolbar.ToggleItem
-                      aria-label="Home"
-                      className="ToolbarToggleItem"
-                      onClick={() => backToStart()}
-                      value="home"
-                    >
-                      <HomeIcon />
-                    </Toolbar.ToggleItem>
-                    <Toolbar.ToggleItem
-                      aria-label="Previous"
-                      className="ToolbarToggleItem"
-                      onClick={() => prevStep()}
-                      value="previous"
-                    >
-                      <TrackPreviousIcon />
-                    </Toolbar.ToggleItem>
-                    <Toolbar.ToggleItem
-                      aria-label="Next"
-                      className="ToolbarToggleItem"
-                      onClick={() => nextStep()}
-                      value="next"
-                    >
-                      <TrackNextIcon />
-                    </Toolbar.ToggleItem>
-                  </Toolbar.ToggleGroup>
-                  <Toolbar.Separator className="ToolbarSeparator" /> */}
                     <Toolbar.ToggleGroup
                       aria-label="Viewer Controls"
                       defaultValue="center"
@@ -225,6 +222,7 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
         )}
       </div>
       <StorySlideListViewer
+        filter={filter ? filter : 'all'}
         page={page}
         slidesOpen={slidesOpen}
         slug={slug}

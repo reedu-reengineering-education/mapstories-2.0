@@ -2,5 +2,8 @@
   "more": "Mehr erfahren",
   "play": "Los geht´s",
   "close": "Schließen",
-  "storyNotAvailable": "Diese Mapstory ist leider nicht verfügbar."
+  "storyNotAvailable": "Diese Mapstory ist leider nicht verfügbar.",
+  "filter": "Filter",
+  "reset": "Zurücksetzen",
+  "apply": "Anwenden"
 }
