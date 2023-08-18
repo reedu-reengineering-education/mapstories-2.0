@@ -27,7 +27,7 @@ export default function TimelineChartWrapper({
   return (
     <TimelineChart
       activeEvent={story.steps[activeIndex]?.id}
-      data={story.steps}
+      data={story.steps.sort((a, b) => a.position - b.position)}
       fitButton
       onEventClick={event => {
         const idx = story.steps.findIndex(s => s.id === event.id)

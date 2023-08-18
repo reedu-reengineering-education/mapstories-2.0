@@ -67,7 +67,9 @@ export function Slides({ slug, page, story }: Props) {
         page && (
           <Slide
             step={
-              page == 'start' ? story?.firstStep : story?.steps[parseInt(page)]
+              page == 'start'
+                ? story?.firstStep
+                : story?.steps.find((s: any) => s.position == page)
             }
           ></Slide>
         )}

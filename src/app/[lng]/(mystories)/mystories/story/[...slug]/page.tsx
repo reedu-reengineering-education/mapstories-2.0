@@ -42,6 +42,9 @@ const getMapstory = async (slug: string, userId: string) => {
         include: {
           content: true,
         },
+        orderBy: {
+          position: 'asc',
+        },
       },
     },
   })
