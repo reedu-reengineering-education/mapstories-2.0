@@ -8,7 +8,7 @@ const badgeVariant = cva(
 
 export type TagBadgeProps = React.ComponentPropsWithoutRef<'div'> & {
   tagName: string
-  onRemove?: (tagName: string) => void
+  onRemove: (tagName: string) => void
 }
 
 export function TagBadge({ tagName, onRemove }: TagBadgeProps) {
