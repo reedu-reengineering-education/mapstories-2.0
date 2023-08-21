@@ -39,9 +39,7 @@ export default function TimelineChartWrapper({
       data={events}
       onEventClick={event => {
         const idx = story.steps.findIndex(s => s.timestamp === event.timestamp)
-        router.replace(
-          `/mystories/${filter}/story/${story.slug}/${filter}/${idx}`,
-        )
+        router.replace(`/mystories/${filter}/story/${story.slug}/${idx}`)
       }}
     ></TimelineChart>
   )
