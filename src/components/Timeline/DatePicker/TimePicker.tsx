@@ -3,7 +3,7 @@ export type TimePickerProps = React.ComponentPropsWithoutRef<'input'> & {
   setTime: (time: string) => void
 }
 
-function TimePicker({ time, setTime, ...props }: TimePickerProps) {
+function TimePicker({ time, setTime }: TimePickerProps) {
   return (
     <input
       className="rounded-md border text-center"
