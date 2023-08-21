@@ -40,7 +40,7 @@ export function MapstoryCardGallery({ mapstory }: Props) {
       <Card.Footer>
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            <Link href={`/gallery/story/${mapstory.slug}/start`}>
+            <Link href={`/gallery/all/story/${mapstory.slug}/start`}>
               <Button onClick={() => selectStoryForViewer(mapstory)}>
                 {t('play')}
               </Button>
