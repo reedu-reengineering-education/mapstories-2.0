@@ -19,7 +19,6 @@ type Props = {
 export function StoryPlayButtons({ slug, page, story }: Props) {
   const router = useRouter()
   const path = usePathname()
-  const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
   // const { story } = useStory(slug)
 

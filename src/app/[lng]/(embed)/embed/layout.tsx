@@ -1,4 +1,4 @@
-import { LogoWithTextAndBackground } from '@/src/components/Layout/MapstoriesLogo'
+import { LogoWithTextTransparent } from '@/src/components/Layout/MapstoriesLogo'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { getCurrentUser } from '@/src/lib/session'
 
@@ -16,7 +16,8 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
       <div className="absolute left-0 top-0 z-10 w-full">
         <header className="sticky top-0">
           <div className="flex h-16 items-center justify-between py-4 pl-6">
-            <LogoWithTextAndBackground />
+            {/* <LogoWithTextAndBackground /> */}
+            <LogoWithTextTransparent />
           </div>
         </header>
       </div>

@@ -71,26 +71,11 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
   }, [page])
 
   function onClose() {
-    onMyStoriesRoute ? router.push('mystories') : router.push('gallery')
+    const pathLocal =
+      path?.split('/').splice(2, 1).join('/') ?? 'gallery/story/'
+
+    router.push(`${pathLocal}`)
   }
-
-  // function nextStep() {
-  //   const pathLocal =
-  //     path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
-
-  //   if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
-  //     router.push(`${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
-  //   }
-  // }
-
-  // function prevStep() {
-  //   const pathLocal =
-  //     path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
-
-  //   if (parseInt(page) > 0) {
-  //     router.push(`${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
-  //   }
-  // }
 
   useEffect(() => {
     updateSelectedStepIndex(parseInt(page))
@@ -132,12 +117,14 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
                     {t('play')}
                   </Button>
 
-                  <Button
-                    onClick={onClose}
-                    startIcon={<Cross1Icon className="w-4" />}
-                  >
-                    {t('close')}
-                  </Button>
+                  {!path?.includes('/embed/') && (
+                    <Button
+                      onClick={onClose}
+                      startIcon={<Cross1Icon className="w-4" />}
+                    >
+                      {t('close')}
+                    </Button>
+                  )}
                 </div>
               </div>
             )}

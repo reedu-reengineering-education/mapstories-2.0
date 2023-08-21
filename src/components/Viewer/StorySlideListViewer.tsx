@@ -18,7 +18,6 @@ type Props = {
 export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
   const router = useRouter()
   const path = usePathname()
-  const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
   const { story } = useStory(slug)
 
@@ -42,16 +41,11 @@ export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
     updateSelectedStepIndex(parseInt(page))
   }, [])
 
-  function startStory() {
-    onMyStoriesRoute
-      ? router.push(`/mystories/story/${slug}/0`)
-      : router.push(`/gallery/story/${slug}/0`)
-  }
-
   function goToStep(position: number) {
-    onMyStoriesRoute
-      ? router.push(`/mystories/story/${slug}/${position}`)
-      : router.push(`/gallery/story/${slug}/${position}`)
+    const pathLocal =
+      path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
+
+    router.push(`${pathLocal}/${slug}/${position}`)
   }
 
   const variantsList = {
