@@ -118,19 +118,7 @@ export default async function StepPage({
               }
             />
             <Spacer />
-            <StepTagModal
-              storyStepId={storyStepId}
-              tags={storyStep?.tags}
-              trigger={
-                <Button
-                  className="w-full"
-                  startIcon={<TagIcon className="h-6" />}
-                  variant={'inverse'}
-                >
-                  Add tag
-                </Button>
-              }
-            />
+
             <Spacer />
             <StepCalendarModal storyStepId={storyStepId} />
           </>
