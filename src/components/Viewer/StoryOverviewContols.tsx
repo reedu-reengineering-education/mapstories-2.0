@@ -74,31 +74,23 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
     onMyStoriesRoute ? router.push('mystories') : router.push('gallery')
   }
 
-  function nextStep() {
-    // const length = story?.steps?.length
-    if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
-      onMyStoriesRoute
-        ? router.push(
-            `/mystories/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
-          )
-        : router.push(
-            `/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
-          )
-    }
-  }
+  // function nextStep() {
+  //   const pathLocal =
+  //     path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
 
-  function prevStep() {
-    // const length = story?.steps?.length
-    if (parseInt(page) > 0) {
-      onMyStoriesRoute
-        ? router.push(
-            `/mystories/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
-          )
-        : router.push(
-            `/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
-          )
-    }
-  }
+  //   if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
+  //     router.push(`${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+  //   }
+  // }
+
+  // function prevStep() {
+  //   const pathLocal =
+  //     path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
+
+  //   if (parseInt(page) > 0) {
+  //     router.push(`${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+  //   }
+  // }
 
   useEffect(() => {
     updateSelectedStepIndex(parseInt(page))
@@ -108,14 +100,16 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
   }, [])
 
   function startStory() {
-    onMyStoriesRoute
-      ? router.push(`/mystories/story/${slug}/0`)
-      : router.push(`/gallery/story/${slug}/0`)
+    const pathLocal =
+      path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
+
+    router.push(`${pathLocal}/${slug}/0`)
   }
   function backToStart() {
-    onMyStoriesRoute
-      ? router.push(`/mystories/story/${slug}/start`)
-      : router.push(`/gallery/story/${slug}/start`)
+    const pathLocal =
+      path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
+
+    router.push(`${pathLocal}/${slug}/start`)
   }
 
   return (
@@ -207,15 +201,17 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
                       >
                         <ReloadIcon />
                       </Toolbar.ToggleItem>
-                      <Toolbar.ToggleItem
-                        aria-label="Quit story"
-                        className="ToolbarToggleItem"
-                        onClick={onClose}
-                        title="Quit Story"
-                        value="quit"
-                      >
-                        <Cross1Icon />
-                      </Toolbar.ToggleItem>
+                      {!path?.includes('/embed/') && (
+                        <Toolbar.ToggleItem
+                          aria-label="Quit story"
+                          className="ToolbarToggleItem"
+                          onClick={onClose}
+                          title="Quit Story"
+                          value="quit"
+                        >
+                          <Cross1Icon />
+                        </Toolbar.ToggleItem>
+                      )}
                     </Toolbar.ToggleGroup>
                   </Toolbar.Root>
                 </div>

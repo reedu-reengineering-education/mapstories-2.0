@@ -46,28 +46,21 @@ export function StoryPlayButtons({ slug, page, story }: Props) {
   }, [page])
 
   function nextStep() {
-    // const length = story?.steps?.length
+    const pathLocal =
+      path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
+
     if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
-      onMyStoriesRoute
-        ? router.push(
-            `/mystories/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
-          )
-        : router.push(
-            `/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
-          )
+      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
     }
   }
 
   function prevStep() {
     // const length = story?.steps?.length
+    const pathLocal =
+      path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
+
     if (parseInt(page) > 0) {
-      onMyStoriesRoute
-        ? router.push(
-            `/mystories/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
-          )
-        : router.push(
-            `/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
-          )
+      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
     }
   }
 
