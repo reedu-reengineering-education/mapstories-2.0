@@ -37,23 +37,9 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const { story, reorderStorySteps } = useStory(storyID)
 
   const [hoverMarkerIcon, setHoverMarkerIcon] = useState<boolean[]>([])
-  const [filter, setFilter] = useState<string>('')
   const [filteredSteps, setFilteredSteps] = useState<
     (StoryStep & { content: SlideContent[] })[]
   >([])
-
-  useEffect(() => {
-    if (!story?.steps) {
-      return
-    }
-    const filteredStepsTmp = story.steps.filter(step => {
-      if (filter === '') {
-        return true
-      }
-      return step.tags.includes(filter)
-    })
-    setFilteredSteps(filteredStepsTmp)
-  }, [filter])
 
   const handleMouseEnter = (index: number) => {
     // Create a new array with the updated hover state for the current div
@@ -123,7 +109,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
         </Link>
         <hr className="my-4 border-gray-400" />
         <DraggableList
-          items={filteredSteps.map((s, i) => ({
+          items={steps.map((s, i) => ({
             id: s.id,
             s: s,
             slug: story.slug,
@@ -198,12 +184,6 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
             <AddStoryStepTimelineButton storyID={storyID} />
           )}
         </div>
-        <input
-          className="bottom-0 z-20 mb-2 w-full rounded-md border bg-white py-2"
-          onChange={e => setFilter(e.target.value)}
-          placeholder="Filter for tags"
-          type="text"
-        />
       </aside>
     </>
   )

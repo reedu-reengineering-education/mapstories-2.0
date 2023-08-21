@@ -48,6 +48,11 @@ export default function StepTagModal({ trigger, storyStepId, tags }: Props) {
     setLoading(false)
   }
 
+  const removeElement = (tagName: string) => {
+    const newTags = tagsTmp.filter(tag => tag !== tagName)
+    setTagsTmp(newTags)
+  }
+
   return (
     <>
       <Modal
@@ -73,7 +78,7 @@ export default function StepTagModal({ trigger, storyStepId, tags }: Props) {
           </div>
           <div className="flex flex-row flex-wrap gap-2">
             {tagsTmp?.map((tag, index) => (
-              <TagBadge key={index} tagName={tag} />
+              <TagBadge key={index} onRemove={removeElement} tagName={tag} />
             ))}
           </div>
         </Modal.Content>
