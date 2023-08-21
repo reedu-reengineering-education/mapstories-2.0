@@ -2,5 +2,8 @@
   "more": "Learn more",
   "play": "Play",
   "close": "Close",
-  "storyNotAvailable": "This Mapstory is not available."
+  "storyNotAvailable": "This Mapstory is not available.",
+  "filter": "filter",
+  "reset": "Reset",
+  "apply": "apply"
 }

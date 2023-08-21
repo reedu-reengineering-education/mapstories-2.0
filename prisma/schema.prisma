@@ -113,6 +113,7 @@ model StoryStep {
   viewport       Json
   storyTitleStep Story?         @relation("firstStep")
   timestamp      DateTime?
+  tags           String[]
 
   @@map(name: "storysteps")
 }

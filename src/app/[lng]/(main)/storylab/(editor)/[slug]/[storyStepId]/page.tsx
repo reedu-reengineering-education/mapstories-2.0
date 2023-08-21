@@ -8,7 +8,9 @@ import { Metadata } from 'next/types'
 import { getStoryName } from '@/src/lib/getStoryName'
 import { useTranslation } from '@/src/app/i18n'
 import { Spacer } from '@/src/components/Elements/Spacer'
+import { TagIcon } from '@heroicons/react/24/outline'
 import StepCalendarModal from './StepCalendarModal'
+import StepTagModal from './StepTagModal'
 import EditTimelineWrapper from './EditTimelineWrapper'
 
 export async function generateMetadata({
@@ -101,6 +103,34 @@ export default async function StepPage({
         />
         {story.mode === StoryMode.TIMELINE && (
           <>
+            <Spacer />
+            <StepTagModal
+              storyStepId={storyStepId}
+              tags={storyStep?.tags}
+              trigger={
+                <Button
+                  className="w-full"
+                  startIcon={<TagIcon className="h-6" />}
+                  variant={'inverse'}
+                >
+                  Add tag
+                </Button>
+              }
+            />
+            <Spacer />
+            <StepTagModal
+              storyStepId={storyStepId}
+              tags={storyStep?.tags}
+              trigger={
+                <Button
+                  className="w-full"
+                  startIcon={<TagIcon className="h-6" />}
+                  variant={'inverse'}
+                >
+                  Add tag
+                </Button>
+              }
+            />
             <Spacer />
             <StepCalendarModal storyStepId={storyStepId} />
           </>
