@@ -26,21 +26,16 @@ export default function TimelineChartWrapper({
 }) {
   const router = useRouter()
 
-  const events = story.steps
-    .filter(e => e.timestamp != null)
-    .map(s => ({
-      timestamp: s.timestamp,
-      title: s.content.find(e => e.type === 'TITLE')?.content,
-    }))
-
   return (
     <TimelineChart
-      activeIndex={activeIndex}
-      data={events}
+      activeEvent={story.steps[activeIndex]?.id}
+      data={story.steps.sort((a, b) => a.position - b.position)}
+      fitButton
       onEventClick={event => {
         const idx = story.steps.findIndex(s => s.timestamp === event.timestamp)
         router.replace(`/mystories/${filter}/story/${story.slug}/${idx}`)
       }}
+      zoomButtons
     ></TimelineChart>
   )
 }

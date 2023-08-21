@@ -43,22 +43,6 @@ export function Slides({ slug, page, story }: Props) {
     updateSelectedStepIndex(parseInt(page))
   }, [])
 
-  function nextStep() {
-    // const length = story?.steps?.length
-    if (path?.includes('mystories')) {
-      router.push(`/mystories/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
-    }
-    router.push(`/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
-  }
-
-  function prevStep() {
-    // const length = story?.steps?.length
-    if (path?.includes('mystories')) {
-      router.push(`/mystories/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
-    }
-    router.push(`/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
-  }
-
   return (
     <div className="py-4">
       {story?.steps.sort(
@@ -67,7 +51,9 @@ export function Slides({ slug, page, story }: Props) {
         page && (
           <Slide
             step={
-              page == 'start' ? story?.firstStep : story?.steps[parseInt(page)]
+              page == 'start'
+                ? story?.firstStep
+                : story?.steps.find((s: any) => s.position == page)
             }
           ></Slide>
         )}

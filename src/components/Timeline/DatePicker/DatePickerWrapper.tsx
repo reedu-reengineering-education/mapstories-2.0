@@ -3,13 +3,20 @@ import { Calendar } from './Calendar'
 import { TimePicker } from './TimePicker'
 
 export type DatePickerWrapperProps = React.ComponentPropsWithoutRef<'div'> & {
-  date: Date | undefined
-  setDate: (date: Date | undefined) => void
+  date: Date
+  setDate: (date: Date) => void
 }
 
-function DatePickerWrapper({ children, ...props }: DatePickerWrapperProps) {
-  const [day, setDay] = useState<Date | undefined>(props.date ?? new Date())
-  const [time, setTime] = useState(props.date?.toLocaleTimeString() ?? '')
+function DatePickerWrapper({ setDate, date }: DatePickerWrapperProps) {
+  const [day, setDay] = useState<Date>(new Date())
+  const [time, setTime] = useState('12:00:00')
+
+  useEffect(() => {
+    if (date) {
+      setDay(date)
+      setTime(date.toLocaleTimeString())
+    }
+  }, [])
 
   useEffect(() => {
     const hours = parseInt(time.split(':')[0])
@@ -18,7 +25,7 @@ function DatePickerWrapper({ children, ...props }: DatePickerWrapperProps) {
       day.setHours(hours)
       day.setMinutes(minutes)
     }
-    props.setDate(day)
+    setDate(day)
   }, [day, time])
 
   return (
@@ -26,8 +33,9 @@ function DatePickerWrapper({ children, ...props }: DatePickerWrapperProps) {
       <Calendar
         className="rounded-md border"
         mode="single"
+        // @ts-ignore
         onSelect={setDay}
-        selected={day ?? new Date()}
+        selected={day}
       />
       <TimePicker setTime={setTime} time={time} />
     </div>

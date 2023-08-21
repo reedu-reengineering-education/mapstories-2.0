@@ -14,7 +14,7 @@ export default function ShareModal({ storyId }: { storyId: string }) {
 
   const [open, setOpen] = useState(false)
 
-  const link = `${window.location.origin}/gallery/story/${storyId}/start`
+  const link = `${window.location.origin}/gallery/all/story/${storyId}/start`
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(link)

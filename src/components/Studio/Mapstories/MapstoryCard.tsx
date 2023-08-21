@@ -33,7 +33,7 @@ export function MapstoryCard({ mapstory }: Props) {
       <Card.Footer>
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            <Link href={`/mystories/story/${mapstory.slug}/start`}>
+            <Link href={`/mystories/all/story/${mapstory.slug}/start`}>
               <Button startIcon={<EyeIcon className="w-5" />}>
                 {t('play')}
               </Button>

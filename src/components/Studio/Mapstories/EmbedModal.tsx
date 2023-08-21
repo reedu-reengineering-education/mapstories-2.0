@@ -16,7 +16,7 @@ export default function EmbedModal({ storyId }: { storyId: string }) {
 
   const [open, setOpen] = useState(false)
 
-  const link = `${window.location.origin}/gallery/story/${storyId}/start`
+  const link = `${window.location.origin}/gallery/all/story/${storyId}/start`
 
   const iframeSrc = `<iframe src="${link}" style="border:none; width:100%; height:100%" title="Mapstories"></iframe>`
 
