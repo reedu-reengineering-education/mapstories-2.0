@@ -8,31 +8,28 @@ import { useEffect } from 'react'
 import { Slide } from './Slide'
 import * as Toolbar from '@radix-ui/react-toolbar'
 import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListViewer'
-
+import { StoryFilterInput } from './StoryFilterInput'
 import {
   CaretDownIcon,
   Cross1Icon,
   PlayIcon,
-  ReaderIcon,
   ReloadIcon,
 } from '@radix-ui/react-icons'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
-import { Input } from '../Elements/Input'
-import { Modal } from '../Modal'
 import { StoryStep } from '@prisma/client'
-
 type Props = {
   slug: string
   page: string
   story: any
+  tags: string[]
   //  (Story & {
   //     steps?: (StoryStep & { content: SlideContent[] })[]
   //     firstStep?: StoryStep & { content: SlideContent[] }
   //   })
 }
 
-export function StoryOverviewControls({ slug, page, story }: Props) {
+export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   const router = useRouter()
   const path = usePathname()
   const onMyStoriesRoute = path?.includes('mystories')
@@ -40,10 +37,12 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
   const setSlidesOpen = useBoundStore(state => state.setSlidesOpen)
   const slidesOpen = useBoundStore(state => state.slidesOpen)
   const setViewerStories = useBoundStore(state => state.setViewerStories)
-  const [filter, setFilter] = React.useState(path?.split('/')[3])
+  const [filter, setFilter] = React.useState(path?.split('/')[3].split('-'))
+  const [allTags, setAllTags] = React.useState<string[]>(tags)
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
   )
+  const [openInput, setOpenInput] = React.useState(false)
 
   const userStory = useBoundStore(state => state.viewerStories)
   const [open, setOpen] = React.useState(false)
@@ -77,7 +76,7 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
   }, [page])
 
   function onClose() {
-    onMyStoriesRoute ? router.push('mystories') : router.push('gallery')
+    onMyStoriesRoute ? router.push('mystories/all') : router.push('gallery')
   }
 
   useEffect(() => {
@@ -91,18 +90,23 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
     const positions = story?.steps?.map((step: StoryStep) => step?.position)
     const lowestPosition = Math.min(...positions)
     onMyStoriesRoute
-      ? router.push(`/mystories/${filter}/story/${slug}/${lowestPosition}`)
+      ? router.push(
+          `/mystories/${filter?.join('-')}/story/${slug}/${lowestPosition}`,
+        )
       : router.push(`/gallery/story/${slug}/${filter}/${lowestPosition}`)
   }
   function backToStart() {
     onMyStoriesRoute
-      ? router.push(`/mystories/${filter}/story/${slug}/start`)
-      : router.push(`/gallery/story/${slug}/${filter}/start`)
+      ? router.push(`/mystories/all/story/${slug}/start`)
+      : router.push(`/gallery/story/${slug}/${filter?.join('-')}/start`)
   }
 
-  function applyFilter() {
+  function applyFilter(filter?: string[]) {
+    if (!filter) {
+      setFilter(['all'])
+    }
     onMyStoriesRoute
-      ? router.push(`/mystories/${filter}/story/${slug}/start`)
+      ? router.push(`/mystories/${filter?.join('-')}/story/${slug}/start`)
       : router.push(`/gallery/story/${slug}/start`)
     setOpen(false)
   }
@@ -113,64 +117,37 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
         {!story && <p>{t('storyNotAvailable')}</p>}
         {story && (
           <div>
-            <div className="bg-gray">
+            <div className="flex-rowbg-gray flex gap-2">
               <h3 className="max-w-[500px]">{story?.name}</h3>
             </div>
-            {page == 'start' && (
-              <div className="re-title-slide overflow-x-hidden pr-5">
-                <Slide step={story?.firstStep}></Slide>
-                <div className="flex justify-between">
-                  <Button
-                    onClick={() => startStory()}
-                    startIcon={<PlayIcon className="w-4" />}
-                  >
-                    {t('play')}
-                  </Button>
-                  <Modal
-                    onOpenChange={setOpen}
-                    open={open}
-                    title={'apply filter'}
-                    trigger={
-                      <Button startIcon={<ReaderIcon className="w-4" />}>
-                        {t('filter')}
-                      </Button>
-                    }
-                  >
-                    <Modal.Content>
-                      <div className="flex flex-col gap-2">
-                        <Input
-                          label={t('filter')}
-                          onChange={e => setFilter(e.target.value)}
-                          value={filter}
-                        ></Input>
-                        <div className="flex flex-row justify-evenly gap-2">
-                          <Button
-                            onClick={() => {
-                              setFilter('all')
-                              applyFilter()
-                            }}
-                            startIcon={<ReloadIcon className="w-4" />}
-                            variant={'inverse'}
-                          >
-                            {t('reset')}
-                          </Button>
-                          <Button
-                            onClick={() => applyFilter()}
-                            startIcon={<ReloadIcon className="w-4" />}
-                          >
-                            {t('apply')}
-                          </Button>
-                        </div>
-                      </div>
-                    </Modal.Content>
-                  </Modal>
 
-                  <Button
-                    onClick={onClose}
-                    startIcon={<Cross1Icon className="w-4" />}
-                  >
-                    {t('close')}
-                  </Button>
+            {page == 'start' && (
+              <div>
+                <div>
+                  <StoryFilterInput
+                    allTags={allTags}
+                    filter={filter ? filter : ['all']}
+                    onFilterChange={applyFilter}
+                  />
+                </div>
+
+                <div className="re-title-slide overflow-x-hidden pr-5">
+                  <Slide step={story?.firstStep}></Slide>
+                  <div className="flex justify-between">
+                    <Button
+                      onClick={() => startStory()}
+                      startIcon={<PlayIcon className="w-4" />}
+                    >
+                      {t('play')}
+                    </Button>
+
+                    <Button
+                      onClick={onClose}
+                      startIcon={<Cross1Icon className="w-4" />}
+                    >
+                      {t('close')}
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
@@ -222,7 +199,7 @@ export function StoryOverviewControls({ slug, page, story }: Props) {
         )}
       </div>
       <StorySlideListViewer
-        filter={filter ? filter : 'all'}
+        filter={filter ? filter.join('-') : 'all'}
         page={page}
         slidesOpen={slidesOpen}
         slug={slug}

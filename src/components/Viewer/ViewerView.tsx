@@ -114,7 +114,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
   // generate markers
   useEffect(() => {
-    console.log('firing')
     const story = stories?.filter(story => story.id === storyID)[0]
     if (story?.steps) {
       let bounds: any = undefined

@@ -50,7 +50,7 @@ const getMapstory = async (slug: string, userId: string) => {
 const getMapstoryWithFilter = async (
   slug: string,
   userId: string,
-  filter: string,
+  filterArray: string[],
 ) => {
   const unfilteredStory = await db.story.findFirst({
     where: {
@@ -73,11 +73,12 @@ const getMapstoryWithFilter = async (
   if (!unfilteredStory) {
     return unfilteredStory
   }
-  const filteredStories = unfilteredStory?.steps.filter(step => {
-    return step.tags.includes(filter)
-  })
 
-  return { ...unfilteredStory, steps: filteredStories }
+  const filteredSteps = unfilteredStory.steps.filter(step =>
+    filterArray.every(tag => step.tags.includes(tag)),
+  )
+  const newStory = { ...unfilteredStory, steps: filteredSteps }
+  return { ...unfilteredStory, steps: filteredSteps }
 }
 
 export default async function StoryPage({
@@ -87,12 +88,15 @@ export default async function StoryPage({
   if (!user) {
     redirect('/')
   }
-
-  let story
-  if (filter === 'all') {
+  const filterArray = filter.split('-')
+  let story, tags
+  if (filterArray[0] === 'all') {
     story = await getMapstory(slug[0], user.id)
+    tags = story?.steps?.map(step => step.tags).flat()
   } else {
-    story = await getMapstoryWithFilter(slug[0], user.id, filter)
+    story = await getMapstoryWithFilter(slug[0], user.id, filterArray)
+    tags = await getMapstory(slug[0], user.id)
+    tags = tags?.steps?.map(step => step.tags).flat()
   }
 
   return (
@@ -102,6 +106,7 @@ export default async function StoryPage({
           page={slug[1]}
           slug={slug[0]}
           story={story}
+          tags={tags}
           // toggleSlides={toggleSlidesOpen}
         ></StoryOverviewControls>
       </div>

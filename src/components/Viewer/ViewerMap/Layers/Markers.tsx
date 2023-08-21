@@ -26,7 +26,7 @@ export default function Markers({ markers, onClick }: Props) {
   const path = usePathname()
   const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
   const storyID = useBoundStore(state => state.storyID)
-  const filter = path?.split('/') ? path.split('/')[3] : 'all'
+  const filter = path?.split('/') ? path.split('/')[3].split('-') : ['all']
   const router = useRouter()
 
   useEffect(() => {
@@ -69,7 +69,9 @@ export default function Markers({ markers, onClick }: Props) {
                 key={(i + 1) * Math.random() * 100}
                 onClick={() =>
                   router.push(
-                    `/mystories/${filter}/story/${storyID}/${m.position}`,
+                    `/mystories/${filter.join('-')}/story/${storyID}/${
+                      m.position
+                    }`,
                   )
                 }
                 // rotationAlignment='horizon'

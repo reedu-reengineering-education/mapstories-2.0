@@ -11,7 +11,7 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 
 type Props = {
-  filter: string
+  filter: string[]
   slug: string
   page: string
   story: any
@@ -50,7 +50,7 @@ export function StoryPlayButtons({ filter, slug, page, story }: Props) {
     // const length = story?.steps?.length
     onMyStoriesRoute
       ? router.push(
-          `/mystories/${filter}/story/${slug}/${
+          `/mystories/${filter?.join('-')}/story/${slug}/${
             page ? parseInt(page) + 1 : '1'
           }`,
         )
@@ -62,7 +62,7 @@ export function StoryPlayButtons({ filter, slug, page, story }: Props) {
     if (parseInt(page) > 0) {
       onMyStoriesRoute
         ? router.push(
-            `/mystories/${filter}/story/${slug}/${
+            `/mystories/${filter?.join('-')}/story/${slug}/${
               page ? parseInt(page) - 1 : '1'
             }`,
           )

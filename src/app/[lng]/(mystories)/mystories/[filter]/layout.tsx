@@ -35,7 +35,7 @@ const getMapstories = async (userId: string) => {
   })
 }
 
-const getMapstoriesWithFilter = async (userId: string, filter: string) => {
+const getMapstoriesWithFilter = async (userId: string, filter: string[]) => {
   const unfilteredStories = await db.story.findMany({
     where: {
       ownerId: userId,
@@ -54,9 +54,9 @@ const getMapstoriesWithFilter = async (userId: string, filter: string) => {
     },
   })
   const filteredStories = unfilteredStories.map(story => {
-    const filteredSteps = (story.steps = story.steps.filter(step =>
-      step.tags.includes(filter),
-    ))
+    const filteredSteps = story.steps.filter(step =>
+      filter.every(tag => step.tags.includes(tag)),
+    )
     return { ...story, steps: filteredSteps }
   })
   return filteredStories
@@ -75,11 +75,12 @@ export default async function ViewerLayout({
   const session = await getSession()
 
   let mapstories
+  const filterArray = filter.split('-')
 
-  if (filter === 'all') {
+  if (filterArray[0] === 'all') {
     mapstories = await getMapstories(user.id)
   } else {
-    mapstories = await getMapstoriesWithFilter(user.id, filter)
+    mapstories = await getMapstoriesWithFilter(user.id, filterArray)
   }
   return (
     <div className="relative h-full w-full">
