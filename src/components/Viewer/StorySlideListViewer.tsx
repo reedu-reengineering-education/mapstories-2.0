@@ -51,7 +51,7 @@ export function StorySlideListViewer({
   function goToStep(position: number) {
     onMyStoriesRoute
       ? router.push(`/mystories/${filter}/story/${slug}/${position}`)
-      : router.push(`/gallery/story/${slug}/${position}`)
+      : router.push(`/gallery/${filter}/story/${slug}/${position}`)
   }
 
   const variantsList = {

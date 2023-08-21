@@ -8,7 +8,7 @@ import { db } from '@/src/lib/db'
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string; filter: string }
 }): Promise<Metadata> {
   const name = (await getStoryName(params.slug[0]))?.name
   return {
@@ -19,7 +19,7 @@ export async function generateMetadata({
   }
 }
 interface StoryPageProps {
-  params: { slug: string[] }
+  params: { filter: string; slug: string[] }
 }
 
 const getMapstory = async (slug: string) => {
@@ -43,8 +43,57 @@ const getMapstory = async (slug: string) => {
   })
 }
 
-export default async function StoryPage({ params: { slug } }: StoryPageProps) {
-  const story = await getMapstory(slug[0])
+const getMapstoryWithFilter = async (slug: string, filterArray: string[]) => {
+  const unfilteredStory = await db.story.findFirst({
+    where: {
+      visibility: 'PUBLIC',
+      OR: [{ id: slug }, { slug: slug }],
+    },
+    include: {
+      firstStep: {
+        include: {
+          content: true,
+        },
+      },
+      steps: {
+        include: {
+          content: true,
+        },
+      },
+    },
+  })
+  if (!unfilteredStory) {
+    return unfilteredStory
+  }
+
+  const filteredSteps = unfilteredStory.steps.filter(step =>
+    filterArray.every(tag => step.tags.includes(tag)),
+  )
+
+  const filteredStepsNewPosition = filteredSteps.map((step, index) => {
+    const newStep = { ...step, position: index }
+    return newStep
+  })
+
+  const newStory = { ...unfilteredStory, steps: filteredStepsNewPosition }
+
+  return newStory
+}
+
+export default async function StoryPage({
+  params: { slug, filter },
+}: StoryPageProps) {
+  const filterArray = filter.split('-')
+  let story
+  let tags: string[] = []
+  if (filterArray[0] === 'all') {
+    story = await getMapstory(slug[0])
+    tags = story?.steps?.map(step => step.tags).flat() ?? []
+  } else {
+    story = await getMapstoryWithFilter(slug[0], filterArray)
+    const mapstorytmp = await getMapstory(slug[0])
+    tags = mapstorytmp?.steps?.map(step => step.tags).flat() ?? []
+  }
 
   return (
     <>
@@ -53,6 +102,7 @@ export default async function StoryPage({ params: { slug } }: StoryPageProps) {
           page={slug[1]}
           slug={slug[0]}
           story={story}
+          tags={tags}
         ></StoryOverviewControls>
       </div>
       <div>
@@ -64,6 +114,7 @@ export default async function StoryPage({ params: { slug } }: StoryPageProps) {
       </div>
       <div className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 transform">
         <StoryPlayButtons
+          filter={filterArray}
           page={slug[1]}
           slug={slug[0]}
           story={story}
