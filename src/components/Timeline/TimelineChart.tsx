@@ -1,181 +1,163 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
-
-import de from 'apexcharts/dist/locales/de.json'
-import en from 'apexcharts/dist/locales/en.json'
-
-interface TimelineEvent {
-  timestamp: Date | null
-  title: string | undefined
-}
+import { useEffect, useRef, useState } from 'react'
+import { Timeline, TimelineOptions } from 'vis-timeline/standalone'
+import { DataSet } from 'vis-data/standalone'
+import { SlideContent, StoryStep } from '@prisma/client'
+import { Button } from '../Elements/Button'
+import {
+  MinusIcon,
+  PlusIcon,
+  ViewfinderCircleIcon,
+} from '@heroicons/react/24/outline'
+import { Tooltip } from '../Tooltip'
+import './TimelineChart.css'
 
 interface TimelineChartProps {
-  data: TimelineEvent[]
-  onEventClick?: (_event: TimelineEvent) => void
-  activeIndex?: number
+  data: (StoryStep & {
+    content: SlideContent[]
+  })[]
+  onEventClick?: (_event: StoryStep) => void
+  onEventAdd?: (_date: Date) => void
+  onEventDelete?: (_event: StoryStep) => void
+  onEventMove?: (_event: StoryStep, _date: Date) => void
+  activeEvent?: string
+  editable?: boolean
+  fitButton?: boolean
+  zoomButtons?: boolean
 }
+
+const ZOOM_PERCENTAGE = 0.25
 
 export default function TimelineChart({
   data,
   onEventClick,
-  activeIndex,
+  onEventAdd,
+  onEventDelete,
+  onEventMove,
+  activeEvent,
+  editable = false,
+  fitButton = false,
+  zoomButtons = false,
 }: TimelineChartProps) {
-  const chartData = data.map(e => [
-    e.timestamp?.getTime() ?? new Date().getTime(),
-    1,
-  ])
+  const ref = useRef<HTMLDivElement>(null)
+  const [timeline, setTimeline] = useState<Timeline | null>(null)
+  const [items, setItems] = useState<DataSet<any> | null>(null)
 
-  const ScatterChart = (
-    <Chart
-      height={200}
-      options={{
-        chart: {
-          type: 'scatter',
-          id: 'mainChart',
-          height: 200,
-          toolbar: {
-            show: false,
-          },
-          zoom: {
-            enabled: false,
-          },
+  useEffect(() => {
+    const items = new DataSet(
+      data.map(e => ({
+        id: e.id,
+        content: e.content.find(e => e.type === 'TITLE')?.content,
+        start: e.timestamp,
+        position: e.position,
+      })),
+    )
+    setItems(items)
+  }, [data])
 
-          locales: [de, en],
-          defaultLocale: 'de',
-          events: {
-            dataPointSelection: (_, __, { dataPointIndex }) => {
-              onEventClick && onEventClick(data[dataPointIndex])
-            },
-          },
-        },
-        tooltip: {
-          y: {
-            formatter: (_, { dataPointIndex }) =>
-              data[dataPointIndex].title ?? '',
-            title: {
-              formatter: () => '',
-            },
-          },
-        },
-        markers: {
-          discrete: [
-            {
-              seriesIndex: 0,
-              // For dataPointIndex: 0 there is no discrete marker at all!
-              dataPointIndex: activeIndex,
+  useEffect(() => {
+    if (!ref.current) {
+      return
+    }
 
-              // Also docs says its "fill" and "stroke", but "fillColor" and "strokeColor" are working
-              fillColor: '#0A0',
-              strokeColor: '#FFF',
-              size: 7,
-            },
-          ],
-        },
-        xaxis: {
-          type: 'datetime',
-          tooltip: {
-            enabled: false,
-          },
-        },
-        yaxis: {
-          show: false,
-          tooltip: {
-            enabled: false,
-          },
-        },
-        grid: {
-          yaxis: {
-            lines: {
-              show: false,
-            },
-          },
-        },
-      }}
-      series={[
-        {
-          data: chartData,
-        },
-      ]}
-      type="scatter"
-    />
-  )
+    // Configuration for the Timeline
+    var options: TimelineOptions = {
+      editable,
+      stack: true,
+      minHeight: '10rem',
+      maxHeight: '16rem',
+      // @ts-ignore
+      // template: (item, element, data) =>
+      //   ReactDOM.createPortal(
+      //     // @ts-ignore
+      //     ReactDOM.render(
+      //       <SidebarSlide position={item.position} stepId={item.id} />,
+      //       element,
+      //     ),
+      //     element,
+      //   ),
+      onAdd: item => {
+        onEventAdd && onEventAdd(new Date(item.start))
+      },
+      onRemove: item => {
+        onEventDelete && onEventDelete(data.find(e => e.id === item.id)!)
+      },
+      onMove: item => {
+        onEventMove &&
+          onEventMove(data.find(e => e.id === item.id)!, new Date(item.start))
+      },
+    }
 
-  const TimelineBrush = (
-    <Chart
-      height={85}
-      options={{
-        chart: {
-          type: 'scatter',
-          id: 'brushChart',
-          brush: {
-            target: 'mainChart',
-            enabled: true,
-          },
-          selection: {
-            enabled: true,
-            xaxis: {
-              min: Math.min(...chartData.map(([x]) => x)),
-              max: Math.max(...chartData.map(([x]) => x)),
-            },
-          },
-          height: 85,
-          locales: [de, en],
-          defaultLocale: 'de',
-        },
-        markers: {
-          size: 3,
-          discrete: [
-            {
-              seriesIndex: 0,
-              // For dataPointIndex: 0 there is no discrete marker at all!
-              dataPointIndex: activeIndex,
+    // Create a Timeline
+    const timeline = new Timeline(ref.current, items ?? [], options)
+    timeline.on(
+      'select',
+      ({ items }) =>
+        items.length > 0 &&
+        onEventClick &&
+        onEventClick(data.find(e => e.id === items[0])!),
+    )
 
-              // Also docs says its "fill" and "stroke", but "fillColor" and "strokeColor" are working
-              fillColor: '#0A0',
-              strokeColor: '#FFF',
-              size: 3,
-            },
-          ],
-        },
-        xaxis: {
-          type: 'datetime',
-          labels: {
-            style: {
-              fontSize: '0.6rem',
-            },
-          },
-        },
-        yaxis: {
-          min: 0,
-          max: 2,
-          show: false,
-        },
-        grid: {
-          padding: {
-            top: 0,
-          },
-          yaxis: {
-            lines: {
-              show: false,
-            },
-          },
-        },
-      }}
-      series={[
-        {
-          data: chartData,
-        },
-      ]}
-      type="scatter"
-    />
-  )
+    setTimeline(timeline)
+
+    return () => {
+      timeline.destroy()
+    }
+  }, [ref, items])
+
+  useEffect(() => {
+    if (!timeline) {
+      return
+    }
+    timeline.setSelection(activeEvent ?? [])
+  }, [activeEvent, timeline])
 
   return (
-    <div>
-      <div className="px-2">{ScatterChart}</div>
-      <div className="rounded bg-zinc-100 px-2 opacity-80">{TimelineBrush}</div>
+    <div className="flex items-end">
+      <div className="flex-1 p-2" ref={ref} />
+      <div className="m-2 flex flex-col gap-1 rounded bg-zinc-100 p-1">
+        {fitButton && (
+          <Tooltip
+            content="Fit timeline to content"
+            delayDuration={0}
+            side="right"
+          >
+            <Button
+              className="!px-0"
+              onClick={() => timeline?.fit()}
+              size={'sm'}
+              variant={'inverse'}
+            >
+              <ViewfinderCircleIcon className="h-4 w-4" />
+            </Button>
+          </Tooltip>
+        )}
+        {zoomButtons && (
+          <>
+            <Tooltip content="Zoom in" delayDuration={0} side="right">
+              <Button
+                className="!px-0"
+                onClick={() => timeline?.zoomIn(ZOOM_PERCENTAGE)}
+                size={'sm'}
+                variant={'inverse'}
+              >
+                <PlusIcon className="h-4 w-4" />
+              </Button>
+            </Tooltip>
+            <Tooltip content="Zoom out" delayDuration={0} side="right">
+              <Button
+                className="!px-0"
+                onClick={() => timeline?.zoomOut(ZOOM_PERCENTAGE)}
+                size={'sm'}
+                variant={'inverse'}
+              >
+                <MinusIcon className="h-4 w-4" />
+              </Button>
+            </Tooltip>
+          </>
+        )}
+      </div>
     </div>
   )
 }

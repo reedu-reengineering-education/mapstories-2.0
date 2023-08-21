@@ -7,33 +7,25 @@ type TooltipProps = {
   children: React.ReactNode
   content: string
   maxwidth?: string
-  // open?: boolean
-  // defaultOpen?: boolean
-  // onOpenChange?: () => any
+  delayDuration?: TooltipPrimitive.TooltipProviderProps['delayDuration']
+  side?: TooltipPrimitive.TooltipContentProps['side']
 }
 
 export function Tooltip({
   children,
   content,
   maxwidth,
-  // open,
-  // defaultOpen,
-  // onOpenChange,
-  ...props
+  delayDuration = 300,
+  side = 'top',
 }: TooltipProps) {
   return (
-    <TooltipPrimitive.Provider delayDuration={300}>
-      <TooltipPrimitive.Root
-      // defaultOpen={defaultOpen}
-      // onOpenChange={onOpenChange}
-      // open={open}
-      >
+    <TooltipPrimitive.Provider delayDuration={delayDuration}>
+      <TooltipPrimitive.Root>
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
           className="TooltipContent content-center break-words"
-          side="top"
+          side={side}
           style={{ maxWidth: maxwidth ?? '', zIndex: 99999 }}
-          {...props}
         >
           {content}
           <TooltipPrimitive.Arrow

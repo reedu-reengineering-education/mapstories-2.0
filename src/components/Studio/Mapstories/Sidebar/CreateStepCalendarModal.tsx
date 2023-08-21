@@ -24,7 +24,7 @@ export default function CreateStepCalendarModal({ storyID, trigger }: Props) {
 
   const [open, setOpen] = useState(false)
 
-  const [date, setDate] = useState<Date | undefined>(new Date())
+  const [date, setDate] = useState<Date>(new Date())
   const { handleSubmit } = useForm({})
 
   async function onSubmit() {
@@ -36,7 +36,7 @@ export default function CreateStepCalendarModal({ storyID, trigger }: Props) {
       })
       router.replace(`/storylab/${story?.slug}/${newStoryStep.id}`)
       setOpen(false)
-      setDate(undefined) // reset date
+      setDate(new Date()) // reset date
     } catch (e) {
       return toast({
         title: 'Something went wrong.',

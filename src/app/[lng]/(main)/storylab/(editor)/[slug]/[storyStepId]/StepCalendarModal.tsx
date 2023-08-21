@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal } from '@/src/components/Modal'
 
 import React from 'react'
@@ -10,26 +10,30 @@ import { toast } from '@/src/lib/toast'
 import useStep from '@/src/lib/api/step/useStep'
 import { useForm } from 'react-hook-form'
 import { DatePickerWrapper } from '@/src/components/Timeline/DatePicker/DatePickerWrapper'
+import { CalendarDaysIcon } from '@heroicons/react/24/outline'
+import { format } from 'date-fns'
+import { getDateFnsLocale } from '@/src/app/i18n/date-fns-locale'
+import { useBoundStore } from '@/src/lib/store/store'
 
 type Props = {
-  trigger: React.ReactElement
   storyStepId: string
-  defaultDate?: Date
 }
 
-export default function StepCalendarModal({
-  trigger,
-  storyStepId,
-  defaultDate,
-}: Props) {
+export default function StepCalendarModal({ storyStepId }: Props) {
   const [saving, setSaving] = useState(false)
   const [open, setOpen] = useState(false)
 
-  const { updateStep } = useStep(storyStepId)
+  const { step, updateStep } = useStep(storyStepId)
 
-  const [date, setDate] = useState(defaultDate)
+  const [date, setDate] = useState(step?.timestamp ?? new Date())
+
+  useEffect(() => {
+    setDate(new Date(step?.timestamp!) ?? new Date())
+  }, [step])
 
   const { handleSubmit } = useForm({})
+
+  const lng = useBoundStore(state => state.language)
 
   async function onSubmit() {
     setSaving(true)
@@ -59,11 +63,23 @@ export default function StepCalendarModal({
         onOpenChange={setOpen}
         open={open}
         title={'Zeitpunkt'}
-        trigger={trigger}
+        trigger={
+          <Button
+            className="w-full"
+            startIcon={<CalendarDaysIcon className="h-6" />}
+            variant={'inverse'}
+          >
+            {step?.timestamp != null
+              ? format(new Date(step?.timestamp), 'Pp', {
+                  locale: getDateFnsLocale(lng),
+                })
+              : 'Zeitpunkt setzen'}
+          </Button>
+        }
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content className="flex justify-center">
-            <DatePickerWrapper date={defaultDate} setDate={setDate} />
+            <DatePickerWrapper date={date} setDate={date => setDate(date!)} />
           </Modal.Content>
           <Modal.Footer>
             <Button disabled={saving} isLoading={saving} type="submit">

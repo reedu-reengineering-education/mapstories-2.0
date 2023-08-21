@@ -54,7 +54,11 @@ export function StoryPlayButtons({ filter, slug, page, story }: Props) {
             page ? parseInt(page) + 1 : '1'
           }`,
         )
-      : router.push(`/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+      : router.push(
+          `/gallery/${filter?.join('-')}/story/${slug}/${
+            page ? parseInt(page) + 1 : '1'
+          }`,
+        )
   }
 
   function prevStep() {

@@ -93,12 +93,16 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
       ? router.push(
           `/mystories/${filter?.join('-')}/story/${slug}/${lowestPosition}`,
         )
-      : router.push(`/gallery/story/${slug}/${filter}/${lowestPosition}`)
+      : router.push(
+          `/gallery/${filter?.join(
+            '-',
+          )}/story/${slug}/${filter}/${lowestPosition}`,
+        )
   }
   function backToStart() {
     onMyStoriesRoute
       ? router.push(`/mystories/all/story/${slug}/start`)
-      : router.push(`/gallery/story/${slug}/${filter?.join('-')}/start`)
+      : router.push(`/gallery/all/story/${slug}/start`)
   }
 
   function applyFilter(filter?: string[]) {
@@ -107,7 +111,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
     }
     onMyStoriesRoute
       ? router.push(`/mystories/${filter?.join('-')}/story/${slug}/start`)
-      : router.push(`/gallery/story/${slug}/start`)
+      : router.push(`/gallery/${filter?.join('-')}/story/${slug}/start`)
     setOpen(false)
   }
 

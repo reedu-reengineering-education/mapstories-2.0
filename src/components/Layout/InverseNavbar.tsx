@@ -47,7 +47,7 @@ export function InverseNavbar({
       },
       {
         title: t('gallery'),
-        href: `/${lng}/gallery`,
+        href: `/${lng}/gallery/all`,
       },
       {
         title: t('about'),

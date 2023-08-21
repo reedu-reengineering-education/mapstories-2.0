@@ -8,6 +8,8 @@ import { updateStepSchema } from '@/src/lib/validations/step'
 
 import { tryFeature } from 'pure-geojson-validation'
 import { Feature } from 'geojson'
+import { StoryMode } from '@prisma/client'
+import { reorderTimeline } from '../timelineReorder'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
@@ -59,6 +61,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           content: true,
         },
       })
+
+      const storyId = storyStep.storyId
+
+      if (!storyId) {
+        return res.status(422).end()
+      }
+
+      const story = await db.story.findFirst({
+        where: {
+          id: storyId,
+        },
+      })
+
+      if (story?.mode === StoryMode.TIMELINE) {
+        await reorderTimeline(storyId)
+      }
 
       res.status(200).json(storyStep)
       return res.end()
