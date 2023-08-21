@@ -17,6 +17,7 @@ import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 import { StoryBadge } from '../Studio/Mapstories/StoryBadge'
+import { toast } from '@/src/lib/toast'
 
 type ViewerViewProps = {
   inputStories:
@@ -76,7 +77,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   useEffect(() => {
     // Zoom back to former extend if not viewing a story
     const pathend = path?.split('/').at(-1)
-    if (pathend === 'mystories') {
+    const pathend2 = path?.split('/').at(-2)
+    if (pathend === 'all' && pathend2 === 'mystories') {
       setStoryID('')
       if (savedView) {
         mapRef.current?.fitBounds(savedView)
@@ -115,7 +117,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   // generate markers
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
-    if (story?.steps) {
+    if (story?.steps && story?.steps.length > 0) {
       let bounds: any = undefined
       const newMarkers = story?.steps
         .filter(step => step.feature)
@@ -155,6 +157,13 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       setMarkers(newMarkers)
       //save bounds to zoomTo once map is initiated
       setStartView(bounds)
+    } else {
+      toast({
+        title: 'Keine Steps gefunden',
+        message:
+          'In der Story oder mit diesen Filtern wurden keine Steps zu der Story gefunden.',
+        type: 'error',
+      })
     }
   }, [storyID, stories])
 

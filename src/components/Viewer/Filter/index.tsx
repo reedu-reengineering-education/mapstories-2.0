@@ -27,6 +27,7 @@ function Filter<T extends { [k: string]: string[] }>({
   useEffect(() => {
     // @ts-ignore
     if (defaultValues) {
+      // @ts-ignore
       setValues(defaultValues)
     }
   }, [defaultValues])

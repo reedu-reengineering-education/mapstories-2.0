@@ -77,8 +77,15 @@ const getMapstoryWithFilter = async (
   const filteredSteps = unfilteredStory.steps.filter(step =>
     filterArray.every(tag => step.tags.includes(tag)),
   )
-  const newStory = { ...unfilteredStory, steps: filteredSteps }
-  return { ...unfilteredStory, steps: filteredSteps }
+
+  const filteredStepsNewPosition = filteredSteps.map((step, index) => {
+    const newStep = { ...step, position: index }
+    return newStep
+  })
+
+  const newStory = { ...unfilteredStory, steps: filteredStepsNewPosition }
+
+  return newStory
 }
 
 export default async function StoryPage({
@@ -89,14 +96,15 @@ export default async function StoryPage({
     redirect('/')
   }
   const filterArray = filter.split('-')
-  let story, tags
+  let story
+  let tags: string[] = []
   if (filterArray[0] === 'all') {
     story = await getMapstory(slug[0], user.id)
-    tags = story?.steps?.map(step => step.tags).flat()
+    tags = story?.steps?.map(step => step.tags).flat() ?? []
   } else {
     story = await getMapstoryWithFilter(slug[0], user.id, filterArray)
-    tags = await getMapstory(slug[0], user.id)
-    tags = tags?.steps?.map(step => step.tags).flat()
+    const mapstorytmp = await getMapstory(slug[0], user.id)
+    tags = mapstorytmp?.steps?.map(step => step.tags).flat() ?? []
   }
 
   return (
@@ -128,7 +136,7 @@ export default async function StoryPage({
       )}
       <div className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 transform">
         <StoryPlayButtons
-          filter={filter}
+          filter={filterArray}
           page={slug[1]}
           slug={slug[0]}
           story={story}

@@ -57,8 +57,14 @@ const getMapstoriesWithFilter = async (userId: string, filter: string[]) => {
     const filteredSteps = story.steps.filter(step =>
       filter.every(tag => step.tags.includes(tag)),
     )
-    return { ...story, steps: filteredSteps }
+    const filteredStepsNewPosition = filteredSteps.map((step, index) => {
+      const newStep = { ...step, position: index }
+      return newStep
+    })
+
+    return { ...story, steps: filteredStepsNewPosition }
   })
+
   return filteredStories
 }
 
