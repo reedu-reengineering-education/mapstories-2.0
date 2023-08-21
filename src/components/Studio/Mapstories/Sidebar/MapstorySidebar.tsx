@@ -159,7 +159,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                 {s.tags.length > 0 && (
                   <div className="absolute left-1 top-12 z-10 flex cursor-pointer rounded-md group-hover:visible">
                     <Tooltip
-                      content={t('This slide has tags') as string}
+                      content={t('slideHasTags') as string}
                       maxwidth={'200px'}
                     >
                       <span className="relative">
