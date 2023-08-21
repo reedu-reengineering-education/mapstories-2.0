@@ -16,9 +16,11 @@ type TimelineStory = Story & {
 }
 
 export default function TimelineChartWrapper({
+  filter,
   activeIndex,
   story,
 }: {
+  filter: string
   activeIndex: number
   story: TimelineStory
 }) {
@@ -37,7 +39,9 @@ export default function TimelineChartWrapper({
       data={events}
       onEventClick={event => {
         const idx = story.steps.findIndex(s => s.timestamp === event.timestamp)
-        router.replace(`/mystories/story/${story.slug}/${idx}`)
+        router.replace(
+          `/mystories/${filter}/story/${story.slug}/${filter}/${idx}`,
+        )
       }}
     ></TimelineChart>
   )

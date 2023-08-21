@@ -42,7 +42,7 @@ export function InverseNavbar({
       },
       {
         title: t('viewer'),
-        href: `/${lng}/mystories`,
+        href: `/${lng}/mystories/all`,
         disabled: user === undefined,
       },
       {

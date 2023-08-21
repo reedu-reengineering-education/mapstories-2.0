@@ -5,18 +5,19 @@ import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import * as Toolbar from '@radix-ui/react-toolbar'
-
+import { StoryStep } from '@prisma/client'
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 
 type Props = {
+  filter: string[]
   slug: string
   page: string
   story: any
 }
 
-export function StoryPlayButtons({ slug, page, story }: Props) {
+export function StoryPlayButtons({ filter, slug, page, story }: Props) {
   const router = useRouter()
   const path = usePathname()
   const onMyStoriesRoute = path?.includes('mystories')
@@ -47,15 +48,13 @@ export function StoryPlayButtons({ slug, page, story }: Props) {
 
   function nextStep() {
     // const length = story?.steps?.length
-    if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
-      onMyStoriesRoute
-        ? router.push(
-            `/mystories/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
-          )
-        : router.push(
-            `/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`,
-          )
-    }
+    onMyStoriesRoute
+      ? router.push(
+          `/mystories/${filter?.join('-')}/story/${slug}/${
+            page ? parseInt(page) + 1 : '1'
+          }`,
+        )
+      : router.push(`/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
   }
 
   function prevStep() {
@@ -63,7 +62,9 @@ export function StoryPlayButtons({ slug, page, story }: Props) {
     if (parseInt(page) > 0) {
       onMyStoriesRoute
         ? router.push(
-            `/mystories/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
+            `/mystories/${filter?.join('-')}/story/${slug}/${
+              page ? parseInt(page) - 1 : '1'
+            }`,
           )
         : router.push(
             `/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
@@ -86,7 +87,13 @@ export function StoryPlayButtons({ slug, page, story }: Props) {
                   <Toolbar.ToggleItem
                     aria-label="Previous"
                     className="ToolbarToggleItem"
-                    disabled={parseInt(page) === 0}
+                    disabled={
+                      parseInt(page) ===
+                      Math.min.apply(
+                        Math,
+                        story?.steps?.map((step: StoryStep) => step.position),
+                      )
+                    }
                     onClick={() => prevStep()}
                     value="previous"
                   >
@@ -97,7 +104,11 @@ export function StoryPlayButtons({ slug, page, story }: Props) {
                     className="ToolbarToggleItem"
                     disabled={
                       story?.steps &&
-                      parseInt(page) === story?.steps?.length - 1
+                      parseInt(page) ===
+                        Math.max.apply(
+                          Math,
+                          story?.steps?.map((step: StoryStep) => step.position),
+                        )
                     }
                     onClick={() => nextStep()}
                     value="next"

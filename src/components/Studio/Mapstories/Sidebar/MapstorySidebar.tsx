@@ -3,7 +3,7 @@
 import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
-import { MapPinIcon } from '@heroicons/react/24/outline'
+import { MapPinIcon, TagIcon } from '@heroicons/react/24/outline'
 import { SlideContent, StoryMode, StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -37,6 +37,9 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const { story, reorderStorySteps } = useStory(storyID)
 
   const [hoverMarkerIcon, setHoverMarkerIcon] = useState<boolean[]>([])
+  const [filteredSteps, setFilteredSteps] = useState<
+    (StoryStep & { content: SlideContent[] })[]
+  >([])
 
   const handleMouseEnter = (index: number) => {
     // Create a new array with the updated hover state for the current div
@@ -54,6 +57,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   const [steps, setSteps] =
     useState<(StoryStep & { content: SlideContent[] })[]>()
+
   useEffect(() => {
     if (!story?.steps) {
       return
@@ -145,6 +149,21 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                       <span className="relative">
                         <MapPinIcon className="h-5 w-5" />
                         <span className="absolute inset-y-1/2 left-0 right-0 h-0.5 rotate-[35deg] bg-black"></span>
+                      </span>
+                    </Tooltip>
+                    {/* {hoverMarkerIcon[i] && (
+
+                    )} */}
+                  </div>
+                )}
+                {s.tags.length > 0 && (
+                  <div className="absolute left-1 top-12 z-10 flex cursor-pointer rounded-md group-hover:visible">
+                    <Tooltip
+                      content={t('slideHasTags') as string}
+                      maxwidth={'200px'}
+                    >
+                      <span className="relative">
+                        <TagIcon className="h-5 w-5" />
                       </span>
                     </Tooltip>
                     {/* {hoverMarkerIcon[i] && (
