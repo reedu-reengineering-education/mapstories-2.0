@@ -18,6 +18,11 @@ export function applyTheme(theme: any) {
           )
         case 'text_color':
           document.documentElement.style.setProperty('--text-color', theme[key])
+        case 'button_color':
+          document.documentElement.style.setProperty(
+            '--button-color',
+            theme[key],
+          )
       }
     })
   }

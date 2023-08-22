@@ -55,6 +55,7 @@ module.exports = {
           800: '#040F19',
           900: '#000000',
         },
+        'button-color': 'var(--button-color)'
       },
     },
   },
