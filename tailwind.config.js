@@ -40,7 +40,7 @@ module.exports = {
           DEFAULT: '#E0F2E8',
         },
         active: {
-          DEFAULT: '#ede3fd',
+          DEFAULT: 'var(--active-color-background)',
         },
         matisse: {
           DEFAULT: '#1B6AAA',

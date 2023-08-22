@@ -5,8 +5,8 @@
 }
 
 .vis-item.vis-selected {
-  background-color: #ede3fd !important;
-  border-color: #d3b7ff !important;
+  background-color: var(--active-color-background) !important;
+  border-color: var(--active-color-border) !important;
 }
 
 .vis-item {
