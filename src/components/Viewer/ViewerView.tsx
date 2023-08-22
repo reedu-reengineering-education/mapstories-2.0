@@ -109,7 +109,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     if (storyID != undefined && mapData != undefined) {
       const m: Feature<LineString, GeoJsonProperties> | undefined =
         mapData.find(story => story?.properties?.id === storyID)
-      if (m) {
+      if (m && selectedStorySlug != m.properties?.slug) {
         selectStory(m)
       }
     }
@@ -241,6 +241,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   }
 
   function selectStory(m: GeoJSON.Feature<GeoJSON.LineString>) {
+    setSelectedStorySlug(m.properties?.slug)
+
     if (m) {
       const coordinates = m.geometry.coordinates
 
@@ -262,11 +264,9 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       }
       // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
     }
-    setSelectedStorySlug(m.properties?.slug)
     const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/story/'
-
-    router.push(`${pathLocal}/${m.properties?.slug}/start`)
+      path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
+    router.push(`${pathLocal}/story/${m.properties?.slug}/start`)
   }
 
   function updateToStep(index: number) {
