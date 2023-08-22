@@ -90,7 +90,7 @@ export default function SettingsModal({
   }
 
   function selectTheme(themeName: any) {
-    const selectedTheme = themes.findLast(theme => theme.name == themeName)
+    const selectedTheme = themes.find(theme => theme.name == themeName)
     applyTheme(selectedTheme)
   }
 

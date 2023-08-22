@@ -32,6 +32,7 @@ export default function Providers({
     })
   }
 
+  //reapply base theme on route change (might need to be changed later if we allow theming of the whole website)
   useNavigationEvent(() => setBaseTheme())
 
   useEffect(() => {

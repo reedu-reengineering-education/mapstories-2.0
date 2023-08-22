@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react'
 // checks if route has changed (currently only for resetting the theme)
 export const useNavigationEvent = (onPathnameChange: () => void) => {
   const pathname = usePathname() // Get current route
-  const splitPath = pathname.split('/')[2]
+  const splitPath = pathname ? pathname.split('/')[2] : ''
   // Save pathname on component mount into a REF
   const savedPathNameRef = useRef(splitPath)
 
