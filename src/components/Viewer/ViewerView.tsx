@@ -166,14 +166,14 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
   }, [storyID, stories])
 
-  function extractGeoJson(currentStories) {
+  function extractGeoJson(currentStories: any) {
     if (!currentStories) {
       return
     }
 
     const geojsons: any[] = []
 
-    currentStories.forEach(s => {
+    currentStories.forEach((s: any) => {
       if (!s?.steps) {
         return
       }
