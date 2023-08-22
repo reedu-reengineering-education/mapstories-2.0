@@ -21,7 +21,7 @@ type Props = {
   slug: string
   page: string
   story: any
-  tags?: string[]
+  tags: string[]
   //  (Story & {
   //     steps?: (StoryStep & { content: SlideContent[] })[]
   //     firstStep?: StoryStep & { content: SlideContent[] }
