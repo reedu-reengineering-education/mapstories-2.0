@@ -17,6 +17,7 @@ import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 import { StoryBadge } from '../Studio/Mapstories/StoryBadge'
+import { toast } from '@/src/lib/toast'
 
 type ViewerViewProps = {
   inputStories:
@@ -75,7 +76,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   useEffect(() => {
     // Zoom back to former extend if not viewing a story
     const pathend = path?.split('/').at(-1)
-    if (pathend === 'mystories') {
+    const pathend2 = path?.split('/').at(-2)
+    if (pathend === 'all' && pathend2 === 'mystories') {
       setStoryID('')
       if (savedView) {
         mapRef.current?.fitBounds(savedView)
@@ -114,7 +116,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   // generate markers
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
-    if (story?.steps) {
+    if (story?.steps && story?.steps.length > 0) {
       let bounds: any = undefined
       const newMarkers = story?.steps
         .filter(step => step.feature)
@@ -154,8 +156,15 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       setMarkers(newMarkers)
       //save bounds to zoomTo once map is initiated
       setStartView(bounds)
+    } else {
+      toast({
+        title: 'Keine Steps gefunden',
+        message:
+          'In der Story oder mit diesen Filtern wurden keine Steps zu der Story gefunden.',
+        type: 'error',
+      })
     }
-  }, [storyID])
+  }, [storyID, stories])
 
   function extractGeoJson(
     currentStories:
@@ -227,18 +236,30 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
     setSelectedStorySlug(m.properties?.slug)
     const pathLocal =
-      path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/story/'
 
     router.push(`${pathLocal}/${m.properties?.slug}/start`)
+
   }
 
   function updateToStep(index: number) {
     const story = stories?.filter(story => story.id === storyID)[0]
-    if (story?.steps?.length && story?.steps?.length > index) {
-      if (mapRef && story.steps[index].feature) {
-        const feature: Feature<GeoJSON.Point> = story?.steps.sort(
-          (a, b) => a.position - b.position,
-        )[index].feature as unknown as Feature<GeoJSON.Point>
+    if (
+      story?.steps?.length &&
+      index <=
+        Math.max.apply(
+          Math,
+          story?.steps?.map(step => step.position),
+        )
+    ) {
+      let stepFeat = story?.steps.filter(step => step.position === index)
+      let stepGeosjon: GeoJSON.Feature<GeoJSON.Point> | undefined
+      // @ts-ignore
+      stepFeat.length > 0 ? (stepFeat = stepFeat[0].feature) : null
+
+      if (mapRef && stepFeat) {
+        const feature: Feature<GeoJSON.Point> =
+          stepFeat as unknown as Feature<GeoJSON.Point>
         mapRef.current?.flyTo({
           center: [
             feature.geometry.coordinates[0],

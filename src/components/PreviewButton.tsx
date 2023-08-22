@@ -31,7 +31,10 @@ export function PreviewButton(story: any) {
   const slidePosition = getSlidePositionById(story, slideid)
 
   return (
-    <a href={`/mystories/story/${storyid}/${slidePosition}`} target="_blank">
+    <a
+      href={`/mystories/all/story/${storyid}/${slidePosition}`}
+      target="_blank"
+    >
       <Button
         className="re-basic-box"
         startIcon={<EyeIcon className="w-5" />}

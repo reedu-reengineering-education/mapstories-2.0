@@ -5,13 +5,14 @@ import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
-import { getCurrentUser } from '@/src/lib/session'
+import { getCurrentUser, getSession } from '@/src/lib/session'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { LinkIcon } from '@heroicons/react/24/outline'
 
 interface ViewerLayoutProps {
   children?: React.ReactNode
+  params: { filter: string }
 }
 
 const getMapstories = async (userId: string) => {
@@ -34,15 +35,59 @@ const getMapstories = async (userId: string) => {
   })
 }
 
-export default async function ViewerLayout({ children }: ViewerLayoutProps) {
+const getMapstoriesWithFilter = async (userId: string, filter: string[]) => {
+  const unfilteredStories = await db.story.findMany({
+    where: {
+      ownerId: userId,
+    },
+    include: {
+      firstStep: {
+        include: {
+          content: true,
+        },
+      },
+      steps: {
+        include: {
+          content: true,
+        },
+      },
+    },
+  })
+  const filteredStories = unfilteredStories.map(story => {
+    const filteredSteps = story.steps.filter(step =>
+      filter.every(tag => step.tags.includes(tag)),
+    )
+    const filteredStepsNewPosition = filteredSteps.map((step, index) => {
+      const newStep = { ...step, position: index }
+      return newStep
+    })
+
+    return { ...story, steps: filteredStepsNewPosition }
+  })
+
+  return filteredStories
+}
+
+export default async function ViewerLayout({
+  children,
+  params: { filter },
+}: ViewerLayoutProps) {
   const user = await getCurrentUser()
 
   if (!user) {
     redirect('/')
   }
 
-  const mapstories = await getMapstories(user.id)
+  const session = await getSession()
 
+  let mapstories
+  const filterArray = filter.split('-')
+
+  if (filterArray[0] === 'all') {
+    mapstories = await getMapstories(user.id)
+  } else {
+    mapstories = await getMapstoriesWithFilter(user.id, filterArray)
+  }
   return (
     <div className="relative h-full w-full">
       <div className="absolute left-0 top-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">

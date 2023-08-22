@@ -9,6 +9,7 @@ import Link from 'next/link'
 
 interface ViewerLayoutProps {
   children?: React.ReactNode
+  params: { filter: string }
 }
 
 export default async function ViewerLayout({ children }: ViewerLayoutProps) {

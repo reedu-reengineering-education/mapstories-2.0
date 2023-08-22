@@ -16,9 +16,11 @@ type TimelineStory = Story & {
 }
 
 export default function TimelineChartWrapper({
+  filter,
   activeIndex,
   story,
 }: {
+  filter: string
   activeIndex: number
   story: TimelineStory
 }) {
@@ -30,8 +32,8 @@ export default function TimelineChartWrapper({
       data={story.steps.sort((a, b) => a.position - b.position)}
       fitButton
       onEventClick={event => {
-        const idx = story.steps.findIndex(s => s.id === event.id)
-        router.replace(`/mystories/story/${story.slug}/${idx}`)
+        const idx = story.steps.findIndex(s => s.timestamp === event.timestamp)
+        router.replace(`/mystories/${filter}/story/${story.slug}/${idx}`)
       }}
       zoomButtons
     ></TimelineChart>
