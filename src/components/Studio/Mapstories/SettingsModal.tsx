@@ -198,69 +198,31 @@ export default function SettingsModal({
                 )
               }}
             />
-            {/* <Spacer />
-          <select {...register('theme')}>
-            {options.map((option, index) => (
-              <option
-                key={index}
-                {...option}
-                onSelect={() => {
-                  setSelectedTheme(option.children as string)
-                  setValue('theme', option.children as string)
-                }}
-              />
-            ))}
-          </select> */}
-            {/* <DropdownMenu {...register('theme')}>
-            <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
-              <span className="mb-2 flex text-sm font-medium text-gray-700">
-                {t('theme')} <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
-              </span>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Portal>
-              <DropdownMenu.Content
-                align="end"
-                className="absolute z-50 md:w-[240px]"
-              >
-                {options.map((option, index) => (
-                  <DropdownMenu.Item
-                    key={index}
-                    {...option}
-                    onSelect={() => {
-                      setSelectedTheme(option.children as string)
-                      setValue('theme', option.children as string)
-                    }}
-                  />
-                ))}
-              </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-          </DropdownMenu> */}
-            {/* <Spacer />
-          <InputLabel>{t('image')}</InputLabel>
-          <div className="flex">
-            <label htmlFor="imageupload">
-              <div className="flex h-9 w-10 cursor-pointer items-center justify-center rounded border border-slate-300 hover:border-slate-400">
-                <ChevronDownIcon className="h-4 w-4 stroke-2" />
-              </div>
-            </label>
-            <Input
-              accept="image/*"
-              className="hidden"
-              errors={errors.image}
-              id="imageupload"
-              onChange={e => handleImageUpload(e)}
-              type="file"
-              // {...register('image')}
-            ></Input>
-            <Input
-              errors={errors.image}
-              label="Bild"
-              placeholder="Wähle ein Bild aus oder gib eine URL ein"
-              size={100}
-              value={image}
-              {...register('image')}
-            ></Input>
-          </div> */}
+
+            <Controller
+              control={control}
+              defaultValue={true}
+              name="lines"
+              // {...register('visibility')}
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <div className="jusify-center flex items-center gap-4">
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:nolines')}
+                    </span>
+
+                    <Switch
+                      defaultChecked={story.lines}
+                      onCheckedChange={onChange}
+                      ref={ref}
+                    ></Switch>
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:lines')}
+                    </span>
+                  </div>
+                )
+              }}
+            />
           </Modal.Content>
           <Modal.Footer>
             <Button
