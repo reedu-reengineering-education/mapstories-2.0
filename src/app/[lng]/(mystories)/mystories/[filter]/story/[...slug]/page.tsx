@@ -124,7 +124,7 @@ export default async function StoryPage({
       <div>
         {slug[1] != 'start' && (
           <div className="re-basic-box re-slide absolute bottom-28 right-5 z-20 bg-white p-4">
-            <Slides page={filter} slug={slug[0]} story={story}></Slides>
+            <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
           </div>
         )}
       </div>

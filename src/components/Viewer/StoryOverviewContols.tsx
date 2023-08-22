@@ -89,7 +89,6 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   }, [])
 
   function startStory() {
-    console.log(path)
     const pathLocal =
       path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
 

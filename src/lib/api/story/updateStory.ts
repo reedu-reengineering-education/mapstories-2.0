@@ -4,7 +4,6 @@ import { Story } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 
 export const updateStory = (storyId: string, props: Partial<Story>) => {
-  console.log(props)
   return axios.put<typeof props, AxiosResponse<Story, APIError>>(
     `/api/mapstory/${storyId}`,
     props,
