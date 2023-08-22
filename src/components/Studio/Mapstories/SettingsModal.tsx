@@ -70,14 +70,12 @@ export default function SettingsModal({
   }
 
   async function onSubmit(data: FormData) {
-    console.log(data)
     setIsSaving(true)
     try {
       const updatedStory = await updateStory({
         ...data,
         // TODO: update again after zod schema change
         visibility: data.visibility === true ? 'PUBLIC' : 'PRIVATE',
-        lines: data.lines,
       })
       toast({
         message: t('settingsModal:changesApplied'),
