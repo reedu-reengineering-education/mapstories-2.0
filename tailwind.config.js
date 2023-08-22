@@ -41,6 +41,7 @@ module.exports = {
         },
         active: {
           DEFAULT: 'var(--active-color-background)',
+          border: 'var(--active-color-border)',
         },
         matisse: {
           DEFAULT: '#1B6AAA',
