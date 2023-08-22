@@ -37,8 +37,13 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
           content: true,
         },
       },
+      theme: true,
     },
   })
+}
+
+async function getThemes() {
+  return await db.theme.findMany({})
 }
 
 export default async function DashboardLayout({
@@ -52,6 +57,7 @@ export default async function DashboardLayout({
   }
   const { t } = await useTranslation(lng, 'dashboardLayout')
   const story = await getStoryForUser(user.id, slug)
+  const themes = await getThemes()
 
   if (!story) {
     return notFound()
@@ -102,7 +108,7 @@ export default async function DashboardLayout({
             </Button>
           </Link>
           <PreviewButton story={story} />
-          <SettingsModal shadow storyId={story.id} />
+          <SettingsModal shadow storyId={story.id} themes={themes} />
         </div>
       </div>
 

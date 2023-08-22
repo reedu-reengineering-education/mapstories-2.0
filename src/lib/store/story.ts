@@ -1,6 +1,6 @@
 import { StateCreator } from 'zustand'
 import { UIState } from './ui'
-import { SlideContent, Story, StoryStep } from '@prisma/client'
+import { SlideContent, Story, StoryStep, Theme } from '@prisma/client'
 
 export interface StoryState {
   storyID: string
@@ -12,10 +12,12 @@ export interface StoryState {
   showSlidePreview: boolean
   setShowSlidePreview: (showSlidePreview: boolean) => void
   viewerStories: (Story & {
+    theme?: Theme | null
     steps: (StoryStep & { content: SlideContent[] })[]
   })[]
   setViewerStories: (
     viewerStories: (Story & {
+      theme?: Theme | null
       steps: (StoryStep & { content: SlideContent[] })[]
     })[],
   ) => void
@@ -38,6 +40,7 @@ export const useStoryStore: StateCreator<
   viewerStories: [],
   setViewerStories: (
     viewerStories: (Story & {
+      theme?: Theme | null
       steps: (StoryStep & { content: SlideContent[] })[]
     })[],
   ) => set({ viewerStories }),

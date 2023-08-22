@@ -87,7 +87,8 @@ model Story {
   name        String?
   slug        String      @unique
   description String?
-  theme       String?
+  theme       Theme?  @relation(fields: [themeId], references: [name])
+  themeId     String?     
   steps       StoryStep[] @relation("steps")
   firstStep   StoryStep?  @relation("firstStep", fields: [firstStepId], references: [id])
   firstStepId String?     @unique
@@ -119,8 +120,19 @@ model StoryStep {
 }
 
 model Theme {
-  name       String @id @default(cuid())
-  fontFamily String
+  name              String @id @default(cuid())
+  Story             Story[]
+  fontFamily        String?
+  shadow_color      String?
+  border            String?
+  box_shadow        String?
+  border_radius     String?
+  text_color        String?
+  background_color  String?
+  button_color      String?
+  
+  @@map(name: "theme")
+
 }
 
 model SlideContent {

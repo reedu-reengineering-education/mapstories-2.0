@@ -13,7 +13,6 @@ import { useBoundStore } from '@/src/lib/store/store'
 import ShareModal from './ShareModal'
 import EmbedModal from './EmbedModal'
 import { EyeIcon, PencilIcon } from '@heroicons/react/24/outline'
-import SettingsModal from './SettingsModal'
 import { StoryBadge } from './StoryBadge'
 
 type Props = {
@@ -46,7 +45,7 @@ export function MapstoryCard({ mapstory }: Props) {
                 {t('edit')}
               </Button>
             </Link>
-            <SettingsModal storyId={mapstory.id} />
+            {/* <SettingsModal storyId={mapstory.id} /> */}
             <ShareModal storyId={mapstory.id} />
             <EmbedModal storyId={mapstory.id} />
           </div>

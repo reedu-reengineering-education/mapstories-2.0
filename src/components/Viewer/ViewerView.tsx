@@ -1,6 +1,6 @@
 'use client'
 
-import { SlideContent, Story, StoryStep } from '@prisma/client'
+import { SlideContent, Story, StoryStep, Theme } from '@prisma/client'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { MapRef, Popup, Source } from 'react-map-gl'
 import { Feature, GeoJsonProperties, LineString } from 'geojson'
@@ -18,10 +18,12 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 import { StoryBadge } from '../Studio/Mapstories/StoryBadge'
 import { toast } from '@/src/lib/toast'
+import { applyTheme } from '@/src/helper/applyTheme'
 
 type ViewerViewProps = {
   inputStories:
     | (Story & {
+        theme?: Theme | null
         steps: (StoryStep & { content: SlideContent[] })[]
       })[]
 }
@@ -84,7 +86,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         mapRef.current?.fitBounds(savedView)
       }
     }
-    if (pathend === 'gallery') {
+    if (pathend2 === 'gallery') {
       setStoryID('')
       setViewerStories([])
     }
@@ -117,6 +119,20 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   // generate markers
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
+    // update Theme
+    if (storyID != '' && story?.theme) {
+      applyTheme(story.theme)
+    } else {
+      // go back to Standard theme (TODO: get this from db)
+      applyTheme({
+        name: 'Standard',
+        shadow_color: 'rgba(56,56.58, 0.9)',
+        border: '3px solid #38383a',
+        box_shadow: '4px 4px 0px var(--shadow-color)',
+        border_radius: '10px',
+        text_color: '#38383a',
+      })
+    }
     if (story?.steps && story?.steps.length > 0) {
       let bounds: any = undefined
       const newMarkers = story?.steps
@@ -155,6 +171,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         })
       // @ts-ignore
       setMarkers(newMarkers)
+
       //save bounds to zoomTo once map is initiated
       setStartView(bounds)
     } else {

@@ -13,31 +13,51 @@ import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/src/app/i18n/client'
 import { Textarea, TextareaLabel } from '@/src/components/Elements/Textarea'
 import useStory from '@/src/lib/api/story/useStory'
-import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { useBoundStore } from '@/src/lib/store/store'
 import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 import Switch from '../../Elements/Switch'
 import { Spacer } from '../../Elements/Spacer'
-import { StoryMode } from '@prisma/client'
+import { StoryMode, Theme } from '@prisma/client'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../Elements/Select'
+import { applyTheme } from '@/src/helper/applyTheme'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
 type FormData = z.infer<typeof updateMapstorySchema>
 
-const options: Pick<DropdownMenuItemProps, 'children'>[] = [
-  { children: 'Theme 1' },
-  { children: 'Theme 2' },
-  { children: 'Theme 3' },
-  { children: 'Theme 4' },
-  { children: 'Theme 5' },
-]
+// const themes: any[] = [
+//   {
+//     name: 'Standard',
+//     shadow_color: 'rgba(56,56.58, 0.9)',
+//     border: '3px solid #38383a',
+//     box_shadow: '4px 4px 0px var(--shadow-color)',
+//     border_radius: '10px',
+//     text_color: '#38383a',
+//   },
+//   {
+//     name: 'Funky',
+//     shadow_color: 'rgba(237, 130, 222, 0.9)',
+//     border: '3px solid rgb(237, 160, 222)',
+//     box_shadow: '4px 4px 0px var(--shadow-color)',
+//     border_radius: '2px',
+//     text_color: '#BDCF3B',
+//   },
+// ]
 
 export default function SettingsModal({
   storyId,
   shadow,
+  themes,
 }: {
   storyId: string
   shadow?: boolean
+  themes: Theme[]
 }) {
   const router = useRouter()
   const lng = useBoundStore(state => state.language)
@@ -69,6 +89,11 @@ export default function SettingsModal({
     // console.log("Successfully uploaded to S3!", url);
   }
 
+  function selectTheme(themeName: any) {
+    const selectedTheme = themes.findLast(theme => theme.name == themeName)
+    applyTheme(selectedTheme)
+  }
+
   async function onSubmit(data: FormData) {
     setIsSaving(true)
     try {
@@ -86,6 +111,7 @@ export default function SettingsModal({
       }
       setModalOpen(false)
     } catch (e) {
+      console.log(e)
       return toast({
         title: t('studio:somethingWrong'),
         message: t('settingsModal:changesNotApplied'),
@@ -198,43 +224,60 @@ export default function SettingsModal({
                 )
               }}
             />
-            {/* <Spacer />
-          <select {...register('theme')}>
-            {options.map((option, index) => (
-              <option
-                key={index}
-                {...option}
-                onSelect={() => {
-                  setSelectedTheme(option.children as string)
-                  setValue('theme', option.children as string)
-                }}
-              />
-            ))}
-          </select> */}
-            {/* <DropdownMenu {...register('theme')}>
-            <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
-              <span className="mb-2 flex text-sm font-medium text-gray-700">
-                {t('theme')} <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
-              </span>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Portal>
-              <DropdownMenu.Content
-                align="end"
-                className="absolute z-50 md:w-[240px]"
-              >
-                {options.map((option, index) => (
-                  <DropdownMenu.Item
-                    key={index}
-                    {...option}
-                    onSelect={() => {
-                      setSelectedTheme(option.children as string)
-                      setValue('theme', option.children as string)
+            <Spacer />
+            <Controller
+              control={control}
+              defaultValue={story.themeId ?? themes[0].name}
+              // name="theme"
+              {...register('themeId')}
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <Select
+                    onValueChange={e => {
+                      selectTheme(e)
+                      onChange(e)
                     }}
-                  />
-                ))}
-              </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-          </DropdownMenu> */}
+                    value={value}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Theme" />
+                    </SelectTrigger>
+                    <SelectContent ref={ref}>
+                      {themes.map((theme: any) => (
+                        <SelectItem key={theme.name} value={theme.name}>
+                          {theme.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )
+              }}
+            />
+            {/* <DropdownMenu {...register('theme')}>
+              <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
+                <span className="mb-2 flex text-sm font-medium text-gray-700">
+                  Theme
+                  <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
+                </span>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Portal>
+                <DropdownMenu.Content
+                  align="end"
+                  className="absolute z-50 md:w-[240px]"
+                >
+                  {themes.map((theme, index) => (
+                    <DropdownMenu.Item
+                      key={index}
+                      {...option}
+                      onSelect={() => {
+                        setSelectedTheme(theme.name as string)
+                        setValue('theme', theme.name as string)
+                      }}
+                    />
+                  ))}
+                </DropdownMenu.Content>
+              </DropdownMenu.Portal>
+            </DropdownMenu> */}
             {/* <Spacer />
           <InputLabel>{t('image')}</InputLabel>
           <div className="flex">

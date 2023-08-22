@@ -76,7 +76,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   }, [page])
 
   function onClose() {
-    onMyStoriesRoute ? router.push('mystories/all') : router.push('gallery')
+    onMyStoriesRoute ? router.push('mystories/all') : router.push('gallery/all')
   }
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 'use client'
 
-import { SlideContent, Story, StoryStep } from '@prisma/client'
+import { SlideContent, Story, StoryStep, Theme } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import useStory from '@/src/lib/api/story/useStory'
@@ -11,9 +11,11 @@ import { useBoundStore } from '@/src/lib/store/store'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 import { Trans } from 'react-i18next'
+import { applyTheme } from '@/src/helper/applyTheme'
 
 type EditMapstoryViewProps = {
   story: Story & {
+    theme?: Theme | null
     steps?: StoryStep[]
     firstStep?: (StoryStep & { content?: SlideContent[] | null }) | null
   }
@@ -31,6 +33,11 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
     lng = fallbackLng
   }
   const { t } = useTranslation(lng, 'editMapstory')
+
+  //apply theme on first load
+  useEffect(() => {
+    applyTheme(story.theme)
+  }, [])
 
   useEffect(() => {
     const stepId = path?.split('/').at(-1)
