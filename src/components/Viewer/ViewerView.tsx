@@ -30,7 +30,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const mapRef = React.createRef<MapRef>()
 
   const path = usePathname()
-  const onMyStoriesRoute = path?.includes('mystories')
   const storyID = useBoundStore(state => state.storyID)
   const setStoryID = useBoundStore(state => state.setStoryID)
   const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
@@ -236,9 +235,11 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
     }
     setSelectedStorySlug(m.properties?.slug)
-    onMyStoriesRoute
-      ? router.push(`/mystories/all/story/${m.properties?.slug}/start`)
-      : router.push(`/gallery/all/story/${m.properties?.slug}/start`)
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/story/'
+
+    router.push(`${pathLocal}/${m.properties?.slug}/start`)
+
   }
 
   function updateToStep(index: number) {

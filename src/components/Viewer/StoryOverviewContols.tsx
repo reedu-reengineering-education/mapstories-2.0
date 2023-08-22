@@ -17,7 +17,6 @@ import {
 } from '@radix-ui/react-icons'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
-import { StoryStep } from '@prisma/client'
 type Props = {
   slug: string
   page: string
@@ -76,7 +75,10 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   }, [page])
 
   function onClose() {
-    onMyStoriesRoute ? router.push('mystories/all') : router.push('gallery')
+    const pathLocal =
+      path?.split('/').splice(2, 2).join('/') ?? 'gallery/all/story/'
+
+    router.push(`${pathLocal}`)
   }
 
   useEffect(() => {
@@ -87,22 +89,16 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   }, [])
 
   function startStory() {
-    const positions = story?.steps?.map((step: StoryStep) => step?.position)
-    const lowestPosition = Math.min(...positions)
-    onMyStoriesRoute
-      ? router.push(
-          `/mystories/${filter?.join('-')}/story/${slug}/${lowestPosition}`,
-        )
-      : router.push(
-          `/gallery/${filter?.join(
-            '-',
-          )}/story/${slug}/${filter}/${lowestPosition}`,
-        )
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+
+    router.push(`${pathLocal}/${slug}/0`)
   }
   function backToStart() {
-    onMyStoriesRoute
-      ? router.push(`/mystories/all/story/${slug}/start`)
-      : router.push(`/gallery/all/story/${slug}/start`)
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+
+    router.push(`${pathLocal}/${slug}/start`)
   }
 
   function applyFilter(filter?: string[]) {
@@ -135,24 +131,25 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                   />
                 </div>
 
-                <div className="re-title-slide overflow-x-hidden pr-5">
-                  <Slide step={story?.firstStep}></Slide>
-                  <div className="flex justify-between">
-                    <Button
-                      onClick={() => startStory()}
-                      startIcon={<PlayIcon className="w-4" />}
-                    >
-                      {t('play')}
-                    </Button>
-
-                    <Button
-                      onClick={onClose}
-                      startIcon={<Cross1Icon className="w-4" />}
-                    >
-                      {t('close')}
-                    </Button>
+                {!path?.includes('/embed/') && (
+                  <div className="re-title-slide overflow-x-hidden pr-5">
+                    <Slide step={story?.firstStep}></Slide>
+                    <div className="flex justify-between">
+                      <Button
+                        onClick={() => startStory()}
+                        startIcon={<PlayIcon className="w-4" />}
+                      >
+                        {t('play')}
+                      </Button>
+                      <Button
+                        onClick={onClose}
+                        startIcon={<Cross1Icon className="w-4" />}
+                      >
+                        {t('close')}
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
             {page != 'start' && (
@@ -185,15 +182,17 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                       >
                         <ReloadIcon />
                       </Toolbar.ToggleItem>
-                      <Toolbar.ToggleItem
-                        aria-label="Quit story"
-                        className="ToolbarToggleItem"
-                        onClick={onClose}
-                        title="Quit Story"
-                        value="quit"
-                      >
-                        <Cross1Icon />
-                      </Toolbar.ToggleItem>
+                      {!path?.includes('/embed/') && (
+                        <Toolbar.ToggleItem
+                          aria-label="Quit story"
+                          className="ToolbarToggleItem"
+                          onClick={onClose}
+                          title="Quit Story"
+                          value="quit"
+                        >
+                          <Cross1Icon />
+                        </Toolbar.ToggleItem>
+                      )}
                     </Toolbar.ToggleGroup>
                   </Toolbar.Root>
                 </div>

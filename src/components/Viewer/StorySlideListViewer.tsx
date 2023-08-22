@@ -24,7 +24,6 @@ export function StorySlideListViewer({
 }: Props) {
   const router = useRouter()
   const path = usePathname()
-  const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
   const { story } = useStory(slug)
 
@@ -49,9 +48,11 @@ export function StorySlideListViewer({
   }, [])
 
   function goToStep(position: number) {
-    onMyStoriesRoute
-      ? router.push(`/mystories/${filter}/story/${slug}/${position}`)
-      : router.push(`/gallery/${filter}/story/${slug}/${position}`)
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+
+    router.push(`${pathLocal}/${slug}/${position}`)
+
   }
 
   const variantsList = {
