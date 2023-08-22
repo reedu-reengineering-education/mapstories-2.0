@@ -272,8 +272,7 @@ export default function EditMapstoryMap({
         onChange={addMarker}
         onClick={m => router.replace(`/storylab/${story?.slug}/${m.stepId}`)}
       />
-
-      <ConnectionLines markers={markers} />
+      {story?.lines && <ConnectionLines markers={markers} />}
     </Map>
   )
 }

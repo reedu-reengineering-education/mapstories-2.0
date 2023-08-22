@@ -20,7 +20,6 @@ type Props = {
 export function StoryPlayButtons({ filter, slug, page, story }: Props) {
   const router = useRouter()
   const path = usePathname()
-  const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
   // const { story } = useStory(slug)
 
@@ -47,32 +46,22 @@ export function StoryPlayButtons({ filter, slug, page, story }: Props) {
   }, [page])
 
   function nextStep() {
-    // const length = story?.steps?.length
-    onMyStoriesRoute
-      ? router.push(
-          `/mystories/${filter?.join('-')}/story/${slug}/${
-            page ? parseInt(page) + 1 : '1'
-          }`,
-        )
-      : router.push(
-          `/gallery/${filter?.join('-')}/story/${slug}/${
-            page ? parseInt(page) + 1 : '1'
-          }`,
-        )
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+
+    if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
+      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+    }
+
   }
 
   function prevStep() {
     // const length = story?.steps?.length
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+
     if (parseInt(page) > 0) {
-      onMyStoriesRoute
-        ? router.push(
-            `/mystories/${filter?.join('-')}/story/${slug}/${
-              page ? parseInt(page) - 1 : '1'
-            }`,
-          )
-        : router.push(
-            `/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`,
-          )
+      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
     }
   }
 

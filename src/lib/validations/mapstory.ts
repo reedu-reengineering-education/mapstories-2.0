@@ -13,4 +13,5 @@ export const updateMapstorySchema = z.object({
   mode: z.enum([StoryMode.NORMAL, StoryMode.TIMELINE]),
   visibility: z.any(),
   themeId: z.string(),
+  lines: z.boolean(),
 })

@@ -99,6 +99,7 @@ model Story {
   createdAt   DateTime    @default(now()) @map(name: "created_at")
   updatedAt   DateTime    @default(now()) @map(name: "updated_at")
   mode        StoryMode   @default(NORMAL)
+  lines       Boolean     @default(true)
 
   @@map(name: "stories")
 }
