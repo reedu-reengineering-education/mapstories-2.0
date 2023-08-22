@@ -166,49 +166,60 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
   }, [storyID, stories])
 
-  function extractGeoJson(
-    currentStories:
-      | (Story & {
-          steps?: StoryStep[] | undefined
-        })[]
-      | undefined,
-  ) {
-    const geojsons: any[] = []
+  function extractGeoJson(currentStories) {
     if (!currentStories) {
       return
     }
+
+    const geojsons: any[] = []
+
     currentStories.forEach(s => {
-      const story: any[] = []
       if (!s?.steps) {
         return
       }
-      s.steps
-        .sort((a, b) => a.position - b.position)
-        .forEach((step: StoryStep) => {
-          const geoFeature =
-            step.feature as unknown as GeoJSON.Feature<GeoJSON.Point>
-          if (geoFeature?.geometry?.coordinates?.length > 0) {
-            story.push([
-              geoFeature.geometry.coordinates[0],
-              geoFeature.geometry.coordinates[1],
-            ])
-          }
+
+      const story = s.steps
+        .filter((step: any) => {
+          const geoFeature = step.feature as GeoJSON.Feature<GeoJSON.Point>
+          return geoFeature?.geometry?.coordinates?.length > 0
         })
-      geojsons.push({
-        type: 'Feature',
-        properties: {
-          id: s.id,
-          desc: s.description,
-          name: s.name,
-          slug: s.slug,
-          mode: s.mode,
-        },
-        geometry: {
-          type: 'LineString',
-          coordinates: story,
-        },
-      })
+        .sort((a: any, b: any) => a.position - b.position)
+        .map((step: any) => {
+          const geoFeature = step.feature as GeoJSON.Feature<GeoJSON.Point>
+          return geoFeature.geometry.coordinates
+        })
+
+      const commonProperties = {
+        id: s.id,
+        desc: s.description,
+        name: s.name,
+        slug: s.slug,
+        mode: s.mode,
+      }
+
+      if (s.lines) {
+        geojsons.push({
+          type: 'Feature',
+          properties: commonProperties,
+          geometry: {
+            type: 'LineString',
+            coordinates: story,
+          },
+        })
+      } else {
+        story.forEach((coordinates: []) => {
+          geojsons.push({
+            type: 'Feature',
+            properties: commonProperties,
+            geometry: {
+              type: 'Point',
+              coordinates: coordinates,
+            },
+          })
+        })
+      }
     })
+
     setMapData(geojsons)
   }
 
@@ -239,7 +250,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       path?.split('/').splice(2, 3).join('/') ?? 'gallery/story/'
 
     router.push(`${pathLocal}/${m.properties?.slug}/start`)
-
   }
 
   function updateToStep(index: number) {
