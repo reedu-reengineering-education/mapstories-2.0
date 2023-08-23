@@ -31,25 +31,6 @@ import { applyTheme } from '@/src/helper/applyTheme'
 
 type FormData = z.infer<typeof updateMapstorySchema>
 
-// const themes: any[] = [
-//   {
-//     name: 'Standard',
-//     shadow_color: 'rgba(56,56.58, 0.9)',
-//     border: '3px solid #38383a',
-//     box_shadow: '4px 4px 0px var(--shadow-color)',
-//     border_radius: '10px',
-//     text_color: '#38383a',
-//   },
-//   {
-//     name: 'Funky',
-//     shadow_color: 'rgba(237, 130, 222, 0.9)',
-//     border: '3px solid rgb(237, 160, 222)',
-//     box_shadow: '4px 4px 0px var(--shadow-color)',
-//     border_radius: '2px',
-//     text_color: '#BDCF3B',
-//   },
-// ]
-
 export default function SettingsModal({
   storyId,
   shadow,
@@ -96,6 +77,7 @@ export default function SettingsModal({
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)
+    console.log('DATA', data)
     try {
       const updatedStory = await updateStory({
         ...data,
@@ -175,7 +157,7 @@ export default function SettingsModal({
             )}
             <Controller
               control={control}
-              defaultValue={StoryMode.NORMAL}
+              defaultValue={story.mode ?? StoryMode.NORMAL}
               name="mode"
               render={({ field: { onChange, ref } }) => {
                 return (
@@ -199,6 +181,7 @@ export default function SettingsModal({
                 )
               }}
             />
+            <Spacer />
 
             <Controller
               control={control}
@@ -232,27 +215,30 @@ export default function SettingsModal({
               {...register('themeId')}
               render={({ field: { onChange, value, ref } }) => {
                 return (
-                  <Select
-                    onValueChange={e => {
-                      selectTheme(e)
-                      onChange(e)
-                    }}
-                    value={value}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Theme" />
-                    </SelectTrigger>
-                    <SelectContent ref={ref}>
-                      {themes.map((theme: any) => (
-                        <SelectItem key={theme.name} value={theme.name}>
-                          {theme.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <>
+                    <Select
+                      onValueChange={e => {
+                        selectTheme(e)
+                        onChange(e)
+                      }}
+                      value={value}
+                    >
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Theme" />
+                      </SelectTrigger>
+                      <SelectContent ref={ref}>
+                        {themes.map((theme: any) => (
+                          <SelectItem key={theme.name} value={theme.name}>
+                            {theme.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </>
                 )
               }}
             />
+            <Spacer />
 
             <Controller
               control={control}
