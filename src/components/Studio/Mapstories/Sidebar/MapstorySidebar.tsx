@@ -109,6 +109,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
         </Link>
         <hr className="my-4 border-gray-400" />
         <DraggableList
+          disabled={story.mode === StoryMode.TIMELINE}
           items={steps.map((s, i) => ({
             id: s.id,
             s: s,
