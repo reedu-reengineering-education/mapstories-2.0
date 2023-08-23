@@ -1,0 +1,5 @@
+{
+    "modeDescription": "Im Timeline-Modus muss zu jedem Schritt ein Zeitstempel gespeichert werden. Dadurch lassen sich historische Ereignisse noch besser visualisieren.",
+    "setDateSuccess": "Zeitstempel erfolgreich gesetzt.",
+    "setDateError": "Zeitstempel konnte nicht gesetzt werden."
+}

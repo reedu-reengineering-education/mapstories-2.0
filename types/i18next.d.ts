@@ -25,6 +25,7 @@ import type dashboardLayout from '../src/app/i18n/locales/en/dashboardLayout.jso
 import type viewer from '../src/app/i18n/locales/en/viewer.json'
 import type step from '../src/app/i18n/locales/en/step.json'
 import type gallery from '../src/app/i18n/locales/en/gallery.json'
+import type timeline from '../src/app/i18n/locales/en/timeline.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -45,6 +46,7 @@ interface I18nNamespaces {
   viewer: typeof viewer
   step: typeof step
   gallery: typeof gallery
+  timeline: typeof timeline
 }
 
 declare module 'i18next' {

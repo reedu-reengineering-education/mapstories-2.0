@@ -42,7 +42,8 @@ export default function SettingsModal({
 }) {
   const router = useRouter()
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, ['settingsModal', 'studio'])
+  const { t } = useTranslation(lng, ['settingsModal', 'studio', 'timeline'])
+
   const [isSaving, setIsSaving] = useState(false)
   const [image, setImage] = useState<string | any>()
   const [selectedTheme, setSelectedTheme] = useState('')
@@ -146,9 +147,7 @@ export default function SettingsModal({
             <Spacer />
             <InputLabel>Modus</InputLabel>
             <p className="rounded bg-zinc-100 p-2 text-xs text-zinc-700">
-              Im Timeline-Modus kann zu jedem Schritt ein Zeitstempel
-              gespeichert werden. Dadurch lassen sich historische Ereignisse
-              noch besser visualisieren.
+              {t('timeline:modeDescription')}
             </p>
             <Spacer size={'sm'} />
             {errors.mode && (
