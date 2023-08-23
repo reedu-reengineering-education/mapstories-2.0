@@ -1,11 +1,15 @@
 html {
-  --shadow-color: rgba(56,56.58, 0.9);
+  --shadow-color: rgba(56, 56.58, 0.9);
   --border: 3px solid #38383a;
-  --boxshadow:  4px 4px 0px var(--shadow-color);
+  --boxshadow: 4px 4px 0px var(--shadow-color);
   --border-radius: 10px;
-  --text-color: #38383a;  
+  --text-color: #38383a;
   --button-color: #38383a;
   --background-color: white;
+  --active-color-background: #fef08a;
+  --active-color-border: #fde047;
+  --inactive-color-background: theme('colors.slate.100');
+  --inactive-color-border: theme('colors.slate.300');
 }
 
 .re-data-media-preview {
