@@ -1,0 +1,21 @@
+[{
+    "name": "Standard",
+    "shadow_color": "rgba(56,56.58, 0.9)",
+    "border": "3px solid #38383a",
+    "box_shadow": "4px 4px 0px var(--shadow-color)",
+    "border_radius": "10px",
+    "text_color": "#38383a",
+    "button_color": "#38383a",
+    "background_color": "white"
+
+  },
+  {
+    "name": "Funky",
+    "shadow_color": "rgba(237, 130, 222, 0.9)",
+    "border": "3px solid rgb(237, 160, 222)",
+    "box_shadow": "4px 4px 0px var(--shadow-color)",
+    "border_radius": "2px",
+    "text_color": "#008080",
+    "button_color": "rgb(204,72,172)",
+    "background_color": "white"
+  }]

@@ -1,6 +1,8 @@
 {
-  "name": "Customize Mapstory",
+  "modalHeader": "Options",
+  "name": "Mapstory Name",
   "description": "Description",
+  "visibility": "Visibility",
   "private": "Private",
   "public": "Public",
   "theme": "Map Theme",

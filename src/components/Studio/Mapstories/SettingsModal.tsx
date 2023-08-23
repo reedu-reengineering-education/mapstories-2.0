@@ -13,31 +13,32 @@ import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/src/app/i18n/client'
 import { Textarea, TextareaLabel } from '@/src/components/Elements/Textarea'
 import useStory from '@/src/lib/api/story/useStory'
-import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { useBoundStore } from '@/src/lib/store/store'
 import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 import Switch from '../../Elements/Switch'
 import { Spacer } from '../../Elements/Spacer'
-import { StoryMode } from '@prisma/client'
+import { StoryMode, Theme } from '@prisma/client'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../Elements/Select'
+import { applyTheme } from '@/src/helper/applyTheme'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
 type FormData = z.infer<typeof updateMapstorySchema>
 
-const options: Pick<DropdownMenuItemProps, 'children'>[] = [
-  { children: 'Theme 1' },
-  { children: 'Theme 2' },
-  { children: 'Theme 3' },
-  { children: 'Theme 4' },
-  { children: 'Theme 5' },
-]
-
 export default function SettingsModal({
   storyId,
   shadow,
+  themes,
 }: {
   storyId: string
   shadow?: boolean
+  themes: Theme[]
 }) {
   const router = useRouter()
   const lng = useBoundStore(state => state.language)
@@ -69,6 +70,11 @@ export default function SettingsModal({
     // console.log("Successfully uploaded to S3!", url);
   }
 
+  function selectTheme(themeName: any) {
+    const selectedTheme = themes.find(theme => theme.name == themeName)
+    applyTheme(selectedTheme)
+  }
+
   async function onSubmit(data: FormData) {
     setIsSaving(true)
     try {
@@ -86,6 +92,7 @@ export default function SettingsModal({
       }
       setModalOpen(false)
     } catch (e) {
+      console.log(e)
       return toast({
         title: t('studio:somethingWrong'),
         message: t('settingsModal:changesNotApplied'),
@@ -114,7 +121,7 @@ export default function SettingsModal({
       <Modal
         onOpenChange={setModalOpen}
         open={modalOpen}
-        title={t('settingsModal:name')}
+        title={t('settingsModal:modalHeader')}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content>
@@ -149,7 +156,7 @@ export default function SettingsModal({
             )}
             <Controller
               control={control}
-              defaultValue={StoryMode.NORMAL}
+              defaultValue={story.mode ?? StoryMode.NORMAL}
               name="mode"
               render={({ field: { onChange, ref } }) => {
                 return (
@@ -173,7 +180,8 @@ export default function SettingsModal({
                 )
               }}
             />
-
+            <Spacer />
+            <InputLabel>{t('settingsModal:visibility')}</InputLabel>
             <Controller
               control={control}
               defaultValue={false}
@@ -198,6 +206,39 @@ export default function SettingsModal({
                 )
               }}
             />
+            <Spacer />
+            <InputLabel>{t('settingsModal:theme')}</InputLabel>
+            <Controller
+              control={control}
+              defaultValue={story.themeId ?? themes[0].name}
+              // name="theme"
+              {...register('themeId')}
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <>
+                    <Select
+                      onValueChange={e => {
+                        selectTheme(e)
+                        onChange(e)
+                      }}
+                      value={value}
+                    >
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Theme" />
+                      </SelectTrigger>
+                      <SelectContent ref={ref}>
+                        {themes.map((theme: any) => (
+                          <SelectItem key={theme.name} value={theme.name}>
+                            {theme.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </>
+                )
+              }}
+            />
+            <Spacer />
 
             <Controller
               control={control}

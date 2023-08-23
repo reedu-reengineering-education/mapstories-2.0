@@ -1,7 +1,6 @@
 'use client'
 
 import { useBoundStore } from '@/src/lib/store/store'
-import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { Slide } from './Slide'
@@ -18,15 +17,11 @@ type Props = {
 }
 
 export function Slides({ slug, page, story }: Props) {
-  const router = useRouter()
-  const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)
 
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
   )
-  const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
-
   useEffect(() => {
     if (story) {
       setStoryID(story.id)

@@ -1,6 +1,8 @@
 {
-  "name": "Mapstory anpassen",
+  "modalHeader": "Optionen",
+  "name": "Mapstory Name",
   "description": "Beschreibung",
+  "visibility": "Sichtbarkeit",
   "private": "Privat",
   "public": "Öffentlich",
   "theme": "Kartentyp",

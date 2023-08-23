@@ -31,6 +31,7 @@ const getMapstories = async (userId: string) => {
           content: true,
         },
       },
+      theme: true,
     },
   })
 }
@@ -51,6 +52,7 @@ const getMapstoriesWithFilter = async (userId: string, filter: string[]) => {
           content: true,
         },
       },
+      theme: true,
     },
   })
   const filteredStories = unfilteredStories.map(story => {

@@ -25,6 +25,7 @@
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.3",
     "@radix-ui/react-icons": "^1.2.0",
+    "@radix-ui/react-select": "^1.2.2",
     "@radix-ui/react-switch": "^1.0.1",
     "@radix-ui/react-toolbar": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.5",
@@ -56,6 +57,7 @@
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-resources-to-backend": "^1.1.2",
     "immer": "^9.0.19",
+    "lucide-react": "^0.268.0",
     "mapbox-gl": "^2.12.1",
     "maplibre-gl": "^2.4.0",
     "minio": "^7.0.33",
@@ -89,6 +91,7 @@
     "spotify-embed": "^1.5.0",
     "superjson": "^1.12.2",
     "swr": "^2.0.4",
+    "ts-node": "^10.9.1",
     "vis-data": "^7.1.6",
     "vis-timeline": "^7.7.2",
     "zod": "^3.20.6",
@@ -115,5 +118,8 @@
     "sass": "^1.58.3",
     "tailwindcss": "^3.2.7",
     "typescript": "4.9.5"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed/seed.ts"
   }
 }

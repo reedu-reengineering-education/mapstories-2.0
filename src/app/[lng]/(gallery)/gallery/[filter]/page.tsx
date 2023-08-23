@@ -50,6 +50,7 @@ const getCertifiedMapstories = async (array: Array<string>) => {
           content: true,
         },
       },
+      theme: true,
     },
   })
 }

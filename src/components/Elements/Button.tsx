@@ -10,9 +10,9 @@ export const buttonStyle = cva(
     variants: {
       variant: {
         primary:
-          'border-transparent text-white bg-black hover:bg-hover justify-center hover:text-black hover:border-black',
+          'border-transparent text-white bg-button-color hover:bg-hover justify-center hover:text-black hover:border-black',
         inverse:
-          'border-zinc-300 text-black bg-white hover:bg-hover justify-center ',
+          'border-zinc-300 text-button-color bg-white hover:bg-hover justify-center ',
         danger:
           'border-transparent text-white bg-red-500 hover:bg-red-400 justify-center',
         noStyle: 'border-0 justify-left',
