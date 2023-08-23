@@ -49,7 +49,7 @@ export default function TimelineChart({
       data.map(e => ({
         id: e.id,
         content: e.content.find(e => e.type === 'TITLE')?.content,
-        start: e.timestamp,
+        start: e.timestamp || new Date(),
         position: e.position,
       })),
     )
