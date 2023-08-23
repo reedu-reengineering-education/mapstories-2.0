@@ -35,6 +35,8 @@ export default function TimelineChartWrapper({
         const idx = story.steps.findIndex(s => s.timestamp === event.timestamp)
         router.replace(`/mystories/${filter}/story/${story.slug}/${idx}`)
       }}
+      stepButtons
+      story={story}
       zoomButtons
     ></TimelineChart>
   )

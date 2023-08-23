@@ -9,13 +9,12 @@ import { ChevronRightIcon } from 'lucide-react'
 import { Button } from '../Elements/Button'
 
 type Props = {
-  filter: string[]
   slug: string
   page: string
   story: any
 }
 
-export function SingleStepForwardButton({ filter, slug, page, story }: Props) {
+export function SingleStepForwardButton({ slug, page, story }: Props) {
   const router = useRouter()
   const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)

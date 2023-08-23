@@ -12,6 +12,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { Tooltip } from '../Tooltip'
 import './TimelineChart.css'
+import { usePathname, useRouter } from 'next/navigation'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 interface TimelineChartProps {
   data: (StoryStep & {
@@ -25,6 +27,8 @@ interface TimelineChartProps {
   editable?: boolean
   fitButton?: boolean
   zoomButtons?: boolean
+  stepButtons?: boolean
+  story?: any
 }
 
 const ZOOM_PERCENTAGE = 0.25
@@ -39,11 +43,15 @@ export default function TimelineChart({
   editable = false,
   fitButton = false,
   zoomButtons = false,
+  stepButtons = false,
+  story,
 }: TimelineChartProps) {
   const ref = useRef<HTMLDivElement>(null)
+  const path = usePathname()
+  const router = useRouter()
+
   const [timeline, setTimeline] = useState<Timeline | null>(null)
   const [items, setItems] = useState<DataSet<any> | null>(null)
-
   useEffect(() => {
     const items = new DataSet(
       data.map(e => ({
@@ -106,6 +114,28 @@ export default function TimelineChart({
     }
   }, [ref, items])
 
+  const nextStep = () => {
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+    const page = path?.split('/').at(-1) ?? '0'
+    const slug = path?.split('/').at(-2)
+    if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
+      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+    }
+  }
+
+  const previousStep = () => {
+    // const length = story?.steps?.length
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+    const page = path?.split('/').at(-1) ?? '0'
+    const slug = path?.split('/').at(-2)
+
+    if (parseInt(page) > 0) {
+      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+    }
+  }
+
   useEffect(() => {
     if (!timeline) {
       return
@@ -114,7 +144,7 @@ export default function TimelineChart({
   }, [activeEvent, timeline])
 
   return (
-    <div className="flex items-end">
+    <div className="flex flex-row items-start">
       <div className="flex-1 p-2" ref={ref} />
       <div className="m-2 flex flex-col gap-1 rounded bg-zinc-100 p-1">
         {fitButton && (
@@ -156,6 +186,26 @@ export default function TimelineChart({
               </Button>
             </Tooltip>
           </>
+        )}
+        {stepButtons && (
+          <Button
+            className="flex !px-0 md:hidden lg:hidden xl:hidden"
+            onClick={() => previousStep()}
+            size={'sm'}
+            variant={'inverse'}
+          >
+            <ChevronLeftIcon className="h-4 w-4" />
+          </Button>
+        )}
+        {stepButtons && (
+          <Button
+            className="flex !px-0 md:hidden lg:hidden xl:hidden"
+            onClick={() => nextStep()}
+            size={'sm'}
+            variant={'inverse'}
+          >
+            <ChevronRightIcon className="h-4 w-4" />
+          </Button>
         )}
       </div>
     </div>

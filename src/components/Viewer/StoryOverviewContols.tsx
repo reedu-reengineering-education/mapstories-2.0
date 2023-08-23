@@ -117,7 +117,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
         {!story && <p>{t('storyNotAvailable')}</p>}
         {story && (
           <div>
-            <div className="flex-rowbg-gray flex gap-2">
+            <div className="bg-gray flex flex-row gap-2">
               <h3 className="max-w-[500px]">{story?.name}</h3>
             </div>
 
@@ -134,7 +134,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                 {!path?.includes('/embed/') && (
                   <div className="re-title-slide overflow-x-hidden pr-5">
                     <Slide step={story?.firstStep}></Slide>
-                    <div className="flex justify-between">
+                    <div className="flex gap-2">
                       <Button
                         onClick={() => startStory()}
                         startIcon={<PlayIcon className="w-4" />}

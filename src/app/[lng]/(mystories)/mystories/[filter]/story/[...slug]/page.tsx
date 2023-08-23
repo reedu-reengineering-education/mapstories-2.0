@@ -10,6 +10,7 @@ import { StoryMode } from '@prisma/client'
 import { Slides } from '@/src/components/Viewer/Slides'
 import { SingleStepBackButton } from '@/src/components/Viewer/SingleStepBackButton'
 import { SingleStepForwardButton } from '@/src/components/Viewer/SingleStepForwardButton'
+import { cx } from 'class-variance-authority'
 
 export async function generateMetadata({
   params,
@@ -114,7 +115,12 @@ export default async function StoryPage({
 
   return (
     <>
-      <div className="absolute left-5 top-20 z-20 hidden md:block lg:block xl:block">
+      <div
+        className={cx(
+          slug[1] === 'start' ? 'block' : 'hidden',
+          'absolute left-5 top-20 z-20 md:block lg:block xl:block',
+        )}
+      >
         <StoryOverviewControls
           page={slug[1]}
           slug={slug[0]}
@@ -125,7 +131,7 @@ export default async function StoryPage({
       </div>
       <div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box re-slide absolute bottom-60 right-4 z-20 bg-white p-4 lg:bottom-72  lg:right-16 xl:bottom-72 xl:right-16">
+          <div className="re-basic-box re-slide absolute bottom-60 right-6 z-20 bg-white p-4 lg:bottom-72  lg:right-16 xl:bottom-72 xl:right-16">
             <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
           </div>
         )}
@@ -134,7 +140,6 @@ export default async function StoryPage({
         <div>
           <div className="absolute bottom-20 z-20 hidden lg:left-16  lg:block xl:left-16 xl:block">
             <SingleStepBackButton
-              filter={filterArray}
               page={slug[1]}
               slug={slug[0]}
               story={story}
@@ -150,7 +155,6 @@ export default async function StoryPage({
           </div>
           <div className="absolute bottom-20 right-0 z-20 hidden lg:right-16 lg:block xl:right-16 xl:block">
             <SingleStepForwardButton
-              filter={filterArray}
               page={slug[1]}
               slug={slug[0]}
               story={story}
