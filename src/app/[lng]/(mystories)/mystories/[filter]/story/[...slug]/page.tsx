@@ -146,7 +146,7 @@ export default async function StoryPage({
               // toggleSlides={toggleSlidesOpen}
             ></SingleStepBackButton>
           </div>
-          <div className="re-basic-box absolute bottom-10 left-1/2 z-10 w-11/12 -translate-x-1/2  bg-white lg:w-8/12 xl:bottom-10 xl:w-9/12 ">
+          <div className="re-basic-box absolute bottom-10 left-1/2 z-10 w-11/12 -translate-x-1/2 bg-white  px-2 lg:w-8/12 xl:bottom-10 xl:w-9/12 ">
             <TimelineChartWrapper
               activeIndex={Number(slug[1])}
               filter={filter}
