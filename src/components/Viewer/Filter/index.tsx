@@ -33,10 +33,10 @@ function Filter<T extends { [k: string]: string[] }>({
   }, [defaultValues])
 
   return (
-    <div className="relative flex flex-col flex-wrap gap-2 sm:flex-row">
+    <div className="relative flex flex-col gap-2 sm:flex-row">
       {Object.keys(availableValues).map((e, i) => (
         <SelectMultiple
-          className="min-w-[150px] max-w-full"
+          className="min-w-[100px] max-w-[full]"
           defaultValues={defaultValues?.[e]}
           disabled={disabled}
           key={i}
