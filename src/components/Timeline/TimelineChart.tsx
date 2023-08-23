@@ -189,7 +189,7 @@ export default function TimelineChart({
         )}
         {stepButtons && (
           <Button
-            className="flex !px-0 md:hidden lg:hidden xl:hidden"
+            className="flex !px-0  lg:hidden xl:hidden"
             onClick={() => previousStep()}
             size={'sm'}
             variant={'inverse'}
@@ -199,7 +199,7 @@ export default function TimelineChart({
         )}
         {stepButtons && (
           <Button
-            className="flex !px-0 md:hidden lg:hidden xl:hidden"
+            className="flex !px-0  lg:hidden xl:hidden"
             onClick={() => nextStep()}
             size={'sm'}
             variant={'inverse'}
