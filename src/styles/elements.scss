@@ -5,6 +5,7 @@ html {
   --border-radius: 10px;
   --text-color: #38383a;  
   --button-color: #38383a;
+  --background-color: white;
 }
 
 .re-data-media-preview {
@@ -47,6 +48,7 @@ html {
   // filter: drop-shadow(4px 4px 0px rgba(#38383a, 0.9));
   box-shadow: var(--boxshadow);
   color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 .re-basic-box-no-shadow {

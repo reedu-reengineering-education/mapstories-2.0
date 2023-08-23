@@ -5,7 +5,8 @@
     "box_shadow": "4px 4px 0px var(--shadow-color)",
     "border_radius": "10px",
     "text_color": "#38383a",
-    "button_color": "#38383a"
+    "button_color": "#38383a",
+    "background_color": "white"
 
   },
   {
@@ -15,5 +16,6 @@
     "box_shadow": "4px 4px 0px var(--shadow-color)",
     "border_radius": "2px",
     "text_color": "#008080",
-    "button_color": "rgb(204,72,172)"
+    "button_color": "rgb(204,72,172)",
+    "background_color": "white"
   }]

@@ -29,6 +29,8 @@ export default function Providers({
       box_shadow: '4px 4px 0px var(--shadow-color)',
       border_radius: '10px',
       text_color: '#38383a',
+      button_color: '#38383a',
+      background_color: 'white',
     })
   }
 
