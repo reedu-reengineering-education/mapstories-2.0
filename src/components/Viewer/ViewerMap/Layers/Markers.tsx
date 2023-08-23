@@ -62,8 +62,8 @@ export default function Markers({ markers, onClick }: Props) {
                   selectedStepIndex != undefined &&
                   selectedStepIndex >= m.position
                     ? selectedStepIndex == m.position
-                      ? '#eb5933'
-                      : '#d4da68'
+                      ? 'var(--active-color-border)'
+                      : 'var(--inactive-color-border)'
                     : m.color
                 }
                 key={(i + 1) * Math.random() * 100}

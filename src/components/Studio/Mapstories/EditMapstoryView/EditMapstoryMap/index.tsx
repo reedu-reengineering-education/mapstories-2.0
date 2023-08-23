@@ -110,7 +110,10 @@ export default function EditMapstoryMap({
             latitude: geoFeature.geometry.coordinates[1],
             position: position,
             stepId: id,
-            color: currentStepId === id ? '#eb5933' : '#85bd41',
+            color:
+              currentStepId === id
+                ? 'var(--active-color-border)'
+                : 'var(--inactive-color-border)',
           }
           return newMarker
         }
