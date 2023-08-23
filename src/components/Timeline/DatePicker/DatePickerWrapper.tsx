@@ -33,8 +33,7 @@ function DatePickerWrapper({ setDate, date }: DatePickerWrapperProps) {
       <Calendar
         className="rounded-md border"
         mode="single"
-        // @ts-ignore
-        onSelect={setDay}
+        onSelect={date => (date ? setDay(date) : {})}
         selected={day}
       />
       <TimePicker setTime={setTime} time={time} />
