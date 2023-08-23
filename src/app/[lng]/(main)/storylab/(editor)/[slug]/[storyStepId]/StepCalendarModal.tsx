@@ -14,12 +14,16 @@ import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { format } from 'date-fns'
 import { getDateFnsLocale } from '@/src/app/i18n/date-fns-locale'
 import { useBoundStore } from '@/src/lib/store/store'
+import { useTranslation } from '@/src/app/i18n/client'
 
 type Props = {
   storyStepId: string
 }
 
 export default function StepCalendarModal({ storyStepId }: Props) {
+  const language = useBoundStore(state => state.language)
+  const { t } = useTranslation(language, 'timeline')
+
   const [saving, setSaving] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -42,14 +46,14 @@ export default function StepCalendarModal({ storyStepId }: Props) {
         timestamp: date,
       })
       toast({
-        message: 'Saved',
+        message: t('setDateSuccess'),
         type: 'success',
       })
       setOpen(false)
     } catch (e) {
       return toast({
         title: 'Wrong',
-        message: 'Kaputt',
+        message: t('setDateError'),
         type: 'error',
       })
     } finally {

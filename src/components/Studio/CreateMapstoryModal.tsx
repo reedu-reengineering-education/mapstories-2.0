@@ -27,7 +27,7 @@ type Props = {
 export default function CreateMapstoryModal({ trigger }: Props) {
   const router = useRouter()
   const language = useBoundStore(state => state.language)
-  const { t } = useTranslation(language, 'editModal')
+  const { t } = useTranslation(language, ['editModal', 'timeline'])
 
   const {
     handleSubmit,
@@ -82,9 +82,7 @@ export default function CreateMapstoryModal({ trigger }: Props) {
           <Spacer />
           <InputLabel>Modus</InputLabel>
           <p className="rounded bg-zinc-100 p-2 text-xs text-zinc-700">
-            Im Timeline-Modus kann zu jedem Schritt ein Zeitstempel gespeichert
-            werden. Dadurch lassen sich historische Ereignisse noch besser
-            visualisieren.
+            {t('timeline:modeDescription')}
           </p>
           <Spacer size={'sm'} />
           {errors.mode && (
@@ -116,7 +114,7 @@ export default function CreateMapstoryModal({ trigger }: Props) {
         </Modal.Content>
         <Modal.Footer>
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
-            {t('save')}
+            {t('editModal:save')}
           </Button>
         </Modal.Footer>
       </form>
