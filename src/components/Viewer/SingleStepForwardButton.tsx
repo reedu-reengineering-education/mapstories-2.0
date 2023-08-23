@@ -6,8 +6,6 @@ import * as React from 'react'
 import { useEffect } from 'react'
 import * as Toolbar from '@radix-ui/react-toolbar'
 import { StoryStep } from '@prisma/client'
-import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useTranslation } from '@/src/app/i18n/client'
 import { ChevronRightIcon } from 'lucide-react'
 
 type Props = {
@@ -27,12 +25,6 @@ export function SingleStepForwardButton({ filter, slug, page, story }: Props) {
     state => state.updateSelectedStepIndex,
   )
 
-  let lng = useBoundStore(state => state.language)
-  if (languages.indexOf(lng) < 0) {
-    lng = fallbackLng
-  }
-  const { t } = useTranslation(lng, 'viewer')
-
   useEffect(() => {
     if (story) {
       setStoryID(story.id)
@@ -51,16 +43,6 @@ export function SingleStepForwardButton({ filter, slug, page, story }: Props) {
 
     if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
       router.push(`${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
-    }
-  }
-
-  function prevStep() {
-    // const length = story?.steps?.length
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-
-    if (parseInt(page) > 0) {
-      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
     }
   }
 

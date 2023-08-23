@@ -7,8 +7,6 @@ import { useEffect } from 'react'
 import * as Toolbar from '@radix-ui/react-toolbar'
 import { StoryStep } from '@prisma/client'
 import { ChevronLeftIcon } from '@radix-ui/react-icons'
-import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useTranslation } from '@/src/app/i18n/client'
 
 type Props = {
   filter: string[]
@@ -27,12 +25,6 @@ export function SingleStepBackButton({ filter, slug, page, story }: Props) {
     state => state.updateSelectedStepIndex,
   )
 
-  let lng = useBoundStore(state => state.language)
-  if (languages.indexOf(lng) < 0) {
-    lng = fallbackLng
-  }
-  const { t } = useTranslation(lng, 'viewer')
-
   useEffect(() => {
     if (story) {
       setStoryID(story.id)
@@ -44,15 +36,6 @@ export function SingleStepBackButton({ filter, slug, page, story }: Props) {
   useEffect(() => {
     updateSelectedStepIndex(parseInt(page))
   }, [page])
-
-  function nextStep() {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-
-    if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
-      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
-    }
-  }
 
   function prevStep() {
     // const length = story?.steps?.length
