@@ -77,7 +77,6 @@ export default function SettingsModal({
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)
-    console.log('DATA', data)
     try {
       const updatedStory = await updateStory({
         ...data,
@@ -122,7 +121,7 @@ export default function SettingsModal({
       <Modal
         onOpenChange={setModalOpen}
         open={modalOpen}
-        title={t('settingsModal:name')}
+        title={t('settingsModal:modalHeader')}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content>
@@ -182,7 +181,7 @@ export default function SettingsModal({
               }}
             />
             <Spacer />
-
+            <InputLabel>{t('settingsModal:visibility')}</InputLabel>
             <Controller
               control={control}
               defaultValue={false}
@@ -208,6 +207,7 @@ export default function SettingsModal({
               }}
             />
             <Spacer />
+            <InputLabel>{t('settingsModal:theme')}</InputLabel>
             <Controller
               control={control}
               defaultValue={story.themeId ?? themes[0].name}
