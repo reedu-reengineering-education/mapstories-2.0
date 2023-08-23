@@ -8,6 +8,8 @@ import { StoryOverviewControls } from '@/src/components/Viewer/StoryOverviewCont
 import TimelineChartWrapper from '@/src/components/Timeline/TimelineChartWrapper'
 import { StoryMode } from '@prisma/client'
 import { Slides } from '@/src/components/Viewer/Slides'
+import { SingleStepBackButton } from '@/src/components/Viewer/SingleStepBackButton'
+import { SingleStepForwardButton } from '@/src/components/Viewer/SingleStepForwardButton'
 
 export async function generateMetadata({
   params,
@@ -123,29 +125,51 @@ export default async function StoryPage({
       </div>
       <div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box re-slide absolute bottom-28 right-5 z-20 bg-white p-4">
+          <div className="re-basic-box re-slide absolute bottom-72 right-16  z-20 bg-white p-4">
             <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
           </div>
         )}
       </div>
       {story?.mode === StoryMode.TIMELINE && (
-        <div className="re-basic-box absolute bottom-10 left-5 z-10 w-2/5 bg-white ">
-          <TimelineChartWrapper
-            activeIndex={Number(slug[1])}
-            filter={filter}
-            story={story}
-          />
+        <div>
+          <div className="absolute bottom-20 left-16 z-20">
+            <SingleStepBackButton
+              filter={filterArray}
+              page={slug[1]}
+              slug={slug[0]}
+              story={story}
+              // toggleSlides={toggleSlidesOpen}
+            ></SingleStepBackButton>
+          </div>
+          <div className="re-basic-box absolute bottom-10 left-1/2 z-10 w-9/12 -translate-x-1/2 bg-white lg:w-8/12 ">
+            <TimelineChartWrapper
+              activeIndex={Number(slug[1])}
+              filter={filter}
+              story={story}
+            />
+          </div>
+          <div className="absolute bottom-20  right-16 z-20">
+            <SingleStepForwardButton
+              filter={filterArray}
+              page={slug[1]}
+              slug={slug[0]}
+              story={story}
+              // toggleSlides={toggleSlidesOpen}
+            ></SingleStepForwardButton>
+          </div>
         </div>
       )}
-      <div className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 transform">
-        <StoryPlayButtons
-          filter={filterArray}
-          page={slug[1]}
-          slug={slug[0]}
-          story={story}
-          // toggleSlides={toggleSlidesOpen}
-        ></StoryPlayButtons>
-      </div>
+      {story?.mode === StoryMode.NORMAL && (
+        <div className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 transform">
+          <StoryPlayButtons
+            filter={filterArray}
+            page={slug[1]}
+            slug={slug[0]}
+            story={story}
+            // toggleSlides={toggleSlidesOpen}
+          ></StoryPlayButtons>
+        </div>
+      )}
     </>
   )
 }
