@@ -114,7 +114,7 @@ export default async function StoryPage({
 
   return (
     <>
-      <div className="absolute left-5 top-20 z-20">
+      <div className="absolute left-5 top-20 z-20 hidden md:block lg:block xl:block">
         <StoryOverviewControls
           page={slug[1]}
           slug={slug[0]}
@@ -125,14 +125,14 @@ export default async function StoryPage({
       </div>
       <div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box re-slide absolute bottom-72 right-16  z-20 bg-white p-4">
+          <div className="re-basic-box re-slide absolute bottom-60 right-4 z-20 bg-white p-4 lg:bottom-72  lg:right-16 xl:bottom-72 xl:right-16">
             <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
           </div>
         )}
       </div>
       {story?.mode === StoryMode.TIMELINE && (
         <div>
-          <div className="absolute bottom-20 left-16 z-20">
+          <div className="absolute bottom-20 z-20 hidden lg:left-16  lg:block xl:left-16 xl:block">
             <SingleStepBackButton
               filter={filterArray}
               page={slug[1]}
@@ -141,14 +141,14 @@ export default async function StoryPage({
               // toggleSlides={toggleSlidesOpen}
             ></SingleStepBackButton>
           </div>
-          <div className="re-basic-box absolute bottom-10 left-1/2 z-10 w-9/12 -translate-x-1/2 bg-white lg:w-8/12 ">
+          <div className="re-basic-box absolute bottom-10 left-1/2 z-10 w-11/12 -translate-x-1/2  bg-white lg:w-8/12 xl:bottom-10 xl:w-9/12 ">
             <TimelineChartWrapper
               activeIndex={Number(slug[1])}
               filter={filter}
               story={story}
             />
           </div>
-          <div className="absolute bottom-20  right-16 z-20">
+          <div className="absolute bottom-20 right-0 z-20 hidden lg:right-16 lg:block xl:right-16 xl:block">
             <SingleStepForwardButton
               filter={filterArray}
               page={slug[1]}
