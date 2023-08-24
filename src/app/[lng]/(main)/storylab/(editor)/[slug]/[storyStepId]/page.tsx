@@ -123,9 +123,11 @@ export default async function StepPage({
                 }
               />
               <Spacer />
-
               <Spacer />
-              <StepCalendarModal storyStepId={storyStepId} />
+              {/* hide the calendar modal for title slide */}
+              {story.firstStepId !== storyStep?.id && (
+                <StepCalendarModal storyStepId={storyStepId} />
+              )}
             </>
           )}
         </div>
