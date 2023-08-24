@@ -80,7 +80,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   if (!story || !steps) {
     return (
-      <aside className="flex h-full w-full gap-6 overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
+      <aside className="flex h-full w-full flex-col gap-6 overflow-y-auto overflow-x-hidden px-4">
         <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
         <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
         <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
@@ -92,7 +92,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   return (
     <>
-      <aside className="re-basic-box relative left-5 z-40 flex h-full w-full overflow-y-auto overflow-x-hidden bg-white px-4 md:h-full md:flex-col">
+      <aside className="re-basic-box relative z-40 flex h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-white px-4">
         <Link href={`/storylab/${story.slug}/${story.firstStepId}`}>
           <div className="pt-5">
             <SidebarSlide
