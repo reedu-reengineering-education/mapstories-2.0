@@ -3,8 +3,8 @@
 import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
-import { MapPinIcon } from '@heroicons/react/24/outline'
-import { SlideContent, StoryStep } from '@prisma/client'
+import { MapPinIcon, TagIcon } from '@heroicons/react/24/outline'
+import { SlideContent, StoryMode, StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -17,6 +17,7 @@ import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import { Tooltip } from '@/src/components/Tooltip'
 import { useRouter } from 'next/navigation'
+import AddStoryStepTimelineButton from './AddStoryStepTimelineButton'
 
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const lng = useBoundStore(state => state.language)
@@ -36,6 +37,9 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const { story, reorderStorySteps } = useStory(storyID)
 
   const [hoverMarkerIcon, setHoverMarkerIcon] = useState<boolean[]>([])
+  const [filteredSteps, setFilteredSteps] = useState<
+    (StoryStep & { content: SlideContent[] })[]
+  >([])
 
   const handleMouseEnter = (index: number) => {
     // Create a new array with the updated hover state for the current div
@@ -53,6 +57,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   const [steps, setSteps] =
     useState<(StoryStep & { content: SlideContent[] })[]>()
+
   useEffect(() => {
     if (!story?.steps) {
       return
@@ -75,7 +80,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   if (!story || !steps) {
     return (
-      <aside className="flex h-full w-full gap-6 overflow-y-auto overflow-x-hidden px-4 md:h-full md:flex-col">
+      <aside className="flex h-full w-full flex-col gap-6 overflow-y-auto overflow-x-hidden px-4">
         <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
         <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
         <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
@@ -87,7 +92,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   return (
     <>
-      <aside className="re-basic-box relative left-5 z-40 flex h-full w-full overflow-y-auto overflow-x-hidden bg-white px-4 md:h-full md:flex-col">
+      <aside className="re-basic-box relative z-40 flex h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-white px-4">
         <Link href={`/storylab/${story.slug}/${story.firstStepId}`}>
           <div className="pt-5">
             <SidebarSlide
@@ -104,6 +109,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
         </Link>
         <hr className="my-4 border-gray-400" />
         <DraggableList
+          disabled={story.mode === StoryMode.TIMELINE}
           items={steps.map((s, i) => ({
             id: s.id,
             s: s,
@@ -151,6 +157,21 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     )} */}
                   </div>
                 )}
+                {s.tags && s.tags.length > 0 && (
+                  <div className="absolute left-1 top-12 z-10 flex cursor-pointer rounded-md group-hover:visible">
+                    <Tooltip
+                      content={t('slideHasTags') as string}
+                      maxwidth={'200px'}
+                    >
+                      <span className="relative">
+                        <TagIcon className="h-5 w-5" />
+                      </span>
+                    </Tooltip>
+                    {/* {hoverMarkerIcon[i] && (
+
+                    )} */}
+                  </div>
+                )}
               </div>
             ),
           }))}
@@ -158,7 +179,11 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
         ></DraggableList>
 
         <div className="sticky bottom-0 z-20 w-full bg-white py-2">
-          <AddStoryStepButton storyID={storyID} />
+          {story.mode === StoryMode.NORMAL ? (
+            <AddStoryStepButton storyID={storyID} />
+          ) : (
+            <AddStoryStepTimelineButton storyID={storyID} />
+          )}
         </div>
       </aside>
     </>

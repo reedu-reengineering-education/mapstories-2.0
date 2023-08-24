@@ -1,6 +1,6 @@
 'use client'
 
-import { SlideContent, Story, StoryStep } from '@prisma/client'
+import { SlideContent, Story, StoryStep, Theme } from '@prisma/client'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { MapRef, Popup, Source } from 'react-map-gl'
 import { Feature, GeoJsonProperties, LineString } from 'geojson'
@@ -16,10 +16,13 @@ import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
+import { StoryBadge } from '../Studio/Mapstories/StoryBadge'
+import { applyTheme } from '@/src/helper/applyTheme'
 
 type ViewerViewProps = {
   inputStories:
     | (Story & {
+        theme?: Theme | null
         steps: (StoryStep & { content: SlideContent[] })[]
       })[]
 }
@@ -28,7 +31,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const mapRef = React.createRef<MapRef>()
 
   const path = usePathname()
-  const onMyStoriesRoute = path?.includes('mystories')
   const storyID = useBoundStore(state => state.storyID)
   const setStoryID = useBoundStore(state => state.setStoryID)
   const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
@@ -75,13 +77,14 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   useEffect(() => {
     // Zoom back to former extend if not viewing a story
     const pathend = path?.split('/').at(-1)
-    if (pathend === 'mystories') {
+    const pathend2 = path?.split('/').at(-2)
+    if (pathend === 'all' && pathend2 === 'mystories') {
       setStoryID('')
       if (savedView) {
         mapRef.current?.fitBounds(savedView)
       }
     }
-    if (pathend === 'gallery') {
+    if (pathend2 === 'gallery') {
       setStoryID('')
       setViewerStories([])
     }
@@ -105,7 +108,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     if (storyID != undefined && mapData != undefined) {
       const m: Feature<LineString, GeoJsonProperties> | undefined =
         mapData.find(story => story?.properties?.id === storyID)
-      if (m) {
+      if (m && selectedStorySlug != m.properties?.slug) {
         selectStory(m)
       }
     }
@@ -114,7 +117,25 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   // generate markers
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
-    if (story?.steps) {
+    const pathend = path?.split('/').at(-1)
+    const pathend2 = path?.split('/').at(-2)
+    // update Theme
+    if (storyID != '' && story?.theme) {
+      applyTheme(story.theme)
+    } else {
+      // go back to Standard theme (TODO: get this from db)
+      applyTheme({
+        name: 'Standard',
+        shadow_color: 'rgba(56,56.58, 0.9)',
+        border: '3px solid #38383a',
+        box_shadow: '4px 4px 0px var(--shadow-color)',
+        border_radius: '10px',
+        text_color: '#38383a',
+        button_color: '#38383a',
+        background_color: 'white',
+      })
+    }
+    if (story?.steps && story?.steps.length > 0) {
       let bounds: any = undefined
       const newMarkers = story?.steps
         .filter(step => step.feature)
@@ -152,57 +173,72 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         })
       // @ts-ignore
       setMarkers(newMarkers)
+
       //save bounds to zoomTo once map is initiated
       setStartView(bounds)
     }
-  }, [storyID])
+  }, [storyID, stories])
 
-  function extractGeoJson(
-    currentStories:
-      | (Story & {
-          steps?: StoryStep[] | undefined
-        })[]
-      | undefined,
-  ) {
-    const geojsons: any[] = []
+  function extractGeoJson(currentStories: any) {
     if (!currentStories) {
       return
     }
-    currentStories.forEach(s => {
-      const story: any[] = []
+
+    const geojsons: any[] = []
+
+    currentStories.forEach((s: any) => {
       if (!s?.steps) {
         return
       }
-      s.steps
-        .sort((a, b) => a.position - b.position)
-        .forEach((step: StoryStep) => {
-          const geoFeature =
-            step.feature as unknown as GeoJSON.Feature<GeoJSON.Point>
-          if (geoFeature?.geometry?.coordinates?.length > 0) {
-            story.push([
-              geoFeature.geometry.coordinates[0],
-              geoFeature.geometry.coordinates[1],
-            ])
-          }
+
+      const story = s.steps
+        .filter((step: any) => {
+          const geoFeature = step.feature as GeoJSON.Feature<GeoJSON.Point>
+          return geoFeature?.geometry?.coordinates?.length > 0
         })
-      geojsons.push({
-        type: 'Feature',
-        properties: {
-          id: s.id,
-          desc: s.description,
-          name: s.name,
-          slug: s.slug,
-        },
-        geometry: {
-          type: 'LineString',
-          coordinates: story,
-        },
-      })
+        .sort((a: any, b: any) => a.position - b.position)
+        .map((step: any) => {
+          const geoFeature = step.feature as GeoJSON.Feature<GeoJSON.Point>
+          return geoFeature.geometry.coordinates
+        })
+
+      const commonProperties = {
+        id: s.id,
+        desc: s.description,
+        name: s.name,
+        slug: s.slug,
+        mode: s.mode,
+      }
+
+      if (s.lines) {
+        geojsons.push({
+          type: 'Feature',
+          properties: commonProperties,
+          geometry: {
+            type: 'LineString',
+            coordinates: story,
+          },
+        })
+      } else {
+        story.forEach((coordinates: []) => {
+          geojsons.push({
+            type: 'Feature',
+            properties: commonProperties,
+            geometry: {
+              type: 'Point',
+              coordinates: coordinates,
+            },
+          })
+        })
+      }
     })
+
     setMapData(geojsons)
   }
 
   function selectStory(m: GeoJSON.Feature<GeoJSON.LineString>) {
+    setSelectedStorySlug(m.properties?.slug)
+
     if (m) {
       const coordinates = m.geometry.coordinates
 
@@ -224,32 +260,90 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       }
       // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
     }
-    setSelectedStorySlug(m.properties?.slug)
-    onMyStoriesRoute
-      ? router.push(`/mystories/story/${m.properties?.slug}/start`)
-      : router.push(`/gallery/story/${m.properties?.slug}/start`)
+    const pathLocal =
+      path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
+    router.push(`${pathLocal}/story/${m.properties?.slug}/start`)
+  }
+  function getDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
+    const earthRadius = 6371 // Durchmesser der Erde in Kilometern
+
+    const toRadians = (degrees: number): number => (degrees * Math.PI) / 180
+
+    const dLat = toRadians(lat2 - lat1)
+    const dLon = toRadians(lon2 - lon1)
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRadians(lat1)) *
+        Math.cos(toRadians(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2)
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+    const distance = earthRadius * c
+    return distance // Entfernung in Kilometern
+  }
+
+  function calculateZoomLogarithmic(distance: number): number {
+    const maxZoom = 12 // Maximaler Zoom-Level
+    const minZoom = 2 // Minimaler Zoom-Level
+    const scaleFactor = 1.1 // Ein Skalierungsfaktor
+
+    const adjustedZoom = maxZoom - Math.log(distance + 1) * scaleFactor
+    return Math.max(Math.min(adjustedZoom, maxZoom), minZoom)
   }
 
   function updateToStep(index: number) {
     const story = stories?.filter(story => story.id === storyID)[0]
-    if (story?.steps?.length && story?.steps?.length > index) {
-      if (mapRef && story.steps[index].feature) {
-        const feature: Feature<GeoJSON.Point> = story?.steps.sort(
-          (a, b) => a.position - b.position,
-        )[index].feature as unknown as Feature<GeoJSON.Point>
+    if (
+      story?.steps?.length &&
+      index <=
+        Math.max.apply(
+          Math,
+          story?.steps?.map(step => step.position),
+        )
+    ) {
+      let stepFeat = story?.steps.filter(step => step.position === index)
+      // take either next or previous step
+      const previousStepFeat: any = story?.steps.filter(step => {
+        return index === 0
+          ? step.position === index + 1
+          : step.position === index - 1
+      })
+      let stepGeosjon: GeoJSON.Feature<GeoJSON.Point> | undefined
+      // @ts-ignore
+      stepFeat.length > 0 ? (stepFeat = stepFeat[0].feature) : null
+      let distance = 100
+      if (mapRef && stepFeat) {
+        const feature: Feature<GeoJSON.Point> =
+          stepFeat as unknown as Feature<GeoJSON.Point>
+        if (
+          previousStepFeat.length > 0 &&
+          previousStepFeat[0].feature.geometry.coordinates.length > 0
+        ) {
+          distance = getDistance(
+            previousStepFeat[0].feature.geometry.coordinates[1],
+            previousStepFeat[0].feature.geometry.coordinates[0],
+            feature.geometry.coordinates[1],
+            feature.geometry.coordinates[0],
+          )
+        }
+
         mapRef.current?.flyTo({
           center: [
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
-          padding: {
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 150,
-          },
-          zoom: 15,
+          offset: [-window.innerWidth / 7, -75],
+          zoom: calculateZoomLogarithmic(distance),
           essential: true,
+          screenSpeed: 0.3,
         })
       }
     }
@@ -311,6 +405,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                     >
                       <div className="re-basic-box-no-filter overflow-hidden">
                         <div className="p-5">
+                          <StoryBadge mode={m.properties?.mode} />
                           <h3>{m.properties?.name}</h3>
                           <p> {m.properties?.desc}</p>
                           <div className="mt-2 flex justify-end">

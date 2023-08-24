@@ -6,6 +6,7 @@ import { Modal } from '../../Modal'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useBoundStore } from '@/src/lib/store/store'
+import { useState } from 'react'
 type Props = {
   trigger: React.ReactElement
   onSubmit: () => void
@@ -25,8 +26,15 @@ export default function DeleteAccountModal({
 
   const { t } = useTranslation(lng, 'editModal')
 
+  const [open, setOpen] = useState(false)
+
   return (
-    <Modal title={t('deleteAccount')} trigger={trigger}>
+    <Modal
+      onOpenChange={setOpen}
+      open={open}
+      title={t('deleteAccount')}
+      trigger={trigger}
+    >
       <form onSubmit={onSubmit}>
         <Modal.Content>
           <div className="text-center font-bold">

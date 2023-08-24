@@ -25,6 +25,8 @@ export default function DeleteContentButton({
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'editModal')
 
+  const [open, setOpen] = useState(false)
+
   async function handleClick() {
     try {
       setIsSaving(true)
@@ -33,6 +35,7 @@ export default function DeleteContentButton({
         message: t('contentDeleted'),
         type: 'success',
       })
+      setOpen(false)
     } catch (e) {
       return toast({
         title: t('somethingWrong'),
@@ -49,6 +52,8 @@ export default function DeleteContentButton({
   return (
     <div className="absolute right-1 top-1 z-10 overflow-hidden rounded-md group-hover:visible">
       <Modal
+        onOpenChange={setOpen}
+        open={open}
         title={
           <span>
             {' '}

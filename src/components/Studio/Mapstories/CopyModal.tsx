@@ -65,7 +65,7 @@ export default function CopyModal({ storyId }: { storyId: string }) {
       </Button>
       <Modal
         onClose={() => setModalOpen(false)}
-        show={modalOpen}
+        open={modalOpen}
         title={t('settingsModal:copy')}
       >
         <Modal.Content>

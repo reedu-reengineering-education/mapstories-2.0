@@ -14,9 +14,9 @@ export default function EmbedModal({ storyId }: { storyId: string }) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, ['settingsModal'])
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const [open, setOpen] = useState(false)
 
-  const link = `${window.location.origin}/gallery/story/${storyId}/start`
+  const link = `${window.location.origin}/embed/all/story/${storyId}/start`
 
   const iframeSrc = `<iframe src="${link}" style="border:none; width:100%; height:100%" title="Mapstories"></iframe>`
 
@@ -26,18 +26,19 @@ export default function EmbedModal({ storyId }: { storyId: string }) {
 
   return (
     <>
-      <Button
-        className=""
-        onClick={() => setModalOpen(true)}
-        startIcon={<CodeBracketIcon className="w-5" />}
-        variant={'inverse'}
-      >
-        {t('settingsModal:embed')}
-      </Button>
       <Modal
-        onClose={() => setModalOpen(false)}
-        show={modalOpen}
+        onOpenChange={setOpen}
+        open={open}
         title={t('settingsModal:embed')}
+        trigger={
+          <Button
+            className=""
+            startIcon={<CodeBracketIcon className="w-5" />}
+            variant={'inverse'}
+          >
+            {t('settingsModal:embed')}
+          </Button>
+        }
       >
         <Modal.Content>
           <p className="pb-4 pt-2">{t('settingsModal:you_want_to_embed')}</p>
@@ -51,11 +52,13 @@ export default function EmbedModal({ storyId }: { storyId: string }) {
             </div>
           </div>
         </Modal.Content>
-        <Modal.Footer>
-          <div className="flex justify-end">
-            <Button onClick={() => setModalOpen(false)}>Ok</Button>
-          </div>
-        </Modal.Footer>
+        <Modal.Footer
+          close={
+            <div className="flex justify-end">
+              <Button>Ok</Button>
+            </div>
+          }
+        />
       </Modal>
     </>
   )

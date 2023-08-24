@@ -24,9 +24,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         const newMapstory = await db.story.create({
           data: {
             ownerId: user.id,
-            name: payload.name,
             visibility: 'PRIVATE',
             slug,
+            ...payload,
           },
         })
 

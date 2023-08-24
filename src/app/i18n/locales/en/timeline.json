@@ -1,0 +1,5 @@
+{
+  "modeDescription": "In timeline mode, a timestamp must be saved for each step. This makes it even easier to visualize historical events.",
+  "setDateSuccess": "Timestamp set successfully.",
+  "setDateError": "Timestamp could not be set."
+}

@@ -6,7 +6,6 @@ import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import { PreviewButton } from '@/src/components/PreviewButton'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
 import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
-import MapstorySidebar from '@/src/components/Studio/Mapstories/Sidebar/MapstorySidebar'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
@@ -37,8 +36,13 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
           content: true,
         },
       },
+      theme: true,
     },
   })
+}
+
+async function getThemes() {
+  return await db.theme.findMany({})
 }
 
 export default async function DashboardLayout({
@@ -52,6 +56,7 @@ export default async function DashboardLayout({
   }
   const { t } = await useTranslation(lng, 'dashboardLayout')
   const story = await getStoryForUser(user.id, slug)
+  const themes = await getThemes()
 
   if (!story) {
     return notFound()
@@ -102,17 +107,12 @@ export default async function DashboardLayout({
             </Button>
           </Link>
           <PreviewButton story={story} />
-          <SettingsModal shadow storyId={story.id} />
+          <SettingsModal shadow storyId={story.id} themes={themes} />
         </div>
       </div>
 
       <div className="re-studio-height-full-minus-header z-30 mt-40 w-full flex-1 flex-col overflow-hidden">
-        <aside className="re-studio-height-full-screen absolute bottom-14 w-[185px]">
-          <MapstorySidebar storyID={story.id} />
-        </aside>
-        <main className="relative flex h-full w-full flex-1 flex-col overflow-hidden">
-          <div className="absolute left-0 top-0 h-full w-full">{children}</div>
-        </main>
+        <div className="h-full w-full">{children}</div>
       </div>
       <EditMapstoryView data-superjson story={story} />
     </>

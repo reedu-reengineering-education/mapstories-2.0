@@ -1,6 +1,8 @@
 {
-  "name": "Customize Mapstory",
+  "modalHeader": "Options",
+  "name": "Mapstory Name",
   "description": "Description",
+  "visibility": "Visibility",
   "private": "Private",
   "public": "Public",
   "theme": "Map Theme",
@@ -14,6 +16,8 @@
   "embed": "Embed",
   "you_want_to_embed": "Do you want to embed this Mapstory on your website? You can use this iframe.",
   "you_want_to_share": "Do you want to share this Mapstory with others? Set the Mapstory to \"Public\" under Options and use this link.",
+  "lines": "Lines between points",
+  "nolines": "No lines between points",
   "copy": "Copy",
   "youWantCopy": "Are you sure you want to copy this story?",
   "cancel": "Cancel",

@@ -1,11 +1,13 @@
 'use client'
 
 import { useBoundStore } from '@/src/lib/store/store'
-import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { Slide } from './Slide'
-import { StoryStep } from '@prisma/client'
+import { SlideContent, StoryMode, StoryStep } from '@prisma/client'
+import { format } from 'date-fns'
+import { getDateFnsLocale } from '@/src/app/i18n/date-fns-locale'
+import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 
 type Props = {
   slug: string
@@ -18,15 +20,19 @@ type Props = {
 }
 
 export function Slides({ slug, page, story }: Props) {
-  const router = useRouter()
-  const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)
+  const lng = useBoundStore(state => state.language)
+
+  const step: StoryStep & {
+    content?: SlideContent[] | undefined
+  } =
+    page == 'start'
+      ? story?.firstStep
+      : story?.steps.find((s: any) => s.position == page)
 
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
   )
-  const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
-
   useEffect(() => {
     if (story) {
       setStoryID(story.id)
@@ -43,37 +49,29 @@ export function Slides({ slug, page, story }: Props) {
     updateSelectedStepIndex(parseInt(page))
   }, [])
 
-  function nextStep() {
-    // const length = story?.steps?.length
-    if (path?.includes('mystories')) {
-      router.push(`/mystories/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
-    }
-    router.push(`/gallery/story/${slug}/${page ? parseInt(page) + 1 : '1'}`)
-  }
-
-  function prevStep() {
-    // const length = story?.steps?.length
-    if (path?.includes('mystories')) {
-      router.push(`/mystories/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
-    }
-    router.push(`/gallery/story/${slug}/${page ? parseInt(page) - 1 : '1'}`)
-  }
-
   return (
-    <div className="py-4">
-      {story?.steps.sort(
-        (a: StoryStep, b: StoryStep) => a.position - b.position,
-      ) &&
-        page && (
-          <Slide
-            step={
-              page == 'start' ? story?.firstStep : story?.steps[parseInt(page)]
-            }
-          ></Slide>
-        )}
-      {/* {page != 'start' && parseInt(page) + 1 < (story?.steps?.length ?? 0) && (
+    <div>
+      {story.mode === StoryMode.TIMELINE && step?.timestamp && (
+        <div className="flex justify-end">
+          <div className="flex w-fit items-center gap-2 rounded bg-zinc-100 px-2 py-1">
+            <CalendarDaysIcon className="w-4" />
+            <p className="text-sm">
+              {format(step.timestamp, 'PPP p', {
+                locale: getDateFnsLocale(lng),
+              })}
+            </p>
+          </div>
+        </div>
+      )}
+      <div className="py-4">
+        {story?.steps.sort(
+          (a: StoryStep, b: StoryStep) => a.position - b.position,
+        ) &&
+          page && <Slide step={step}></Slide>}
+        {/* {page != 'start' && parseInt(page) + 1 < (story?.steps?.length ?? 0) && (
         <Button onClick={() => nextStep()}>Weiter</Button>
       )} */}
+      </div>
     </div>
   )
 }

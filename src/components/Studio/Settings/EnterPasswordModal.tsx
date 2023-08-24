@@ -5,6 +5,7 @@ import { Button } from '../../Elements/Button'
 import { Modal } from '../../Modal'
 import { useForm } from 'react-hook-form'
 import { Input } from '../../Elements/Input'
+import { useState } from 'react'
 
 type Props = {
   trigger: React.ReactElement
@@ -26,8 +27,15 @@ export default function EnterPasswordModal({
     // resolver: zodResolver(createMapstorySchema),
   })
 
+  const [open, setOpen] = useState(false)
+
   return (
-    <Modal title={'Passwort eingeben'} trigger={trigger}>
+    <Modal
+      onOpenChange={setOpen}
+      open={open}
+      title={'Passwort eingeben'}
+      trigger={trigger}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Content>
           <Input label="Passwort" />

@@ -77,12 +77,18 @@ model VerificationToken {
   @@map(name: "verification_tokens")
 }
 
+enum StoryMode {
+  NORMAL
+  TIMELINE
+}
+
 model Story {
   id          String      @id @default(cuid())
   name        String?
   slug        String      @unique
   description String?
-  theme       String?
+  theme       Theme?  @relation(fields: [themeId], references: [name])
+  themeId     String?     
   steps       StoryStep[] @relation("steps")
   firstStep   StoryStep?  @relation("firstStep", fields: [firstStepId], references: [id])
   firstStepId String?     @unique
@@ -92,6 +98,8 @@ model Story {
   visibility  Visibility
   createdAt   DateTime    @default(now()) @map(name: "created_at")
   updatedAt   DateTime    @default(now()) @map(name: "updated_at")
+  mode        StoryMode   @default(NORMAL)
+  lines       Boolean     @default(true)
 
   @@map(name: "stories")
 }
@@ -106,13 +114,26 @@ model StoryStep {
   connections    Connection[] //incoming
   viewport       Json
   storyTitleStep Story?         @relation("firstStep")
+  timestamp      DateTime?
+  tags           String[]
 
   @@map(name: "storysteps")
 }
 
 model Theme {
-  name       String @id @default(cuid())
-  fontFamily String
+  name              String @id @default(cuid())
+  Story             Story[]
+  fontFamily        String?
+  shadow_color      String?
+  border            String?
+  box_shadow        String?
+  border_radius     String?
+  text_color        String?
+  background_color  String?
+  button_color      String?
+  
+  @@map(name: "theme")
+
 }
 
 model SlideContent {

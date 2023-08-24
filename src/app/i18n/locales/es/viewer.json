@@ -2,5 +2,9 @@
   "more": "Saber más",
   "play": "Iniciar",
   "close": "Cerrar",
-  "storyNotAvailable": "Esta Mapstory no está disponible."
+  "storyNotAvailable": "Esta Mapstory no está disponible.",
+  "filter": "Filtro",
+  "reset": "Reiniciar",
+  "apply": "Aplicar",
+  "noSteps": "No hay pasos disponibles para esta historia."
 }

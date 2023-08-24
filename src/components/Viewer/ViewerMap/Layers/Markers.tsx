@@ -1,6 +1,6 @@
 import { useBoundStore } from '@/src/lib/store/store'
 import { StepMarker } from '@/src/types/Stepmarker'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CircleLayer, Layer, Marker, Source } from 'react-map-gl'
 
@@ -23,9 +23,10 @@ export default function Markers({ markers, onClick }: Props) {
   const [triggerHoverLayerData, setTriggerHoverLayerData] = useState<
     GeoJSON.FeatureCollection | undefined
   >()
+  const path = usePathname()
   const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
   const storyID = useBoundStore(state => state.storyID)
-
+  const filter = path?.split('/') ? path.split('/')[3].split('-') : ['all']
   const router = useRouter()
 
   useEffect(() => {
@@ -57,20 +58,34 @@ export default function Markers({ markers, onClick }: Props) {
             <>
               <Marker
                 {...m}
+                // className={
+                //   selectedStepIndex != undefined &&
+                //   selectedStepIndex >= m.position
+                //     ? selectedStepIndex == m.position
+                //       ? 'z-50'
+                //       : ' '
+                //     : ' '
+                // }
                 color={
                   selectedStepIndex != undefined &&
                   selectedStepIndex >= m.position
                     ? selectedStepIndex == m.position
-                      ? '#eb5933'
-                      : '#d4da68'
+                      ? 'var(--active-color-border)'
+                      : 'var(--inactive-color-border)'
                     : m.color
                 }
                 key={(i + 1) * Math.random() * 100}
                 onClick={() =>
-                  router.push(`/mystories/story/${storyID}/${m.position}`)
+                  router.push(
+                    `/mystories/${filter.join('-')}/story/${storyID}/${
+                      m.position
+                    }`,
+                  )
                 }
                 // rotationAlignment='horizon'
                 style={{
+                  //@ts-ignore
+                  'z-index': selectedStepIndex == m.position ? 10 : 0,
                   padding: '10px',
                   cursor: 'pointer',
                 }}
