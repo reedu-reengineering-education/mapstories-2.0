@@ -12,6 +12,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { Tooltip } from '../Tooltip'
 import './TimelineChart.css'
+import { usePathname, useRouter } from 'next/navigation'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 interface TimelineChartProps {
   data: (StoryStep & {
@@ -25,6 +27,8 @@ interface TimelineChartProps {
   editable?: boolean
   fitButton?: boolean
   zoomButtons?: boolean
+  stepButtons?: boolean
+  story?: any
 }
 
 const ZOOM_PERCENTAGE = 0.25
@@ -39,11 +43,15 @@ export default function TimelineChart({
   editable = false,
   fitButton = false,
   zoomButtons = false,
+  stepButtons = false,
+  story,
 }: TimelineChartProps) {
   const ref = useRef<HTMLDivElement>(null)
+  const path = usePathname()
+  const router = useRouter()
+
   const [timeline, setTimeline] = useState<Timeline | null>(null)
   const [items, setItems] = useState<DataSet<any> | null>(null)
-
   useEffect(() => {
     const items = new DataSet(
       data.map(e => ({
@@ -106,6 +114,28 @@ export default function TimelineChart({
     }
   }, [ref, items])
 
+  const nextStep = () => {
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+    const page = path?.split('/').at(-1) ?? '0'
+    const slug = path?.split('/').at(-2)
+    if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
+      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+    }
+  }
+
+  const previousStep = () => {
+    // const length = story?.steps?.length
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+    const page = path?.split('/').at(-1) ?? '0'
+    const slug = path?.split('/').at(-2)
+
+    if (parseInt(page) > 0) {
+      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+    }
+  }
+
   useEffect(() => {
     if (!timeline) {
       return
@@ -114,50 +144,70 @@ export default function TimelineChart({
   }, [activeEvent, timeline])
 
   return (
-    <div className="flex items-end">
-      <div className="flex-1 p-2" ref={ref} />
-      <div className="m-2 flex flex-col gap-1 rounded bg-zinc-100 p-1">
-        {fitButton && (
-          <Tooltip
-            content="Fit timeline to content"
-            delayDuration={0}
-            side="right"
-          >
-            <Button
-              className="!px-0"
-              onClick={() => timeline?.fit()}
-              size={'sm'}
-              variant={'inverse'}
+    <div>
+      <div className="flex flex-row items-start">
+        <div className="flex-1 p-2" ref={ref} />
+        <div className="m-2 flex flex-col gap-1 rounded bg-zinc-100 p-1">
+          {fitButton && (
+            <Tooltip
+              content="Fit timeline to content"
+              delayDuration={0}
+              side="right"
             >
-              <ViewfinderCircleIcon className="h-4 w-4" />
-            </Button>
-          </Tooltip>
-        )}
-        {zoomButtons && (
-          <>
-            <Tooltip content="Zoom in" delayDuration={0} side="right">
               <Button
                 className="!px-0"
-                onClick={() => timeline?.zoomIn(ZOOM_PERCENTAGE)}
+                onClick={() => timeline?.fit()}
                 size={'sm'}
                 variant={'inverse'}
               >
-                <PlusIcon className="h-4 w-4" />
+                <ViewfinderCircleIcon className="h-4 w-4" />
               </Button>
             </Tooltip>
-            <Tooltip content="Zoom out" delayDuration={0} side="right">
-              <Button
-                className="!px-0"
-                onClick={() => timeline?.zoomOut(ZOOM_PERCENTAGE)}
-                size={'sm'}
-                variant={'inverse'}
-              >
-                <MinusIcon className="h-4 w-4" />
-              </Button>
-            </Tooltip>
-          </>
-        )}
+          )}
+          {zoomButtons && (
+            <>
+              <Tooltip content="Zoom in" delayDuration={0} side="right">
+                <Button
+                  className="!px-0"
+                  onClick={() => timeline?.zoomIn(ZOOM_PERCENTAGE)}
+                  size={'sm'}
+                  variant={'inverse'}
+                >
+                  <PlusIcon className="h-4 w-4" />
+                </Button>
+              </Tooltip>
+              <Tooltip content="Zoom out" delayDuration={0} side="right">
+                <Button
+                  className="!px-0"
+                  onClick={() => timeline?.zoomOut(ZOOM_PERCENTAGE)}
+                  size={'sm'}
+                  variant={'inverse'}
+                >
+                  <MinusIcon className="h-4 w-4" />
+                </Button>
+              </Tooltip>
+            </>
+          )}
+        </div>
       </div>
+      {stepButtons && (
+        <Button
+          className="absolute bottom-2 !px-0  lg:hidden xl:hidden"
+          onClick={() => previousStep()}
+          size={'sm'}
+        >
+          <ChevronLeftIcon className="h-5 w-5" />
+        </Button>
+      )}
+      {stepButtons && (
+        <Button
+          className="absolute bottom-2 right-4 !px-0  lg:hidden xl:hidden"
+          onClick={() => nextStep()}
+          size={'sm'}
+        >
+          <ChevronRightIcon className="h-5 w-5" />
+        </Button>
+      )}
     </div>
   )
 }

@@ -143,10 +143,12 @@ html {
   transform: translateX(15px);
 }
 
+
+
 .re-slide {
   max-width: 50%;
   width: 500px;
-  max-height: 75vh;
+  max-height:30rem;
   overflow-y: auto;
 }
 
@@ -160,4 +162,10 @@ html {
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 50vh;
+}
+
+@media screen and (max-width: 1024px) {
+  .vis-text.vis-major {
+    left: 3em;
+  }
 }
