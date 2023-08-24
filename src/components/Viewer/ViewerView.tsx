@@ -348,9 +348,9 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
           ],
           padding: {
             top: 0,
-            bottom: 200,
+            bottom: 0,
             left: 0,
-            right: 600,
+            right: 0,
           },
           zoom: calculateZoomLogarithmic(distance),
           essential: true,
