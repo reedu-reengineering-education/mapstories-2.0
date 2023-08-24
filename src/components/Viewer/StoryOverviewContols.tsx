@@ -131,25 +131,25 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                   />
                 </div>
 
-                {!path?.includes('/embed/') && (
-                  <div className="re-title-slide overflow-x-hidden pr-5">
-                    <Slide step={story?.firstStep}></Slide>
-                    <div className="flex gap-6">
-                      <Button
-                        onClick={() => startStory()}
-                        startIcon={<PlayIcon className="w-4" />}
-                      >
-                        {t('play')}
-                      </Button>
+                <div className="re-title-slide overflow-x-hidden pr-5">
+                  <Slide step={story?.firstStep}></Slide>
+                  <div className="flex gap-6">
+                    <Button
+                      onClick={() => startStory()}
+                      startIcon={<PlayIcon className="w-4" />}
+                    >
+                      {t('play')}
+                    </Button>
+                    {!path?.includes('/embed/') && (
                       <Button
                         onClick={onClose}
                         startIcon={<Cross1Icon className="w-4" />}
                       >
                         {t('close')}
                       </Button>
-                    </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             )}
             {page != 'start' && (
