@@ -11,13 +11,12 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 
 type Props = {
-  filter: string[]
   slug: string
   page: string
   story: any
 }
 
-export function StoryPlayButtons({ filter, slug, page, story }: Props) {
+export function StoryPlayButtons({ slug, page, story }: Props) {
   const router = useRouter()
   const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)
@@ -52,7 +51,6 @@ export function StoryPlayButtons({ filter, slug, page, story }: Props) {
     if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
       router.push(`${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
     }
-
   }
 
   function prevStep() {

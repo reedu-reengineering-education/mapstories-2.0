@@ -70,7 +70,6 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
       {story?.mode === StoryMode.NORMAL && (
         <div className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 transform">
           <StoryPlayButtons
-            filter={filterArray}
             page={slug[1]}
             slug={slug[0]}
             story={story}
