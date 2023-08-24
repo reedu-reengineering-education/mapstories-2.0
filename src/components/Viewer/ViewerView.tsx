@@ -359,11 +359,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
   }
 
-  const customFlyToMarker = (fromMarker, toMarker) => {
-    const bounds = new mapboxgl.LngLatBounds()
-    bounds.extend(fromMarker.getLngLat())
-    bounds.extend(toMarker.getLngLat())
-  }
   // const onHover = (event: mapboxgl.MapLayerMouseEvent) => {
   //   const hoverSteps = event.features
 
