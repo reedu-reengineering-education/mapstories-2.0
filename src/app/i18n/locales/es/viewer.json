@@ -5,5 +5,6 @@
   "storyNotAvailable": "Esta Mapstory no está disponible.",
   "filter": "Filtro",
   "reset": "Reiniciar",
-  "apply": "Aplicar"
+  "apply": "Aplicar",
+  "noSteps": "No hay pasos disponibles para esta historia."
 }

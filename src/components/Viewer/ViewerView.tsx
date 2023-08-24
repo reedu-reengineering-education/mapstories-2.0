@@ -17,7 +17,6 @@ import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 import { StoryBadge } from '../Studio/Mapstories/StoryBadge'
-import { toast } from '@/src/lib/toast'
 import { applyTheme } from '@/src/helper/applyTheme'
 
 type ViewerViewProps = {
@@ -118,6 +117,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   // generate markers
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
+    const pathend = path?.split('/').at(-1)
+    const pathend2 = path?.split('/').at(-2)
     // update Theme
     if (storyID != '' && story?.theme) {
       applyTheme(story.theme)
@@ -175,13 +176,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
       //save bounds to zoomTo once map is initiated
       setStartView(bounds)
-    } else {
-      toast({
-        title: 'Keine Steps gefunden',
-        message:
-          'In der Story oder mit diesen Filtern wurden keine Steps zu der Story gefunden.',
-        type: 'error',
-      })
     }
   }, [storyID, stories])
 

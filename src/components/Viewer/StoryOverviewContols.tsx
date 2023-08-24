@@ -12,6 +12,7 @@ import { StoryFilterInput } from './StoryFilterInput'
 import {
   CaretDownIcon,
   Cross1Icon,
+  ExclamationTriangleIcon,
   PlayIcon,
   ReloadIcon,
 } from '@radix-ui/react-icons'
@@ -72,10 +73,12 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   }, [openInput])
 
   function onClose() {
-    const pathLocal =
-      path?.split('/').splice(2, 2).join('/') ?? 'gallery/all/story/'
-
-    router.push(`${pathLocal}`)
+    const pathLocal = path?.split('/').splice(2, 2)
+    if (pathLocal) {
+      pathLocal[1] = 'all'
+      const newPath = pathLocal.join('/') ?? 'gallery/all/story/'
+      router.push(`${newPath}`)
+    }
   }
 
   useEffect(() => {
@@ -127,16 +130,15 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                     onFilterChange={applyFilter}
                   />
                 </div>
-
+                {story?.steps?.length === 0 && (
+                  <div className="flex flex-row items-center gap-2">
+                    <ExclamationTriangleIcon className=" text-yellow-500" />
+                    <div className="h text-yellow-500">{t('noSteps')}</div>
+                  </div>
+                )}
                 <div className="re-title-slide overflow-x-hidden pr-5">
                   <Slide step={story?.firstStep}></Slide>
                   <div className="flex gap-6">
-                    <Button
-                      onClick={() => startStory()}
-                      startIcon={<PlayIcon className="w-4" />}
-                    >
-                      {t('play')}
-                    </Button>
                     {!path?.includes('/embed/') && (
                       <Button
                         onClick={onClose}
@@ -145,6 +147,13 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                         {t('close')}
                       </Button>
                     )}
+                    <Button
+                      disabled={story?.steps?.length === 0}
+                      onClick={() => startStory()}
+                      startIcon={<PlayIcon className="w-4" />}
+                    >
+                      {t('play')}
+                    </Button>
                   </div>
                 </div>
               </div>
