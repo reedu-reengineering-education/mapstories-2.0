@@ -270,6 +270,40 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
     router.push(`${pathLocal}/story/${m.properties?.slug}/start`)
   }
+  function getDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
+    const earthRadius = 6371 // Durchmesser der Erde in Kilometern
+
+    const toRadians = (degrees: number): number => (degrees * Math.PI) / 180
+
+    const dLat = toRadians(lat2 - lat1)
+    const dLon = toRadians(lon2 - lon1)
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRadians(lat1)) *
+        Math.cos(toRadians(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2)
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+    const distance = earthRadius * c
+    return distance // Entfernung in Kilometern
+  }
+
+  function calculateZoomLogarithmic(distance: number): number {
+    const maxZoom = 12 // Maximaler Zoom-Level
+    const minZoom = 2 // Minimaler Zoom-Level
+    const scaleFactor = 1.1 // Ein Skalierungsfaktor
+
+    const adjustedZoom = maxZoom - Math.log(distance + 1) * scaleFactor
+    return Math.max(Math.min(adjustedZoom, maxZoom), minZoom)
+  }
 
   function updateToStep(index: number) {
     const story = stories?.filter(story => story.id === storyID)[0]
@@ -282,25 +316,38 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         )
     ) {
       let stepFeat = story?.steps.filter(step => step.position === index)
+      // take either next or previous step
+      const previousStepFeat: any = story?.steps.filter(step => {
+        return index === 0
+          ? step.position === index + 1
+          : step.position === index - 1
+      })
       let stepGeosjon: GeoJSON.Feature<GeoJSON.Point> | undefined
       // @ts-ignore
       stepFeat.length > 0 ? (stepFeat = stepFeat[0].feature) : null
-
+      let distance = 100
       if (mapRef && stepFeat) {
         const feature: Feature<GeoJSON.Point> =
           stepFeat as unknown as Feature<GeoJSON.Point>
+        if (
+          previousStepFeat.length > 0 &&
+          previousStepFeat[0].feature.geometry.coordinates.length > 0
+        ) {
+          distance = getDistance(
+            previousStepFeat[0].feature.geometry.coordinates[1],
+            previousStepFeat[0].feature.geometry.coordinates[0],
+            feature.geometry.coordinates[1],
+            feature.geometry.coordinates[0],
+          )
+        }
+
         mapRef.current?.flyTo({
           center: [
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
-          padding: {
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 150,
-          },
-          zoom: 15,
+          offset: [-window.innerWidth / 5, -75],
+          zoom: calculateZoomLogarithmic(distance),
           essential: true,
         })
       }
