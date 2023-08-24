@@ -54,7 +54,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             <TimelineChartWrapper
               activeIndex={Number(slug[1])}
               filter={filter}
-              story={story}
+              story={story as any}
             />
           </div>
           <div className="absolute bottom-20 right-0 z-20 hidden lg:right-16 lg:block xl:right-16 xl:block">
