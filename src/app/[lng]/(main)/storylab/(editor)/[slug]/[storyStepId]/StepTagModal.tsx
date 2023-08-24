@@ -70,6 +70,7 @@ export default function StepTagModal({ trigger, storyStepId, tags }: Props) {
               value={inputValue}
             />
             <Button
+              className="mb-2"
               onClick={() => setTagsTmp([...tagsTmp, inputValue])}
               variant={'inverse'}
             >

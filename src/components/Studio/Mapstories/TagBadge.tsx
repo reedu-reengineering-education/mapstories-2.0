@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority'
 import { useState } from 'react'
 
 const badgeVariant = cva(
-  'w-fit rounded-full px-2 py-1 text-xs flex gap-1 bg-green-200 text-green-900',
+  'w-fit rounded-full px-2 py-1 text-xs flex gap-1 bg-green-200 text-green-900 relative',
 )
 
 export type TagBadgeProps = React.ComponentPropsWithoutRef<'div'> & {
@@ -21,14 +21,14 @@ export function TagBadge({ tagName, onRemove }: TagBadgeProps) {
       onMouseLeave={e => setHovered(false)}
     >
       {hovered && (
-        <span className="bg-red-200">
+        <div className="absolute bottom-[2px] right-2 cursor-pointer rounded bg-white">
           <TrashIcon
-            className="w-5 text-red-500"
+            className=" w-5 text-red-500"
             onClick={() => {
               onRemove(tagName)
             }}
           />
-        </span>
+        </div>
       )}
       <TagIcon className="w-4" />
       <span>{tagName}</span>
