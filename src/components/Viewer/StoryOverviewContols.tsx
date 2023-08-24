@@ -212,6 +212,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
         page={page}
         slidesOpen={openInput}
         slug={slug}
+        story={story}
       ></StorySlideListViewer>
     </>
   )
