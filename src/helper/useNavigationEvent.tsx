@@ -12,7 +12,10 @@ export const useNavigationEvent = (onPathnameChange: () => void) => {
 
   useEffect(() => {
     // If REF has been changed, do the stuff
-    if (savedPathNameRef.current !== splitPath) {
+    if (
+      savedPathNameRef.current !== splitPath ||
+      pathname.endsWith('storylab')
+    ) {
       onPathnameChange()
       // Update REF
       savedPathNameRef.current = splitPath
