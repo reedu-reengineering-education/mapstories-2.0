@@ -1,4 +1,5 @@
 import { getCurrentUser } from '@/src/lib/session'
+import ViewerView from '@/src/components/Viewer/ViewerView'
 
 interface ViewerLayoutProps {
   children?: React.ReactNode
@@ -13,7 +14,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
   return (
     <div className="relative h-full w-full">
       <div className="absolute left-0 top-0 h-full w-full">{children}</div>
-      {/* <ViewerView data-superjson inputStories={[]}></ViewerView> */}
+      <ViewerView data-superjson inputStories={[]}></ViewerView>
     </div>
   )
 }

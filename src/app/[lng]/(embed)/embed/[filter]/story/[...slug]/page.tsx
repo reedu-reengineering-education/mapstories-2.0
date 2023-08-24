@@ -37,6 +37,7 @@ const getMapstory = async (slug: string) => {
           content: true,
         },
       },
+      theme: true,
     },
   })
 }
@@ -58,6 +59,7 @@ const getMapstoryWithFilter = async (slug: string, filterArray: string[]) => {
           content: true,
         },
       },
+      theme: true,
     },
   })
   if (!unfilteredStory) {

@@ -47,7 +47,7 @@ export function MapstoryCard({ mapstory }: Props) {
             </Link>
             {/* <SettingsModal storyId={mapstory.id} /> */}
             <ShareModal storyId={mapstory.id} />
-            <EmbedModal storyId={mapstory.id} />
+            <EmbedModal storyId={mapstory.slug} />
           </div>
           <DeleteMapstoryButton id={mapstory.id} />
         </div>

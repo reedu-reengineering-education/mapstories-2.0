@@ -340,9 +340,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
-          offset: [-window.innerWidth / 5, -75],
+          offset: [-window.innerWidth / 7, -75],
           zoom: calculateZoomLogarithmic(distance),
           essential: true,
+          screenSpeed: 0.3,
         })
       }
     }
