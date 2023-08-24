@@ -1,5 +1,5 @@
 {
-    "modeDescription": "En mode chronologique, un horodatage doit être enregistré pour chaque étape. Cela permet de visualiser encore plus facilement les événements historiques.",
-    "setDateSuccess": "L'horodatage a été défini avec succès.",
-    "setDateError": "L'horodatage n'a pas pu être défini."
+  "modeDescription": "En mode chronologique, un horodatage doit être enregistré pour chaque étape. Cela permet de visualiser encore plus facilement les événements historiques.",
+  "setDateSuccess": "L'horodatage a été défini avec succès.",
+  "setDateError": "L'horodatage n'a pas pu être défini."
 }

@@ -42,7 +42,7 @@ export default function SidebarSlide({
       <div
         className={cx(
           slideStyle({ variant }),
-          active ? 'border-2 bg-active border-active-border' : 'bg-slate-100',
+          active ? 'border-2 border-active-border bg-active' : 'bg-slate-100',
           markerHover ? 'border-2 border-red-600' : '',
         )}
       >

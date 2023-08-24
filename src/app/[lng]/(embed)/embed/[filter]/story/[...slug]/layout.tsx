@@ -1,6 +1,4 @@
-import {
-  LogoWithTextTransparent,
-} from '@/src/components/Layout/MapstoriesLogo'
+import { LogoWithTextTransparent } from '@/src/components/Layout/MapstoriesLogo'
 import { db } from '@/src/lib/db'
 
 interface ViewerLayoutProps {

@@ -19,7 +19,9 @@ export const reorderTimeline = async (storyId: string) => {
   }
 
   const steps = story.steps.sort(
-    (a, b) => (a.timestamp ?? new Date()).getTime() - (b.timestamp ?? new Date()).getTime(),
+    (a, b) =>
+      (a.timestamp ?? new Date()).getTime() -
+      (b.timestamp ?? new Date()).getTime(),
   )
 
   const reorderedSteps = steps.map((step, index) => ({

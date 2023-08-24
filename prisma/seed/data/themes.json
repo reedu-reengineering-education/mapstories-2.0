@@ -1,4 +1,5 @@
-[{
+[
+  {
     "name": "Standard",
     "shadow_color": "rgba(56,56.58, 0.9)",
     "border": "3px solid #38383a",
@@ -7,7 +8,6 @@
     "text_color": "#38383a",
     "button_color": "#38383a",
     "background_color": "white"
-
   },
   {
     "name": "Funky",
@@ -18,4 +18,5 @@
     "text_color": "#008080",
     "button_color": "rgb(204,72,172)",
     "background_color": "white"
-  }]
+  }
+]
