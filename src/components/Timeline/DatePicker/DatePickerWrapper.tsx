@@ -8,7 +8,7 @@ export type DatePickerWrapperProps = React.ComponentPropsWithoutRef<'div'> & {
 }
 
 function DatePickerWrapper({ setDate, date }: DatePickerWrapperProps) {
-  const [day, setDay] = useState<Date>(new Date())
+  const [day, setDay] = useState<Date>(date)
   const [time, setTime] = useState('12:00:00')
 
   useEffect(() => {
@@ -32,9 +32,9 @@ function DatePickerWrapper({ setDate, date }: DatePickerWrapperProps) {
     <div className="flex flex-col gap-10">
       <Calendar
         className="rounded-md border"
+        defaultMonth={day}
         mode="single"
-        // @ts-ignore
-        onSelect={setDay}
+        onSelect={date => (date ? setDay(date) : {})}
         selected={day}
       />
       <TimePicker setTime={setTime} time={time} />

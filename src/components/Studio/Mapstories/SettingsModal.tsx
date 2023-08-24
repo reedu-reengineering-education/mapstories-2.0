@@ -216,11 +216,11 @@ export default function SettingsModal({
                 return (
                   <>
                     <Select
+                      defaultValue={value}
                       onValueChange={e => {
                         selectTheme(e)
                         onChange(e)
                       }}
-                      value={value}
                     >
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Theme" />
@@ -238,7 +238,6 @@ export default function SettingsModal({
               }}
             />
             <Spacer />
-
             <Controller
               control={control}
               defaultValue={true}

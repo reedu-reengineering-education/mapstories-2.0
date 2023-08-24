@@ -5,6 +5,7 @@ import * as React from 'react'
 import { DayPicker } from 'react-day-picker'
 import { buttonStyle } from '../../Elements/Button'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import CalendarCaptionLabel from './CalendarCaptionLabel'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -26,8 +27,8 @@ function Calendar({
           caption_label: 'text-sm font-medium',
           nav: 'space-x-1 flex items-center',
           nav_button: cn(
-            buttonStyle({ variant: 'inverse' }),
-            'h-7 bg-transparent p-0 opacity-50 hover:opacity-100 border-none',
+            buttonStyle({ variant: 'inverse', size: 'sm' }),
+            '!px-1 h-7 bg-transparent p-0 opacity-50 hover:opacity-100 border-none',
           ),
           nav_button_previous: 'absolute left-1',
           nav_button_next: 'absolute right-1',
@@ -51,8 +52,11 @@ function Calendar({
           ...classNames,
         }}
         components={{
-          IconLeft: ({ ...props }) => <ChevronLeftIcon className="h-4 w-4" />,
-          IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
+          IconLeft: ({ ...props }) => <ChevronLeftIcon className="h-4" />,
+          IconRight: ({ ...props }) => <ChevronRightIcon className="h-4" />,
+          CaptionLabel: ({ ...labelProps }) => (
+            <CalendarCaptionLabel month={labelProps.displayMonth} />
+          ),
         }}
         showOutsideDays={showOutsideDays}
         {...props}
