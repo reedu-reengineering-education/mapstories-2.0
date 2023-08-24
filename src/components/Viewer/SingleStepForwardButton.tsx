@@ -54,7 +54,6 @@ export function SingleStepForwardButton({ slug, page, story }: Props) {
       <div className="">
         {page != 'start' && (
           <Button
-            className="bg-transparent px-0 lg:rounded-md lg:border-black lg:bg-white lg:px-4 xl:rounded-md xl:border-black xl:bg-white xl:px-4"
             disabled={
               parseInt(page) ===
               Math.max.apply(
@@ -64,8 +63,9 @@ export function SingleStepForwardButton({ slug, page, story }: Props) {
             }
             onClick={() => nextStep()}
             value="previous"
+            variant={'inverse'}
           >
-            <ChevronRightIcon className="h-20 w-20 text-black  lg:h-10 lg:w-10 xl:h-10 xl:w-10" />
+            <ChevronRightIcon className="h-20 w-20 lg:h-10 lg:w-10 xl:h-10 xl:w-10" />
           </Button>
         )}
       </div>

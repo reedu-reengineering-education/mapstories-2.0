@@ -14,7 +14,7 @@
 .ToolbarLink,
 .ToolbarButton {
   flex: 0 0 auto;
-  color: #38383a;
+  color: var(--text-color);
   // height: 39px;
   padding: 5px 5px;
   border-radius: 4px;
@@ -28,7 +28,7 @@
 .ToolbarLink:hover,
 .ToolbarButton:hover {
   background-color: #e0f2e8;
-  color: #38383a;
+  color: var(--text-color);
 }
 .ToolbarToggleItem:focus,
 .ToolbarLink:focus,
