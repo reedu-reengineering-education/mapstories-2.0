@@ -1,6 +1,5 @@
 'use client'
 
-import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
 import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
@@ -14,6 +13,7 @@ type Props = {
   slug: string
   page: string
   slidesOpen: boolean
+  story: any
 }
 
 export function StorySlideListViewer({
@@ -21,11 +21,11 @@ export function StorySlideListViewer({
   slug,
   page,
   slidesOpen,
+  story,
 }: Props) {
   const router = useRouter()
   const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)
-  const { story } = useStory(slug)
 
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
@@ -98,8 +98,8 @@ export function StorySlideListViewer({
         variants={variantsList}
       >
         {story?.steps
-          ?.sort((a, b) => a.position - b.position)
-          .map((step, i) => {
+          ?.sort((a: any, b: any) => a.position - b.position)
+          .map((step: any, i: number) => {
             //   return <div key={step.position}>Side {step.position}</div>
             return (
               <motion.li
