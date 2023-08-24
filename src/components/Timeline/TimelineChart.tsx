@@ -28,6 +28,7 @@ interface TimelineChartProps {
   fitButton?: boolean
   zoomButtons?: boolean
   stepButtons?: boolean
+  withPositions?: boolean
   story?: any
 }
 
@@ -44,6 +45,7 @@ export default function TimelineChart({
   fitButton = false,
   zoomButtons = false,
   stepButtons = false,
+  withPositions = true,
   story,
 }: TimelineChartProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -94,6 +96,9 @@ export default function TimelineChart({
       onMove: item => {
         onEventMove &&
           onEventMove(data.find(e => e.id === item.id)!, new Date(item.start))
+      },
+      template: function (item, _element, _data) {
+        return `${withPositions && item.position + 1 + '. '}${item.content}`
       },
     }
 
