@@ -346,12 +346,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
-          padding: {
-            top: 0,
-            bottom: 200,
-            left: 0,
-            right: 600,
-          },
+          offset: [-window.innerWidth / 5, -75],
           zoom: calculateZoomLogarithmic(distance),
           essential: true,
         })
