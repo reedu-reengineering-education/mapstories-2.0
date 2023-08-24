@@ -84,7 +84,8 @@ export default function Markers({ markers, onClick }: Props) {
                 }
                 // rotationAlignment='horizon'
                 style={{
-                  'z-index': selectedStepIndex == m.position ? '10' : '0',
+                  //@ts-ignore
+                  'z-index': selectedStepIndex == m.position ? 10 : 0,
                   padding: '10px',
                   cursor: 'pointer',
                 }}
