@@ -58,6 +58,14 @@ export default function Markers({ markers, onClick }: Props) {
             <>
               <Marker
                 {...m}
+                // className={
+                //   selectedStepIndex != undefined &&
+                //   selectedStepIndex >= m.position
+                //     ? selectedStepIndex == m.position
+                //       ? 'z-50'
+                //       : ' '
+                //     : ' '
+                // }
                 color={
                   selectedStepIndex != undefined &&
                   selectedStepIndex >= m.position
@@ -76,6 +84,7 @@ export default function Markers({ markers, onClick }: Props) {
                 }
                 // rotationAlignment='horizon'
                 style={{
+                  'z-index': selectedStepIndex == m.position ? '10' : '0',
                   padding: '10px',
                   cursor: 'pointer',
                 }}
