@@ -169,6 +169,7 @@ model Media {
   url     String?
   altText String?
   caption String?
+  source  String?
   slide   SlideContent[]
 
   @@map(name: "media")

@@ -106,20 +106,22 @@ export function TextContentEdit({
           />
         </div>
       </div>
-      <Button
-        disabled={isSaving}
-        isLoading={isSaving}
-        onClick={() => {
-          if (textValue != undefined) {
-            onSubmit(textValue)
-          }
-          setContentType ? setContentType('') : null
-        }}
-        type="submit"
-      >
-        {stepItem && t('save')}
-        {!stepItem && t('create')}
-      </Button>
+      <div className="flex justify-end">
+        <Button
+          disabled={isSaving}
+          isLoading={isSaving}
+          onClick={() => {
+            if (textValue != undefined) {
+              onSubmit(textValue)
+            }
+            setContentType ? setContentType('') : null
+          }}
+          type="submit"
+        >
+          {stepItem && t('save')}
+          {!stepItem && t('create')}
+        </Button>
+      </div>{' '}
     </div>
   )
 }

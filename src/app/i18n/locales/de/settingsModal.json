@@ -18,4 +18,11 @@
   "you_want_to_share": "Du möchtest diese Mapstory mit anderen teilen? Stelle die Mapstory unter Optionen auf \"Öffentlich\" und benutze diesen Link.",
   "lines": "Punkte verbinden",
   "nolines": "Punkte nicht verbinden"
+  "copy": "Kopieren",
+  "youWantCopy": "Bist du sicher, dass du diese Story kopieren möchtest?",
+  "cancel": "Abbrechen",
+  "copied": "Kopiert!",
+  "copiedMessage": "Die Mapstory wurde erfolgreich kopiert!",
+  "somethingWrong": "Etwas ist schief gelaufen. Bitte versuche es erneut.",
+  "copying": "Kopiere..."
 }

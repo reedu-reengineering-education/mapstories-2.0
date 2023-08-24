@@ -76,15 +76,11 @@ export default function DeleteStepButton({
       <Modal.Footer
         close={
           <div className="flex flex-row justify-between">
-            <Button
-              disabled={loading}
-              isLoading={loading}
-              onClick={handleClick}
-              variant={'danger'}
-            >
+
+            <Button>{t('abort')}</Button>
+            <Button onClick={handleClick} variant={'danger'}>
               {t('delete')}
             </Button>
-            <Button>{t('abort')}</Button>
           </div>
         }
       />
