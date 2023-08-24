@@ -149,8 +149,17 @@ export default function TimelineChart({
   }, [activeEvent, timeline])
 
   return (
-    <div>
-      <div className="flex flex-row items-start">
+    <div className="flex items-center">
+      {stepButtons && (
+        <Button
+          className="!px-0 lg:hidden"
+          onClick={() => previousStep()}
+          size={'sm'}
+        >
+          <ChevronLeftIcon className="h-5 w-5" />
+        </Button>
+      )}
+      <div className="flex flex-1 flex-row items-start">
         <div className="flex-1 p-2" ref={ref} />
         <div className="m-2 flex flex-col gap-1 rounded bg-zinc-100 p-1">
           {fitButton && (
@@ -197,16 +206,7 @@ export default function TimelineChart({
       </div>
       {stepButtons && (
         <Button
-          className="absolute bottom-2 !px-0  lg:hidden xl:hidden"
-          onClick={() => previousStep()}
-          size={'sm'}
-        >
-          <ChevronLeftIcon className="h-5 w-5" />
-        </Button>
-      )}
-      {stepButtons && (
-        <Button
-          className="absolute bottom-2 right-4 !px-0  lg:hidden xl:hidden"
+          className="!px-0 lg:hidden"
           onClick={() => nextStep()}
           size={'sm'}
         >

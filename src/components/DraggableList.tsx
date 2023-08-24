@@ -6,7 +6,6 @@ import {
   DragEndEvent,
   DragOverlay,
   DragStartEvent,
-  KeyboardSensor,
   MouseSensor,
   TouchSensor,
   UniqueIdentifier,
@@ -17,7 +16,6 @@ import {
   arrayMove,
   horizontalListSortingStrategy,
   SortableContext,
-  sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
@@ -63,9 +61,9 @@ export default function DraggableList<
         tolerance: 8,
       },
     }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
+    // useSensor(KeyboardSensor, {
+    //   coordinateGetter: sortableKeyboardCoordinates,
+    // }),
   )
   function handleDragEnd(event: DragEndEvent) {
     setActiveId(undefined)

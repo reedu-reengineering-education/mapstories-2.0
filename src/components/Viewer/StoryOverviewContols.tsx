@@ -113,7 +113,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
       <div className="re-basic-box  bg-white p-4">
         {!story && <p>{t('storyNotAvailable')}</p>}
         {story && (
-          <div className="flex max-w-[250px] flex-col">
+          <div className="flex max-w-fit flex-col">
             <div className="bg-gray flex flex-row gap-2">
               <h3 className="max-w-[500px]">{story?.name}</h3>
             </div>

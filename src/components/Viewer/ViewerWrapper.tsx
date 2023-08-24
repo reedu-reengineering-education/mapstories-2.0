@@ -18,65 +18,62 @@ type Props = {
 
 export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   return (
-    <>
-      <div
-        className={cx(
-          slug[1] === 'start' ? 'block' : 'hidden',
-          'absolute left-5 top-20 z-20 md:block lg:block xl:block',
-        )}
-      >
-        <StoryOverviewControls
-          page={slug[1]}
-          slug={slug[0]}
-          story={story}
-          tags={tags}
-          // toggleSlides={toggleSlidesOpen}
-        ></StoryOverviewControls>
-      </div>
-      <div>
+    <div className="flex h-full w-full flex-col gap-5 px-5 pb-12 pt-20 md:pb-10">
+      <div className="flex flex-1 justify-end md:justify-between">
+        <div className={cx('z-10 hidden h-fit md:block')}>
+          <StoryOverviewControls
+            page={slug[1]}
+            slug={slug[0]}
+            story={story}
+            tags={tags}
+            // toggleSlides={toggleSlidesOpen}
+          ></StoryOverviewControls>
+        </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box re-slide absolute bottom-60 right-4 z-20 bg-white p-4 md:right-8 md:max-h-[38rem]  lg:bottom-72 lg:right-16  lg:max-h-[28rem] xl:bottom-72 xl:right-16 xl:max-h-[30rem]">
+          <div className="re-basic-box re-slide z-10 self-end bg-white p-4">
             <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
           </div>
         )}
       </div>
-      {story?.mode === StoryMode.TIMELINE && (
-        <div>
-          <div className="absolute bottom-20 z-20 hidden lg:left-16  lg:block xl:left-16 xl:block">
-            <SingleStepBackButton
+      <div className="flex items-center justify-center gap-5">
+        {story?.mode === StoryMode.TIMELINE && (
+          <>
+            <div className="z-20 hidden lg:block">
+              <SingleStepBackButton
+                page={slug[1]}
+                slug={slug[0]}
+                story={story}
+                // toggleSlides={toggleSlidesOpen}
+              ></SingleStepBackButton>
+            </div>
+            <div className="re-basic-box z-10 flex-1 bg-white px-2">
+              <TimelineChartWrapper
+                activeIndex={Number(slug[1])}
+                filter={filter}
+                story={story as any}
+              />
+            </div>
+            <div className="z-20 hidden lg:block">
+              <SingleStepForwardButton
+                page={slug[1]}
+                slug={slug[0]}
+                story={story}
+                // toggleSlides={toggleSlidesOpen}
+              ></SingleStepForwardButton>
+            </div>
+          </>
+        )}
+        {story?.mode === StoryMode.NORMAL && (
+          <div className="z-20">
+            <StoryPlayButtons
               page={slug[1]}
               slug={slug[0]}
               story={story}
               // toggleSlides={toggleSlidesOpen}
-            ></SingleStepBackButton>
+            ></StoryPlayButtons>
           </div>
-          <div className="re-basic-box absolute bottom-10 left-1/2 z-10 w-11/12 -translate-x-1/2 bg-white  px-2 lg:w-8/12 xl:bottom-10 xl:w-9/12 ">
-            <TimelineChartWrapper
-              activeIndex={Number(slug[1])}
-              filter={filter}
-              story={story as any}
-            />
-          </div>
-          <div className="absolute bottom-20 right-0 z-20 hidden lg:right-16 lg:block xl:right-16 xl:block">
-            <SingleStepForwardButton
-              page={slug[1]}
-              slug={slug[0]}
-              story={story}
-              // toggleSlides={toggleSlidesOpen}
-            ></SingleStepForwardButton>
-          </div>
-        </div>
-      )}
-      {story?.mode === StoryMode.NORMAL && (
-        <div className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 transform">
-          <StoryPlayButtons
-            page={slug[1]}
-            slug={slug[0]}
-            story={story}
-            // toggleSlides={toggleSlidesOpen}
-          ></StoryPlayButtons>
-        </div>
-      )}
-    </>
+        )}
+      </div>
+    </div>
   )
 }

@@ -51,7 +51,7 @@ export function Slides({ slug, page, story }: Props) {
 
   return (
     <div>
-      {story.mode === StoryMode.TIMELINE && step.timestamp && (
+      {story.mode === StoryMode.TIMELINE && step?.timestamp && (
         <div className="flex justify-end">
           <div className="flex w-fit items-center gap-2 rounded bg-zinc-100 px-2 py-1">
             <CalendarDaysIcon className="w-4" />

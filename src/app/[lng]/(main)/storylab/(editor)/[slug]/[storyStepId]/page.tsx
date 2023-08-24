@@ -71,7 +71,7 @@ export default async function StepPage({
   const storyStep = await getStoryStep(storyStepId)
 
   return (
-    <div className="flex h-full w-full items-end justify-between gap-4 px-5 pb-14">
+    <div className="flex h-full w-full items-end justify-between gap-4 px-5 pb-10">
       <div className="h-full w-[185px]">
         <MapstorySidebar storyID={story.id} />
       </div>
@@ -123,9 +123,11 @@ export default async function StepPage({
                 }
               />
               <Spacer />
-
               <Spacer />
-              <StepCalendarModal storyStepId={storyStepId} />
+              {/* hide the calendar modal for title slide */}
+              {story.firstStepId !== storyStep?.id && (
+                <StepCalendarModal storyStepId={storyStepId} />
+              )}
             </>
           )}
         </div>
