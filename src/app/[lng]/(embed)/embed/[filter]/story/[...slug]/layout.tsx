@@ -3,7 +3,6 @@ import {
   LogoWithTextTransparent,
 } from '@/src/components/Layout/MapstoriesLogo'
 import { db } from '@/src/lib/db'
-import ViewerView from '@/src/components/Viewer/ViewerView'
 
 interface ViewerLayoutProps {
   children?: React.ReactNode
@@ -21,6 +20,7 @@ async function getStory(slug: string) {
           content: true,
         },
       },
+      theme: true,
     },
   })
 }
@@ -43,7 +43,6 @@ export default async function EmbedLayout({
         </header>
       </div>
       <div className="absolute left-0 top-0 h-full w-full">{children}</div>
-      <ViewerView data-superjson inputStories={[]}></ViewerView>
     </div>
   )
 }
