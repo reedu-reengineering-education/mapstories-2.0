@@ -2,19 +2,18 @@ import {
   LogoWithTextAndBackground,
   LogoWithTextTransparent,
 } from '@/src/components/Layout/MapstoriesLogo'
-import ViewerView from '@/src/components/Viewer/ViewerView'
-import { Story } from '@prisma/client'
 import { db } from '@/src/lib/db'
+import ViewerView from '@/src/components/Viewer/ViewerView'
 
 interface ViewerLayoutProps {
   children?: React.ReactNode
   params: { slug: string }
 }
 
-async function getStory(slug: Story['slug']) {
+async function getStory(slug: string) {
   return await db.story.findFirst({
     where: {
-      slug: slug,
+      OR: [{ id: slug }, { slug: slug }],
     },
     include: {
       steps: {
@@ -31,7 +30,6 @@ export default async function EmbedLayout({
   children,
 }: ViewerLayoutProps) {
   const story = await getStory(slug[0])
-  // const mapstories = await getMapstories()
 
   return (
     <div className="relative h-full w-full">

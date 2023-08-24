@@ -52,7 +52,6 @@ export function StorySlideListViewer({
       path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
 
     router.push(`${pathLocal}/${slug}/${position}`)
-
   }
 
   const variantsList = {
@@ -91,12 +90,11 @@ export function StorySlideListViewer({
 
   return (
     <div className="py-4">
-      {/* {story?.steps && story?.steps?.length > 0 && ( */}
       <motion.ul
         animate={slidesOpen ? 'open' : 'closed'}
         className="re-viewer-slides absolute px-2"
         exit={'closed'}
-        initial={slidesOpen ? 'open' : 'closed'}
+        // initial={slidesOpen ? 'open' : 'closed'}
         variants={variantsList}
       >
         {story?.steps
