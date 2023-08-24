@@ -42,9 +42,9 @@ export default function PageContent() {
         </div>
         <div className=" flex items-center justify-center gap-4">
           <Link href="/login">
-            <Button className="re-basic-box bg-opacity-90">
-              {t('getStarted')}
-            </Button>
+            <div className="re-basic-box">
+              <Button variant={'primary'}>{t('getStarted')}</Button>
+            </div>
           </Link>
           <Link href={'/about'}>
             <Button className="re-basic-box bg-opacity-90" variant={'inverse'}>
