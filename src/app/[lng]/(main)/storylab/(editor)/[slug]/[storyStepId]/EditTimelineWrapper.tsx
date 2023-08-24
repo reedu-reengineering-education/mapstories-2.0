@@ -1,5 +1,6 @@
 'use client'
 
+import { Spinner } from '@/src/components/Elements/Spinner'
 import TimelineChart from '@/src/components/Timeline/TimelineChart'
 import { updateStoryStep } from '@/src/lib/api/step/updateStep'
 import useStep from '@/src/lib/api/step/useStep'
@@ -22,7 +23,11 @@ export default function EditTimelineWrapper({
   const { mutate } = useStep(stepId)
 
   if (!story || !story.steps || !story.steps.length) {
-    return null
+    return (
+      <div className="flex h-full w-full items-center justify-center p-8">
+        <Spinner />
+      </div>
+    )
   }
 
   return (
