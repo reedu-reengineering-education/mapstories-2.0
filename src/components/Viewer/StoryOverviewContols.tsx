@@ -41,7 +41,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
   )
-  const [openInput, setOpenInput] = React.useState(false)
+  const [openInput, setOpenInput] = React.useState(slidesOpen)
 
   const userStory = useBoundStore(state => state.viewerStories)
   const [open, setOpen] = React.useState(false)
@@ -64,15 +64,12 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   }, [story])
 
   useEffect(() => {
-    // if (page === 'start') {
-    //   setSlidesOpen(false)
-    // }
-
     updateSelectedStepIndex(parseInt(page))
-    // if (parseInt(page) == 0) {
-    //   setSlidesOpen(true)
-    // }
   }, [page])
+
+  useEffect(() => {
+    setSlidesOpen(openInput)
+  }, [openInput])
 
   function onClose() {
     const pathLocal =
@@ -157,7 +154,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                 <div className="flex justify-between pt-2">
                   <button
                     className="flex items-center"
-                    onClick={() => setSlidesOpen(!slidesOpen)}
+                    onClick={() => setOpenInput(!openInput)}
                   >
                     <span className="whitespace-nowrap">
                       {parseInt(page) + 1}/{story?.steps?.length}
@@ -204,7 +201,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
       <StorySlideListViewer
         filter={filter ? filter.join('-') : 'all'}
         page={page}
-        slidesOpen={slidesOpen}
+        slidesOpen={openInput}
         slug={slug}
       ></StorySlideListViewer>
     </>
