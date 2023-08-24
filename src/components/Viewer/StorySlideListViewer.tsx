@@ -90,44 +90,45 @@ export function StorySlideListViewer({
 
   return (
     <div className="py-4">
-      <motion.ul
-        animate={slidesOpen ? 'open' : 'closed'}
-        className="re-viewer-slides absolute px-2"
-        exit={'closed'}
-        // initial={slidesOpen ? 'open' : 'closed'}
-        variants={variantsList}
-      >
-        {story?.steps
-          ?.sort((a: any, b: any) => a.position - b.position)
-          .map((step: any, i: number) => {
-            //   return <div key={step.position}>Side {step.position}</div>
-            return (
-              <motion.li
-                animate={slidesOpen ? 'open' : 'closed'}
-                className={cx(
-                  'my-2 h-12 w-20  cursor-pointer px-1 py-3',
-                  step.position == parseInt(page)
-                    ? 'border-2 bg-active'
-                    : 'bg-slate-100',
-                )}
-                custom={i}
-                exit={'closed'}
-                initial={slidesOpen ? 'open' : 'closed'}
-                key={step.position}
-                onClick={() => goToStep(step.position)}
-                variants={variantsItem}
-                whileHover={{ opacity: 1, scale: 1.1 }}
-                whileTap={{ opacity: 1, scale: 0.95 }}
-              >
-                <div className="overflow-hidden">
-                  <span className="whitespace-nowrap">
-                    {step.position + 1}. {getSlideTitle(step.content)}
-                  </span>
-                </div>
-              </motion.li>
-            )
-          })}
-      </motion.ul>
+      <div className={slidesOpen ? 'block' : 'hidden'}>
+        <motion.ul
+          animate={slidesOpen ? 'open' : 'closed'}
+          className="re-viewer-slides absolute px-2"
+          exit={'closed'}
+          variants={variantsList}
+        >
+          {story?.steps
+            ?.sort((a: any, b: any) => a.position - b.position)
+            .map((step: any, i: number) => {
+              //   return <div key={step.position}>Side {step.position}</div>
+              return (
+                <motion.li
+                  animate={slidesOpen ? 'open' : 'closed'}
+                  className={cx(
+                    'my-2 h-12 w-20  cursor-pointer px-1 py-3',
+                    step.position == parseInt(page)
+                      ? 'border-2 bg-active'
+                      : 'bg-slate-100',
+                  )}
+                  custom={i}
+                  exit={'closed'}
+                  initial={slidesOpen ? 'open' : 'closed'}
+                  key={step.position}
+                  onClick={() => goToStep(step.position)}
+                  variants={variantsItem}
+                  whileHover={{ opacity: 1, scale: 1.1 }}
+                  whileTap={{ opacity: 1, scale: 0.95 }}
+                >
+                  <div className="overflow-hidden">
+                    <span className="whitespace-nowrap">
+                      {step.position + 1}. {getSlideTitle(step.content)}
+                    </span>
+                  </div>
+                </motion.li>
+              )
+            })}
+        </motion.ul>
+      </div>
       {/* )} */}
     </div>
   )
