@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Theme } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -8,15 +8,19 @@ async function updateThemes(themes: any) {
   }
 }
 
-async function addTheme(theme: any) {
-  const themeCreated = await prisma.theme.create({
-    data: theme,
+async function addTheme(theme: Theme) {
+  const themeCreated = await prisma.theme.upsert({
+    where: {
+      name: theme.name,
+    },
+    update: theme,
+    create: theme,
   })
 }
 
 async function seed() {
   // delete existing data
-  await prisma.theme.deleteMany({}).catch(() => {})
+  //   await prisma.theme.deleteMany({}).catch(() => {})
 
   // import all themes
   const themes = require('./data/themes.json')
