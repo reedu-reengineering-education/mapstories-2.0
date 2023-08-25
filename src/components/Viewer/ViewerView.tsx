@@ -309,27 +309,41 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
           story?.steps?.map(step => step.position),
         )
     ) {
-      let stepFeat = story?.steps.filter(step => step.position === index)
+      const stepFeat = story?.steps.find(step => step.position === index)
+        ?.feature as unknown as Feature<GeoJSON.Point>
+      if (!stepFeat || !stepFeat.geometry) {
+        return
+      }
+
       // take either next or previous step
-      const previousStepFeat: any = story?.steps.filter(step => {
+      const previousStepFeat = story?.steps.find(step => {
         return index === 0
           ? step.position === index + 1
           : step.position === index - 1
-      })
-      let stepGeosjon: GeoJSON.Feature<GeoJSON.Point> | undefined
-      // @ts-ignore
-      stepFeat.length > 0 ? (stepFeat = stepFeat[0].feature) : null
+      })?.feature as unknown as Feature<GeoJSON.Point>
+
+      if (!previousStepFeat || !previousStepFeat?.geometry) {
+        mapRef.current?.flyTo({
+          center: [
+            stepFeat.geometry.coordinates[0],
+            stepFeat.geometry.coordinates[1],
+          ],
+          offset: [-window.innerWidth / 7, -75],
+          zoom: 8,
+          essential: true,
+          duration: 1000,
+        })
+        return
+      }
+
       let distance = 100
       if (mapRef && stepFeat) {
         const feature: Feature<GeoJSON.Point> =
           stepFeat as unknown as Feature<GeoJSON.Point>
-        if (
-          previousStepFeat.length > 0 &&
-          previousStepFeat[0].feature.geometry.coordinates.length > 0
-        ) {
+        if (previousStepFeat.geometry.coordinates.length > 0) {
           distance = getDistance(
-            previousStepFeat[0].feature.geometry.coordinates[1],
-            previousStepFeat[0].feature.geometry.coordinates[0],
+            previousStepFeat.geometry.coordinates[1],
+            previousStepFeat.geometry.coordinates[0],
             feature.geometry.coordinates[1],
             feature.geometry.coordinates[0],
           )
