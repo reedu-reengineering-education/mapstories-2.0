@@ -77,16 +77,6 @@ export default function TimelineChart({
       stack: true,
       minHeight: '10rem',
       maxHeight: '16rem',
-      // @ts-ignore
-      // template: (item, element, data) =>
-      //   ReactDOM.createPortal(
-      //     // @ts-ignore
-      //     ReactDOM.render(
-      //       <SidebarSlide position={item.position} stepId={item.id} />,
-      //       element,
-      //     ),
-      //     element,
-      //   ),
       onAdd: item => {
         onEventAdd && onEventAdd(new Date(item.start))
       },

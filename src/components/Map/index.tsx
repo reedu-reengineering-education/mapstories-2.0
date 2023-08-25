@@ -19,9 +19,9 @@ const Map = forwardRef<MapRef, MapProps>(
   ) => {
     return (
       <ReactMap
-        customAttribution={
-          'Old mapstories version can be seen at <a href="https://old.mapstories.de/">old.mapstories</a> | Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a>'
-        }
+        customAttribution={`Old mapstories version can be seen at <a href="https://old.mapstories.de/">old.mapstories</a> | Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a> | ${
+          process.env.NEXT_PUBLIC_APP_VERSION || 'development'
+        }`}
         dragRotate={false}
         fog={{
           color: 'rgb(186, 210, 235)',
