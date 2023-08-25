@@ -19,7 +19,7 @@ type Props = {
 export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   return (
     <div className="flex h-full w-full flex-col gap-5 px-5 pb-12 pt-20 md:pb-10">
-      <div className="flex flex-1 justify-end overflow-hidden md:justify-between">
+      <div className="flex flex-1 justify-end overflow-hidden pb-2 pr-2 md:justify-between">
         <div className={cx('z-10 hidden h-fit md:block')}>
           <StoryOverviewControls
             page={slug[1]}
