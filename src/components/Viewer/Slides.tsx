@@ -50,7 +50,7 @@ export function Slides({ slug, page, story }: Props) {
   }, [])
 
   return (
-    <div>
+    <>
       {story.mode === StoryMode.TIMELINE && step?.timestamp && (
         <div className="flex justify-end">
           <div className="flex w-fit items-center gap-2 rounded bg-zinc-100 px-2 py-1">
@@ -63,7 +63,7 @@ export function Slides({ slug, page, story }: Props) {
           </div>
         </div>
       )}
-      <div className="py-4">
+      <div className="pt-4">
         {story?.steps.sort(
           (a: StoryStep, b: StoryStep) => a.position - b.position,
         ) &&
@@ -72,6 +72,6 @@ export function Slides({ slug, page, story }: Props) {
         <Button onClick={() => nextStep()}>Weiter</Button>
       )} */}
       </div>
-    </div>
+    </>
   )
 }
