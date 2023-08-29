@@ -117,7 +117,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
 
   return (
     <>
-      <div className="re-basic-box  bg-white p-4">
+      <div className="">
         {!story && <p>{t('storyNotAvailable')}</p>}
         {story && (
           <div className="flex max-w-fit flex-col">
@@ -127,25 +127,24 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
 
             {page == 'start' && (
               <div>
-                {filterState && filterState[0] != 'all' && (
-                  <div>
-                    <StoryFilterInput
-                      allTags={allTags}
-                      filter={filterState ? filterState : ['all']}
-                      onFilterChange={applyFilter}
-                    />
-                  </div>
-                )}
-
                 {story?.steps?.length === 0 && (
                   <div className="flex flex-row items-center gap-2">
                     <ExclamationTriangleIcon className=" text-yellow-500" />
                     <div className="h text-yellow-500">{t('noSteps')}</div>
                   </div>
                 )}
-                <div className="re-title-slide overflow-x-hidden pr-5">
+                <div className=" overflow-x-hidden pr-5">
+                  {tags.length > 0 && (
+                    <div>
+                      <StoryFilterInput
+                        allTags={allTags}
+                        filter={filterState ? filterState : ['all']}
+                        onFilterChange={applyFilter}
+                      />
+                    </div>
+                  )}
                   <Slide step={story?.firstStep}></Slide>
-                  <div className="flex gap-6">
+                  <div className="flex justify-end gap-6">
                     {!path?.includes('/embed/') && (
                       <Button
                         onClick={onClose}
