@@ -37,7 +37,9 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   const setSlidesOpen = useBoundStore(state => state.setSlidesOpen)
   const slidesOpen = useBoundStore(state => state.slidesOpen)
   const setViewerStories = useBoundStore(state => state.setViewerStories)
-  const [filter, setFilter] = React.useState(path?.split('/')[3].split('-'))
+  const [filterState, setFilterState] = React.useState(
+    path?.split('/')[3].split('-'),
+  )
   const [allTags, setAllTags] = React.useState<string[]>(tags)
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
@@ -102,12 +104,14 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   }
 
   function applyFilter(filter?: string[]) {
-    if (!filter) {
-      setFilter(['all'])
+    if (!filter || filter[0] === '') {
+      setFilterState(['all'])
     }
-    onMyStoriesRoute
-      ? router.push(`/mystories/${filter?.join('-')}/story/${slug}/start`)
-      : router.push(`/gallery/${filter?.join('-')}/story/${slug}/start`)
+    const path = onMyStoriesRoute
+      ? `/mystories/${filterState?.join('-')}/story/${slug}/start`
+      : `/gallery/${filterState?.join('-')}/story/${slug}/start`
+
+    router.push(path)
     setOpen(false)
   }
 
@@ -126,7 +130,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                 <div>
                   <StoryFilterInput
                     allTags={allTags}
-                    filter={filter ? filter : ['all']}
+                    filter={filterState ? filterState : ['all']}
                     onFilterChange={applyFilter}
                   />
                 </div>
@@ -208,7 +212,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
         )}
       </div>
       <StorySlideListViewer
-        filter={filter ? filter.join('-') : 'all'}
+        filter={filterState ? filterState.join('-') : 'all'}
         page={page}
         slidesOpen={openInput}
         slug={slug}
