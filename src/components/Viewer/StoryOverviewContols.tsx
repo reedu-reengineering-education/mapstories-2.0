@@ -127,13 +127,16 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
 
             {page == 'start' && (
               <div>
-                <div>
-                  <StoryFilterInput
-                    allTags={allTags}
-                    filter={filterState ? filterState : ['all']}
-                    onFilterChange={applyFilter}
-                  />
-                </div>
+                {filterState && filterState[0] != 'all' && (
+                  <div>
+                    <StoryFilterInput
+                      allTags={allTags}
+                      filter={filterState ? filterState : ['all']}
+                      onFilterChange={applyFilter}
+                    />
+                  </div>
+                )}
+
                 {story?.steps?.length === 0 && (
                   <div className="flex flex-row items-center gap-2">
                     <ExclamationTriangleIcon className=" text-yellow-500" />
