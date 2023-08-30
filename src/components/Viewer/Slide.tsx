@@ -11,7 +11,7 @@ type Props = {
 export function Slide({ step }: Props) {
   return (
     <>
-      <div className="py-4">
+      <div className="overflow-x-hidden py-4">
         {step &&
           step.content &&
           step.content
