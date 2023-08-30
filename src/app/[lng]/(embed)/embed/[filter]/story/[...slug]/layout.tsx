@@ -1,4 +1,5 @@
 import { LogoWithTextTransparent } from '@/src/components/Layout/MapstoriesLogo'
+import { LogoZeitgeisty } from '@/src/components/Layout/LogoZeitgeisty'
 import { db } from '@/src/lib/db'
 
 interface ViewerLayoutProps {
@@ -35,7 +36,7 @@ export default async function EmbedLayout({
           <div className="flex h-16 items-center justify-between py-4 pl-6">
             {/* <LogoWithTextAndBackground /> */}
             {story?.mode === 'NORMAL' && <LogoWithTextTransparent />}
-            {story?.mode === 'TIMELINE' && 'MAPSTORIES ZEITGEISTY'}
+            {story?.mode === 'TIMELINE' && <LogoZeitgeisty />}
           </div>
         </header>
       </div>
