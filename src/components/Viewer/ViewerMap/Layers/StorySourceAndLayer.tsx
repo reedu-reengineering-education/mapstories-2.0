@@ -95,7 +95,7 @@ export default function StorySourceLayer({
     type: 'line' as 'sky',
     paint: {
       'line-color': '#38383a',
-      'line-width': 4,
+      'line-width': 5,
       'line-opacity': ['match', ['get', 'id'], storyID, 0, 1],
     },
     layout: {
@@ -149,18 +149,39 @@ export default function StorySourceLayer({
     },
   }
 
-  function getRandomColor() {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16)
-  }
+  // get a random colour which is not white
 
   function getLineStyle(id: string) {
-    const color = getRandomColor()
+    const routeColors = [
+      '#FF5733',
+      '#FFC300',
+      '#36DBCA',
+      '#FF8547',
+      '#3D9970',
+      '#FF4136',
+      '#85144b',
+      '#7FDBFF',
+      '#B10DC9',
+      '#01FF70',
+      '#2ECC40',
+      '#39CCCC',
+      '#F012BE',
+      '#3D9970',
+      '#605ca8',
+    ]
+
     return {
       type: 'line' as 'sky',
       paint: {
-        'line-color': ['match', ['get', 'id'], id, color, color],
-        'line-width': 2,
-        'line-opacity': 0.8,
+        'line-color': [
+          'match',
+          ['get', 'id'],
+          id,
+          '#18325b',
+          routeColors[Math.floor(Math.random() * routeColors.length)],
+        ],
+        'line-width': 4,
+        'line-opacity': 0.9,
       },
       layout: {
         'line-join': 'round',
