@@ -166,7 +166,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
             )}
             {page != 'start' && (
               <>
-                <div className="flex justify-between pt-2">
+                <div className="flex justify-between rounded-md pt-2">
                   <button
                     className="flex items-center"
                     onClick={() => setOpenInput(!openInput)}
