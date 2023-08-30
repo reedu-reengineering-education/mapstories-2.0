@@ -232,7 +232,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         })
       }
     })
-
+    console.log(geojsons, 'geojsons')
     setMapData(geojsons)
   }
 
