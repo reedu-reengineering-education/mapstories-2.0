@@ -1,5 +1,5 @@
 import { LogoWithTextTransparent } from '@/src/components/Layout/MapstoriesLogo'
-import { LogoZeitgeisty } from '@/src/components/Layout/LogoZeitgeisty'
+import { LogoZeitgeisty } from '@/src/components/Layout/MapstoriesLogo'
 import { db } from '@/src/lib/db'
 
 interface ViewerLayoutProps {
