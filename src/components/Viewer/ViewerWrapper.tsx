@@ -34,7 +34,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-10 max-h-full min-h-[50%] w-80 max-w-[50%] self-end overflow-x-auto overflow-y-auto bg-white p-4 md:w-[500px]">
+          <div className="re-basic-box z-10 max-h-full min-h-[50%] w-80 max-w-[50%] self-end overflow-x-auto overflow-y-auto bg-white px-4 md:w-[500px]">
             <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
           </div>
         )}
