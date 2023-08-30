@@ -14,7 +14,6 @@ export function EmbedContent({ content }: EmbedContentEditProps) {
     <div className="re-data-media-preview">
       {content.content && (
         <Embed
-          height="65vh"
           media={urlToMedia(content.content)}
           options={content.options as object}
         />

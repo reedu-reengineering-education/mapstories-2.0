@@ -24,7 +24,7 @@ export function SocialMediaEmbed({
     case 'INSTAGRAM':
       return <InstagramEmbed height={height} url={url} width={width} />
     case 'TIKTOK':
-      return <TikTokEmbed height="640px" url={url} width="480px" />
+      return <TikTokEmbed url={url} />
     case 'FACEBOOK':
       return <FacebookEmbed height={height} url={url} width={width} />
     default:
