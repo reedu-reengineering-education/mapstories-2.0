@@ -92,7 +92,7 @@ export function StorySlideListViewer({
     <div className={slidesOpen ? 'block ' : 'hidden '}>
       <motion.ul
         animate={slidesOpen ? 'open' : 'closed'}
-        className="re-viewer-slides absolute px-2 py-6"
+        className="re-viewer-slides absolute px-2 py-4"
         exit={'closed'}
         variants={variantsList}
       >

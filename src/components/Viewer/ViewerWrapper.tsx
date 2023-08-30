@@ -22,7 +22,8 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
       <div className="flex flex-1 flex-col  overflow-hidden pb-2 pr-2 ">
         <div
           className={cx(
-            're-basic-box z-10 hidden  max-h-full max-w-[33%]  overflow-x-auto overflow-y-auto bg-white p-5 md:block',
+            slug[1] === 'start' ? 'overflow-x-auto overflow-y-auto' : '',
+            're-basic-box z-10 hidden  max-h-full max-w-[33%]  bg-white p-5 md:block',
           )}
         >
           <StoryOverviewControls
