@@ -1,11 +1,6 @@
 'use client'
 
-import {
-  MapProps,
-  MapRef,
-  NavigationControl,
-  Map as ReactMap,
-} from 'react-map-gl'
+import { MapProps, MapRef, Map as ReactMap } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 // import 'maplibre-gl/dist/maplibre-gl.css'
 import { forwardRef } from 'react'
@@ -48,7 +43,6 @@ const Map = forwardRef<MapRef, MapProps>(
         {...props}
       >
         {children}
-        <NavigationControl position="top-right" showCompass={false} />
       </ReactMap>
     )
   },

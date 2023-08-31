@@ -44,7 +44,7 @@ export function Embed({
   const socialMediaEmbedTypes = ['TWITTER', 'INSTAGRAM', 'TIKTOK', 'FACEBOOK']
 
   return (
-    <div className="h-full w-full">
+    <>
       {media && videoEmbedTypes.includes(media.type) && (
         <VideoEmbed height={height} url={media.content} width={width} />
       )}
@@ -76,6 +76,6 @@ export function Embed({
         <img alt={media.content} src={media.content} />
       )}
       {media == null && <p>{t('Embed.notRecognized')}</p>}
-    </div>
+    </>
   )
 }

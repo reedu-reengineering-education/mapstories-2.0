@@ -53,7 +53,7 @@ export function Slides({ slug, page, story }: Props) {
     <>
       {story.mode === StoryMode.TIMELINE && step?.timestamp && (
         <div className="flex justify-end">
-          <div className="flex w-fit items-center gap-2 rounded bg-zinc-100 px-2 py-1">
+          <div className="my-2 flex w-fit items-center gap-2 rounded bg-zinc-100 px-2">
             <CalendarDaysIcon className="w-4" />
             <p className="text-sm">
               {format(step.timestamp, 'PPP p', {
@@ -63,7 +63,7 @@ export function Slides({ slug, page, story }: Props) {
           </div>
         </div>
       )}
-      <div className="pt-4">
+      <div className="">
         {story?.steps.sort(
           (a: StoryStep, b: StoryStep) => a.position - b.position,
         ) &&

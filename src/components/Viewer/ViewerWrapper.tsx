@@ -19,8 +19,13 @@ type Props = {
 export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   return (
     <div className="flex h-full w-full flex-col gap-5 px-5 pb-12 pt-20 md:pb-10">
-      <div className="flex flex-1 justify-end overflow-hidden pb-2 pr-2 md:justify-between">
-        <div className={cx('z-10 hidden h-fit md:block')}>
+      <div className="flex flex-1 justify-end overflow-hidden pb-2 pr-2 md:justify-between ">
+        <div
+          className={cx(
+            slug[1] === 'start' ? 'overflow-auto' : 'hidden md:block',
+            're-basic-box z-10 h-fit max-h-full bg-white p-5 md:max-w-[33%]',
+          )}
+        >
           <StoryOverviewControls
             page={slug[1]}
             slug={slug[0]}
@@ -30,7 +35,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-10 max-h-full min-h-[50%] w-80 max-w-[50%] self-end overflow-x-auto overflow-y-auto bg-white p-4 md:w-[500px]">
+          <div className="re-basic-box z-10 max-h-full w-80 max-w-[50%] self-end overflow-x-auto overflow-y-auto bg-white px-4 md:w-[33%]">
             <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
           </div>
         )}

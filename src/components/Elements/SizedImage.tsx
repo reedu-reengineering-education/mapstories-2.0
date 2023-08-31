@@ -42,7 +42,7 @@ export default function SizedImage({ src, size, alt, source }: ImageProps) {
   const { t } = useTranslation(lng, 'embeds')
   if (src) {
     return (
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col items-center">
         <img
           className={cx(
             'max-h-[20rem] object-scale-down',

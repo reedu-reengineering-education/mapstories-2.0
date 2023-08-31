@@ -11,7 +11,7 @@ type Props = {
 
 export function ContentType({ content }: Props) {
   return (
-    <div>
+    <div className="py-2">
       {content.type == 'TITLE' && <TitleContent content={content} />}
       {content.type == 'TEXT' && <TextContent content={content} />}
       {content.type == 'IMAGE' && <MediaContent content={content} />}

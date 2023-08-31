@@ -75,13 +75,12 @@ export default function Markers({ markers, onClick }: Props) {
                     : m.color
                 }
                 key={(i + 1) * Math.random() * 100}
-                onClick={() =>
-                  router.push(
-                    `/mystories/${filter.join('-')}/story/${storyID}/${
-                      m.position
-                    }`,
-                  )
-                }
+                onClick={() => {
+                  const pathLocal =
+                    path?.split('/').splice(2, 4).join('/') ??
+                    'gallery/all/story/'
+                  router.push(`${pathLocal}/${m.position + 1}`)
+                }}
                 // rotationAlignment='horizon'
                 style={{
                   zIndex: selectedStepIndex == m.position ? 10 : 0,

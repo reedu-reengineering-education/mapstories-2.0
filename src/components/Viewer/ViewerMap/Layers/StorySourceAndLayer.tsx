@@ -80,13 +80,9 @@ export default function StorySourceLayer({
   const lineStyle = {
     type: 'line' as 'sky',
     paint: {
-      // 'line-color': '#d4da68',
-      'line-color': ['match', ['get', 'id'], storyID, '#18325b', '#2596be'],
+      'line-color': ['match', ['get', 'id'], storyID, '#18325b', '#d91e9b'],
       'line-width': 4,
       'line-opacity': 0.8,
-      // 'line-dasharray': [['==', ['literal', ['get', 'id']], storyID], [[0,0], [1,1]]]
-      // 'line-border': 2,
-      // 'line-border-color': 'red'
     },
     layout: {
       'line-join': 'round',
@@ -99,7 +95,7 @@ export default function StorySourceLayer({
     type: 'line' as 'sky',
     paint: {
       'line-color': '#38383a',
-      'line-width': 6,
+      'line-width': 5,
       'line-opacity': ['match', ['get', 'id'], storyID, 0, 1],
     },
     layout: {
@@ -108,22 +104,6 @@ export default function StorySourceLayer({
       visibility: storyID === '' ? 'visible' : 'none',
     },
   }
-
-  // const hightLineStyle = {
-  //   type: 'line' as 'sky',
-  //   paint: {
-  //     'line-color': '#d4da68',
-  //     'line-width': 10,
-  //     'line-blur': 3,
-  //     'line-opacity': 1,
-  //     // 'line-border': 2,
-  //     // 'line-border-color': 'red'
-  //   },
-  //   layout: {
-  //     'line-join': 'round',
-  //     'line-cap': 'round',
-  //   },
-  // }
 
   const lineBufferForMouseEvent = {
     type: 'line' as 'sky',
@@ -168,48 +148,48 @@ export default function StorySourceLayer({
       'line-cap': 'round',
     },
   }
-  // const stopTitles = {
-  //   type: 'symbol',
-  //   paint: {
-  //     'text-color': '#383838',
-  //     'text-halo-blur': 4,
-  //     'text-halo-color': '#f6f6f4',
-  //     'text-halo-width': 1
-  //   },
-  //   layout: {
-  //     'text-field': ['format', 'TESTONETOOO', { 'font-scale': 1.2 }],
-  //     'text-offset': {
-  //       stops: [
-  //         [1, [0, 0.3]],
-  //         [8, [0, 0.8]],
-  //         [16, [0, 1.8]],
-  //         [22, [0, 10]],
-  //         [25, [0, 40]]
-  //       ]
-  //     }
-  //   },
-  //   'text-size': 18
-  // };
 
-  // //show only selected Story
-  // const mapFilter = useMemo(() => ['==', 'id', storyID ?? 0], [storyID])
-  // const mapFilterReverse = useMemo(() => ['!=', 'id', storyID ?? 0], [storyID])
+  // get a random colour which is not white
 
-  // //Filter for selectedFeature (hover or click on feature could trigger this)
-  // const filter = useMemo(
-  //   () => ['==', 'id', selectedFeature?.properties?.id ?? 0],
-  //   [selectedFeature?.properties?.id],
-  // )
+  function getLineStyle(id: string) {
+    const routeColors = [
+      '#FF5733',
+      '#FFC300',
+      '#36DBCA',
+      '#FF8547',
+      '#3D9970',
+      '#FF4136',
+      '#85144b',
+      '#7FDBFF',
+      '#B10DC9',
+      '#01FF70',
+      '#2ECC40',
+      '#39CCCC',
+      '#F012BE',
+      '#3D9970',
+      '#605ca8',
+    ]
 
-  // //TODO: simplify this. filter combination for selected features and selected story.
-  // const mapFilterAdvanced = useMemo(
-  //   () => [
-  //     'all',
-  //     ['!=', 'id', selectedFeature?.properties?.id ?? 0],
-  //     storyID != '' ? ['==', 'id', storyID] : ['has', 'id'],
-  //   ],
-  //   [selectedFeature?.properties?.id, storyID],
-  // )
+    return {
+      type: 'line' as 'sky',
+      paint: {
+        'line-color': [
+          'match',
+          ['get', 'id'],
+          id,
+          '#18325b',
+          routeColors[Math.floor(Math.random() * routeColors.length)],
+        ],
+        'line-width': 4,
+        'line-opacity': 0.9,
+      },
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round',
+        visibility: storyID === '' ? 'visible' : 'none',
+      },
+    }
+  }
 
   return (
     <>
@@ -222,27 +202,15 @@ export default function StorySourceLayer({
             type="geojson"
           >
             {/* @ts-ignore */}
-            {/* <Layer
-            {...hightLineStyle}
-            filter={selectedFeature ? filter : false} 
-            id={m.properties.id}
-          /> */}
-
-            {/* @ts-ignore */}
             <Layer
               {...lineOutlineStyle}
               id={m.properties?.id.toString() + 'outline'}
             />
             {/* @ts-ignore */}
-            <Layer {...lineStyle} id={m.properties?.id.toString() + 'normal'} />
-
-            {/* <Layer
-              {...lineStyle}
-              filter={
-                selectedFeature || storyID != '' ? mapFilterAdvanced : true
-              }
-              id={m.properties?.id.toString() + 'outline'}
-            /> */}
+            <Layer
+              {...getLineStyle(storyID)}
+              id={m.properties?.id.toString() + 'normal'}
+            />
             {/* @ts-ignore */}
             <Layer
               {...lineBufferForMouseEvent}
