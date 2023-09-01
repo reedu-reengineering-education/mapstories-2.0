@@ -104,7 +104,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   }
 
   function applyFilter(filter?: string[]) {
-    let filterTmp = filter;
+    let filterTmp = filter
     if (!filter || filter[0] === '') {
       setFilterState(['all'])
       filterTmp = ['all']
@@ -112,8 +112,6 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
     const path = onMyStoriesRoute
       ? `/mystories/${filterTmp?.join('-')}/story/${slug}/start`
       : `/gallery/${filterTmp?.join('-')}/story/${slug}/start`
-
-
 
     router.push(path)
     setOpen(false)
