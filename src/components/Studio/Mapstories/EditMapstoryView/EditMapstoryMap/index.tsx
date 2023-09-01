@@ -1,6 +1,13 @@
 import Map from '@/src/components/Map'
 import { StoryStep } from '@prisma/client'
-import { MapRef, MarkerDragEvent, MarkerProps } from 'react-map-gl'
+import {
+  Layer,
+  MapRef,
+  MarkerDragEvent,
+  MarkerProps,
+  Popup,
+  Source,
+} from 'react-map-gl'
 import { useCallback, useEffect, useState } from 'react'
 import useStep from '@/src/lib/api/step/useStep'
 import { GeoJsonProperties } from 'geojson'
@@ -13,6 +20,7 @@ import GeocoderControl from '@/src/components/Map/GeocoderControl'
 import { toast } from '@/src/lib/toast'
 import mapboxgl from 'mapbox-gl'
 import React from 'react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
@@ -256,7 +264,8 @@ export default function EditMapstoryMap({
             },
             properties: {},
           }
-          await updateStep({ feature: point as any })
+          // this would only update the step that was selected when the component got FIRST initialized
+          // await updateStep({ feature: point as any })
         }}
         position="top-right"
       />
@@ -276,6 +285,41 @@ export default function EditMapstoryMap({
         onClick={m => router.replace(`/storylab/${story?.slug}/${m.stepId}`)}
       />
       {story?.lines && <ConnectionLines markers={markers} />}
+      {geocoderResult?.geometry?.coordinates && (
+        <>
+          <Popup
+            anchor="bottom-left"
+            latitude={geocoderResult.geometry.coordinates[1]}
+            longitude={geocoderResult.geometry.coordinates[0]}
+          >
+            <XMarkIcon
+              className="h-5 w-5 hover:cursor-pointer"
+              onClick={handleRemovePoint}
+            />
+          </Popup>
+          <Source data={geocoderResult} id="geocode-point" type="geojson">
+            <Layer
+              id="point"
+              paint={{
+                'circle-color': '#FF0000',
+                'circle-radius': {
+                  base: 9,
+                  stops: [
+                    [1, 3],
+                    [7, 5],
+                    [12, 8],
+                    [18, 15],
+                    [22, 22],
+                  ],
+                },
+                'circle-stroke-color': '#FF0000',
+                'circle-stroke-width': 2,
+              }}
+              type="circle"
+            />
+          </Source>
+        </>
+      )}
     </Map>
   )
 }

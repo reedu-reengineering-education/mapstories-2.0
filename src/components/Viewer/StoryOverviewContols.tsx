@@ -135,7 +135,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                     <div className="h text-yellow-500">{t('noSteps')}</div>
                   </div>
                 )}
-                <div className=" overflow-x-hidden pr-5">
+                <div className="overflow-x-hidden pr-5">
                   {tags.length > 0 && (
                     <div>
                       <StoryFilterInput
