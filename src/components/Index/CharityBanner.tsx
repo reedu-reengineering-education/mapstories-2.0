@@ -17,8 +17,8 @@ export function CharityBanner({}) {
       <Transition
         appear
         enter="transition duration-1000"
-        enterFrom="opacity-0 -translate-y-80"
-        enterTo="opacity-100 translate-y-0"
+        enterFrom="opacity-0 -translate-x-80"
+        enterTo="opacity-100 translate-x-0"
         leave="transition-opacity duration-1000"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
