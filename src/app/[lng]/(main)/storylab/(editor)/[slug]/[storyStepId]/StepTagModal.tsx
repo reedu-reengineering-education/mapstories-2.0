@@ -11,19 +11,26 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { TagBadge } from '@/src/components/Studio/Mapstories/TagBadge'
 import useStep from '@/src/lib/api/step/useStep'
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
 type Props = {
   trigger: React.ReactElement
   storyStepId: string
   tags?: Array<string>
+  lng: string
 }
 
-export default function StepTagModal({ trigger, storyStepId, tags }: Props) {
+export default function StepTagModal({
+  trigger,
+  storyStepId,
+  tags,
+  lng,
+}: Props) {
   const [inputValue, setInputValue] = useState('')
   const [tagsTmp, setTagsTmp] = useState<string[]>(tags || [])
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
-
   const { updateStep } = useStep(storyStepId)
+  const { t } = useTranslation(lng, 'step')
 
   const onSave = async () => {
     setLoading(true)
@@ -53,6 +60,11 @@ export default function StepTagModal({ trigger, storyStepId, tags }: Props) {
     setTagsTmp(newTags)
   }
 
+  const isValid = (value: string) => {
+    // only letters and numbers allowed
+    return /^[a-zA-Z0-9]+$/.test(value)
+  }
+
   return (
     <>
       <Modal
@@ -62,15 +74,18 @@ export default function StepTagModal({ trigger, storyStepId, tags }: Props) {
         trigger={trigger}
       >
         <Modal.Content className="flex flex-col gap-2">
-          <div className="flex flex-row justify-center gap-2">
+          <span className="text-slate-500">{t('validInput')}</span>
+          <div className="flex flex-row justify-center gap-2 ">
             <Input
               label="Tag"
               onChange={e => setInputValue(e.target.value)}
               placeholder="Tag"
+              valid={isValid(inputValue)}
               value={inputValue}
             />
             <Button
               className="mb-2"
+              disabled={!isValid(inputValue)}
               onClick={() => setTagsTmp([...tagsTmp, inputValue])}
               variant={'inverse'}
             >

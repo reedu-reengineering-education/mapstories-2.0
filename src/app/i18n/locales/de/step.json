@@ -1,3 +1,4 @@
 {
-  "addMedia": "Medien hinzufügen"
+  "addMedia": "Medien hinzufügen",
+  "validInput": "Nur Buchstaben und Zahlen sind erlaubt (keine Leerzeichen oder Sonderzeichen)"
 }

@@ -1,3 +1,4 @@
 {
-  "addMedia": "Agregar Medios"
+  "addMedia": "Agregar Medios",
+  "validInput": "Sólo se permiten letras y números (sin espacios ni caracteres especiales)"
 }

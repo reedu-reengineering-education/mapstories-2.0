@@ -1,3 +1,4 @@
 {
-  "addMedia": "Add Media"
+  "addMedia": "Add Media",
+  "validInput": " Only letters and numbers are allowed (no spaces or special characters)"
 }

@@ -1,3 +1,4 @@
 {
-  "addMedia": "Ajouter des Médias"
+  "addMedia": "Ajouter des Médias",
+  "validInput": "Seuls les lettres et les chiffres sont autorisés (pas d'espaces ni de caractères spéciaux)"
 }
