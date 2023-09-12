@@ -10,7 +10,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import mapboxgl from 'mapbox-gl'
 import React from 'react'
 import Markers from './ViewerMap/Layers/Markers'
-import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import Map from '../Map'
@@ -18,6 +17,7 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 import { StoryBadge } from '../Studio/Mapstories/StoryBadge'
 import { applyTheme } from '@/src/helper/applyTheme'
+import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 
 type ViewerViewProps = {
   inputStories:
@@ -43,6 +43,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const [interactiveLayerIds, setInteractiveLayerIds] = useState<any[]>()
   const [savedView, setSavedView] = useState<any>()
   const [startView, setStartView] = useState<any>()
+  const [pathend2, setPathend2] = useState<string | undefined>('')
 
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
@@ -77,16 +78,16 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   useEffect(() => {
     // Zoom back to former extend if not viewing a story
     const pathend = path?.split('/').at(-1)
-    const pathend2 = path?.split('/').at(-2)
-    if (pathend === 'all' && pathend2 === 'mystories') {
+    setPathend2(path?.split('/').at(-2))
+    if (pathend === 'all' && path?.split('/').at(-2) === 'mystories') {
       setStoryID('')
       if (savedView) {
         mapRef.current?.fitBounds(savedView)
       }
     }
-    if (pathend2 === 'gallery') {
+    if (path?.split('/').at(-2) === 'gallery') {
       setStoryID('')
-      setViewerStories([])
+      // setViewerStories([])
     }
   }, [path])
 
@@ -232,7 +233,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         })
       }
     })
-    console.log(geojsons, 'geojsons')
     setMapData(geojsons)
   }
 
@@ -390,12 +390,14 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       // onMouseMove={onHover}
       ref={mapRef}
     >
-      <StorySourceLayer
-        geojsons={mapData}
-        selectedFeature={selectedFeature}
-        selectedStepIndex={selectedStepIndex}
-        storyID={storyID}
-      />
+      {pathend2 != 'gallery' && (
+        <StorySourceLayer
+          geojsons={mapData}
+          selectedFeature={selectedFeature}
+          selectedStepIndex={selectedStepIndex}
+          storyID={storyID}
+        />
+      )}
 
       {mapData &&
         mapData.map((m, i) => {
