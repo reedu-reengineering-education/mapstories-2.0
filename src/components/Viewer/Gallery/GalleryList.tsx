@@ -3,7 +3,6 @@
 import { SlideContent, Story, StoryStep } from '@prisma/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import { useTranslation } from '@/src/app/i18n/client'
-import { MapstoryCardGallery } from './MapstoryCardGalley'
 
 type Props = {
   stories: (Story & {
@@ -19,10 +18,11 @@ export function GalleryList({ stories }: Props) {
     <div className="re-basic-box max-h-[70VH] max-w-[50%] overflow-auto bg-white p-6">
       <h3 className="pb-4">{t('welcome_to_gallery')}</h3>
       <p>{t('gallery_text')}</p>
-      {stories.length > 0 &&
+      {/* List is disabled for now, stories have popups on the globe */}
+      {/* {stories.length > 0 &&
         stories.map(m => (
           <MapstoryCardGallery data-superjson key={m.id} mapstory={m} />
-        ))}
+        ))} */}
     </div>
   )
 }

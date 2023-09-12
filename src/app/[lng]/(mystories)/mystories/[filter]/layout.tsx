@@ -90,6 +90,7 @@ export default async function ViewerLayout({
   } else {
     mapstories = await getMapstoriesWithFilter(user.id, filterArray)
   }
+
   return (
     <div className="relative h-full w-full">
       <div className="absolute left-0 top-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
