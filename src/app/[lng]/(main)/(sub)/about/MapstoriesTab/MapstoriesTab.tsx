@@ -21,7 +21,7 @@ export default function MapstoriesTab() {
             <div>
               {/* @ts-ignore */}
               <span>{t('text2_1')}</span>{' '}
-              <a className="text-blue-500" href={`/${lng}/gallery`}>
+              <a className="text-blue-500" href={`/${lng}/gallery/all`}>
                 {/* @ts-ignore */}
 
                 {t('gallery')}
