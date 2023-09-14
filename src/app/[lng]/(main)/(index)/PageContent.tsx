@@ -46,6 +46,11 @@ export default function PageContent() {
               <Button variant={'primary'}>{t('getStarted')}</Button>
             </div>
           </Link>
+          <Link href={'/gallery/all'}>
+            <Button className="re-basic-box bg-opacity-90" variant={'inverse'}>
+              {t('gallery')}
+            </Button>
+          </Link>
           <Link href={'/about'}>
             <Button className="re-basic-box bg-opacity-90" variant={'inverse'}>
               {t('infos')}
