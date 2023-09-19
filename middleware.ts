@@ -52,7 +52,7 @@ const i18nMiddleware = (req: NextRequest) => {
     req.nextUrl.pathname.indexOf('icon') > -1 ||
     req.nextUrl.pathname.indexOf('chrome') > -1 ||
     req.nextUrl.pathname.indexOf('api') > -1 ||
-    req.nextUrl.pathname.indexOf('static') > -1
+    req.nextUrl.pathname.indexOf('fonts') > -1
   ) {
     return NextResponse.next()
   }
