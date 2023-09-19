@@ -53,6 +53,10 @@ html {
   box-shadow: var(--boxshadow);
   color: var(--text-color);
   background-color: var(--background-color);
+
+  .enable-theme-font {
+    font-family: var(--font-family);
+  }
 }
 
 .re-basic-box-no-shadow {

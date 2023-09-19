@@ -35,6 +35,12 @@ export function applyTheme(theme: any) {
             theme[key],
           )
           break
+        case 'fontFamily':
+          document.documentElement.style.setProperty(
+            '--font-family',
+            theme[key],
+          )
+          break
       }
     })
   }

@@ -124,7 +124,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
         {story && (
           <div className="flex max-w-fit flex-col">
             <div className="bg-gray flex flex-row gap-2">
-              <h3 className="max-w-[500px]">{story?.name}</h3>
+              <h3 className="enable-theme-font max-w-[500px]">{story?.name}</h3>
             </div>
 
             {page == 'start' && (

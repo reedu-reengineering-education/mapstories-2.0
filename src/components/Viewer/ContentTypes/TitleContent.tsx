@@ -8,5 +8,11 @@ interface TitleContentProps extends React.HTMLAttributes<HTMLFormElement> {
 }
 
 export function TitleContent({ content }: TitleContentProps) {
-  return <div>{content.content && <h1>{content.content}</h1>}</div>
+  return (
+    <div>
+      {content.content && (
+        <h1 className="enable-theme-font">{content.content}</h1>
+      )}
+    </div>
+  )
 }
