@@ -69,7 +69,7 @@ export default async function StepPage({
   }
 
   const storyStep = await getStoryStep(storyStepId)
-
+  console.log(storyStep)
   return (
     <div className="flex h-full w-full items-end justify-between gap-4 px-5 pb-10">
       <div className="h-full w-[185px]">
@@ -108,22 +108,29 @@ export default async function StepPage({
           />
           {story.mode === StoryMode.TIMELINE && (
             <>
-              <Spacer />
-              <StepTagModal
-                storyStepId={storyStepId}
-                tags={storyStep?.tags}
-                trigger={
-                  <Button
-                    className="w-full"
-                    startIcon={<TagIcon className="h-6" />}
-                    variant={'inverse'}
-                  >
-                    Add tag
-                  </Button>
-                }
-              />
-              <Spacer />
-              <Spacer />
+              {
+                /* hide the calendar modal for title slide */
+                story.firstStepId !== storyStep?.id && (
+                  <div>
+                    <Spacer />
+                    <StepTagModal
+                      storyStepId={storyStepId}
+                      tags={storyStep?.tags}
+                      trigger={
+                        <Button
+                          className="w-full"
+                          startIcon={<TagIcon className="h-6" />}
+                          variant={'inverse'}
+                        >
+                          Add tag
+                        </Button>
+                      }
+                    />
+                    <Spacer />
+                  </div>
+                )
+              }
+
               {/* hide the calendar modal for title slide */}
               {story.firstStepId !== storyStep?.id && (
                 <StepCalendarModal storyStepId={storyStepId} />

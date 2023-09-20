@@ -22,7 +22,10 @@ export function SlideContentListEditItem({ stepItem, setDisabled }: Props) {
       key={stepItem.id}
     >
       <Modal
-        onOpenChange={setOpen}
+        onOpenChange={() => {
+          setOpen(!open)
+          setDisabled(!open)
+        }}
         open={open}
         setDisabled={setDisabled}
         title={'Editieren'}

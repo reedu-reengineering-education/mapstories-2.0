@@ -78,11 +78,10 @@ const useStep = (stepId: string) => {
   }
 
   const APIDeleteContent = async (contentId: Pick<SlideContent, 'id'>) => {
-    const deleteContentRequest = deleteContent(storyId, stepId, contentId)
+    const deleteContentRequest = await deleteContent(storyId, stepId, contentId)
     const deletedContent = (await (
       await deleteContentRequest
     ).data) as SlideContent
-
     if (deletedContent.mediaId) {
       // delete the image from the s3 service also
       const deletedMedia = await deleteMedia(

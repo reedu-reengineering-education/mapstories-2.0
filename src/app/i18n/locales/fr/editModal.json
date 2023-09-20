@@ -29,5 +29,6 @@
   "textEditor": "Saisissez votre texte ici.",
   "dataUpload": "Importez un fichier ici.",
   "source": "La source ",
-  "edit": "Modifier"
+  "edit": "Modifier",
+  "update": "Actualiser"
 }

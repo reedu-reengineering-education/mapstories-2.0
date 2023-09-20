@@ -29,5 +29,6 @@
   "textEditor": "Enter your text here.",
   "dataUpload": "Upload a file here.",
   "source": "Source",
-  "edit": "Edit"
+  "edit": "Edit",
+  "update": "Update"
 }
