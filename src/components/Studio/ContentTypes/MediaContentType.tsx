@@ -154,15 +154,14 @@ export function MediaContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        // when image from url is selected
-        // when image from file is selected
-
-        if (!file) {
+        if (!file && fileSource === '') {
           throw new Error('no file selected')
         }
         const media = await getMedia(stepItem.mediaId)
-        await uploadFile(file, media)
-        await updateMedia(stepItem.mediaId, { size: selectedValue } as Media)
+        await updateMedia(stepItem.mediaId, {
+          size: selectedValue,
+          source: fileSource,
+        } as Media)
 
         toast({
           message: t('contentUpdated'),
@@ -171,7 +170,7 @@ export function MediaContentEdit({
       } else {
         // create image table
 
-        if (!file) {
+        if (!file && fileSource === '') {
           throw new Error('no file selected')
         }
         const uploadedMedia = await addMedia({
@@ -236,11 +235,13 @@ export function MediaContentEdit({
           <code>.jpg</code>
           <br></br>
         </span>
-        {/* @ts-ignore */}
-        <div {...getRootProps({ style })}>
-          <input {...getInputProps()} />
-          {t('dropFiles')}
-        </div>
+        {stepItem ? null : (
+          /* @ts-ignore */
+          <div {...getRootProps({ style })}>
+            <input {...getInputProps()} />
+            {t('dropFiles')}
+          </div>
+        )}
       </div>
       <div>
         <div className="pt-2">

@@ -72,6 +72,10 @@ export default function DeleteContentButton({
         <Modal.Footer
           close={
             <div className="flex flex-row justify-between">
+              <Button disabled={isSaving} isLoading={isSaving}>
+                {/* @ts-ignore */}
+                {t('abort')}
+              </Button>
               <Button
                 disabled={isSaving}
                 isLoading={isSaving}
@@ -79,10 +83,6 @@ export default function DeleteContentButton({
                 variant={'danger'}
               >
                 {t('delete')}
-              </Button>
-              <Button disabled={isSaving} isLoading={isSaving}>
-                {/* @ts-ignore */}
-                {t('abort')}
               </Button>
             </div>
           }
