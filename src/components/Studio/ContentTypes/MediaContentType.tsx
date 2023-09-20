@@ -154,9 +154,6 @@ export function MediaContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        if (!file && fileSource === '') {
-          throw new Error('no file selected')
-        }
         const media = await getMedia(stepItem.mediaId)
         await updateMedia(stepItem.mediaId, {
           size: selectedValue,
@@ -170,7 +167,7 @@ export function MediaContentEdit({
       } else {
         // create image table
 
-        if (!file && fileSource === '') {
+        if (!file) {
           throw new Error('no file selected')
         }
         const uploadedMedia = await addMedia({
