@@ -291,7 +291,7 @@ export function MediaContentEdit({
             isLoading={isSaving}
             onClick={() => onSubmit()}
           >
-            {t('create')}
+            {stepItem ? t('update') : t('create')}
           </Button>
         </div>
       </div>
