@@ -170,7 +170,7 @@ export default function TimelineChart({
           )}
           {zoomButtons && (
             <>
-              <Tooltip content="Zoom in" delayDuration={0} side="right">
+              <Tooltip content="Zoom in" delayDuration={0} side="left">
                 <Button
                   className="!px-0"
                   onClick={() => timeline?.zoomIn(ZOOM_PERCENTAGE)}
@@ -180,7 +180,7 @@ export default function TimelineChart({
                   <PlusIcon className="h-4 w-4" />
                 </Button>
               </Tooltip>
-              <Tooltip content="Zoom out" delayDuration={0} side="right">
+              <Tooltip content="Zoom out" delayDuration={0} side="left">
                 <Button
                   className="!px-0"
                   onClick={() => timeline?.zoomOut(ZOOM_PERCENTAGE)}
