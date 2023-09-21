@@ -69,7 +69,6 @@ export default async function StepPage({
   }
 
   const storyStep = await getStoryStep(storyStepId)
-  console.log(storyStep)
   return (
     <div className="flex h-full w-full items-end justify-between gap-4 px-5 pb-10">
       <div className="h-full w-[185px]">
