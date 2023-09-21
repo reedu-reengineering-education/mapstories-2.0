@@ -35,7 +35,7 @@ export default function TimelineChartWrapper({
         const idx = story.steps.findIndex(s => s.timestamp === event.timestamp)
         const onMyStoriesRoute = path?.includes('mystories')
         onMyStoriesRoute
-          ? router.replace(`/mystories/${filter}/${idx}`)
+          ? router.replace(`/mystories/${filter}/story/${story.id}/${idx}`)
           : router.replace(`/gallery/${filter}/story/${story.id}/${idx}`)
       }}
       stepButtons
