@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
           html: emailHtml,
         }
 
-        transporter.sendMail(options)
+        await transporter.sendMail(options)
       },
     }),
   ],
