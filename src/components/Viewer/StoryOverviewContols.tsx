@@ -119,16 +119,14 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
 
   return (
     <>
-      <div className="">
         {!story && <p>{t('storyNotAvailable')}</p>}
         {story && (
-          <div className="flex max-w-fit flex-col">
+          <div className="flex  flex-col">
             <div className="bg-gray flex flex-row gap-2">
               <h3 className="enable-theme-font max-w-[500px]">{story?.name}</h3>
             </div>
-
             {page == 'start' && (
-              <div>
+              <div className='w-full'>
                 {story?.steps?.length === 0 && (
                   <div className="flex flex-row items-center gap-2">
                     <ExclamationTriangleIcon className=" text-yellow-500" />
@@ -137,13 +135,11 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                 )}
                 <div className="overflow-x-hidden pr-5">
                   {tags.length > 0 && (
-                    <div>
                       <StoryFilterInput
                         allTags={allTags}
                         filter={filterState ? filterState : ['all']}
                         onFilterChange={applyFilter}
                       />
-                    </div>
                   )}
                   <Slide step={story?.firstStep}></Slide>
                   <div className="flex justify-end gap-6">
@@ -214,7 +210,6 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
             )}
           </div>
         )}
-      </div>
       <StorySlideListViewer
         filter={filterState ? filterState.join('-') : 'all'}
         page={page}

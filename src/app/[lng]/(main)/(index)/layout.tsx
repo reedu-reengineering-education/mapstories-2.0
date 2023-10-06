@@ -22,7 +22,7 @@ export default async function RootLayout({
           <InverseNavbar user={user}>
             <div className="flex space-x-3">
               <Button
-                className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100"
+                className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 hidden lg:flex"
                 startIcon={<LinkIcon className="w-5" />}
               >
                 {' '}
@@ -35,14 +35,16 @@ export default async function RootLayout({
                 </a>{' '}
               </Button>
 
-              <LangSwitcher />
-              {user ? (
-                <UserAccountNav user={user} />
-              ) : (
-                <Link href="/login">
-                  <Button>Login</Button>
-                </Link>
-              )}
+              <div className='hidden lg:flex lg:gap-2 lg:flex-row'>
+                <LangSwitcher />
+                {user ? (
+                  <UserAccountNav user={user} />
+                ) : (
+                  <Link href="/login">
+                    <Button>Login</Button>
+                  </Link>
+                )}
+                </div>
             </div>
           </InverseNavbar>
         </div>

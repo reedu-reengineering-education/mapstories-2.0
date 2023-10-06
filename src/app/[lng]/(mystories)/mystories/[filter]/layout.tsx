@@ -99,7 +99,7 @@ export default async function ViewerLayout({
             <InverseNavbar user={user}>
               <div className="flex space-x-2">
                 <Button
-                  className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100"
+                  className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 hidden lg:flex"
                   startIcon={<LinkIcon className="w-5" />}
                 >
                   {' '}
@@ -111,6 +111,7 @@ export default async function ViewerLayout({
                     Feedback
                   </a>{' '}
                 </Button>{' '}
+                <div className='hidden lg:flex lg:gap-2 lg:flex-row'>
                 <LangSwitcher />
                 {user ? (
                   <UserAccountNav user={user} />
@@ -119,6 +120,7 @@ export default async function ViewerLayout({
                     <Button>Login</Button>
                   </Link>
                 )}
+                </div>
               </div>
             </InverseNavbar>
           </div>

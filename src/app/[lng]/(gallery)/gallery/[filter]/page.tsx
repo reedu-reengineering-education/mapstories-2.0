@@ -70,7 +70,7 @@ export default async function GalleryPage({}: GalleryPageProps) {
 
   const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
   return (
-    <div className="absolute left-5 top-20 z-20">
+    <div className="absolute left-5 top-20 z-[1]">
       <GalleryList stories={mapstories}></GalleryList>
     </div>
   )

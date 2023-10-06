@@ -8,6 +8,8 @@ import TimelineChartWrapper from '@/src/components/Timeline/TimelineChartWrapper
 import { SingleStepForwardButton } from '@/src/components/Viewer/SingleStepForwardButton'
 import { Story, StoryMode } from '@prisma/client'
 import { cx } from 'class-variance-authority'
+import RestartStoryButton from './RestartStoryButton'
+import QuitStoryButton from './QuitStoryButton'
 
 type Props = {
   filter: string
@@ -18,12 +20,12 @@ type Props = {
 
 export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   return (
-    <div className="flex h-full w-full flex-col gap-5 px-5 pb-12 pt-20 md:pb-10">
-      <div className="flex flex-1 justify-end overflow-hidden pb-2 pr-2 md:justify-between ">
+    <div className="flex h-full w-full flex-col gap-5 px-2  pt-4 lg:pb-10 lg:pt-20">
+      <div className="flex flex-1 justify-end overflow-hidden  lg:justify-between ">
         <div
           className={cx(
-            slug[1] === 'start' ? 'overflow-auto' : 'hidden md:block',
-            're-basic-box z-10 h-fit max-h-full bg-white p-5 md:max-w-[33%]',
+            slug[1] === 'start' ? 'overflow-auto' : 'hidden lg:block',
+            're-basic-box z-10 h-fit max-h-full w-[50%] bg-white p-5  lg:max-w-[33%]',
           )}
         >
           <StoryOverviewControls
@@ -35,8 +37,29 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-10 max-h-full w-80 max-w-[50%] self-end overflow-x-auto overflow-y-auto bg-white px-4 md:w-[33%]">
-            <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
+          <div className="re-basic-box z-10 h-full  max-h-full w-[50%] max-w-[50%] self-end overflow-x-auto overflow-y-auto bg-white px-4 lg:w-[33%]">
+            <div className="flex flex-row justify-evenly pt-2 lg:hidden">
+              <SingleStepBackButton
+                page={slug[1]}
+                slug={slug[0]}
+                story={story}
+                variant={'navbar'}
+                // toggleSlides={toggleSlidesOpen}
+              ></SingleStepBackButton>
+              <RestartStoryButton slug={slug[0]} />
+              <QuitStoryButton slug={slug[0]} />
+              <SingleStepForwardButton
+                page={slug[1]}
+                slug={slug[0]}
+                story={story}
+                variant={'navbar'}
+
+                // toggleSlides={toggleSlidesOpen}
+              ></SingleStepForwardButton>{' '}
+            </div>
+            <div className="h-[320px] overflow-scroll lg:h-full">
+              <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
+            </div>
           </div>
         )}
       </div>
@@ -48,6 +71,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
                 page={slug[1]}
                 slug={slug[0]}
                 story={story}
+                variant={'primary'}
                 // toggleSlides={toggleSlidesOpen}
               ></SingleStepBackButton>
             </div>
@@ -63,13 +87,14 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
                 page={slug[1]}
                 slug={slug[0]}
                 story={story}
+                variant={'primary'}
                 // toggleSlides={toggleSlidesOpen}
               ></SingleStepForwardButton>
             </div>
           </>
         )}
         {story?.mode === StoryMode.NORMAL && (
-          <div className="z-20">
+          <div className="z-20 hidden lg:block">
             <StoryPlayButtons
               page={slug[1]}
               slug={slug[0]}

@@ -7,14 +7,28 @@ import { useEffect } from 'react'
 import { StoryStep } from '@prisma/client'
 import { ChevronRightIcon } from 'lucide-react'
 import { Button } from '../Elements/Button'
+import { cva, cx } from 'class-variance-authority'
 
 type Props = {
   slug: string
   page: string
   story: any
+  variant: 'navbar' | 'primary'
 }
 
-export function SingleStepForwardButton({ slug, page, story }: Props) {
+export const buttonStyle = cva('', {
+  variants: {
+    variant: {
+      primary: 'h-20 w-20 lg:h-10 lg:w-10',
+      navbar: 'h-6 w-6',
+    },
+  },
+  defaultVariants: {
+    variant: 'primary',
+  },
+})
+
+export function SingleStepForwardButton({ slug, page, story, variant }: Props) {
   const router = useRouter()
   const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)
@@ -63,9 +77,9 @@ export function SingleStepForwardButton({ slug, page, story }: Props) {
             }
             onClick={() => nextStep()}
             value="previous"
-            variant={'inverse'}
+            variant={variant === 'navbar' ? 'noStyle' : 'inverse'}
           >
-            <ChevronRightIcon className="h-20 w-20 lg:h-10 lg:w-10 xl:h-10 xl:w-10" />
+            <ChevronRightIcon className={cx(buttonStyle({ variant }))} />
           </Button>
         )}
       </div>
