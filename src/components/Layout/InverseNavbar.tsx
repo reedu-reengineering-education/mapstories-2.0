@@ -9,9 +9,7 @@ import { Fragment, useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
-import {
-  LogoWithTextTransparent,
-} from './MapstoriesLogo'
+import { LogoWithTextTransparent } from './MapstoriesLogo'
 import { User } from 'next-auth'
 import { LangSwitcher } from '../LangSwitcher'
 import { UserAccountNav } from '../Auth/UserAccountNav'
@@ -61,15 +59,15 @@ export function InverseNavbar({
   return (
     <>
       <div className="flex gap-6 lg:gap-10">
-      <Link
-  className="relative hidden items-center space-x-2 text-zinc-50 hidden lg:flex"
-  href="/"
->
-  <LogoWithTextTransparent />
-  <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary ">
-    BETA
-  </span>
-</Link>
+        <Link
+          className="relative hidden hidden items-center space-x-2 text-zinc-50 lg:flex"
+          href="/"
+        >
+          <LogoWithTextTransparent />
+          <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary ">
+            BETA
+          </span>
+        </Link>
         {routes?.length ? (
           <nav className="hidden gap-6 lg:flex">
             {routes?.map((item, index) => (
@@ -103,48 +101,57 @@ export function InverseNavbar({
           )}
         </button>
         <Link
-            className="relative  items-center space-x-2 text-zinc-50 lg:hidden"
-            href="/"
-          >
-            <LogoWithTextTransparent />
-            <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary hidden lg:flex">
-              BETA
-            </span>
+          className="relative  items-center space-x-2 text-zinc-50 lg:hidden"
+          href="/"
+        >
+          <LogoWithTextTransparent />
+          <span className="absolute -bottom-1 -right-8 hidden -rotate-[17deg] font-bold text-primary lg:flex">
+            BETA
+          </span>
         </Link>
-        {showMobileMenu && <MobileNav routes={routes} user={user}>{children}</MobileNav>}
+        {showMobileMenu && (
+          <MobileNav routes={routes} user={user}>
+            {children}
+          </MobileNav>
+        )}
       </div>
-    
+
       {children}
-      
     </>
   )
 }
 
-function MobileNav({ routes, user}: { children?: React.ReactNode; routes: any[], user:any }) {
+function MobileNav({
+  routes,
+  user,
+}: {
+  children?: React.ReactNode
+  routes: any[]
+  user: any
+}) {
   return (
     <div
       className={cx(
-        'animate-in slide-in-from-bottom-80 fixed inset-0 top-16  grid h-[calc(100vh-4rem)] w-[50%] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md lg:hidden',
+        'animate-in slide-in-from-bottom-80 fixed inset-0 top-16  grid h-[calc(100vh-4rem)] w-[40%] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md lg:hidden',
       )}
     >
       <div className="relative grid gap-6 rounded-md bg-white p-4 shadow-md">
-
         <nav className="grid grid-flow-row auto-rows-max text-sm">
-        <div className='flex flex-row gap-6'>
-        <LangSwitcher />
-        {user ? (
-                  <UserAccountNav user={user} />
-                ) : (
-                  <Link href="/login">
-                    <Button>Login</Button>
-                  </Link>
-                )}
-        </div>
+          <div className="flex flex-row gap-6">
+            <LangSwitcher />
+            {user ? (
+              <UserAccountNav user={user} />
+            ) : (
+              <Link href="/login">
+                <Button>Login</Button>
+              </Link>
+            )}
+          </div>
 
           {routes.map((item, index) => (
             <Link
               className={cx(
-                'flex w-full items-center rounded-md z-50 py-2 text-sm font-medium hover:underline',
+                'z-50 flex w-full items-center rounded-md py-2 text-sm font-medium hover:underline',
                 item.disabled ? 'cursor-not-allowed opacity-60' : '',
               )}
               href={item.disabled ? '#' : item.href}
