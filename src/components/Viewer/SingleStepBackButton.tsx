@@ -20,7 +20,7 @@ export const buttonStyle = cva('', {
   variants: {
     variant: {
       primary: 'h-20 w-20 lg:h-10 lg:w-10',
-      navbar: 'h-6 w-6',
+      navbar: 'h-10 w-10',
     },
   },
   defaultVariants: {
@@ -77,8 +77,9 @@ export function SingleStepBackButton({ slug, page, story, variant }: Props) {
               )
             }
             onClick={() => prevStep()}
+            size="verysm"
             value="previous"
-            variant={variant === 'navbar' ? 'noStyle' : 'inverse'}
+            variant={variant === 'navbar' ? 'inverse' : 'inverse'}
           >
             <ChevronLeftIcon className={cx(buttonStyle({ variant }))} />
           </Button>
