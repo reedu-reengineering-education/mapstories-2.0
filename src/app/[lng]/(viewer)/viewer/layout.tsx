@@ -45,7 +45,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
       <div className="absolute left-0 top-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
         <header className="container sticky top-0">
           <div className="flex h-16 items-center justify-between py-4">
-            <InverseNavbar user={user}>
+            <InverseNavbar user={user} userHasStories={mapstories.length > 0}>
               <div className="flex space-x-2">
                 <Button
                   className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
