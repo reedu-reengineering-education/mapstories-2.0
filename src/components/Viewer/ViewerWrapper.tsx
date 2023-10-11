@@ -78,7 +78,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   })
 
   return (
-    <div className="flex h-full w-full flex-col gap-5 px-20  pt-4 lg:pb-10 lg:pt-20">
+    <div className="flex h-full w-full flex-col gap-5 px-20  pt-4 md:pb-10 lg:pt-20">
       {showSizeModal && (
         <Modal
           onClose={() => setShowSizeModal(false)}
@@ -95,8 +95,8 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           </Modal.Footer>
         </Modal>
       )}
-      <div className="flex flex-1 justify-end overflow-hidden align-baseline  lg:justify-start ">
-        <div className="absolute bottom-44 left-1 z-10 ">
+      <div className="flex flex-1 justify-end overflow-hidden align-baseline lg:justify-between ">
+        <div className="absolute bottom-[50%] left-1 z-10 lg:hidden">
           <SingleStepBackButton
             page={slug[1]}
             slug={slug[0]}
@@ -104,7 +104,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             variant={'navbar'}
           ></SingleStepBackButton>
         </div>
-        <div className="absolute bottom-44 right-1 z-20 ">
+        <div className="absolute bottom-[50%] right-1 z-20 lg:hidden">
           <SingleStepForwardButton
             page={slug[1]}
             slug={slug[0]}
@@ -115,7 +115,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
         <div
           className={cx(
             slug[1] === 'start' ? 'flex overflow-auto' : 'hidden',
-            're-basic-box z-10 h-fit max-h-full w-[55%] bg-white px-4 lg:flex lg:max-w-[40%]',
+            're-basic-box z-20 h-fit max-h-full w-[55%] bg-white px-4 lg:flex lg:max-w-[40%]',
           )}
         >
           <StoryOverviewControls
@@ -127,13 +127,13 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-10 h-full  max-h-full w-[55%]  self-end overflow-x-auto overflow-y-auto bg-white p-4 lg:w-[33%]">
+          <div className="re-basic-box z-20 h-full  max-h-full w-[55%]  self-end overflow-x-auto overflow-y-auto bg-white p-4 lg:w-[40%]">
             <div className="flex flex-row justify-evenly pt-2 lg:hidden">
               <RestartStoryButton slug={slug[0]} />
               <QuitStoryButton slug={slug[0]} />
             </div>
             <div
-              className="h-[320px] overflow-scroll lg:h-full"
+              className="h-[320px] overflow-scroll md:h-full"
               {...swipeHandlers}
             >
               <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
