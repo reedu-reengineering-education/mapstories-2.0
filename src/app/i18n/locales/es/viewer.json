@@ -6,5 +6,7 @@
   "filter": "Filtro",
   "reset": "Reiniciar",
   "apply": "Aplicar",
-  "noSteps": "No hay pasos disponibles para esta historia."
+  "noSteps": "No hay pasos disponibles para esta historia.",
+  "landscapeModeTitle": "¡Smartphone en modo horizontal!",
+  "landscapeModeText": "El visor está optimizado para smartphones en modo horizontal. Por favor, ¡gira tu teléfono!"
 }

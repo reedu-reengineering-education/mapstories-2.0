@@ -12,6 +12,12 @@ import RestartStoryButton from './RestartStoryButton'
 import QuitStoryButton from './QuitStoryButton'
 import useSwipe from '@/src/lib/useSwipe'
 import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { Modal } from '../Modal'
+import { Button } from '../Elements/Button'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
 type Props = {
   filter: string
@@ -23,6 +29,25 @@ type Props = {
 export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   const router = useRouter()
   const path = usePathname()
+  const [showSizeModal, setShowSizeModal] = useState<boolean>(false)
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
+  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight)
+
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+
+  const { t } = useTranslation(lng, 'viewer')
+
+  useEffect(() => {
+    setWindowHeight(window.innerHeight)
+    setWindowWidth(window.innerWidth)
+    // if window size is below 800px display a message saying that the editor is not available on mobile
+    if (windowWidth < 800) {
+      setShowSizeModal(true)
+    }
+  }, [])
 
   function prevStep() {
     // const length = story?.steps?.length
@@ -54,7 +79,23 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
 
   return (
     <div className="flex h-full w-full flex-col gap-5 px-20  pt-4 lg:pb-10 lg:pt-20">
-      <div className="flex flex-1 justify-end overflow-hidden align-baseline  lg:justify-between ">
+      {showSizeModal && (
+        <Modal
+          onClose={() => setShowSizeModal(false)}
+          open={showSizeModal}
+          title={t('landscapeModeTitle')}
+        >
+          <Modal.Content>
+            <p>{t('landscapeModeText')}</p>
+          </Modal.Content>
+          <Modal.Footer>
+            <div className="flex justify-end">
+              <Button onClick={() => setShowSizeModal(false)}>Ok</Button>
+            </div>
+          </Modal.Footer>
+        </Modal>
+      )}
+      <div className="flex flex-1 justify-end overflow-hidden align-baseline  lg:justify-start ">
         <div className="absolute bottom-44 left-1 z-10 ">
           <SingleStepBackButton
             page={slug[1]}
@@ -74,7 +115,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
         <div
           className={cx(
             slug[1] === 'start' ? 'overflow-auto' : 'hidden lg:block',
-            're-basic-box z-10 h-fit max-h-full w-[50%] bg-white p-5 lg:max-w-[33%]',
+            're-basic-box z-10 hidden h-fit max-h-full w-[50%] bg-white p-5 lg:block lg:max-w-[33%]',
           )}
         >
           <StoryOverviewControls

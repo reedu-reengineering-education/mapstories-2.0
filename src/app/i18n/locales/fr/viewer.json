@@ -6,5 +6,7 @@
   "filter": "Filtre",
   "reset": "Réinitialiser",
   "apply": "Appliquer",
-  "noSteps": "Aucun filtre n'est disponible"
+  "noSteps": "Aucun filtre n'est disponible",
+  "landscapeModeTitle": "Smartphone en mode paysage !",
+  "landscapeModeText": "La visionneuse est optimisée pour les smartphones en mode paysage. Veuillez tourner votre téléphone !"
 }

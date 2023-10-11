@@ -6,5 +6,7 @@
   "filter": "filter",
   "reset": "Reset",
   "apply": "apply",
-  "noSteps": "No steps available with these settings for this mapstory."
+  "noSteps": "No steps available with these settings for this mapstory.",
+  "landscapeModeTitle": "Smartphone in landscape mode!",
+  "landscapeModeText": "The viewer is optimised for smartphones in landscape mode. Please turn your phone!"
 }
