@@ -63,7 +63,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
             <InverseNavbar user={user}>
               <div className="flex space-x-2">
                 <Button
-                  className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100"
+                  className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
                   startIcon={<LinkIcon className="w-5" />}
                 >
                   {' '}
@@ -75,14 +75,16 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
                     Feedback
                   </a>{' '}
                 </Button>{' '}
-                <LangSwitcher />
-                {user ? (
-                  <UserAccountNav user={user} />
-                ) : (
-                  <Link href="/login">
-                    <Button>Login</Button>
-                  </Link>
-                )}
+                <div className="hidden lg:flex lg:flex-row lg:gap-2">
+                  <LangSwitcher />
+                  {user ? (
+                    <UserAccountNav user={user} />
+                  ) : (
+                    <Link href="/login">
+                      <Button>Login</Button>
+                    </Link>
+                  )}
+                </div>
               </div>
             </InverseNavbar>
           </div>
