@@ -30,7 +30,7 @@ export function GalleryList({ stories }: Props) {
         leaveTo="opacity-0 "
         show={isShowing}
       >
-        <div className="re-basic-box relative max-h-[45%] max-w-[50%] overflow-auto bg-white p-6">
+        <div className="re-basic-box relative max-h-[45%]  overflow-auto bg-white p-6">
           <XMarkIcon
             className="absolute right-0 top-0 m-2 h-6 w-6 cursor-pointer text-gray-500 "
             onClick={() => setIsShowing(false)}
