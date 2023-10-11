@@ -114,8 +114,8 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
         </div>
         <div
           className={cx(
-            slug[1] === 'start' ? 'overflow-auto' : 'hidden lg:block',
-            're-basic-box z-10 hidden h-fit max-h-full w-[50%] bg-white p-5 lg:block lg:max-w-[33%]',
+            slug[1] === 'start' ? 'flex overflow-auto' : 'hidden',
+            're-basic-box z-10 h-fit max-h-full w-[55%] bg-white px-4 lg:flex lg:max-w-[40%]',
           )}
         >
           <StoryOverviewControls
@@ -127,7 +127,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-10 h-full  max-h-full w-[55%]  self-end overflow-x-auto overflow-y-auto bg-white px-4 lg:w-[33%]">
+          <div className="re-basic-box z-10 h-full  max-h-full w-[55%]  self-end overflow-x-auto overflow-y-auto bg-white p-4 lg:w-[33%]">
             <div className="flex flex-row justify-evenly pt-2 lg:hidden">
               <RestartStoryButton slug={slug[0]} />
               <QuitStoryButton slug={slug[0]} />

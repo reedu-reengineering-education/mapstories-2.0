@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@/src/components/Elements/Button'
 import { useBoundStore } from '@/src/lib/store/store'
 import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
@@ -13,11 +12,12 @@ import {
   CaretDownIcon,
   Cross1Icon,
   ExclamationTriangleIcon,
-  PlayIcon,
   ReloadIcon,
 } from '@radix-ui/react-icons'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
+import { Button } from '../Elements/Button'
+import { PlayIcon } from 'lucide-react'
 type Props = {
   slug: string
   page: string
@@ -119,97 +119,99 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
 
   return (
     <>
-        {!story && <p>{t('storyNotAvailable')}</p>}
-        {story && (
-          <div className="flex  flex-col">
-            <div className="bg-gray flex flex-row gap-2">
-              <h3 className="enable-theme-font max-w-[500px]">{story?.name}</h3>
-            </div>
-            {page == 'start' && (
-              <div className='w-full'>
-                {story?.steps?.length === 0 && (
-                  <div className="flex flex-row items-center gap-2">
-                    <ExclamationTriangleIcon className=" text-yellow-500" />
-                    <div className="h text-yellow-500">{t('noSteps')}</div>
-                  </div>
+      {!story && <p>{t('storyNotAvailable')}</p>}
+      {story && (
+        <div className="my-2 flex w-full flex-col px-2">
+          <div className="bg-gray flex flex-row gap-2">
+            <h3 className="enable-theme-font max-w-[500px]">{story?.name}</h3>
+          </div>
+          {page == 'start' && (
+            <div className="w-full">
+              {story?.steps?.length === 0 && (
+                <div className="flex flex-row items-center gap-2">
+                  <ExclamationTriangleIcon className=" text-yellow-500" />
+                  <div className="h text-yellow-500">{t('noSteps')}</div>
+                </div>
+              )}
+              <div className=" overflow-x-hidden ">
+                {tags.length > 0 && (
+                  <StoryFilterInput
+                    allTags={allTags}
+                    filter={filterState ? filterState : ['all']}
+                    onFilterChange={applyFilter}
+                  />
                 )}
-                <div className="overflow-x-hidden pr-5">
-                  {tags.length > 0 && (
-                      <StoryFilterInput
-                        allTags={allTags}
-                        filter={filterState ? filterState : ['all']}
-                        onFilterChange={applyFilter}
-                      />
-                  )}
+                <div className="h-[230px] w-full overflow-scroll overflow-x-hidden  lg:h-full">
                   <Slide step={story?.firstStep}></Slide>
-                  <div className="flex justify-end gap-6">
-                    {!path?.includes('/embed/') && (
-                      <Button
-                        onClick={onClose}
-                        startIcon={<Cross1Icon className="w-4" />}
-                      >
-                        {t('close')}
-                      </Button>
-                    )}
+                </div>
+                <div className="flex justify-end gap-6 pt-2">
+                  {!path?.includes('/embed/') && (
                     <Button
-                      disabled={story?.steps?.length === 0}
-                      onClick={() => startStory()}
-                      startIcon={<PlayIcon className="w-4" />}
+                      onClick={onClose}
+                      startIcon={<Cross1Icon className="w-4" />}
                     >
-                      {t('play')}
+                      {t('close')}
                     </Button>
-                  </div>
+                  )}
+                  <Button
+                    disabled={story?.steps?.length === 0}
+                    onClick={() => startStory()}
+                    startIcon={<PlayIcon className="w-4" />}
+                  >
+                    {t('play')}
+                  </Button>
                 </div>
               </div>
-            )}
-            {page != 'start' && (
-              <>
-                <div className="flex justify-between rounded-md pt-2">
-                  <button
-                    className="flex items-center"
-                    onClick={() => setOpenInput(!openInput)}
+            </div>
+          )}
+          {page != 'start' && (
+            <>
+              <div className="flex justify-between rounded-md pt-2">
+                <button
+                  className="flex items-center"
+                  onClick={() => setOpenInput(!openInput)}
+                >
+                  <span className="whitespace-nowrap">
+                    {parseInt(page) + 1}/{story?.steps?.length}
+                  </span>
+                  <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
+                </button>
+                <Toolbar.Root
+                  aria-label="StoryControls"
+                  className="ToolbarRoot"
+                >
+                  <Toolbar.ToggleGroup
+                    aria-label="Viewer Controls"
+                    defaultValue="center"
+                    type="single"
                   >
-                    <span className="whitespace-nowrap">
-                      {parseInt(page) + 1}/{story?.steps?.length}
-                    </span>
-                    <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
-                  </button>
-                  <Toolbar.Root
-                    aria-label="StoryControls"
-                    className="ToolbarRoot"
-                  >
-                    <Toolbar.ToggleGroup
-                      aria-label="Viewer Controls"
-                      defaultValue="center"
-                      type="single"
+                    <Toolbar.ToggleItem
+                      aria-label="Restart story"
+                      className="ToolbarToggleItem"
+                      onClick={() => backToStart()}
+                      title="Restart Story"
+                      value="restart"
                     >
+                      <ReloadIcon />
+                    </Toolbar.ToggleItem>
+                    {!path?.includes('/embed/') && (
                       <Toolbar.ToggleItem
-                        aria-label="Restart story"
+                        aria-label="Quit story"
                         className="ToolbarToggleItem"
-                        onClick={() => backToStart()}
-                        title="Restart Story"
-                        value="restart"
+                        onClick={onClose}
+                        title="Quit Story"
+                        value="quit"
                       >
-                        <ReloadIcon />
+                        <Cross1Icon />
                       </Toolbar.ToggleItem>
-                      {!path?.includes('/embed/') && (
-                        <Toolbar.ToggleItem
-                          aria-label="Quit story"
-                          className="ToolbarToggleItem"
-                          onClick={onClose}
-                          title="Quit Story"
-                          value="quit"
-                        >
-                          <Cross1Icon />
-                        </Toolbar.ToggleItem>
-                      )}
-                    </Toolbar.ToggleGroup>
-                  </Toolbar.Root>
-                </div>
-              </>
-            )}
-          </div>
-        )}
+                    )}
+                  </Toolbar.ToggleGroup>
+                </Toolbar.Root>
+              </div>
+            </>
+          )}
+        </div>
+      )}
       <StorySlideListViewer
         filter={filterState ? filterState.join('-') : 'all'}
         page={page}
