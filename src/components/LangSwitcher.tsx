@@ -15,7 +15,9 @@ export function LangSwitcher() {
     }
 
     path[1] = lng
-    router.replace(path.join('/'))
+    router.replace(path.join('/'), {
+      forceOptimisticNavigation: true,
+    })
   }
 
   return (

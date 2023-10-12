@@ -18,8 +18,10 @@ import { Button } from '../Elements/Button'
 export function InverseNavbar({
   children,
   user,
+  userHasStories,
 }: {
   children: React.ReactNode
+  userHasStories: boolean
   user:
     | (User & {
         id: string
@@ -43,7 +45,7 @@ export function InverseNavbar({
       {
         title: t('viewer'),
         href: `/${lng}/mystories/all`,
-        disabled: user === undefined,
+        disabled: user === undefined || !userHasStories,
       },
       {
         title: t('gallery'),
