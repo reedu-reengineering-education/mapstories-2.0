@@ -44,12 +44,12 @@ export default async function Page({
         <AnimatedMap />
       </div>
 
-      <div className="z-60 container relative flex -translate-y-[80vh] flex-col">
+      <div className="z-60 container relative flex  -translate-y-[90vh] flex-col lg:-translate-y-[80vh]">
         <div className="mx-auto my-6 w-7/12 basis-1/2  ">
           <PageContent />
         </div>
       </div>
-      <div className="z-60 absolute bottom-5 mx-auto hidden w-full p-2 md:block  ">
+      <div className="z-60 absolute bottom-5 mx-auto hidden w-full p-2 lg:block  ">
         <CharityBanner />
       </div>
     </>

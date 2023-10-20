@@ -18,6 +18,7 @@ export const buttonStyle = cva(
         noStyle: 'border-0 justify-left',
       },
       size: {
+        verysm: 'p-0 text-sm',
         sm: 'py-1 px-3 text-sm',
         md: 'py-2 px-4 text-md',
         lg: 'py-3 px-5 text-lg',

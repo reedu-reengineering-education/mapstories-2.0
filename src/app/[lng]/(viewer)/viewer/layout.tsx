@@ -45,10 +45,10 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
       <div className="absolute left-0 top-0 z-10 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
         <header className="container sticky top-0">
           <div className="flex h-16 items-center justify-between py-4">
-            <InverseNavbar user={user}>
+            <InverseNavbar user={user} userHasStories={mapstories.length > 0}>
               <div className="flex space-x-2">
                 <Button
-                  className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100"
+                  className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
                   startIcon={<LinkIcon className="w-5" />}
                 >
                   {' '}
@@ -60,14 +60,16 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
                     Feedback
                   </a>{' '}
                 </Button>{' '}
-                <LangSwitcher />
-                {user ? (
-                  <UserAccountNav user={user} />
-                ) : (
-                  <Link href="/login">
-                    <Button>Login</Button>
-                  </Link>
-                )}
+                <div className="hidden lg:flex lg:flex-row lg:gap-2">
+                  <LangSwitcher />
+                  {user ? (
+                    <UserAccountNav user={user} />
+                  ) : (
+                    <Link href="/login">
+                      <Button>Login</Button>
+                    </Link>
+                  )}
+                </div>
               </div>
             </InverseNavbar>
           </div>
