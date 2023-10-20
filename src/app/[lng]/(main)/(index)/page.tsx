@@ -49,7 +49,7 @@ export default async function Page({
           <PageContent />
         </div>
       </div>
-      <div className="z-60 absolute bottom-5 mx-auto hidden w-full p-2 md:block  ">
+      <div className="z-60 absolute bottom-5 mx-auto hidden w-full p-2 lg:block  ">
         <CharityBanner />
       </div>
     </>

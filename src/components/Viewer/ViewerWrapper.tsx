@@ -129,7 +129,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-20 h-full  max-h-full w-[55%]  self-end overflow-x-auto overflow-y-auto bg-white p-4 lg:w-[40%]">
+          <div className="re-basic-box z-20 h-full  max-h-full w-[55%]  self-end overflow-x-auto overflow-y-hidden bg-white p-4 lg:w-[40%]">
             <div className="flex flex-row justify-evenly pt-2 lg:hidden">
               <button
                 className="flex items-center"
@@ -152,7 +152,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             </div>
 
             <div
-              className="h-[320px] overflow-scroll lg:h-full"
+              className="h-[270px] overflow-scroll lg:h-full"
               {...swipeHandlers}
             >
               <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
@@ -160,7 +160,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           </div>
         )}
       </div>
-      <div className="flex items-center justify-center gap-5">
+      <div className="flex items-center justify-center gap-5 pb-6 lg:p-0">
         {story?.mode === StoryMode.TIMELINE && (
           <>
             <div className="z-20 hidden lg:block">
@@ -172,7 +172,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
                 // toggleSlides={toggleSlidesOpen}
               ></SingleStepBackButton>
             </div>
-            <div className="re-basic-box z-10 flex-1 bg-white px-2">
+            <div className="re-basic-box z-10 flex-1 bg-white px-2 ">
               <TimelineChartWrapper
                 activeIndex={Number(slug[1])}
                 filter={filter}
