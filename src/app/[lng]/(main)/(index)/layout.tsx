@@ -33,7 +33,7 @@ export default async function RootLayout({
           <InverseNavbar user={user} userHasStories={storyCount > 0}>
             <div className="flex space-x-3">
               <Button
-                className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 hidden lg:flex"
+                className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
                 startIcon={<LinkIcon className="w-5" />}
               >
                 {' '}
@@ -46,7 +46,7 @@ export default async function RootLayout({
                 </a>{' '}
               </Button>
 
-              <div className='hidden lg:flex lg:gap-2 lg:flex-row'>
+              <div className="hidden lg:flex lg:flex-row lg:gap-2">
                 <LangSwitcher />
                 {user ? (
                   <UserAccountNav user={user} />
@@ -55,7 +55,7 @@ export default async function RootLayout({
                     <Button>Login</Button>
                   </Link>
                 )}
-                </div>
+              </div>
             </div>
           </InverseNavbar>
         </div>
