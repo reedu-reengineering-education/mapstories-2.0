@@ -141,7 +141,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                     onFilterChange={applyFilter}
                   />
                 )}
-                <div className="h-[280px] w-full overflow-scroll overflow-x-hidden lg:h-full">
+                <div className="h-[220px] w-full overflow-scroll overflow-x-hidden lg:h-full">
                   <Slide step={story?.firstStep}></Slide>
                 </div>
                 <div className="flex justify-end gap-6 pt-2">

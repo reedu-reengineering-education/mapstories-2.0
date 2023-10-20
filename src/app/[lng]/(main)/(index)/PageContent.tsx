@@ -30,7 +30,7 @@ export default function PageContent() {
       show={isShowing}
     >
       <div blur-sm className="flex flex-col gap-8">
-        <div className="re-basic-box  flex w-full flex-col items-center bg-white bg-opacity-90 p-6">
+        <div className="re-basic-box  flex w-full flex-col items-center bg-white bg-opacity-90 p-1 text-center lg:p-6">
           <Image
             alt="Mapstories"
             height={300}
@@ -40,7 +40,7 @@ export default function PageContent() {
 
           <p className="pb-2">{t('startText')}</p>
         </div>
-        <div className=" flex items-center justify-center gap-4">
+        <div className=" flex items-center justify-center gap-2 lg:gap-4">
           <Link href="/login">
             <div className="re-basic-box">
               <Button variant={'primary'}>{t('getStarted')}</Button>

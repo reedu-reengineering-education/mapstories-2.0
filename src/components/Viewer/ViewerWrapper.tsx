@@ -46,7 +46,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
     setWindowHeight(window.innerHeight)
     setWindowWidth(window.innerWidth)
     // if window size is below 800px display a message saying that the editor is not available on mobile
-    if (windowWidth < 800) {
+    if (windowWidth < 600) {
       setShowSizeModal(true)
     }
   }, [])
@@ -152,7 +152,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             </div>
 
             <div
-              className="h-[270px] overflow-scroll lg:h-full"
+              className="h-[220px] overflow-scroll lg:h-full"
               {...swipeHandlers}
             >
               <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
