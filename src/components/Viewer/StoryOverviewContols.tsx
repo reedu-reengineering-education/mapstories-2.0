@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { Slide } from './Slide'
-import * as Toolbar from '@radix-ui/react-toolbar'
 import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListViewer'
 import { StoryFilterInput } from './StoryFilterInput'
 import {
@@ -18,6 +17,9 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 import { Button } from '../Elements/Button'
 import { PlayIcon } from 'lucide-react'
+import QuitStoryButton from './QuitStoryButton'
+import PlayStoryButton from './PlayStoryButton'
+import * as Toolbar from '@radix-ui/react-toolbar'
 type Props = {
   slug: string
   page: string
@@ -141,10 +143,11 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                     onFilterChange={applyFilter}
                   />
                 )}
-                <div className="h-[220px] w-full overflow-scroll overflow-x-hidden lg:h-full">
+
+                <div className=" w-full overflow-scroll overflow-x-hidden lg:h-full">
                   <Slide step={story?.firstStep}></Slide>
                 </div>
-                <div className="flex justify-end gap-6 pt-2">
+                <div className="hidden justify-end gap-6 pt-2 lg:flex">
                   {!path?.includes('/embed/') && (
                     <Button
                       onClick={onClose}
@@ -161,6 +164,10 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                     {t('play')}
                   </Button>
                 </div>
+              </div>
+              <div className="sticky bottom-0 flex flex-row justify-evenly bg-white py-2 lg:hidden">
+                <QuitStoryButton slug={slug} />
+                <PlayStoryButton slug={slug} />
               </div>
             </div>
           )}
