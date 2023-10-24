@@ -80,7 +80,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   })
 
   return (
-    <div className="flex h-full w-full flex-col gap-5 px-20  pt-4 lg:pb-10 lg:pt-20">
+    <div className="flex h-full w-full flex-col px-20 pt-4  lg:gap-5 lg:pb-10 lg:pt-20">
       {showSizeModal && (
         <Modal
           onClose={() => setShowSizeModal(false)}
