@@ -8,8 +8,9 @@
   "text4Title": "Orientación para Posibles Patrocinadores:",
   "text4": "Si estás interesado en apoyar una herramienta educativa innovadora y colaborar con nosotros, no dudes en contactarnos. Si tienes contactos con organizaciones de financiamiento, fundaciones u otros posibles donantes, también apreciamos cualquier referencia.",
   "text5Title": "Participación en el Proyecto de Código Abierto:",
-  "text5": "Mapstories es un proyecto de código abierto. Si tienes conocimientos técnicos o estás interesado en el desarrollo de software, visualización de datos o diseño de UX, puedes participar activamente en el proyecto. Únete a nuestro equipo de desarrollo, aporta tus ideas y ayúdanos a mejorar Mapstories de forma continua.",
-  "textEnd": "Si deseas participar, no dudes en contactarnos.",
-  "buttonInquiry": "Contactar",
-  "imageSubtitle": "Imagen: Vamos e.V."
+  "text5": "Mapstories es un proyecto de código abierto. Si tienes conocimientos técnicos o estás interesado en el desarrollo de software, la visualización de datos o el diseño UX, puedes participar activamente en el proyecto. Forma parte de nuestro equipo de desarrollo, aporta tus ideas y ayúdanos a mejorar Mapstories continuamente. Puedes encontrar el repositorio de Github ",
+  "textEnd": "Si quieres contribuir, no dudes en ponerte en contacto con nosotros",
+  "buttonInquiry": "Ponte en contacto",
+  "imageSubtitle": "Imagen: Vamos e.V.",
+  "here": "aquí"
 }

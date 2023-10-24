@@ -8,8 +8,9 @@
   "text4Title": "Guidance for Potential Sponsors:",
   "text4": "If you are interested in supporting an innovative educational tool and collaborating with us, please feel free to contact us. If you have contacts with funding organizations, foundations, or other potential donors, we also appreciate any referrals.",
   "text5Title": "Participation in the Open-Source Project:",
-  "text5": "Mapstories is an open-source project. If you have technical know-how or are interested in software development, data visualization, or UX design, you can actively participate in the project. Join our development team, contribute your ideas, and help us continuously improve Mapstories.",
-  "textEnd": "If you want to get involved, please don't hesitate to contact us.",
-  "buttonInquiry": "Contact Us",
-  "imageSubtitle": "Image: Vamos e.V."
+  "text5": "Mapstories is an open source project. If you have technical know-how or are interested in software development, data visualization or UX design, you can actively participate in the project. Become part of our development team, contribute your ideas and help us to continuously improve Mapstories. You can find the Github repository ",
+  "textEnd": "If you want to contribute, feel free to contact us.",
+  "buttonInquiry": "Make Contact",
+  "imageSubtitle": "image: Vamos e.V.",
+  "here": "here"
 }

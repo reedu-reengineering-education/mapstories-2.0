@@ -38,9 +38,9 @@ export function CharityBanner({}) {
             >
               Spenden
             </a>{' '}
-            an Vamos e.V. (Verwendungszweck: Mapstories) können wir Mapstories
-            verbessern, Schulungsangebote erweitern und neue Funktionen
-            entwickeln, um noch mehr Menschen zu erreichen.{' '}
+            an Vamos e.V. können wir Mapstories verbessern, Schulungsangebote
+            erweitern und neue Funktionen entwickeln, um noch mehr Menschen zu
+            erreichen.{' '}
             <b>
               Jeder Beitrag, ob groß oder klein, ist wertvoll und hilft uns,
               unsere Ziele zu verwirklichen.

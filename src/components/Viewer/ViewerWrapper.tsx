@@ -46,7 +46,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
     setWindowHeight(window.innerHeight)
     setWindowWidth(window.innerWidth)
     // if window size is below 800px display a message saying that the editor is not available on mobile
-    if (windowWidth < 800) {
+    if (windowWidth < 600) {
       setShowSizeModal(true)
     }
   }, [])
@@ -80,7 +80,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   })
 
   return (
-    <div className="flex h-full w-full flex-col gap-5 px-20  pt-4 lg:pb-10 lg:pt-20">
+    <div className="flex h-full w-full flex-col px-20 pt-4  lg:gap-5 lg:pb-10 lg:pt-20">
       {showSizeModal && (
         <Modal
           onClose={() => setShowSizeModal(false)}
@@ -97,7 +97,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           </Modal.Footer>
         </Modal>
       )}
-      <div className="flex flex-1 justify-end overflow-hidden align-baseline lg:justify-between ">
+      <div className="overflow flex flex-1 justify-end overflow-scroll align-baseline lg:justify-between ">
         <div className="absolute bottom-[50%] left-1 z-10 lg:hidden">
           <SingleStepBackButton
             page={slug[1]}
@@ -129,8 +129,8 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-20 h-full  max-h-full w-[55%]  self-end overflow-x-auto overflow-y-hidden bg-white p-4 lg:w-[40%]">
-            <div className="flex flex-row justify-evenly pt-2 lg:hidden">
+          <div className="re-basic-box z-20 h-full  max-h-full w-[55%]  self-end overflow-x-auto bg-white px-4 pb-4 lg:w-[40%]">
+            <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2  lg:hidden">
               <button
                 className="flex items-center"
                 onClick={() => setOpenInput(!openInput)}
@@ -152,7 +152,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             </div>
 
             <div
-              className="h-[270px] overflow-scroll lg:h-full"
+              className="overflow-x-hidden overflow-y-scroll lg:h-full"
               {...swipeHandlers}
             >
               <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>

@@ -1,9 +1,14 @@
 'use client'
 
-import { MapProps, MapRef, Map as ReactMap } from 'react-map-gl'
+import {
+  AttributionControl,
+  MapProps,
+  MapRef,
+  Map as ReactMap,
+} from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 // import 'maplibre-gl/dist/maplibre-gl.css'
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 
 const Map = forwardRef<MapRef, MapProps>(
   (
@@ -12,11 +17,12 @@ const Map = forwardRef<MapRef, MapProps>(
     { children, mapStyle, fog = null, terrain = null, ...props },
     ref,
   ) => {
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
+    const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight)
     return (
       <ReactMap
-        customAttribution={`Old mapstories version can be seen at <a href="https://old.mapstories.de/">old.mapstories</a> | Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a> | ${
-          process.env.NEXT_PUBLIC_APP_VERSION || 'development'
-        }`}
+        // disable the default attribution
+        attributionControl={false}
         dragRotate={false}
         fog={{
           color: 'rgb(186, 210, 235)',
@@ -42,6 +48,15 @@ const Map = forwardRef<MapRef, MapProps>(
         }}
         {...props}
       >
+        <AttributionControl
+          customAttribution={
+            windowWidth > 820
+              ? `Old mapstories version can be seen at <a href="https://old.mapstories.de/">old.mapstories</a> | Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a> | ${
+                  process.env.NEXT_PUBLIC_APP_VERSION || 'development'
+                }`
+              : ''
+          }
+        />
         {children}
       </ReactMap>
     )

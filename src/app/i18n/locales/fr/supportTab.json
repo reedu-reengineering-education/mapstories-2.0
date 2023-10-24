@@ -8,8 +8,9 @@
   "text4Title": "Conseils pour les éventuels bailleurs de fonds :",
   "text4": "Si vous souhaitez soutenir un outil éducatif innovant et collaborer avec nous, n'hésitez pas à nous contacter. Si vous avez des contacts avec des organisations de financement, des fondations ou d'autres donateurs potentiels, nous apprécions également toutes les références.",
   "text5Title": "Participation au projet Open-Source :",
-  "text5": "Mapstories est un projet Open-Source. Si vous avez des connaissances techniques ou si vous êtes intéressé par le développement logiciel, la visualisation de données ou la conception UX, vous pouvez participer activement au projet. Rejoignez notre équipe de développement, apportez vos idées et aidez-nous à améliorer Mapstories en continu.",
-  "textEnd": "Si vous souhaitez contribuer, n'hésitez pas à nous contacter.",
-  "buttonInquiry": "Nous Contacter",
-  "imageSubtitle": "Image : Vamos e.V."
+  "text5": "Mapstories est un projet open source. Si vous avez un savoir-faire technique ou si vous vous intéressez au développement de logiciels, à la visualisation de données ou à la conception UX, vous pouvez participer activement au projet. Rejoignez notre équipe de développeurs, apportez vos idées et aidez-nous à améliorer continuellement Mapstories. Vous trouverez le dépôt Github ",
+  "textEnd": "Si vous souhaitez participer, n'hésitez pas à nous contacter",
+  "buttonInquiry": "Établir un contact",
+  "imageSubtitle": "Image : Vamos e.V.",
+  "here": "ici"
 }
