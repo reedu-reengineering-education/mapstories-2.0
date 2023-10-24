@@ -47,10 +47,11 @@ export default function SupportTab() {
 
             <b>{t('text5Title')} </b>
           </p>
-          {/* @ts-ignore */}
           <p>
-            {/* @ts-ignore */}
-            {t('text5')}{' '}
+            <span>
+              {/* @ts-ignore */}
+              {t('text5')}
+            </span>{' '}
             <a
               className="text-blue-500"
               href="https://github.com/reedu-reengineering-education/mapstories-2.0"

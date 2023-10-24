@@ -34,11 +34,18 @@ export default function OfferTab() {
           </p>
           {/* @ts-ignore */}
           <p>
-            {t('text4')}{' '}
+            <span>
+              {/* @ts-ignore */}
+              {t('text4')}
+            </span>
             <a className="text-blue-500" href="">
+              {/* @ts-ignore */}
               {t('subjects')}
-            </a>{' '}
-            {t('text4_part2')}
+            </a>
+            <span>
+              {/* @ts-ignore */}
+              {t('text4_part2')}
+            </span>
           </p>
           <p>
             {/* @ts-ignore */}
