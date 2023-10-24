@@ -49,11 +49,13 @@ export default function SupportTab() {
           </p>
           {/* @ts-ignore */}
           <p>
+            {/* @ts-ignore */}
             {t('text5')}{' '}
             <a
               className="text-blue-500"
               href="https://github.com/reedu-reengineering-education/mapstories-2.0"
             >
+              {/* @ts-ignore */}
               {t('here')}
             </a>
           </p>
