@@ -129,7 +129,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-20 h-full  max-h-full w-[55%]  self-end overflow-x-auto bg-white px-4 pb-4 lg:w-[40%]">
+          <div className="re-basic-box z-20  max-h-full w-[55%]  self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[40%]">
             <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2  lg:hidden">
               <button
                 className="flex items-center"
@@ -152,7 +152,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             </div>
 
             <div
-              className="overflow-x-hidden overflow-y-scroll lg:h-full"
+              className="overflow-y-auto overflow-x-hidden lg:h-full"
               {...swipeHandlers}
             >
               <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
