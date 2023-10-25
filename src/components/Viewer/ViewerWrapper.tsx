@@ -151,10 +151,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
               <QuitStoryButton slug={slug[0]} />
             </div>
 
-            <div
-              className="overflow-y-auto overflow-x-hidden lg:h-full"
-              {...swipeHandlers}
-            >
+            <div className="overflow-y-auto overflow-x-hidden lg:h-full">
               <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
             </div>
           </div>

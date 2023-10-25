@@ -153,7 +153,7 @@ function MobileNav({
           {routes.map((item, index) => (
             <Link
               className={cx(
-                'z-50 flex w-full items-center rounded-md py-2 text-sm font-medium hover:underline',
+                'z-60 flex w-full items-center rounded-md py-2 text-sm font-medium hover:underline',
                 item.disabled ? 'cursor-not-allowed opacity-60' : '',
               )}
               href={item.disabled ? '#' : item.href}
