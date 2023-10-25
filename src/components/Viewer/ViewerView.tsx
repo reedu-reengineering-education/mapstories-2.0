@@ -419,8 +419,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                       longitude={m.geometry.coordinates[0][0]}
                       // onClose={() => setPopupInfo(null)}
                     >
-                      <div className="re-basic-box-no-filter overflow-hidden">
-                        <div className="p-5">
+                      <div className="re-basic-box-no-filter hidden overflow-hidden lg:flex">
+                        <div className="p-2 lg:p-5">
                           <StoryBadge mode={m.properties?.mode} />
                           <h3>{m.properties?.name}</h3>
                           <p> {m.properties?.desc}</p>
@@ -429,6 +429,15 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                               {t('more')}
                             </Button>
                           </div>
+                        </div>
+                      </div>
+                      <div className="re-basic-box-no-filter lg:hidden">
+                        <div className="flex flex-col items-center justify-center p-1">
+                          <StoryBadge mode={m.properties?.mode} />
+                          <p className="font-bold">{m.properties?.name}</p>
+                          <Button onClick={() => selectStory(m)} size={'sm'}>
+                            {t('more')}
+                          </Button>{' '}
                         </div>
                       </div>
                     </Popup>
