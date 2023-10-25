@@ -44,7 +44,7 @@ export default async function Page({
         <AnimatedMap />
       </div>
 
-      <div className="z-60 container relative flex  -translate-y-[95vh] flex-col lg:-translate-y-[80vh]">
+      <div className="z-60 container relative flex  -translate-y-[85vh] flex-col lg:-translate-y-[80vh]">
         <div className="mx-auto my-6 w-7/12 basis-1/2  ">
           <PageContent />
         </div>

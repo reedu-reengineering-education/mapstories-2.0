@@ -29,7 +29,7 @@ export default function PageContent() {
       leaveTo="opacity-0"
       show={isShowing}
     >
-      <div blur-sm className="flex flex-col gap-8">
+      <div blur-sm className="flex  flex-row gap-8 lg:flex-col">
         <div className="re-basic-box  flex w-full flex-col items-center bg-white bg-opacity-90 p-1 text-center lg:p-6">
           <Image
             alt="Mapstories"
@@ -40,7 +40,21 @@ export default function PageContent() {
 
           <p className="pb-2">{t('startText')}</p>
         </div>
-        <div className=" flex items-center justify-center gap-2 lg:gap-4">
+
+        <div className="flex  flex-col justify-evenly gap-2 lg:hidden">
+          <Link href={'/gallery/all'}>
+            <div className="re-basic-box">
+              <Button variant={'primary'}>{t('gallery')}</Button>
+            </div>
+          </Link>
+          <Link href={'/about'}>
+            <Button className="re-basic-box bg-opacity-90" variant={'inverse'}>
+              {t('infos')}
+            </Button>
+          </Link>
+        </div>
+
+        <div className="hidden items-center justify-center gap-2 lg:flex lg:gap-4">
           <Link href="/login">
             <div className="re-basic-box">
               <Button variant={'primary'}>{t('getStarted')}</Button>
