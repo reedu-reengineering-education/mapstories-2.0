@@ -97,7 +97,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           </Modal.Footer>
         </Modal>
       )}
-      <div className="overflow flex flex-1 justify-end overflow-scroll align-baseline lg:justify-between ">
+      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline lg:justify-between ">
         <div className="absolute bottom-[50%] left-1 z-10 lg:hidden">
           <SingleStepBackButton
             page={slug[1]}

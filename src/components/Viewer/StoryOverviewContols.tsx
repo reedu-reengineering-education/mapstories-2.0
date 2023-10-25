@@ -144,7 +144,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                   />
                 )}
 
-                <div className=" w-full overflow-scroll overflow-x-hidden lg:h-full">
+                <div className=" w-full overflow-auto overflow-x-hidden lg:h-full">
                   <Slide step={story?.firstStep}></Slide>
                 </div>
                 <div className="hidden justify-end gap-6 pt-2 lg:flex">
