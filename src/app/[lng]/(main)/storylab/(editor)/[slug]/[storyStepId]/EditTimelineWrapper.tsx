@@ -1,11 +1,12 @@
 'use client'
 
-import { Spinner } from '@/src/components/Elements/Spinner'
 import TimelineChart from '@/src/components/Timeline/TimelineChart'
 import { updateStoryStep } from '@/src/lib/api/step/updateStep'
 import useStep from '@/src/lib/api/step/useStep'
 import useStory from '@/src/lib/api/story/useStory'
 import { useRouter } from 'next/navigation'
+import { useBoundStore } from '@/src/lib/store/store'
+import { useTranslation } from '@/src/app/i18n/client'
 
 interface EditTimelineWrapperProps {
   storyId: string
@@ -19,13 +20,15 @@ export default function EditTimelineWrapper({
   const router = useRouter()
 
   const { story, createStoryStep, deleteStoryStep } = useStory(storyId)
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'studio')
 
   const { mutate } = useStep(stepId)
 
   if (!story || !story.steps || !story.steps.length) {
     return (
       <div className="flex h-full w-full items-center justify-center p-8">
-        <Spinner />
+        <span> {t('noSteps')}</span>
       </div>
     )
   }
