@@ -62,7 +62,7 @@ export function InverseNavbar({
     <>
       <div className="flex gap-6 lg:gap-10">
         <Link
-          className="relative hidden hidden items-center space-x-2 text-zinc-50 lg:flex"
+          className="relative hidden items-center space-x-2 text-zinc-50 lg:flex"
           href="/"
         >
           <LogoWithTextTransparent />
@@ -134,10 +134,10 @@ function MobileNav({
   return (
     <div
       className={cx(
-        'animate-in slide-in-from-bottom-80 fixed inset-0 top-16  grid h-[calc(100vh-4rem)] w-[40%] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md lg:hidden',
+        'animate-in slide-in-from-bottom-80 fixed inset-0 top-16 grid h-[calc(100vh-4rem)] w-[40%] grid-flow-row auto-rows-max  overflow-hidden p-6 pb-32  lg:hidden',
       )}
     >
-      <div className="relative grid gap-6 rounded-md bg-white p-4 shadow-md">
+      <div className="relative grid gap-6 rounded-md bg-white p-4 ">
         <nav className="grid grid-flow-row auto-rows-max text-sm">
           <div className="flex flex-row gap-6">
             <LangSwitcher />
@@ -153,7 +153,7 @@ function MobileNav({
           {routes.map((item, index) => (
             <Link
               className={cx(
-                'z-60 flex w-full items-center rounded-md py-2 text-sm font-medium hover:underline',
+                ' flex w-full items-center rounded-md py-2 text-sm font-medium hover:underline',
                 item.disabled ? 'cursor-not-allowed opacity-60' : '',
               )}
               href={item.disabled ? '#' : item.href}
