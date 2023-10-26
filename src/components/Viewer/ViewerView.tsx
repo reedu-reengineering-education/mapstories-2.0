@@ -380,7 +380,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         zoom: calculateZoomLogarithmic(distance),
         offset: [
           windowWidth > 820 && windowHeight > 600
-            ? windowWidth / 4
+            ? windowWidth / 7
             : -windowWidth / 4,
           75,
         ],
