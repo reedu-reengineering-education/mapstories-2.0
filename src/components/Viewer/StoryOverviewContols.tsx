@@ -165,7 +165,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                   {t('play')}
                 </Button>
               </div>
-              <div className="sticky bottom-0 flex flex-row justify-evenly bg-white py-2 lg:hidden">
+              <div className="sticky bottom-0 flex flex-row justify-evenly border-t-2 bg-white py-2 lg:hidden">
                 <QuitStoryButton slug={slug} />
                 <PlayStoryButton slug={slug} />
               </div>

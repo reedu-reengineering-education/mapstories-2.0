@@ -117,7 +117,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
         <div
           className={cx(
             slug[1] === 'start' ? 'flex overflow-auto' : 'hidden',
-            're-basic-box z-20 h-fit max-h-full w-[55%] bg-white px-4 lg:flex lg:max-w-[40%]',
+            're-basic-box z-[60] h-fit max-h-full w-[55%] bg-white px-4 lg:flex lg:max-w-[40%]',
           )}
         >
           <StoryOverviewControls
