@@ -378,7 +378,12 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       mapRef.current?.flyTo({
         center: startView.getCenter(),
         zoom: calculateZoomLogarithmic(distance),
-        offset: [windowWidth > 820 ? windowWidth / 4 : -windowWidth / 4, 75],
+        offset: [
+          windowWidth > 820 && windowHeight > 600
+            ? windowWidth / 4
+            : -windowWidth / 4,
+          75,
+        ],
       })
       // mapRef.current?.fitBounds(startView, {
       //   offset: [windowWidth > 820 ? windowWidth / 3 : -windowWidth / 4, 0],
