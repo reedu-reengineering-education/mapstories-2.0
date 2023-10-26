@@ -47,7 +47,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
-
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
+  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight)
   const router = useRouter()
   const [cursor, setCursor] = useState<string>('auto')
 
@@ -175,7 +176,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       // @ts-ignore
       setMarkers(newMarkers)
 
-      //save bounds to zoomTo once map is initiated
+      //save bounds to zoomTo once map is initiated)
       setStartView(bounds)
     }
   }, [storyID, stories])
@@ -363,22 +364,25 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
   }
 
-  // const onHover = (event: mapboxgl.MapLayerMouseEvent) => {
-  //   const hoverSteps = event.features
-
-  //   if (!hoverSteps || hoverSteps.length < 1) {
-  //     setCursor('auto')
-  //     return
-  //   }
-  //   setCursor('pointer')
-  // }
-
   const onMapLoad = useCallback(() => {
     if (selectedStepIndex) {
       updateToStep(selectedStepIndex)
     }
     if (Number.isNaN(selectedStepIndex) && mapRef.current && startView) {
-      mapRef.current?.fitBounds(startView)
+      const distance = getDistance(
+        startView.getSouthEast().lat,
+        startView.getSouthEast().lng,
+        startView.getNorthWest().lat,
+        startView.getNorthWest().lng,
+      )
+      mapRef.current?.flyTo({
+        center: startView.getCenter(),
+        zoom: calculateZoomLogarithmic(distance),
+        offset: [windowWidth > 820 ? windowWidth / 4 : -windowWidth / 4, 75],
+      })
+      // mapRef.current?.fitBounds(startView, {
+      //   offset: [windowWidth > 820 ? windowWidth / 3 : -windowWidth / 4, 0],
+      // })
     }
   }, [startView, mapRef])
 
