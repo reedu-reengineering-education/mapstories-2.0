@@ -11,5 +11,6 @@
   "contentNotDeleted": "Tu contenido no ha sido eliminado, por favor inténtalo nuevamente.",
   "confirmDeleteMapstory": "¿Realmente deseas eliminar la Mapstory?",
   "confirmDeleteStep": "¿Realmente deseas eliminar este paso?",
-  "abort": "Cancelar"
+  "abort": "Cancelar",
+  "noSteps": "¡Añade pasos para ver la línea de tiempo!"
 }

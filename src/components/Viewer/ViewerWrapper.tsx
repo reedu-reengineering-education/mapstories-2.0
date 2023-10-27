@@ -97,7 +97,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           </Modal.Footer>
         </Modal>
       )}
-      <div className="overflow flex flex-1 justify-end overflow-scroll align-baseline lg:justify-between ">
+      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline lg:justify-between ">
         <div className="absolute bottom-[50%] left-1 z-10 lg:hidden">
           <SingleStepBackButton
             page={slug[1]}
@@ -117,7 +117,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
         <div
           className={cx(
             slug[1] === 'start' ? 'flex overflow-auto' : 'hidden',
-            're-basic-box z-20 h-fit max-h-full w-[55%] bg-white px-4 lg:flex lg:max-w-[40%]',
+            're-basic-box z-[60] h-fit max-h-full w-[55%] bg-white px-4 lg:flex lg:max-w-[40%]',
           )}
         >
           <StoryOverviewControls
@@ -129,7 +129,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-20 h-full  max-h-full w-[55%]  self-end overflow-x-auto bg-white px-4 pb-4 lg:w-[40%]">
+          <div className="re-basic-box z-[60]  max-h-full w-[55%]  self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[40%]">
             <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2  lg:hidden">
               <button
                 className="flex items-center"
@@ -151,10 +151,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
               <QuitStoryButton slug={slug[0]} />
             </div>
 
-            <div
-              className="overflow-x-hidden overflow-y-scroll lg:h-full"
-              {...swipeHandlers}
-            >
+            <div className="overflow-y-auto overflow-x-hidden lg:h-full">
               <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
             </div>
           </div>

@@ -144,28 +144,28 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                   />
                 )}
 
-                <div className=" w-full overflow-scroll overflow-x-hidden lg:h-full">
+                <div className=" w-full overflow-auto overflow-x-hidden lg:h-full">
                   <Slide step={story?.firstStep}></Slide>
                 </div>
-                <div className="hidden justify-end gap-6 pt-2 lg:flex">
-                  {!path?.includes('/embed/') && (
-                    <Button
-                      onClick={onClose}
-                      startIcon={<Cross1Icon className="w-4" />}
-                    >
-                      {t('close')}
-                    </Button>
-                  )}
-                  <Button
-                    disabled={story?.steps?.length === 0}
-                    onClick={() => startStory()}
-                    startIcon={<PlayIcon className="w-4" />}
-                  >
-                    {t('play')}
-                  </Button>
-                </div>
               </div>
-              <div className="sticky bottom-0 flex flex-row justify-evenly bg-white py-2 lg:hidden">
+              <div className="sticky bottom-0 hidden flex-row justify-end gap-6 border-t-2 bg-white py-2 lg:flex">
+                {!path?.includes('/embed/') && (
+                  <Button
+                    onClick={onClose}
+                    startIcon={<Cross1Icon className="w-4" />}
+                  >
+                    {t('close')}
+                  </Button>
+                )}
+                <Button
+                  disabled={story?.steps?.length === 0}
+                  onClick={() => startStory()}
+                  startIcon={<PlayIcon className="w-4" />}
+                >
+                  {t('play')}
+                </Button>
+              </div>
+              <div className="sticky bottom-0 flex flex-row justify-evenly border-t-2 bg-white py-2 lg:hidden">
                 <QuitStoryButton slug={slug} />
                 <PlayStoryButton slug={slug} />
               </div>
