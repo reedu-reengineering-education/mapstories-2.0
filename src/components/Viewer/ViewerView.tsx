@@ -430,7 +430,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                     >
                       <div className="re-basic-box-no-filter hidden overflow-hidden lg:flex">
                         <div className="p-2 lg:p-5">
-                          <StoryBadge mode={m.properties?.mode} />
+                        { m.properties?.mode === 'TIMELINE' && (<StoryBadge mode={m.properties?.mode} />)}
                           <h3>{m.properties?.name}</h3>
                           <p> {m.properties?.desc}</p>
                           <div className="mt-2 flex justify-end">
