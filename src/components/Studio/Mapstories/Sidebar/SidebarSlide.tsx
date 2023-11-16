@@ -36,7 +36,7 @@ export default function SidebarSlide({
   variant,
 }: SidebarSlideProps) {
   const { step } = useStep(stepId)
-
+  console.log
   return (
     <div className="flex items-center">
       <div
@@ -55,10 +55,12 @@ export default function SidebarSlide({
             {step.content
               .sort((a, b) => a.position - b.position)
               .slice(0, 3)
-              .map(c => (
-                <EmbedIconFactory key={c.id} type={c.type} />
-              ))}
-            {step.content.length > 3 && (
+              .map(c => {
+                if (c.type !== 'TITLE' && c.type !== 'TEXT')
+                  return <EmbedIconFactory key={c.id} type={c.type} />
+              })}
+            {step.content.filter(s => s.type !== 'TITLE' && s.type !== 'TEXT')
+              .length > 3 && (
               <BaseIcon className="flex items-center justify-center bg-white text-sm">
                 +{step.content.length - 3}
               </BaseIcon>
