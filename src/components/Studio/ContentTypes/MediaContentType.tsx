@@ -92,7 +92,7 @@ export function MediaContentEdit({
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
-      accept: { 'image/*': [], 'video/*': [], 'audio/*': [] },
+      accept: { 'image/*': [], 'audio/*': [] },
       onDrop,
     })
 
@@ -115,11 +115,7 @@ export function MediaContentEdit({
         media.source ? setFileSource(media.source!) : setFileSource('')
         setFileType(stepItem.type)
         setSelectedValue(media.size!)
-        if (
-          stepItem.type === 'IMAGE' ||
-          stepItem.type === 'AUDIO' ||
-          stepItem.type === 'VIDEO'
-        ) {
+        if (stepItem.type === 'IMAGE' || stepItem.type === 'AUDIO') {
           setIsLoading(true)
           // get image file from s3
           const response = await getS3Image(media)
@@ -227,9 +223,13 @@ export function MediaContentEdit({
         <span>
           <code>.jpg</code>
           <code>.png</code>
-          <code>.mp4</code>
+          <code>.gif</code>
+          <code>.bmp</code>
+          <code>.svg</code>
+          <code>.webp</code>
           <code>.mp3</code>
-          <code>.jpg</code>
+          <code>.flac</code>
+          <code>.wma</code>
           <br></br>
         </span>
         {stepItem ? null : (
@@ -257,14 +257,6 @@ export function MediaContentEdit({
                 />
               </div>
             )}
-          {fileType === 'VIDEO' && (
-            <ReactPlayer
-              controls={true}
-              height="100%"
-              url={fileUrl}
-              width="100%"
-            />
-          )}
           {fileType === 'AUDIO' && (
             <ReactPlayer
               controls={true}
