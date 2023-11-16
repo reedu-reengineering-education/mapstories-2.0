@@ -71,7 +71,7 @@ export function StorySlideListViewer({
 
   const variantsItem = {
     open: (i: number) => ({
-      opacity: 0.85,
+      opacity: 1,
       y: 0,
       transition: {
         y: { stiffness: 1000, velocity: -100 },

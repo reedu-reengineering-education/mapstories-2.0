@@ -379,9 +379,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         center: startView.getCenter(),
         zoom: calculateZoomLogarithmic(distance),
         offset: [
-          windowWidth > 820 && windowHeight > 600
-            ? windowWidth / 7
-            : -windowWidth / 4,
+          -windowWidth / 5,
           75,
         ],
       })

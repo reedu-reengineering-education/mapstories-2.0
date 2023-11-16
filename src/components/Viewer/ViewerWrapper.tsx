@@ -97,8 +97,8 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           </Modal.Footer>
         </Modal>
       )}
-      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline lg:justify-between ">
-        <div className="absolute bottom-[50%] left-1 z-10 lg:hidden">
+      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline ">
+        <div className="absolute bottom-[50%] left-1 z-10 ">
           <SingleStepBackButton
             page={slug[1]}
             slug={slug[0]}
@@ -106,7 +106,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             variant={'navbar'}
           ></SingleStepBackButton>
         </div>
-        <div className="absolute bottom-[50%] right-1 z-20 lg:hidden">
+        <div className="absolute bottom-[50%] right-1 z-20">
           <SingleStepForwardButton
             page={slug[1]}
             slug={slug[0]}
@@ -117,7 +117,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
         <div
           className={cx(
             slug[1] === 'start' ? 'flex overflow-auto' : 'hidden',
-            're-basic-box z-[60] h-fit max-h-full w-[55%] bg-white px-4 lg:flex lg:max-w-[40%]',
+            're-basic-box z-[60] h-fit max-h-full w-[55%] bg-white px-4 lg:max-w-[50%]',
           )}
         >
           <StoryOverviewControls
@@ -129,8 +129,9 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-[60]  max-h-full w-[55%]  self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[40%]">
-            <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2  lg:hidden">
+          <div className="re-basic-box z-[60]  max-h-full w-[55%]  self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[50%]">
+            <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2 ">
+              <div>
               <button
                 className="flex items-center"
                 onClick={() => setOpenInput(!openInput)}
@@ -140,6 +141,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
                 </span>
                 <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
               </button>
+              <div className="absolute top-0 px-16">
               <StorySlideListViewer
                 filter={'all'}
                 page={slug[1]}
@@ -147,6 +149,9 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
                 slug={slug[0]}
                 story={story}
               ></StorySlideListViewer>
+                </div>
+                </div>
+
               <RestartStoryButton slug={slug[0]} />
               <QuitStoryButton slug={slug[0]} />
             </div>
@@ -187,16 +192,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             </div>
           </>
         )}
-        {story?.mode === StoryMode.NORMAL && (
-          <div className="z-20 hidden lg:block">
-            <StoryPlayButtons
-              page={slug[1]}
-              slug={slug[0]}
-              story={story}
-              // toggleSlides={toggleSlidesOpen}
-            ></StoryPlayButtons>
-          </div>
-        )}
+
       </div>
     </div>
   )
