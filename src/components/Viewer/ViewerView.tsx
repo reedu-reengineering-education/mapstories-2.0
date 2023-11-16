@@ -68,7 +68,9 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
   useEffect(() => {
     if (inputStories && inputStories.length > 0) {
-      setViewerStories(inputStories)
+      if (inputStories.map(story => story.id).indexOf(storyID) != -1) {
+        setViewerStories(inputStories)
+      }
     }
   }, [inputStories])
 
@@ -88,6 +90,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
     if (path?.split('/').at(-2) === 'gallery') {
       setStoryID('')
+      setViewerStories(inputStories)
+      if (savedView) {
+        mapRef.current?.fitBounds(savedView)
+      }
       // setViewerStories([])
     }
   }, [path])
