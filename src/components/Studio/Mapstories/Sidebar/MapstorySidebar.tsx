@@ -59,6 +59,12 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
     useState<(StoryStep & { content: SlideContent[] })[]>()
 
   useEffect(() => {
+    const section = document.querySelector(`#${stepId}`)
+    console.log(section)
+    section?.scrollIntoView()
+  }, [stepId])
+
+  useEffect(() => {
     if (!story?.steps) {
       return
     }
@@ -117,6 +123,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
             component: (
               <div className="group relative">
                 <div
+                  id={s.id}
                   onClick={() => router.push(`/storylab/${story.slug}/${s.id}`)}
                 >
                   <SidebarSlide

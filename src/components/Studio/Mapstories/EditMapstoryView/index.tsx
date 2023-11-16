@@ -106,10 +106,7 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
         </div>
       </div>
 
-      <EditMapstoryMap
-        currentStepId={currentStep.id}
-        steps={currentStory.steps}
-      />
+      <EditMapstoryMap currentStep={currentStep} steps={currentStory.steps} />
     </div>
     // </StudioShell>
   )

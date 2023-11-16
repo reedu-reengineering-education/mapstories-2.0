@@ -5,6 +5,7 @@ import type { VariantProps } from 'class-variance-authority'
 import useStep from '@/src/lib/api/step/useStep'
 import EmbedIconFactory from '@/src/components/Icons/EmbedIconFactory'
 import BaseIcon from '@/src/components/Icons/BaseIcon'
+import { useEffect } from 'react'
 
 type SidebarSlideProps = VariantProps<typeof slideStyle> & {
   stepId: string
@@ -36,7 +37,7 @@ export default function SidebarSlide({
   variant,
 }: SidebarSlideProps) {
   const { step } = useStep(stepId)
-  console.log
+
   return (
     <div className="flex items-center">
       <div
