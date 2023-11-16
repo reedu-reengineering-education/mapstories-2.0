@@ -88,6 +88,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
     if (path?.split('/').at(-2) === 'gallery') {
       setStoryID('')
+      setViewerStories(inputStories)
+      if (savedView) {
+        mapRef.current?.fitBounds(savedView)
+      }
       // setViewerStories([])
     }
   }, [path])
