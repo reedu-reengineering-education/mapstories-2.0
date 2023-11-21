@@ -218,7 +218,7 @@ export function MediaContentEdit({
   return (
     <div>
       <div>
-        <InputLabel>{t('uploadFile')}</InputLabel>
+        <InputLabel>{t('dataUpload')}</InputLabel>
         <p className="my-2 text-sm font-bold">{t('supportedFormats')} </p>
         <span>
           <code>.jpg</code>
