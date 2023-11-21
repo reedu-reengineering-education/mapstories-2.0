@@ -217,6 +217,7 @@ export default function EditMapstoryMap({
       {...settings}
       interactiveLayerIds={['step-hover']}
       onClick={e => {
+        setGeocoderResult(undefined)
         if (currentStep.id === story?.firstStepId) {
           toast({
             title: 'Dies ist deine Titelfolie.',
