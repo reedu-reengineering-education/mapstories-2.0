@@ -37,6 +37,20 @@ export default function SidebarSlide({
 }: SidebarSlideProps) {
   const { step } = useStep(stepId)
 
+  const removeDuplicates = (arr: any) => {
+    const geseheneTypen: Array<any> = []
+    const newArr: Array<any> = []
+    if (arr.length > 0) {
+      arr.map((item: any) => {
+        if (!geseheneTypen.includes(item.type)) {
+          geseheneTypen.push(item.type)
+          newArr.push(item)
+        }
+      })
+    }
+    return newArr
+  }
+
   return (
     <div className="flex items-center">
       <div
@@ -52,11 +66,11 @@ export default function SidebarSlide({
 
         {step?.content && step?.content.length > 0 && (
           <div className="flex w-full max-w-[145px] items-center justify-center -space-x-3 overflow-hidden p-4">
-            {step.content
+            {removeDuplicates(step.content)
               .sort((a, b) => a.position - b.position)
               .slice(0, 3)
               .map(c => {
-                if (c.type !== 'TITLE' && c.type !== 'TEXT') {
+                if (c.type !== 'TITLE') {
                   return <EmbedIconFactory key={c.id} type={c.type} />
                 }
               })}
