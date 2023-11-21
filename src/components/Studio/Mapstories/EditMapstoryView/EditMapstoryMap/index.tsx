@@ -20,7 +20,6 @@ import GeocoderControl from '@/src/components/Map/GeocoderControl'
 import { toast } from '@/src/lib/toast'
 import mapboxgl from 'mapbox-gl'
 import React from 'react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Button } from '@/src/components/Elements/Button'
 
 interface EditMapstoryMapProps {

@@ -2,7 +2,6 @@
 
 import { Slides } from '@/src/components/Viewer/Slides'
 import { StoryOverviewControls } from '@/src/components/Viewer/StoryOverviewContols'
-import { StoryPlayButtons } from '@/src/components/Viewer/StoryPlayButtons'
 import { SingleStepBackButton } from '@/src/components/Viewer/SingleStepBackButton'
 import TimelineChartWrapper from '@/src/components/Timeline/TimelineChartWrapper'
 import { SingleStepForwardButton } from '@/src/components/Viewer/SingleStepForwardButton'
@@ -132,25 +131,25 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           <div className="re-basic-box z-[60]  max-h-full w-[55%]  self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[50%]">
             <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2 ">
               <div>
-              <button
-                className="flex items-center"
-                onClick={() => setOpenInput(!openInput)}
-              >
-                <span className="whitespace-nowrap">
-                  {parseInt(slug[1]) + 1}/{story?.steps?.length}
-                </span>
-                <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
-              </button>
-              <div className="absolute top-0 px-16">
-              <StorySlideListViewer
-                filter={'all'}
-                page={slug[1]}
-                slidesOpen={openInput}
-                slug={slug[0]}
-                story={story}
-              ></StorySlideListViewer>
+                <button
+                  className="flex items-center"
+                  onClick={() => setOpenInput(!openInput)}
+                >
+                  <span className="whitespace-nowrap">
+                    {parseInt(slug[1]) + 1}/{story?.steps?.length}
+                  </span>
+                  <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
+                </button>
+                <div className="absolute top-0 px-16">
+                  <StorySlideListViewer
+                    filter={'all'}
+                    page={slug[1]}
+                    slidesOpen={openInput}
+                    slug={slug[0]}
+                    story={story}
+                  ></StorySlideListViewer>
                 </div>
-                </div>
+              </div>
 
               <RestartStoryButton slug={slug[0]} />
               <QuitStoryButton slug={slug[0]} />
@@ -192,7 +191,6 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             </div>
           </>
         )}
-
       </div>
     </div>
   )

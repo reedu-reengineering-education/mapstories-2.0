@@ -5,7 +5,6 @@ import type { VariantProps } from 'class-variance-authority'
 import useStep from '@/src/lib/api/step/useStep'
 import EmbedIconFactory from '@/src/components/Icons/EmbedIconFactory'
 import BaseIcon from '@/src/components/Icons/BaseIcon'
-import { useEffect } from 'react'
 
 type SidebarSlideProps = VariantProps<typeof slideStyle> & {
   stepId: string
@@ -57,8 +56,9 @@ export default function SidebarSlide({
               .sort((a, b) => a.position - b.position)
               .slice(0, 3)
               .map(c => {
-                if (c.type !== 'TITLE' && c.type !== 'TEXT')
+                if (c.type !== 'TITLE' && c.type !== 'TEXT') {
                   return <EmbedIconFactory key={c.id} type={c.type} />
+                }
               })}
             {step.content.filter(s => s.type !== 'TITLE' && s.type !== 'TEXT')
               .length > 3 && (

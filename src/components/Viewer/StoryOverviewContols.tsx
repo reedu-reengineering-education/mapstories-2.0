@@ -8,7 +8,6 @@ import { Slide } from './Slide'
 import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListViewer'
 import { StoryFilterInput } from './StoryFilterInput'
 import {
-  CaretDownIcon,
   Cross1Icon,
   ExclamationTriangleIcon,
   ReloadIcon,
@@ -16,7 +15,7 @@ import {
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 import { Button } from '../Elements/Button'
-import { PlayIcon } from 'lucide-react'
+import { ListChecksIcon, PlayIcon } from 'lucide-react'
 import QuitStoryButton from './QuitStoryButton'
 import PlayStoryButton from './PlayStoryButton'
 import * as Toolbar from '@radix-ui/react-toolbar'
@@ -181,7 +180,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                   <span className="whitespace-nowrap">
                     {parseInt(page) + 1}/{story?.steps?.length}
                   </span>
-                  <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
+                  <ListChecksIcon className="h-8 w-8"></ListChecksIcon>
                 </button>
                 <Toolbar.Root
                   aria-label="StoryControls"
