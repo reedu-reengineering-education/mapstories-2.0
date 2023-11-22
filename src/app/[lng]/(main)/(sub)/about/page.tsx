@@ -16,7 +16,7 @@ export default function Page() {
         <div className="absolute bottom-0 z-20 h-1/4 w-full bg-gradient-to-b " />
         <AnimatedMap />
       </div>
-      <div className="container z-20 mx-auto my-6 flex flex-1 -translate-y-[90vh] ">
+      <div className="z-20 mx-auto my-6 flex-1 -translate-y-[90vh] p-10 ">
         <PageContent />
       </div>
     </>

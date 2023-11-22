@@ -4,37 +4,40 @@ import BMZLogo from '@/assets/images/partners/BMZ-Logo-4c.jpg'
 import fachStelleWeltkirche from '@/assets/images/partners/Fachstelle Weltkirche - Logo.png'
 import SUELogo from '@/assets/images/partners/SUE_Logo_CMYK_300dpi.jpg'
 import Image from 'next/image'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/src/components/Elements/Card'
 import MapstoriesTitlePicture from '@/assets/images/mapstoriesTab.jpg'
+
 export default function MapstoriesTab() {
   const lng = useBoundStore(state => state.language)
   //@ts-ignore
   const { t } = useTranslation(lng, 'mapstoriesTab')
 
   return (
-    <div className="flex flex-col gap-10 p-10">
-      <div className="align-center flex flex-col gap-10">
-        <div className="justiven flex flex-row items-center gap-20">
-          <div className="w-8/12">
-            {/* @ts-ignore */}
+    <Card>
+      <CardHeader>
+        <CardTitle>Was sind Mapstories?</CardTitle>
+        <CardDescription></CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-row justify-between">
+          <div className="basis-3/4">
             <div>{t('text1')}</div>
-
-            <div>
+            <span>{t('text2_1')}</span>{' '}
+            <a className="text-blue-500" href={`/${lng}/gallery/all`}>
               {/* @ts-ignore */}
-              <span>{t('text2_1')}</span>{' '}
-              <a className="text-blue-500" href={`/${lng}/gallery/all`}>
-                {/* @ts-ignore */}
-
-                {t('gallery')}
-              </a>{' '}
-              {/* @ts-ignore */}
-              <span> {t('text2_2')}</span>
-            </div>
-            <br></br>
+              {t('gallery')}
+            </a>{' '}
             {/* @ts-ignore */}
-
-            <h3>{t('sponsoredBy')}</h3>
+            <span> {t('text2_2')}</span>
           </div>
-          <div className="flex w-3/12 flex-col items-center gap-2">
+          <div className="basis-2/6">
             <Image alt="Workshop Foto" src={MapstoriesTitlePicture} />
             <span className="text-center text-slate-600">
               {/* @ts-ignore */}
@@ -43,6 +46,8 @@ export default function MapstoriesTab() {
             </span>
           </div>
         </div>
+      </CardContent>
+      <CardFooter>
         <div className="flex flex-row justify-evenly">
           {/* @ts-ignore */}
           <div className="flex flex-1 flex-col items-center gap-4 p-8">
@@ -78,8 +83,8 @@ export default function MapstoriesTab() {
               <Image alt="SUE Logo" src={SUELogo} />
             </a>
           </div>
-        </div>
-      </div>
-    </div>
+        </div>{' '}
+      </CardFooter>
+    </Card>
   )
 }
