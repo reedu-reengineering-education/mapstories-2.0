@@ -160,6 +160,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
               )}
               {!showSlides && (
                 <SlidesOverview
+                  lng={lng}
                   page={slug[1]}
                   slug={slug[0]}
                   story={story}

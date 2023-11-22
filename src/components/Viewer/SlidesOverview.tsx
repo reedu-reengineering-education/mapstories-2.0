@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import {
@@ -9,20 +9,20 @@ import {
   TableHeader,
   TableRow,
 } from '../Elements/Table'
+import { useTranslation } from '@/src/app/i18n/client'
 
 type Props = {
+  lng: string
   page: string
   slug: string
   story: any
 }
 
-export function SlidesOverview({ page, slug, story }: Props) {
+export function SlidesOverview({ lng, page, slug, story }: Props) {
   const router = useRouter()
   const path = usePathname()
 
-  useEffect(() => {
-    console.log(story)
-  }, [])
+  const { t } = useTranslation(lng, 'slidesOverview')
 
   const goToStep = (position: number) => {
     const pathLocal =
@@ -40,21 +40,21 @@ export function SlidesOverview({ page, slug, story }: Props) {
         </p>
         <p>
           {' '}
-          <b>Author:</b> {story.author}
+          <b>{t('author')}:</b> {story.author}
         </p>
         <p>
-          <b> Created at:</b> {story.createdAt.toLocaleString()}
+          <b> {t('createdAt')}:</b> {story.createdAt.toLocaleString()}
         </p>
         <p>
-          <b> Last updated at:</b> {story.updatedAt.toLocaleString()}
+          <b> {t('lastUpdateAt')}:</b> {story.updatedAt.toLocaleString()}
         </p>
       </div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Position</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Number of content items</TableHead>
+            <TableHead>{t('position')}</TableHead>
+            <TableHead>{t('title')}</TableHead>
+            <TableHead>{t('numberOfItems')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
