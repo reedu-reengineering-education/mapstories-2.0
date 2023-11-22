@@ -5,7 +5,8 @@ import useMedia from '@/src/lib/api/media/useMedia'
 import { useEffect, useState } from 'react'
 import SizedImage from '../Elements/SizedImage'
 import { Media } from '@prisma/client'
-
+import logoNoText from '@/assets/logos/logo_no_text.png'
+import Image from 'next/image'
 type Props = {
   story: any
   firstStepId: string
@@ -18,23 +19,33 @@ export function ViewerPopup({ story, firstStepId, mediaId }: Props) {
 
   useEffect(() => {
     const getMediaWrapper = async () => {
-      const media = (await getMedia(mediaId)) as Media
-      const response = await getS3Image(media)
-      setMediaUrl(response)
+      for (let i = 0; i < story.firstStep.content.length; i++) {
+        const contentLoop = story.firstStep.content[i]
+        if (contentLoop.type === 'IMAGE') {
+          const media = (await getMedia(contentLoop.mediaId)) as Media
+          const response = await getS3Image(media)
+          setMediaUrl(response)
+          break
+        }
+      }
     }
     getMediaWrapper()
   }, [])
 
   return (
-    <div className="flex flex-row items-center p-0.5">
-      <SizedImage
-        alt={'popup'}
-        size={'xs'}
-        src={mediaUrl ? mediaUrl : ''}
-        variant="round"
-      />
-      <div className="text-center   text-xs font-extrabold ">
-        {'How to Mapstory: Auf dem Weg zu mehr Nachhaltigkeit  '}
+    <div className="border-round flex flex-row items-center border-slate-200 p-1  ">
+      {mediaUrl && (
+        <SizedImage alt={'popup'} size={'xs'} src={mediaUrl} variant="round" />
+      )}
+      {!mediaUrl && (
+        <Image
+          alt="Mapstories Logo"
+          className="h-10 w-10 p-0.5"
+          src={logoNoText}
+        />
+      )}
+      <div className="py-2 text-center  text-xs font-extrabold ">
+        {story.name}
       </div>
     </div>
   )
