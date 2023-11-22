@@ -34,50 +34,40 @@ export default function PageContent() {
       leaveTo="opacity-0"
       show={isShowing}
     >
-      <div>
-        <div className="re-basic-box  p-15 bg-white">
-          <Tabs
-            forceRenderTabPanel={true}
-            selectedTabClassName="font-extrabold text-3xl bg-slate-50 rounded"
-          >
-            <TabList className="rounded bg-zinc-300 bg-opacity-100 px-10 pt-5">
-              {/* @ts-ignore */}
-              <Tab>{t('tab1_title')}</Tab>
-              {/* @ts-ignore */}
-              <Tab>{t('tab2_title')}</Tab>
-              {/* @ts-ignore */}
-              <Tab>{t('tab3_title')}</Tab>
-              {/* @ts-ignore */}
-              <Tab>{t('tab4_title')}</Tab>
-              {/* @ts-ignore */}
-              <Tab>{t('tab5_title')}</Tab>
-              {/* <Tab>{t('tab4_title')}</Tab> */}
-            </TabList>
-            <TabPanel>
-              <MapstoriesTab />
-            </TabPanel>
-            <TabPanel>
-              <OurStoryTab />
-            </TabPanel>
-            <TabPanel>
-              <OfferTab />
-            </TabPanel>
-            <TabPanel>
-              <SupportTab />
-            </TabPanel>
-            <TabPanel>
-              <FAQTab />
-            </TabPanel>
-            {/* <TabPanel>
-              <div className="flex flex-col gap-8">
-                <div className="flex flex-col gap-8">
-                  <h2 className="text-2xl font-bold">{t('tab4_title')}</h2>
-                  <p>{t('tab4_text')}</p>
-                </div>
-              </div>
-            </TabPanel> */}
-          </Tabs>
-        </div>
+      <div className="re-basic-box p-15 flex bg-white">
+        <Tabs
+          forceRenderTabPanel={true}
+          selectedTabClassName="font-extrabold text-3xl bg-slate-50 rounded"
+        >
+          <TabList className="rounded bg-zinc-300 bg-opacity-100 px-10 pt-5">
+            {/* @ts-ignore */}
+            <Tab>{t('tab1_title')}</Tab>
+            {/* @ts-ignore */}
+            <Tab>{t('tab2_title')}</Tab>
+            {/* @ts-ignore */}
+            <Tab>{t('tab3_title')}</Tab>
+            {/* @ts-ignore */}
+            <Tab>{t('tab4_title')}</Tab>
+            {/* @ts-ignore */}
+            <Tab>{t('tab5_title')}</Tab>
+            {/* <Tab>{t('tab4_title')}</Tab> */}
+          </TabList>
+          <TabPanel>
+            <MapstoriesTab />
+          </TabPanel>
+          <TabPanel>
+            <OurStoryTab />
+          </TabPanel>
+          <TabPanel>
+            <OfferTab />
+          </TabPanel>
+          <TabPanel>
+            <SupportTab />
+          </TabPanel>
+          <TabPanel>
+            <FAQTab />
+          </TabPanel>
+        </Tabs>
       </div>
     </Transition>
   )

@@ -17,8 +17,9 @@ import { Button } from '../Elements/Button'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { CaretDownIcon } from '@radix-ui/react-icons'
+import { ListBulletIcon } from '@radix-ui/react-icons'
 import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListViewer'
+import SlidesOverview from './SlidesOverview'
 
 type Props = {
   filter: string
@@ -34,6 +35,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
   const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight)
   const [openInput, setOpenInput] = useState<boolean>(false)
+  const [showSlides, setShowSlides] = useState<boolean>(true)
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
@@ -133,12 +135,9 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
               <div>
                 <button
                   className="flex items-center"
-                  onClick={() => setOpenInput(!openInput)}
+                  onClick={() => setShowSlides(!showSlides)}
                 >
-                  <span className="whitespace-nowrap">
-                    {parseInt(slug[1]) + 1}/{story?.steps?.length}
-                  </span>
-                  <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
+                  <ListBulletIcon className="h-8 w-8"></ListBulletIcon>
                 </button>
                 <div className="absolute top-0 px-16">
                   <StorySlideListViewer
@@ -156,7 +155,16 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             </div>
 
             <div className="overflow-y-auto overflow-x-hidden lg:h-full">
-              <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
+              {showSlides && (
+                <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
+              )}
+              {!showSlides && (
+                <SlidesOverview
+                  page={slug[1]}
+                  slug={slug[0]}
+                  story={story}
+                ></SlidesOverview>
+              )}
             </div>
           </div>
         )}
