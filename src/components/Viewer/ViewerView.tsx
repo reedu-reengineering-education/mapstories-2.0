@@ -436,9 +436,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                           // @ts-ignore
                           firstStepId={stories[i].firstStepId}
                           // @ts-ignore
-                          mediaId={
-                            stories[i].firstStep.content ?? 
-                          }
                           story={stories[i]}
                         />
                       </div>
