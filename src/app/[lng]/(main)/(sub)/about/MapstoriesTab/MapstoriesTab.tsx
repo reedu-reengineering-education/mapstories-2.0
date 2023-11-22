@@ -27,7 +27,7 @@ export default function MapstoriesTab() {
       </CardHeader>
       <CardContent>
         <div className="flex flex-row justify-between">
-          <div className="basis-3/4">
+          <div className="lg:basis-3/4">
             <div>{t('text1')}</div>
             <span>{t('text2_1')}</span>{' '}
             <a className="text-blue-500" href={`/${lng}/gallery/all`}>
@@ -37,7 +37,7 @@ export default function MapstoriesTab() {
             {/* @ts-ignore */}
             <span> {t('text2_2')}</span>
           </div>
-          <div className="basis-2/6">
+          <div className="hidden basis-1/6 lg:flex ">
             <Image alt="Workshop Foto" src={MapstoriesTitlePicture} />
             <span className="text-center text-slate-600">
               {/* @ts-ignore */}
@@ -48,7 +48,7 @@ export default function MapstoriesTab() {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex flex-row justify-evenly">
+        <div className="flex basis-3/4 flex-row justify-evenly">
           {/* @ts-ignore */}
           <div className="flex flex-1 flex-col items-center gap-4 p-8">
             {/* @ts-ignore */}

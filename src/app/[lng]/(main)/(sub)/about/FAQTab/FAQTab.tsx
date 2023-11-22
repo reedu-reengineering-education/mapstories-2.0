@@ -67,7 +67,7 @@ export default function FAQTab() {
           <Collapsible>
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
               {/* @ts-ignore */}
-              {t('faq3_title')}
+              {t('faq3_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
@@ -78,7 +78,7 @@ export default function FAQTab() {
           <Collapsible>
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
               {/* @ts-ignore */}
-              {t('faq4_title')}
+              {t('faq4_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
@@ -89,7 +89,7 @@ export default function FAQTab() {
           <Collapsible>
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
               {/* @ts-ignore */}
-              {t('faq5_title')}
+              {t('faq5_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">

@@ -30,7 +30,7 @@ export default function PageContent() {
 
   return (
     <Tabs defaultValue="mapstories">
-      <TabsList className="bg-white">
+      <TabsList className="bg-white" data-orientation="horizontal">
         <TabsTrigger value="mapstories">{t('tab1_title')}</TabsTrigger>
         <TabsTrigger value="ourStory">{t('tab2_title')}</TabsTrigger>
         <TabsTrigger value="offer">{t('tab3_title')}</TabsTrigger>
