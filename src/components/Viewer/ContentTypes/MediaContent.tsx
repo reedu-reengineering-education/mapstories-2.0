@@ -14,7 +14,7 @@ interface MediaContentProps extends React.HTMLAttributes<HTMLFormElement> {
 export function MediaContent({ content }: MediaContentProps) {
   const [mediaUrl, setMediaUrl] = React.useState<any>(null)
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [imageSize, setImageSize] = React.useState<string>('s')
+  const [imageSize, setImageSize] = React.useState<string>('m')
   const [source, setSource] = React.useState<string>('')
   const { getMedia } = useMedia(content.storyStepId)
   React.useEffect(() => {

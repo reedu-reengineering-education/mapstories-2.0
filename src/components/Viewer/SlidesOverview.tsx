@@ -49,7 +49,7 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
         </p>
         <p>
           {/* @ts-ignore */}
-          <b> {t('lastUpdateAt')}:</b> {story.updatedAt.toLocaleString()}
+          <b> {t('lastUpdatedAt')}:</b> {story.updatedAt.toLocaleString()}
         </p>
       </div>
       <Table>

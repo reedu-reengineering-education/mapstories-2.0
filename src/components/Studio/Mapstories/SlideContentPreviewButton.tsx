@@ -69,7 +69,7 @@ export default function SlideContentPreviewButton({
       <Wrapper>
         <IconComponent />
         <div className="hover:bg-hover">
-          {content.replaceAll('*', '').replaceAll('~', '')}
+          {content.substring(0, 12).replaceAll('*', '').replaceAll('~', '')}
         </div>
       </Wrapper>
     )
