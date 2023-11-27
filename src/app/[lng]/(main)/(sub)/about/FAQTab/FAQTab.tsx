@@ -12,6 +12,7 @@ import {
   CollapsibleTrigger,
 } from '@/src/components/Elements/Collapsible'
 import { ChevronsUpDown } from 'lucide-react'
+
 export default function FAQTab() {
   const lng = useBoundStore(state => state.language)
   //@ts-ignore
@@ -23,6 +24,7 @@ export default function FAQTab() {
       <CardContent>
         <div className="flex flex-col gap-2">
           <Collapsible>
+            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
               {/* @ts-ignore */}
               {t('faq1_title')}{' '}
@@ -36,6 +38,7 @@ export default function FAQTab() {
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
+            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
               {/* @ts-ignore */}
               {t('faq2_title')}{' '}
@@ -65,6 +68,7 @@ export default function FAQTab() {
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
+            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
               {/* @ts-ignore */}
               {t('faq3_title')}{' '}
@@ -76,6 +80,7 @@ export default function FAQTab() {
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
+            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
               {/* @ts-ignore */}
               {t('faq4_title')}{' '}
@@ -87,11 +92,13 @@ export default function FAQTab() {
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
+            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
               {/* @ts-ignore */}
               {t('faq5_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
+            {/* @ts-ignore */}
             <CollapsibleContent className="bg-slate-50 p-2">
               {/* @ts-ignore */}
               {t('faq5_text')}{' '}

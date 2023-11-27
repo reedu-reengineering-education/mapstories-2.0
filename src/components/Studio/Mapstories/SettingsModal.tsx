@@ -134,11 +134,11 @@ export default function SettingsModal({
               size={100}
               {...register('name')}
             />
+            {/* @ts-ignore */}
             <InputLabel> {t('settingsModal:author')}</InputLabel>
             <Input
               defaultValue={story.author || ''}
               errors={errors.author}
-              label={t('settingsModal:author')}
               size={100}
               {...register('author')}
             />

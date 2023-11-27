@@ -17,11 +17,11 @@ type Props = {
   slug: string
   story: any
 }
-
 export function SlidesOverview({ lng, page, slug, story }: Props) {
   const router = useRouter()
   const path = usePathname()
 
+  //@ts-ignore
   const { t } = useTranslation(lng, 'slidesOverview')
 
   const goToStep = (position: number) => {
@@ -40,20 +40,26 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
         </p>
         <p>
           {' '}
+          {/* @ts-ignore */}
           <b>{t('author')}:</b> {story.author}
         </p>
         <p>
+          {/* @ts-ignore */}
           <b> {t('createdAt')}:</b> {story.createdAt.toLocaleString()}
         </p>
         <p>
+          {/* @ts-ignore */}
           <b> {t('lastUpdateAt')}:</b> {story.updatedAt.toLocaleString()}
         </p>
       </div>
       <Table>
         <TableHeader>
           <TableRow>
+            {/* @ts-ignore */}
             <TableHead>{t('position')}</TableHead>
+            {/* @ts-ignore */}
             <TableHead>{t('title')}</TableHead>
+            {/* @ts-ignore */}
             <TableHead>{t('numberOfItems')}</TableHead>
           </TableRow>
         </TableHeader>

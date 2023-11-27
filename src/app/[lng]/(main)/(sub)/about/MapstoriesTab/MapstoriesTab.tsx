@@ -28,7 +28,9 @@ export default function MapstoriesTab() {
       <CardContent>
         <div className="flex flex-row justify-between">
           <div className="lg:basis-3/4">
+            {/* @ts-ignore */}
             <div>{t('text1')}</div>
+            {/* @ts-ignore */}
             <span>{t('text2_1')}</span>{' '}
             <a className="text-blue-500" href={`/${lng}/gallery/all`}>
               {/* @ts-ignore */}

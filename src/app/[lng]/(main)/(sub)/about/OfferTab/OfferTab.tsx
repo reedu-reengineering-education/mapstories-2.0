@@ -20,22 +20,29 @@ export default function OfferTab() {
   return (
     <Card>
       <CardHeader>
+        {/* @ts-ignore */}
         <CardTitle>{t('title')}</CardTitle>
+        {/* @ts-ignore */}
         <CardDescription>{t('text1')}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-row items-center">
           <div className="basis-2/3 p-2">
             <div>
+              {/* @ts-ignore */}
               <b>{t('text2Title')}</b>
+              {/* @ts-ignore */}
               <p>{t('text2')}</p>
             </div>
             <div>
+              {/* @ts-ignore */}
               <b>{t('text3Title')}</b>
+              {/* @ts-ignore */}
               <p>{t('text3')}</p>
             </div>
             <div>
               <p>
+                {/* @ts-ignore */}
                 <b>{t('text4Title')}</b>
               </p>
               <span>
@@ -65,7 +72,6 @@ export default function OfferTab() {
           <div className="flex w-4/12 flex-col items-center gap-2">
             <Image alt="Workshop Foto" src={WorkshopFoto} />
             {/* @ts-ignore */}
-
             <span className="text-slate-600">{t('imageSubtitle')}</span>
           </div>
         </div>

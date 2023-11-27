@@ -31,10 +31,15 @@ export default function PageContent() {
   return (
     <Tabs defaultValue="mapstories">
       <TabsList className="bg-white" data-orientation="horizontal">
+        {/* @ts-ignore */}
         <TabsTrigger value="mapstories">{t('tab1_title')}</TabsTrigger>
+        {/* @ts-ignore */}
         <TabsTrigger value="ourStory">{t('tab2_title')}</TabsTrigger>
+        {/* @ts-ignore */}
         <TabsTrigger value="offer">{t('tab3_title')}</TabsTrigger>
+        {/* @ts-ignore */}
         <TabsTrigger value="support">{t('tab4_title')}</TabsTrigger>
+        {/* @ts-ignore */}
         <TabsTrigger value="faq">{t('tab5_title')}</TabsTrigger>
       </TabsList>
       <TabsContent className="bg-white" value="mapstories">

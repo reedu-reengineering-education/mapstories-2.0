@@ -20,7 +20,9 @@ export default function SupportTab() {
   return (
     <Card>
       <CardHeader>
+        {/* @ts-ignore */}
         <CardTitle>{t('title')}</CardTitle>
+        {/* @ts-ignore */}
         <CardDescription>{t('text1')}</CardDescription>
       </CardHeader>
       <CardContent>
@@ -28,18 +30,20 @@ export default function SupportTab() {
           {/* @ts-ignore */}
           <b>{t('text2Title')}</b>
         </p>
+        {/* @ts-ignore */}
         <p>{t('text2')}</p>
         <p>
           {/* @ts-ignore */}
 
           <b>{t('text3Title')}</b>
         </p>
+        {/* @ts-ignore */}
         <p>{t('text3')}</p>
         <p>
           {/* @ts-ignore */}
-
           <b>{t('text4Title')}</b>
         </p>
+        {/* @ts-ignore */}
         <p>{t('text4')}</p>
         <p>
           {/* @ts-ignore */}

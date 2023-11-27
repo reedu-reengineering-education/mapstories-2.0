@@ -20,7 +20,9 @@ export default function OurStoryTab() {
   return (
     <Card>
       <CardHeader>
+        {/* @ts-ignore */}
         <CardTitle>{t('title')}</CardTitle>
+        {/* @ts-ignore */}
         <CardDescription>{t('text1')} </CardDescription>
       </CardHeader>
       <CardContent>
@@ -44,6 +46,7 @@ export default function OurStoryTab() {
             {t('text3')}
           </div>
           <br></br>
+          {/* @ts-ignore */}
           <h3>{t('textIntroDevelopers')}</h3>
         </div>
       </CardContent>
