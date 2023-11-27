@@ -71,7 +71,7 @@ export function StorySlideListViewer({
 
   const variantsItem = {
     open: (i: number) => ({
-      opacity: 0.85,
+      opacity: 1,
       y: 0,
       transition: {
         y: { stiffness: 1000, velocity: -100 },
@@ -92,7 +92,7 @@ export function StorySlideListViewer({
     <div className={slidesOpen ? 'block ' : 'hidden '}>
       <motion.ul
         animate={slidesOpen ? 'open' : 'closed'}
-        className="re-viewer-slides absolute px-2 py-4"
+        className="re-viewer-slides absolute bg-white px-2 py-4"
         exit={'closed'}
         variants={variantsList}
       >

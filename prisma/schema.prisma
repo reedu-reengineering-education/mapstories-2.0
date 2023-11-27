@@ -87,6 +87,7 @@ model Story {
   name        String?
   slug        String      @unique
   description String?
+  author      String? 
   theme       Theme?  @relation(fields: [themeId], references: [name])
   themeId     String?     
   steps       StoryStep[] @relation("steps")

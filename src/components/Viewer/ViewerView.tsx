@@ -5,7 +5,6 @@ import { Fragment, useCallback, useEffect, useState } from 'react'
 import { MapRef, Popup, Source } from 'react-map-gl'
 import { Feature, GeoJsonProperties, LineString } from 'geojson'
 // import { LineString } from 'geojson'
-import { Button } from './../Elements/Button'
 import { usePathname, useRouter } from 'next/navigation'
 import mapboxgl from 'mapbox-gl'
 import React from 'react'
@@ -15,9 +14,9 @@ import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
-import { StoryBadge } from '../Studio/Mapstories/StoryBadge'
 import { applyTheme } from '@/src/helper/applyTheme'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
+import { ViewerPopup } from './ViewerPopup'
 
 type ViewerViewProps = {
   inputStories:
@@ -44,7 +43,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const [savedView, setSavedView] = useState<any>()
   const [startView, setStartView] = useState<any>()
   const [pathend2, setPathend2] = useState<string | undefined>('')
-
+  const [mediaUrl, setMediaUrl] = useState<string | undefined>('')
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
@@ -68,7 +67,9 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
   useEffect(() => {
     if (inputStories && inputStories.length > 0) {
-      setViewerStories(inputStories)
+      if (inputStories.map(story => story.id).indexOf(storyID) != -1) {
+        setViewerStories(inputStories)
+      }
     }
   }, [inputStories])
 
@@ -88,6 +89,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
     if (path?.split('/').at(-2) === 'gallery') {
       setStoryID('')
+      setViewerStories(inputStories)
+      if (savedView) {
+        mapRef.current?.fitBounds(savedView)
+      }
       // setViewerStories([])
     }
   }, [path])
@@ -378,12 +383,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       mapRef.current?.flyTo({
         center: startView.getCenter(),
         zoom: calculateZoomLogarithmic(distance),
-        offset: [
-          windowWidth > 820 && windowHeight > 600
-            ? windowWidth / 7
-            : -windowWidth / 4,
-          75,
-        ],
+        offset: [-windowWidth / 5, 75],
       })
       // mapRef.current?.fitBounds(startView, {
       //   offset: [windowWidth > 820 ? windowWidth / 3 : -windowWidth / 4, 0],
@@ -422,32 +422,22 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
                   {storyID === '' && (
                     <Popup
-                      anchor="top"
+                      anchor="bottom"
                       closeOnClick={false}
                       latitude={m.geometry.coordinates[0][1]}
                       longitude={m.geometry.coordinates[0][0]}
                       // onClose={() => setPopupInfo(null)}
                     >
-                      <div className="re-basic-box-no-filter hidden overflow-hidden lg:flex">
-                        <div className="p-2 lg:p-5">
-                          <StoryBadge mode={m.properties?.mode} />
-                          <h3>{m.properties?.name}</h3>
-                          <p> {m.properties?.desc}</p>
-                          <div className="mt-2 flex justify-end">
-                            <Button className="" onClick={() => selectStory(m)}>
-                              {t('more')}
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="re-basic-box-no-filter lg:hidden">
-                        <div className="flex flex-col items-center justify-center p-1">
-                          <StoryBadge mode={m.properties?.mode} />
-                          <p className="font-bold">{m.properties?.name}</p>
-                          <Button onClick={() => selectStory(m)} size={'sm'}>
-                            {t('more')}
-                          </Button>{' '}
-                        </div>
+                      <div
+                        className="cursor-pointer rounded-xl border-slate-500 bg-white shadow-xl"
+                        onClick={() => selectStory(m)}
+                      >
+                        <ViewerPopup
+                          // @ts-ignore
+                          firstStepId={stories[i].firstStepId}
+                          // @ts-ignore
+                          story={stories[i]}
+                        />
                       </div>
                     </Popup>
                   )}

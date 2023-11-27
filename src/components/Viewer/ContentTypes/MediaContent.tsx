@@ -20,9 +20,7 @@ export function MediaContent({ content }: MediaContentProps) {
   React.useEffect(() => {
     const getMediaWrapper = async () => {
       if (
-        (content.type === 'IMAGE' ||
-          content.type === 'AUDIO' ||
-          content.type === 'VIDEO') &&
+        (content.type === 'IMAGE' || content.type === 'AUDIO') &&
         mediaUrl === null
       ) {
         setIsLoading(true)
@@ -62,14 +60,6 @@ export function MediaContent({ content }: MediaContentProps) {
             src={mediaUrl ? mediaUrl : ''}
           />
         )}
-      {!isLoading && content.type === 'VIDEO' && (
-        <ReactPlayer
-          controls={true}
-          height="100%"
-          url={mediaUrl}
-          width="100%"
-        />
-      )}
       {!isLoading && content.type === 'AUDIO' && (
         <ReactPlayer
           controls={true}

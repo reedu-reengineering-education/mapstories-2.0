@@ -202,20 +202,20 @@ export default function StorySourceLayer({
             type="geojson"
           >
             {/* @ts-ignore */}
-            <Layer
+            {/* <Layer
               {...lineOutlineStyle}
               id={m.properties?.id.toString() + 'outline'}
-            />
+            /> */}
             {/* @ts-ignore */}
             <Layer
               {...getLineStyle(storyID)}
               id={m.properties?.id.toString() + 'normal'}
             />
             {/* @ts-ignore */}
-            <Layer
+            {/* <Layer
               {...lineBufferForMouseEvent}
               id={m.properties?.id.toString() + 'buffer'}
-            />
+            /> */}
           </Source>
         ))}
       {lineDataDone && (

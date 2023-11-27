@@ -134,6 +134,14 @@ export default function SettingsModal({
               size={100}
               {...register('name')}
             />
+            {/* @ts-ignore */}
+            <InputLabel> {t('settingsModal:author')}</InputLabel>
+            <Input
+              defaultValue={story.author || ''}
+              errors={errors.author}
+              size={100}
+              {...register('author')}
+            />
             <TextareaLabel>{t('settingsModal:description')}</TextareaLabel>
             <Textarea
               cols={60}

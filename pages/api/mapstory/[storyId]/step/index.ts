@@ -10,6 +10,13 @@ import { reorderTimeline } from './timelineReorder'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
+      const language = req.cookies.i18next ?? 'en'
+      const titleText: any = {
+        en: 'Your title',
+        de: 'Deine Überschrift',
+        es: 'Tu título',
+        fr: 'Votre titre',
+      }
       const storyId = req.query.storyId as string
 
       const story = await db.story.findFirst({
@@ -46,7 +53,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       await db.slideContent.create({
         data: {
           type: 'TITLE',
-          content: 'Deine Überschrift',
+          content: titleText[language],
           position: 0,
           storyStepId: newStep.id,
         },

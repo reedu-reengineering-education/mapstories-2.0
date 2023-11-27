@@ -68,13 +68,9 @@ export default function SlideContentPreviewButton({
     return (
       <Wrapper>
         <IconComponent />
-        <MarkdownPreview
-          className="hover:bg-hover"
-          source={
-            content.length > 13 ? content.substring(0, 12) + '...' : content
-          }
-          style={markdownPreviewStyles}
-        />
+        <div className="hover:bg-hover">
+          {content.replaceAll('*', '').replaceAll('~', '')}
+        </div>
       </Wrapper>
     )
   }

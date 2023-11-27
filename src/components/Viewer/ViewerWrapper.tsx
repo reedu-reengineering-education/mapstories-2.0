@@ -2,7 +2,6 @@
 
 import { Slides } from '@/src/components/Viewer/Slides'
 import { StoryOverviewControls } from '@/src/components/Viewer/StoryOverviewContols'
-import { StoryPlayButtons } from '@/src/components/Viewer/StoryPlayButtons'
 import { SingleStepBackButton } from '@/src/components/Viewer/SingleStepBackButton'
 import TimelineChartWrapper from '@/src/components/Timeline/TimelineChartWrapper'
 import { SingleStepForwardButton } from '@/src/components/Viewer/SingleStepForwardButton'
@@ -18,8 +17,9 @@ import { Button } from '../Elements/Button'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { CaretDownIcon } from '@radix-ui/react-icons'
+import { ListBulletIcon } from '@radix-ui/react-icons'
 import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListViewer'
+import SlidesOverview from './SlidesOverview'
 
 type Props = {
   filter: string
@@ -35,6 +35,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
   const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight)
   const [openInput, setOpenInput] = useState<boolean>(false)
+  const [showSlides, setShowSlides] = useState<boolean>(true)
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
@@ -97,8 +98,8 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           </Modal.Footer>
         </Modal>
       )}
-      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline lg:justify-between ">
-        <div className="absolute bottom-[50%] left-1 z-10 lg:hidden">
+      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline ">
+        <div className="absolute bottom-[50%] left-1 z-10 ">
           <SingleStepBackButton
             page={slug[1]}
             slug={slug[0]}
@@ -106,7 +107,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             variant={'navbar'}
           ></SingleStepBackButton>
         </div>
-        <div className="absolute bottom-[50%] right-1 z-20 lg:hidden">
+        <div className="absolute bottom-[50%] right-1 z-20">
           <SingleStepForwardButton
             page={slug[1]}
             slug={slug[0]}
@@ -117,7 +118,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
         <div
           className={cx(
             slug[1] === 'start' ? 'flex overflow-auto' : 'hidden',
-            're-basic-box z-[60] h-fit max-h-full w-[55%] bg-white px-4 lg:flex lg:max-w-[40%]',
+            're-basic-box z-[60] h-fit max-h-full w-[55%] bg-white px-4 lg:max-w-[50%]',
           )}
         >
           <StoryOverviewControls
@@ -129,30 +130,42 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           ></StoryOverviewControls>
         </div>
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-[60]  max-h-full w-[55%]  self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[40%]">
-            <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2  lg:hidden">
-              <button
-                className="flex items-center"
-                onClick={() => setOpenInput(!openInput)}
-              >
-                <span className="whitespace-nowrap">
-                  {parseInt(slug[1]) + 1}/{story?.steps?.length}
-                </span>
-                <CaretDownIcon className="h-8 w-8"></CaretDownIcon>
-              </button>
-              <StorySlideListViewer
-                filter={'all'}
-                page={slug[1]}
-                slidesOpen={openInput}
-                slug={slug[0]}
-                story={story}
-              ></StorySlideListViewer>
+          <div className="re-basic-box z-[60]  max-h-full w-[55%]  self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[50%]">
+            <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2 ">
+              <div>
+                <button
+                  className="flex items-center"
+                  onClick={() => setShowSlides(!showSlides)}
+                >
+                  <ListBulletIcon className="h-8 w-8"></ListBulletIcon>
+                </button>
+                <div className="absolute top-0 px-16">
+                  <StorySlideListViewer
+                    filter={'all'}
+                    page={slug[1]}
+                    slidesOpen={openInput}
+                    slug={slug[0]}
+                    story={story}
+                  ></StorySlideListViewer>
+                </div>
+              </div>
+
               <RestartStoryButton slug={slug[0]} />
               <QuitStoryButton slug={slug[0]} />
             </div>
 
             <div className="overflow-y-auto overflow-x-hidden lg:h-full">
-              <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
+              {showSlides && (
+                <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
+              )}
+              {!showSlides && (
+                <SlidesOverview
+                  lng={lng}
+                  page={slug[1]}
+                  slug={slug[0]}
+                  story={story}
+                ></SlidesOverview>
+              )}
             </div>
           </div>
         )}
@@ -186,16 +199,6 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
               ></SingleStepForwardButton>
             </div>
           </>
-        )}
-        {story?.mode === StoryMode.NORMAL && (
-          <div className="z-20 hidden lg:block">
-            <StoryPlayButtons
-              page={slug[1]}
-              slug={slug[0]}
-              story={story}
-              // toggleSlides={toggleSlidesOpen}
-            ></StoryPlayButtons>
-          </div>
         )}
       </div>
     </div>

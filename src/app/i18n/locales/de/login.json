@@ -1,5 +1,5 @@
 {
-  "welcome_back": "Willkommen zurück",
+  "welcome_back": "Willkommen!",
   "enter_email_for_signin": "Gib deine E-Mail-Adresse ein, um dich anzumelden.",
   "no_account": "Noch keinen Account? Hier registrieren!",
   "back": "Zurück",
@@ -9,5 +9,11 @@
   "check_mail": "Prüfe dein E-Mail-Postfach",
   "send_login_link": "Wir haben dir einen Link zum Anmelden geschickt.",
   "success": "E-Mail erfolgreich versendet",
-  "check_mail_for_sign_in": "Klicke auf den Link in deinem E-Mail-Postfach, um dich anzumelden."
+  "check_mail_for_sign_in": "Klicke auf den Link in deinem E-Mail-Postfach, um dich anzumelden.",
+  "createAccountTitle": "Ein Konto erstellen",
+  "createAccountText": "Geben Sie unten Ihre E-Mail-Adresse ein, um Ihr Konto zu erstellen",
+  "acceptTOS": "Indem Sie auf Weiter klicken, erklären Sie sich mit unseren",
+  "TOS": "Allgemeinen Geschäftsbedingungen",
+  "und": "und",
+  "PP": "Privacy Policy"
 }

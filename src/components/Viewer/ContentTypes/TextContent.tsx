@@ -23,7 +23,7 @@ export function TextContent({ content }: TextContentProps) {
     <div className="py-2">
       {content.content && (
         <MarkdownPreview
-          // className="hover:bg-hover"
+          //
           source={content.content}
           style={markdownPreviewStyles}
         />

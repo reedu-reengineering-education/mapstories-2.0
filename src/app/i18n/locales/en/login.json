@@ -1,5 +1,5 @@
 {
-  "welcome_back": "Welcome back",
+  "welcome_back": "Welcome!",
   "enter_email_for_signin": "Enter your email address to sign in.",
   "no_account": "Don't have an account? Register here!",
   "back": "Back",
@@ -9,5 +9,11 @@
   "check_mail": "Check your email",
   "send_login_link": "We have sent you a login link.",
   "success": "Email sent successfully",
-  "check_mail_for_sign_in": "Click on the link in your email to sign in."
+  "check_mail_for_sign_in": "Click on the link in your email to sign in.",
+  "createAccountTitle": "Create an account",
+  "createAccountText": "Enter your email below to create your account",
+  "acceptTOS": "By clicking continue, you agree to our",
+  "TOS": "Terms of Service",
+  "and": "and",
+  "PP": "Privacy Policy"
 }

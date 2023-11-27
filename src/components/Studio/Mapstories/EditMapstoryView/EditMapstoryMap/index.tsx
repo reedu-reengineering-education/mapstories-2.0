@@ -20,11 +20,11 @@ import GeocoderControl from '@/src/components/Map/GeocoderControl'
 import { toast } from '@/src/lib/toast'
 import mapboxgl from 'mapbox-gl'
 import React from 'react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { Button } from '@/src/components/Elements/Button'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
-  currentStepId: string
+  currentStep: StoryStep
 }
 
 export interface StepMarker extends MarkerProps {
@@ -34,7 +34,7 @@ export interface StepMarker extends MarkerProps {
 
 export default function EditMapstoryMap({
   steps,
-  currentStepId,
+  currentStep,
 }: EditMapstoryMapProps) {
   const router = useRouter()
 
@@ -45,7 +45,7 @@ export default function EditMapstoryMap({
   const mapRef = React.createRef<MapRef>()
 
   const { story } = useStory(storyId)
-  const { updateStep } = useStep(currentStepId)
+  const { updateStep } = useStep(currentStep.id)
   const [settings, setSettings] = useState({
     scrollZoom: true,
     boxZoom: true,
@@ -59,25 +59,15 @@ export default function EditMapstoryMap({
 
   // const [initialViewState, setInitialViewState] = useState({})
 
-  // useEffect(() => {
-  //   const newBounds = steps?.reduce((acc, step) => {
-  //     if (!step.feature) {
-  //       return acc
-  //     }
-  //     const geoFeature =
-  //       step.feature as unknown as GeoJSON.Feature<GeoJSON.Point>
-  //     const [lng, lat] = geoFeature.geometry.coordinates
-  //     return acc.extend([lng, lat])
-  //   }, new mapboxgl.LngLatBounds())
-
-  //   if (newBounds) {
-  //     setInitialViewState({
-  //       longitude: newBounds.getCenter().lng,
-  //       latitude: newBounds.getCenter().lat,
-  //       zoom: 2, //TODO calculate zoom level
-  //     })
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (currentStep.feature) {
+      const geojsonStep: any = currentStep.feature
+      mapRef.current?.flyTo({
+        center: geojsonStep.geometry?.coordinates,
+        zoom: 7,
+      })
+    }
+  }, [currentStep])
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
 
@@ -103,7 +93,7 @@ export default function EditMapstoryMap({
 
   // generate markers
   useEffect(() => {
-    if (!steps || !currentStepId) {
+    if (!steps || !currentStep) {
       return
     }
 
@@ -113,13 +103,13 @@ export default function EditMapstoryMap({
         const geoFeature = feature as unknown as GeoJSON.Feature<GeoJSON.Point>
         if (geoFeature?.geometry?.coordinates?.length > 0) {
           const newMarker: StepMarker = {
-            draggable: currentStepId === id,
+            draggable: currentStep.id === id,
             longitude: geoFeature.geometry.coordinates[0],
             latitude: geoFeature.geometry.coordinates[1],
             position: position,
             stepId: id,
             color:
-              currentStepId === id
+              currentStep.id === id
                 ? 'var(--active-color-border)'
                 : 'var(--inactive-color-border)',
           }
@@ -130,7 +120,7 @@ export default function EditMapstoryMap({
     // @ts-ignore
     setMarkers(newMarkers)
     // handleRemovePoint()
-  }, [currentStepId, steps])
+  }, [currentStep, steps])
 
   useEffect(() => {
     if (story && story.steps) {
@@ -162,7 +152,7 @@ export default function EditMapstoryMap({
   }, [story])
 
   useEffect(() => {
-    const settingsValue = currentStepId !== story?.firstStepId
+    const settingsValue = currentStep.id !== story?.firstStepId
     setSettings({
       boxZoom: settingsValue,
       doubleClickZoom: settingsValue,
@@ -174,14 +164,14 @@ export default function EditMapstoryMap({
       touchZoomRotate: settingsValue,
     })
 
-    if (currentStepId == story?.firstStepId && story.steps) {
+    if (currentStep.id == story?.firstStepId && story.steps) {
       if (mapRef && extend) {
         mapRef.current?.fitBounds(extend, {
           padding: 100,
         })
       }
     }
-  }, [currentStepId])
+  }, [currentStep])
 
   const handleMouseMove = (e: mapboxgl.MapLayerMouseEvent) => {
     const hoverSteps = e.features
@@ -227,7 +217,8 @@ export default function EditMapstoryMap({
       {...settings}
       interactiveLayerIds={['step-hover']}
       onClick={e => {
-        if (currentStepId === story?.firstStepId) {
+        setGeocoderResult(undefined)
+        if (currentStep.id === story?.firstStepId) {
           toast({
             title: 'Dies ist deine Titelfolie.',
             message: 'Hier kannst du keinen Marker setzen.',
@@ -292,10 +283,14 @@ export default function EditMapstoryMap({
             latitude={geocoderResult.geometry.coordinates[1]}
             longitude={geocoderResult.geometry.coordinates[0]}
           >
-            <XMarkIcon
-              className="h-5 w-5 hover:cursor-pointer"
-              onClick={handleRemovePoint}
-            />
+            <Button
+              onClick={async () => {
+                await updateStep({ feature: geocoderResult as any })
+                handleRemovePoint()
+              }}
+            >
+              Click to set marker
+            </Button>
           </Popup>
           <Source data={geocoderResult} id="geocode-point" type="geojson">
             <Layer

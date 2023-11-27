@@ -26,7 +26,7 @@ export function MapstoryCard({ mapstory }: Props) {
   return (
     <Card>
       <Card.Header>
-        <StoryBadge mode={mapstory.mode} />
+        {mapstory.mode === 'TIMELINE' && <StoryBadge mode={mapstory.mode} />}
         <Card.Title>{mapstory.name}</Card.Title>
       </Card.Header>
       <Card.Footer>
