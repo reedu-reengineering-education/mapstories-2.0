@@ -20,8 +20,7 @@ export function MediaContent({ content }: MediaContentProps) {
   React.useEffect(() => {
     const getMediaWrapper = async () => {
       if (
-        (content.type === 'IMAGE' ||
-          content.type === 'AUDIO' ) &&
+        (content.type === 'IMAGE' || content.type === 'AUDIO') &&
         mediaUrl === null
       ) {
         setIsLoading(true)
