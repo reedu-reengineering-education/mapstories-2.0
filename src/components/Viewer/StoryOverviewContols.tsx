@@ -14,8 +14,7 @@ import {
 } from '@radix-ui/react-icons'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
-import { Button } from '../Elements/Button'
-import { ListChecksIcon, PlayIcon } from 'lucide-react'
+import { ListChecksIcon } from 'lucide-react'
 import QuitStoryButton from './QuitStoryButton'
 import PlayStoryButton from './PlayStoryButton'
 import * as Toolbar from '@radix-ui/react-toolbar'
@@ -146,23 +145,6 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                 <div className=" w-full overflow-auto overflow-x-hidden lg:h-full">
                   <Slide step={story?.firstStep}></Slide>
                 </div>
-              </div>
-              <div className="sticky bottom-0 hidden flex-row justify-end gap-6 border-t-2 bg-white py-2 lg:flex">
-                {!path?.includes('/embed/') && (
-                  <Button
-                    onClick={onClose}
-                    startIcon={<Cross1Icon className="w-4" />}
-                  >
-                    {t('close')}
-                  </Button>
-                )}
-                <Button
-                  disabled={story?.steps?.length === 0}
-                  onClick={() => startStory()}
-                  startIcon={<PlayIcon className="w-4" />}
-                >
-                  {t('play')}
-                </Button>
               </div>
               <div className="sticky bottom-0 flex flex-row justify-evenly border-t-2 bg-white py-2 lg:hidden">
                 <QuitStoryButton slug={slug} />
