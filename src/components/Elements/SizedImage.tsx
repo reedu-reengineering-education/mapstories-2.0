@@ -48,7 +48,6 @@ export default function SizedImage({
 
   const { t } = useTranslation(lng, 'embeds')
   if (src) {
-    console.log(src)
     return (
       <div className="flex flex-col items-center">
         <img
@@ -56,6 +55,7 @@ export default function SizedImage({
             'max-h-[20rem] object-scale-down',
             size == 'xs' ? 'h-10 w-10' : '',
             size == 's' ? 'h-20 w-20' : '',
+            size == 'm' ? 'h-60 w-60' : '',
             variant == 'round' ? 'rounded-full' : '',
           )}
           // className="max-h-[20rem] object-scale-down"

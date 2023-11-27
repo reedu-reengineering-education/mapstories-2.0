@@ -20,6 +20,7 @@ import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { ListBulletIcon } from '@radix-ui/react-icons'
 import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListViewer'
 import SlidesOverview from './SlidesOverview'
+import PlayStoryButton from './PlayStoryButton'
 
 type Props = {
   filter: string
@@ -128,7 +129,12 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             tags={tags}
             // toggleSlides={toggleSlidesOpen}
           ></StoryOverviewControls>
+          <div className="re-basic-box absolute bottom-10 right-[50%] z-50 hidden lg:flex lg:flex-row">
+            <QuitStoryButton size="s" slug={slug[0]} />
+            <PlayStoryButton size="s" slug={slug[0]} />
+          </div>
         </div>
+
         {slug[1] != 'start' && (
           <div className="re-basic-box z-[60]  max-h-full w-[55%]  self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[50%]">
             <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2 ">
@@ -150,8 +156,8 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
                 </div>
               </div>
 
-              <RestartStoryButton slug={slug[0]} />
-              <QuitStoryButton slug={slug[0]} />
+              <RestartStoryButton size="xs" slug={slug[0]} />
+              <QuitStoryButton size="xs" slug={slug[0]} />
             </div>
 
             <div className="overflow-y-auto overflow-x-hidden lg:h-full">
