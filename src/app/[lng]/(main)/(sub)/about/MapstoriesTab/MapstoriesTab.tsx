@@ -39,7 +39,7 @@ export default function MapstoriesTab() {
             {/* @ts-ignore */}
             <span> {t('text2_2')}</span>
           </div>
-          <div className="hidden basis-1/6 lg:flex ">
+          <div className="hidden basis-1/6 lg:flex lg:flex-col">
             <Image alt="Workshop Foto" src={MapstoriesTitlePicture} />
             <span className="text-center text-slate-600">
               {/* @ts-ignore */}
@@ -50,11 +50,14 @@ export default function MapstoriesTab() {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex basis-3/4 flex-row justify-evenly">
+        <div className="flex flex-col lg:basis-3/4 lg:flex-row lg:justify-evenly">
           {/* @ts-ignore */}
           <div className="flex flex-1 flex-col items-center gap-4 p-8">
             {/* @ts-ignore */}
-            <div>{t('supportedBy')}</div>
+            <div className="hidden text-center lg:block">
+              {/* @ts-ignore */}
+              {t('supportedBy')}
+            </div>
             <a
               className="transition duration-300 ease-in-out hover:scale-105"
               href="https://www.bistum-muenster.de/weltkirche"
@@ -65,9 +68,9 @@ export default function MapstoriesTab() {
               />
             </a>
           </div>
-          <div className="flex flex-1 flex-col items-center gap-4 border-l-2 border-zinc-300 p-8">
+          <div className="flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
             {/* @ts-ignore */}
-            <div className="text-center">{t('supportBZM')}</div>
+            <div className="hidden text-center lg:block">{t('supportBZM')}</div>
             <a
               className="transition duration-300 ease-in-out hover:scale-105"
               href="https://www.bmz.de/de"
@@ -75,9 +78,11 @@ export default function MapstoriesTab() {
               <Image alt="BMZ Logo" src={BMZLogo} />
             </a>
           </div>
-          <div className="flex flex-1 flex-col items-center gap-4 border-l-2 border-zinc-300 p-8">
+          <div className="flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
             {/* @ts-ignore */}
-            <div>{t('supportedBy')}</div>
+            <div className="hidden text-center lg:block">
+              {t('supportedBy')}
+            </div>
             <a
               className="transition duration-300 ease-in-out hover:scale-105"
               href="https://www.sue-nrw.de/"

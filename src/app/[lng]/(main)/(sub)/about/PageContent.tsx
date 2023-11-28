@@ -30,7 +30,7 @@ export default function PageContent() {
 
   return (
     <Tabs defaultValue="mapstories">
-      <TabsList className="bg-white" data-orientation="horizontal">
+      <TabsList className="bg-white" data-orientation="vertical">
         {/* @ts-ignore */}
         <TabsTrigger value="mapstories">{t('tab1_title')}</TabsTrigger>
         {/* @ts-ignore */}
@@ -42,10 +42,16 @@ export default function PageContent() {
         {/* @ts-ignore */}
         <TabsTrigger value="faq">{t('tab5_title')}</TabsTrigger>
       </TabsList>
-      <TabsContent className="bg-white" value="mapstories">
+      <TabsContent
+        className="max-h-[30rem] overflow-scroll bg-white lg:max-h-full lg:overflow-hidden"
+        value="mapstories"
+      >
         <MapstoriesTab />
       </TabsContent>
-      <TabsContent className="bg-white" value="ourStory">
+      <TabsContent
+        className="max-h-[30rem] overflow-scroll bg-white"
+        value="ourStory"
+      >
         <OurStoryTab />
       </TabsContent>
       <TabsContent className="bg-white" value="offer">
