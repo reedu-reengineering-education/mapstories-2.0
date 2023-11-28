@@ -16,10 +16,11 @@ import {
 } from '@/src/components/Elements/Tabs'
 
 import MapstoriesTab from './MapstoriesTab/MapstoriesTab'
+import { cx } from 'class-variance-authority'
 
 export default function PageContent() {
   const [isShowing, setIsShowing] = useState(false)
-
+  const [activeTab, setActiveTab] = useState('mapstories')
   useEffect(() => {
     setIsShowing(true)
   }, [])
@@ -29,7 +30,11 @@ export default function PageContent() {
   const { t } = useTranslation(lng, 'about')
 
   return (
-    <Tabs defaultValue="mapstories">
+    <Tabs
+      defaultValue="mapstories"
+      onValueChange={e => setActiveTab(e)}
+      orientation="vertical"
+    >
       <TabsList className="bg-white" data-orientation="vertical">
         {/* @ts-ignore */}
         <TabsTrigger value="mapstories">{t('tab1_title')}</TabsTrigger>
@@ -43,24 +48,53 @@ export default function PageContent() {
         <TabsTrigger value="faq">{t('tab5_title')}</TabsTrigger>
       </TabsList>
       <TabsContent
-        className="max-h-[30rem] overflow-scroll bg-white lg:max-h-full lg:overflow-hidden"
+        className={cx(
+          'max-h-[30rem] overflow-scroll bg-white lg:max-h-full lg:overflow-hidden',
+          activeTab == 'mapstories' ? 'block' : 'hidden',
+        )}
+        forceMount
         value="mapstories"
       >
         <MapstoriesTab />
       </TabsContent>
       <TabsContent
-        className="max-h-[30rem] overflow-scroll bg-white"
+        className={cx(
+          'max-h-[30rem] overflow-scroll bg-white lg:max-h-full lg:overflow-hidden',
+          activeTab == 'ourStory' ? 'block' : 'hidden',
+        )}
+        forceMount
         value="ourStory"
       >
         <OurStoryTab />
       </TabsContent>
-      <TabsContent className="bg-white" value="offer">
+      <TabsContent
+        className={cx(
+          'max-h-[30rem] overflow-scroll bg-white lg:max-h-full lg:overflow-hidden',
+          activeTab == 'offer' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="offer"
+      >
         <OfferTab />
       </TabsContent>
-      <TabsContent className="bg-white" value="support">
+      <TabsContent
+        className={cx(
+          'max-h-[30rem] overflow-scroll bg-white lg:max-h-full lg:overflow-hidden',
+          activeTab == 'support' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="support"
+      >
         <SupportTab />
       </TabsContent>
-      <TabsContent className="bg-white" value="faq">
+      <TabsContent
+        className={cx(
+          'max-h-[30rem] overflow-scroll bg-white lg:max-h-full lg:overflow-hidden',
+          activeTab == 'faq' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="faq"
+      >
         <FAQTab />
       </TabsContent>
     </Tabs>

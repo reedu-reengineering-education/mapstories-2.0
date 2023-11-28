@@ -27,18 +27,20 @@ export default function OfferTab() {
       </CardHeader>
       <CardContent>
         <div className="flex flex-row items-center">
-          <div className="basis-2/3 p-2">
+          <div className="p-2 lg:basis-2/3">
             <div>
               {/* @ts-ignore */}
               <b>{t('text2Title')}</b>
               {/* @ts-ignore */}
               <p>{t('text2')}</p>
+              <br></br>
             </div>
             <div>
               {/* @ts-ignore */}
               <b>{t('text3Title')}</b>
               {/* @ts-ignore */}
               <p>{t('text3')}</p>
+              <br></br>
             </div>
             <div>
               <p>
@@ -59,6 +61,7 @@ export default function OfferTab() {
                   {t('text4_part2')}
                 </span>
               </p>
+              <br></br>
             </div>
             <div>
               <p>
@@ -69,7 +72,7 @@ export default function OfferTab() {
               <p>{t('text5')}</p>
             </div>
           </div>
-          <div className="flex w-4/12 flex-col items-center gap-2">
+          <div className="hidden w-4/12 flex-col items-center gap-2 lg:flex">
             <Image alt="Workshop Foto" src={WorkshopFoto} />
             {/* @ts-ignore */}
             <span className="text-slate-600">{t('imageSubtitle')}</span>
