@@ -30,6 +30,7 @@ export function MediaContent({ content }: MediaContentProps) {
         // get media file from s3
         const response = await getS3Image(media)
         setMediaUrl(response)
+
         setIsLoading(false)
       }
       if (content.type === 'EXTERNALIMAGE' && mediaUrl === null) {
@@ -45,7 +46,7 @@ export function MediaContent({ content }: MediaContentProps) {
   }, [])
 
   return (
-    <div className="py-2">
+    <div className=" py-2">
       {isLoading && (
         <div className="flex justify-center">
           <Spinner />
