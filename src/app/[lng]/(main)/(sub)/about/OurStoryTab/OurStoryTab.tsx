@@ -51,7 +51,7 @@ export default function OurStoryTab() {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="align-center flex flex-row content-center gap-8">
+        <div className="align-center flex flex-col content-center gap-8 lg:flex-row">
           {/* @ts-ignore */}
           <div className="flex flex-1 flex-col items-center gap-4">
             <Image alt="Vamos logo" height={200} src={VamosLogo} width={200} />
