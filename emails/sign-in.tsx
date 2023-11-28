@@ -1,4 +1,3 @@
-import { Button } from '@react-email/button'
 import { Html } from '@react-email/html'
 import * as React from 'react'
 import { Tailwind } from '@react-email/tailwind'
@@ -41,12 +40,10 @@ export default function SignInEmail({ url }: SignInProps) {
             Danke, dass Du Mapstories nutzen möchtest. Wir freuen uns sehr dich
             dabei zu haben. Um Mapstories nutzen zu können, melde dich bitte an:
           </Text>
-          <Button
-            className="bg-brand text-md mx-auto rounded-md px-4 py-2 font-medium text-white"
-            href={url}
-          >
-            Login
-          </Button>
+          Kopiere den folgenden Link in deinen Browser, um dich anzumelden:
+          <br />
+          <br />
+          <div>{url}</div>
         </Container>
       </Html>
     </Tailwind>
