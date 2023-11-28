@@ -38,7 +38,6 @@ export default function OurStoryTab() {
               href="https://old.mapstories.de/"
               target="_blank"
             >
-              {' '}
               {/* @ts-ignore */}
               {t('here')}
             </a>
