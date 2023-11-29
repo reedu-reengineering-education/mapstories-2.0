@@ -161,12 +161,9 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             </div>
 
             <div className="overflow-y-auto overflow-x-hidden lg:h-full">
-              <Slides
-                className={cx(showSlides ? 'flex' : 'hidden')}
-                page={slug[1]}
-                slug={slug[0]}
-                story={story}
-              ></Slides>
+              <div className={cx(showSlides ? 'flex' : 'hidden')}>
+                <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
+              </div>
               <div className={cx(showSlides ? 'hidden' : 'flex')}>
                 <SlidesOverview
                   lng={lng}
