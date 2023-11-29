@@ -134,12 +134,12 @@ function MobileNav({
   return (
     <div
       className={cx(
-        'animate-in slide-in-from-bottom-80 fixed inset-0 top-16 grid h-[calc(100vh-4rem)] w-[40%] grid-flow-row auto-rows-max  overflow-hidden p-6 pb-32  lg:hidden',
+        'animate-in slide-in-from-bottom-80 fixed inset-0 top-16  grid h-[calc(100vh-4rem)] w-[40%] grid-flow-row auto-rows-max  overflow-hidden p-6 pb-32  lg:hidden',
       )}
     >
       <div className="relative grid gap-6 rounded-md bg-white p-4 ">
         <nav className="grid grid-flow-row auto-rows-max text-sm">
-          <div className="flex flex-row gap-6">
+          <div className=" flex flex-row gap-6">
             <LangSwitcher />
             {user ? (
               <UserAccountNav user={user} />

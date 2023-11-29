@@ -26,7 +26,7 @@ export function LangSwitcher() {
         <Avatar>{pathname?.split('/')[1].toUpperCase()} </Avatar>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content align="end" className="z-20 mt-2 md:w-[240px]">
+        <DropdownMenu.Content align="end" className="z-[100] mt-2 md:w-[240px]">
           <DropdownMenu.Item
             className="cursor-pointer"
             onClick={() => changeLanguage('de')}
