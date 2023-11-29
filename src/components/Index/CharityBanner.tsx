@@ -35,9 +35,12 @@ export function CharityBanner({}) {
             className="absolute right-0 top-0 m-2 h-6 w-6 cursor-pointer text-gray-500 "
             onClick={() => setIsShowing(false)}
           />
-          <p>
-            {/* @ts-ignore  */}
-            <b>{t('text1_bold')}</b>
+          {/* @ts-ignore  */}
+          <div>
+            <span>
+              {/* @ts-ignore  */}
+              <b>{t('text1_bold')}</b>
+            </span>
             {/* @ts-ignore  */}
             <span>{t('text2')}</span>
             {/* @ts-ignore  */}
@@ -52,7 +55,7 @@ export function CharityBanner({}) {
             </span>
             {/* @ts-ignore  */}
             {t('text4')} <b>{t('text5_bold')} </b>
-          </p>
+          </div>
           <a
             className="flex w-4/12  justify-center  "
             href="https://secure.spendenbank.de/form/3267?langid=1"
