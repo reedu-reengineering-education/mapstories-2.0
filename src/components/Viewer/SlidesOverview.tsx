@@ -35,9 +35,6 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
     <div>
       <div>
         <h1 className="text-2xl font-medium">{story.title}</h1>
-        <p className="text-sm text-slate-400">
-          {story.steps.length} slides in this story
-        </p>
         <p>
           {' '}
           {/* @ts-ignore */}
@@ -49,7 +46,7 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
         </p>
         <p>
           {/* @ts-ignore */}
-          <b> {t('lastUpdatedAt')}:</b> {story.updatedAt.toLocaleString()}
+          <b> {t('updatedAt')}:</b> {story.updatedAt.toLocaleString()}
         </p>
       </div>
       <Table>
@@ -60,7 +57,6 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
             {/* @ts-ignore */}
             <TableHead>{t('title')}</TableHead>
             {/* @ts-ignore */}
-            <TableHead>{t('numberOfItems')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -75,7 +71,6 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
                 <TableCell className="w-100[px]">
                   {getSlideTitle(step.content)}
                 </TableCell>
-                <TableCell>{step.content.length}</TableCell>
               </TableRow>
             )
           })}
