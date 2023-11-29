@@ -38,15 +38,15 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
         <p>
           {' '}
           {/* @ts-ignore */}
-          <b>{t('author')}:</b> {story.author}
+          <b>{t('author')}</b> {story.author}
         </p>
         <p>
           {/* @ts-ignore */}
-          <b> {t('createdAt')}:</b> {story.createdAt.toLocaleString()}
+          <b> {t('createdAt')}</b> {story.createdAt.toLocaleString()}
         </p>
         <p>
           {/* @ts-ignore */}
-          <b> {t('updatedAt')}:</b> {story.updatedAt.toLocaleString()}
+          <b> {t('updatedAt')}</b> {story.updatedAt.toLocaleString()}
         </p>
       </div>
       <Table>
