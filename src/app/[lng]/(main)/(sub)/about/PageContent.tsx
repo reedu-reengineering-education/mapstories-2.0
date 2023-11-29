@@ -35,7 +35,7 @@ export default function PageContent() {
       onValueChange={e => setActiveTab(e)}
       orientation="vertical"
     >
-      <TabsList className="bg-white" data-orientation="vertical">
+      <TabsList className="bg-white">
         {/* @ts-ignore */}
         <TabsTrigger value="mapstories">{t('tab1_title')}</TabsTrigger>
         {/* @ts-ignore */}
