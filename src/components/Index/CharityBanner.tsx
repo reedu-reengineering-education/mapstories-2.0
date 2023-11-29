@@ -1,5 +1,7 @@
 'use client'
 
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 import { Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
@@ -7,6 +9,10 @@ import { Button } from '../Elements/Button'
 
 export function CharityBanner({}) {
   const [isShowing, setIsShowing] = useState(false)
+
+  const lng = useBoundStore(state => state.language)
+  /* @ts-ignore */
+  const { t } = useTranslation(lng, 'charity')
 
   useEffect(() => {
     setIsShowing(true)
@@ -30,21 +36,15 @@ export function CharityBanner({}) {
             onClick={() => setIsShowing(false)}
           />
           <p>
-            <b>Ihre finanzielle Unterstützung ist entscheidend</b> um die
-            Weiterentwicklung von Mapstories zu gewährleisten. Mit Ihren{' '}
+            <b>{t('text1_bold')}</b>
+            {t('text2')}{' '}
             <a
               className="text-blue-500"
               href="https://secure.spendenbank.de/form/3267?langid=1"
             >
-              Spenden
+              {t('donations')}
             </a>{' '}
-            an Vamos e.V. können wir Mapstories verbessern, Schulungsangebote
-            erweitern und neue Funktionen entwickeln, um noch mehr Menschen zu
-            erreichen.{' '}
-            <b>
-              Jeder Beitrag, ob groß oder klein, ist wertvoll und hilft uns,
-              unsere Ziele zu verwirklichen.
-            </b>
+            {t('text4')} <b>{t('text5_bold')} </b>
           </p>
           <a
             className="flex w-4/12  justify-center  "
@@ -52,7 +52,7 @@ export function CharityBanner({}) {
             rel="noopener noreferrer"
             target="_blank"
           >
-            <Button>Jetzt spenden!</Button>
+            <Button>{t('donateNow')} </Button>
           </a>
         </div>
       </Transition>
