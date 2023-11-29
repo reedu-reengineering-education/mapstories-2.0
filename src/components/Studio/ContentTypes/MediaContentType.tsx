@@ -94,6 +94,8 @@ export function MediaContentEdit({
     useDropzone({
       accept: { 'image/*': [], 'audio/*': [] },
       onDrop,
+      // max 50mb
+      maxSize: 50242880,
     })
 
   const style = useMemo(
