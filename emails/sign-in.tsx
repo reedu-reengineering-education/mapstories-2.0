@@ -6,6 +6,7 @@ import { Heading } from '@react-email/heading'
 import { Text } from '@react-email/text'
 import { Font } from '@react-email/font'
 import { Container } from '@react-email/container'
+import Link from 'next/link'
 
 interface SignInProps {
   url: string
@@ -40,10 +41,12 @@ export default function SignInEmail({ url }: SignInProps) {
             Danke, dass Du Mapstories nutzen möchtest. Wir freuen uns sehr dich
             dabei zu haben. Um Mapstories nutzen zu können, melde dich bitte an:
           </Text>
-          Kopiere den folgenden Link in deinen Browser, um dich anzumelden:
+          Kopiere diesen Link in deinen Browser, um dich anzumelden / Copy this
+          link to sign in / Copia este enlace para iniciar sesión / Copiez ce
+          lien pour vous connecter:
           <br />
           <br />
-          <div>{url}</div>
+          <Link href={url}>{url}</Link>
         </Container>
       </Html>
     </Tailwind>
