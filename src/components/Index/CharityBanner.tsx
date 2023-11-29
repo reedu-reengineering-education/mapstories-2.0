@@ -36,14 +36,21 @@ export function CharityBanner({}) {
             onClick={() => setIsShowing(false)}
           />
           <p>
+            {/* @ts-ignore  */}
             <b>{t('text1_bold')}</b>
-            {t('text2')}{' '}
-            <a
-              className="text-blue-500"
-              href="https://secure.spendenbank.de/form/3267?langid=1"
-            >
-              {t('donations')}
-            </a>{' '}
+            {/* @ts-ignore  */}
+            <span>{t('text2')}</span>
+            {/* @ts-ignore  */}
+            <span>
+              <a
+                className="text-blue-500"
+                href="https://secure.spendenbank.de/form/3267?langid=1"
+              >
+                {/* @ts-ignore  */}
+                {t('donations')}
+              </a>
+            </span>
+            {/* @ts-ignore  */}
             {t('text4')} <b>{t('text5_bold')} </b>
           </p>
           <a
@@ -52,6 +59,7 @@ export function CharityBanner({}) {
             rel="noopener noreferrer"
             target="_blank"
           >
+            {/* @ts-ignore  */}
             <Button>{t('donateNow')} </Button>
           </a>
         </div>
