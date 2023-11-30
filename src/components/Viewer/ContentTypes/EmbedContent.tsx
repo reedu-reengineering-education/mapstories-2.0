@@ -11,15 +11,13 @@ interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
 
 export function EmbedContent({ content }: EmbedContentEditProps) {
   return (
-    <div className="flex justify-center">
-      <div className="inline-block max-h-[25rem] w-[90%] ">
-        {content.content && (
-          <Embed
-            media={urlToMedia(content.content)}
-            options={content.options as object}
-          />
-        )}
-      </div>
+    <div className="flex max-h-[24rem] w-full justify-center overflow-y-auto overflow-x-hidden  ">
+      {content.content && (
+        <Embed
+          media={urlToMedia(content.content)}
+          options={content.options as object}
+        />
+      )}
     </div>
   )
 }
