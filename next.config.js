@@ -2,7 +2,6 @@
 const nextConfig = {
   experimental: {
     appDir: true,
-    swcPlugins: [['next-superjson-plugin', {}]],
   },
   eslint: {
     dirs: ['src', 'lib', 'hooks'],

@@ -5,9 +5,13 @@ import { SlideContent } from '@prisma/client'
 import { Embed } from '../../embeds/Embed'
 import { urlToMedia } from '@/src/helper/urlToMedia'
 
-interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
+type SimpleSpread<L, R> = R & Pick<L, Exclude<keyof L, keyof R>>
+
+interface PropsExtra {
   content: SlideContent
 }
+interface EmbedContentEditProps
+  extends SimpleSpread<React.HTMLAttributes<HTMLFormElement>, PropsExtra> {}
 
 export function EmbedContent({ content }: EmbedContentEditProps) {
   return (

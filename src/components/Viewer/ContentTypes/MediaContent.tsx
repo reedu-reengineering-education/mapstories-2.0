@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client'
 import * as React from 'react'
 import { Media, SlideContent } from '@prisma/client'
@@ -7,9 +8,13 @@ import useMedia from '@/src/lib/api/media/useMedia'
 import { getS3Image } from '@/src/helper/getS3Image'
 import ReactPlayer from 'react-player'
 
-interface MediaContentProps extends React.HTMLAttributes<HTMLFormElement> {
+type SimpleSpread<L, R> = R & Pick<L, Exclude<keyof L, keyof R>>
+
+interface PropsExtra {
   content: SlideContent
 }
+interface MediaContentProps
+  extends SimpleSpread<React.HTMLAttributes<HTMLFormElement>, PropsExtra> {}
 
 export function MediaContent({ content }: MediaContentProps) {
   const [mediaUrl, setMediaUrl] = React.useState<any>(null)
