@@ -6,7 +6,6 @@ import { Heading } from '@react-email/heading'
 import { Text } from '@react-email/text'
 import { Font } from '@react-email/font'
 import { Container } from '@react-email/container'
-import Link from 'next/link'
 
 interface SignInProps {
   url: string
@@ -46,7 +45,7 @@ export default function SignInEmail({ url }: SignInProps) {
           lien pour vous connecter:
           <br />
           <br />
-          <Link href={url}>{url}</Link>
+          {url}
         </Container>
       </Html>
     </Tailwind>
