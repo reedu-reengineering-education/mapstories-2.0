@@ -68,7 +68,6 @@
     "next-auth": "^4.20.1",
     "next-remove-imports": "^1.0.10",
     "next-s3-upload": "^0.3.0",
-    "next-superjson-plugin": "^0.5.7",
     "nodemailer": "^6.9.1",
     "open-graph-scraper": "^5.2.3",
     "pure-geojson-validation": "^0.3.0",
