@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     appDir: true,
+    serverComponentsExternalPackages: ['resend'],
   },
   eslint: {
     dirs: ['src', 'lib', 'hooks'],
