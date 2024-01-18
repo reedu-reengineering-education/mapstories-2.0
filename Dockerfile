@@ -32,7 +32,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 # If using npm comment out above and use below instead
 # RUN npm run build
-RUN NEXT_PUBLIC_MAPBOX_TOKEN=APP_NEXT_PUBLIC_MAPBOX_TOKEN yarn build
+RUN NEXT_PUBLIC_MAPBOX_TOKEN=APP_NEXT_PUBLIC_MAPBOX_TOKEN RESEND_API_KEY=APP_RESEND_API_KEY yarn build
 
 # Production image, copy all the files and run next
 FROM node:20-alpine AS runner
