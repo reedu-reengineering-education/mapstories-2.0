@@ -129,10 +129,15 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             tags={tags}
             // toggleSlides={toggleSlidesOpen}
           ></StoryOverviewControls>
-          <div className="re-basic-box absolute bottom-10 right-[50%] z-50 hidden lg:flex lg:flex-row">
-            <QuitStoryButton size="s" slug={slug[0]} />
-            <PlayStoryButton size="s" slug={slug[0]} />
-          </div>
+        </div>
+        <div 
+         className={cx(
+          slug[1] === 'start' ? 'flex overflow-auto lg:flex lg:flex-row' : 'hidden',
+          're-basic-box absolute bottom-10 right-[50%] z-50 ',
+        )}
+        >
+          <QuitStoryButton size="s" slug={slug[0]} />
+          <PlayStoryButton size="s" slug={slug[0]} />
         </div>
 
         {slug[1] != 'start' && (
