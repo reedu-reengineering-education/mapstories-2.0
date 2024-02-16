@@ -2,7 +2,7 @@ import { NextAuthOptions } from 'next-auth'
 import EmailProvider from 'next-auth/providers/email'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { db } from './db'
-import {sendVerificationRequest} from './sendLoginMail'
+import { sendVerificationRequest } from './sendLoginMail'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -14,10 +14,10 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     EmailProvider({
-      from: 'Mapstories <no-reply@mapstories.de>',
-      server: '', 
+      from: 'Mapstories <no-reply@mapstories.reedu.de>',
+      server: '',
       sendVerificationRequest,
-    })
+    }),
   ],
   callbacks: {
     async session({ token, session }) {
