@@ -2,7 +2,10 @@ import { NextAuthOptions } from 'next-auth'
 import EmailProvider from 'next-auth/providers/email'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { db } from './db'
+import { render } from '@react-email/render'
+import SignInEmail from '@/emails/sign-in'
 import nodemailer from 'nodemailer'
+import { MailOptions } from 'nodemailer/lib/smtp-transport'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -26,16 +29,16 @@ export const authOptions: NextAuthOptions = {
           },
         })
         console.log('new log in mail has been sent: ', url)
-        // const emailHtml = render(SignInEmail({ url }))
+        const emailHtml = render(SignInEmail({ url }))
 
-        // const options: MailOptions = {
-        //   from: provider.from,
-        //   to: identifier,
-        //   subject: 'Mapstories Login',
-        //   html: emailHtml,
-        // }
+        const options: MailOptions = {
+          from: provider.from,
+          to: identifier,
+          subject: 'Mapstories Login',
+          html: emailHtml,
+        }
 
-        // await transporter.sendMail(options)
+        await transporter.sendMail(options)
       },
     }),
   ],
