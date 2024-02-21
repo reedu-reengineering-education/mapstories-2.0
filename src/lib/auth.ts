@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
             pass: process.env.SMTP_PASS,
           },
         })
-
+        console.log('new log in mail has been sent: ', url)
         const emailHtml = render(SignInEmail({ url }))
 
         const options: MailOptions = {
