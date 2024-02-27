@@ -29,9 +29,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
 
-      return res.status(200).json(story)
+      res.status(200).json(story)
     } catch (error) {
-      return res.status(500).end()
+      res.status(500).end()
     }
   }
   if (req.method === 'PUT') {
@@ -48,7 +48,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
 
       if (!storyToUpdate) {
-        return res.status(404).end()
+        res.status(404).end();
+        return;
       }
 
       let data: any = payload
@@ -69,9 +70,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data,
       })
 
-      return res.status(200).json(story)
+      res.status(200).send({story})
     } catch (error) {
-      return res.status(500).json(error)
+      res.status(500).json(error)
     }
   }
 
@@ -83,9 +84,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
 
-      return res.status(204).end()
+      res.status(200).end()
     } catch (error) {
-      return res.status(500).end()
+      res.status(500).end()
     }
   }
 }

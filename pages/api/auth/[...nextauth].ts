@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 // @see ./lib/auth
 export async function auth(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'HEAD') {
-    return res.status(200).end()
+    res.status(200).end()
   }
 }
 

@@ -51,6 +51,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
     if (windowWidth < 600) {
       setShowSizeModal(true)
     }
+    console.log(story);
   }, [])
 
   function prevStep() {

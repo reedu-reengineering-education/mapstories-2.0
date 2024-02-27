@@ -19,15 +19,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: { ...req.body, options: req.body.options ?? {}, ogData },
       })
 
-      res.json(updatedContent)
+      res.status(200).send({updatedContent})
 
-      return res.end()
+      res.end()
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(422).json(error.issues)
+        res.status(422).json(error.issues)
       }
 
-      return res.status(422).json(error)
+      res.status(422).json(error)
     }
   }
   if (req.method === 'DELETE') {
@@ -62,15 +62,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           }),
       )
 
-      res.json(deletedContent)
+      res.status(200).send({deletedContent})
 
-      return res.end()
+      res.end()
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(422).json(error.issues)
+        res.status(422).json(error.issues)
       }
 
-      return res.status(422).end()
+      res.status(422).end()
     }
   }
 }
