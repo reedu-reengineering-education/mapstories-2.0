@@ -7,6 +7,7 @@ import SignInEmail from '@/emails/sign-in'
 import nodemailer from 'nodemailer'
 import { MailOptions } from 'nodemailer/lib/smtp-transport'
 
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
