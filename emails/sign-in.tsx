@@ -6,7 +6,7 @@ import { Heading } from '@react-email/heading'
 import { Text } from '@react-email/text'
 import { Font } from '@react-email/font'
 import { Container } from '@react-email/container'
-
+import { Button } from '@react-email/button'
 interface SignInProps {
   url: string
 }
@@ -45,7 +45,13 @@ export default function SignInEmail({ url }: SignInProps) {
           lien pour vous connecter:
           <br />
           <br />
-          {url}
+          <Button
+            className="bg-brand text-md mx-auto rounded-md px-4 py-2 font-medium text-white"
+            href={url}
+          >
+            {' '}
+            Login{' '}
+          </Button>
         </Container>
       </Html>
     </Tailwind>

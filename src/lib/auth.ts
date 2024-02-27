@@ -2,21 +2,46 @@ import { NextAuthOptions } from 'next-auth'
 import EmailProvider from 'next-auth/providers/email'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { db } from './db'
-import { sendVerificationRequest } from './sendLoginMail'
+import { render } from '@react-email/render'
+import SignInEmail from '@/emails/sign-in'
+import nodemailer from 'nodemailer'
+import { MailOptions } from 'nodemailer/lib/smtp-transport'
+
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
     strategy: 'jwt',
+    maxAge: 60 * 60 * 24 * 28, // 28 days
   },
   pages: {
     signIn: '/login',
   },
   providers: [
     EmailProvider({
-      from: 'Mapstories <no-reply@mapstories.reedu.de>',
-      server: '',
-      sendVerificationRequest,
+      from: process.env.SMTP_FROM,
+      sendVerificationRequest: async ({ identifier, url, provider }) => {
+        const transporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST,
+          port: 587,
+          secure: false,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          },
+        })
+        console.log('new log in mail has been sent: ', url)
+        const emailHtml = render(SignInEmail({ url }))
+
+        const options: MailOptions = {
+          from: provider.from,
+          to: identifier,
+          subject: 'Mapstories Login',
+          html: emailHtml,
+        }
+
+        await transporter.sendMail(options)
+      },
     }),
   ],
   callbacks: {
