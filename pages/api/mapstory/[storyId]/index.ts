@@ -70,7 +70,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data,
       })
 
-      res.status(200).send({story})
+      res.status(200).json(story)
     } catch (error) {
       res.status(500).json(error)
     }

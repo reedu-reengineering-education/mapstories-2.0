@@ -79,7 +79,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
     if (pathLocal) {
       pathLocal[1] = 'all'
       const newPath = pathLocal.join('/') ?? 'gallery/all/story/'
-      router.push(`${newPath}`)
+      router.push(`/${newPath}`)
     }
   }
 
@@ -94,13 +94,13 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
     const pathLocal =
       path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
 
-    router.push(`${pathLocal}/${slug}/0`)
+    router.push(`/${pathLocal}/${slug}/0`)
   }
   function backToStart() {
     const pathLocal =
       path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
 
-    router.push(`${pathLocal}/${slug}/start`)
+    router.push(`/${pathLocal}/${slug}/start`)
   }
 
   function applyFilter(filter?: string[]) {

@@ -22,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           content: true,
         },
       })
-      res.status(200).send({storyStep})
+      res.status(200).json(storyStep)
       res.end()
     } catch (error) {
       res.status(500).end()

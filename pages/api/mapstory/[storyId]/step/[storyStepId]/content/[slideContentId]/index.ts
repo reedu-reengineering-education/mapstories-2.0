@@ -19,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: { ...req.body, options: req.body.options ?? {}, ogData },
       })
 
-      res.status(200).send({updatedContent})
+      res.status(200).json(updatedContent)
 
       res.end()
     } catch (error) {
@@ -62,7 +62,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           }),
       )
 
-      res.status(200).send({deletedContent})
+      res.status(200).json(deletedContent)
 
       res.end()
     } catch (error) {

@@ -35,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
 
-      res.status(200).send({newSlideContent})
+      res.status(200).json(newSlideContent)
 
       res.end()
     } catch (error) {

@@ -28,7 +28,7 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
     const pathLocal =
       path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
 
-    router.push(`${pathLocal}/${slug}/${position}`)
+    router.push(`/${pathLocal}/${slug}/${position}`)
   }
 
   return (

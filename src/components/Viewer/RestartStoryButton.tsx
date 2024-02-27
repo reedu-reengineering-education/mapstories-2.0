@@ -15,7 +15,7 @@ export default function RestartStoryButton({ slug, size }: Props) {
     const pathLocal =
       path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
 
-    router.push(`${pathLocal}/${slug}/start`)
+    router.push(`/${pathLocal}/${slug}/start`)
   }
 
   return (

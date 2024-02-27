@@ -16,7 +16,7 @@ export default function QuitStoryButton({ slug, size }: Props) {
     if (pathLocal) {
       pathLocal[1] = 'all'
       const newPath = pathLocal.join('/') ?? 'gallery/all/story/'
-      router.push(`${newPath}`)
+      router.push(`/${newPath}`)
     }
   }
   return (

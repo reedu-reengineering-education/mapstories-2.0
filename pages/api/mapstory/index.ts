@@ -52,7 +52,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           data: { firstStepId: firstStep.id },
         })
 
-        res.status(200).send({newMapstory})
+        res.status(200).json(newMapstory)
       }
 
       res.end()

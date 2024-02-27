@@ -79,7 +79,7 @@ export default function Markers({ markers, onClick }: Props) {
                   const pathLocal =
                     path?.split('/').splice(2, 4).join('/') ??
                     'gallery/all/story/'
-                  router.replace(`${pathLocal}/${m.position}`)
+                  router.push(`/${pathLocal}/${m.position}`)
                 }}
                 // rotationAlignment='horizon'
                 style={{
