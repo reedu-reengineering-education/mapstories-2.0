@@ -97,7 +97,7 @@ export function TextContentEdit({
       <div className="pb-4 pt-4">
         <div onClick={handleOnClick}>
           {t('textEditor')}
-
+          {/* @ts-ignore */}
           <MDEditor
             data-color-mode="light"
             onChange={setTextValue}

@@ -152,15 +152,12 @@ export function InstagramEmbed({
     <div
       {...divProps}
       className={classNames(
-        'rsme-embed rsme-instagram-embed',
-        divProps.className,
+        'rsme-embed rsme-instagram-embed overflow-y-auto overflow-x-hidden',
       )}
       style={{
-        overflow: 'auto',
         width: width ?? undefined,
         maxHeight: height ?? undefined,
         borderRadius,
-        ...divProps.style,
       }}
     >
       <EmbedStyle />
