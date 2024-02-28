@@ -75,4 +75,9 @@ export const authOptions: NextAuthOptions = {
       }
     },
   },
+  logger: {
+    error: console.error,
+    warn: console.warn,
+    debug: console.log,
+  },
 }
