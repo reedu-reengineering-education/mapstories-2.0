@@ -15,9 +15,11 @@ export function LangSwitcher() {
     }
 
     path[1] = lng
-    router.replace(path.join('/'), {
-      forceOptimisticNavigation: true,
-    })
+    router.replace(path.join('/'))
+    // what does that do? gives a ts error after upgrading to next v14
+    // router.replace(path.join('/'), {
+    //   forceOptimisticNavigation: true
+    // })
   }
 
   return (
