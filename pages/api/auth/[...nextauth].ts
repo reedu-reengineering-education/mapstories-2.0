@@ -4,7 +4,6 @@ import { authOptions } from '@/src/lib/auth'
 
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  console.log('auth api', req.method, req.url, req.query, req.body, req.headers)
   //https://next-auth.js.org/tutorials/avoid-corporate-link-checking-email-provider
   if (req.method === 'HEAD') {
     res.status(200).end(); 
