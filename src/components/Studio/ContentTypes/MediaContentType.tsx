@@ -94,6 +94,8 @@ export function MediaContentEdit({
     useDropzone({
       accept: { 'image/*': [], 'audio/*': [] },
       onDrop,
+      // max 50mb
+      maxSize: 50242880,
     })
 
   const style = useMemo(
@@ -241,7 +243,7 @@ export function MediaContentEdit({
         )}
       </div>
       <div>
-        <div className="pt-2">
+        <div className="">
           {isLoading && (
             <div className="flex justify-center">
               <Spinner />
@@ -258,12 +260,15 @@ export function MediaContentEdit({
               </div>
             )}
           {fileType === 'AUDIO' && (
-            <ReactPlayer
-              controls={true}
-              height="5rem"
-              url={fileUrl}
-              width="100%"
-            />
+            <div className="m-2 flex justify-center">
+              {/* @ts-ignore */}
+              <ReactPlayer
+                controls={true}
+                height="5rem"
+                url={fileUrl}
+                width="100%"
+              />
+            </div>
           )}
         </div>
         {/* input field to give a source */}

@@ -23,9 +23,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
       res.status(200).json(storyStep)
-      return res.end()
+      res.end()
     } catch (error) {
-      return res.status(500).end()
+      res.status(500).end()
     }
   }
   if (req.method === 'PUT') {
@@ -65,7 +65,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const storyId = storyStep.storyId
 
       if (!storyId) {
-        return res.status(422).end()
+        res.status(422).end()
+        return; 
       }
 
       const story = await db.story.findFirst({
@@ -79,10 +80,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       res.status(200).json(storyStep)
-      return res.end()
+      res.end()
     } catch (error) {
       console.log(error)
-      return res.status(500).json({ error: error?.toString() })
+      res.status(500).json({ error: error?.toString() })
     }
   }
 
@@ -102,7 +103,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       //TODO: THis can never happen but we need this code for TS?
       if (!deletedStep.storyId) {
-        return res.status(422).end()
+         res.status(422).end()
+         return;
       }
 
       const updatedStory = await db.story.findFirst({
@@ -137,13 +139,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       res.json(deletedStep)
 
-      return res.end()
+      res.end()
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(422).json(error.issues)
+        res.status(422).json(error.issues)
       }
 
-      return res.status(422).end()
+      res.status(422).end()
     }
   }
 }

@@ -51,6 +51,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
     if (windowWidth < 600) {
       setShowSizeModal(true)
     }
+    console.log(story);
   }, [])
 
   function prevStep() {
@@ -129,10 +130,15 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             tags={tags}
             // toggleSlides={toggleSlidesOpen}
           ></StoryOverviewControls>
-          <div className="re-basic-box absolute bottom-10 right-[50%] z-50 hidden lg:flex lg:flex-row">
-            <QuitStoryButton size="s" slug={slug[0]} />
-            <PlayStoryButton size="s" slug={slug[0]} />
-          </div>
+        </div>
+        <div 
+         className={cx(
+          slug[1] === 'start' ? 'flex overflow-auto lg:flex lg:flex-row' : 'hidden',
+          're-basic-box absolute bottom-10 right-[50%] z-50 ',
+        )}
+        >
+          <QuitStoryButton size="s" slug={slug[0]} />
+          <PlayStoryButton size="s" slug={slug[0]} />
         </div>
 
         {slug[1] != 'start' && (
@@ -161,17 +167,17 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             </div>
 
             <div className="overflow-y-auto overflow-x-hidden lg:h-full">
-              {showSlides && (
+              <div className={cx(showSlides ? 'flex' : 'hidden')}>
                 <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
-              )}
-              {!showSlides && (
+              </div>
+              <div className={cx(showSlides ? 'hidden' : 'flex')}>
                 <SlidesOverview
                   lng={lng}
                   page={slug[1]}
                   slug={slug[0]}
                   story={story}
                 ></SlidesOverview>
-              )}
+              </div>
             </div>
           </div>
         )}

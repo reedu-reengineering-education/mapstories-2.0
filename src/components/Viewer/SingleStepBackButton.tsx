@@ -56,7 +56,7 @@ export function SingleStepBackButton({ slug, page, story, variant }: Props) {
       path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
 
     if (parseInt(page) > 0) {
-      router.push(`${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+      router.push(`/${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
     }
   }
 

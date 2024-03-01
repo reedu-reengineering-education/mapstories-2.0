@@ -72,6 +72,7 @@ export function TextContentEdit({
         })
       }
     } catch (error) {
+      console.log(error);
       toast({
         title: t('somethingWrong'),
         message: t('contentNotCreated'),
@@ -97,7 +98,7 @@ export function TextContentEdit({
       <div className="pb-4 pt-4">
         <div onClick={handleOnClick}>
           {t('textEditor')}
-
+          {/* @ts-ignore */}
           <MDEditor
             data-color-mode="light"
             onChange={setTextValue}

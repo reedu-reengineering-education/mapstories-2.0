@@ -63,7 +63,12 @@ export default function MediaIconList({ usedMediaType }: MediaIconListProps) {
   return (
     <div className="flex -space-x-3">
       {Object.keys(newObject)
-        .filter(t => !['TITLE', 'TEXT', 'IMAGE', 'VIDEO'].includes(t)) // Only the social media types
+        .filter(
+          t =>
+            !['TITLE', 'TEXT', 'IMAGE', 'VIDEO', 'GOOGLESTREETVIEW'].includes(
+              t,
+            ),
+        ) // Only the social media types
         .filter(t => {
           if (!usedMediaType) {
             return true

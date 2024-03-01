@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client'
 import * as React from 'react'
 import { Media, SlideContent } from '@prisma/client'
@@ -7,9 +8,13 @@ import useMedia from '@/src/lib/api/media/useMedia'
 import { getS3Image } from '@/src/helper/getS3Image'
 import ReactPlayer from 'react-player'
 
-interface MediaContentProps extends React.HTMLAttributes<HTMLFormElement> {
+type SimpleSpread<L, R> = R & Pick<L, Exclude<keyof L, keyof R>>
+
+interface PropsExtra {
   content: SlideContent
 }
+interface MediaContentProps
+  extends SimpleSpread<React.HTMLAttributes<HTMLFormElement>, PropsExtra> {}
 
 export function MediaContent({ content }: MediaContentProps) {
   const [mediaUrl, setMediaUrl] = React.useState<any>(null)
@@ -30,6 +35,7 @@ export function MediaContent({ content }: MediaContentProps) {
         // get media file from s3
         const response = await getS3Image(media)
         setMediaUrl(response)
+
         setIsLoading(false)
       }
       if (content.type === 'EXTERNALIMAGE' && mediaUrl === null) {
@@ -45,7 +51,7 @@ export function MediaContent({ content }: MediaContentProps) {
   }, [])
 
   return (
-    <div className="py-2">
+    <div className=" py-2">
       {isLoading && (
         <div className="flex justify-center">
           <Spinner />
@@ -63,7 +69,7 @@ export function MediaContent({ content }: MediaContentProps) {
       {!isLoading && content.type === 'AUDIO' && (
         <ReactPlayer
           controls={true}
-          height="5rem"
+          height="3rem"
           url={mediaUrl}
           width="100%"
         />

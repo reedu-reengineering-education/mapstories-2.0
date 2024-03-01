@@ -168,9 +168,8 @@ export function EmbedContentEdit({
           </div>
         </div>
 
-        <div className="re-data-media-preview pb-4 pt-4">
+        <div className="re-data-media-preview max-h-[20rem] overflow-y-auto pb-4 pt-4 ">
           <Embed
-            height="50vh"
             media={media}
             options={optionState ? optionState : undefined}
           />

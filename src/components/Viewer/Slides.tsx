@@ -8,10 +8,12 @@ import { SlideContent, StoryMode, StoryStep } from '@prisma/client'
 import { format } from 'date-fns'
 import { getDateFnsLocale } from '@/src/app/i18n/date-fns-locale'
 import { CalendarDaysIcon } from '@heroicons/react/24/outline'
+import { cx } from 'class-variance-authority'
 
 type Props = {
   slug: string
   page: string
+  className?: string
   story: any
   //  Story & {
   //   steps?: (StoryStep & { content: SlideContent[] })[]
@@ -19,7 +21,7 @@ type Props = {
   // }
 }
 
-export function Slides({ slug, page, story }: Props) {
+export function Slides({ className, slug, page, story }: Props) {
   const setStoryID = useBoundStore(state => state.setStoryID)
   const lng = useBoundStore(state => state.language)
 
@@ -34,6 +36,7 @@ export function Slides({ slug, page, story }: Props) {
     state => state.updateSelectedStepIndex,
   )
   useEffect(() => {
+    console.log('using this story', story);
     if (story) {
       setStoryID(story.id)
     } else {
@@ -52,7 +55,7 @@ export function Slides({ slug, page, story }: Props) {
   return (
     <>
       {story.mode === StoryMode.TIMELINE && step?.timestamp && (
-        <div className="flex justify-end">
+        <div className={cx('flex justify-end', className)}>
           <div className="my-2 flex w-fit items-center gap-2 rounded bg-zinc-100 px-2">
             <CalendarDaysIcon className="w-4" />
             <p className="text-sm">

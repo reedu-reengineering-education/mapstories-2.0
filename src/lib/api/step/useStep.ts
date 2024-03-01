@@ -45,7 +45,9 @@ const useStep = (stepId: string) => {
   const APIAddContent = async (content: Partial<SlideContent>) => {
     const addSlideContentRequest = addContent(storyId, stepId, content)
     const newContent = (await addSlideContentRequest).data
+    console.log(step);
     if (!step) {
+      console.log('happening here');
       return
     }
     return mutation({
