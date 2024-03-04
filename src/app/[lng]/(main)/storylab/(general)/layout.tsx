@@ -47,7 +47,7 @@ export default async function DashboardLayout({
               >
                 {' '}
                 <a
-                  href="https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy"
+                  href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view?token=2cea14db-2cd2-4664-9852-400ea9d0aa0d"
                   target="_blank"
                 >
                   {' '}
