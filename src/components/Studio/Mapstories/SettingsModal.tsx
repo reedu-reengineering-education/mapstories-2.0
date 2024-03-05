@@ -81,8 +81,7 @@ export default function SettingsModal({
     try {
       const updatedStory = await updateStory({
         ...data,
-        // TODO: update again after zod schema change
-        visibility: data.visibility === true ? 'PUBLIC' : 'PRIVATE',
+        visibility: data.visibility,
       })
       toast({
         message: t('settingsModal:changesApplied'),
@@ -93,7 +92,6 @@ export default function SettingsModal({
       }
       setModalOpen(false)
     } catch (e) {
-      console.log(e)
       return toast({
         title: t('studio:somethingWrong'),
         message: t('settingsModal:changesNotApplied'),
@@ -191,7 +189,7 @@ export default function SettingsModal({
             <InputLabel>{t('settingsModal:visibility')}</InputLabel>
             <Controller
               control={control}
-              defaultValue={false}
+              defaultValue={story.visibility}
               name="visibility"
               // {...register('visibility')}
               render={({ field: { onChange, value, ref } }) => {
@@ -202,7 +200,9 @@ export default function SettingsModal({
                     </span>
                     <Switch
                       defaultChecked={story.visibility === 'PUBLIC'}
-                      onCheckedChange={onChange}
+                      onCheckedChange={checked => onChange(
+                        checked ? 'PUBLIC' : 'PRIVATE',
+                      )}
                       ref={ref}
                     ></Switch>
 
