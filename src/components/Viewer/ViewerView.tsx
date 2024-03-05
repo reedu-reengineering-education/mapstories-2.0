@@ -268,7 +268,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
     const pathLocal =
       path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
-    router.push(`${pathLocal}/story/${m.properties?.slug}/start`)
+    router.push(`/${pathLocal}/story/${m.properties?.slug}/start`)
   }
   function getDistance(
     lat1: number,
