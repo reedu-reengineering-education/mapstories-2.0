@@ -22,7 +22,7 @@ export default function MapstoriesTab() {
   const { t } = useTranslation(lng, 'mapstoriesTab')
 
   return (
-    <Card className='h-[50%] overflow-scroll'>
+    <Card className=' overflow-scroll'>
       <CardHeader>
         <CardTitle>Was sind Mapstories?</CardTitle>
         <CardDescription></CardDescription>
@@ -96,7 +96,7 @@ export default function MapstoriesTab() {
           <div className="text-center">
             Gefördert durch das Ministerium für Kultur und Wissenschaft des Landes Nordrhein-Westfalen und die Kunststiftung NRW im Rahmen des Projektes ›zeitgeisty. be part of … Protestkulturen 1957-1967‹, getragen vom Bunker Ulmenwall e.V.
             </div>
-            <div className='flex flex-col lg:flex-row'>
+            <div className='flex flex-col lg:flex-row align-baseline'>
             <div className="flex flex-1 flex-col  items-center gap-4 p-8 lg:border-r-2 my-2 lg:border-zinc-300">
             {/* @ts-ignore */}
             <a
