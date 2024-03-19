@@ -49,7 +49,7 @@ export default function PageContent() {
       </TabsList>
       <TabsContent
         className={cx(
-          'max-h-[30rem] overflow-scroll rounded-md bg-white lg:max-h-full lg:overflow-hidden',
+          'max-h-[30rem] overflow-scroll rounded-md bg-white',
           activeTab == 'mapstories' ? 'block' : 'hidden',
         )}
         forceMount
@@ -59,7 +59,7 @@ export default function PageContent() {
       </TabsContent>
       <TabsContent
         className={cx(
-          'max-h-[30rem] overflow-scroll rounded-md bg-white lg:max-h-full lg:overflow-hidden',
+          'max-h-[30rem] overflow-scroll rounded-md bg-white',
           activeTab == 'ourStory' ? 'block' : 'hidden',
         )}
         forceMount
@@ -69,7 +69,7 @@ export default function PageContent() {
       </TabsContent>
       <TabsContent
         className={cx(
-          'max-h-[30rem] overflow-scroll rounded-md bg-white lg:max-h-full lg:overflow-hidden',
+          'max-h-[30rem] overflow-scroll rounded-md bg-white ',
           activeTab == 'offer' ? 'block' : 'hidden',
         )}
         forceMount
@@ -79,7 +79,7 @@ export default function PageContent() {
       </TabsContent>
       <TabsContent
         className={cx(
-          'max-h-[30rem] overflow-scroll rounded-md bg-white lg:max-h-full lg:overflow-hidden',
+          'max-h-[30rem] overflow-scroll rounded-md bg-white ',
           activeTab == 'support' ? 'block' : 'hidden',
         )}
         forceMount
@@ -89,7 +89,7 @@ export default function PageContent() {
       </TabsContent>
       <TabsContent
         className={cx(
-          'max-h-[30rem] overflow-scroll rounded-md bg-white lg:max-h-full lg:overflow-hidden',
+          'max-h-[30rem] overflow-scroll rounded-md bg-white ',
           activeTab == 'faq' ? 'block' : 'hidden',
         )}
         forceMount

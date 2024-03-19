@@ -30,6 +30,7 @@ export const authOptions: NextAuthOptions = {
             pass: process.env.SMTP_PASS,
           },
         })
+        console.log(url);
         const emailHtml = render(SignInEmail({ url }))
 
         const options: MailOptions = {
