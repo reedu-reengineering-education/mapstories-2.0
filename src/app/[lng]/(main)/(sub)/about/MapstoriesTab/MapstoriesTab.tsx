@@ -3,6 +3,8 @@ import { useTranslation } from '@/src/app/i18n/client'
 import BMZLogo from '@/assets/images/partners/BMZ-Logo-4c.jpg'
 import fachStelleWeltkirche from '@/assets/images/partners/Fachstelle Weltkirche - Logo.png'
 import SUELogo from '@/assets/images/partners/SUE_Logo_CMYK_300dpi.jpg'
+import kunstNRW from '@/assets/images/partners/kunststiftung_nrw.png'
+import kulturWissenschaftNRW from '@/assets/images/partners/kultur_wissenschaft_nrw.jpg'
 import Image from 'next/image'
 import {
   Card,
@@ -13,14 +15,14 @@ import {
   CardTitle,
 } from '@/src/components/Elements/Card'
 import MapstoriesTitlePicture from '@/assets/images/mapstoriesTab.jpg'
-
+import './mapstoriesTab.css'
 export default function MapstoriesTab() {
   const lng = useBoundStore(state => state.language)
   //@ts-ignore
   const { t } = useTranslation(lng, 'mapstoriesTab')
 
   return (
-    <Card>
+    <Card className='h-[50%] overflow-scroll'>
       <CardHeader>
         <CardTitle>Was sind Mapstories?</CardTitle>
         <CardDescription></CardDescription>
@@ -48,11 +50,10 @@ export default function MapstoriesTab() {
             </span>
           </div>
         </div>
-      </CardContent>
-      <CardFooter>
-        <div className="flex flex-col lg:basis-3/4 lg:flex-row lg:justify-evenly">
+        <div className="flex flex-col">
+        <div className="flex flex-col lg:flex-row  lg:justify-evenly">
           {/* @ts-ignore */}
-          <div className="flex flex-1 flex-col items-center gap-4 p-8">
+          <div className="flex flex-1 flex-col  items-center gap-4 p-8">
             {/* @ts-ignore */}
             <div className="hidden text-center lg:block">
               {/* @ts-ignore */}
@@ -68,7 +69,7 @@ export default function MapstoriesTab() {
               />
             </a>
           </div>
-          <div className="flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
+          <div className="flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 my-2 lg:border-zinc-300">
             {/* @ts-ignore */}
             <div className="hidden text-center lg:block">{t('supportBZM')}</div>
             <a
@@ -78,7 +79,7 @@ export default function MapstoriesTab() {
               <Image alt="BMZ Logo" src={BMZLogo} />
             </a>
           </div>
-          <div className="flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
+          <div className="flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 my-2 lg:border-zinc-300">
             <div className="hidden text-center lg:block">
               {/* @ts-ignore */}
               {t('supportedBy')}
@@ -90,7 +91,35 @@ export default function MapstoriesTab() {
               <Image alt="SUE Logo" src={SUELogo} />
             </a>
           </div>
-        </div>{' '}
+
+        </div>
+          <div className="text-center">
+            Gefördert durch das Ministerium für Kultur und Wissenschaft des Landes Nordrhein-Westfalen und die Kunststiftung NRW im Rahmen des Projektes ›zeitgeisty. be part of … Protestkulturen 1957-1967‹, getragen vom Bunker Ulmenwall e.V.
+            </div>
+            <div className='flex flex-col lg:flex-row'>
+            <div className="flex flex-1 flex-col  items-center gap-4 p-8 lg:border-r-2 my-2 lg:border-zinc-300">
+            {/* @ts-ignore */}
+            <a
+              className="transition duration-300 ease-in-out hover:scale-105"
+              href="https://www.kunststiftungnrw.de/"
+            >
+              <Image alt="Kunststiftung NRW" src={kunstNRW} />
+            </a>
+          </div>
+          <div className="flex flex-1 flex-col  items-center gap-4 p-8">
+            {/* @ts-ignore */}
+            <a
+              className="transition duration-300 ease-in-out hover:scale-105"
+              href="https://www.mkw.nrw"
+            >
+              <Image alt="Kunst & Kultur NRW" src={kulturWissenschaftNRW} />
+            </a>
+          </div>
+            </div>
+        </div>
+        </CardContent>
+      <CardFooter>
+     
       </CardFooter>
     </Card>
   )

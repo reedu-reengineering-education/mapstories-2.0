@@ -36,7 +36,6 @@ export function Slides({ className, slug, page, story }: Props) {
     state => state.updateSelectedStepIndex,
   )
   useEffect(() => {
-    console.log('using this story', story);
     if (story) {
       setStoryID(story.id)
     } else {
