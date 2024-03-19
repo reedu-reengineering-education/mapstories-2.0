@@ -109,11 +109,13 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
       setFilterState(['all'])
       filterTmp = ['all']
     }
-    const path = onMyStoriesRoute
-      ? `/mystories/${filterTmp?.join('-')}/story/${slug}/start`
-      : `/gallery/${filterTmp?.join('-')}/story/${slug}/start`
 
-    router.push(path)
+    const parts = path?.split('/')
+    if (parts) {
+      parts[3] = filterTmp?.join('-')!
+      const newPath = parts.join('/')
+      router.push(newPath)
+    }
     setOpen(false)
   }
 
