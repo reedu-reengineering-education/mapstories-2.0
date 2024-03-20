@@ -4,3 +4,8 @@ img {
     height: auto; /* Automatische Anpassung der Höhe entsprechend der Breite */
 }
 
+
+.kulturWissenschaft {
+    width:65%;
+    height:auto;
+}
