@@ -13,7 +13,6 @@ export default function Page() {
   return (
     <>
       <div className="relative h-[100vh] w-full ">
-        <div className="absolute bottom-0 z-20 h-1/4 w-full bg-gradient-to-b " />
         <AnimatedMap />
       </div>
       <div className="z-20 mx-auto my-6 flex-1 -translate-y-[95vh] p-10 ">
