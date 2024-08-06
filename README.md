@@ -37,7 +37,7 @@ You will need to have Node.js and Yarn installed.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/reedu-reengineering-education/next-13-tailwind-starter.git
+   git clone https://github.com/reedu-reengineering-education/mapstories-2.0.git
    ```
 2. Install NPM packages
    ```sh
