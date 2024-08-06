@@ -51,7 +51,11 @@ You will need to have Node.js and Yarn installed.
    ```sh
    npx prisma migrate dev
    ```
-5. Run the App
+5. seed database with themes
+    ```sh
+    npx prisma db seed
+    ```
+6. Run the App
    ```sh
    yarn dev
    ```
