@@ -119,6 +119,9 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
     setOpen(false)
   }
 
+
+
+
   return (
     <>
       {!story && <p>{t('storyNotAvailable')}</p>}
@@ -195,6 +198,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                         <Cross1Icon />
                       </Toolbar.ToggleItem>
                     )}
+
                   </Toolbar.ToggleGroup>
                 </Toolbar.Root>
               </div>

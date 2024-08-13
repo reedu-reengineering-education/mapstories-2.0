@@ -21,6 +21,7 @@ import { ListBulletIcon } from '@radix-ui/react-icons'
 import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListViewer'
 import SlidesOverview from './SlidesOverview'
 import PlayStoryButton from './PlayStoryButton'
+import AddCommunityStep from './CommunityStep/AddCommunityStep'
 
 type Props = {
   filter: string
@@ -164,6 +165,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
 
               <RestartStoryButton size="xs" slug={slug[0]} />
               <QuitStoryButton size="xs" slug={slug[0]} />
+              <AddCommunityStep size="xs" slug={slug[0]} story={story} />
             </div>
 
             <div className="overflow-y-auto overflow-x-hidden lg:h-full">

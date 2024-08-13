@@ -1,33 +1,33 @@
 import { APIError } from '@/types'
-import { SlideContent, StoryStep } from '@prisma/client'
+import { SlideContent, StoryStepSuggestion } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 import useSWR, { mutate } from 'swr'
 import { reorderSlideContent } from './reorderSlideContent'
 import { addContent } from './addContent'
 import { deleteContent } from './deleteContent'
 import { updateContent } from './updateContent'
-import { updateStoryStep } from './updateStep'
+import { updateStoryStepSuggestion } from './updateStepSuggestion'
 import { useBoundStore } from '../../store/store'
 import useMedia from '../media/useMedia'
 
-export type StepWithContent = StoryStep & {
+export type StepWithContent = StoryStepSuggestion & {
   content: SlideContent[]
 }
 
-const useStep = (stepId: string) => {
+const useStepSuggestion = (stepSuggestionId: string) => {
   const storyId = useBoundStore(store => store.storyID)
 
-  const { deleteMedia } = useMedia(stepId)
+  const { deleteMedia } = useMedia(stepSuggestionId)
 
-  const { data: step, mutate: stepMutate } = useSWR<StepWithContent>(
-    `/api/mapstory/${storyId}/step/${stepId}`,
+  const { data: stepSuggestion, mutate: stepMutate } = useSWR<StepWithContent>(
+    `/api/mapstory/${storyId}/stepSuggestion/${stepSuggestionId}`,
   )
 
   const mutateRequest = async (
     request: Promise<AxiosResponse<StepWithContent, APIError>>,
   ) => {
-    const { data: step } = await request
-    mutation(step)
+    const { data: stepSuggestion } = await request
+    mutation(stepSuggestion)
   }
 
   const mutation = async (step?: StepWithContent) => {
@@ -37,20 +37,21 @@ const useStep = (stepId: string) => {
     return step
   }
 
-  const APIUpdateStep = async (step: Partial<StoryStep>) => {
-    const updateStoryStepRequest = updateStoryStep(storyId, stepId, step)
+  const APIUpdateStepSuggestion = async (step: Partial<StoryStepSuggestion>) => {
+    const updateStoryStepRequest = updateStoryStepSuggestion(storyId, stepSuggestionId, step)
     return await mutateRequest(updateStoryStepRequest)
   }
 
   const APIAddContent = async (content: Partial<SlideContent>) => {
-    const addSlideContentRequest = addContent(storyId, stepId, content)
+    const addSlideContentRequest = addContent(storyId, stepSuggestionId, content)
+    console.log('data from add content', [storyId, stepSuggestionId, content])
     const newContent = (await addSlideContentRequest).data
-    if (!step) {
+    if (!stepSuggestion) {
       return
     }
     return mutation({
-      ...step,
-      content: [...step.content, newContent],
+      ...stepSuggestion,
+      content: [...stepSuggestion.content, newContent],
     })
   }
 
@@ -60,25 +61,25 @@ const useStep = (stepId: string) => {
   ) => {
     const updateContentRequest = updateContent(
       storyId,
-      stepId,
+      stepSuggestionId,
       contentId,
       content,
     )
     const updatedContent = (await updateContentRequest).data
-    if (!step) {
+    if (!stepSuggestion) {
       return
     }
     return mutation({
-      ...step,
+      ...stepSuggestion,
       content: [
-        ...step.content.filter(s => s.id !== updatedContent.id),
+        ...stepSuggestion.content.filter(s => s.id !== updatedContent.id),
         updatedContent,
       ],
     })
   }
 
   const APIDeleteContent = async (contentId: Pick<SlideContent, 'id'>) => {
-    const deleteContentRequest = await deleteContent(storyId, stepId, contentId)
+    const deleteContentRequest = await deleteContent(storyId, stepSuggestionId, contentId)
     const deletedContent = (await (
       await deleteContentRequest
     ).data) as SlideContent
@@ -90,33 +91,33 @@ const useStep = (stepId: string) => {
       )
     }
 
-    if (!step) {
+    if (!stepSuggestion) {
       return
     }
     return mutation({
-      ...step,
-      content: step.content.filter(c => c.id !== deletedContent.id),
+      ...stepSuggestion,
+      content: stepSuggestion.content.filter(c => c.id !== deletedContent.id),
     })
   }
 
   const APIReorderSlideContent = async (update: SlideContent[]) => {
     const reorderSlideContentRequest = reorderSlideContent(
       storyId,
-      stepId,
+      stepSuggestionId,
       update,
     )
     return await mutateRequest(reorderSlideContentRequest)
   }
 
   return {
-    step,
+    stepSuggestion,
     mutate: mutation,
     reorderSlideContent: APIReorderSlideContent,
-    updateStep: APIUpdateStep,
+    updateStepSuggestion: APIUpdateStepSuggestion,
     addContent: APIAddContent,
     updateContent: APIUpdateContent,
     deleteContent: APIDeleteContent,
   }
 }
 
-export default useStep
+export default useStepSuggestion

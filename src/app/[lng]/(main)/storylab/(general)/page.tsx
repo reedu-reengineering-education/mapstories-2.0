@@ -23,6 +23,9 @@ const getMapstories = async (userId: string) => {
     where: {
       ownerId: userId,
     },
+    include: {
+      stepSuggestions: true
+    }
   })
 }
 

@@ -18,6 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         fr: 'Votre titre',
       }
       const storyId = req.query.storyId as string
+      const stepContents = req.body.content as any[]
 
       const story = await db.story.findFirst({
         where: {
@@ -48,16 +49,30 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       if (story?.mode === StoryMode.TIMELINE) {
         await reorderTimeline(storyId)
       }
-
       // create default headline (TODO: translate placeholder text)
-      await db.slideContent.create({
-        data: {
-          type: 'TITLE',
-          content: titleText[language],
-          position: 0,
-          storyStepId: newStep.id,
-        },
-      })
+      // check if stepContents is undefined
+      if(stepContents === undefined) {
+        await db.slideContent.create({
+          data: {
+            type: 'TITLE',
+            content: titleText[language],
+            position: 0,
+            storyStepId: newStep.id,
+          },
+        })
+      }
+      else {
+        for (const slideContent of stepContents) {
+          await db.slideContent.create({
+            data: {
+              type: slideContent.type,
+              content: slideContent.content,
+              position: slideContent.position,
+              storyStepId: newStep.id,
+            },
+          })
+        }
+      }
 
       res.status(200).json(newStep)
 

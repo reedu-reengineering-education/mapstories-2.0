@@ -14,7 +14,6 @@ import ShareModal from './ShareModal'
 import EmbedModal from './EmbedModal'
 import { EyeIcon, PencilIcon } from '@heroicons/react/24/outline'
 import { StoryBadge } from './StoryBadge'
-
 type Props = {
   mapstory: Story
 }
@@ -22,6 +21,10 @@ type Props = {
 export function MapstoryCard({ mapstory }: Props) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstoryCard')
+
+  React.useEffect(()=>{
+    console.log(mapstory)
+  })
 
   return (
     <Card>
@@ -49,6 +52,17 @@ export function MapstoryCard({ mapstory }: Props) {
             {/* <CopyModal storyId={mapstory.id} /> */}
             <ShareModal storyId={mapstory.id} />
             <EmbedModal storyId={mapstory.slug} />
+            { mapstory.stepSuggestions.length > 0 && (
+            <Link href={`/storylab/stepSuggestions/${mapstory.id}`}>
+            <Button 
+              startIcon={<PencilIcon className='w-5'/>}>
+              {/* @ts-ignore */}
+              Offene Vorschläge
+              ({mapstory.stepSuggestions.length})
+            </Button>
+            </Link>
+            )}
+
           </div>
           <DeleteMapstoryButton id={mapstory.id} />
         </div>
