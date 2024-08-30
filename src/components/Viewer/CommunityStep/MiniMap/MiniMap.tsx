@@ -2,18 +2,23 @@
 
 import { Marker, Map as ReactMap } from 'react-map-gl'
 import GeocoderControl from './GeocoderControl'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type Props = {
   handleAddLocation: any
+  stepSuggestion: any
 }
 
-export default function MiniMap({ handleAddLocation }: Props) {
+export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
   const [marker, setMarker] = useState<any>(null)
 
-  const handleRemovePoint = () => {
-    setMarker(null)
-  }
+  useEffect(() => {
+    if (stepSuggestion?.feature) {
+      setMarker(stepSuggestion.feature)
+    }
+  }, [stepSuggestion])
+
+  const handleRemovePoint = () => {}
   return (
     <ReactMap
       initialViewState={{
@@ -59,6 +64,7 @@ export default function MiniMap({ handleAddLocation }: Props) {
       {/* only do this when the marker is not null */}
       {marker && (
         <Marker
+          color="green"
           draggable={true}
           latitude={marker.geometry.coordinates[1]}
           longitude={marker.geometry.coordinates[0]}

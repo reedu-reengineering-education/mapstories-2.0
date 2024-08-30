@@ -32,10 +32,12 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
 
   const handleAddCommunityStep = async () => {
     setContentType(story.mode === 'TIMELINE' ? 'addDate' : 'addSlide')
+
     try {
+      const position = parseInt(slug) + 1
       const tempStepSuggestion: StoryStepSuggestion = {
         storyId: story.id,
-        position: story.steps.length,
+        position: position,
         content: [
           {
             type: 'TITLE',
@@ -188,6 +190,7 @@ function ContentSwitcher({
           handleAddLocation={handleAddLocation}
           onBack={() => setContentType('addSlide')}
           onNext={() => setContentType('confirmStep')}
+          stepSuggestion={stepSuggestion}
         />
       </CSSTransition>
 

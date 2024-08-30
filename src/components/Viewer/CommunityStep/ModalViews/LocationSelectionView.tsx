@@ -3,6 +3,7 @@ import MiniMap from '../MiniMap/MiniMap'
 
 export default function LocationSelectionView({
   handleAddLocation,
+  stepSuggestion,
   onBack,
   onNext,
 }: any) {
@@ -11,7 +12,10 @@ export default function LocationSelectionView({
       Setze einen Marker auf der Karte oder gebe die Addresse in der Suchleiste
       ein.
       <div className="h-56 w-96">
-        <MiniMap handleAddLocation={handleAddLocation} />
+        <MiniMap
+          handleAddLocation={handleAddLocation}
+          stepSuggestion={stepSuggestion}
+        />
       </div>
       <div className="flex flex-row justify-between gap-4">
         <Button onClick={onBack} variant={'inverse'}>

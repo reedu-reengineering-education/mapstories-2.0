@@ -16,8 +16,8 @@ export function Slide({ step }: Props) {
           step.content &&
           step.content
             .sort((a, b) => a.position - b.position)
-            .map(item => {
-              return <ContentType content={item} key={item.id}></ContentType>
+            .map((item, i) => {
+              return <ContentType content={item} key={i}></ContentType>
             })}
       </div>
     </>
