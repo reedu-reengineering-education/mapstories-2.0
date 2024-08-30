@@ -29,13 +29,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           mode: true,
         },
       })
-
       const newStep = await db.storyStep.create({
         data: {
           storyId,
           viewport: {},
           position: story?.steps.length || 0,
           timestamp: req.body.timestamp ?? null,
+          feature: req.body.feature ?? null,
         },
         include: {
           Story: {
@@ -51,7 +51,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
       // create default headline (TODO: translate placeholder text)
       // check if stepContents is undefined
-      if(stepContents === undefined) {
+      if (stepContents === undefined) {
         await db.slideContent.create({
           data: {
             type: 'TITLE',
@@ -60,8 +60,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             storyStepId: newStep.id,
           },
         })
-      }
-      else {
+      } else {
         for (const slideContent of stepContents) {
           await db.slideContent.create({
             data: {
@@ -79,7 +78,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       res.end()
     } catch (error) {
       if (error instanceof z.ZodError) {
-        res.status(422).json(error.issues);
+        res.status(422).json(error.issues)
         return
       }
 

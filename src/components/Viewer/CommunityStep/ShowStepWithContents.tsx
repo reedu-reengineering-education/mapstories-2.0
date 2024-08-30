@@ -6,6 +6,7 @@ import { SlideContentListEditItem } from '../../Studio/Mapstories/SlideContentLi
 import { Button } from '../../Elements/Button'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { MapPinIcon } from '@heroicons/react/24/outline'
+import useStepSuggestion from '@/src/lib/api/stepSuggestion/useStepSuggestion'
 type Props = {
   storyId: string
   stepId: string
@@ -22,6 +23,7 @@ export default function ShowStepWithContents({
 }: Props) {
   const { story } = useStory(storyId)
   const [content, setContent] = useState<SlideContent[]>()
+  const { reorderSlideContent } = useStepSuggestion(stepSuggestion.id)
 
   useEffect(() => {
     if (!stepSuggestion?.content) {
@@ -34,6 +36,12 @@ export default function ShowStepWithContents({
   useEffect(() => {
     setContent(stepSuggestion?.content)
   }, [stepSuggestion])
+
+  const onReorder = async (update: SlideContent[]) => {
+    try {
+      await reorderSlideContent(update)
+    } catch (e) {}
+  }
 
   const handleConfirmClick = async () => {
     setContentType('addLocation')
@@ -60,6 +68,7 @@ export default function ShowStepWithContents({
               ></SlideContentListEditItem>
             ),
           }))}
+          onChange={e => onReorder(e.map(({ s }) => s))}
         />
       )}
       <div className="flex flex-col gap-4">

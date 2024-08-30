@@ -50,30 +50,10 @@ export function TextContentEdit({
       newStepSuggestion.content.push({
         type: 'TEXT',
         content: text,
-        position:
-          stepSuggestion.content[stepSuggestion.content.length - 1].position +
-          1,
+        position: stepSuggestion.content.length,
         suggestionId: null,
       })
       setStepSuggestion(newStepSuggestion)
-
-      // if (stepItem) {
-      //   await updateContent(stepItem.id, {
-      //     ...stepItem,
-      //     content: text,
-      //     type: 'TEXT',
-      //   })
-      //   toast({
-      //     message: 'contentUpdated',
-      //     type: 'success',
-      //   })
-      // } else {
-      //   await addContent({ content: text, type: 'TEXT' })
-      //   toast({
-      //     message: 'contentCreated',
-      //     type: 'success',
-      //   })
-      // }
     } catch (error) {
       console.log(error)
       toast({

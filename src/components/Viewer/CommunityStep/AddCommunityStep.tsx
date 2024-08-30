@@ -1,5 +1,5 @@
 import { Button } from '../../Elements/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal } from '../../Modal'
 import { CSSTransition } from 'react-transition-group'
 import useStory from '@/src/lib/api/story/useStory'
@@ -9,6 +9,7 @@ import { TextContentEdit } from '@/src/components/Viewer/CommunityStep/ContentEd
 import { StoryStepSuggestion } from '@prisma/client'
 import { DatePickerWrapper } from '../../Timeline/DatePicker/DatePickerWrapper'
 import MiniMap from './MiniMap/MiniMap'
+import { toast } from '@/src/lib/toast'
 
 type Props = {
   story: any
@@ -16,11 +17,15 @@ type Props = {
   size?: 'xs' | 's' | 'm'
 }
 export default function AddCommunityStep({ story, slug, size }: Props) {
-  const { addStepSuggestion } = useStory(story.id)
+  const { createStoryStepSuggestion } = useStory(story.id)
   const [isOpen, setIsOpen] = useState(false)
   const [stepSuggestion, setStepSuggestion] = useState<StoryStepSuggestion>()
   const [contentType, setContentType] = useState<string>('')
   const [date, setDate] = useState<Date>(new Date())
+
+  useEffect(() => {
+    console.log(contentType)
+  }, [contentType])
 
   const handleAddCommunityStep = async () => {
     if (story.mode === 'TIMELINE') {
@@ -31,10 +36,12 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
     try {
       const tempStepSuggestion: StoryStepSuggestion = {
         storyId: story.id,
+        position: story.steps.length,
         content: [
           {
             type: 'TITLE',
             content: 'Deine Überschrift',
+            position: 0,
             suggestionId: null,
           },
         ],
@@ -48,11 +55,23 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
   }
 
   const handleConfirmStep = async () => {
-    console.log(stepSuggestion)
-    console.log(slug)
+    try {
+      console.log(stepSuggestion)
+      const newStepSuggestion = await createStoryStepSuggestion(stepSuggestion)
+      console.log(newStepSuggestion)
+      setContentType('')
+      toast({
+        message: 'Community Step hinzugefügt',
+        type: 'success',
+      })
+      setIsOpen(false)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const handleAddLocation = (feature: any) => {
+    console.log(stepSuggestion)
     const newStepSuggestion = stepSuggestion
     newStepSuggestion.feature = feature
     setStepSuggestion(newStepSuggestion)
@@ -184,9 +203,17 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
                 <div className="h-56 w-96">
                   <MiniMap handleAddLocation={handleAddLocation} />
                 </div>
-                <Button onClick={() => setContentType('confirmStep')}>
-                  Weiter
-                </Button>
+                <div className="flex flex-row justify-between gap-4">
+                  <Button
+                    onClick={() => setContentType('addSlide')}
+                    variant={'inverse'}
+                  >
+                    Zurück
+                  </Button>
+                  <Button onClick={() => setContentType('confirmStep')}>
+                    Weiter
+                  </Button>
+                </div>
               </div>
             </CSSTransition>
             <CSSTransition

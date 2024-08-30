@@ -47,7 +47,9 @@ export default function StepSuggestionCard({
         </Card.Title>
       </Card.Header>
       <Card.Content>
-        <Slide step={stepSuggestion} />
+        <div>
+          <Slide step={stepSuggestion} />
+        </div>
       </Card.Content>
       <Card.Footer>
         <div className="flex items-center justify-between">

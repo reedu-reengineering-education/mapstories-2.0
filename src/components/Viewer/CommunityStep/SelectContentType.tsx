@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CaretSortIcon, TextIcon, UploadIcon } from '@radix-ui/react-icons'
 
 type Props = {
@@ -6,10 +6,6 @@ type Props = {
 }
 
 export default function SelectContentType({ setContentType }: Props) {
-  useEffect(() => {
-    console.log('SelectContentType')
-  }, [])
-
   return (
     <div className="mx-2 px-2">
       <p className="pb-2">Element auswählen</p>

@@ -16,9 +16,7 @@ type Props = {
 
 export function SlideContentListEditItem({ stepItem, setDisabled }: Props) {
   const [open, setOpen] = React.useState(false)
-  React.useEffect(() => {
-    console.log('stepItem', stepItem)
-  }, [])
+
   return (
     <div
       className="re-basic-box-no-shadow group relative my-2 flex cursor-pointer"

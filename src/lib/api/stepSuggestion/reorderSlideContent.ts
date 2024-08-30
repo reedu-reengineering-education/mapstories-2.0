@@ -10,7 +10,7 @@ export const reorderSlideContent = (
   update: SlideContent[],
 ) => {
   return axios.put<SlideContent[], AxiosResponse<StepWithContent, APIError>>(
-    `/api/mapstory/${storyId}/step/${storyStepId}/content/reorder`,
+    `/api/mapstory/${storyId}/stepSuggestion/${storyStepId}/content/reorder`,
     update,
   )
 }

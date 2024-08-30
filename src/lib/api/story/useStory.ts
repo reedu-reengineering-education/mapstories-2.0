@@ -78,7 +78,7 @@ const useStory = (storyId: string) => {
     return await mutation(reorderStoryStepsRequest)
   }
 
-  const APIAddStepSuggestion = async (
+  const APICreateStoryStepSuggestion = async (
     props?: Partial<Omit<StoryStepSuggestion, 'id'>>,
   ) => {
     const createStepSuggestionRequest = createStepSuggestion({
@@ -125,7 +125,7 @@ const useStory = (storyId: string) => {
     reorderStorySteps: APIReorderStorySteps,
     createStoryStep: APICreateStoryStep,
     deleteStoryStep: APIDeleteStoryStep,
-    addStepSuggestion: APIAddStepSuggestion,
+    createStoryStepSuggestion: APICreateStoryStepSuggestion,
     deleteStepSuggestion: APIDeleteStepSuggestion,
   }
 }
