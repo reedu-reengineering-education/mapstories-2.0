@@ -42,13 +42,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const [savedView, setSavedView] = useState<any>()
   const [startView, setStartView] = useState<any>()
   const [pathend2, setPathend2] = useState<string | undefined>('')
-  const [mediaUrl, setMediaUrl] = useState<string | undefined>('')
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
-  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight)
   const router = useRouter()
-  const [cursor, setCursor] = useState<string>('auto')
 
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
@@ -123,8 +120,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   // generate markers
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
-    const pathend = path?.split('/').at(-1)
-    const pathend2 = path?.split('/').at(-2)
     // update Theme
     if (storyID != '' && story?.theme) {
       applyTheme(story.theme)
@@ -145,7 +140,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       let bounds: any = undefined
       const newMarkers = story?.steps
         .filter(step => step.feature)
-        .map(({ id, feature, position, content }) => {
+        .map(({ id, feature, position, content, tags }) => {
           const geoFeature =
             feature as unknown as GeoJSON.Feature<GeoJSON.Point>
           if (geoFeature?.geometry?.coordinates?.length > 0) {
@@ -173,6 +168,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
               stepId: id,
               color: '#18325b',
               title: getSlideTitle(content),
+              tags: tags,
             }
             return newMarker
           }
@@ -390,25 +386,11 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
   }, [startView, mapRef])
 
-  // map click handler when a story is community enabled
-  const onMapClick = (e: any) => {
-    console.log()
-    const point: GeoJSON.Feature<GeoJSON.Point> = {
-      type: 'Feature',
-      geometry: {
-        coordinates: [e.lngLat.lng, e.lngLat.lat],
-        type: 'Point',
-      },
-      properties: {},
-    }
-  }
-
   return (
     <Map
       // cursor={cursor}
       interactiveLayerIds={interactiveLayerIds}
       onLoad={onMapLoad}
-      onClick={e => onMapClick(e)}
       // onMouseMove={onHover}
       ref={mapRef}
     >

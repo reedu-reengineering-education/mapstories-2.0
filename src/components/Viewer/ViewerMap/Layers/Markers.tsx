@@ -67,12 +67,14 @@ export default function Markers({ markers, onClick }: Props) {
                 //     : ' '
                 // }
                 color={
-                  selectedStepIndex != undefined &&
-                  selectedStepIndex >= m.position
-                    ? selectedStepIndex == m.position
-                      ? 'var(--active-color-border)'
-                      : 'var(--inactive-color-border)'
-                    : m.color
+                  m.tags && m.tags.includes('community')
+                    ? 'green' // Setze die Farbe auf grün, wenn 'community' im Tag enthalten ist
+                    : selectedStepIndex !== undefined &&
+                        selectedStepIndex >= m.position
+                      ? selectedStepIndex === m.position
+                        ? 'var(--active-color-border)'
+                        : 'var(--inactive-color-border)'
+                      : m.color
                 }
                 key={(i + 1) * Math.random() * 100}
                 onClick={() => {
