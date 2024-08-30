@@ -9,7 +9,9 @@ export default function DateSelectionView({
 }: any) {
   return (
     <div className="flex flex-col justify-center gap-4">
-      <DatePickerWrapper date={date} setDate={setDate} />
+      <div className="flex justify-center">
+        <DatePickerWrapper date={date} setDate={setDate} />
+      </div>
       <div className="flex justify-between">
         <Button onClick={onBack} variant={'inverse'}>
           Zurück

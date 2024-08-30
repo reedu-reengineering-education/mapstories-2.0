@@ -68,7 +68,7 @@ export default function Markers({ markers, onClick }: Props) {
                 // }
                 color={
                   m.tags && m.tags.includes('community')
-                    ? 'green' // Setze die Farbe auf grün, wenn 'community' im Tag enthalten ist
+                    ? 'green'
                     : selectedStepIndex !== undefined &&
                         selectedStepIndex >= m.position
                       ? selectedStepIndex === m.position
