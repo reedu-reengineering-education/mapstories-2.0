@@ -36,7 +36,9 @@ export default function StepSuggestionCard({
               )}
 
               <div>
-                {t('position')}: {stepSuggestion.position}
+                {t('position')}: {stepSuggestion.position} <br></br>
+                Lat : {stepSuggestion.feature.geometry.coordinates[0]} <br></br>
+                Lng : {stepSuggestion.feature.geometry.coordinates[1]}
               </div>
 
               {stepSuggestion.tags.length > 0 && (

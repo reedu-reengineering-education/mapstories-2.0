@@ -59,9 +59,14 @@ export default function StepSuggestionsForm({ story }: Props) {
 
   const handleAccept = async (stepSuggestion: StoryStepSuggestion) => {
     try {
+      console.log('handling accept', stepSuggestion)
+
       setIsLoading(true)
+
       const newStoryStep = await createStoryStep({
         content: stepSuggestion.content,
+        feature: stepSuggestion.feature,
+        tags: stepSuggestion.tags,
       })
       await deleteStepSuggestion(stepSuggestion.id)
       toast({

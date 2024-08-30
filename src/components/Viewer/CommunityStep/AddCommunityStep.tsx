@@ -1,5 +1,5 @@
 import { Button } from '../../Elements/Button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Modal } from '../../Modal'
 import { CSSTransition } from 'react-transition-group'
 import useStory from '@/src/lib/api/story/useStory'
@@ -7,15 +7,21 @@ import ShowStepWithContents from '@/src/components/Viewer/CommunityStep/ShowStep
 import SelectContentType from '@/src/components/Viewer/CommunityStep/SelectContentType'
 import { TextContentEdit } from '@/src/components/Viewer/CommunityStep/ContentEdits/TextContentEdit'
 import { StoryStepSuggestion } from '@prisma/client'
-import { DatePickerWrapper } from '../../Timeline/DatePicker/DatePickerWrapper'
-import MiniMap from './MiniMap/MiniMap'
 import { toast } from '@/src/lib/toast'
 
+import InitialView from './ModalViews/InitialView'
+import DateSelectionView from './ModalViews/DateSelectionView'
+import LocationSelectionView from './ModalViews/LocationSelectionView'
+import ConfirmationView from './ModalViews/ConfirmationView'
+
+// Props type definition
 type Props = {
   story: any
   slug: string
   size?: 'xs' | 's' | 'm'
 }
+
+// Main component
 export default function AddCommunityStep({ story, slug, size }: Props) {
   const { createStoryStepSuggestion } = useStory(story.id)
   const [isOpen, setIsOpen] = useState(false)
@@ -23,16 +29,8 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
   const [contentType, setContentType] = useState<string>('')
   const [date, setDate] = useState<Date>(new Date())
 
-  useEffect(() => {
-    console.log(contentType)
-  }, [contentType])
-
   const handleAddCommunityStep = async () => {
-    if (story.mode === 'TIMELINE') {
-      setContentType('addDate')
-    } else {
-      setContentType('addSlide')
-    }
+    setContentType(story.mode === 'TIMELINE' ? 'addDate' : 'addSlide')
     try {
       const tempStepSuggestion: StoryStepSuggestion = {
         storyId: story.id,
@@ -45,9 +43,8 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
             suggestionId: null,
           },
         ],
+        timestamp: story.mode === 'TIMELINE' ? date : undefined,
       }
-      story.mode === 'TIMELINE' ? (tempStepSuggestion.timestamp = date) : null
-      // @ts-ignore
       setStepSuggestion(tempStepSuggestion)
     } catch (e) {
       console.log(e)
@@ -56,14 +53,9 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
 
   const handleConfirmStep = async () => {
     try {
-      console.log(stepSuggestion)
-      const newStepSuggestion = await createStoryStepSuggestion(stepSuggestion)
-      console.log(newStepSuggestion)
+      await createStoryStepSuggestion(stepSuggestion)
       setContentType('')
-      toast({
-        message: 'Community Step hinzugefügt',
-        type: 'success',
-      })
+      toast({ message: 'Community Step hinzugefügt', type: 'success' })
       setIsOpen(false)
     } catch (e) {
       console.log(e)
@@ -71,176 +63,146 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
   }
 
   const handleAddLocation = (feature: any) => {
-    console.log(stepSuggestion)
-    const newStepSuggestion = stepSuggestion
-    newStepSuggestion.feature = feature
-    setStepSuggestion(newStepSuggestion)
+    setStepSuggestion(prev => ({ ...prev, feature }))
   }
 
   return (
+    <Modal
+      onClose={() => setContentType('')}
+      onOpenChange={setIsOpen}
+      open={isOpen}
+      title="Community Step"
+      trigger={<Button variant={'inverse'}>Step hinzufügen</Button>}
+    >
+      <Modal.Content>
+        <ContentSwitcher
+          contentType={contentType}
+          date={date}
+          handleAddCommunityStep={handleAddCommunityStep}
+          handleAddLocation={handleAddLocation}
+          handleConfirmStep={handleConfirmStep}
+          setContentType={setContentType}
+          setDate={setDate}
+          setStepSuggestion={setStepSuggestion}
+          stepSuggestion={stepSuggestion}
+          storyId={story.id}
+        />
+      </Modal.Content>
+    </Modal>
+  )
+}
+
+// ContentSwitcher component to handle transitions between different content types
+function ContentSwitcher({
+  contentType,
+  handleAddCommunityStep,
+  handleConfirmStep,
+  setContentType,
+  stepSuggestion,
+  setStepSuggestion,
+  storyId,
+  date,
+  setDate,
+  handleAddLocation,
+}: any) {
+  return (
     <>
-      <Modal
-        onClose={() => setContentType('')}
-        onOpenChange={setIsOpen}
-        open={isOpen}
-        title="Community Step"
-        trigger={<Button variant={'inverse'}>Step hinzufügen</Button>}
+      <CSSTransition
+        appear
+        classNames="slide-transition"
+        in={contentType === ''}
+        timeout={400}
+        unmountOnExit
       >
-        <Modal.Content>
-          <div>
-            <CSSTransition
-              appear
-              classNames="slide-transition"
-              in={contentType === ''}
-              timeout={400}
-              unmountOnExit
-            >
-              <div className="flex flex-col gap-4">
-                Du kannst dieser Story einen Community Step hinzufügen. Dieser
-                muss von den Autoren genehmigt werden und wird dann in die Story
-                eingefügt und angezeigt
-                <div className="flex flex-row justify-end gap-4">
-                  <Button onClick={() => setIsOpen(false)} variant={'inverse'}>
-                    Abbrechen
-                  </Button>
-                  <Button onClick={() => handleAddCommunityStep()}>
-                    Hinzufügen
-                  </Button>
-                </div>
-              </div>
-            </CSSTransition>
-            <CSSTransition
-              appear
-              classNames="slide-transition"
-              in={contentType === 'addDate'}
-              timeout={400}
-              unmountOnExit
-            >
-              <div className="flex flex-col justify-center gap-4">
-                <DatePickerWrapper date={date} setDate={setDate} />
-                <div className="flex justify-between">
-                  <Button
-                    onClick={() => setContentType('')}
-                    variant={'inverse'}
-                  >
-                    Zurück
-                  </Button>
-                  <Button onClick={() => setContentType('addSlide')}>
-                    Weiter
-                  </Button>
-                </div>
-              </div>
-            </CSSTransition>
-            <CSSTransition
-              appear
-              classNames="slide-transition"
-              in={contentType === 'addSlide'}
-              timeout={400}
-              unmountOnExit
-            >
-              <div>
-                {/* @ts-ignore */}
-                <ShowStepWithContents
-                  setContentType={setContentType}
-                  setIsOpen={setIsOpen}
-                  setStepSuggestion={setStepSuggestion}
-                  stepId={stepSuggestion?.id}
-                  stepSuggestion={stepSuggestion}
-                  storyId={story.id}
-                />
-              </div>
-            </CSSTransition>
-            <CSSTransition
-              appear
-              classNames={'slide-transition'}
-              in={contentType === 'addContent'}
-              timeout={400}
-              unmountOnExit
-            >
-              <SelectContentType setContentType={setContentType} />
-            </CSSTransition>
-            <CSSTransition
-              appear
-              classNames={'slide-transition'}
-              in={contentType === 'text'}
-              timeout={400}
-              unmountOnExit
-            >
-              <TextContentEdit
-                setContentType={setContentType}
-                setStepSuggestion={setStepSuggestion}
-                stepSuggestion={stepSuggestion}
-              />
-            </CSSTransition>
-            <CSSTransition
-              appear
-              classNames={'slide-transition'}
-              in={contentType === 'media'}
-              timeout={400}
-              unmountOnExit
-            >
-              <div>Media</div>
-            </CSSTransition>
-            <CSSTransition
-              appear
-              classNames={'slide-transition'}
-              in={contentType === 'embed'}
-              timeout={400}
-              unmountOnExit
-            >
-              <div>Embed</div>
-            </CSSTransition>
-            <CSSTransition
-              appear
-              classNames={'slide-transition'}
-              in={contentType === 'addLocation'}
-              timeout={400}
-              unmountOnExit
-            >
-              <div className="flex flex-col justify-end gap-4">
-                Setze einen Marker auf der Karte oder gebe die Addresse in der
-                Suchleiste ein
-                <div className="h-56 w-96">
-                  <MiniMap handleAddLocation={handleAddLocation} />
-                </div>
-                <div className="flex flex-row justify-between gap-4">
-                  <Button
-                    onClick={() => setContentType('addSlide')}
-                    variant={'inverse'}
-                  >
-                    Zurück
-                  </Button>
-                  <Button onClick={() => setContentType('confirmStep')}>
-                    Weiter
-                  </Button>
-                </div>
-              </div>
-            </CSSTransition>
-            <CSSTransition
-              appear
-              classNames={'slide-transition'}
-              in={contentType === 'confirmStep'}
-              timeout={400}
-              unmountOnExit
-            >
-              <div>
-                <div>Confirm Step</div>
-                <div className="flex flex-row justify-end gap-4">
-                  <Button
-                    onClick={() => setContentType('addLocation')}
-                    variant={'inverse'}
-                  >
-                    Zurück
-                  </Button>
-                  <Button onClick={() => handleConfirmStep()}>
-                    Bestätigen
-                  </Button>
-                </div>
-              </div>
-            </CSSTransition>
-          </div>
-        </Modal.Content>
-      </Modal>
+        <InitialView
+          onAdd={handleAddCommunityStep}
+          onCancel={() => setContentType('')}
+        />
+      </CSSTransition>
+
+      <CSSTransition
+        appear
+        classNames="slide-transition"
+        in={contentType === 'addDate'}
+        timeout={400}
+        unmountOnExit
+      >
+        <DateSelectionView
+          date={date}
+          onBack={() => setContentType('')}
+          onNext={() => setContentType('addSlide')}
+          setDate={setDate}
+        />
+      </CSSTransition>
+
+      <CSSTransition
+        appear
+        classNames="slide-transition"
+        in={contentType === 'addSlide'}
+        timeout={400}
+        unmountOnExit
+      >
+        <ShowStepWithContents
+          setContentType={setContentType}
+          setIsOpen={() => {}}
+          setStepSuggestion={setStepSuggestion}
+          stepId={stepSuggestion?.id}
+          stepSuggestion={stepSuggestion}
+          storyId={storyId}
+        />
+      </CSSTransition>
+
+      <CSSTransition
+        appear
+        classNames="slide-transition"
+        in={contentType === 'addContent'}
+        timeout={400}
+        unmountOnExit
+      >
+        <SelectContentType setContentType={setContentType} />
+      </CSSTransition>
+
+      <CSSTransition
+        appear
+        classNames="slide-transition"
+        in={contentType === 'text'}
+        timeout={400}
+        unmountOnExit
+      >
+        <TextContentEdit
+          setContentType={setContentType}
+          setStepSuggestion={setStepSuggestion}
+          stepSuggestion={stepSuggestion}
+        />
+      </CSSTransition>
+
+      <CSSTransition
+        appear
+        classNames="slide-transition"
+        in={contentType === 'addLocation'}
+        timeout={400}
+        unmountOnExit
+      >
+        <LocationSelectionView
+          handleAddLocation={handleAddLocation}
+          onBack={() => setContentType('addSlide')}
+          onNext={() => setContentType('confirmStep')}
+        />
+      </CSSTransition>
+
+      <CSSTransition
+        appear
+        classNames="slide-transition"
+        in={contentType === 'confirmStep'}
+        timeout={400}
+        unmountOnExit
+      >
+        <ConfirmationView
+          onBack={() => setContentType('addLocation')}
+          onConfirm={handleConfirmStep}
+          stepSuggestion={stepSuggestion}
+        />
+      </CSSTransition>
     </>
   )
 }

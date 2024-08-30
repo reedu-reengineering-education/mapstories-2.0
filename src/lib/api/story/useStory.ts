@@ -46,6 +46,7 @@ const useStory = (storyId: string) => {
   }
 
   const APICreateStoryStep = async (props?: Partial<Omit<StoryStep, 'id'>>) => {
+    console.log('creating step', props)
     const createStoryStepRequest = createStoryStep({ id: storyId, ...props })
     const newStep = (await createStoryStepRequest).data
 

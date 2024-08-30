@@ -10,14 +10,14 @@ import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useStep from '@/src/lib/api/step/useStep'
 import useMedia from '@/src/lib/api/media/useMedia'
-import SizedImage from '../../Elements/SizedImage'
 import { Media, MediaType } from '@prisma/client'
 import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
 import { getS3Image } from '@/src/helper/getS3Image'
 import * as z from 'zod'
 import 'react-tabs/style/react-tabs.css'
 import ReactPlayer from 'react-player'
-import { Spinner } from '../../Elements/Spinner'
+import { Spinner } from '@/src/components/Elements/Spinner'
+import SizedImage from '@/src/components/Elements/SizedImage'
 
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string

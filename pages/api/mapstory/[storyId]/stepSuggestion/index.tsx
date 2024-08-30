@@ -25,6 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           position: story?.steps.length || 0,
           feature: req.body.feature ?? null,
           timestamp: req.body.timestamp ?? null,
+          tags: ['community'],
         },
         include: {
           Story: {

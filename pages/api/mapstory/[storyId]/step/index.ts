@@ -36,6 +36,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           position: story?.steps.length || 0,
           timestamp: req.body.timestamp ?? null,
           feature: req.body.feature ?? null,
+          tags: req.body.tags ?? null,
         },
         include: {
           Story: {
@@ -45,7 +46,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       })
-
       if (story?.mode === StoryMode.TIMELINE) {
         await reorderTimeline(storyId)
       }
@@ -78,6 +78,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       res.end()
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.log(error)
         res.status(422).json(error.issues)
         return
       }
