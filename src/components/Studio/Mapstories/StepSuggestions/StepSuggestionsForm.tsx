@@ -15,6 +15,9 @@ import {
 } from '@/src/components/Elements/Carousel'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+import { CheckIcon } from 'lucide-react'
+import { Button } from '@/src/components/Elements/Button'
 type Props = {
   story: Story
 }
@@ -105,12 +108,39 @@ export default function StepSuggestionsForm({ story }: Props) {
             <CarouselContent>
               {content.map((stepSuggestion, index) => (
                 <CarouselItem className="content-center" key={index}>
-                  <StepSuggestionCard
-                    handleAccept={handleAccept}
-                    handleReject={handleReject}
-                    loading={isLoading}
-                    stepSuggestion={stepSuggestion}
-                  />
+                  <div className="flex flex-col gap-4">
+                    <StepSuggestionCard
+                      handleAccept={handleAccept}
+                      handleReject={handleReject}
+                      loading={isLoading}
+                      stepSuggestion={stepSuggestion}
+                    />
+                    <div className="flex items-center justify-between">
+                      <Button
+                        onClick={() => handleReject(stepSuggestion)}
+                        startIcon={<XMarkIcon className="w-5" />}
+                        variant={'danger'}
+                      >
+                        {t('reject')}
+                      </Button>
+                      <Button
+                        disabled={isLoading}
+                        onClick={() => handleAccept(stepSuggestion)}
+                        startIcon={
+                          isLoading ? (
+                            <svg
+                              className="... mr-3 h-5 w-5 animate-spin"
+                              viewBox="0 0 24 24"
+                            ></svg>
+                          ) : (
+                            <CheckIcon className="w-5" />
+                          )
+                        }
+                      >
+                        {isLoading ? t('loading') : t('accept')}
+                      </Button>
+                    </div>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>

@@ -5,7 +5,6 @@ import DraggableList from '../../DraggableList'
 import { SlideContentListEditItem } from '../../Studio/Mapstories/SlideContentListEditItem'
 import { Button } from '../../Elements/Button'
 import { PlusIcon } from '@radix-ui/react-icons'
-import { MapPinIcon } from '@heroicons/react/24/outline'
 import useStepSuggestion from '@/src/lib/api/stepSuggestion/useStepSuggestion'
 type Props = {
   storyId: string
@@ -43,51 +42,39 @@ export default function ShowStepWithContents({
     } catch (e) {}
   }
 
-  const handleConfirmClick = async () => {
-    setContentType('addLocation')
-    // setContent([])
-    // const newStep = await addStepSuggestion(stepSuggestion)
-    // // create step suggestion
-    // // add content to step suggestion
-    // toast({
-    //     message: 'Step confirmed, waiting for approval',
-    //     type: 'success',
-    //   })
-  }
-
   return (
-    <div>
-      {content && content.length > 0 && (
-        <DraggableList
-          items={content?.map((stepItem, index) => ({
-            id: index,
-            s: stepItem,
-            component: (
-              <SlideContentListEditItem
-                stepItem={stepItem}
-              ></SlideContentListEditItem>
-            ),
-          }))}
-          onChange={e => onReorder(e.map(({ s }) => s))}
-        />
-      )}
-      <div className="flex flex-col gap-4">
-        <Button
-          className="w-full"
-          onClick={() => setContentType('addContent')}
-          startIcon={<PlusIcon className="h-5"></PlusIcon>}
-          variant={'inverse'}
-        >
-          Add Content
+    <div className="flex flex-col gap-4">
+      <div>
+        {content && content.length > 0 && (
+          <DraggableList
+            items={content?.map((stepItem, index) => ({
+              id: index,
+              s: stepItem,
+              component: (
+                <SlideContentListEditItem
+                  stepItem={stepItem}
+                ></SlideContentListEditItem>
+              ),
+            }))}
+            onChange={e => onReorder(e.map(({ s }) => s))}
+          />
+        )}
+        <div className="flex flex-col gap-4">
+          <Button
+            className="w-full"
+            onClick={() => setContentType('addContent')}
+            startIcon={<PlusIcon className="h-5"></PlusIcon>}
+            variant={'inverse'}
+          >
+            Add Content
+          </Button>
+        </div>
+      </div>
+      <div className="flex flex-row justify-between gap-4">
+        <Button onClick={() => setContentType('')} variant={'inverse'}>
+          Zurück
         </Button>
-        <Button
-          className="w-full"
-          onClick={() => setContentType('addLocation')}
-          startIcon={<MapPinIcon className="h-5"></MapPinIcon>}
-          variant={'primary'}
-        >
-          Set Location
-        </Button>
+        <Button onClick={() => setContentType('addLocation')}>Weiter</Button>
       </div>
     </div>
   )

@@ -35,8 +35,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           viewport: {},
           position: story?.steps.length || 0,
           timestamp: req.body.timestamp ?? null,
-          feature: req.body.feature ?? null,
-          tags: req.body.tags ?? null,
+          feature: req.body.feature ?? undefined,
+          tags: req.body.tags ?? undefined,
         },
         include: {
           Story: {
@@ -77,8 +77,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       res.end()
     } catch (error) {
+      console.log(error)
+
       if (error instanceof z.ZodError) {
-        console.log(error)
         res.status(422).json(error.issues)
         return
       }

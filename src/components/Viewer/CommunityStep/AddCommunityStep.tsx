@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '../../Elements/Button'
 import { useState } from 'react'
 import { Modal } from '../../Modal'
