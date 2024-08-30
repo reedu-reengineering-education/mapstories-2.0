@@ -16,7 +16,7 @@ type Props = {
 
 export function SlideContentListEditItem({ stepItem, setDisabled }: Props) {
   const [open, setOpen] = React.useState(false)
-  React.useEffect(()=> {
+  React.useEffect(() => {
     console.log('stepItem', stepItem)
   }, [])
   return (
@@ -27,7 +27,9 @@ export function SlideContentListEditItem({ stepItem, setDisabled }: Props) {
       <Modal
         onOpenChange={() => {
           setOpen(!open)
-          if(setDisabled) {setDisabled(!open)}
+          if (setDisabled) {
+            setDisabled(!open)
+          }
         }}
         open={open}
         setDisabled={setDisabled}

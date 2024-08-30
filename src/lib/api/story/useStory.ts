@@ -1,5 +1,10 @@
 import { APIError } from '@/types'
-import { SlideContent, Story, StoryStep, StoryStepSuggestion } from '@prisma/client'
+import {
+  SlideContent,
+  Story,
+  StoryStep,
+  StoryStepSuggestion,
+} from '@prisma/client'
 import { AxiosResponse } from 'axios'
 import useSWR from 'swr'
 import { createStory, ICreateStoryProps } from './createStory'
@@ -73,8 +78,13 @@ const useStory = (storyId: string) => {
     return await mutation(reorderStoryStepsRequest)
   }
 
-  const APIAddStepSuggestion = async (props?: Partial<Omit<StoryStepSuggestion, 'id'>>) => {
-    const createStepSuggestionRequest = createStepSuggestion({ id: storyId, ...props })
+  const APIAddStepSuggestion = async (
+    props?: Partial<Omit<StoryStepSuggestion, 'id'>>,
+  ) => {
+    const createStepSuggestionRequest = createStepSuggestion({
+      id: storyId,
+      ...props,
+    })
     const newStepSuggestion = (await createStepSuggestionRequest).data
 
     if (story) {
@@ -87,18 +97,23 @@ const useStory = (storyId: string) => {
   }
 
   const APIDeleteStepSuggestion = async (stepSuggestionId: string) => {
-    const deleteStoryStepSuggestionRequest = deleteStepSuggestion(storyId, stepSuggestionId)
+    const deleteStoryStepSuggestionRequest = deleteStepSuggestion(
+      storyId,
+      stepSuggestionId,
+    )
     const deletedSuggestionStep = (await deleteStoryStepSuggestionRequest).data
 
     if (story) {
-      await mutate ({
-        ...story, 
+      await mutate({
+        ...story,
         stepSuggestions: [
-          ...(story.stepSuggestions?.filter(({ id }) => id !== deletedSuggestionStep.id) || [])
-        ]
+          ...(story.stepSuggestions?.filter(
+            ({ id }) => id !== deletedSuggestionStep.id,
+          ) || []),
+        ],
       })
     }
-    return deletedSuggestionStep;
+    return deletedSuggestionStep
   }
 
   return {
@@ -111,7 +126,7 @@ const useStory = (storyId: string) => {
     createStoryStep: APICreateStoryStep,
     deleteStoryStep: APIDeleteStoryStep,
     addStepSuggestion: APIAddStepSuggestion,
-    deleteStepSuggestion: APIDeleteStepSuggestion
+    deleteStepSuggestion: APIDeleteStepSuggestion,
   }
 }
 

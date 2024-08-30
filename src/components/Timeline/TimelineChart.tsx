@@ -151,7 +151,7 @@ export default function TimelineChart({
       )}
       <div className="flex flex-1 flex-row items-start">
         <div className="flex-1 p-2" ref={ref} />
-        <div className=" z-40 m-2 flex flex-col gap-1 rounded bg-zinc-100 p-1">
+        <div className="z-40 m-2 flex flex-col gap-1 rounded bg-zinc-100 p-1">
           {fitButton && (
             <Tooltip
               content="Fit timeline to content"

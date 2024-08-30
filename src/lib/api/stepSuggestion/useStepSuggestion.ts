@@ -37,13 +37,23 @@ const useStepSuggestion = (stepSuggestionId: string) => {
     return step
   }
 
-  const APIUpdateStepSuggestion = async (step: Partial<StoryStepSuggestion>) => {
-    const updateStoryStepRequest = updateStoryStepSuggestion(storyId, stepSuggestionId, step)
+  const APIUpdateStepSuggestion = async (
+    step: Partial<StoryStepSuggestion>,
+  ) => {
+    const updateStoryStepRequest = updateStoryStepSuggestion(
+      storyId,
+      stepSuggestionId,
+      step,
+    )
     return await mutateRequest(updateStoryStepRequest)
   }
 
   const APIAddContent = async (content: Partial<SlideContent>) => {
-    const addSlideContentRequest = addContent(storyId, stepSuggestionId, content)
+    const addSlideContentRequest = addContent(
+      storyId,
+      stepSuggestionId,
+      content,
+    )
     console.log('data from add content', [storyId, stepSuggestionId, content])
     const newContent = (await addSlideContentRequest).data
     if (!stepSuggestion) {
@@ -79,7 +89,11 @@ const useStepSuggestion = (stepSuggestionId: string) => {
   }
 
   const APIDeleteContent = async (contentId: Pick<SlideContent, 'id'>) => {
-    const deleteContentRequest = await deleteContent(storyId, stepSuggestionId, contentId)
+    const deleteContentRequest = await deleteContent(
+      storyId,
+      stepSuggestionId,
+      contentId,
+    )
     const deletedContent = (await (
       await deleteContentRequest
     ).data) as SlideContent

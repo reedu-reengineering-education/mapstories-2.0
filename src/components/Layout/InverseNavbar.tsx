@@ -66,7 +66,7 @@ export function InverseNavbar({
           href="/"
         >
           <LogoWithTextTransparent />
-          <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary ">
+          <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary">
             BETA
           </span>
         </Link>
@@ -103,7 +103,7 @@ export function InverseNavbar({
           )}
         </button>
         <Link
-          className="relative  items-center space-x-2 text-zinc-50 lg:hidden"
+          className="relative items-center space-x-2 text-zinc-50 lg:hidden"
           href="/"
         >
           <LogoWithTextTransparent />
@@ -134,12 +134,12 @@ function MobileNav({
   return (
     <div
       className={cx(
-        'animate-in slide-in-from-bottom-80 fixed inset-0 top-16  grid h-[calc(100vh-4rem)] w-[40%] grid-flow-row auto-rows-max  overflow-hidden p-6 pb-32  lg:hidden',
+        'animate-in slide-in-from-bottom-80 fixed inset-0 top-16 grid h-[calc(100vh-4rem)] w-[40%] grid-flow-row auto-rows-max overflow-hidden p-6 pb-32 lg:hidden',
       )}
     >
-      <div className="relative grid gap-6 rounded-md bg-white p-4 ">
+      <div className="relative grid gap-6 rounded-md bg-white p-4">
         <nav className="grid grid-flow-row auto-rows-max text-sm">
-          <div className=" flex flex-row gap-6">
+          <div className="flex flex-row gap-6">
             <LangSwitcher />
             {user ? (
               <UserAccountNav user={user} />
@@ -153,7 +153,7 @@ function MobileNav({
           {routes.map((item, index) => (
             <Link
               className={cx(
-                ' flex w-full items-center rounded-md py-2 text-sm font-medium hover:underline',
+                'flex w-full items-center rounded-md py-2 text-sm font-medium hover:underline',
                 item.disabled ? 'cursor-not-allowed opacity-60' : '',
               )}
               href={item.disabled ? '#' : item.href}

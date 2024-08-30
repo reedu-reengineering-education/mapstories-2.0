@@ -12,7 +12,7 @@ export default function PlayStoryButton({ slug, size }: Props) {
   const path = usePathname()
   const router = useRouter()
   const pathLocal =
-  path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+    path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
   function startStory() {
     const pathLocal =
       path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
@@ -22,11 +22,7 @@ export default function PlayStoryButton({ slug, size }: Props) {
 
   return (
     <Link href={`/${pathLocal}/${slug}/0`}>
-      <Button
-        className="hover:bg-slate-100 "
-        size="sm"
-        variant={'noStyle'}
-      >
+      <Button className="hover:bg-slate-100" size="sm" variant={'noStyle'}>
         <PlayIcon
           className={cx(
             size == 'xs' ? 'h-5 w-5' : '',
@@ -36,6 +32,5 @@ export default function PlayStoryButton({ slug, size }: Props) {
         ></PlayIcon>
       </Button>
     </Link>
-
   )
 }

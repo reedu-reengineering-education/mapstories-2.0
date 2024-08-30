@@ -33,7 +33,7 @@ export function ViewerPopup({ story, firstStepId, mediaId }: Props) {
   }, [])
 
   return (
-    <div className="flex flex-row items-center rounded-md border-2 border-slate-300 p-1 shadow  ">
+    <div className="flex flex-row items-center rounded-md border-2 border-slate-300 p-1 shadow">
       {mediaUrl && (
         <SizedImage alt={'popup'} size={'xs'} src={mediaUrl} variant="round" />
       )}
@@ -44,7 +44,7 @@ export function ViewerPopup({ story, firstStepId, mediaId }: Props) {
           src={logoNoText}
         />
       )}
-      <div className="py-2 text-center  text-xs font-extrabold ">
+      <div className="py-2 text-center text-xs font-extrabold">
         {story.name}
       </div>
     </div>

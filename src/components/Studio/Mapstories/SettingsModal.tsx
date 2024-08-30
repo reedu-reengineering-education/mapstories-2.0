@@ -200,9 +200,9 @@ export default function SettingsModal({
                     </span>
                     <Switch
                       defaultChecked={story.visibility === 'PUBLIC'}
-                      onCheckedChange={checked => onChange(
-                        checked ? 'PUBLIC' : 'PRIVATE',
-                      )}
+                      onCheckedChange={checked =>
+                        onChange(checked ? 'PUBLIC' : 'PRIVATE')
+                      }
                       ref={ref}
                     ></Switch>
 

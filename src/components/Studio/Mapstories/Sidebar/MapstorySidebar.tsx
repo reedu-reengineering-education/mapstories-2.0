@@ -87,11 +87,11 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   if (!story || !steps) {
     return (
       <aside className="flex h-full w-full flex-col gap-6 overflow-y-auto overflow-x-hidden px-4">
-        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
-        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
-        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
-        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
-        <div className=" flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+        <div className="flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+        <div className="flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+        <div className="flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+        <div className="flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
+        <div className="flex aspect-video w-full animate-pulse items-center justify-center rounded-lg bg-slate-100"></div>
       </aside>
     )
   }

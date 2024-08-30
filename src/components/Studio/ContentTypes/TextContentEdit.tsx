@@ -72,7 +72,7 @@ export function TextContentEdit({
         })
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
       toast({
         title: t('somethingWrong'),
         message: t('contentNotCreated'),

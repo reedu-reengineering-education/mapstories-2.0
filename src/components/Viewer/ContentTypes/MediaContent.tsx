@@ -51,7 +51,7 @@ export function MediaContent({ content }: MediaContentProps) {
   }, [])
 
   return (
-    <div className=" py-2">
+    <div className="py-2">
       {isLoading && (
         <div className="flex justify-center">
           <Spinner />

@@ -24,5 +24,8 @@
   "copied": "Kopiert!",
   "copiedMessage": "Die Mapstory wurde erfolgreich kopiert!",
   "somethingWrong": "Etwas ist schief gelaufen. Bitte versuche es erneut.",
-  "copying": "Kopiere..."
+  "copying": "Kopiere...",
+  "community": "Community-Modus",
+  "on": "An",
+  "off": "Aus"
 }

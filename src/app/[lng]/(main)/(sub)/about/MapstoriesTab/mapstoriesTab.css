@@ -1,11 +1,10 @@
 /* CSS-Stil für die Verkleinerung der Bilder um einen Faktor von 0,5 */
 img {
-    width: 75%; /* Verkleinern der Breite um 50% */
-    height: auto; /* Automatische Anpassung der Höhe entsprechend der Breite */
+  width: 75%; /* Verkleinern der Breite um 50% */
+  height: auto; /* Automatische Anpassung der Höhe entsprechend der Breite */
 }
 
-
 .kulturWissenschaft {
-    width:65%;
-    height:auto;
+  width: 65%;
+  height: auto;
 }

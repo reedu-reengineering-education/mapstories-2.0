@@ -22,7 +22,7 @@ export default function QuitStoryButton({ slug, size }: Props) {
   return (
     <Button
       aria-label="Restart Story"
-      className="p-10 hover:bg-slate-100 "
+      className="p-10 hover:bg-slate-100"
       onClick={() => onClose()}
       variant="noStyle"
     >

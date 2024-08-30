@@ -102,6 +102,7 @@ model Story {
   mode        StoryMode   @default(NORMAL)
   lines       Boolean     @default(true)
   stepSuggestions StoryStepSuggestion[] @relation("storySuggestions")
+  community   Boolean     @default(false)
 
   @@map(name: "stories")
 }

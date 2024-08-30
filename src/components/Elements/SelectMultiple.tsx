@@ -94,7 +94,7 @@ function SelectMultiple({
                 {/* sort array without mutation: https://bobbyhadz.com/blog/javascript-sort-array-without-mutating */}
                 {[...selectedValues].sort().map((v, i) => (
                   <div
-                    className="my-2 mr-2 flex max-w-fit items-center whitespace-nowrap rounded bg-matisse px-2 py-0.5 text-white "
+                    className="my-2 mr-2 flex max-w-fit items-center whitespace-nowrap rounded bg-matisse px-2 py-0.5 text-white"
                     key={i}
                   >
                     {v}
@@ -137,7 +137,7 @@ function SelectMultiple({
           >
             <Listbox.Options
               className={clsx(
-                'absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+                'absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
                 disabled ? 'bg-zinc-100' : 'bg-white',
               )}
             >

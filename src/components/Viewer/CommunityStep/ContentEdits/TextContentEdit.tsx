@@ -28,7 +28,7 @@ export function TextContentEdit({
   stepItem,
   setContentType,
   setShowModal,
-  setStepSuggestion
+  setStepSuggestion,
 }: TextContentEditProps) {
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
@@ -36,10 +36,7 @@ export function TextContentEdit({
   }
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
-
-  const [textValue, setTextValue] = useState<string | undefined>(
-    'Placeholder',
-  )
+  const [textValue, setTextValue] = useState<string | undefined>('Placeholder')
 
   React.useEffect(() => {
     if (stepItem) {
@@ -53,13 +50,12 @@ export function TextContentEdit({
       newStepSuggestion.content.push({
         type: 'TEXT',
         content: text,
-        position: stepSuggestion.content[stepSuggestion.content.length - 1].position + 1,
+        position:
+          stepSuggestion.content[stepSuggestion.content.length - 1].position +
+          1,
         suggestionId: null,
       })
       setStepSuggestion(newStepSuggestion)
-
-
-
 
       // if (stepItem) {
       //   await updateContent(stepItem.id, {
@@ -79,7 +75,7 @@ export function TextContentEdit({
       //   })
       // }
     } catch (error) {
-      console.log(error);
+      console.log(error)
       toast({
         title: 'somethingWrong',
         message: 'contentNotCreated',

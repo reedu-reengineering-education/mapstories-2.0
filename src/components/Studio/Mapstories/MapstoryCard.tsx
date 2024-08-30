@@ -22,10 +22,6 @@ export function MapstoryCard({ mapstory }: Props) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstoryCard')
 
-  React.useEffect(()=>{
-    console.log(mapstory)
-  })
-
   return (
     <Card>
       <Card.Header>
@@ -52,17 +48,14 @@ export function MapstoryCard({ mapstory }: Props) {
             {/* <CopyModal storyId={mapstory.id} /> */}
             <ShareModal storyId={mapstory.id} />
             <EmbedModal storyId={mapstory.slug} />
-            { mapstory.stepSuggestions.length > 0 && (
-            <Link href={`/storylab/stepSuggestions/${mapstory.id}`}>
-            <Button 
-              startIcon={<PencilIcon className='w-5'/>}>
-              {/* @ts-ignore */}
-              Offene Vorschläge
-              ({mapstory.stepSuggestions.length})
-            </Button>
-            </Link>
+            {mapstory.stepSuggestions.length > 0 && (
+              <Link href={`/storylab/stepSuggestions/${mapstory.id}`}>
+                <Button startIcon={<PencilIcon className="w-5" />}>
+                  {/* @ts-ignore */}
+                  Offene Vorschläge ({mapstory.stepSuggestions.length})
+                </Button>
+              </Link>
             )}
-
           </div>
           <DeleteMapstoryButton id={mapstory.id} />
         </div>

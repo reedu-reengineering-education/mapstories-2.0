@@ -19,11 +19,10 @@ import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { ViewerPopup } from './ViewerPopup'
 
 type ViewerViewProps = {
-  inputStories:
-    | (Story & {
-        theme?: Theme | null
-        steps: (StoryStep & { content: SlideContent[] })[]
-      })[]
+  inputStories: (Story & {
+    theme?: Theme | null
+    steps: (StoryStep & { content: SlideContent[] })[]
+  })[]
 }
 
 export default function ViewerView({ inputStories }: ViewerViewProps) {
@@ -391,11 +390,25 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
   }, [startView, mapRef])
 
+  // map click handler when a story is community enabled
+  const onMapClick = (e: any) => {
+    console.log()
+    const point: GeoJSON.Feature<GeoJSON.Point> = {
+      type: 'Feature',
+      geometry: {
+        coordinates: [e.lngLat.lng, e.lngLat.lat],
+        type: 'Point',
+      },
+      properties: {},
+    }
+  }
+
   return (
     <Map
       // cursor={cursor}
       interactiveLayerIds={interactiveLayerIds}
       onLoad={onMapLoad}
+      onClick={e => onMapClick(e)}
       // onMouseMove={onHover}
       ref={mapRef}
     >

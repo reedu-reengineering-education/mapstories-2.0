@@ -16,17 +16,16 @@ async function getStory(storyId: Story['id']) {
       stepSuggestions: {
         include: {
           content: true,
+        },
       },
     },
-  },
   })
 }
 
-
 export default async function StepSuggestionsPage({
-  params: { lng , storyId},
+  params: { lng, storyId },
 }: {
-  params: { lng: string , storyId: string}
+  params: { lng: string; storyId: string }
 }) {
   const user = await getCurrentUser()
   const { t } = await useTranslation(lng, 'stepSuggestions')
@@ -41,7 +40,7 @@ export default async function StepSuggestionsPage({
         heading={t('stepSuggestions')}
         text={t('stepSuggestionsDescription')}
       ></StudioHeader>
-      <StepSuggestionsForm story = {story} />
+      <StepSuggestionsForm story={story} />
     </StudioShell>
   )
 }

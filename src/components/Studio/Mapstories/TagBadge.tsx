@@ -23,7 +23,7 @@ export function TagBadge({ tagName, onRemove }: TagBadgeProps) {
       {hovered && (
         <div className="absolute bottom-[2px] right-2 cursor-pointer rounded bg-white">
           <TrashIcon
-            className=" w-5 text-red-500"
+            className="w-5 text-red-500"
             onClick={() => {
               onRemove(tagName)
             }}
