@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@/src/components/Elements/Button'
 
 // Individual sub-components for each content type view

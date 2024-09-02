@@ -22,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: {
           storyId,
           viewport: {},
-          position: story?.steps.length || 0,
+          position: req.body.position || 0,
           feature: req.body.feature ?? null,
           timestamp: req.body.timestamp ?? null,
           tags: ['community'],

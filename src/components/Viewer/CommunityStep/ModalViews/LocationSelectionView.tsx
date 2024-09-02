@@ -21,7 +21,9 @@ export default function LocationSelectionView({
         <Button onClick={onBack} variant={'inverse'}>
           Zurück
         </Button>
-        <Button onClick={onNext}>Weiter</Button>
+        <Button disabled={!stepSuggestion.feature} onClick={onNext}>
+          Weiter
+        </Button>
       </div>
     </div>
   )

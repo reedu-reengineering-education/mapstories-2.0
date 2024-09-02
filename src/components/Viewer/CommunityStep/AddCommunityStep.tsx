@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '../../Elements/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal } from '../../Modal'
 import { CSSTransition } from 'react-transition-group'
 import useStory from '@/src/lib/api/story/useStory'
@@ -14,6 +14,7 @@ import InitialView from './ModalViews/InitialView'
 import DateSelectionView from './ModalViews/DateSelectionView'
 import LocationSelectionView from './ModalViews/LocationSelectionView'
 import ConfirmationView from './ModalViews/ConfirmationView'
+import { MediaContentEdit } from './ContentEdits/MediaContentType'
 
 // Props type definition
 type Props = {
@@ -68,6 +69,10 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
   const handleAddLocation = (feature: any) => {
     setStepSuggestion(prev => ({ ...prev, feature }))
   }
+
+  useEffect(() => {
+    console.log(stepSuggestion)
+  }, [stepSuggestion])
 
   return (
     <Modal
@@ -173,6 +178,20 @@ function ContentSwitcher({
         unmountOnExit
       >
         <TextContentEdit
+          setContentType={setContentType}
+          setStepSuggestion={setStepSuggestion}
+          stepSuggestion={stepSuggestion}
+        />
+      </CSSTransition>
+
+      <CSSTransition
+        appear
+        classNames="slide-transition"
+        in={contentType === 'media'}
+        timeout={400}
+        unmountOnExit
+      >
+        <MediaContentEdit
           setContentType={setContentType}
           setStepSuggestion={setStepSuggestion}
           stepSuggestion={stepSuggestion}

@@ -13,6 +13,11 @@ async function getStory(storyId: Story['id']) {
       id: storyId,
     },
     include: {
+      steps: {
+        include: {
+          content: true,
+        },
+      },
       stepSuggestions: {
         include: {
           content: true,

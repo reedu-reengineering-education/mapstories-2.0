@@ -4,8 +4,6 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { z } from 'zod'
-import { StoryMode } from '@prisma/client'
-import { reorderTimeline } from './timelineReorder'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -29,11 +27,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           mode: true,
         },
       })
+      const position = req.body.position ?? (story?.steps.length || 0)
+      console.log('position', position)
       const newStep = await db.storyStep.create({
         data: {
           storyId,
           viewport: {},
-          position: story?.steps.length || 0,
+          position: position,
           timestamp: req.body.timestamp ?? null,
           feature: req.body.feature ?? undefined,
           tags: req.body.tags ?? undefined,
@@ -46,9 +46,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       })
-      if (story?.mode === StoryMode.TIMELINE) {
-        await reorderTimeline(storyId)
-      }
+      console.log('newStep', newStep)
+      // if (story?.mode === StoryMode.TIMELINE) {
+      //   await reorderTimeline(storyId)
+      // }
       // create default headline (TODO: translate placeholder text)
       // check if stepContents is undefined
       if (stepContents === undefined) {

@@ -28,7 +28,8 @@ export default function StepSuggestionsForm({ story }: Props) {
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
   const [count, setCount] = React.useState(0)
-  const { deleteStepSuggestion, createStoryStep } = useStory(story.id)
+  const { deleteStepSuggestion, createStoryStep, mutate, reorderStorySteps } =
+    useStory(story.id)
   const [content, setContent] = React.useState<StoryStepSuggestion[]>([])
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -48,6 +49,10 @@ export default function StepSuggestionsForm({ story }: Props) {
     })
   }, [api, content])
 
+  useEffect(() => {
+    console.log(story)
+  }, [story])
+
   const handleReject = async (stepSuggestion: StoryStepSuggestion) => {
     await deleteStepSuggestion(stepSuggestion.id)
     const newContent = content.filter(
@@ -60,18 +65,43 @@ export default function StepSuggestionsForm({ story }: Props) {
     })
   }
 
-  const handleAccept = async (stepSuggestion: StoryStepSuggestion) => {
+  const confirmStepSuggestion = async (stepSuggestion: StoryStepSuggestion) => {
     try {
-      console.log('handling accept', stepSuggestion)
+      // create new step
+      const newStep = await createStep(stepSuggestion)
+      // reordering story
+      await reorderStory(newStep, story)
+      // deleting stepsuggestion
+      await deleteStepSuggestion(stepSuggestion.id)
+    } catch (error) {
+      console.log(error)
+      toast({
+        message: 'Error accepting step suggestion',
+        type: 'error',
+      })
+    }
+  }
 
+  const reorderStory = async (newStep: StoryStepSuggestion, story: Story) => {
+    const newStory = await mutate()
+    const newStoryWithSuggestion = addElementWithPosition(
+      newStory?.steps || [],
+      newStep,
+    )
+
+    const reorderedStory = await reorderStorySteps(newStoryWithSuggestion)
+  }
+
+  const createStep = async (stepSuggestion: StoryStepSuggestion) => {
+    try {
       setIsLoading(true)
-
       const newStoryStep = await createStoryStep({
         content: stepSuggestion.content,
         feature: stepSuggestion.feature,
         tags: stepSuggestion.tags,
+        position: stepSuggestion.position,
       })
-      await deleteStepSuggestion(stepSuggestion.id)
+      // reorder the story with the new step
       toast({
         message: 'Step suggestion accepted',
         type: 'success',
@@ -81,6 +111,7 @@ export default function StepSuggestionsForm({ story }: Props) {
       )
       setContent(newContent)
       setIsLoading(false)
+      return newStoryStep
     } catch (error) {
       console.log(error)
       toast({
@@ -109,12 +140,7 @@ export default function StepSuggestionsForm({ story }: Props) {
               {content.map((stepSuggestion, index) => (
                 <CarouselItem className="content-center" key={index}>
                   <div className="flex flex-col gap-4">
-                    <StepSuggestionCard
-                      handleAccept={handleAccept}
-                      handleReject={handleReject}
-                      loading={isLoading}
-                      stepSuggestion={stepSuggestion}
-                    />
+                    <StepSuggestionCard stepSuggestion={stepSuggestion} />
                     <div className="flex items-center justify-between">
                       <Button
                         onClick={() => handleReject(stepSuggestion)}
@@ -125,7 +151,7 @@ export default function StepSuggestionsForm({ story }: Props) {
                       </Button>
                       <Button
                         disabled={isLoading}
-                        onClick={() => handleAccept(stepSuggestion)}
+                        onClick={() => confirmStepSuggestion(stepSuggestion)}
                         startIcon={
                           isLoading ? (
                             <svg
@@ -154,4 +180,19 @@ export default function StepSuggestionsForm({ story }: Props) {
       )}
     </div>
   )
+}
+
+const addElementWithPosition = (array: any[], newElement: any) => {
+  for (let i = 0; i < array.length; i++) {
+    const element = array[i]
+    if (element.id === newElement.id) {
+      continue
+    }
+    if (element.position >= newElement.position) {
+      element.position = element.position + 1
+    }
+  }
+
+  const reorderedArray = array.sort((a, b) => a.position - b.position)
+  return reorderedArray
 }
