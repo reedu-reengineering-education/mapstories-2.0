@@ -1,4 +1,3 @@
-import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { media_type } from '@/src/lib/media/media'
 import { useBoundStore } from '@/src/lib/store/store'
@@ -31,7 +30,6 @@ export function Embed({
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
-  const { t } = useTranslation(lng, 'embeds')
   // supported embed types https://github.com/cookpete/react-player
   const videoEmbedTypes = [
     'YOUTUBE',
@@ -75,7 +73,7 @@ export function Embed({
       {media && media.type == 'EXTERNALIMAGE' && (
         <img alt={media.content} src={media.content} />
       )}
-      {media == null && <p>{t('Embed.notRecognized')}</p>}
+      {media == null && <p>Embed not recognized</p>}
     </>
   )
 }

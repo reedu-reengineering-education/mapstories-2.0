@@ -68,7 +68,7 @@ export default function StepSuggestionsForm({ story }: Props) {
   const confirmStepSuggestion = async (stepSuggestion: StoryStepSuggestion) => {
     try {
       // create new step
-      const newStep = await createStep(stepSuggestion)
+      const newStep: any = await createStep(stepSuggestion)
       // reordering story
       await reorderStory(newStep, story)
       // deleting stepsuggestion

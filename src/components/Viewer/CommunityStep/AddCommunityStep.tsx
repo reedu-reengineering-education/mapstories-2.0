@@ -15,6 +15,7 @@ import DateSelectionView from './ModalViews/DateSelectionView'
 import LocationSelectionView from './ModalViews/LocationSelectionView'
 import ConfirmationView from './ModalViews/ConfirmationView'
 import { MediaContentEdit } from './ContentEdits/MediaContentType'
+import { EmbedContentEdit } from './ContentEdits/EmbedContentEdit'
 
 // Props type definition
 type Props = {
@@ -57,6 +58,7 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
 
   const handleConfirmStep = async () => {
     try {
+      console.log(stepSuggestion)
       await createStoryStepSuggestion(stepSuggestion)
       setContentType('')
       toast({ message: 'Community Step hinzugefügt', type: 'success' })
@@ -77,10 +79,16 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
   return (
     <Modal
       onClose={() => setContentType('')}
-      onOpenChange={setIsOpen}
+      onOpenChange={() => {
+        setIsOpen(!isOpen)
+      }}
       open={isOpen}
       title="Community Step"
-      trigger={<Button variant={'inverse'}>Step hinzufügen</Button>}
+      trigger={
+        <Button onClick={() => setContentType('intro')} variant={'inverse'}>
+          Step hinzufügen
+        </Button>
+      }
     >
       <Modal.Content>
         <ContentSwitcher
@@ -118,7 +126,7 @@ function ContentSwitcher({
       <CSSTransition
         appear
         classNames="slide-transition"
-        in={contentType === ''}
+        in={contentType === 'intro'}
         timeout={400}
         unmountOnExit
       >
@@ -137,7 +145,7 @@ function ContentSwitcher({
       >
         <DateSelectionView
           date={date}
-          onBack={() => setContentType('')}
+          onBack={() => setContentType('intro')}
           onNext={() => setContentType('addSlide')}
           setDate={setDate}
         />
@@ -192,6 +200,20 @@ function ContentSwitcher({
         unmountOnExit
       >
         <MediaContentEdit
+          setContentType={setContentType}
+          setStepSuggestion={setStepSuggestion}
+          stepSuggestion={stepSuggestion}
+        />
+      </CSSTransition>
+
+      <CSSTransition
+        appear
+        classNames="slide-transition"
+        in={contentType === 'embed'}
+        timeout={400}
+        unmountOnExit
+      >
+        <EmbedContentEdit
           setContentType={setContentType}
           setStepSuggestion={setStepSuggestion}
           stepSuggestion={stepSuggestion}

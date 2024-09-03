@@ -49,7 +49,7 @@ export function TextContentEdit({
     try {
       const newStepSuggestion = stepSuggestion
       newStepSuggestion.content.push({
-        type: 'TEXT',
+        type: '“ TEXT',
         content: text,
         position: stepSuggestion.content.length,
         suggestionId: null,

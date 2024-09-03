@@ -33,6 +33,7 @@ export default function ShowStepWithContents({
   }, [story])
 
   useEffect(() => {
+    console.log('step in contents', stepSuggestion)
     setContent(stepSuggestion?.content)
   }, [stepSuggestion])
 

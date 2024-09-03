@@ -47,6 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             content: slideContent.content,
             position: slideContent.position,
             suggestionId: newStepSuggestionId,
+            mediaId: slideContent.mediaId || undefined,
           },
         })
       }

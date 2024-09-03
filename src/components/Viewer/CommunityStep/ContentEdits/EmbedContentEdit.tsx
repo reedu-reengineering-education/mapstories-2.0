@@ -3,43 +3,32 @@
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-import { useRouter } from 'next/navigation'
-import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
-import { cx } from 'class-variance-authority'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { media_type } from '@/src/lib/media/media'
-import { useTranslation } from '@/src/app/i18n/client'
-import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { Embed } from '../../embeds/Embed'
-import { useBoundStore } from '@/src/lib/store/store'
-import useStep from '@/src/lib/api/step/useStep'
-import { urlToMedia } from '../../../helper/urlToMedia'
-import MediaIconList from '../Mapstories/MediaPlatformIcons'
 import { generateRandomName } from '@/src/helper/generateRandomName'
 import useMedia from '@/src/lib/api/media/useMedia'
+import { Embed } from '@/src/components/embeds/Embed'
+import { urlToMedia } from '@/src/helper/urlToMedia'
+import MediaIconList from '@/src/components/Studio/Mapstories/MediaPlatformIcons'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  storyStepId: string
-  stepItem?: any
+  setStepSuggestion: any
+  stepSuggestion: any
   setContentType?: any
-  setShowModal?: any
 }
 
 type FormData = z.infer<typeof slideEmbedContentSchema>
 
 export function EmbedContentEdit({
-  storyStepId,
-  stepItem,
-  className,
+  setStepSuggestion,
+  stepSuggestion,
   setContentType,
-  setShowModal,
   ...props
 }: EmbedContentEditProps) {
-  const router = useRouter()
   const {
     handleSubmit,
     register,
@@ -48,85 +37,75 @@ export function EmbedContentEdit({
   } = useForm<FormData>({
     resolver: zodResolver(slideEmbedContentSchema),
   })
-  let lng = useBoundStore(state => state.language)
-  if (languages.indexOf(lng) < 0) {
-    lng = fallbackLng
-  }
 
-  const { addMedia } = useMedia(storyStepId)
+  const [isSaving, setIsSaving] = useState<boolean>(false)
+  const [media, setMedia] = useState<media_type | undefined>(stepSuggestion)
+  const [optionState, setOptionState] = useState(stepSuggestion?.options)
+  const [fileSource, setFileSource] = useState<string | undefined>(undefined)
+  const [mediaUrl, setMediaUrl] = useState<string | undefined>(undefined)
+
+  const { addMedia } = useMedia('storyStepId')
 
   const { content: url } = watch()
   useEffect(() => {
     handleUrl(url)
   }, [url])
 
-  const storyId = useBoundStore(store => store.storyID)
   const { options: options } = watch()
   useEffect(() => {
     setOptionState(options)
-    if (options && media && stepItem) {
-      stepItem.options = options
+    if (options && media && stepSuggestion) {
+      stepSuggestion.options = options
     }
   }, [options?.autoplay])
-
-  const { t } = useTranslation(lng, ['editModal', 'embeds'])
-  const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [media, setMedia] = useState<media_type | undefined>(stepItem)
-  const [optionState, setOptionState] = useState(stepItem?.options)
-  const [fileSource, setFileSource] = useState<string | undefined>(undefined)
-  const { addContent, updateContent } = useStep(storyStepId)
 
   async function onSubmit(data: FormData) {
     try {
       setIsSaving(true)
-      if (stepItem) {
-        await updateContent(stepItem.id, { ...stepItem, type: media?.type })
-        toast({
-          message: t('editModal:contentUpdated'),
-          type: 'success',
+      if (media?.type == 'EXTERNALIMAGE') {
+        const uploadedMedia = await addMedia({
+          name: generateRandomName(),
+          url: media?.content,
+          source: fileSource,
+          size: 's',
         })
+        const newStepSuggestion = stepSuggestion
+        newStepSuggestion.content.push({
+          type: media?.type,
+          content: uploadedMedia.name,
+          position: stepSuggestion.content.length,
+          suggestionId: null,
+          mediaId: uploadedMedia.id,
+        })
+        console.log('uploaded media', uploadedMedia)
+
+        setStepSuggestion(newStepSuggestion)
       } else {
-        if (media?.type == 'EXTERNALIMAGE') {
-          const uploadedMedia = await addMedia({
-            name: generateRandomName(),
-            url: media?.content,
-            source: fileSource,
-            size: 's',
-          })
-          await addContent({
-            mediaId: uploadedMedia.id,
-            content: uploadedMedia.name,
-            type: media?.type,
-          })
-        } else {
-          await addContent({ ...data, type: media?.type })
-        }
-        toast({
-          message: t('editModal:contentCreated') as string,
-          type: 'success',
+        const newStepSuggestion = stepSuggestion
+        newStepSuggestion.content.push({
+          type: media?.type,
+          content: mediaUrl,
+          position: stepSuggestion.content.length,
+          suggestionId: null,
+          options: optionState,
         })
+        console.log(newStepSuggestion)
+
+        setStepSuggestion(newStepSuggestion)
       }
     } catch (error) {
-      toast({
-        title: t('editModal:somethingWrong') as string,
-        message: t('editModal:contentNotCreated') as string,
-        type: 'error',
-      })
     } finally {
       setIsSaving(false)
-    }
-    setContentType && setContentType('')
-    if (setShowModal) {
-      setShowModal(false)
+      setContentType && setContentType('addSlide')
     }
   }
 
   async function handleUrl(url: string) {
     const new_media = urlToMedia(url)
     setMedia(new_media)
-    if (new_media && url && stepItem) {
-      if (stepItem) {
-        stepItem.content = url
+    if (new_media && url && stepSuggestion) {
+      if (stepSuggestion) {
+        setMediaUrl(url)
       }
     }
     if (new_media?.type == 'YOUTUBE' && !optionState) {
@@ -145,21 +124,15 @@ export function EmbedContentEdit({
   }
 
   return (
-    <form
-      className={cx(className)}
-      onSubmit={handleSubmit(onSubmit)}
-      {...props}
-    >
-      <div className="top-0 flex flex-col">
+    <form onSubmit={handleSubmit(onSubmit)} {...props}>
+      <div className="top-0 flex flex-col gap-4">
         <div className="w-full">
-          <InputLabel>{t('embeds:EmbedContentEdit.InputLabel')}</InputLabel>
-          <p className="my-2 text-sm font-bold">
-            {t('embeds:EmbedContentEdit.platforms')}
-          </p>
+          <InputLabel>des</InputLabel>
+          <p className="text-sm font-bold">Platformen</p>
           <MediaIconList usedMediaType={media?.type} />
-          <div className="pt-4">
+          <div>
             <Input
-              defaultValue={stepItem ? stepItem.content : ''}
+              defaultValue={mediaUrl ?? ''}
               errors={errors.content}
               label="content"
               size={100}
@@ -168,7 +141,7 @@ export function EmbedContentEdit({
           </div>
         </div>
 
-        <div className="re-data-media-preview max-h-[20rem] overflow-y-auto pb-4 pt-4">
+        <div className="re-data-media-preview max-h-[20rem] overflow-y-auto">
           <Embed
             media={media}
             options={optionState ? optionState : undefined}
@@ -181,13 +154,13 @@ export function EmbedContentEdit({
                 type="checkbox"
                 {...register('options.autoplay')}
               />
-              <InputLabel>{t('embeds:EmbedContentEdit.autoplay')}</InputLabel>
+              <InputLabel>Autoplay</InputLabel>
             </div>
           )}
         </div>
         {/* input field to give a source */}
         <div className="flex items-center gap-2">
-          <InputLabel>{t('embeds:EmbedContentEdit.source') + ' '} </InputLabel>
+          <InputLabel>Quelle </InputLabel>
           <Input
             className="bg-slate-50"
             onChange={e => handleFileSource(e)}
@@ -196,8 +169,7 @@ export function EmbedContentEdit({
         </div>
         <div className="flex justify-end">
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
-            {stepItem && t('editModal:save')}
-            {!stepItem && t('editModal:create')}
+            Speichern
           </Button>
         </div>
       </div>

@@ -4,6 +4,8 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { z } from 'zod'
+import { reorderTimeline } from './timelineReorder'
+import { StoryMode } from '@prisma/client'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -46,10 +48,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       })
-      console.log('newStep', newStep)
-      // if (story?.mode === StoryMode.TIMELINE) {
-      //   await reorderTimeline(storyId)
-      // }
+      if (story?.mode === StoryMode.TIMELINE) {
+        await reorderTimeline(storyId)
+      }
       // create default headline (TODO: translate placeholder text)
       // check if stepContents is undefined
       if (stepContents === undefined) {

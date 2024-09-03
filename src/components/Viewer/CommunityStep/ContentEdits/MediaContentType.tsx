@@ -1,29 +1,28 @@
+'use client'
 // next js component which has an input where you can upload an image
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from '@/src/app/i18n/client'
-import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { toast } from '@/src/lib/toast'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button } from '@/src/components/Elements/Button'
 import { useDropzone } from 'react-dropzone'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
-import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
-import useStep from '@/src/lib/api/step/useStep'
 import useMedia from '@/src/lib/api/media/useMedia'
 import { Media, MediaType } from '@prisma/client'
 import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
-import { getS3Image } from '@/src/helper/getS3Image'
 import * as z from 'zod'
 import 'react-tabs/style/react-tabs.css'
 import ReactPlayer from 'react-player'
 import { Spinner } from '@/src/components/Elements/Spinner'
+import {
+  LoadCanvasTemplate,
+  loadCaptchaEnginge,
+  validateCaptcha,
+} from 'react-simple-captcha'
+import { toast } from '@/src/lib/toast'
 import SizedImage from '@/src/components/Elements/SizedImage'
-
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  storyStepId: string
-  stepItem?: any
+  stepSuggestion: any
+  setStepSuggestion: any
   setContentType?: any
-  setShowModal?: any
 }
 
 const baseStyle = {
@@ -57,32 +56,21 @@ const rejectStyle = {
 type FormData = z.infer<typeof slideEmbedContentSchema>
 
 export function MediaContentEdit({
-  storyStepId,
-  stepItem,
+  stepSuggestion,
   className,
   setContentType,
-  setShowModal,
+  setStepSuggestion,
   ...props
 }: MediaContentEditProps) {
-  let lng = useBoundStore(state => state.language)
-
-  if (languages.indexOf(lng) < 0) {
-    lng = fallbackLng
-  }
-  const { t } = useTranslation(lng, 'editModal')
-
-  const { updateMedia, getMedia, addMedia } = useMedia(storyStepId)
-  const { addContent, updateContent } = useStep(storyStepId)
+  const { addMedia } = useMedia('storyStepId')
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [fileUrl, setFileUrl] = useState(String)
   const [file, setFile] = useState<File>()
   const [fileType, setFileType] = useState<MediaType>()
-  const [selectedValue, setSelectedValue] = useState<string>('s')
-  const [externalImageUrl, setExternalImageUrl] = useState<string>('')
-  const [tabIndex, setTabIndex] = useState<number>(0)
   const [fileSource, setFileSource] = useState<string>('')
+  const [captcha, setCaptcha] = useState<string>('')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -109,29 +97,7 @@ export function MediaContentEdit({
   )
 
   useEffect(() => {
-    const getMediaWrapper = async () => {
-      if (stepItem) {
-        // get image table from db
-        stepItem.type === 'EXTERNALIMAGE' ? setTabIndex(0) : setTabIndex(1)
-        const media = (await getMedia(stepItem.mediaId)) as Media
-        media.source ? setFileSource(media.source!) : setFileSource('')
-        setFileType(stepItem.type)
-        setSelectedValue(media.size!)
-        if (stepItem.type === 'IMAGE' || stepItem.type === 'AUDIO') {
-          setIsLoading(true)
-          // get image file from s3
-          const response = await getS3Image(media)
-          setFileUrl(response)
-          setIsLoading(false)
-        }
-        if (stepItem.type === 'EXTERNALIMAGE' && media.url) {
-          media.source ? setFileSource(media.source!) : setFileSource('')
-          setFileUrl(media.url)
-        }
-        //const response = await getS3Image(im//await getImage2(stepItem)
-      }
-    }
-    getMediaWrapper()
+    loadCaptchaEnginge(6, 'gray')
   }, [])
 
   const uploadFile = async (file: File, uploadedFile: Media) => {
@@ -149,67 +115,41 @@ export function MediaContentEdit({
     })
   }
   async function onSubmit() {
-    try {
-      setIsSaving(true)
-      if (stepItem) {
-        const media = await getMedia(stepItem.mediaId)
-        await updateMedia(stepItem.mediaId, {
-          size: selectedValue,
-          source: fileSource,
-        } as Media)
-
-        toast({
-          message: t('contentUpdated'),
-          type: 'success',
-        })
-      } else {
+    if (validateCaptcha(captcha) === true) {
+      try {
+        setIsSaving(true)
         // create image table
-
         if (!file) {
           throw new Error('no file selected')
         }
         const uploadedMedia = await addMedia({
           name: file.name,
-          size: selectedValue,
+          size: 's',
           source: fileSource,
         })
         // upload file to s3
         await uploadFile(file, uploadedMedia)
-        await addContent({
-          mediaId: uploadedMedia.id,
-          content: file.name,
+        const newStepSuggestion = stepSuggestion
+        newStepSuggestion.content.push({
           type: fileType,
+          content: file.name,
+          position: stepSuggestion.content.length,
+          suggestionId: null,
         })
+        setStepSuggestion(newStepSuggestion)
 
-        // create content table with image id as reference
-        toast({
-          message: t('contentCreated'),
-          type: 'success',
-        })
+        console.log(newStepSuggestion)
+      } catch (error: any) {
+      } finally {
+        setIsSaving(false)
+        setContentType && setContentType('addSlide')
       }
-    } catch (error: any) {
+    } else {
       toast({
-        title: 'Error',
-        message: error.message,
+        message: 'Captcha ist falsch',
         type: 'error',
       })
-    } finally {
-      setIsSaving(false)
     }
-    setContentType && setContentType('')
-    if (setShowModal) {
-      setShowModal(false)
-    }
-  }
-
-  function handleExternalImageUrl(e: ChangeEvent<HTMLInputElement>) {
-    setFileUrl(e.target.value)
-  }
-
-  function changeTabIndex(index: number) {
-    setTabIndex(index)
-    setFileUrl('')
-    setFile(undefined)
   }
 
   function handleFileSource(e: any) {
@@ -220,8 +160,8 @@ export function MediaContentEdit({
   return (
     <div>
       <div>
-        <InputLabel>{t('dataUpload')}</InputLabel>
-        <p className="my-2 text-sm font-bold">{t('supportedFormats')} </p>
+        <InputLabel>Upload</InputLabel>
+        <p className="my-2 text-sm font-bold">Unterstützte Formate </p>
         <span>
           <code>.jpg</code>
           <code>.png</code>
@@ -234,13 +174,11 @@ export function MediaContentEdit({
           <code>.wma</code>
           <br></br>
         </span>
-        {stepItem ? null : (
-          /* @ts-ignore */
-          <div {...getRootProps({ style })}>
-            <input {...getInputProps()} />
-            {t('dropFiles')}
-          </div>
-        )}
+        {/* @ts-ignore */}
+        <div {...getRootProps({ style })}>
+          <input {...getInputProps()} />
+          Dateien hier ablegen
+        </div>
       </div>
       <div>
         <div className="">
@@ -249,16 +187,11 @@ export function MediaContentEdit({
               <Spinner />
             </div>
           )}
-          {fileUrl &&
-            (fileType === 'IMAGE' || fileType === 'EXTERNALIMAGE') && (
-              <div className="m-2 flex justify-center">
-                <SizedImage
-                  alt={fileUrl ? fileUrl : externalImageUrl}
-                  size={selectedValue}
-                  src={fileUrl}
-                />
-              </div>
-            )}
+          {fileUrl && fileType === 'IMAGE' && (
+            <div className="m-2 flex justify-center">
+              <SizedImage alt={fileUrl} size={'s'} src={fileUrl} />
+            </div>
+          )}
           {fileType === 'AUDIO' && (
             <div className="m-2 flex justify-center">
               {/* @ts-ignore */}
@@ -273,13 +206,25 @@ export function MediaContentEdit({
         </div>
         {/* input field to give a source */}
         <div className="flex items-center gap-2">
-          <InputLabel>{t('source')}</InputLabel>
+          <InputLabel>Quelle </InputLabel>
           <Input
             className="bg-slate-50"
             label="Quelle"
             onChange={e => handleFileSource(e)}
             value={fileSource}
           />
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="p-2">
+            <LoadCanvasTemplate />
+          </div>
+          <Input
+            className="bg-slate-50"
+            label="Captcha"
+            onChange={e => setCaptcha(e.target.value)}
+            placeholder="Captcha eingeben"
+            value={captcha}
+          ></Input>
         </div>
         <div className="flex flex-row justify-end">
           <Button
@@ -288,7 +233,7 @@ export function MediaContentEdit({
             isLoading={isSaving}
             onClick={() => onSubmit()}
           >
-            {stepItem ? t('update') : t('create')}
+            Hochladen
           </Button>
         </div>
       </div>
