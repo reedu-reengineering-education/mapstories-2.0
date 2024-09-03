@@ -39,7 +39,6 @@ export function TextContentEdit({
   const [textValue, setTextValue] = useState<string | undefined>('Placeholder')
 
   React.useEffect(() => {
-    console.log(stepSuggestion)
     if (stepItem) {
       setTextValue(stepItem.content)
     }

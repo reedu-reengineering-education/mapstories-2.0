@@ -135,6 +135,7 @@ export function MediaContentEdit({
           content: file.name,
           position: stepSuggestion.content.length,
           suggestionId: null,
+          mediaId: uploadedMedia.id,
         })
         setStepSuggestion(newStepSuggestion)
 

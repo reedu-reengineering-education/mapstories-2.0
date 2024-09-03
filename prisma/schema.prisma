@@ -173,7 +173,7 @@ model SlideContent {
   suggestion  StoryStepSuggestion? @relation(fields: [suggestionId], references: [id])
   ogData      Json?
   media       Media?    @relation(fields: [mediaId], references: [id])
-  mediaId     String?   @unique
+  mediaId     String?   
 
   @@map(name: "slidecontent")
 }

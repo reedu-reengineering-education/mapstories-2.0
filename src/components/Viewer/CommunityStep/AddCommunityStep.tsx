@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '../../Elements/Button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Modal } from '../../Modal'
 import { CSSTransition } from 'react-transition-group'
 import useStory from '@/src/lib/api/story/useStory'
@@ -58,7 +58,6 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
 
   const handleConfirmStep = async () => {
     try {
-      console.log(stepSuggestion)
       await createStoryStepSuggestion(stepSuggestion)
       setContentType('')
       toast({ message: 'Community Step hinzugefügt', type: 'success' })
@@ -71,10 +70,6 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
   const handleAddLocation = (feature: any) => {
     setStepSuggestion(prev => ({ ...prev, feature }))
   }
-
-  useEffect(() => {
-    console.log(stepSuggestion)
-  }, [stepSuggestion])
 
   return (
     <Modal

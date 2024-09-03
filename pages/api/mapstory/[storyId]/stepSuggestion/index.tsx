@@ -39,7 +39,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const newStepSuggestionId = newStepSuggestion.id as string
       // if (story?.mode === StoryMode.TIMELINE) {
       //     await reorderTimeline(storyId)
-      //   }
       for (const slideContent of stepSuggestionContents) {
         await db.slideContent.create({
           data: {

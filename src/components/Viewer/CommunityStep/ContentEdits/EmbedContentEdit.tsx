@@ -62,38 +62,36 @@ export function EmbedContentEdit({
   async function onSubmit(data: FormData) {
     try {
       setIsSaving(true)
-      if (media?.type == 'EXTERNALIMAGE') {
+
+      const newStepSuggestion = { ...stepSuggestion }
+      const baseContent = {
+        type: media?.type,
+        position: stepSuggestion.content.length,
+        suggestionId: null,
+      }
+      if (media?.type === 'EXTERNALIMAGE') {
         const uploadedMedia = await addMedia({
           name: generateRandomName(),
           url: media?.content,
           source: fileSource,
           size: 's',
         })
-        const newStepSuggestion = stepSuggestion
         newStepSuggestion.content.push({
-          type: media?.type,
+          ...baseContent,
           content: uploadedMedia.name,
-          position: stepSuggestion.content.length,
-          suggestionId: null,
           mediaId: uploadedMedia.id,
         })
-        console.log('uploaded media', uploadedMedia)
-
-        setStepSuggestion(newStepSuggestion)
       } else {
-        const newStepSuggestion = stepSuggestion
         newStepSuggestion.content.push({
-          type: media?.type,
+          ...baseContent,
           content: mediaUrl,
-          position: stepSuggestion.content.length,
-          suggestionId: null,
           options: optionState,
         })
-        console.log(newStepSuggestion)
-
-        setStepSuggestion(newStepSuggestion)
       }
+
+      setStepSuggestion(newStepSuggestion)
     } catch (error) {
+      // Handle error if necessary
     } finally {
       setIsSaving(false)
       setContentType && setContentType('addSlide')

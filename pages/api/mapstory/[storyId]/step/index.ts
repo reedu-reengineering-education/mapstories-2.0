@@ -64,12 +64,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         })
       } else {
         for (const slideContent of stepContents) {
+          console.log(slideContent)
+
           await db.slideContent.create({
             data: {
               type: slideContent.type,
               content: slideContent.content,
               position: slideContent.position,
               storyStepId: newStep.id,
+              mediaId: slideContent.mediaId || undefined,
             },
           })
         }
