@@ -1,21 +1,17 @@
 'use client'
 import { Button } from '../../Elements/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal } from '../../Modal'
-import { CSSTransition } from 'react-transition-group'
 import useStory from '@/src/lib/api/story/useStory'
-import ShowStepWithContents from '@/src/components/Viewer/CommunityStep/ShowStepWithContents'
-import SelectContentType from '@/src/components/Viewer/CommunityStep/SelectContentType'
-import { TextContentEdit } from '@/src/components/Viewer/CommunityStep/ContentEdits/TextContentEdit'
-import { StoryStepSuggestion } from '@prisma/client'
+// @ts-ignore
+
 import { toast } from '@/src/lib/toast'
 
-import InitialView from './ModalViews/InitialView'
-import DateSelectionView from './ModalViews/DateSelectionView'
-import LocationSelectionView from './ModalViews/LocationSelectionView'
-import ConfirmationView from './ModalViews/ConfirmationView'
-import { MediaContentEdit } from './ContentEdits/MediaContentType'
-import { EmbedContentEdit } from './ContentEdits/EmbedContentEdit'
+import { urlToMedia } from '@/src/helper/urlToMedia'
+import { generateRandomName } from '@/src/helper/generateRandomName'
+import useMedia from '@/src/lib/api/media/useMedia'
+import { uploadFile } from '@/src/helper/uploadFile'
+import ContentSwitcher from './ContentSwitcher'
 
 // Props type definition
 type Props = {
@@ -27,34 +23,35 @@ type Props = {
 // Main component
 export default function AddCommunityStep({ story, slug, size }: Props) {
   const { createStoryStepSuggestion } = useStory(story.id)
+  const { addMedia } = useMedia()
   const [isOpen, setIsOpen] = useState(false)
-  const [stepSuggestion, setStepSuggestion] = useState<StoryStepSuggestion>()
+  const [stepSuggestion, setStepSuggestion] = useState<any>({
+    position: parseInt(slug) + 1,
+    feature: null, // Add the missing 'feature' property
+    viewport: null, // Add the missing 'viewport' property
+    timestamp: story.mode === 'TIMELINE' ? new Date() : null,
+    tags: [], // Add the missing 'tags' property
+    status: 'PENDING', // Add the missing 'status' property
+    content: [
+      {
+        type: 'TITLE',
+        content: 'Deine Überschrift',
+        position: 0,
+        suggestionId: null,
+      },
+    ],
+  })
   const [contentType, setContentType] = useState<string>('')
-  const [date, setDate] = useState<Date>(new Date())
+  const [date, setDate] = useState<Date | null>(null)
 
-  const handleAddCommunityStep = async () => {
-    setContentType(story.mode === 'TIMELINE' ? 'addDate' : 'addSlide')
+  const [text, setText] = useState<string>('')
+  const [source, setSource] = useState<string>('')
+  const [url, setUrl] = useState<string>('')
+  const [file, setFile] = useState<File>()
 
-    try {
-      const position = parseInt(slug) + 1
-      const tempStepSuggestion: StoryStepSuggestion = {
-        storyId: story.id,
-        position: position,
-        content: [
-          {
-            type: 'TITLE',
-            content: 'Deine Überschrift',
-            position: 0,
-            suggestionId: null,
-          },
-        ],
-        timestamp: story.mode === 'TIMELINE' ? date : undefined,
-      }
-      setStepSuggestion(tempStepSuggestion)
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  useEffect(() => {
+    console.log(story)
+  }, [])
 
   const handleConfirmStep = async () => {
     try {
@@ -68,7 +65,87 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
   }
 
   const handleAddLocation = (feature: any) => {
-    setStepSuggestion(prev => ({ ...prev, feature }))
+    setStepSuggestion((prev: any) => ({ ...prev, feature }))
+  }
+
+  const handleAddText = () => {
+    const newStepSuggestion = { ...stepSuggestion }
+    newStepSuggestion.content.push({
+      type: 'TEXT',
+      content: text,
+      position: stepSuggestion.content.length,
+      suggestionId: null,
+    })
+
+    setStepSuggestion(newStepSuggestion)
+    setContentType('addSlide')
+  }
+
+  const handleAddMedia = async () => {
+    if (file) {
+      try {
+        const uploadedMedia = await addMedia({
+          name: file?.name,
+          size: 's',
+          source: source,
+        })
+        await uploadFile(file, uploadedMedia)
+        const newStepSuggestion = { ...stepSuggestion }
+        newStepSuggestion.content.push({
+          type: 'MEDIA',
+          content: file?.name,
+          position: stepSuggestion.content.length,
+          suggestionId: null,
+          mediaId: uploadedMedia.id,
+        })
+
+        setStepSuggestion(newStepSuggestion)
+        toast({ message: 'Media hinzugefügt', type: 'success' })
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      toast({ message: 'Media konnte nicht hinzugefügt werden', type: 'error' })
+    }
+  }
+
+  const handleAddEmbed = async () => {
+    try {
+      const media = urlToMedia(url)
+      if (media && media.type === 'EXTERNALIMAGE') {
+        const uploadedMedia = await addMedia({
+          name: generateRandomName(),
+          url: media.content,
+          source: source,
+          size: 's',
+        })
+
+        const newStepSuggestion = { ...stepSuggestion }
+        newStepSuggestion.content.push({
+          type: media?.type, // Add a null check for 'media.type'
+          content: media.content,
+          position: stepSuggestion.content.length,
+          suggestionId: null,
+          mediaId: uploadedMedia.id,
+        })
+      } else {
+        const newStepSuggestion = { ...stepSuggestion }
+        newStepSuggestion.content.push({
+          type: media?.type, // Add a null check for 'media.type'
+          content: url,
+          position: stepSuggestion.content.length,
+          suggestionId: null,
+        })
+
+        setStepSuggestion(newStepSuggestion)
+        toast({ message: 'Media hinzugefügt', type: 'success' })
+      }
+    } catch (e) {
+      toast({ message: 'Media konnte nicht hinzugefügt werden', type: 'error' })
+      console.log(e)
+    }
+
+    setContentType('addSlide')
   }
 
   return (
@@ -86,163 +163,27 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
       }
     >
       <Modal.Content>
-        <ContentSwitcher
-          contentType={contentType}
-          date={date}
-          handleAddCommunityStep={handleAddCommunityStep}
-          handleAddLocation={handleAddLocation}
-          handleConfirmStep={handleConfirmStep}
-          setContentType={setContentType}
-          setDate={setDate}
-          setStepSuggestion={setStepSuggestion}
-          stepSuggestion={stepSuggestion}
-          storyId={story.id}
-        />
+        <div className="max-h-[35rem]">
+          <ContentSwitcher
+            contentType={contentType}
+            date={date}
+            handleAddEmbed={handleAddEmbed}
+            handleAddLocation={handleAddLocation}
+            handleAddMedia={handleAddMedia}
+            handleAddText={handleAddText}
+            handleConfirmStep={handleConfirmStep}
+            setContentType={setContentType}
+            setDate={setDate}
+            setFile={setFile}
+            setSource={setSource}
+            setStepSuggestion={setStepSuggestion}
+            setText={setText}
+            setUrl={setUrl}
+            stepSuggestion={stepSuggestion}
+            storyId={story.id}
+          />
+        </div>
       </Modal.Content>
     </Modal>
-  )
-}
-
-// ContentSwitcher component to handle transitions between different content types
-function ContentSwitcher({
-  contentType,
-  handleAddCommunityStep,
-  handleConfirmStep,
-  setContentType,
-  stepSuggestion,
-  setStepSuggestion,
-  storyId,
-  date,
-  setDate,
-  handleAddLocation,
-}: any) {
-  return (
-    <>
-      <CSSTransition
-        appear
-        classNames="slide-transition"
-        in={contentType === 'intro'}
-        timeout={400}
-        unmountOnExit
-      >
-        <InitialView
-          onAdd={handleAddCommunityStep}
-          onCancel={() => setContentType('')}
-        />
-      </CSSTransition>
-
-      <CSSTransition
-        appear
-        classNames="slide-transition"
-        in={contentType === 'addDate'}
-        timeout={400}
-        unmountOnExit
-      >
-        <DateSelectionView
-          date={date}
-          onBack={() => setContentType('intro')}
-          onNext={() => setContentType('addSlide')}
-          setDate={setDate}
-        />
-      </CSSTransition>
-
-      <CSSTransition
-        appear
-        classNames="slide-transition"
-        in={contentType === 'addSlide'}
-        timeout={400}
-        unmountOnExit
-      >
-        <ShowStepWithContents
-          setContentType={setContentType}
-          setIsOpen={() => {}}
-          setStepSuggestion={setStepSuggestion}
-          stepId={stepSuggestion?.id}
-          stepSuggestion={stepSuggestion}
-          storyId={storyId}
-        />
-      </CSSTransition>
-
-      <CSSTransition
-        appear
-        classNames="slide-transition"
-        in={contentType === 'addContent'}
-        timeout={400}
-        unmountOnExit
-      >
-        <SelectContentType setContentType={setContentType} />
-      </CSSTransition>
-
-      <CSSTransition
-        appear
-        classNames="slide-transition"
-        in={contentType === 'text'}
-        timeout={400}
-        unmountOnExit
-      >
-        <TextContentEdit
-          setContentType={setContentType}
-          setStepSuggestion={setStepSuggestion}
-          stepSuggestion={stepSuggestion}
-        />
-      </CSSTransition>
-
-      <CSSTransition
-        appear
-        classNames="slide-transition"
-        in={contentType === 'media'}
-        timeout={400}
-        unmountOnExit
-      >
-        <MediaContentEdit
-          setContentType={setContentType}
-          setStepSuggestion={setStepSuggestion}
-          stepSuggestion={stepSuggestion}
-        />
-      </CSSTransition>
-
-      <CSSTransition
-        appear
-        classNames="slide-transition"
-        in={contentType === 'embed'}
-        timeout={400}
-        unmountOnExit
-      >
-        <EmbedContentEdit
-          setContentType={setContentType}
-          setStepSuggestion={setStepSuggestion}
-          stepSuggestion={stepSuggestion}
-        />
-      </CSSTransition>
-
-      <CSSTransition
-        appear
-        classNames="slide-transition"
-        in={contentType === 'addLocation'}
-        timeout={400}
-        unmountOnExit
-      >
-        <LocationSelectionView
-          handleAddLocation={handleAddLocation}
-          onBack={() => setContentType('addSlide')}
-          onNext={() => setContentType('confirmStep')}
-          stepSuggestion={stepSuggestion}
-        />
-      </CSSTransition>
-
-      <CSSTransition
-        appear
-        classNames="slide-transition"
-        in={contentType === 'confirmStep'}
-        timeout={400}
-        unmountOnExit
-      >
-        <ConfirmationView
-          onBack={() => setContentType('addLocation')}
-          onConfirm={handleConfirmStep}
-          stepSuggestion={stepSuggestion}
-        />
-      </CSSTransition>
-    </>
   )
 }

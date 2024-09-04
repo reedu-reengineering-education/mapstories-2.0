@@ -17,7 +17,7 @@ export type StepWithContent = StoryStepSuggestion & {
 const useStepSuggestion = (stepSuggestionId: string) => {
   const storyId = useBoundStore(store => store.storyID)
 
-  const { deleteMedia } = useMedia(stepSuggestionId)
+  const { deleteMedia } = useMedia()
 
   const { data: stepSuggestion, mutate: stepMutate } = useSWR<StepWithContent>(
     `/api/mapstory/${storyId}/stepSuggestion/${stepSuggestionId}`,
@@ -54,7 +54,6 @@ const useStepSuggestion = (stepSuggestionId: string) => {
       stepSuggestionId,
       content,
     )
-    console.log('data from add content', [storyId, stepSuggestionId, content])
     const newContent = (await addSlideContentRequest).data
     if (!stepSuggestion) {
       return

@@ -44,7 +44,7 @@ export function EmbedContentEdit({
   const [fileSource, setFileSource] = useState<string | undefined>(undefined)
   const [mediaUrl, setMediaUrl] = useState<string | undefined>(undefined)
 
-  const { addMedia } = useMedia('storyStepId')
+  const { addMedia } = useMedia()
 
   const { content: url } = watch()
   useEffect(() => {
@@ -165,7 +165,13 @@ export function EmbedContentEdit({
             value={fileSource}
           />
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-between">
+          <Button
+            onClick={() => setContentType('addSlide')}
+            variant={'inverse'}
+          >
+            Zurück
+          </Button>
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
             Speichern
           </Button>

@@ -1,45 +1,35 @@
-import useStory from '@/src/lib/api/story/useStory'
 import React, { useEffect, useState } from 'react'
 import { SlideContent } from '@prisma/client'
-import DraggableList from '../../DraggableList'
-import { SlideContentListEditItem } from '../../Studio/Mapstories/SlideContentListEditItem'
-import { Button } from '../../Elements/Button'
+import DraggableList from '../../../DraggableList'
+import { SlideContentListEditItem } from '../../../Studio/Mapstories/SlideContentListEditItem'
+import { Button } from '../../../Elements/Button'
 import { PlusIcon } from '@radix-ui/react-icons'
-import useStepSuggestion from '@/src/lib/api/stepSuggestion/useStepSuggestion'
 type Props = {
-  storyId: string
-  stepId: string
-  setContentType: any
-  setIsOpen: any
+  setContentType: (type: string) => void
   stepSuggestion: any
-  setStepSuggestion?: any
+  setStepSuggestion: any
 }
 
 export default function ShowStepWithContents({
-  storyId,
-  setContentType,
   stepSuggestion,
+  setStepSuggestion,
+  setContentType,
 }: Props) {
-  const { story } = useStory(storyId)
   const [content, setContent] = useState<SlideContent[]>()
-  const { reorderSlideContent } = useStepSuggestion(stepSuggestion.id)
 
   useEffect(() => {
-    if (!stepSuggestion?.content) {
-      return
-    }
-    // @ts-ignore
-    setContent(stepSuggestion.content.sort((a, b) => a.position - b.position))
-  }, [story])
-
-  useEffect(() => {
-    console.log('step in contents', stepSuggestion)
     setContent(stepSuggestion?.content)
   }, [stepSuggestion])
 
   const onReorder = async (update: SlideContent[]) => {
     try {
-      await reorderSlideContent(update)
+      for (let i = 0; i < update.length; i++) {
+        update[i].position = i
+      }
+      setStepSuggestion({
+        ...stepSuggestion,
+        content: update,
+      })
     } catch (e) {}
   }
 
@@ -70,12 +60,6 @@ export default function ShowStepWithContents({
             Add Content
           </Button>
         </div>
-      </div>
-      <div className="flex flex-row justify-between gap-4">
-        <Button onClick={() => setContentType('')} variant={'inverse'}>
-          Zurück
-        </Button>
-        <Button onClick={() => setContentType('addLocation')}>Weiter</Button>
       </div>
     </div>
   )

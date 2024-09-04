@@ -88,7 +88,10 @@ export function TextContentEdit({
           />
         </div>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+        <Button onClick={() => setContentType('addSlide')} variant={'inverse'}>
+          Zurück
+        </Button>
         <Button
           disabled={isSaving}
           isLoading={isSaving}

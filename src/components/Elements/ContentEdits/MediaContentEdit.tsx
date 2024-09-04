@@ -1,71 +1,30 @@
 'use client'
 // next js component which has an input where you can upload an image
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Button } from '@/src/components/Elements/Button'
 import { useDropzone } from 'react-dropzone'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
-import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useMedia from '@/src/lib/api/media/useMedia'
 import { Media, MediaType } from '@prisma/client'
 import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
-import * as z from 'zod'
 import 'react-tabs/style/react-tabs.css'
 import ReactPlayer from 'react-player'
 import { Spinner } from '@/src/components/Elements/Spinner'
-import {
-  LoadCanvasTemplate,
-  loadCaptchaEnginge,
-  validateCaptcha,
-} from 'react-simple-captcha'
-import { toast } from '@/src/lib/toast'
+//@ts-ignore
+import { LoadCanvasTemplate, loadCaptchaEnginge } from 'react-simple-captcha'
+
 import SizedImage from '@/src/components/Elements/SizedImage'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  stepSuggestion: any
-  setStepSuggestion: any
-  setContentType?: any
+  captchaEnabled: boolean
+  setMedia: (media: Media) => void
 }
 
-const baseStyle = {
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  padding: '20px',
-  borderWidth: 2,
-  borderRadius: 2,
-  borderColor: '#eeeeee',
-  borderStyle: 'dashed',
-  backgroundColor: '#fafafa',
-  color: '#bdbdbd',
-  outline: 'none',
-  transition: 'border .24s ease-in-out',
-}
-
-const focusedStyle = {
-  borderColor: '#2196f3',
-}
-
-const acceptStyle = {
-  borderColor: '#00e676',
-}
-
-const rejectStyle = {
-  borderColor: '#ff1744',
-}
-
-type FormData = z.infer<typeof slideEmbedContentSchema>
-
-export function MediaContentEdit({
-  stepSuggestion,
-  className,
-  setContentType,
-  setStepSuggestion,
-  ...props
+export function MediaContent({
+  captchaEnabled,
+  setMedia,
 }: MediaContentEditProps) {
   const { addMedia } = useMedia('storyStepId')
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isSaving, setIsSaving] = useState<boolean>(false)
   const [fileUrl, setFileUrl] = useState(String)
   const [file, setFile] = useState<File>()
   const [fileType, setFileType] = useState<MediaType>()
@@ -76,6 +35,7 @@ export function MediaContentEdit({
     setFile(acceptedFiles[0])
     setFileType(acceptedFiles[0].type.split('/')[0].toUpperCase() as MediaType)
     setFileUrl(URL.createObjectURL(acceptedFiles[0]))
+    handleFileUpload()
   }, [])
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
@@ -114,43 +74,24 @@ export function MediaContentEdit({
       body: file,
     })
   }
-  async function onSubmit() {
-    if (validateCaptcha(captcha) === true) {
-      try {
-        setIsSaving(true)
-        // create image table
-        if (!file) {
-          throw new Error('no file selected')
-        }
-        const uploadedMedia = await addMedia({
-          name: file.name,
-          size: 's',
-          source: fileSource,
-        })
-        // upload file to s3
-        await uploadFile(file, uploadedMedia)
-        const newStepSuggestion = stepSuggestion
-        newStepSuggestion.content.push({
-          type: fileType,
-          content: file.name,
-          position: stepSuggestion.content.length,
-          suggestionId: null,
-          mediaId: uploadedMedia.id,
-        })
-        setStepSuggestion(newStepSuggestion)
+  async function handleFileUpload() {
+    setIsLoading(true)
 
-        console.log(newStepSuggestion)
-      } catch (error: any) {
-      } finally {
-        setIsSaving(false)
-        setContentType && setContentType('addSlide')
+    try {
+      // create image table
+      if (!file) {
+        throw new Error('no file selected')
       }
-    } else {
-      toast({
-        message: 'Captcha ist falsch',
-        type: 'error',
+      const uploadedMedia = await addMedia({
+        name: file.name,
+        size: 's',
+        source: fileSource,
       })
-    }
+      // upload file to s3
+      await uploadFile(file, uploadedMedia)
+      setMedia(uploadedMedia)
+    } catch (error: any) {}
+    setIsLoading(false)
   }
 
   function handleFileSource(e: any) {
@@ -227,22 +168,35 @@ export function MediaContentEdit({
             value={captcha}
           ></Input>
         </div>
-        <div className="flex flex-row justify-between pt-10">
-          <Button
-            onClick={() => setContentType('addSlide')}
-            variant={'inverse'}
-          >
-            Zurück
-          </Button>
-          <Button
-            disabled={isSaving}
-            isLoading={isSaving}
-            onClick={() => onSubmit()}
-          >
-            Hochladen
-          </Button>
-        </div>
       </div>
     </div>
   )
+}
+
+const baseStyle = {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: '20px',
+  borderWidth: 2,
+  borderRadius: 2,
+  borderColor: '#eeeeee',
+  borderStyle: 'dashed',
+  backgroundColor: '#fafafa',
+  color: '#bdbdbd',
+  outline: 'none',
+  transition: 'border .24s ease-in-out',
+}
+
+const focusedStyle = {
+  borderColor: '#2196f3',
+}
+
+const acceptStyle = {
+  borderColor: '#00e676',
+}
+
+const rejectStyle = {
+  borderColor: '#ff1744',
 }

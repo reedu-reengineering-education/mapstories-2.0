@@ -166,7 +166,9 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
 
               <RestartStoryButton size="xs" slug={slug[0]} />
               <QuitStoryButton size="xs" slug={slug[0]} />
-              <AddCommunityStep size="xs" slug={slug[1]} story={story} />
+              {story.community && (
+                <AddCommunityStep size="xs" slug={slug[1]} story={story} />
+              )}
             </div>
 
             <div className="overflow-y-auto overflow-x-hidden lg:h-full">
