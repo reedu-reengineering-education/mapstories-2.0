@@ -1,7 +1,7 @@
 import { useBoundStore } from '@/src/lib/store/store'
 import { StepMarker } from '@/src/types/Stepmarker'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { CircleLayer, Layer, Marker, Source } from 'react-map-gl'
 
 const triggerHoverLayerStyle: CircleLayer = {
@@ -53,9 +53,9 @@ export default function Markers({ markers, onClick }: Props) {
   return (
     <>
       {markers.map((m, i) => (
-        <>
+        <Fragment key={i + '_fragment1'}>
           {m && (
-            <>
+            <Fragment key={i + 'fragment2'}>
               <Marker
                 {...m}
                 // className={
@@ -76,7 +76,7 @@ export default function Markers({ markers, onClick }: Props) {
                         : 'var(--inactive-color-border)'
                       : m.color
                 }
-                key={(i + 1) * Math.random() * 100}
+                key={i + '_marker'}
                 onClick={() => {
                   const pathLocal =
                     path?.split('/').splice(2, 4).join('/') ??
@@ -100,15 +100,15 @@ export default function Markers({ markers, onClick }: Props) {
                 }}
               >
                 {selectedStepIndex == m.position && (
-                  <h3 className="label-shadow">
+                  <h3 className="label-shadow" key={i + 'h3'}>
                     {m.position + 1}. {m.title}{' '}
                   </h3>
                 )}
-                {selectedStepIndex != m.position && <h3></h3>}
+                {selectedStepIndex != m.position && <h3 key={i + 'h3'}></h3>}
               </Marker>
-            </>
+            </Fragment>
           )}
-        </>
+        </Fragment>
       ))}
       <Source data={triggerHoverLayerData} type="geojson">
         <Layer {...triggerHoverLayerStyle} id="step-hover" />
