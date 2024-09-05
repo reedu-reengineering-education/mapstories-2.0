@@ -2,7 +2,7 @@
 import { Button } from '../../Elements/Button'
 import { CSSTransition } from 'react-transition-group'
 // @ts-ignore
-import React, { useEffect } from 'react'
+import React from 'react'
 import SelectContentType from '@/src/components/Viewer/CommunityStep/SelectContentType'
 
 import InitialView from './ModalViews/InitialView'
@@ -34,9 +34,6 @@ export default function ContentSwitcher({
   handleDeleteContent,
   setContentType,
 }: any) {
-  useEffect(() => {
-    console.log('contentType', contentType)
-  }, [contentType])
   return (
     <>
       <CSSTransition

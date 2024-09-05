@@ -30,7 +30,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
       const position = req.body.position ?? (story?.steps.length || 0)
-      console.log('position', position)
       const newStep = await db.storyStep.create({
         data: {
           storyId,
@@ -64,8 +63,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         })
       } else {
         for (const slideContent of stepContents) {
-          console.log(slideContent)
-
           await db.slideContent.create({
             data: {
               type: slideContent.type,

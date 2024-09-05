@@ -30,7 +30,6 @@ export function SlideContentListEdit({ storyId, stepId }: Props) {
   }, [story])
 
   async function onReorder(update: SlideContent[]) {
-    console.log(update)
     try {
       await reorderSlideContent(update)
       toast({

@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '../../Elements/Button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Modal } from '../../Modal'
 import useStory from '@/src/lib/api/story/useStory'
 // @ts-ignore
@@ -48,10 +48,6 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
   const [source, setSource] = useState<string>('')
   const [url, setUrl] = useState<string>('')
   const [file, setFile] = useState<File>()
-
-  useEffect(() => {
-    console.log(story)
-  }, [])
 
   const handleConfirmStep = async () => {
     try {

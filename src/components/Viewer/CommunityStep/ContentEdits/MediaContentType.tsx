@@ -139,8 +139,6 @@ export function MediaContentEdit({
           mediaId: uploadedMedia.id,
         })
         setStepSuggestion(newStepSuggestion)
-
-        console.log(newStepSuggestion)
       } catch (error: any) {
       } finally {
         setIsSaving(false)
