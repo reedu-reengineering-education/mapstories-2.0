@@ -17,6 +17,7 @@ import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
   validateCaptcha,
+  // @ts-ignore
 } from 'react-simple-captcha'
 import { toast } from '@/src/lib/toast'
 import { Input } from '../../Elements/Input'
