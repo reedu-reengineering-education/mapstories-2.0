@@ -26,6 +26,7 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
   const { createStoryStepSuggestion } = useStory(story.id)
   const { addMedia } = useMedia()
   const [isOpen, setIsOpen] = useState(false)
+  const [captchaValid, setCaptchaValidated] = useState(false)
   const [stepSuggestion, setStepSuggestion] = useState<any>({
     position: parseInt(slug) + 1,
     feature: null, // Add the missing 'feature' property
@@ -173,6 +174,7 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
       <Modal.Content>
         <div className="max-h-[35rem]">
           <ContentSwitcher
+            captchaValid={captchaValid}
             contentType={contentType}
             date={date}
             handleAddEmbed={handleAddEmbed}
@@ -181,6 +183,7 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
             handleAddText={handleAddText}
             handleConfirmStep={handleConfirmStep}
             handleDeleteContent={handleDeleteContent}
+            setCaptchaValidated={setCaptchaValidated}
             setContentType={setContentType}
             setDate={setDate}
             setFile={setFile}

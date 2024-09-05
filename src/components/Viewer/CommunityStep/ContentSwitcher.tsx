@@ -2,7 +2,7 @@
 import { Button } from '../../Elements/Button'
 import { CSSTransition } from 'react-transition-group'
 // @ts-ignore
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SelectContentType from '@/src/components/Viewer/CommunityStep/SelectContentType'
 
 import InitialView from './ModalViews/InitialView'
@@ -13,11 +13,19 @@ import { TextContent } from '../../Elements/ContentCreates/TextContent'
 import ShowStepWithContents from './DraggableSlideViewer/ShowStepWithContents'
 import { EmbedContent } from '../../Elements/ContentCreates/EmbedContent'
 import { MediaContent } from '@/src/components/Elements/ContentCreates/MediaContent'
+import {
+  LoadCanvasTemplate,
+  loadCaptchaEnginge,
+  validateCaptcha,
+} from 'react-simple-captcha'
+import { toast } from '@/src/lib/toast'
+import { Input } from '../../Elements/Input'
 
 // ContentSwitcher component to handle transitions between different content types
 export default function ContentSwitcher({
   contentType,
   storyId,
+  captchaValid,
   date,
   setDate,
   setText,
@@ -33,7 +41,25 @@ export default function ContentSwitcher({
   handleConfirmStep,
   handleDeleteContent,
   setContentType,
+  setCaptchaValidated,
 }: any) {
+  const [captcha, setCaptcha] = useState<string>('')
+
+  useEffect(() => {
+    if (contentType === 'media') {
+      loadCaptchaEnginge(6, 'gray')
+    }
+  }, [contentType])
+
+  const handleCaptchaAndContiniue = () => {
+    if (validateCaptcha(captcha)) {
+      handleAddMedia()
+    } else {
+      setCaptchaValidated(false)
+      toast({ message: 'Captcha nicht korrekt', type: 'error' })
+    }
+  }
+
   return (
     <>
       <CSSTransition
@@ -152,7 +178,23 @@ export default function ContentSwitcher({
         unmountOnExit
       >
         <div>
-          <MediaContent captchaEnabled={true} setFile={setFile} />
+          <MediaContent
+            captchaEnabled={true}
+            setCaptchaValidated={setCaptchaValidated}
+            setFile={setFile}
+          />
+          <div className="p-2">
+            <LoadCanvasTemplate />
+            <div className="flex flex-col gap-2">
+              <Input
+                className="bg-slate-50"
+                label="Captcha"
+                onChange={e => setCaptcha(e.target.value)}
+                placeholder="Captcha eingeben"
+                value={captcha}
+              ></Input>
+            </div>
+          </div>
           <div className="flex justify-between">
             <Button
               onClick={() => setContentType('addSlide')}
@@ -160,7 +202,10 @@ export default function ContentSwitcher({
             >
               Zurück
             </Button>
-            <Button disabled={false} onClick={() => handleAddMedia()}>
+            <Button
+              disabled={captchaValid}
+              onClick={() => handleCaptchaAndContiniue()}
+            >
               Erstellen
             </Button>
           </div>
@@ -184,7 +229,7 @@ export default function ContentSwitcher({
               Zurück
             </Button>
             <Button disabled={false} onClick={() => handleAddEmbed()}>
-              Erstellenss
+              Erstellen
             </Button>
           </div>
         </div>

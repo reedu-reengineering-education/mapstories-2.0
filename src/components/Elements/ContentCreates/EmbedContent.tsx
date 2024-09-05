@@ -53,8 +53,7 @@ export function EmbedContent({
 
   return (
     <div className="top-0 flex flex-col gap-4">
-      <div className="w-full">
-        <InputLabel>des</InputLabel>
+      <div className="flex w-full flex-col gap-4">
         <p className="text-sm font-bold">Platformen</p>
         <MediaIconList usedMediaType={media?.type} />
         <div>
