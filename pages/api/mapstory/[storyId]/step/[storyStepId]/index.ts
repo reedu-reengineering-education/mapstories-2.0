@@ -66,7 +66,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       if (!storyId) {
         res.status(422).end()
-        return; 
+        return
       }
 
       const story = await db.story.findFirst({
@@ -103,8 +103,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       //TODO: THis can never happen but we need this code for TS?
       if (!deletedStep.storyId) {
-         res.status(422).end()
-         return;
+        res.status(422).end()
+        return
       }
 
       const updatedStory = await db.story.findFirst({

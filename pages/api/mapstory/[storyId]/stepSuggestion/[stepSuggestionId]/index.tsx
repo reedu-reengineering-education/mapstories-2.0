@@ -4,7 +4,6 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { z } from 'zod'
 
-
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
@@ -38,8 +37,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       //TODO: THis can never happen but we need this code for TS?
       if (!deletedStepSuggestion.storyId) {
-         res.status(422).end()
-         return;
+        res.status(422).end()
+        return
       }
 
       const updatedStory = await db.story.findFirst({
@@ -50,8 +49,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           steps: true,
         },
       })
-
-  
 
       res.json(deletedStepSuggestion)
 
@@ -66,7 +63,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(
-  ['GET', 'PUT', 'DELETE'],
-  withMapstory(handler),
-)
+export default withMethods(['GET', 'PUT', 'DELETE'], withMapstory(handler))

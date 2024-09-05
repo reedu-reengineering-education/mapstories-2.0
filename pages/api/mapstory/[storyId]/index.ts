@@ -48,8 +48,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
 
       if (!storyToUpdate) {
-        res.status(404).end();
-        return;
+        res.status(404).end()
+        return
       }
 
       let data: any = payload
