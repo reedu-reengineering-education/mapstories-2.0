@@ -171,7 +171,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
               )}
             </div>
 
-            <div className="overflow-y-auto overflow-x-hidden lg:h-full">
+            <div className="max-w-full overflow-y-auto overflow-x-hidden lg:h-full">
               <div className={cx(showSlides ? 'flex' : 'hidden')}>
                 <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
               </div>

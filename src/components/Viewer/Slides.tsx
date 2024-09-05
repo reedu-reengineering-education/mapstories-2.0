@@ -65,7 +65,7 @@ export function Slides({ className, slug, page, story }: Props) {
           </div>
         </div>
       )}
-      <div className="">
+      <div>
         {story?.steps.sort(
           (a: StoryStep, b: StoryStep) => a.position - b.position,
         ) &&
