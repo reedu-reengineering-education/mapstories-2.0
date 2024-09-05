@@ -24,6 +24,7 @@ type Props = {
 
 export default function StepSuggestionsForm({ story }: Props) {
   const lng = useBoundStore(state => state.language)
+  //  @ts-ignore
   const { t } = useTranslation(lng, 'stepSuggestions')
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
@@ -34,7 +35,10 @@ export default function StepSuggestionsForm({ story }: Props) {
   const [isLoading, setIsLoading] = React.useState(false)
 
   useEffect(() => {
-    setContent(story.stepSuggestions)
+    setContent(
+      (story as unknown as { stepSuggestions: StoryStepSuggestion[] })
+        .stepSuggestions,
+    )
   }, [])
 
   useEffect(() => {
@@ -48,10 +52,6 @@ export default function StepSuggestionsForm({ story }: Props) {
       setCurrent(api.selectedScrollSnap() + 1)
     })
   }, [api, content])
-
-  useEffect(() => {
-    console.log(story)
-  }, [story])
 
   const handleReject = async (stepSuggestion: StoryStepSuggestion) => {
     await deleteStepSuggestion(stepSuggestion.id)
@@ -96,6 +96,7 @@ export default function StepSuggestionsForm({ story }: Props) {
     try {
       setIsLoading(true)
       const newStoryStep = await createStoryStep({
+        // @ts-ignore
         content: stepSuggestion.content,
         feature: stepSuggestion.feature,
         tags: stepSuggestion.tags,
@@ -127,6 +128,7 @@ export default function StepSuggestionsForm({ story }: Props) {
         // screen to show no suggestion have been found
 
         <div className="text-muted-foreground text-center">
+          {/* @ts-ignore */}
           {t('noSuggestions')}
         </div>
       ) : (
@@ -147,6 +149,7 @@ export default function StepSuggestionsForm({ story }: Props) {
                         startIcon={<XMarkIcon className="w-5" />}
                         variant={'danger'}
                       >
+                        {/* @ts-ignore */}
                         {t('reject')}
                       </Button>
                       <Button
@@ -163,6 +166,7 @@ export default function StepSuggestionsForm({ story }: Props) {
                           )
                         }
                       >
+                        {/* @ts-ignore */}
                         {isLoading ? t('loading') : t('accept')}
                       </Button>
                     </div>
@@ -174,7 +178,7 @@ export default function StepSuggestionsForm({ story }: Props) {
             <CarouselNext />
           </Carousel>
           <div className="text-muted-foreground py-2 text-center text-sm">
-            {t('suggestion')} {current} {t('of')} {count}
+            {current} / {count}
           </div>
         </>
       )}

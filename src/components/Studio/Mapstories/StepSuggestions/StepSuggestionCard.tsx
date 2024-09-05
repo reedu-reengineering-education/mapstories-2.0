@@ -21,9 +21,8 @@ export default function StepSuggestionCard({ stepSuggestion }: Props) {
                 <div>Date: {stepSuggestion.timestamp.toLocaleString()}</div>
               )}
               <div>
+                {}
                 Position: {stepSuggestion.position} <br></br>
-                Lat : {stepSuggestion.feature.geometry.coordinates[0]} <br></br>
-                Lng : {stepSuggestion.feature.geometry.coordinates[1]}
               </div>
 
               {stepSuggestion.tags && stepSuggestion.tags.length > 0 && (

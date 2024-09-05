@@ -57,26 +57,27 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       // send notification email
+      if (story?.owner?.email) {
+        const transporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST,
+          port: 587,
+          secure: false,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          },
+        })
 
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: 587,
-        secure: false,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      })
-      const emailHtml = generateEmailHtml(newStepSuggestion)
-      const mailOptions = {
-        from: process.env.SMTP_USER,
-        to: story?.owner?.email,
-        subject: 'New Step Suggestion',
-        html: emailHtml,
+        const emailHtml = generateEmailHtml(newStepSuggestion)
+        const mailOptions = {
+          from: process.env.SMTP_USER,
+          to: story?.owner?.email,
+          subject: 'New Step Suggestion',
+          html: emailHtml,
+        }
+
+        await transporter.sendMail(mailOptions)
       }
-
-      await transporter.sendMail(mailOptions)
-
       res.status(200).json(newStepSuggestion)
       res.end()
     } catch (e) {
