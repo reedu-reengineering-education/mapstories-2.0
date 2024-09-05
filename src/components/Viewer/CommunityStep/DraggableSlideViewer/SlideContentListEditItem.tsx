@@ -42,7 +42,11 @@ export function SlideContentListEditItem({
         setDisabled={setDisabled}
         title={'Editieren'}
         trigger={
-          <Button className="flex-1 hover:bg-hover" variant={'noStyle'}>
+          <Button
+            className="flex-1 hover:bg-hover"
+            disabled={true}
+            variant={'noStyle'}
+          >
             <SlideContentPreviewButton {...stepItem} />
           </Button>
         }

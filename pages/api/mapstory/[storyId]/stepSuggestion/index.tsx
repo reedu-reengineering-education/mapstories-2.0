@@ -107,7 +107,6 @@ function generateEmailHtml(stepSuggestion: any) {
         <li style="font-size: 16px; color: #374151;"><strong>Tags:</strong> ${stepSuggestion.tags.join(', ')}</li>
       </ul>
 
-      <a href="${process.env.NEXT_PUBLIC_APP_URL}/de/storylab/stepSuggestions/${stepSuggestion.storyId}" style="display: inline-block; margin-top: 16px; padding: 8px 16px; background-color: #16a34a; color: #fff; text-decoration: none; border-radius: 4px;">Zur Step Suggestion</a>
       
       <p style="font-size: 16px; color: #1f2937; margin-top: 16px;">Vielen Dank, dass Sie unsere Plattform nutzen!</p>
     </div>
