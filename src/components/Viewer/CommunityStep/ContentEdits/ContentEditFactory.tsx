@@ -3,6 +3,7 @@
 import { SlideContent } from '@prisma/client'
 import { TitleContentEdit } from './TitleContentEdit'
 import { useEffect } from 'react'
+import { TextContentEdit } from './TextContentEdit'
 
 interface ContentEditFactoryProps {
   stepItem: SlideContent
@@ -30,14 +31,15 @@ export function ContentEditFactory({
           stepItem={stepItem}
         />
       )
-    // case 'TEXT':
-    //   return (
-    //     <TextContentEdit
-    //       setShowModal={setShowModal}
-    //       stepItem={stepItem}
-    //       storyStepId={storyStepId}
-    //     />
-    //   )
+    case 'TEXT':
+      return (
+        <TextContentEdit
+          setContentType={setContentType}
+          setItem={setItem}
+          setShowModal={setShowModal}
+          stepItem={stepItem}
+        />
+      )
     // case 'IMAGE' || 'VIDEO':
     //   return (
     //     <MediaContentEdit

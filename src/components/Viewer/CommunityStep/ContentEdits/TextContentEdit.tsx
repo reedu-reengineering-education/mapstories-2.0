@@ -7,16 +7,12 @@ import { useState } from 'react'
 import '@uiw/react-md-editor/markdown-editor.css'
 import '@uiw/react-markdown-preview/markdown.css'
 import dynamic from 'next/dynamic'
-import { toast } from '@/src/lib/toast'
-import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useBoundStore } from '@/src/lib/store/store'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  stepSuggestion: any
-  stepItem?: any
+  stepItem: any
+  setItem?: any
   setContentType?: any
   setShowModal?: any
-  setStepSuggestion: any
 }
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
@@ -24,61 +20,40 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
 })
 
 export function TextContentEdit({
-  stepSuggestion,
   stepItem,
+  setItem,
   setContentType,
   setShowModal,
-  setStepSuggestion,
 }: TextContentEditProps) {
-  let lng = useBoundStore(state => state.language)
-  if (languages.indexOf(lng) < 0) {
-    lng = fallbackLng
-  }
-  const [isSaving, setIsSaving] = useState<boolean>(false)
+  const [textValue, setTextValue] = useState<string | undefined>(
+    stepItem ? stepItem.content : '',
+  )
 
-  const [textValue, setTextValue] = useState<string | undefined>('Placeholder')
-
-  React.useEffect(() => {
-    if (stepItem) {
-      setTextValue(stepItem.content)
-    }
-  }, [])
-
-  async function onSubmit(text: string) {
-    try {
-      const newStepSuggestion = stepSuggestion
-      newStepSuggestion.content.push({
-        type: '“ TEXT',
-        content: text,
-        position: stepSuggestion.content.length,
-        suggestionId: null,
+  const handleSubmit = () => {
+    // change the title of the slide
+    setItem((prev: any) => {
+      const updatedContent = prev.content.map((content: any) => {
+        if (content.position === stepItem.position) {
+          return {
+            ...content,
+            content: textValue,
+          }
+        }
+        return content
       })
-      setStepSuggestion(newStepSuggestion)
-    } catch (error) {
-      console.log(error)
-      toast({
-        title: 'somethingWrong',
-        message: 'contentNotCreated',
-        type: 'error',
-      })
-    } finally {
-      setIsSaving(false)
-    }
-    if (setShowModal) {
-      setShowModal(false)
-    }
-  }
-
-  function handleOnClick() {
-    if (textValue === 'Placeholder') {
-      setTextValue('')
-    }
+      return {
+        ...prev,
+        content: updatedContent,
+      }
+    })
+    setContentType('addSlide')
+    setShowModal(false)
   }
 
   return (
     <div className="top-0">
       <div className="pb-4 pt-4">
-        <div onClick={handleOnClick}>
+        <div>
           {/* @ts-ignore */}
           <MDEditor
             data-color-mode="light"
@@ -92,20 +67,7 @@ export function TextContentEdit({
         <Button onClick={() => setContentType('addSlide')} variant={'inverse'}>
           Zurück
         </Button>
-        <Button
-          disabled={isSaving}
-          isLoading={isSaving}
-          onClick={() => {
-            if (textValue != undefined) {
-              onSubmit(textValue)
-            }
-            setContentType ? setContentType('addSlide') : null
-          }}
-          type="submit"
-        >
-          {stepItem && 'save'}
-          {!stepItem && 'create'}
-        </Button>
+        <Button onClick={() => handleSubmit()}>Ändern</Button>
       </div>{' '}
     </div>
   )
