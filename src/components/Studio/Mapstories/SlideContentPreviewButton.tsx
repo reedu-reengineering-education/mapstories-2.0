@@ -35,7 +35,7 @@ export default function SlideContentPreviewButton({
 }: SlideContent) {
   const og = ogData as OgObject | null
 
-  const { getMedia } = useMedia(props.storyStepId)
+  const { getMedia } = useMedia()
 
   const [mediaUrl, setMediaUrl] = useState(String)
   const [isLoading, setIsLoading] = useState<boolean>(false)

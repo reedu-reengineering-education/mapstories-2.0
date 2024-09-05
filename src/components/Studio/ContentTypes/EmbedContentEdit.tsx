@@ -53,7 +53,7 @@ export function EmbedContentEdit({
     lng = fallbackLng
   }
 
-  const { addMedia } = useMedia(storyStepId)
+  const { addMedia } = useMedia()
 
   const { content: url } = watch()
   useEffect(() => {

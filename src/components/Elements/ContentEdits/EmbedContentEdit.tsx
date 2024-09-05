@@ -3,7 +3,6 @@
 import * as React from 'react'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { useState } from 'react'
-import useMedia from '@/src/lib/api/media/useMedia'
 import { Embed } from '@/src/components/embeds/Embed'
 import { urlToMedia } from '@/src/helper/urlToMedia'
 import MediaIconList from '@/src/components/Studio/Mapstories/MediaPlatformIcons'
@@ -21,8 +20,6 @@ export function EmbedContentEdit({
   const [optionState, setOptionState] = useState({ autoplay: false })
   const [fileSource, setFileSource] = useState<string>('')
   const [embedUrl, setUrl] = useState<string>('')
-
-  const { addMedia } = useMedia('storyStepId')
 
   React.useEffect(() => {
     setSource(fileSource)

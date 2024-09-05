@@ -14,7 +14,7 @@ type Props = {
 }
 
 export function ViewerPopup({ story, firstStepId, mediaId }: Props) {
-  const { getMedia } = useMedia(firstStepId)
+  const { getMedia } = useMedia()
   const [mediaUrl, setMediaUrl] = useState<any>(null)
 
   useEffect(() => {

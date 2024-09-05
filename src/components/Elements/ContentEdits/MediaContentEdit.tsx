@@ -22,7 +22,7 @@ export function MediaContent({
   captchaEnabled,
   setMedia,
 }: MediaContentEditProps) {
-  const { addMedia } = useMedia('storyStepId')
+  const { addMedia } = useMedia()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [fileUrl, setFileUrl] = useState(String)

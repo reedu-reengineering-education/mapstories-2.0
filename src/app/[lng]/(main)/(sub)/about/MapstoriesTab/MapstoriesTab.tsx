@@ -70,8 +70,8 @@ export default function MapstoriesTab() {
               </a>
             </div>
             <div className="my-2 flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
-              {/* @ts-ignore */}
               <div className="hidden text-center lg:block">
+                {/* @ts-ignore */}
                 {t('supportBZM')}
               </div>
               <a

@@ -21,7 +21,7 @@ export function MediaContent({ content }: MediaContentProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [imageSize, setImageSize] = React.useState<string>('m')
   const [source, setSource] = React.useState<string>('')
-  const { getMedia } = useMedia(content.storyStepId)
+  const { getMedia } = useMedia()
   React.useEffect(() => {
     const getMediaWrapper = async () => {
       if (

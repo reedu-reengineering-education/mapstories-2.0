@@ -48,7 +48,7 @@ export function MapstoryCard({ mapstory }: Props) {
             {/* <CopyModal storyId={mapstory.id} /> */}
             <ShareModal storyId={mapstory.id} />
             <EmbedModal storyId={mapstory.slug} />
-            {mapstory.stepSuggestions.length > 0 && (
+            {(mapstory as any).stepSuggestions.length > 0 && (
               <Link href={`/storylab/stepSuggestions/${mapstory.id}`}>
                 <Button startIcon={<PencilIcon className="w-5" />}>
                   {/* @ts-ignore */}

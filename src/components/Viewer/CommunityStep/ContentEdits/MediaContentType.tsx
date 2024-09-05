@@ -16,6 +16,7 @@ import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
   validateCaptcha,
+  //@ts-ignore
 } from 'react-simple-captcha'
 import { toast } from '@/src/lib/toast'
 import SizedImage from '@/src/components/Elements/SizedImage'
@@ -62,7 +63,7 @@ export function MediaContentEdit({
   setStepSuggestion,
   ...props
 }: MediaContentEditProps) {
-  const { addMedia } = useMedia('storyStepId')
+  const { addMedia } = useMedia()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSaving, setIsSaving] = useState<boolean>(false)

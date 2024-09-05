@@ -2,7 +2,6 @@
 
 import { SlideContent } from '@prisma/client'
 import { TitleContentEdit } from './TitleContentEdit'
-import { useEffect } from 'react'
 import { TextContentEdit } from './TextContentEdit'
 
 interface ContentEditFactoryProps {
@@ -18,9 +17,6 @@ export function ContentEditFactory({
   setContentType,
   setShowModal,
 }: ContentEditFactoryProps) {
-  useEffect(() => {
-    console.log('ContentEditFactoryProps', stepItem)
-  }, [])
   switch (stepItem.type) {
     case 'TITLE':
       return (
@@ -72,13 +68,7 @@ export function ContentEditFactory({
     //       storyStepId={storyStepId}
     //     />
     //   )
-    // default:
-    //   return (
-    //     <EmbedContentEdit
-    //       setShowModal={setShowModal}
-    //       stepItem={stepItem}
-    //       storyStepId={storyStepId}
-    //     />
-    //   )
+    default:
+      return <></>
   }
 }

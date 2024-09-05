@@ -22,5 +22,8 @@
   "copied": "Copié !",
   "copiedMessage": "La mapstory a été copiée avec succès !",
   "somethingWrong": "Quelque chose s'est mal passé. Veuillez réessayer",
-  "copying": "Copier..."
+  "copying": "Copier...",
+  "community": "Communauté",
+  "on": "Activé",
+  "off": "Désactivé"
 }

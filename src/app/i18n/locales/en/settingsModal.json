@@ -24,5 +24,8 @@
   "copied": "Copied!",
   "copiedMessage": "The map story was successfully copied!",
   "somethingWrong": "Something went wrong. Please try again.",
-  "copying": "Copying..."
+  "copying": "Copying...",
+  "community": "Community",
+  "on": "On",
+  "off": "Off"
 }
