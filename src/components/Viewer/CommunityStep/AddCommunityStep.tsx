@@ -42,7 +42,7 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
     ],
   })
   const [contentType, setContentType] = useState<string>('')
-  const [date, setDate] = useState<Date | null>(null)
+  const [date, setDate] = useState<Date | null>(new Date())
 
   const [text, setText] = useState<string>('')
   const [source, setSource] = useState<string>('')

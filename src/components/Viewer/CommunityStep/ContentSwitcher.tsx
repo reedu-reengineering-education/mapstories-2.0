@@ -62,13 +62,10 @@ export default function ContentSwitcher({
         timeout={400}
         unmountOnExit
       >
-        <div>
+        <div className="flex flex-col gap-4">
           <DateSelectionView date={date} setDate={setDate} />
           <div className="flex justify-between">
-            <Button
-              onClick={() => setContentType('addSlide')}
-              variant={'inverse'}
-            >
+            <Button onClick={() => setContentType('intro')} variant={'inverse'}>
               Zurück
             </Button>
             <Button disabled={false} onClick={() => setContentType('addSlide')}>
@@ -93,7 +90,10 @@ export default function ContentSwitcher({
             stepSuggestion={stepSuggestion}
           />
           <div className="flex flex-row justify-between gap-4">
-            <Button onClick={() => setContentType('')} variant={'inverse'}>
+            <Button
+              onClick={() => setContentType('addDate')}
+              variant={'inverse'}
+            >
               Zurück
             </Button>
             <Button onClick={() => setContentType('addLocation')}>

@@ -132,14 +132,14 @@ export default function StepSuggestionsForm({ story }: Props) {
       ) : (
         <>
           <Carousel
-            className="w-full max-w-xs self-center"
+            className="w-full max-w-md self-center"
             opts={{ loop: true }}
             setApi={setApi}
           >
             <CarouselContent>
               {content.map((stepSuggestion, index) => (
                 <CarouselItem className="content-center" key={index}>
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4 p-1">
                     <StepSuggestionCard stepSuggestion={stepSuggestion} />
                     <div className="flex items-center justify-between">
                       <Button
