@@ -1,4 +1,6 @@
 {
   "stepSuggestions": "Sugerencias de la comunidad",
-  "stepSuggestionsDescription": "Aquí tienes sugerencias de la comunidad que puedes aceptar o rechazar"
+  "stepSuggestionsDescription": "Aquí tienes sugerencias de la comunidad que puedes aceptar o rechazar",
+  "accept": "Aceptar",
+  "reject": "Rechazar"
 }

@@ -44,7 +44,12 @@ export function SlideContentListEditItem({
         trigger={
           <Button
             className="flex-1 hover:bg-hover"
-            disabled={true}
+            disabled={
+              stepItem.type === 'IMAGE' ||
+              stepItem.type === 'VIDEO' ||
+              stepItem.type === 'AUDIO' ||
+              stepItem.type === 'EXTERNALIMAGE'
+            }
             variant={'noStyle'}
           >
             <SlideContentPreviewButton {...stepItem} />
