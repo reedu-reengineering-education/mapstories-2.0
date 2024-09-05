@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { SlideContent } from '@prisma/client'
 import DraggableList from '../../../DraggableList'
-import { SlideContentListEditItem } from '../../../Studio/Mapstories/SlideContentListEditItem'
 import { Button } from '../../../Elements/Button'
 import { PlusIcon } from '@radix-ui/react-icons'
+import { SlideContentListEditItem } from './SlideContentListEditItem'
 type Props = {
   setContentType: (type: string) => void
   stepSuggestion: any
   setStepSuggestion: any
+  handleDeleteContent: any
 }
 
 export default function ShowStepWithContents({
   stepSuggestion,
   setStepSuggestion,
   setContentType,
+  handleDeleteContent,
 }: Props) {
   const [content, setContent] = useState<SlideContent[]>()
 
@@ -43,6 +45,9 @@ export default function ShowStepWithContents({
               s: stepItem,
               component: (
                 <SlideContentListEditItem
+                  handleDeleteContent={handleDeleteContent}
+                  setContentType={setContentType}
+                  setStepSuggestion={setStepSuggestion}
                   stepItem={stepItem}
                 ></SlideContentListEditItem>
               ),

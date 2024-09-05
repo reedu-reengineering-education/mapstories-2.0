@@ -6,16 +6,15 @@ import { TrashIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 
 export default function DeleteContentButton({
-  setStepSuggestion,
+  stepSuggestion,
+  handleDeleteContent,
 }: {
-  storyStepId: any
-  stepContentId: any
+  stepSuggestion: any
+  handleDeleteContent: any
 }) {
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
   const [open, setOpen] = useState(false)
-
-  async function handleClick() {}
 
   return (
     <div className="absolute right-1 top-1 z-10 overflow-hidden rounded-md group-hover:visible">
@@ -39,7 +38,7 @@ export default function DeleteContentButton({
               <Button
                 disabled={isSaving}
                 isLoading={isSaving}
-                onClick={handleClick}
+                onClick={() => handleDeleteContent(stepSuggestion.position)}
                 variant={'danger'}
               >
                 Löschen

@@ -1,8 +1,8 @@
 'use client'
 import { Button } from '../../Elements/Button'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 // @ts-ignore
-import React from 'react'
+import React, { useEffect } from 'react'
 import SelectContentType from '@/src/components/Viewer/CommunityStep/SelectContentType'
 
 import InitialView from './ModalViews/InitialView'
@@ -31,10 +31,14 @@ export default function ContentSwitcher({
   handleAddMedia,
   handleAddEmbed,
   handleConfirmStep,
+  handleDeleteContent,
   setContentType,
 }: any) {
+  useEffect(() => {
+    console.log('contentType', contentType)
+  }, [contentType])
   return (
-    <TransitionGroup>
+    <>
       <CSSTransition
         appear
         classNames="slide-transition"
@@ -83,6 +87,7 @@ export default function ContentSwitcher({
       >
         <div className="flex flex-col gap-4">
           <ShowStepWithContents
+            handleDeleteContent={handleDeleteContent}
             setContentType={setContentType}
             setStepSuggestion={setStepSuggestion}
             stepSuggestion={stepSuggestion}
@@ -216,6 +221,6 @@ export default function ContentSwitcher({
           stepSuggestion={stepSuggestion}
         />
       </CSSTransition>
-    </TransitionGroup>
+    </>
   )
 }

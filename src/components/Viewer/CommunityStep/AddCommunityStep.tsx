@@ -148,6 +148,15 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
     setContentType('addSlide')
   }
 
+  const handleDeleteContent = (position: number) => {
+    const newStepSuggestion = { ...stepSuggestion }
+    newStepSuggestion.content = newStepSuggestion.content.filter(
+      (content: any) => content.position !== position,
+    )
+    setStepSuggestion(newStepSuggestion)
+    toast({ message: 'Content gelöscht', type: 'success' })
+  }
+
   return (
     <Modal
       onClose={() => setContentType('')}
@@ -172,6 +181,7 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
             handleAddMedia={handleAddMedia}
             handleAddText={handleAddText}
             handleConfirmStep={handleConfirmStep}
+            handleDeleteContent={handleDeleteContent}
             setContentType={setContentType}
             setDate={setDate}
             setFile={setFile}
