@@ -66,7 +66,7 @@ export default function ContentSwitcher({
               Zurück
             </Button>
             <Button disabled={false} onClick={() => setContentType('addSlide')}>
-              Erstellen
+              Weiter
             </Button>
           </div>
         </div>

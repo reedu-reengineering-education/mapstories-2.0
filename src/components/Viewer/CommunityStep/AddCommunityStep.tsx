@@ -12,6 +12,7 @@ import { generateRandomName } from '@/src/helper/generateRandomName'
 import useMedia from '@/src/lib/api/media/useMedia'
 import { uploadFile } from '@/src/helper/uploadFile'
 import ContentSwitcher from './ContentSwitcher'
+import { MediaType } from '@prisma/client'
 
 // Props type definition
 type Props = {
@@ -87,15 +88,17 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
         })
         await uploadFile(file, uploadedMedia)
         const newStepSuggestion = { ...stepSuggestion }
+        const fileType = file.type.split('/')[0].toUpperCase() as MediaType
+
         newStepSuggestion.content.push({
-          type: 'MEDIA',
+          type: fileType,
           content: file?.name,
           position: stepSuggestion.content.length,
           suggestionId: null,
           mediaId: uploadedMedia.id,
         })
-
         setStepSuggestion(newStepSuggestion)
+        setContentType('addSlide')
         toast({ message: 'Media hinzugefügt', type: 'success' })
       } catch (e) {
         console.log(e)
