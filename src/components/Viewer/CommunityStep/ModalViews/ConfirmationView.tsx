@@ -8,7 +8,10 @@ export default function ConfirmationView({
 }: any) {
   return (
     <div className="flex flex-col gap-4">
-      <div>This is your step are you sure? </div>
+      <div>
+        Hier hast du alles nochmal auf einen Blick. Passt alles in deinem
+        Community-Step?{' '}
+      </div>
       <div className="">
         <StepSuggestionCard stepSuggestion={stepSuggestion} />
       </div>
