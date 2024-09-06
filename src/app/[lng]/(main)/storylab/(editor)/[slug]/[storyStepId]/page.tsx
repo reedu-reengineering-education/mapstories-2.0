@@ -81,7 +81,7 @@ export default async function StepPage({
           </div>
         )}
         {/* {storyStep && <PreviewSlide stepId={storyStep.id} />} */}
-        <div className="re-basic-box z-20 min-w-[18rem] bg-white p-4">
+        <div className="re-basic-box z-20 max-h-[70lvh] min-w-[18rem] overflow-scroll bg-white p-4">
           {/* {storyStep?.content && storyStep.content.length > 0 && (
           <PreviewSlideButton />
         )} */}
