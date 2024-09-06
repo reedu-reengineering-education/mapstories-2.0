@@ -59,7 +59,6 @@ export function WikipediaEmbed({
         divProps.className,
       )}
       style={{
-        overflow: 'auto',
         width: width ?? undefined,
         height: height ?? undefined,
         borderRadius,
@@ -68,14 +67,14 @@ export function WikipediaEmbed({
     >
       <EmbedStyle />
       {wikipediaData ? (
-        <div>
+        <div className="flex flex-col items-center gap-2 rounded-sm border-2 p-2">
           {wikipediaData.thumbnail ? (
             <img
               alt="wikipedia_thumbnail"
               src={wikipediaData.thumbnail.source}
             />
           ) : null}
-          {wikipediaData ? wikipediaData.extract : null}
+          <div>{wikipediaData ? wikipediaData.extract : null}</div>
           {/* show a button which links to the original article */}
           {wikipediaData ? (
             <a
