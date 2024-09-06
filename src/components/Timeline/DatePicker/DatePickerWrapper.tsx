@@ -26,6 +26,7 @@ function DatePickerWrapper({ setDate, date }: DatePickerWrapperProps) {
       day.setMinutes(minutes)
     }
     setDate(day)
+    console.log(day)
   }, [day, time])
 
   return (

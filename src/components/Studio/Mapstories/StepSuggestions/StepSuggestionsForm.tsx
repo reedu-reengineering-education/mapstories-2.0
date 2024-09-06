@@ -70,7 +70,11 @@ export default function StepSuggestionsForm({ story }: Props) {
       // create new step
       const newStep: any = await createStep(stepSuggestion)
       // reordering story
-      await reorderStory(newStep, story)
+      console.log(newStep, story)
+      console.log(stepSuggestion)
+      if (story.mode !== 'TIMELINE') {
+        await reorderStory(newStep, story)
+      }
       // deleting stepsuggestion
       await deleteStepSuggestion(stepSuggestion.id)
     } catch (error) {
@@ -101,6 +105,7 @@ export default function StepSuggestionsForm({ story }: Props) {
         feature: stepSuggestion.feature,
         tags: stepSuggestion.tags,
         position: stepSuggestion.position,
+        timestamp: stepSuggestion.timestamp,
       })
       // reorder the story with the new step
       toast({
