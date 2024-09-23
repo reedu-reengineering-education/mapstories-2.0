@@ -13,7 +13,6 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useBoundStore } from '@/src/lib/store/store'
 import useStep from '@/src/lib/api/step/useStep'
-import './markdown.css'
 import {
   Bold,
   Code,
