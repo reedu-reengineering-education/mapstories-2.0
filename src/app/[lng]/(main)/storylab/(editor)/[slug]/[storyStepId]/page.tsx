@@ -13,6 +13,8 @@ import StepCalendarModal from './StepCalendarModal'
 import StepTagModal from './StepTagModal'
 import EditTimelineWrapper from './EditTimelineWrapper'
 import MapstorySidebar from '@/src/components/Studio/Mapstories/Sidebar/MapstorySidebar'
+import PreviewSlideButton from '@/src/components/Studio/Mapstories/PreviewSlideButton'
+import PreviewSlide from '@/src/components/Studio/Mapstories/PreviewSlide'
 
 export async function generateMetadata({
   params,
@@ -80,11 +82,11 @@ export default async function StepPage({
             <EditTimelineWrapper stepId={storyStepId} storyId={story.id} />
           </div>
         )}
-        {/* {storyStep && <PreviewSlide stepId={storyStep.id} />} */}
-        <div className="re-basic-box z-20 max-h-[70lvh] min-w-[18rem] overflow-scroll bg-white p-4">
-          {/* {storyStep?.content && storyStep.content.length > 0 && (
+        {storyStep && <PreviewSlide stepId={storyStep.id} />}
+        <div className="re-basic-box z-20 max-h-[70lvh] min-w-[18rem] overflow-scroll bg-white p-4 relative">
+          {storyStep?.content && storyStep.content.length > 0 && (
           <PreviewSlideButton />
-        )} */}
+        )}
           <h3 className="pb-4"></h3>
           <div>
             <SlideContentListEdit
