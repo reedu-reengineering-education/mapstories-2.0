@@ -13,7 +13,19 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useBoundStore } from '@/src/lib/store/store'
 import useStep from '@/src/lib/api/step/useStep'
-
+import './markdown.css'
+import {
+  Bold,
+  Code,
+  HeadingIcon,
+  HelpCircleIcon,
+  Italic,
+  Link,
+  List,
+  Table,
+} from 'lucide-react'
+import { commands } from '@uiw/react-md-editor'
+import { ToolbarButton } from '../../Elements/MarkdownToolbar'
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   storyStepId: string
   stepItem?: any
@@ -97,14 +109,101 @@ export function TextContentEdit({
     <div className="top-0">
       <div className="pb-4 pt-4">
         <div onClick={handleOnClick}>
-          {t('textEditor')}
+          <h3> Text erstellen</h3>
+          <div className="mb-2 mt-2 text-sm text-gray-500">
+            {t('textEditor')}{' '}
+          </div>
           {/* @ts-ignore */}
-          <MDEditor
-            data-color-mode="light"
-            onChange={setTextValue}
-            preview="edit"
-            value={textValue}
-          />
+          <div className="p-1 shadow-sm">
+            <MDEditor
+              commands={[
+                commands.bold,
+                commands.italic,
+                commands.title,
+                commands.link,
+                commands.code,
+                commands.table,
+                commands.orderedListCommand,
+                commands.help,
+              ]}
+              components={{
+                toolbar: (command, disabled, executeCommand) => {
+                  switch (command.name) {
+                    case 'bold':
+                      return (
+                        <ToolbarButton
+                          icon={<Bold className="h-4 w-4" />}
+                          label="Fett"
+                          onClick={() => executeCommand(command)}
+                        />
+                      )
+                    case 'italic':
+                      return (
+                        <ToolbarButton
+                          icon={<Italic className="h-4 w-4" />}
+                          label="Kursiv"
+                          onClick={() => executeCommand(command)}
+                        />
+                      )
+                    case 'title1':
+                      return (
+                        <ToolbarButton
+                          icon={<HeadingIcon className="h-4 w-4" />}
+                          label="Überschrift"
+                          onClick={() => executeCommand(command)}
+                        />
+                      )
+                    case 'code':
+                      return (
+                        <ToolbarButton
+                          icon={<Code className="h-4 w-4" />}
+                          label="Code"
+                          onClick={() => executeCommand(command)}
+                        />
+                      )
+                    case 'link':
+                      return (
+                        <ToolbarButton
+                          icon={<Link className="h-4 w-4" />}
+                          label="Link"
+                          onClick={() => executeCommand(command)}
+                        />
+                      )
+                    case 'table':
+                      return (
+                        <ToolbarButton
+                          icon={<Table className="h-4 w-4" />}
+                          label="Tabelle"
+                          onClick={() => executeCommand(command)}
+                        />
+                      )
+                    case 'ordered-list':
+                      return (
+                        <ToolbarButton
+                          icon={<List className="h-4 w-4" />}
+                          label="Liste"
+                          onClick={() => executeCommand(command)}
+                        />
+                      )
+                    case 'help':
+                      return (
+                        <ToolbarButton
+                          icon={<HelpCircleIcon className="h-4 w-4" />}
+                          label="Liste"
+                          onClick={() => executeCommand(command)}
+                        />
+                      )
+                    default:
+                      return
+                  }
+                },
+              }}
+              data-color-mode="light"
+              extraCommands={[]}
+              onChange={setTextValue}
+              value={textValue}
+            />
+          </div>
         </div>
       </div>
       <div className="flex justify-end">
