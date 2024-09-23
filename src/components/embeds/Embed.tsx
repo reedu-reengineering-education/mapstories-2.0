@@ -8,6 +8,7 @@ import { WikipediaEmbed } from './WikipediaEmbed'
 import { VideoEmbed } from './VideoEmbeds'
 import { SocialMediaEmbed } from './SocialMediaEmbed'
 import { GoogleStreetViewEmbed } from './GoogleStreetViewEmbed'
+import LamaPollEmbed from './LamaPollEmbed'
 
 export interface EmbedProps
   extends React.DetailedHTMLProps<
@@ -59,6 +60,9 @@ export function Embed({
       )}
       {media && media.type == 'PADLET' && (
         <PadletEmbed height={height} url={media.content} width={width} />
+      )}
+      {media && media.type == 'LAMAPOLL' && (
+        <LamaPollEmbed height={height} url={media.content} width={width} />
       )}
       {media && media.type == 'SPOTIFY' && (
         <SpotifyEmbed height={height} url={media.content} width={width} />

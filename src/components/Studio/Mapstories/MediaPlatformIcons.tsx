@@ -55,6 +55,7 @@ const mediaNames = new Map<MediaType, string>([
   ['SOUNDCLOUD', 'Soundcloud'],
   ['VIMEO', 'Vimeo'],
   ['DAILYMOTION', 'Dailymotion'],
+  ['LAMAPOLL', 'LamaPoll'],
 ])
 
 export default function MediaIconList({ usedMediaType }: MediaIconListProps) {
