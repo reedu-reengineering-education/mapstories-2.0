@@ -142,6 +142,15 @@ export function UserSettingsForm({
                 {...register('name')}
               />
             </div>
+            <div className="w-80 max-w-full">
+              <Input
+                defaultValue={user.email ?? ''}
+                errors={errors.email}
+                label="E-Mail"
+                size={32}
+                {...register('email')}
+              />
+            </div>
           </Card.Content>
           <Card.Footer>
             <Button disabled={isSaving} isLoading={isSaving} type="submit">
