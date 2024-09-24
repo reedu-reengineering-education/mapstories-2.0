@@ -34,24 +34,20 @@ export default function SupportTab() {
         <p>{t('text2')}</p>
         <p>
           {/* @ts-ignore */}
-
           <b>{t('text3Title')}</b>
         </p>
         {/* @ts-ignore */}
         <p>{t('text3')}</p>
-        <p>
-          {/* @ts-ignore */}
+        <div>
           <a
             className="text-blue-500"
             href="https://secure.spendenbank.de/form/3267?langid=1"
           >
             {/* @ts-ignore */}
-
             {t('Here')}
           </a>
-          {/* @ts-ignore */}
           {t('donate')}
-        </p>
+        </div>
         <p>
           {/* @ts-ignore */}
           <b>{t('text4Title')}</b>
