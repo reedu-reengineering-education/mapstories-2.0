@@ -46,7 +46,8 @@ export default function SupportTab() {
             {/* @ts-ignore */}
             {t('Here')}
           </a>
-          {t('donate')}
+          {/* @ts-ignore */}
+          <span>{t('donate')}</span>
         </div>
         <p>
           {/* @ts-ignore */}
