@@ -9,6 +9,7 @@ import { toast } from '@/src/lib/toast'
 import { useEffect, useState } from 'react'
 import useStep from '@/src/lib/api/step/useStep'
 import { SlideContentListEditItem } from './SlideContentListEditItem'
+import { useBoundStore } from '@/src/lib/store/store'
 
 type Props = {
   storyId: string
@@ -19,6 +20,7 @@ export function SlideContentListEdit({ storyId, stepId }: Props) {
   const { story } = useStory(storyId)
   const { step, reorderSlideContent } = useStep(stepId)
   const [disabled, setDisabled] = React.useState(false)
+  const { showSlidePreview } = useBoundStore()
 
   const [content, setContent] = useState<SlideContent[]>()
 
@@ -46,25 +48,29 @@ export function SlideContentListEdit({ storyId, stepId }: Props) {
   }
 
   return (
-    <div className="py-4">
-      {content && content.length > 0 && (
-        <DraggableList
-          disabled={disabled}
-          items={
-            content?.map(stepItem => ({
-              id: stepItem.id,
-              s: stepItem,
-              component: (
-                <SlideContentListEditItem
-                  setDisabled={setDisabled}
-                  stepItem={stepItem}
-                ></SlideContentListEditItem>
-              ),
-            }))!
-          }
-          onChange={e => onReorder(e.map(({ s }) => s))}
-        ></DraggableList>
+    <>
+      { !showSlidePreview && (
+        <div className="py-4">
+          {content && content.length > 0  && (
+            <DraggableList
+              disabled={disabled}
+              items={
+                content?.map(stepItem => ({
+                  id: stepItem.id,
+                  s: stepItem,
+                  component: (
+                    <SlideContentListEditItem
+                      setDisabled={setDisabled}
+                      stepItem={stepItem}
+                    ></SlideContentListEditItem>
+                  ),
+                }))!
+              }
+              onChange={e => onReorder(e.map(({ s }) => s))}
+            ></DraggableList>
+          )}
+        </div>
       )}
-    </div>
+    </>
   )
 }
