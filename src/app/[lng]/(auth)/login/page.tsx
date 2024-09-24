@@ -32,10 +32,17 @@ export default async function LoginPage({
           </p>
         </div>
         <UserAuthForm />
+        <h1 className="text-center">Noch keinen Account?</h1>
         <p className="px-8 text-center text-sm text-slate-600">
-          <Link className="hover:text-brand underline" href="/register">
-            {t('no_account')}
+          {t('disclaimerRegister')}{' '}
+          <Link className="hover:text-brand underline" href="/terms">
+            {t('TOS')}
+          </Link>{' '}
+          {t('and')}{' '}
+          <Link className="hover:text-brand underline" href="/privacy">
+            {t('PP')}
           </Link>
+          {t('endDisclaimRegister')}
         </p>
       </div>
     </div>
