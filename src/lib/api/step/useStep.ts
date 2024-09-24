@@ -16,7 +16,6 @@ export type StepWithContent = StoryStep & {
 
 const useStep = (stepId: string) => {
   const storyId = useBoundStore(store => store.storyID)
-
   const { deleteMedia } = useMedia()
 
   const { data: step, mutate: stepMutate } = useSWR<StepWithContent>(

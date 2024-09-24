@@ -22,6 +22,7 @@ import AddStoryStepTimelineButton from './AddStoryStepTimelineButton'
 export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstorySidebar')
+  const { showSlidePreview } = useBoundStore()
 
   const router = useRouter()
 
@@ -100,6 +101,8 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   return (
     <>
+  { !showSlidePreview && (
+
       <aside className="re-basic-box relative z-40 flex h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-white px-4">
         <Link href={`/storylab/${story.slug}/${story.firstStepId}`}>
           <div className="pt-5">
@@ -195,6 +198,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
           )}
         </div>
       </aside>
+      )}
     </>
   )
 }

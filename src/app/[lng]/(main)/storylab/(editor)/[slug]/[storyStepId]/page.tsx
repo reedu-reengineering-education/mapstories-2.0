@@ -1,18 +1,12 @@
-import { Button } from '@/src/components/Elements/Button'
-import { SlideContentListEdit } from '@/src/components/Studio/Mapstories/SlideContentListEdit'
 import { db } from '@/src/lib/db'
-import PlusIcon from '@heroicons/react/24/outline/PlusIcon'
-import { Story, StoryMode } from '@prisma/client'
-import SlideContentModal from './SlideContentModal'
+import { Story } from '@prisma/client'
 import { Metadata } from 'next/types'
 import { getStoryName } from '@/src/lib/getStoryName'
 import { useTranslation } from '@/src/app/i18n'
-import { Spacer } from '@/src/components/Elements/Spacer'
-import { TagIcon } from '@heroicons/react/24/outline'
-import StepCalendarModal from './StepCalendarModal'
-import StepTagModal from './StepTagModal'
 import EditTimelineWrapper from './EditTimelineWrapper'
 import MapstorySidebar from '@/src/components/Studio/Mapstories/Sidebar/MapstorySidebar'
+import PreviewSlide from '@/src/components/Studio/Mapstories/PreviewSlide'
+import SlideContentListBox from './SlideContentListBox'
 
 export async function generateMetadata({
   params,
@@ -80,63 +74,11 @@ export default async function StepPage({
             <EditTimelineWrapper stepId={storyStepId} storyId={story.id} />
           </div>
         )}
-        {/* {storyStep && <PreviewSlide stepId={storyStep.id} />} */}
-        <div className="re-basic-box z-20 max-h-[70lvh] min-w-[18rem] overflow-scroll bg-white p-4">
-          {/* {storyStep?.content && storyStep.content.length > 0 && (
-          <PreviewSlideButton />
-        )} */}
-          <h3 className="pb-4"></h3>
-          <div>
-            <SlideContentListEdit
-              stepId={storyStepId}
-              storyId={story.id}
-            ></SlideContentListEdit>
-          </div>
-
-          <SlideContentModal
+        {storyStep && <PreviewSlide stepId={storyStep.id} />}
+          <SlideContentListBox               
+            storyId={story.id}
             storyStepId={storyStepId}
-            trigger={
-              <Button
-                className="w-full"
-                startIcon={<PlusIcon className="h-10"></PlusIcon>}
-                variant={'primary'}
-              >
-                {t('addMedia')}
-              </Button>
-            }
-          />
-          {story.mode === StoryMode.TIMELINE && (
-            <>
-              {
-                /* hide the calendar modal for title slide */
-                story.firstStepId !== storyStep?.id && (
-                  <div>
-                    <Spacer />
-                    <StepTagModal
-                      storyStepId={storyStepId}
-                      tags={storyStep?.tags}
-                      trigger={
-                        <Button
-                          className="w-full"
-                          startIcon={<TagIcon className="h-6" />}
-                          variant={'inverse'}
-                        >
-                          Add tag
-                        </Button>
-                      }
-                    />
-                    <Spacer />
-                  </div>
-                )
-              }
-
-              {/* hide the calendar modal for title slide */}
-              {story.firstStepId !== storyStep?.id && (
-                <StepCalendarModal storyStepId={storyStepId} />
-              )}
-            </>
-          )}
-        </div>
+          ></SlideContentListBox>
       </div>
     </div>
   )
