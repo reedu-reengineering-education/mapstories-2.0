@@ -32,7 +32,7 @@ export default function StepSuggestionCard({ stepSuggestion }: Props) {
         </Card.Title>
       </Card.Header>
       <Card.Content>
-        <div className="max-h-[400px] overflow-scroll">
+        <div className="max-h-[300px] overflow-scroll">
           <Slide step={stepSuggestion} />
         </div>
       </Card.Content>

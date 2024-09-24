@@ -71,7 +71,7 @@ export default async function DashboardLayout({
           <aside className="hidden w-[200px] flex-col md:flex">
             <StudioSidebar />
           </aside>
-          <main className="flex w-full flex-1 flex-col overflow-hidden">
+          <main className="flex min-h-[80vh] w-full flex-1 flex-col overflow-hidden">
             {children}
           </main>
         </div>

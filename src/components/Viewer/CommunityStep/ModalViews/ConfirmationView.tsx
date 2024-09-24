@@ -8,10 +8,11 @@ export default function ConfirmationView({
 }: any) {
   return (
     <div className="flex flex-col gap-4">
-      <div>
+      <div className="mb-2 mt-2 text-sm text-gray-500">
         Hier hast du alles nochmal auf einen Blick. Passt alles in deinem
         Community-Step?{' '}
       </div>
+      <div></div>
       <div className="">
         <StepSuggestionCard stepSuggestion={stepSuggestion} />
       </div>
