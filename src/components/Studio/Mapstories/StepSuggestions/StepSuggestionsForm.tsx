@@ -21,6 +21,14 @@ import { Modal } from '@/src/components/Modal'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Marker, Map as ReactMap } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/src/components/Elements/Breadcrumbs'
 type Props = {
   story: Story
 }
@@ -158,121 +166,144 @@ export default function StepSuggestionsForm({ story }: Props) {
           {t('noSuggestions')}
         </div>
       ) : (
-        <div className="flex flex-row items-center justify-center gap-20">
-          <div>
-            <Carousel
-              className="max-w-md self-center"
-              opts={{ loop: true }}
-              setApi={setApi}
-            >
-              <CarouselContent>
-                {content.map((stepSuggestion, index) => (
-                  <CarouselItem className="content-center" key={index}>
-                    <div className="ml-12 flex flex-col gap-4 p-1">
-                      <StepSuggestionCard stepSuggestion={stepSuggestion} />
-                      <div className="flex items-center justify-between">
-                        <Button
-                          onClick={() => setRejectModalOpen(true)}
-                          startIcon={<XMarkIcon className="w-5" />}
-                          variant={'danger'}
-                        >
-                          {/* @ts-ignore */}
-                          {t('reject')}
-                        </Button>
-                        <Button
-                          disabled={isLoading}
-                          onClick={() => confirmStepSuggestion(stepSuggestion)}
-                          startIcon={
-                            isLoading ? (
-                              <svg
-                                className="... mr-3 h-5 w-5 animate-spin"
-                                viewBox="0 0 24 24"
-                              ></svg>
-                            ) : (
-                              <CheckIcon className="w-5" />
-                            )
-                          }
-                        >
-                          {/* @ts-ignore */}
-                          {isLoading ? t('loading') : t('accept')}
-                        </Button>
+        <div>
+          <div className="px-2">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/storylab">StoryLab</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href={`/storylab/${story.slug}`}>
+                    {story.name}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{t('stepSuggestions')}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          <div className="flex flex-row items-center justify-center gap-20">
+            <div>
+              <Carousel
+                className="max-w-md self-center"
+                opts={{ loop: true }}
+                setApi={setApi}
+              >
+                <CarouselContent>
+                  {content.map((stepSuggestion, index) => (
+                    <CarouselItem className="content-center" key={index}>
+                      <div className="ml-12 flex flex-col gap-4 p-1">
+                        <StepSuggestionCard stepSuggestion={stepSuggestion} />
+                        <div className="flex items-center justify-between">
+                          <Button
+                            onClick={() => setRejectModalOpen(true)}
+                            startIcon={<XMarkIcon className="w-5" />}
+                            variant={'danger'}
+                          >
+                            {/* @ts-ignore */}
+                            {t('reject')}
+                          </Button>
+                          <Button
+                            disabled={isLoading}
+                            onClick={() =>
+                              confirmStepSuggestion(stepSuggestion)
+                            }
+                            startIcon={
+                              isLoading ? (
+                                <svg
+                                  className="... mr-3 h-5 w-5 animate-spin"
+                                  viewBox="0 0 24 24"
+                                ></svg>
+                              ) : (
+                                <CheckIcon className="w-5" />
+                              )
+                            }
+                          >
+                            {/* @ts-ignore */}
+                            {isLoading ? t('loading') : t('accept')}
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
 
-            <div className="text-muted-foreground py-2 text-center text-sm">
-              {current} / {count}
+              <div className="text-muted-foreground py-2 text-center text-sm">
+                {current} / {count}
+              </div>
             </div>
-          </div>
-          <div className="h-72 w-1/3 rounded-full">
-            {' '}
-            <ReactMap
-              initialViewState={{
-                longitude:
-                  currentStepSuggestion?.feature?.geometry?.coordinates[0] ??
-                  7.5,
-                latitude:
-                  currentStepSuggestion?.feature?.geometry?.coordinates[1] ??
-                  51.5,
-                zoom: 3,
-              }}
-              mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-              mapStyle="mapbox://styles/mapbox/streets-v12"
-              ref={mapRef}
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: '0.5rem',
-              }}
-            >
-              {currentStepSuggestion && (
-                <Marker
-                  color="green"
-                  latitude={
-                    currentStepSuggestion?.feature?.geometry?.coordinates[1]
-                  }
-                  longitude={
-                    currentStepSuggestion?.feature?.geometry?.coordinates[0]
-                  }
-                ></Marker>
-              )}
-            </ReactMap>
-          </div>
+            <div className="h-72 w-1/3 rounded-full">
+              {' '}
+              <ReactMap
+                initialViewState={{
+                  longitude:
+                    currentStepSuggestion?.feature?.geometry?.coordinates[0] ??
+                    7.5,
+                  latitude:
+                    currentStepSuggestion?.feature?.geometry?.coordinates[1] ??
+                    51.5,
+                  zoom: 3,
+                }}
+                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+                mapStyle="mapbox://styles/mapbox/streets-v12"
+                ref={mapRef}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '0.5rem',
+                }}
+              >
+                {currentStepSuggestion && (
+                  <Marker
+                    color="green"
+                    latitude={
+                      currentStepSuggestion?.feature?.geometry?.coordinates[1]
+                    }
+                    longitude={
+                      currentStepSuggestion?.feature?.geometry?.coordinates[0]
+                    }
+                  ></Marker>
+                )}
+              </ReactMap>
+            </div>
 
-          <Modal
-            onOpenChange={setRejectModalOpen}
-            open={rejectModalOpen}
-            // @ts-ignore
-            title={t('reject')}
-          >
-            <Modal.Content>
-              <div>
-                Möchtest du wirklich löschen? Diese Aktion kann nicht rückgängig
-                gemacht werden.
-              </div>
-              <div className="mt-4 flex flex-row justify-between">
-                <Button
-                  onClick={() => setRejectModalOpen(false)}
-                  variant="primary"
-                >
-                  {/* @ts-ignore */}
-                  {t('cancel')}
-                </Button>
-                <Button
-                  onClick={() => handleReject(content[current - 1])}
-                  variant="danger"
-                >
-                  {/* @ts-ignore */}
-                  {t('reject')}
-                </Button>
-              </div>
-            </Modal.Content>
-          </Modal>
+            <Modal
+              onOpenChange={setRejectModalOpen}
+              open={rejectModalOpen}
+              // @ts-ignore
+              title={t('reject')}
+            >
+              <Modal.Content>
+                <div>
+                  Möchtest du wirklich löschen? Diese Aktion kann nicht
+                  rückgängig gemacht werden.
+                </div>
+                <div className="mt-4 flex flex-row justify-between">
+                  <Button
+                    onClick={() => setRejectModalOpen(false)}
+                    variant="primary"
+                  >
+                    {/* @ts-ignore */}
+                    {t('cancel')}
+                  </Button>
+                  <Button
+                    onClick={() => handleReject(content[current - 1])}
+                    variant="danger"
+                  >
+                    {/* @ts-ignore */}
+                    {t('reject')}
+                  </Button>
+                </div>
+              </Modal.Content>
+            </Modal>
+          </div>
         </div>
       )}
     </div>
