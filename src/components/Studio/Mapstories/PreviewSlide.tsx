@@ -18,7 +18,7 @@ export default function PreviewSlide({ stepId }: Props) {
     <>
       {showSlidePreview && (
         // TODO: Styling
-        <div className="re-basic-box absolute top-20 right-20 z-20 bg-white p-4">
+        <div className="re-basic-box absolute top-40 right-20 z-20 bg-white p-4">
           <Button
             className="w-full"
             onClick={()=> setShowSlidePreview(false)}
