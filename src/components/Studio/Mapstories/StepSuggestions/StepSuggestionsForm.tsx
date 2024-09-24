@@ -46,7 +46,7 @@ export default function StepSuggestionsForm({ story }: Props) {
   const [isLoading, setIsLoading] = React.useState(false)
   const [rejectModalOpen, setRejectModalOpen] = React.useState(false)
   const [currentStepSuggestion, setCurrentStepSuggestion] =
-    React.useState<StoryStepSuggestion>(story.stepSuggestions[0] || null)
+    React.useState<StoryStepSuggestion>()
 
   const mapRef = React.useRef(null)
   useEffect(() => {
@@ -61,9 +61,12 @@ export default function StepSuggestionsForm({ story }: Props) {
   }, [current])
 
   useEffect(() => {
+    // @ts-ignore
     mapRef.current?.flyTo({
       center: [
+        // @ts-ignore
         currentStepSuggestion.feature?.geometry?.coordinates[0] ?? 7.5,
+        // @ts-ignore
         currentStepSuggestion.feature?.geometry?.coordinates[1] ?? 51.5,
       ],
     })
@@ -181,7 +184,10 @@ export default function StepSuggestionsForm({ story }: Props) {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{t('stepSuggestions')}</BreadcrumbPage>
+                  <BreadcrumbPage>
+                    {/* @ts-ignore */}
+                    {t('stepSuggestions')}
+                  </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -244,11 +250,11 @@ export default function StepSuggestionsForm({ story }: Props) {
               <ReactMap
                 initialViewState={{
                   longitude:
-                    currentStepSuggestion?.feature?.geometry?.coordinates[0] ??
-                    7.5,
+                    // @ts-ignore
+                    currentStepSuggestion?.feature?.geometry?.coordinates[0],
                   latitude:
-                    currentStepSuggestion?.feature?.geometry?.coordinates[1] ??
-                    51.5,
+                    // @ts-ignore
+                    currentStepSuggestion?.feature?.geometry?.coordinates[1],
                   zoom: 3,
                 }}
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
@@ -264,9 +270,11 @@ export default function StepSuggestionsForm({ story }: Props) {
                   <Marker
                     color="green"
                     latitude={
+                      // @ts-ignore
                       currentStepSuggestion?.feature?.geometry?.coordinates[1]
                     }
                     longitude={
+                      // @ts-ignore
                       currentStepSuggestion?.feature?.geometry?.coordinates[0]
                     }
                   ></Marker>
