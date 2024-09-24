@@ -21,6 +21,7 @@ import {
 } from 'react-simple-captcha'
 import { toast } from '@/src/lib/toast'
 import { Input } from '../../Elements/Input'
+import useStory from '@/src/lib/api/story/useStory'
 
 // ContentSwitcher component to handle transitions between different content types
 export default function ContentSwitcher({
@@ -45,11 +46,13 @@ export default function ContentSwitcher({
   setCaptchaValidated,
 }: any) {
   const [captcha, setCaptcha] = useState<string>('')
+  const { story } = useStory(storyId)
 
   useEffect(() => {
     if (contentType === 'media') {
       loadCaptchaEnginge(6, 'gray')
     }
+    console.log(story)
   }, [contentType])
 
   const handleCaptchaAndContiniue = () => {
@@ -64,7 +67,6 @@ export default function ContentSwitcher({
   return (
     <>
       <CSSTransition
-        appear
         classNames="slide-transition"
         in={contentType === 'intro'}
         timeout={400}
@@ -74,13 +76,20 @@ export default function ContentSwitcher({
           <InitialView />
           <div className="flex flex-row justify-end gap-4">
             <Button variant={'inverse'}>Abbrechen</Button>
-            <Button onClick={() => setContentType('addDate')}>Weiter</Button>
+            <Button
+              onClick={() =>
+                story?.mode === 'TIMELINE'
+                  ? setContentType('addDate')
+                  : setContentType('addSlide')
+              }
+            >
+              Weiter
+            </Button>
           </div>
         </div>
       </CSSTransition>
 
       <CSSTransition
-        appear
         classNames="slide-transition"
         in={contentType === 'addDate'}
         timeout={400}
@@ -100,7 +109,6 @@ export default function ContentSwitcher({
       </CSSTransition>
 
       <CSSTransition
-        appear
         classNames="slide-transition"
         in={contentType === 'addSlide'}
         timeout={400}
@@ -115,7 +123,11 @@ export default function ContentSwitcher({
           />
           <div className="flex flex-row justify-between gap-4">
             <Button
-              onClick={() => setContentType('addDate')}
+              onClick={() =>
+                story?.mode === 'TIMELINE'
+                  ? setContentType('addDate')
+                  : setContentType('intro')
+              }
               variant={'inverse'}
             >
               Zurück
