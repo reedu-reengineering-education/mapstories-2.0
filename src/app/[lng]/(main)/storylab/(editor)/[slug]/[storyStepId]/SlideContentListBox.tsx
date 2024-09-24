@@ -1,9 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import React from 'react'
 import { useTranslation } from '@/src/app/i18n/client'
-// import { useUIStore } from '@/src/lib/store/ui'
 import { useBoundStore } from '@/src/lib/store/store'
 import useStory from '@/src/lib/api/story/useStory'
 import useStep from '@/src/lib/api/step/useStep'
@@ -16,6 +14,7 @@ import { Spacer } from '@/src/components/Elements/Spacer'
 import StepTagModal from './StepTagModal'
 import StepCalendarModal from './StepCalendarModal'
 import { StoryMode } from '@prisma/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
 type Props = {
   storyStepId: string
@@ -23,10 +22,11 @@ type Props = {
 }
 
 export default function SlideContentListBox({ storyStepId, storyId }: Props) {
-  const [contentType, setContentType] = useState<string>('')
-  const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, ['editModal', 'embeds'])
-  const [show, setShowModal] = useState<boolean>(false)
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'step')
   const {story} = useStory(storyId)
   const {step: storyStep} = useStep(storyStepId)
   const { showSlidePreview } = useBoundStore()
