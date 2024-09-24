@@ -24,7 +24,11 @@ export function PreviewButton(story: any) {
 
   const lng = pathnameArr[1]
   const previewText =
-    lng === 'de' ? 'Story anschauen' : lng === 'en' ? 'View Story' : 'Vista previa'
+    lng === 'de'
+      ? 'Story anschauen'
+      : lng === 'en'
+        ? 'View Story'
+        : 'Vista previa'
 
   const storyid = pathnameArr[3]
   const slideid = pathnameArr[4]

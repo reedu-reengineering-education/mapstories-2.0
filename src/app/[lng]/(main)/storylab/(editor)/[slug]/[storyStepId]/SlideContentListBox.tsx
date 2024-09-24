@@ -27,70 +27,70 @@ export default function SlideContentListBox({ storyStepId, storyId }: Props) {
     lng = fallbackLng
   }
   const { t } = useTranslation(lng, 'step')
-  const {story} = useStory(storyId)
-  const {step: storyStep} = useStep(storyStepId)
+  const { story } = useStory(storyId)
+  const { step: storyStep } = useStep(storyStepId)
   const { showSlidePreview } = useBoundStore()
 
   return (
     <>
-     { story && !showSlidePreview && (
-        <div className="re-basic-box z-20 max-h-[70lvh] min-w-[18rem] overflow-scroll bg-white p-4 relative">
-        {storyStep?.content && storyStep.content.length > 0 && (
-        <PreviewSlideButton />
-      )}
-        <h3 className="pb-4"></h3>
-        <div>
-          <SlideContentListEdit
-            stepId={storyStepId}
-            storyId={story.id}
-          ></SlideContentListEdit>
-        </div>
-    
-        <SlideContentModal
-          storyStepId={storyStepId}
-          trigger={
-            <Button
-              className="w-full"
-              startIcon={<PlusIcon className="h-10"></PlusIcon>}
-              variant={'primary'}
-            >
-              {t('addMedia')}
-            </Button>
-          }
-        />
-        {story.mode === StoryMode.TIMELINE && (
-          <>
-            {
-              /* hide the calendar modal for title slide */
-              story.firstStepId !== storyStep?.id && (
-                <div>
-                  <Spacer />
-                  <StepTagModal
-                    storyStepId={storyStepId}
-                    tags={storyStep?.tags}
-                    trigger={
-                      <Button
-                        className="w-full"
-                        startIcon={<TagIcon className="h-6" />}
-                        variant={'inverse'}
-                      >
-                        Add tag
-                      </Button>
-                    }
-                  />
-                  <Spacer />
-                </div>
-              )
+      {story && !showSlidePreview && (
+        <div className="re-basic-box relative z-20 max-h-[70lvh] min-w-[18rem] overflow-scroll bg-white p-4">
+          {storyStep?.content && storyStep.content.length > 0 && (
+            <PreviewSlideButton />
+          )}
+          <h3 className="pb-4"></h3>
+          <div>
+            <SlideContentListEdit
+              stepId={storyStepId}
+              storyId={story.id}
+            ></SlideContentListEdit>
+          </div>
+
+          <SlideContentModal
+            storyStepId={storyStepId}
+            trigger={
+              <Button
+                className="w-full"
+                startIcon={<PlusIcon className="h-10"></PlusIcon>}
+                variant={'primary'}
+              >
+                {t('addMedia')}
+              </Button>
             }
-    
-            {/* hide the calendar modal for title slide */}
-            {story.firstStepId !== storyStep?.id && (
-              <StepCalendarModal storyStepId={storyStepId} />
-            )}
-          </>
-        )}
-      </div>
-     )}
-     </>
+          />
+          {story.mode === StoryMode.TIMELINE && (
+            <>
+              {
+                /* hide the calendar modal for title slide */
+                story.firstStepId !== storyStep?.id && (
+                  <div>
+                    <Spacer />
+                    <StepTagModal
+                      storyStepId={storyStepId}
+                      tags={storyStep?.tags}
+                      trigger={
+                        <Button
+                          className="w-full"
+                          startIcon={<TagIcon className="h-6" />}
+                          variant={'inverse'}
+                        >
+                          Add tag
+                        </Button>
+                      }
+                    />
+                    <Spacer />
+                  </div>
+                )
+              }
+
+              {/* hide the calendar modal for title slide */}
+              {story.firstStepId !== storyStep?.id && (
+                <StepCalendarModal storyStepId={storyStepId} />
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </>
   )
 }

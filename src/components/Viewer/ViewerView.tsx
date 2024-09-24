@@ -65,7 +65,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     if (inputStories && inputStories.length > 0) {
       //removed this because it causes bugs, not sure we still need it
       // if (inputStories.map(story => story.id).indexOf(storyID) != -1) {
-        setViewerStories(inputStories)
+      setViewerStories(inputStories)
       // }
     }
   }, [inputStories])

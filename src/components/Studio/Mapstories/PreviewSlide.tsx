@@ -18,10 +18,10 @@ export default function PreviewSlide({ stepId }: Props) {
     <>
       {showSlidePreview && (
         // TODO: Styling
-        <div className="re-basic-box absolute top-40 right-20 z-20 bg-white p-4">
+        <div className="re-basic-box absolute right-20 top-40 z-20 bg-white p-4">
           <Button
             className="w-full"
-            onClick={()=> setShowSlidePreview(false)}
+            onClick={() => setShowSlidePreview(false)}
             startIcon={<XIcon className="h-10"></XIcon>}
             variant={'danger'}
           >

@@ -75,10 +75,10 @@ export default async function StepPage({
           </div>
         )}
         {storyStep && <PreviewSlide stepId={storyStep.id} />}
-          <SlideContentListBox               
-            storyId={story.id}
-            storyStepId={storyStepId}
-          ></SlideContentListBox>
+        <SlideContentListBox
+          storyId={story.id}
+          storyStepId={storyStepId}
+        ></SlideContentListBox>
       </div>
     </div>
   )

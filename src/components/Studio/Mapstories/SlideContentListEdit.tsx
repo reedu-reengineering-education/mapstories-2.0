@@ -49,9 +49,9 @@ export function SlideContentListEdit({ storyId, stepId }: Props) {
 
   return (
     <>
-      { !showSlidePreview && (
+      {!showSlidePreview && (
         <div className="py-4">
-          {content && content.length > 0  && (
+          {content && content.length > 0 && (
             <DraggableList
               disabled={disabled}
               items={
