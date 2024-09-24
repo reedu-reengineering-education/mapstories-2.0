@@ -15,9 +15,10 @@ import {
 } from '@/src/components/Elements/Carousel'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
-import { XMarkIcon } from '@heroicons/react/24/outline'
 import { CheckIcon } from 'lucide-react'
 import { Button } from '@/src/components/Elements/Button'
+import { Modal } from '@/src/components/Modal'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 type Props = {
   story: Story
 }
@@ -33,7 +34,7 @@ export default function StepSuggestionsForm({ story }: Props) {
     useStory(story.id)
   const [content, setContent] = React.useState<StoryStepSuggestion[]>([])
   const [isLoading, setIsLoading] = React.useState(false)
-
+  const [rejectModalOpen, setRejectModalOpen] = React.useState(false)
   useEffect(() => {
     setContent(
       (story as unknown as { stepSuggestions: StoryStepSuggestion[] })
@@ -59,6 +60,7 @@ export default function StepSuggestionsForm({ story }: Props) {
       suggestion => suggestion.id !== stepSuggestion.id,
     )
     setContent(newContent)
+    setRejectModalOpen(false)
     toast({
       message: 'Step suggestion rejected',
       type: 'success',
@@ -150,7 +152,7 @@ export default function StepSuggestionsForm({ story }: Props) {
                     <StepSuggestionCard stepSuggestion={stepSuggestion} />
                     <div className="flex items-center justify-between">
                       <Button
-                        onClick={() => handleReject(stepSuggestion)}
+                        onClick={() => setRejectModalOpen(true)}
                         startIcon={<XMarkIcon className="w-5" />}
                         variant={'danger'}
                       >
@@ -185,6 +187,34 @@ export default function StepSuggestionsForm({ story }: Props) {
           <div className="text-muted-foreground py-2 text-center text-sm">
             {current} / {count}
           </div>
+          <Modal
+            onOpenChange={setRejectModalOpen}
+            open={rejectModalOpen}
+            title={t('reject')}
+          >
+            <Modal.Content>
+              <div>
+                Möchtest du wirklich löschen? Diese Aktion kann nicht rückgängig
+                gemacht werden.
+              </div>
+              <div className="mt-4 flex flex-row justify-between">
+                <Button
+                  onClick={() => setRejectModalOpen(false)}
+                  variant="primary"
+                >
+                  {/* @ts-ignore */}
+                  {t('cancel')}
+                </Button>
+                <Button
+                  onClick={() => handleReject(content[current - 1])}
+                  variant="danger"
+                >
+                  {/* @ts-ignore */}
+                  {t('reject')}
+                </Button>
+              </div>
+            </Modal.Content>
+          </Modal>
         </>
       )}
     </div>
