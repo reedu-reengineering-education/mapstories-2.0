@@ -35,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
 
-      return res.status(200).json(updatedUser)
+      return res.status(200).json({ success: true })
     } catch (error) {
       return res.status(422).json(error)
     }
