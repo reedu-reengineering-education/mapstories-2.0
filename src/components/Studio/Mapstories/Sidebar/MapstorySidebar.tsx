@@ -60,7 +60,6 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   useEffect(() => {
     const section = document.querySelector(`#${stepId}`)
-    console.log(section)
     section?.scrollIntoView()
   }, [stepId])
 
@@ -74,8 +73,6 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
 
   async function onReorder(update: StoryStep[]) {
     try {
-      console.log('this is the udpte', update)
-
       await reorderStorySteps(update)
     } catch (e) {
       return toast({

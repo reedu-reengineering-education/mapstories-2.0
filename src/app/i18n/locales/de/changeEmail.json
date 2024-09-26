@@ -1,8 +1,8 @@
 {
-    "success": "Erfolg",
-    "error": "Fehler",
-    "login_new_mail": "Du kannst dich mit deiner neuen E-Mail Adresse einloggen.",
-    "invalid_email_change": "Ungültiger Token oder E-Mail Adresse.",
-    "verify_new_email": "Neue E-Mail Adresse verifizieren.",
-    "validating": "Deine Anfrage wird geprüft."
+  "success": "Erfolg",
+  "error": "Fehler",
+  "login_new_mail": "Du kannst dich mit deiner neuen E-Mail Adresse einloggen.",
+  "invalid_email_change": "Ungültiger Token oder E-Mail Adresse.",
+  "verify_new_email": "Neue E-Mail Adresse verifizieren.",
+  "validating": "Deine Anfrage wird geprüft."
 }

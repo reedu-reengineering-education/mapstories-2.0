@@ -10,12 +10,11 @@ export default async function ConfirmEmailPage({
   params: { lng },
   searchParams,
 }: {
-  params: { lng: string },
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: { lng: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }) {
   const { t } = await useTranslation(lng, 'login')
-  const session = await getServerSession(authOptions);
-  
+  const session = await getServerSession(authOptions)
 
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
@@ -27,7 +26,10 @@ export default async function ConfirmEmailPage({
           {t('back')}
         </Button>
       </Link>
-      <ConfirmEmail token={searchParams.token} user={session?.user}></ConfirmEmail>
+      <ConfirmEmail
+        token={searchParams.token}
+        user={session?.user}
+      ></ConfirmEmail>
     </div>
   )
 }

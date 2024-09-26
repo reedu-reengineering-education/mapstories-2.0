@@ -16,20 +16,23 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       const user = await db.user.findFirst({
-        where : {
-            id: session.user.id
-        }
+        where: {
+          id: session.user.id,
+        },
       })
-      if(!user || user.verify_new_email_token != params.token){
-        return res.status(422).json({error: 'Invalid Token or User'})
-
+      if (!user || user.verify_new_email_token != params.token) {
+        return res.status(422).json({ error: 'Invalid Token or User' })
       }
-      
+
       const updatedUser = await db.user.update({
         where: {
-          id: session.user.id
+          id: session.user.id,
         },
-        data: { email: user.new_email, new_email: null, verify_new_email_token: null},
+        data: {
+          email: user.new_email,
+          new_email: null,
+          verify_new_email_token: null,
+        },
       })
 
       return res.status(200).json(updatedUser)

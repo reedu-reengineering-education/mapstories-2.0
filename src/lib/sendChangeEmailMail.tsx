@@ -1,9 +1,7 @@
 import { resend } from './resend'
 import { render } from '@react-email/render'
 import ConfirmNewEmail from '@/emails/confirmNewEmail'
-export const sendConfirmationRequest = async (
-  params: any,
-) => {
+export const sendConfirmationRequest = async (params: any) => {
   try {
     const url: string = params.url
     const emailsending = await resend.emails.send({

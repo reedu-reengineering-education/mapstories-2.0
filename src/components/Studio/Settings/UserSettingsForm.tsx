@@ -143,9 +143,9 @@ export function UserSettingsForm({
               />
             </div>
             <div className="w-120 max-w-full">
-            <div className="rounded bg-red-200 my-2 p-2 text-x ">
-              {t('dangerEmail')}
-            </div>
+              <div className="text-x my-2 rounded bg-red-200 p-2">
+                {t('dangerEmail')}
+              </div>
 
               <Input
                 defaultValue={user.email ?? ''}

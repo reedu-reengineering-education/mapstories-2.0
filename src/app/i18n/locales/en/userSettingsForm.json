@@ -10,5 +10,5 @@
   "contentNotDeleted": "Your account could not be deleted, please try again",
   "logInAgain": "Please log in again",
   "deleteAccount": "Delete Account",
-  "dangerEmail": "Attention. Make sure your new E-Mail Adress is typed correctly!"
+  "dangerEmail": "Attention. If you change your E-Mail you need to verify the new address!"
 }
