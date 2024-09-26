@@ -27,6 +27,10 @@ import type step from '../src/app/i18n/locales/en/step.json'
 import type gallery from '../src/app/i18n/locales/en/gallery.json'
 import type timeline from '../src/app/i18n/locales/en/timeline.json'
 import type changeEmail from '../src/app/i18n/locales/en/changeEmail.json'
+import type supportTab from '../src/app/i18/locales/de/supportTab.json'
+import type offerTab from '../src/app/i18/locales/de/offerTab.json'
+import type faq from '../src/app/i18/locales/de/faq.json'
+import type mapstoriesTab from '../src/app/i18/locales/de/mapstoriesTab.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -49,6 +53,10 @@ interface I18nNamespaces {
   gallery: typeof gallery
   timeline: typeof timeline
   changeEmail: typeof changeEmail
+  supportTab: typeof supportTab
+  offerTab: typeof offerTab
+  faq: typeof faq
+  mapstoriesTab: typeof mapstoriesTab
 }
 
 declare module 'i18next' {

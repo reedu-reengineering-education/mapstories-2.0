@@ -7,8 +7,6 @@ import { MediaType } from '@prisma/client'
 import 'react-tabs/style/react-tabs.css'
 import ReactPlayer from 'react-player'
 import { Spinner } from '@/src/components/Elements/Spinner'
-//@ts-ignore
-
 import SizedImage from '@/src/components/Elements/SizedImage'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   captchaEnabled: boolean

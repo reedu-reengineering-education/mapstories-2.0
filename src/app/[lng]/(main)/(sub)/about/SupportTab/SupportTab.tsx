@@ -14,52 +14,36 @@ import {
 
 export default function SupportTab() {
   const lng = useBoundStore(state => state.language)
-  //@ts-ignore
   const { t } = useTranslation(lng, 'supportTab')
 
   return (
     <Card>
       <CardHeader>
-        {/* @ts-ignore */}
         <CardTitle>{t('title')}</CardTitle>
-        {/* @ts-ignore */}
         <CardDescription>{t('text1')}</CardDescription>
       </CardHeader>
       <CardContent>
         <p>
-          {/* @ts-ignore */}
           <b>{t('text2Title')}</b>
         </p>
-        {/* @ts-ignore */}
         <p>{t('text2')}</p>
         <p>
-          {/* @ts-ignore */}
-
           <b>{t('text3Title')}</b>
         </p>
-        {/* @ts-ignore */}
         <p>{t('text3')}</p>
         <p>
-          {/* @ts-ignore */}
           <b>{t('text4Title')}</b>
         </p>
-        {/* @ts-ignore */}
         <p>{t('text4')}</p>
         <p>
-          {/* @ts-ignore */}
-
           <b>{t('text5Title')} </b>
         </p>
         <p>
-          <span>
-            {/* @ts-ignore */}
-            {t('text5')}
-          </span>{' '}
+          <span>{t('text5')}</span>{' '}
           <a
             className="text-blue-500"
             href="https://github.com/reedu-reengineering-education/mapstories-2.0"
           >
-            {/* @ts-ignore */}
             {t('here')}
           </a>
         </p>
@@ -68,7 +52,6 @@ export default function SupportTab() {
         <div>
           <Link href="mailto:mapstories@vamos-muenster.de">
             <Button startIcon={<EnvelopeClosedIcon className="w-5" />}>
-              {/* @ts-ignore */}
               {t('buttonInquiry')}
             </Button>
           </Link>

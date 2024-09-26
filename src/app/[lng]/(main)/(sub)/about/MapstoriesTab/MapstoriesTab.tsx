@@ -18,7 +18,6 @@ import MapstoriesTitlePicture from '@/assets/images/mapstoriesTab.jpg'
 import './mapstoriesTab.css'
 export default function MapstoriesTab() {
   const lng = useBoundStore(state => state.language)
-  //@ts-ignore
   const { t } = useTranslation(lng, 'mapstoriesTab')
 
   return (
@@ -30,33 +29,24 @@ export default function MapstoriesTab() {
       <CardContent>
         <div className="flex flex-row justify-between">
           <div className="lg:basis-3/4">
-            {/* @ts-ignore */}
             <div>{t('text1')}</div>
-            {/* @ts-ignore */}
             <span>{t('text2_1')}</span>{' '}
             <a className="text-blue-500" href={`/${lng}/gallery/all`}>
-              {/* @ts-ignore */}
               {t('gallery')}
             </a>{' '}
-            {/* @ts-ignore */}
             <span> {t('text2_2')}</span>
           </div>
           <div className="hidden basis-1/6 lg:flex lg:flex-col">
             <Image alt="Workshop Foto" src={MapstoriesTitlePicture} />
             <span className="text-center text-slate-600">
-              {/* @ts-ignore */}
-
               {t('imageSubtitle')}
             </span>
           </div>
         </div>
         <div className="flex flex-col">
           <div className="flex flex-col lg:flex-row lg:justify-evenly">
-            {/* @ts-ignore */}
             <div className="flex flex-1 flex-col items-center gap-4 p-8">
-              {/* @ts-ignore */}
               <div className="hidden text-center lg:block">
-                {/* @ts-ignore */}
                 {t('supportedBy')}
               </div>
               <a
@@ -71,7 +61,6 @@ export default function MapstoriesTab() {
             </div>
             <div className="my-2 flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
               <div className="hidden text-center lg:block">
-                {/* @ts-ignore */}
                 {t('supportBZM')}
               </div>
               <a
@@ -83,7 +72,6 @@ export default function MapstoriesTab() {
             </div>
             <div className="my-2 flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
               <div className="hidden text-center lg:block">
-                {/* @ts-ignore */}
                 {t('supportedBy')}
               </div>
               <a
@@ -102,7 +90,6 @@ export default function MapstoriesTab() {
           </div>
           <div className="flex flex-col align-baseline lg:flex-row">
             <div className="flex flex-1 flex-col items-center gap-4 p-8">
-              {/* @ts-ignore */}
               <a
                 className="flex justify-center align-baseline transition duration-300 ease-in-out hover:scale-105"
                 href="https://www.mkw.nrw"
@@ -115,7 +102,6 @@ export default function MapstoriesTab() {
               </a>
             </div>
             <div className="my-2 flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
-              {/* @ts-ignore */}
               <a
                 className="flex justify-center align-baseline transition duration-300 ease-in-out hover:scale-105"
                 href="https://www.kunststiftungnrw.de/"

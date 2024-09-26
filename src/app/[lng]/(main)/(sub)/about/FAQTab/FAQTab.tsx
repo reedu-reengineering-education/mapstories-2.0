@@ -15,7 +15,6 @@ import { ChevronsUpDown } from 'lucide-react'
 
 export default function FAQTab() {
   const lng = useBoundStore(state => state.language)
-  //@ts-ignore
   const { t } = useTranslation(lng, 'faq')
 
   return (
@@ -24,83 +23,58 @@ export default function FAQTab() {
       <CardContent>
         <div className="flex flex-col gap-2">
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq1_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               <p>{t('faq1_texta')}</p>
-              {/* @ts-ignore */}
               <p>{t('faq1_textb')}</p>
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq2_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               <p>{t('faq2_texta')}</p>
-              {/* @ts-ignore */}
               <p>{t('faq2_textb')}</p>
               <ul className="list-inside list-disc">
-                {/* @ts-ignore */}
                 <li>{t('faq2_lista')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listb')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listc')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listd')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_liste')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listf')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listg')}</li>
               </ul>
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq3_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               <p>{t('faq3_text')}</p>
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq4_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               <p>{t('faq4_text')}</p>
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq5_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
-            {/* @ts-ignore */}
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               {t('faq5_text')}{' '}
               <a
                 className="text-blue-500"
