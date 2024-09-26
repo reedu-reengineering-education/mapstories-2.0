@@ -63,7 +63,7 @@ export function Modal({
             <DialogPrimitive.Content
               className={cx(
                 'fixed z-[100] overflow-hidden',
-                'w-[200vw] max-w-md rounded-lg md:w-full',
+                'w-[200vw] rounded-lg md:w-full md:max-w-[48rem]',
                 'bg-white',
                 'grid gap-1',
               )}

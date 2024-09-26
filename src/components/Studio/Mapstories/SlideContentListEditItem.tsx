@@ -42,7 +42,8 @@ export function SlideContentListEditItem({ stepItem, setDisabled }: Props) {
           <ContentEditFactory
             setShowModal={setOpen}
             stepItem={stepItem}
-            storyStepId={'des'}
+            // @ts-ignore
+            storyStepId={stepItem.storyStepId}
           ></ContentEditFactory>
         </Modal.Content>
       </Modal>

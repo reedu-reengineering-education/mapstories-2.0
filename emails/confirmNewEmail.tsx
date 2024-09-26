@@ -37,7 +37,8 @@ export default function ConfirmNewEmail({ url }: SignInProps) {
         <Container>
           <Heading as="h2">Mapstories E-Mail bestätigen</Heading>
           <Text>
-            Du möchtest deine E-Mail Adresse ändern? Dann bestätige deine neue E-Mail Adresse!
+            Du möchtest deine E-Mail Adresse ändern? Dann bestätige deine neue
+            E-Mail Adresse!
           </Text>
           Kopiere diesen Link in deinen Browser, um dich anzumelden / Copy this
           link to sign in / Copia este enlace para iniciar sesión / Copiez ce

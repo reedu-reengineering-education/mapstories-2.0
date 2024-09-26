@@ -129,6 +129,11 @@ export var media_types: media_type[] = [
     //   /^https:\/\/www\.google\.(?:com|de)\/maps\/(@[0-9a-zA-Z]+,){2}[0-9a-zA-Z]+,(\d+\.?\d*)z\/data=(?:!3m1!4b1|[\w\d]+)$/,
     content: '',
   },
+  {
+    type: 'LAMAPOLL',
+    match_str: /lamapoll/,
+    content: '',
+  },
   // {
   //     type: 'blockquote',
   //     match_str: /blockquote/,

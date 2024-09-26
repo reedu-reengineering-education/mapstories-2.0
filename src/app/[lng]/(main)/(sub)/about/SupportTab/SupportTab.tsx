@@ -31,6 +31,15 @@ export default function SupportTab() {
           <b>{t('text3Title')}</b>
         </p>
         <p>{t('text3')}</p>
+        <div>
+          <a
+            className="text-blue-500"
+            href="https://secure.spendenbank.de/form/3267?langid=1"
+          >
+            {t('Here')}
+          </a>
+          <span>{t('donate')}</span>
+        </div>
         <p>
           <b>{t('text4Title')}</b>
         </p>
