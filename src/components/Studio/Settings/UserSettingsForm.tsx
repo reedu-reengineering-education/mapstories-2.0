@@ -133,13 +133,26 @@ export function UserSettingsForm({
             <Card.Description>{t('change your name here')}</Card.Description>
           </Card.Header>
           <Card.Content>
-            <div className="w-80 max-w-full">
+            <div className="w-120 max-w-full">
               <Input
                 defaultValue={user.name ?? ''}
                 errors={errors.name}
                 label="Name"
                 size={32}
                 {...register('name')}
+              />
+            </div>
+            <div className="w-120 max-w-full">
+              <div className="text-x my-2 rounded bg-red-200 p-2">
+                {t('dangerEmail')}
+              </div>
+
+              <Input
+                defaultValue={user.email ?? ''}
+                errors={errors.email}
+                label="E-Mail"
+                size={32}
+                {...register('email')}
               />
             </div>
           </Card.Content>

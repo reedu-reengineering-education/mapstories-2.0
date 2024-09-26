@@ -1,0 +1,8 @@
+{
+  "success": "Éxito",
+  "error": "Erreur",
+  "login_new_mail": "Puedes iniciar sesión con tu nueva dirección de correo electrónico.",
+  "invalid_email_change": "Token o dirección de correo electrónico no válidos..",
+  "verify_new_email": "Compruebe la nueva dirección de correo electrónico.",
+  "validating": "Comprobaremos su solicitud."
+}

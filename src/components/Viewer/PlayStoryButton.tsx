@@ -21,8 +21,15 @@ export default function PlayStoryButton({ slug, size }: Props) {
   }
 
   return (
-    <Link href={`/${pathLocal}/${slug}/0`}>
-      <Button className="hover:bg-slate-100" size="sm" variant={'noStyle'}>
+    <Link
+      className="relative flex items-center"
+      href={`/${pathLocal}/${slug}/0`}
+    >
+      <Button
+        className="h-full hover:bg-slate-100"
+        size="sm"
+        variant={'noStyle'}
+      >
         <PlayIcon
           className={cx(
             size == 'xs' ? 'h-5 w-5' : '',

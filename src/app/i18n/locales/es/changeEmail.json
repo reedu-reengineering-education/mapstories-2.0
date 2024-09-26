@@ -1,0 +1,8 @@
+{
+  "success": "Succès",
+  "error": "Erreur",
+  "login_new_mail": "Tu peux te connecter avec ta nouvelle adresse e-mail.",
+  "invalid_email_change": "Jeton ou adresse électronique non valide.",
+  "verify_new_email": "Vérifier la nouvelle adresse e-mail.",
+  "validating": "Ta demande sera examinée."
+}

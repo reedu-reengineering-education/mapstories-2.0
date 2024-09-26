@@ -64,6 +64,8 @@ model User {
   sessions      Session[]
   owner         Story[]   @relation("owner")
   story         Story[]   @relation("contributors")
+  verify_new_email_token String? 
+  new_email              String? 
 
   @@map(name: "users")
 }
