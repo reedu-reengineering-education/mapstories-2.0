@@ -30,7 +30,7 @@ export default function PageContent() {
       show={isShowing}
     >
       <div blur-sm className="flex flex-col gap-8 md:flex-row lg:flex-col">
-        <div className="re-basic-box  flex w-full flex-col items-center bg-white bg-opacity-90 p-1 text-center lg:p-6">
+        <div className="re-basic-box flex w-full flex-col items-center bg-white bg-opacity-90 p-1 text-center lg:p-6">
           <Image
             alt="Mapstories"
             height={300}

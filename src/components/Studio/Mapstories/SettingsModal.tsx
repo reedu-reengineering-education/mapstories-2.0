@@ -62,15 +62,6 @@ export default function SettingsModal({
 
   const [modalOpen, setModalOpen] = useState(false)
 
-  // let { uploadToS3 } = useS3Upload();
-
-  function handleImageUpload(event: any) {
-    const file = event.target.files[0]
-    // let { url } = await uploadToS3(file);
-
-    // console.log("Successfully uploaded to S3!", url);
-  }
-
   function selectTheme(themeName: any) {
     const selectedTheme = themes.find(theme => theme.name == themeName)
     applyTheme(selectedTheme)
@@ -106,6 +97,10 @@ export default function SettingsModal({
     return <></>
   }
 
+  const onInvalid = (errors: any) => {
+    console.log(errors)
+  }
+
   return (
     <>
       <Button
@@ -122,8 +117,8 @@ export default function SettingsModal({
         open={modalOpen}
         title={t('settingsModal:modalHeader')}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Modal.Content>
+        <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
+          <Modal.Content className="max-h-[70vh] overflow-scroll">
             <InputLabel>{t('settingsModal:name')}</InputLabel>
             <Input
               defaultValue={story.name || ''}
@@ -200,14 +195,40 @@ export default function SettingsModal({
                     </span>
                     <Switch
                       defaultChecked={story.visibility === 'PUBLIC'}
-                      onCheckedChange={checked => onChange(
-                        checked ? 'PUBLIC' : 'PRIVATE',
-                      )}
+                      onCheckedChange={checked =>
+                        onChange(checked ? 'PUBLIC' : 'PRIVATE')
+                      }
                       ref={ref}
                     ></Switch>
 
                     <span className="text-sm font-medium text-gray-700">
                       {t('settingsModal:public')}
+                    </span>
+                  </div>
+                )
+              }}
+            />
+            <Spacer />
+            <InputLabel>{t('settingsModal:community')}</InputLabel>
+            <Controller
+              control={control}
+              defaultValue={story.community}
+              name="community"
+              // {...register('visibility')}
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <div className="jusify-center flex items-center gap-4">
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:off')}
+                    </span>
+                    <Switch
+                      defaultChecked={story.community}
+                      onCheckedChange={checked => onChange(checked)}
+                      ref={ref}
+                    ></Switch>
+
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:on')}
                     </span>
                   </div>
                 )

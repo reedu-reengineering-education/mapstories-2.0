@@ -21,6 +21,7 @@ import { ListBulletIcon } from '@radix-ui/react-icons'
 import { StorySlideListViewer } from '@/src/components/Viewer/StorySlideListViewer'
 import SlidesOverview from './SlidesOverview'
 import PlayStoryButton from './PlayStoryButton'
+import AddCommunityStep from './CommunityStep/AddCommunityStep'
 
 type Props = {
   filter: string
@@ -51,7 +52,6 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
     if (windowWidth < 600) {
       setShowSizeModal(true)
     }
-    console.log(story);
   }, [])
 
   function prevStep() {
@@ -83,7 +83,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   })
 
   return (
-    <div className="flex h-full w-full flex-col px-20 pt-4  lg:gap-5 lg:pb-10 lg:pt-20">
+    <div className="flex h-full w-full flex-col px-20 pt-4 lg:gap-5 lg:pb-10 lg:pt-20">
       {showSizeModal && (
         <Modal
           onClose={() => setShowSizeModal(false)}
@@ -100,8 +100,8 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           </Modal.Footer>
         </Modal>
       )}
-      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline ">
-        <div className="absolute bottom-[50%] left-1 z-10 ">
+      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline">
+        <div className="absolute bottom-[50%] left-1 z-10">
           <SingleStepBackButton
             page={slug[1]}
             slug={slug[0]}
@@ -131,19 +131,21 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
             // toggleSlides={toggleSlidesOpen}
           ></StoryOverviewControls>
         </div>
-        <div 
-         className={cx(
-          slug[1] === 'start' ? 'flex overflow-auto lg:flex lg:flex-row' : 'hidden',
-          're-basic-box absolute bottom-10 right-[50%] z-50 ',
-        )}
+        <div
+          className={cx(
+            slug[1] === 'start'
+              ? 'flex overflow-auto lg:flex lg:flex-row'
+              : 'hidden',
+            're-basic-box absolute bottom-10 right-[50%] z-50',
+          )}
         >
           <QuitStoryButton size="s" slug={slug[0]} />
           <PlayStoryButton size="s" slug={slug[0]} />
         </div>
 
         {slug[1] != 'start' && (
-          <div className="re-basic-box z-[60]  max-h-full w-[55%]  self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[50%]">
-            <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2 ">
+          <div className="re-basic-box z-[60] max-h-full w-[55%] self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[50%]">
+            <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2">
               <div>
                 <button
                   className="flex items-center"
@@ -164,9 +166,12 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
 
               <RestartStoryButton size="xs" slug={slug[0]} />
               <QuitStoryButton size="xs" slug={slug[0]} />
+              {story.community && (
+                <AddCommunityStep size="xs" slug={slug[1]} story={story} />
+              )}
             </div>
 
-            <div className="overflow-y-auto overflow-x-hidden lg:h-full">
+            <div className="max-w-full overflow-y-auto overflow-x-hidden lg:h-full">
               <div className={cx(showSlides ? 'flex' : 'hidden')}>
                 <Slides page={slug[1]} slug={slug[0]} story={story}></Slides>
               </div>
@@ -194,7 +199,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
                 // toggleSlides={toggleSlidesOpen}
               ></SingleStepBackButton>
             </div>
-            <div className="re-basic-box z-10 flex-1 bg-white px-2 ">
+            <div className="re-basic-box z-10 flex-1 bg-white px-2">
               <TimelineChartWrapper
                 activeIndex={Number(slug[1])}
                 filter={filter}

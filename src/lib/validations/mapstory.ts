@@ -15,4 +15,5 @@ export const updateMapstorySchema = z.object({
   visibility: z.enum(['PRIVATE', 'PUBLIC']),
   themeId: z.string().optional(),
   lines: z.boolean(),
+  community: z.boolean(),
 })

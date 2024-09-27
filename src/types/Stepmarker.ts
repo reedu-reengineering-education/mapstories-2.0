@@ -4,4 +4,5 @@ export interface StepMarker extends MarkerProps {
   stepId: string
   position: number
   title: string
+  tags?: string[]
 }

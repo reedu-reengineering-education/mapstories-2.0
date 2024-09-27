@@ -33,7 +33,8 @@ export default function TimelineChartWrapper({
       fitButton
       onEventClick={event => {
         const idx = story.steps.findIndex(s => s.timestamp === event.timestamp)
-        const pathLocal = path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+        const pathLocal =
+          path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
         router.push(`/${pathLocal}/${story.id}/${idx}`)
       }}
       stepButtons

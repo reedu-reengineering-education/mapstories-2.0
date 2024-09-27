@@ -131,11 +131,11 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
             <div className="w-full">
               {story?.steps?.length === 0 && (
                 <div className="flex flex-row items-center gap-2">
-                  <ExclamationTriangleIcon className=" text-yellow-500" />
+                  <ExclamationTriangleIcon className="text-yellow-500" />
                   <div className="h text-yellow-500">{t('noSteps')}</div>
                 </div>
               )}
-              <div className=" overflow-x-hidden ">
+              <div className="overflow-x-hidden">
                 {tags.length > 0 && (
                   <StoryFilterInput
                     allTags={allTags}
@@ -144,7 +144,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                   />
                 )}
 
-                <div className=" w-full overflow-auto overflow-x-hidden lg:h-full">
+                <div className="w-full overflow-auto overflow-x-hidden lg:h-full">
                   <Slide step={story?.firstStep}></Slide>
                 </div>
               </div>

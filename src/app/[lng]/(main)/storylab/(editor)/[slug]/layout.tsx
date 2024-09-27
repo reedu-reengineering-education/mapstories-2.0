@@ -117,8 +117,8 @@ export default async function DashboardLayout({
               {t('back')}
             </Button>
           </Link>
-          <PreviewButton story={story} />
           <SettingsModal shadow storyId={story.id} themes={themes} />
+          <PreviewButton story={story} />
         </div>
       </div>
 

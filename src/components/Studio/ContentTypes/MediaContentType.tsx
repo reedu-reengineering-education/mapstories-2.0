@@ -71,7 +71,7 @@ export function MediaContentEdit({
   }
   const { t } = useTranslation(lng, 'editModal')
 
-  const { updateMedia, getMedia, addMedia } = useMedia(storyStepId)
+  const { updateMedia, getMedia, addMedia } = useMedia()
   const { addContent, updateContent } = useStep(storyStepId)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)

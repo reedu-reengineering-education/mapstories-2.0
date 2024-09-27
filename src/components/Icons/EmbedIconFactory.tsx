@@ -18,6 +18,7 @@ import SvgSoundcloudIcon from './SoundcloudIcon'
 import SvgTiktokIcon from './TiktokIcon'
 import SvgVimeoIcon from './VimeoIcon'
 import SvgWikipediaIcon from './WikipediaIcon'
+import LamaPollIcon from './LamaPollIcon'
 
 interface EmbedIconFactoryProps
   extends HTMLAttributes<HTMLDivElement>,
@@ -51,6 +52,7 @@ const iconStyle = cva<cvaType>('', {
       EXTERNALIMAGE: 'bg-zinc-100',
       AUDIO: 'bg-zinc-100',
       GOOGLESTREETVIEW: 'bg-zinc-100',
+      LAMAPOLL: 'bg-zinc-100',
     },
   },
 })
@@ -93,6 +95,8 @@ const getIcon = (myType: MediaType) => {
       return PlayIcon
     case 'GOOGLESTREETVIEW':
       return PlayIcon
+    case 'LAMAPOLL':
+      return LamaPollIcon
     default:
       myType satisfies never // This makes sure the switch case is exhaustive (https://stackoverflow.com/a/75217377/5660646)
   }

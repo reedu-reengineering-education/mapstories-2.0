@@ -9,5 +9,6 @@
   "contentNotUpdated": "Dein Account konnte nicht aktualisiert werden, versuche es nochmal",
   "contentNotDeleted": "Dein Account konnte nicht gelöscht werden, versuche es nochmal",
   "logInAgain": "Bitte logge dich erneut ein.",
-  "deleteAccount": "Account löschen"
+  "deleteAccount": "Account löschen",
+  "dangerEmail": "Achtung! Wenn du deine E-Mail Adresse änderst, bekommst du eine Bestätigungslink an die neue E-Mail."
 }

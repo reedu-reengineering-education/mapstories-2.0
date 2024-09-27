@@ -64,6 +64,8 @@ model User {
   sessions      Session[]
   owner         Story[]   @relation("owner")
   story         Story[]   @relation("contributors")
+  verify_new_email_token String? 
+  new_email              String? 
 
   @@map(name: "users")
 }
@@ -101,6 +103,8 @@ model Story {
   updatedAt   DateTime    @default(now()) @map(name: "updated_at")
   mode        StoryMode   @default(NORMAL)
   lines       Boolean     @default(true)
+  stepSuggestions StoryStepSuggestion[] @relation("storySuggestions")
+  community   Boolean     @default(false)
 
   @@map(name: "stories")
 }
@@ -119,6 +123,28 @@ model StoryStep {
   tags           String[]
 
   @@map(name: "storysteps")
+}
+
+
+model StoryStepSuggestion {
+  id            String   @id @default(cuid())
+  position      Int 
+  Story         Story?    @relation("storySuggestions", fields: [storyId], references: [id], onDelete: Cascade)
+  storyId       String?
+  feature       Json?
+  content       SlideContent[]
+  viewport      Json
+  timestamp     DateTime?
+  tags         String[]
+  status        SuggestionStatus @default(PENDING)
+
+  @@map(name: "storystepsuggestions")
+}
+
+enum SuggestionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }
 
 model Theme {
@@ -143,11 +169,13 @@ model SlideContent {
   type        MediaType
   position    Int
   options     Json?
-  storyStep   StoryStep @relation(fields: [storyStepId], references: [id], onDelete: Cascade)
-  storyStepId String
+  storyStep   StoryStep? @relation(fields: [storyStepId], references: [id], onDelete: Cascade)
+  storyStepId String?
+  suggestionId String?
+  suggestion  StoryStepSuggestion? @relation(fields: [suggestionId], references: [id])
   ogData      Json?
   media       Media?    @relation(fields: [mediaId], references: [id])
-  mediaId     String?   @unique
+  mediaId     String?   
 
   @@map(name: "slidecontent")
 }
@@ -199,5 +227,6 @@ enum MediaType {
   IMAGE
   EXTERNALIMAGE
   AUDIO
+  LAMAPOLL
   GOOGLESTREETVIEW
 }

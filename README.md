@@ -1,41 +1,39 @@
 <div align="center">
-  <h2 align="center">re:edu App</h2>
+  <h1 align="center">📍MapStories</h1>
 
   <p align="center">
-     🚀 Template for re:edu applications
-    <br />
+     Tell stories with maps! <br>
+     <img src="assets/logos/logo_text_claim.png" alt="MapStories Logo"/>
+  </p>
+  
+  <p align="center">
+    <a href="https://www.mapstories.de">🌐 Visit the live site</a>
   </p>
 </div>
 
-<!-- ABOUT THE PROJECT -->
+---
 
-## About The Project
+## 🗺️ About The Project
 
-The re:edu App is a web based system to visualize the distribution process of teaching students.
+MapStories is a web-based platform designed to visualize the process of distributing educational content and stories through interactive maps. It enables users to explore complex narratives and datasets in a visual and engaging way.
 
-Features:
-
-- 🏎 Fast
-
-### Built With
+### 🔧 Built With
 
 - [Next.js](https://nextjs.org/)
 - [Typescript](https://www.typescriptlang.org/)
 - [TailwindCSS](https://tailwindcss.com/)
 
-<!-- GETTING STARTED -->
+---
 
-## Getting Started
+## 🚀 Getting Started
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-### Prerequisites
+### 🛠️ Installation
 
-You will need to have Node.js and Yarn installed.
+To get a local copy up and running, follow these steps:
 
-### Installation
-
-1. Clone the repo
+1. Clone the repository:
    ```sh
    git clone https://github.com/reedu-reengineering-education/mapstories-2.0.git
    ```
@@ -51,10 +49,10 @@ You will need to have Node.js and Yarn installed.
    ```sh
    npx prisma migrate dev
    ```
-5. seed database with themes
-    ```sh
-    npx prisma db seed
-    ```
+5. Seed database with themes
+   ```sh
+   npx prisma db seed
+   ```
 6. Run the App
    ```sh
    yarn dev
@@ -62,33 +60,29 @@ You will need to have Node.js and Yarn installed.
 
 <!-- CONTRIBUTING -->
 
-## Contributing
+## 🤝 Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an incredible place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+To contribute:
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- Fork the repository
+- Create a new feature branch (git checkout -b feature/AmazingFeature)
+- Commit your changes (git commit -m 'Add some AmazingFeature')
+- Push to the branch (git push origin feature/AmazingFeature)
+- Open a Pull Request
 
-## GitHub Actions
+Don't forget to give the project a ⭐ if you like it! Thank you!
 
-With GitHub Actions, we automatically build Docker images and push them to the GitHub package registry.
+## ⚙️ GitHub Actions
 
-Docker images will be built on:
+With GitHub Actions, Docker images are automatically built and pushed to the GitHub package registry on:
 
-- Pull Requests to `main`
-- Pushes to `main`
-- Releasing new versions under a `v*.*.*` tag
-
+- Pull Requests to main
+- Pushes to main
+- Releasing new versions under a v*.*.\* tag
 <!-- CONTACT -->
 
-## Contact
+## 📧 Contact
 
-re:edu GmbH - [@reedu_de](https://twitter.com/reedu_de) - kontakt@reedu.de
-
-Project Link: [https://github.com/reedu-reengineering-education/next-13-tailwind-starter](https://github.com/reedu-reengineering-education/next-13-tailwind-starter)
+[re:edu](reedu.de) - kontakt@reedu.de

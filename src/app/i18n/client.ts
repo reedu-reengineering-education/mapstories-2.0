@@ -43,5 +43,6 @@ export function useTranslation<
   if (i18next.resolvedLanguage !== lng) {
     i18next.changeLanguage(lng)
   }
+  // @ts-ignore
   return useTranslationOrg(ns, options)
 }

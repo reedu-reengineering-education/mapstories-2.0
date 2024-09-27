@@ -19,11 +19,10 @@ import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { ViewerPopup } from './ViewerPopup'
 
 type ViewerViewProps = {
-  inputStories:
-    | (Story & {
-        theme?: Theme | null
-        steps: (StoryStep & { content: SlideContent[] })[]
-      })[]
+  inputStories: (Story & {
+    theme?: Theme | null
+    steps: (StoryStep & { content: SlideContent[] })[]
+  })[]
 }
 
 export default function ViewerView({ inputStories }: ViewerViewProps) {
@@ -43,13 +42,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const [savedView, setSavedView] = useState<any>()
   const [startView, setStartView] = useState<any>()
   const [pathend2, setPathend2] = useState<string | undefined>('')
-  const [mediaUrl, setMediaUrl] = useState<string | undefined>('')
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
-  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight)
   const router = useRouter()
-  const [cursor, setCursor] = useState<string>('auto')
 
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
@@ -67,9 +63,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
   useEffect(() => {
     if (inputStories && inputStories.length > 0) {
-      if (inputStories.map(story => story.id).indexOf(storyID) != -1) {
-        setViewerStories(inputStories)
-      }
+      //removed this because it causes bugs, not sure we still need it
+      // if (inputStories.map(story => story.id).indexOf(storyID) != -1) {
+      setViewerStories(inputStories)
+      // }
     }
   }, [inputStories])
 
@@ -124,8 +121,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   // generate markers
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
-    const pathend = path?.split('/').at(-1)
-    const pathend2 = path?.split('/').at(-2)
     // update Theme
     if (storyID != '' && story?.theme) {
       applyTheme(story.theme)
@@ -146,7 +141,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       let bounds: any = undefined
       const newMarkers = story?.steps
         .filter(step => step.feature)
-        .map(({ id, feature, position, content }) => {
+        .map(({ id, feature, position, content, tags }) => {
           const geoFeature =
             feature as unknown as GeoJSON.Feature<GeoJSON.Point>
           if (geoFeature?.geometry?.coordinates?.length > 0) {
@@ -174,6 +169,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
               stepId: id,
               color: '#18325b',
               title: getSlideTitle(content),
+              tags: tags,
             }
             return newMarker
           }

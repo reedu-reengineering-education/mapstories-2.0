@@ -52,10 +52,10 @@ export function Slides({ className, slug, page, story }: Props) {
   }, [])
 
   return (
-    <>
+    <div className="flex w-full flex-col">
       {story.mode === StoryMode.TIMELINE && step?.timestamp && (
-        <div className={cx('flex justify-end', className)}>
-          <div className="my-2 flex w-fit items-center gap-2 rounded bg-zinc-100 px-2">
+        <div className={cx('', className)}>
+          <div className="my-2 flex min-h-12 w-fit items-center gap-2 rounded bg-zinc-100 px-2">
             <CalendarDaysIcon className="w-4" />
             <p className="text-sm">
               {format(step.timestamp, 'PPP p', {
@@ -65,7 +65,7 @@ export function Slides({ className, slug, page, story }: Props) {
           </div>
         </div>
       )}
-      <div className="">
+      <div className="w-full">
         {story?.steps.sort(
           (a: StoryStep, b: StoryStep) => a.position - b.position,
         ) &&
@@ -74,6 +74,6 @@ export function Slides({ className, slug, page, story }: Props) {
         <Button onClick={() => nextStep()}>Weiter</Button>
       )} */}
       </div>
-    </>
+    </div>
   )
 }

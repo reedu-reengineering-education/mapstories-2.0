@@ -58,8 +58,7 @@ interface ViewerLayoutProps {
 export default async function ViewerLayout({ children }: ViewerLayoutProps) {
   const user = await getCurrentUser()
   const certifiedMapstoryIDs: Array<string> =
-    //@ts-ignore
-    process.env.GALLERY_STORIES.split(',')
+    process.env.GALLERY_STORIES?.split(',') ?? []
 
   const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
   const storyCount = user ? await countStories(user.id) : 0

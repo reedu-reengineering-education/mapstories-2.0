@@ -15,7 +15,7 @@ interface EmbedContentEditProps
 
 export function EmbedContent({ content }: EmbedContentEditProps) {
   return (
-    <div className="flex max-h-[24rem] w-full justify-center overflow-y-auto overflow-x-hidden  ">
+    <div className="flex max-h-[24rem] w-full justify-center overflow-y-auto overflow-x-hidden">
       {content.content && (
         <Embed
           media={urlToMedia(content.content)}

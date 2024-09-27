@@ -32,7 +32,7 @@ export function CharityBanner({}) {
       >
         <div className="re-basic-box font-xs flex flex-col items-center justify-center gap-4 rounded-md bg-white p-4 text-center">
           <XMarkIcon
-            className="absolute right-0 top-0 m-2 h-6 w-6 cursor-pointer text-gray-500 "
+            className="absolute right-0 top-0 m-2 h-6 w-6 cursor-pointer text-gray-500"
             onClick={() => setIsShowing(false)}
           />
           {/* @ts-ignore  */}
@@ -57,7 +57,7 @@ export function CharityBanner({}) {
             {t('text4')} <b>{t('text5_bold')} </b>
           </div>
           <a
-            className="flex w-4/12  justify-center  "
+            className="flex w-4/12 justify-center"
             href="https://secure.spendenbank.de/form/3267?langid=1"
             rel="noopener noreferrer"
             target="_blank"

@@ -1,0 +1,8 @@
+{
+  "stepSuggestions": "Community Suggestions",
+  "stepSuggestionsDescription": "Here are suggestions from the community that you can accept or reject",
+  "accept": "Accept",
+  "reject": "Reject",
+  "cancel": "Cancel",
+  "noSuggestions": "You have processed all suggestions. Currently there are no community suggestions available."
+}

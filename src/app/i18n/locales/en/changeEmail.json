@@ -1,0 +1,8 @@
+{
+  "success": "Success",
+  "error": "Error",
+  "login_new_mail": "You can login with your new E-Mail Address.",
+  "invalid_email_change": "Unvalid Token or E-Mail.",
+  "verify_new_email": "Verify your new E-Mail Adress.",
+  "validating": "Your request is being processed."
+}

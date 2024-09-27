@@ -35,7 +35,7 @@ export default function SlideContentPreviewButton({
 }: SlideContent) {
   const og = ogData as OgObject | null
 
-  const { getMedia } = useMedia(props.storyStepId)
+  const { getMedia } = useMedia()
 
   const [mediaUrl, setMediaUrl] = useState(String)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -82,7 +82,7 @@ export default function SlideContentPreviewButton({
       <Wrapper>
         <IconComponent />
         {previewContent.length > 13
-          ? previewContent.substring(0, 12) + '...'
+          ? previewContent.substring(0, 20)
           : previewContent}
       </Wrapper>
     )

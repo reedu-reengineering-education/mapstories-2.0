@@ -14,6 +14,8 @@
   "createAccountText": "Introduzca su correo electrónico a continuación para crear su cuenta",
   "acceptTOS": "Al hacer clic en continuar, aceptas nuestras",
   "TOS": "Condiciones del servicio",
-  "y": "y",
-  "PP": "Política de privacidad"
+  "and": "y",
+  "PP": "Política de privacidad",
+  "disclaimerRegister": "Introduce tu dirección de correo electrónico y te crearemos una cuenta automáticamente. La",
+  "endDisclaimRegister": "Puedes leer más en los enlaces."
 }
