@@ -9,7 +9,6 @@ import { useTranslation } from '@/src/app/i18n/client'
 
 export function ConfirmEmail({ user, token }: any) {
   const lng = useBoundStore(state => state.language)
-  //@ts-ignore
   const { t } = useTranslation(lng, 'changeEmail')
 
   let running = false
@@ -25,7 +24,6 @@ export function ConfirmEmail({ user, token }: any) {
       if (res.ok) {
         toast({
           title: t('success'),
-          //@ts-ignore
           message: t('login_new_mail'),
           type: 'success',
         })
@@ -35,9 +33,7 @@ export function ConfirmEmail({ user, token }: any) {
         }, 600)
       } else {
         toast({
-          //@ts-ignore
           title: t('error'),
-          //@ts-ignore
           message: t('invalid_email_change'),
           type: 'error',
         })
@@ -53,9 +49,7 @@ export function ConfirmEmail({ user, token }: any) {
     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
       <div className="flex flex-col space-y-2 text-center">
         <LogoWithClaimAndBackground className="mx-auto h-32 w-60" />
-        {/* @ts-ignore */}
         <h1 className="text-2xl font-bold">{t('verify_new_email')}</h1>
-        {/* @ts-ignore */}
         <p className="text-sm text-slate-600">{t('validating')}</p>
       </div>
     </div>
