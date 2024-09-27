@@ -1,4 +1,8 @@
 {
   "stepSuggestions": "Suggestions de la communauté",
-  "stepSuggestionsDescription": "Voici des suggestions de la communauté que vous pouvez accepter ou refuser"
+  "stepSuggestionsDescription": "Voici des suggestions de la communauté que vous pouvez accepter ou refuser",
+  "accept": "Accepter",
+  "reject": "Rejeter",
+  "cancel": "Annuler",
+  "noSuggestions": "Vous avez traité toutes les suggestions. Actuellement, il n'y a pas de suggestions de la communauté disponibles."
 }
