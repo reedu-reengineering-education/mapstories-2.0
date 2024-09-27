@@ -118,7 +118,7 @@ export default function SettingsModal({
         title={t('settingsModal:modalHeader')}
       >
         <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
-          <Modal.Content>
+          <Modal.Content className="max-h-[70vh] overflow-scroll">
             <InputLabel>{t('settingsModal:name')}</InputLabel>
             <Input
               defaultValue={story.name || ''}
