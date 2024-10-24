@@ -2,7 +2,6 @@
   "faq1_title": "How can I work with Mapstories?",
   "faq1_texta": "a.) You can sign up and create your own Mapstory.",
   "faq1_textb": "b.) You can view finished Mapstories in the gallery and get inspired.",
-
   "faq2_title": "What can I use Mapstories for?",
   "faq2_texta": "You can use Mapstories for almost anything. It is particularly useful for stories that take place in different locations (around the world) and where the locations are somehow connected. This includes supply chains, migration routes, and global connections.",
   "faq2_textb": "A few examples: ",
@@ -13,22 +12,18 @@
   "faq2_liste": "Where did my grandparents migrate from to Germany, and what places and stories are in between?",
   "faq2_listf": "Where do other activists around the world live?",
   "faq2_listg": "Where are all the dried-up lakes in the world, and what is being done about it?",
-
   "faq3_title": "Can I use Mapstories for free?",
   "faq3_text": "Yes, the tool is free to use.",
-
   "faq4_title": "Which browsers does Mapstories work on?",
   "faq4_text": "Mapstories works on all major browsers. It is completely web-based, so no installation is necessary.",
-
   "faq5_title": "How can I provide feedback to the developers of Mapstories if something is not working?",
-  "faq5_text": "Simply enter your feedback in the following Padlet: ",
-
+  "faq5_text": "Simply enter your feedback in the following Taskcard: ",
   "faq6_title": "What do I need to share a story with friends?",
   "faq6_text": "In the StoryLab, under Options, set the Mapstory to 'Public,' and then click on 'Share' to copy the share link.",
-
   "faq7_title": "Can I embed a Mapstory in a website?",
   "faq7_text": "Yes, that is possible. In the StoryLab, click on 'Embed' to copy the embed code. You can adjust the size according to your website's requirements.",
-
   "faq8_title": "Can I save my Mapstory?",
-  "faq8_text": "Your Mapstory is automatically saved in your account. You can access and edit it once you log in."
+  "faq8_text": "Your Mapstory is automatically saved in your account. You can access and edit it once you log in.",
+  "faq9_title": "Can I create a Mapstory together with others (\"Community Mode\")?",
+  "faq9_text": "YES! There is now a new collaborative function in Mapstories, the so-called \"Community Mode\". External users can add to started or finished mapstories by making suggestions for new content on the globe. After each existing slide, a new \"Step\" can be added, with images, audio, links and text as well as a location on the map. This suggestion must then be approved by the creator of the map story. For example, teachers can have students add content to map stories. This creates a whole new collaborative range of possible uses for the tool."
 }
