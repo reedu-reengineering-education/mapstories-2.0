@@ -38,16 +38,36 @@ export default function ManualsTab() {
               <p>{t('manuals1_texta')}</p>
               <p>{t('manuals1_textb')}</p>
               <ol className="list-inside list-decimal p-2">
-                <li>{t('manuals1_lista')}</li>
-                <li>{t('manuals1_listb')}</li>
-                <li>{t('manuals1_listc')}</li>
-                <li>{t('manuals1_listd')}</li>
-                <li>{t('manuals1_liste')}</li>
-                <li>{t('manuals1_listf')}</li>
-                <li>{t('manuals1_listg')}</li>
-                <li>{t('manuals1_listh')}</li>
-                <li>{t('manuals1_listi')}</li>
-                <li>{t('manuals1_listj')}</li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_lista') }}
+                ></li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_listb') }}
+                ></li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_listc') }}
+                ></li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_listd') }}
+                ></li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_liste') }}
+                ></li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_listf') }}
+                ></li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_listg') }}
+                ></li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_listh') }}
+                ></li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_listi') }}
+                ></li>
+                <li
+                  dangerouslySetInnerHTML={{ __html: t('manuals1_listj') }}
+                ></li>
               </ol>
             </CollapsibleContent>
           </Collapsible>
