@@ -24,7 +24,7 @@ export function GalleryList({ stories }: Props) {
         appear
         enter="transition duration-1000"
         enterFrom="opacity-0 -translate-x-80"
-        enterTo="opacity-100 translate-x-1/2"
+        enterTo="opacity-100"
         leave="transition-opacity duration-1000"
         leaveFrom="opacity-100"
         leaveTo="opacity-0 "
