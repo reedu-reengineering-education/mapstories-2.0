@@ -24,91 +24,102 @@ export default function FAQTab() {
       <CardContent>
         <div className="flex flex-col gap-2">
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq1_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               <p>{t('faq1_texta')}</p>
-              {/* @ts-ignore */}
               <p>{t('faq1_textb')}</p>
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq2_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               <p>{t('faq2_texta')}</p>
-              {/* @ts-ignore */}
               <p>{t('faq2_textb')}</p>
               <ul className="list-inside list-disc">
-                {/* @ts-ignore */}
                 <li>{t('faq2_lista')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listb')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listc')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listd')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_liste')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listf')}</li>
-                {/* @ts-ignore */}
                 <li>{t('faq2_listg')}</li>
               </ul>
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq3_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               <p>{t('faq3_text')}</p>
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq4_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               <p>{t('faq4_text')}</p>
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
-            {/* @ts-ignore */}
             <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
-              {/* @ts-ignore */}
               {t('faq5_title')}{' '}
               <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
             </CollapsibleTrigger>
-            {/* @ts-ignore */}
             <CollapsibleContent className="bg-slate-50 p-2">
-              {/* @ts-ignore */}
               {t('faq5_text')}{' '}
               <a
                 className="text-blue-500"
-                href="https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy"
+                href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view?token=2cea14db-2cd2-4664-9852-400ea9d0aa0d"
                 target="_blank"
               >
-                https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy
+                https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view?token=2cea14db-2cd2-4664-9852-400ea9d0aa0d
               </a>{' '}
+            </CollapsibleContent>
+          </Collapsible>
+          <Collapsible>
+            <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
+              {t('faq6_title')}{' '}
+              <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="bg-slate-50 p-2">
+              <p>{t('faq6_text')}</p>
+            </CollapsibleContent>
+          </Collapsible>
+          <Collapsible>
+            <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
+              {t('faq7_title')}{' '}
+              <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="bg-slate-50 p-2">
+              <p>{t('faq7_text')}</p>
+            </CollapsibleContent>
+          </Collapsible>
+          <Collapsible>
+            <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
+              {t('faq8_title')}{' '}
+              <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="bg-slate-50 p-2">
+              <p>{t('faq8_text')}</p>
+            </CollapsibleContent>
+          </Collapsible>
+          <Collapsible>
+            <CollapsibleTrigger className="flex w-full justify-start rounded-md bg-slate-100 p-2 font-extrabold">
+              {t('faq9_title')}{' '}
+              <ChevronsUpDown className="ml-auto" size={24}></ChevronsUpDown>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="bg-slate-50 p-2">
+              {t('faq9_text')}{' '}
             </CollapsibleContent>
           </Collapsible>
         </div>

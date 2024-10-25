@@ -26,6 +26,8 @@ import type viewer from '../src/app/i18n/locales/en/viewer.json'
 import type step from '../src/app/i18n/locales/en/step.json'
 import type gallery from '../src/app/i18n/locales/en/gallery.json'
 import type timeline from '../src/app/i18n/locales/en/timeline.json'
+import type faq from '../src/app/i18n/locales/en/faq.json'
+import type about from '../src/app/i18n/locales/en/about.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -47,6 +49,9 @@ interface I18nNamespaces {
   step: typeof step
   gallery: typeof gallery
   timeline: typeof timeline
+  faq: typeof faq
+  about: typeof about
+  manualsTab: typeof manualsTab
 }
 
 declare module 'i18next' {
