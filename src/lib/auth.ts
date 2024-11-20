@@ -1,11 +1,13 @@
 import { NextAuthOptions } from 'next-auth'
 import EmailProvider from 'next-auth/providers/email'
+import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { db } from './db'
 import { render } from '@react-email/render'
 import SignInEmail from '@/emails/sign-in'
 import nodemailer from 'nodemailer'
 import { MailOptions } from 'nodemailer/lib/smtp-transport'
+import { compare, hash } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -39,6 +41,41 @@ export const authOptions: NextAuthOptions = {
         }
 
         await transporter.sendMail(options)
+      },
+    }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "example@example.com",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials.password) {
+          return null;
+        }
+
+        const user = await db.user.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        });
+        console.log(user)
+        console.log(credentials.password, user?.password)
+
+        if (!user || !(await compare(hash(credentials.password, 10), user.password))) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          randomKey: "Some random Key",
+        };
       },
     }),
   ],
