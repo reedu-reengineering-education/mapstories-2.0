@@ -19,5 +19,8 @@
   "disclaimerRegister": "Just enter your email address and we'll automatically create an account for you. The",
   "endDisclaimRegister": "You can read more under the links.",
   "loginSuccess": "Login successful",
-  "loginSuccessText": "You have successfully logged in. Have fun!"
+  "loginSuccessText": "You have successfully logged in. Have fun!",
+  "enter_email_and_password_for_signin": "Enter your email address and password to sign in",
+  "password_login_hint": "If you have enabled the password procedure, you can also log in with it.",
+  "password_login_link": "Click here to go to the password login."
 }

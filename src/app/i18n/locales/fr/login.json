@@ -19,5 +19,8 @@
   "disclaimerRegister": "Introduce tu dirección de correo electrónico y te crearemos una cuenta automáticamente. La",
   "endDisclaimRegister": "Puedes leer más en los enlaces.",
   "loginSuccess": "Connexion réussie",
-  "loginSuccessText": "Vous vous êtes connecté avec succès. Amusez-vous !"
+  "loginSuccessText": "Vous vous êtes connecté avec succès. Amusez-vous !",
+  "enter_email_and_password_for_signin": "Entrez votre adresse e-mail et votre mot de passe pour vous connecter",
+  "password_login_hint": "Si vous avez activé la procédure de mot de passe, vous pouvez également vous connecter avec.",
+  "password_login_link": "Cliquez ici pour accéder à la connexion par mot de passe."
 }

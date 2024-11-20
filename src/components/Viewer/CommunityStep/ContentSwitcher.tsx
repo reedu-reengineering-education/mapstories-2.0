@@ -52,7 +52,6 @@ export default function ContentSwitcher({
     if (contentType === 'media') {
       loadCaptchaEnginge(6, 'gray')
     }
-    console.log(story)
   }, [contentType])
 
   const handleCaptchaAndContiniue = () => {

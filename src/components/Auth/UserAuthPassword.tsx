@@ -9,8 +9,8 @@ import { Input } from '../Elements/Input'
 import { Button } from '../Elements/Button'
 
 interface UserAuthPasswordProps {
-  mode: 'Signup' | 'Login'
-  onSubmit: (data: { email: string; password: string }) => void
+  mode?: 'Signup' | 'Login'
+  onSubmit?: (data: { email: string; password: string }) => void
   resetForm?: boolean
 }
 export function UserAuthPassword({

@@ -19,5 +19,8 @@
   "disclaimerRegister": "Introduce tu dirección de correo electrónico y te crearemos una cuenta automáticamente. La",
   "endDisclaimRegister": "Puedes leer más en los enlaces.",
   "loginSuccess": "Inicio de sesión exitoso",
-  "loginSuccessText": "Has iniciado sesión correctamente. ¡Diviértete!"
+  "loginSuccessText": "Has iniciado sesión correctamente. ¡Diviértete!",
+  "enter_email_and_password_for_signin": "Ingresa tu dirección de correo electrónico y tu contraseña para iniciar sesión",
+  "password_login_hint": "Si has activado el procedimiento de contraseña, también puedes iniciar sesión con ella.",
+  "password_login_link": "Haz clic aquí para ir al inicio de sesión de contraseña."
 }
