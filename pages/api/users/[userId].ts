@@ -55,10 +55,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         delete newPayload.email
       }
 
-      // Prüfe, ob ein Passwort aktualisiert wird
-      if (payload.password) {
+      // Prüfe, ob ein Passwort aktualisiert wird und ob es nicht leer ist
+      if (payload.password && payload.password.trim() !== '') {
         const hashedPassword = await bcrypt.hash(payload.password, 10) // Hash das Passwort
         newPayload.password = hashedPassword
+      } else {
+        // Entferne das Passwort aus dem Payload, falls es leer ist
+        delete newPayload.password
       }
 
       // Aktualisiere den Benutzer in der Datenbank

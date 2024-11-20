@@ -13,6 +13,9 @@ import { User } from '@prisma/client'
 import { userUpdateSchema } from '@/src/lib/validations/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useBoundStore } from '@/src/lib/store/store'
+import { useTranslation } from '@/src/app/i18n/client'
 
 interface UserNameFormProps {
   user: {
@@ -49,10 +52,12 @@ export function UserSettingsForm({
     defaultValues: {
       name: user.name ?? '',
       email: user.email ?? '',
-      password: user.password ?? '',
       passwordEnabled: user.passwordEnabled ?? false,
     },
   })
+  const router = useRouter()
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'userSettingsForm')
 
   const [isSaving, setIsSaving] = useState(false)
   const [enablePassword, setEnablePassword] = useState(
@@ -60,7 +65,6 @@ export function UserSettingsForm({
   )
 
   const password = watch('password')
-
   const calculatePasswordStrength = (password: string) => {
     if (!password) {
       return 0
@@ -125,6 +129,7 @@ export function UserSettingsForm({
       }
 
       toast({
+        title: t('contentUpdated'),
         message: t('contentUpdated'),
         type: 'success',
       })
@@ -198,7 +203,6 @@ export function UserSettingsForm({
               </label>
             </div>
             <Input
-              defaultValue={user.password ?? ''}
               disabled={!enablePassword}
               errors={errors.password}
               label="Passwort"
