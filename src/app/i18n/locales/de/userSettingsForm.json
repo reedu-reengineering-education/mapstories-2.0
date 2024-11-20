@@ -10,5 +10,6 @@
   "contentNotDeleted": "Dein Account konnte nicht gelöscht werden, versuche es nochmal",
   "logInAgain": "Bitte logge dich erneut ein.",
   "deleteAccount": "Account löschen",
-  "dangerEmail": "Achtung! Wenn du deine E-Mail Adresse änderst, bekommst du eine Bestätigungslink an die neue E-Mail."
+  "dangerEmail": "Achtung! Wenn du deine E-Mail Adresse änderst, bekommst du eine Bestätigungslink an die neue E-Mail.",
+  "changeMailText": "Hier kannst du deine E-Mail Adresse ändern."
 }

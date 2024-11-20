@@ -7,8 +7,7 @@ import { render } from '@react-email/render'
 import SignInEmail from '@/emails/sign-in'
 import nodemailer from 'nodemailer'
 import { MailOptions } from 'nodemailer/lib/smtp-transport'
-import { compare, hash } from "bcrypt";
-
+import { compare } from 'bcrypt'
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
@@ -44,38 +43,43 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
         email: {
-          label: "Email",
-          type: "email",
-          placeholder: "example@example.com",
+          label: 'Email',
+          type: 'email',
+          placeholder: 'example@example.com',
         },
-        password: { label: "Password", type: "password" },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
-          return null;
+          return null
         }
 
         const user = await db.user.findUnique({
           where: {
             email: credentials.email,
           },
-        });
-        console.log(user)
-        console.log(credentials.password, user?.password)
+        })
 
-        if (!user || !(await compare(hash(credentials.password, 10), user.password))) {
-          return null;
+        if (!user) {
+          return null
+        }
+
+        const isValidPassword = await compare(
+          credentials.password,
+          user.password,
+        )
+        if (!isValidPassword) {
+          return null
         }
 
         return {
           id: user.id,
           email: user.email,
           name: user.name,
-          randomKey: "Some random Key",
-        };
+        }
       },
     }),
   ],
@@ -86,6 +90,8 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
+        session.user.passwordEnabled = token.passwordEnabled
+        session.user.password = token.password
       }
 
       return session
@@ -107,6 +113,8 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
+        passwordEnabled: !!dbUser.password,
+        password: dbUser.password,
       }
     },
   },

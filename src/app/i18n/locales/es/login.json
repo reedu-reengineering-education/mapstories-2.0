@@ -17,5 +17,7 @@
   "and": "y",
   "PP": "Política de privacidad",
   "disclaimerRegister": "Introduce tu dirección de correo electrónico y te crearemos una cuenta automáticamente. La",
-  "endDisclaimRegister": "Puedes leer más en los enlaces."
+  "endDisclaimRegister": "Puedes leer más en los enlaces.",
+  "loginSuccess": "Inicio de sesión exitoso",
+  "loginSuccessText": "Has iniciado sesión correctamente. ¡Diviértete!"
 }

@@ -22,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         throw new Error('Unauthenticated')
       }
       const payload = userUpdateSchema.parse(body)
-      let newPayload: any
+      let newPayload: any = payload
 
       if (payload.email && payload.email != user.email) {
         const userExists = await db.user.findUnique({
@@ -47,6 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         })
         delete newPayload.email
       }
+
       const updatedUser = await db.user.update({
         where: {
           id: user.id,

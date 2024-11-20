@@ -18,5 +18,7 @@
   "PP": "Privacy Policy",
   "and": "und",
   "disclaimerRegister": "Gib einfach deine E-Mail-Adresse ein, und wir erstellen automatisch ein Konto für dich. Die",
-  "endDisclaimRegister": " kannst du unter den Links nachlesen."
+  "endDisclaimRegister": " kannst du unter den Links nachlesen.",
+  "loginSuccess": "Erfolgreich angemeldet",
+  "loginSuccessText": "Du wurdest erfolgreich angemeldet. Viel Spaß!"
 }
