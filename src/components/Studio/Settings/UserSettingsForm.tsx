@@ -163,10 +163,6 @@ export function UserSettingsForm({
               label="Name"
               {...register('name', { required: 'Name ist erforderlich.' })}
             />
-            <p className="mt-1 text-sm text-gray-500">
-              Gib deinen vollständigen Namen ein, damit andere dich erkennen
-              können.
-            </p>
           </div>
 
           {/* Email Input */}
@@ -183,10 +179,6 @@ export function UserSettingsForm({
                 },
               })}
             />
-            <p className="mt-1 text-sm text-gray-500">
-              Gib deine E-Mail-Adresse ein, um Benachrichtigungen und Updates zu
-              erhalten.
-            </p>
           </div>
 
           {/* Checkbox und Passwort-Feld */}
@@ -202,6 +194,7 @@ export function UserSettingsForm({
                 Einloggen per Passwort aktivieren
               </label>
             </div>
+
             <Input
               disabled={!enablePassword}
               errors={errors.password}

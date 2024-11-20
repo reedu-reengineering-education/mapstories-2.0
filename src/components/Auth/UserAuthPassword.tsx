@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { toast } from '@/src/lib/toast'
 import { useBoundStore } from '@/src/lib/store/store'
 import { useTranslation } from '@/src/app/i18n/client'
+import { Input } from '../Elements/Input'
+import { Button } from '../Elements/Button'
 
 interface UserAuthPasswordProps {
   mode: 'Signup' | 'Login'
@@ -53,12 +55,11 @@ export function UserAuthPassword({
   }
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit}>
+    <form className="" onSubmit={handleSubmit}>
       <h2 className="mb-4 text-center text-2xl font-bold">{mode}</h2>
       <div>
-        <label className="block text-gray-700 dark:text-gray-300">Email</label>
-        <input
-          className="mt-1 w-full rounded-md border p-2 focus:border-blue-300 focus:outline-none focus:ring dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+        <Input
+          label="Email"
           onChange={e => setEmail(e.target.value)}
           required
           type="email"
@@ -66,23 +67,18 @@ export function UserAuthPassword({
         />
       </div>
       <div>
-        <label className="block text-gray-700 dark:text-gray-300">
-          Password
-        </label>
-        <input
-          className="mt-1 w-full rounded-md border p-2 focus:border-blue-300 focus:outline-none focus:ring dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+        <Input
+          label="Password"
           onChange={e => setPassword(e.target.value)}
           required
           type="password"
           value={password}
         />
       </div>
-      <button
-        className="w-full rounded-md bg-blue-500 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
-        type="submit"
-      >
-        Passwort Login
-      </button>
+      <Button className="w-full" type="submit">
+        {' '}
+        Login
+      </Button>
     </form>
   )
 }
