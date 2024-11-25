@@ -292,13 +292,15 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     return distance // Entfernung in Kilometern
   }
 
-  function calculateZoomLogarithmic(distance: number): number {
-    const maxZoom = 12 // Maximaler Zoom-Level
-    const minZoom = 2 // Minimaler Zoom-Level
-    const scaleFactor = 1.1 // Ein Skalierungsfaktor
+  function calculateWeightedZoom(distance: number): number {
+    const minZoom = 4
+    const maxZoom = 15
 
-    const adjustedZoom = maxZoom - Math.log(distance + 1) * scaleFactor
-    return Math.max(Math.min(adjustedZoom, maxZoom), minZoom)
+    // Gewichtete Anpassung: Kleinere Entfernungen -> Höherer Zoom, größere Entfernungen -> Weniger Zoom
+    const weight = 0.5 // Gewichtung anpassen
+    const zoom = 16 - Math.log2(distance * weight)
+
+    return Math.max(minZoom, Math.min(maxZoom, zoom))
   }
 
   function updateToStep(index: number) {
@@ -357,7 +359,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             feature.geometry.coordinates[1],
           ],
           offset: [-window.innerWidth / 5, 0],
-          zoom: calculateZoomLogarithmic(distance),
+          zoom: calculateWeightedZoom(distance),
           essential: true,
           duration: Math.min(Math.max(distance * 100, 1000), 3000),
         })
@@ -378,7 +380,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       )
       mapRef.current?.flyTo({
         center: startView.getCenter(),
-        zoom: calculateZoomLogarithmic(distance),
+        zoom: calculateWeightedZoom(distance),
         offset: [-windowWidth / 5, 75],
       })
       // mapRef.current?.fitBounds(startView, {
