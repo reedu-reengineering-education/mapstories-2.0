@@ -67,7 +67,6 @@ model User {
   verify_new_email_token String? 
   new_email              String? 
   password      String?
-  passwordEnabled Boolean  @default(false) // Neues Feld
 
   @@map(name: "users")
 }
