@@ -359,7 +359,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
           offset: [-window.innerWidth / 5, 0],
           zoom: calculateZoomLogarithmic(distance),
           essential: true,
-          duration: 1000,
+          duration: Math.min(Math.max(distance * 100, 1000), 3000),
         })
       }
     }
