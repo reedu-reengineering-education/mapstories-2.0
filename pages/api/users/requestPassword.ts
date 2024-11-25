@@ -4,6 +4,8 @@ import nodemailer from 'nodemailer'
 import crypto from 'crypto'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import bcrypt from 'bcrypt'
+import { render } from '@react-email/render'
+import PasswordRequest from '@/emails/passwordRequest'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email } = req.body
@@ -47,11 +49,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
     })
 
+    const emailHmtl = render(PasswordRequest({ password: newPassword }))
+
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.SMTP_USER,
       to: email,
       subject: 'Your new password',
-      text: `Your new password is: ${newPassword}`,
+      html: emailHmtl,
     }
     await transporter.sendMail(mailOptions)
 
