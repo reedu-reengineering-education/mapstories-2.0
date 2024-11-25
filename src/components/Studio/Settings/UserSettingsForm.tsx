@@ -7,7 +7,6 @@ import { Card } from '@/src/components/Card'
 import { Button } from '@/src/components/Elements/Button'
 import { Input } from '@/src/components/Elements/Input'
 import { cx } from 'class-variance-authority'
-import { Checkbox } from '../../Elements/Checkbox'
 import { toast } from '@/src/lib/toast'
 import { User } from '@prisma/client'
 import { userUpdateSchema } from '@/src/lib/validations/user'
@@ -25,7 +24,6 @@ interface UserNameFormProps {
     name?: string
     email?: string
     password?: string
-    passwordEnabled?: boolean
   }
   className?: string
 }
@@ -34,7 +32,6 @@ type FormData = {
   name?: string
   email: string
   password?: string
-  passwordEnabled: boolean
 }
 
 export function UserSettingsForm({
@@ -45,15 +42,13 @@ export function UserSettingsForm({
   const {
     handleSubmit,
     register,
-    setValue,
-    clearErrors,
+
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(userUpdateSchema),
     defaultValues: {
       name: user.name ?? '',
       email: user.email ?? '',
-      passwordEnabled: user.passwordEnabled ?? false,
     },
   })
   const router = useRouter()
@@ -61,20 +56,6 @@ export function UserSettingsForm({
   const { t } = useTranslation(lng, 'userSettingsForm')
 
   const [isSaving, setIsSaving] = useState(false)
-  const [enablePassword, setEnablePassword] = useState(
-    user.passwordEnabled ?? false,
-  )
-  const [passwordEdit, setPasswordEdit] = useState(false)
-
-  const handlePasswordToggle = (checked: boolean) => {
-    setEnablePassword(checked)
-
-    if (!checked) {
-      // Passwortfeld deaktivieren und Validierungsfehler entfernen
-      setValue('password', '')
-      clearErrors('password')
-    }
-  }
 
   const onSubmit = async (data: FormData) => {
     setIsSaving(true)
@@ -120,10 +101,6 @@ export function UserSettingsForm({
     }
   }
 
-  const togglePasswordEdit = (enabled: boolean) => {
-    setPasswordEdit(enabled)
-  }
-
   return (
     <form
       className={cx('space-y-6', className)}
@@ -166,43 +143,27 @@ export function UserSettingsForm({
 
           {/* Checkbox und Passwort-Feld */}
           <div className="mb-4">
-            <div className="mb-2 flex items-center">
-              <Checkbox
-                checked={enablePassword}
-                id="enablePassword"
-                onCheckedChange={e => handlePasswordToggle(e as boolean)}
-              />
-
-              <label className="ml-2 text-gray-700" htmlFor="enablePassword">
-                Einloggen per Passwort aktivieren
-              </label>
-            </div>
-
             <div className="flex w-full flex-row justify-start gap-4">
               <Input
                 disabled={true}
-                errors={errors.password}
                 label="Passwort"
                 placeholder="Passwort"
                 type="password"
                 value={'••••••••'}
-                {...register('password', {
-                  required: enablePassword
-                    ? 'Passwort ist erforderlich.'
-                    : false,
-                })}
               />
-              <ChangePasswordModal
-                trigger={
-                  <Button
-                    startIcon={<Clipboard className="h-10"></Clipboard>}
-                    variant={'inverse'}
-                  >
-                    Change Password
-                  </Button>
-                }
-                user={user}
-              />
+              <div>
+                <ChangePasswordModal
+                  trigger={
+                    <Button
+                      startIcon={<Clipboard className="h-10"></Clipboard>}
+                      variant={'inverse'}
+                    >
+                      Change Password
+                    </Button>
+                  }
+                  user={user}
+                />
+              </div>
             </div>
           </div>
         </Card.Content>
