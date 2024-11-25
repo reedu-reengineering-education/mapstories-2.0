@@ -17,7 +17,7 @@ export default async function RequestPasswordPage({
           <LogoWithClaimAndBackground className="mx-auto h-32 w-60" />
           <h1 className="text-2xl font-bold">{t('welcome_back')}</h1>
           <p className="text-sm text-slate-600">
-            Enter email below to request a password for your account
+            {t('enter_email_for_password_request')}
           </p>
         </div>
         <UserAuthRequestPassword />

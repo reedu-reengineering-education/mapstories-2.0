@@ -22,5 +22,10 @@
   "loginSuccessText": "Vous vous êtes connecté avec succès. Amusez-vous !",
   "enter_email_and_password_for_signin": "Entrez votre adresse e-mail et votre mot de passe pour vous connecter",
   "password_login_hint": "Si vous avez activé la procédure de mot de passe, vous pouvez également vous connecter avec.",
-  "password_login_link": "Cliquez ici pour accéder à la connexion par mot de passe."
+  "password_login_link": "Cliquez ici pour accéder à la connexion par mot de passe.",
+  "enable_password_login": "Si vous souhaitez activer la procédure de mot de passe, suivez ce",
+  "link": "link",
+  "enable_password_login_end": "et suivez les instructions.",
+  "enter_email_for_password_request": " Entrez votre adresse e-mail pour demander un mot de passe",
+  "password_request": "Demander un mot de passe"
 }

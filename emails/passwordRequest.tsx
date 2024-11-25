@@ -25,7 +25,7 @@ export default function PasswordRequest({ password }: PasswordRequestProps) {
       }}
     >
       <Head>
-        <title>Mapstories Password Request</title>
+        <title>Mapstories Passwort Request</title>
         <Font
           fallbackFontFamily="Helvetica"
           fontFamily="sans-serif"

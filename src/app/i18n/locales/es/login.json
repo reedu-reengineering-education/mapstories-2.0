@@ -22,5 +22,10 @@
   "loginSuccessText": "Has iniciado sesión correctamente. ¡Diviértete!",
   "enter_email_and_password_for_signin": "Ingresa tu dirección de correo electrónico y tu contraseña para iniciar sesión",
   "password_login_hint": "Si has activado el procedimiento de contraseña, también puedes iniciar sesión con ella.",
-  "password_login_link": "Haz clic aquí para ir al inicio de sesión de contraseña."
+  "password_login_link": "Haz clic aquí para ir al inicio de sesión de contraseña.",
+  "enable_password_login": "Si deseas habilitar el procedimiento de contraseña, sigue este",
+  "link": "Link",
+  "enable_password_login_end": "y sigue las instrucciones.",
+  "enter_email_for_password_request": "Ingresa tu dirección de correo electrónico para solicitar una contraseña",
+  "password_request": "Solicitar contraseña"
 }

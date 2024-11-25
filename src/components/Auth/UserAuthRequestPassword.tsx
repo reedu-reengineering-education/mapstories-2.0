@@ -69,7 +69,7 @@ export function UserAuthRequestPassword({
 
       <Button className="w-full" type="submit">
         {' '}
-        Request Password
+        {t('password_request')}
       </Button>
     </form>
   )
