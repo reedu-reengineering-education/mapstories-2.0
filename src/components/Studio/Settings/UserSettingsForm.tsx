@@ -16,6 +16,8 @@ import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useBoundStore } from '@/src/lib/store/store'
 import { useTranslation } from '@/src/app/i18n/client'
+import ChangePasswordModal from './ChangePasswordModal'
+import { Clipboard } from 'lucide-react'
 
 interface UserNameFormProps {
   user: {
@@ -45,7 +47,6 @@ export function UserSettingsForm({
     register,
     setValue,
     clearErrors,
-    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(userUpdateSchema),
@@ -63,29 +64,7 @@ export function UserSettingsForm({
   const [enablePassword, setEnablePassword] = useState(
     user.passwordEnabled ?? false,
   )
-
-  const password = watch('password')
-  const calculatePasswordStrength = (password: string) => {
-    if (!password) {
-      return 0
-    }
-    let score = 0
-    if (password.length >= 8) {
-      score += 25
-    }
-    if (/[A-Z]/.test(password)) {
-      score += 25
-    }
-    if (/[0-9]/.test(password)) {
-      score += 25
-    }
-    if (/[^A-Za-z0-9]/.test(password)) {
-      score += 25
-    }
-    return score
-  }
-
-  const passwordStrength = calculatePasswordStrength(password ?? '')
+  const [passwordEdit, setPasswordEdit] = useState(false)
 
   const handlePasswordToggle = (checked: boolean) => {
     setEnablePassword(checked)
@@ -139,6 +118,10 @@ export function UserSettingsForm({
     } finally {
       setIsSaving(false)
     }
+  }
+
+  const togglePasswordEdit = (enabled: boolean) => {
+    setPasswordEdit(enabled)
   }
 
   return (
@@ -195,38 +178,32 @@ export function UserSettingsForm({
               </label>
             </div>
 
-            <Input
-              disabled={!enablePassword}
-              errors={errors.password}
-              label="Passwort"
-              type="password"
-              {...register('password', {
-                required: enablePassword ? 'Passwort ist erforderlich.' : false,
-              })}
-            />
-
-            {/* Passwort-Sicherheitsleiste */}
-            {enablePassword && (
-              <div className="mt-2">
-                <div className="flex justify-between text-sm text-gray-600">
-                  <span>Sicherheit:</span>
-                  <span>{passwordStrength}%</span>
-                </div>
-                <div className="h-2 w-full rounded bg-gray-300">
-                  <div
-                    className={cx(
-                      'h-2 rounded',
-                      passwordStrength > 75
-                        ? 'bg-green-500'
-                        : passwordStrength > 50
-                          ? 'bg-yellow-500'
-                          : 'bg-red-500',
-                    )}
-                    style={{ width: `${passwordStrength}%` }}
-                  ></div>
-                </div>
-              </div>
-            )}
+            <div className="flex w-full flex-row justify-start gap-4">
+              <Input
+                disabled={true}
+                errors={errors.password}
+                label="Passwort"
+                placeholder="Passwort"
+                type="password"
+                value={'••••••••'}
+                {...register('password', {
+                  required: enablePassword
+                    ? 'Passwort ist erforderlich.'
+                    : false,
+                })}
+              />
+              <ChangePasswordModal
+                trigger={
+                  <Button
+                    startIcon={<Clipboard className="h-10"></Clipboard>}
+                    variant={'secondary'}
+                  >
+                    Change Password
+                  </Button>
+                }
+                user={user}
+              />
+            </div>
           </div>
         </Card.Content>
 

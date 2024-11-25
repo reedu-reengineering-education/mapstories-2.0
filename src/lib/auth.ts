@@ -67,6 +67,10 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
+        if (!user.password) {
+          return null
+        }
+
         const isValidPassword = await compare(
           credentials.password,
           user.password,
@@ -90,8 +94,6 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
-        session.user.passwordEnabled = token.passwordEnabled
-        session.user.password = token.password
       }
 
       return session
@@ -113,8 +115,6 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
-        passwordEnabled: !!dbUser.password,
-        password: dbUser.password,
       }
     },
   },
