@@ -196,7 +196,7 @@ export function UserSettingsForm({
                 trigger={
                   <Button
                     startIcon={<Clipboard className="h-10"></Clipboard>}
-                    variant={'secondary'}
+                    variant={'inverse'}
                   >
                     Change Password
                   </Button>
