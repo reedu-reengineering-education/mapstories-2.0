@@ -13,13 +13,13 @@ export default function StorySourceLayer({
 }) {
   const [lineData, setLineData] = useState<GeoJSON.Feature[] | undefined>()
 
-  const [lineDataDone, setLineDataDone] = useState<
+  const [visitedLine, setVisitedLine] = useState<GeoJSON.Feature | undefined>()
+
+  const [upcomingLine, setUpcomingLine] = useState<
     GeoJSON.Feature | undefined
   >()
 
-  const [lineDataTodo, setLineDataTodo] = useState<
-    GeoJSON.Feature | undefined
-  >()
+  const [activeLine, setActiveLine] = useState<GeoJSON.Feature | undefined>()
 
   // generate Line string
   useEffect(() => {
@@ -37,8 +37,9 @@ export default function StorySourceLayer({
 
   useEffect(() => {
     if (storyID != '') {
-      let newLineData: GeoJSON.Feature | undefined = undefined
-      let newLineDataTodo: GeoJSON.Feature | undefined = undefined
+      let newActiveLine: GeoJSON.Feature | undefined = undefined
+      let newUpcomingLine: GeoJSON.Feature | undefined = undefined
+      let newVisitedLine: GeoJSON.Feature | undefined = undefined
 
       const storyGeoJson = geojsons?.filter(
         geo => geo.properties?.id == storyID,
@@ -47,7 +48,7 @@ export default function StorySourceLayer({
       if (storyGeoJson && storyGeoJson[0]) {
         // Linie zwischen aktuellem und vorherigem Marker
         const previousIndex = Math.max(selectedStepIndex - 1, 0)
-        newLineData = {
+        newActiveLine = {
           ...storyGeoJson[0],
           geometry: {
             ...storyGeoJson[0].geometry,
@@ -57,16 +58,28 @@ export default function StorySourceLayer({
             ),
           },
         }
-        setLineDataDone(newLineData)
+        setActiveLine(newActiveLine)
 
-        newLineDataTodo = {
+        newUpcomingLine = {
           ...storyGeoJson[0],
           geometry: {
             ...storyGeoJson[0].geometry,
-            coordinates: storyGeoJson[0].geometry.coordinates,
+            coordinates:
+              storyGeoJson[0].geometry.coordinates.slice(selectedStepIndex),
           },
         }
-        setLineDataTodo(newLineDataTodo)
+        setUpcomingLine(newUpcomingLine)
+        newVisitedLine = {
+          ...storyGeoJson[0],
+          geometry: {
+            ...storyGeoJson[0].geometry,
+            coordinates: storyGeoJson[0].geometry.coordinates.slice(
+              0,
+              selectedStepIndex + 1,
+            ),
+          },
+        }
+        setVisitedLine(newVisitedLine)
       }
     } else {
       resetSelectedStoryData()
@@ -74,11 +87,12 @@ export default function StorySourceLayer({
   }, [selectedStepIndex, storyID])
 
   function resetSelectedStoryData() {
-    setLineDataDone(undefined)
-    setLineDataTodo(undefined)
+    setActiveLine(undefined)
+    setUpcomingLine(undefined)
+    setVisitedLine(undefined)
   }
 
-  const lineDone = {
+  const stylesActive = {
     type: 'line' as 'sky',
     paint: {
       'line-color': '#d4da68',
@@ -92,7 +106,7 @@ export default function StorySourceLayer({
     },
   }
 
-  const lineTodo = {
+  const stylesUpcoming = {
     type: 'line' as 'sky',
     paint: {
       'line-color': '#18325b',
@@ -100,6 +114,20 @@ export default function StorySourceLayer({
       'line-blur': 0,
       'line-opacity': 0.15,
       'line-dasharray': [1, 2],
+    },
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+  }
+
+  const stylesVisited = {
+    type: 'line' as 'sky',
+    paint: {
+      'line-color': '#18325b',
+      'line-width': 6,
+      'line-blur': 0,
+      'line-opacity': 0.15,
     },
     layout: {
       'line-join': 'round',
@@ -167,16 +195,22 @@ export default function StorySourceLayer({
           </Source>
         ))}
 
-      {lineDataTodo && (
-        <Source data={lineDataTodo} id={'linesourceTodo'} type="geojson">
+      {upcomingLine && (
+        <Source data={upcomingLine} id={'lineUpcoming'} type="geojson">
           {/* @ts-ignore */}
-          <Layer {...lineTodo} id={'lineSourceTodo'} />
+          <Layer {...stylesUpcoming} id={'lineUpcoming'} />
         </Source>
       )}
-      {lineDataDone && (
-        <Source data={lineDataDone} id={'linesourceDone'} type="geojson">
+      {visitedLine && (
+        <Source data={visitedLine} id={'lineVisited'} type="geojson">
           {/* @ts-ignore */}
-          <Layer {...lineDone} id={'lineSourceDone'} />
+          <Layer {...stylesVisited} id={'lineVisited'} />
+        </Source>
+      )}
+      {activeLine && (
+        <Source data={activeLine} id={'lineActive'} type="geojson">
+          {/* @ts-ignore */}
+          <Layer {...stylesActive} id={'lineActive'} />
         </Source>
       )}
     </>
