@@ -109,10 +109,8 @@ export function UserSettingsForm({
     >
       <Card>
         <Card.Header>
-          <Card.Title>Benutzer-Einstellungen</Card.Title>
-          <Card.Description>
-            Hier kannst du deine Daten ändern.
-          </Card.Description>
+          <Card.Title>{t('userSettings')}</Card.Title>
+          <Card.Description>{t('changeYourData')}</Card.Description>
         </Card.Header>
         <Card.Content>
           {/* Name Input */}
@@ -158,7 +156,7 @@ export function UserSettingsForm({
                       startIcon={<Clipboard className="h-10"></Clipboard>}
                       variant={'inverse'}
                     >
-                      Change Password
+                      {t('changePassword')}
                     </Button>
                   }
                   user={user}

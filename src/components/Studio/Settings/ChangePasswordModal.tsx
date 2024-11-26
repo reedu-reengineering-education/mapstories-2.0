@@ -60,15 +60,17 @@ export default function ChangePasswordModal({ trigger, user }: Props) {
       <Modal
         onOpenChange={setIsOpen}
         open={isOpen}
-        title="Change Password"
+        title={t('changePassword')}
         trigger={trigger}
       >
         <Modal.Content className="flex flex-col gap-4">
           <div>
-            Change the password for <strong>{user.name}</strong>
+            {t('changeFor')} <strong>{user.email}</strong>
           </div>
           <div className="flex items-center gap-4">
-            <InputLabel className="w-1/4 text-right">New Password</InputLabel>
+            <InputLabel className="w-1/4 text-right">
+              {t('newPassword')}
+            </InputLabel>
             <Input
               className="flex-1"
               id="password"
@@ -79,7 +81,7 @@ export default function ChangePasswordModal({ trigger, user }: Props) {
           </div>
           <div className="flex items-center gap-4">
             <InputLabel className="w-1/4 text-right">
-              Confirm Password
+              {t('newPasswordConfirm')}
             </InputLabel>
             <Input
               className="flex-1"
@@ -95,7 +97,7 @@ export default function ChangePasswordModal({ trigger, user }: Props) {
               disabled={confirmPassword !== passwordnew}
               onClick={() => handleSubmit()}
             >
-              Change Password
+              {t('changePassword')}
             </Button>
           </div>
         </Modal.Content>
