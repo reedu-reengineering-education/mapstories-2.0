@@ -31,7 +31,7 @@ export default async function LoginPage({
             {t('enter_email_and_password_for_signin')}
           </p>
           <p className="textz-sm text-slate-800">
-            {t('enable_password_login')}
+            {t('enable_password_login')}&nbsp;
             <a className="text-blue-500" href="/passwordRequest">
               {t('link')}
             </a>
