@@ -16,20 +16,15 @@ const triggerHoverLayerStyle: CircleLayer = {
 
 type Props = {
   markers: StepMarker[]
-  onClick?: (_m: StepMarker) => void
 }
 
-export default function Markers({ markers, onClick }: Props) {
+export default function Markers({ markers }: Props) {
   const [triggerHoverLayerData, setTriggerHoverLayerData] = useState<
     GeoJSON.FeatureCollection | undefined
   >()
 
-  const [markerColors, setMarkerColors] = useState<string[]>([])
-  const [markerArray, setMarkerArray] = useState<StepMarker[]>([])
   const path = usePathname()
   const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
-  const storyID = useBoundStore(state => state.storyID)
-  const filter = path?.split('/') ? path.split('/')[3].split('-') : ['all']
   const router = useRouter()
 
   useEffect(() => {
@@ -55,7 +50,7 @@ export default function Markers({ markers, onClick }: Props) {
 
   // Berechnung der Markerfarbe basierend auf `selectedStepIndex`
   const getMarkerColor = (m: StepMarker) => {
-    if (!selectedStepIndex) {
+    if (selectedStepIndex === undefined) {
       return m.color
     }
     if (selectedStepIndex === m.position) {
