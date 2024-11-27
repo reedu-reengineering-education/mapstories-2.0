@@ -1,6 +1,8 @@
 {
   "name": "Name",
   "change your name here": "Hier kannst du deinen Namen ändern.",
+  "userSettings": "Benutzer-Einstellungen",
+  "changeYourData": "Hier kannst du deine Daten ändern.",
   "save": "Speichern",
   "contentUpdated": "Dein Account wurde aktualisiert",
   "contentCreated": "Dein Account wurde erstellt.",
@@ -10,5 +12,13 @@
   "contentNotDeleted": "Dein Account konnte nicht gelöscht werden, versuche es nochmal",
   "logInAgain": "Bitte logge dich erneut ein.",
   "deleteAccount": "Account löschen",
-  "dangerEmail": "Achtung! Wenn du deine E-Mail Adresse änderst, bekommst du eine Bestätigungslink an die neue E-Mail."
+  "dangerEmail": "Achtung! Wenn du deine E-Mail Adresse änderst, bekommst du eine Bestätigungslink an die neue E-Mail.",
+  "changeMailText": "Hier kannst du deine E-Mail Adresse ändern.",
+  "activatePassword": "Passwort aktivieren",
+  "password": "Passwort",
+  "passWordSecurity": "Passwort Sicherheit",
+  "changePassword": "Passwort ändern",
+  "changeFor": "Passwort ändern für",
+  "newPassword": "Neues Passwort",
+  "newPasswordConfirm": "Neues Passwort wiederholen"
 }

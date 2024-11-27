@@ -1,43 +1,48 @@
 'use client'
 
 import * as React from 'react'
-import { User } from '@prisma/client'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-import { useRouter } from 'next/navigation'
-import { toast } from '@/src/lib/toast'
+import { useState } from 'react'
 import { Card } from '@/src/components/Card'
 import { Button } from '@/src/components/Elements/Button'
-import { cx } from 'class-variance-authority'
-import { userUpdateSchema } from '@/src/lib/validations/user'
 import { Input } from '@/src/components/Elements/Input'
+import { cx } from 'class-variance-authority'
+import { toast } from '@/src/lib/toast'
+import { User } from '@prisma/client'
+import { userUpdateSchema } from '@/src/lib/validations/user'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTranslation } from '@/src/app/i18n/client'
-import { useBoundStore } from '@/src/lib/store/store'
-// import { useUIStore } from '@/src/lib/store/ui'
-
-import DeleteAccountModal from './DeleteAccountModal'
-import { useState } from 'react'
 import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useBoundStore } from '@/src/lib/store/store'
+import { useTranslation } from '@/src/app/i18n/client'
+import ChangePasswordModal from './ChangePasswordModal'
+import { Clipboard } from 'lucide-react'
 
-interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  user: Pick<User, 'id'> & Partial<Pick<User, 'name' | 'email'>>
+interface UserNameFormProps {
+  user: {
+    id: string
+    name?: string
+    email?: string
+    password?: string
+  }
+  className?: string
 }
 
-type FormData = z.infer<typeof userUpdateSchema>
+type FormData = {
+  name?: string
+  email: string
+  password?: string
+}
 
 export function UserSettingsForm({
   user,
   className,
   ...props
 }: UserNameFormProps) {
-  const router = useRouter()
-  const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, 'userSettingsForm')
-
   const {
     handleSubmit,
     register,
+
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(userUpdateSchema),
@@ -46,10 +51,13 @@ export function UserSettingsForm({
       email: user.email ?? '',
     },
   })
-  const [isSaving, setIsSaving] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
+  const router = useRouter()
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'userSettingsForm')
 
-  async function onSubmit(data: FormData) {
+  const [isSaving, setIsSaving] = useState(false)
+
+  const onSubmit = async (data: FormData) => {
     setIsSaving(true)
 
     try {
@@ -81,6 +89,7 @@ export function UserSettingsForm({
       }
 
       toast({
+        title: t('contentUpdated'),
         message: t('contentUpdated'),
         type: 'success',
       })
@@ -92,88 +101,79 @@ export function UserSettingsForm({
     }
   }
 
-  async function deleteAccount() {
-    setIsDeleting(true)
-
-    const response = await fetch(`/api/users/${user.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-
-    if (!response?.ok) {
-      return toast({
-        title: t('somethingWrong'),
-        message: t('contentNotDeleted'),
-        type: 'error',
-      })
-    }
-
-    toast({
-      message: t('contentDeleted'),
-      type: 'success',
-    })
-
-    setIsDeleting(false)
-
-    router.push('/register')
-  }
-
   return (
-    <>
-      <form
-        className={cx(className)}
-        onSubmit={handleSubmit(onSubmit)}
-        {...props}
-      >
-        <Card>
-          <Card.Header>
-            <Card.Title>{t('name')}</Card.Title>
-            <Card.Description>{t('change your name here')}</Card.Description>
-          </Card.Header>
-          <Card.Content>
-            <div className="w-120 max-w-full">
-              <Input
-                defaultValue={user.name ?? ''}
-                errors={errors.name}
-                label="Name"
-                size={32}
-                {...register('name')}
-              />
-            </div>
-            <div className="w-120 max-w-full">
-              <div className="text-x my-2 rounded bg-red-200 p-2">
-                {t('dangerEmail')}
-              </div>
+    <form
+      className={cx('space-y-6', className)}
+      onSubmit={handleSubmit(onSubmit)}
+      {...props}
+    >
+      <Card>
+        <Card.Header>
+          <Card.Title>{t('userSettings')}</Card.Title>
+          <Card.Description>{t('changeYourData')}</Card.Description>
+        </Card.Header>
+        <Card.Content>
+          {/* Name Input */}
+          <div className="mb-4">
+            <Input
+              defaultValue={user.name ?? ''}
+              errors={errors.name}
+              label="Name"
+              {...register('name', { required: 'Name ist erforderlich.' })}
+            />
+          </div>
 
+          {/* Email Input */}
+          <div className="mb-4">
+            <Input
+              defaultValue={user.email ?? ''}
+              errors={errors.email}
+              label="E-Mail"
+              {...register('email', {
+                required: 'E-Mail ist erforderlich.',
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: 'Bitte eine gültige E-Mail-Adresse eingeben.',
+                },
+              })}
+            />
+          </div>
+
+          {/* Checkbox und Passwort-Feld */}
+          <div className="mb-4">
+            <div className="flex w-full flex-row justify-start gap-4">
               <Input
-                defaultValue={user.email ?? ''}
-                errors={errors.email}
-                label="E-Mail"
-                size={32}
-                {...register('email')}
+                disabled={true}
+                label="Passwort"
+                placeholder="Passwort"
+                type="password"
+                value={'••••••••'}
               />
+              <div>
+                <ChangePasswordModal
+                  trigger={
+                    <Button
+                      startIcon={<Clipboard className="h-10"></Clipboard>}
+                      variant={'inverse'}
+                    >
+                      {t('changePassword')}
+                    </Button>
+                  }
+                  user={user}
+                />
+              </div>
             </div>
-          </Card.Content>
-          <Card.Footer>
-            <Button disabled={isSaving} isLoading={isSaving} type="submit">
-              {t('save')}
-            </Button>
-          </Card.Footer>
-        </Card>
-      </form>
-      <div className="flex justify-center">
-        <DeleteAccountModal
-          isSaving={isDeleting}
-          onSubmit={deleteAccount}
-          trigger={
-            <Button className="my-2" variant={'danger'}>
-              {t('deleteAccount')}
-            </Button>
-          }
-        />
-      </div>
-    </>
+          </div>
+        </Card.Content>
+
+        <Card.Footer className="flex justify-end">
+          <Button disabled={isSaving} isLoading={isSaving} type="submit">
+            Speichern
+          </Button>
+        </Card.Footer>
+      </Card>
+    </form>
   )
 }
+
+export default UserSettingsForm

@@ -17,5 +17,15 @@
   "and": "and",
   "PP": "Privacy Policy",
   "disclaimerRegister": "Just enter your email address and we'll automatically create an account for you. The",
-  "endDisclaimRegister": "You can read more under the links."
+  "endDisclaimRegister": "You can read more under the links.",
+  "loginSuccess": "Login successful",
+  "loginSuccessText": "You have successfully logged in. Have fun!",
+  "enter_email_and_password_for_signin": "Enter your email address and password to sign in",
+  "password_login_hint": "If you have enabled the password procedure, you can also log in with it.",
+  "password_login_link": "Click here to go to the password login.",
+  "enable_password_login": "If you want to enable the password procedure, follow this",
+  "link": "link ",
+  "enable_password_login_end": "and follow the instructions.",
+  "enter_email_for_password_request": " Enter your email address to request a password",
+  "password_request": "Request password"
 }

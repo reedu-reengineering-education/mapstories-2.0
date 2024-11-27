@@ -66,6 +66,7 @@ model User {
   story         Story[]   @relation("contributors")
   verify_new_email_token String? 
   new_email              String? 
+  password      String?
 
   @@map(name: "users")
 }

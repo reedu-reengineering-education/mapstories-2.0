@@ -1,10 +1,10 @@
 import Link from 'next/link'
 
 import { Button } from '@/src/components/Elements/Button'
-import { UserAuthForm } from '@/src/components/Auth/UserAuthForm'
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from '@/src/app/i18n'
 import { LogoWithClaimAndBackground } from '@/src/components/Layout/MapstoriesLogo'
+import UserAuthPassword from '@/src/components/Auth/UserAuthPassword'
 
 export default async function LoginPage({
   params: { lng },
@@ -28,23 +28,18 @@ export default async function LoginPage({
           <LogoWithClaimAndBackground className="mx-auto h-32 w-60" />
           <h1 className="text-2xl font-bold">{t('welcome_back')}</h1>
           <p className="text-sm text-slate-600">
-            {t('enter_email_for_signin')}
+            {t('enter_email_and_password_for_signin')}
+          </p>
+          <p className="textz-sm text-slate-800">
+            {t('enable_password_login')}&nbsp;
+            <a className="text-blue-500" href="/passwordRequest">
+              {t('link')}
+            </a>
+            {t('enable_password_login_end')}
           </p>
         </div>
-
-        <UserAuthForm />
-
-        <div className="mt-4 text-center text-sm text-slate-600">
-          <p>{t('password_login_hint')}</p>
-          <Link
-            className="text-brand hover:text-brand-dark underline"
-            href="/passwordLogin"
-          >
-            {t('password_login_link')}
-          </Link>
-        </div>
-
-        <h1 className="text-center">Noch keinen Account?</h1>
+        <UserAuthPassword />
+        {/* <h1 className="text-center">Noch keinen Account?</h1>
         <p className="px-8 text-center text-sm text-slate-600">
           {t('disclaimerRegister')}{' '}
           <Link className="hover:text-brand underline" href="/terms">
@@ -54,8 +49,7 @@ export default async function LoginPage({
           <Link className="hover:text-brand underline" href="/privacy">
             {t('PP')}
           </Link>
-          {t('endDisclaimRegister')}
-        </p>
+        </p> */}
       </div>
     </div>
   )
