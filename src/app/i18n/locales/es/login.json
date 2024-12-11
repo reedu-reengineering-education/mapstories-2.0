@@ -27,5 +27,7 @@
   "link": "Link ",
   "enable_password_login_end": "y sigue las instrucciones.",
   "enter_email_for_password_request": "Ingresa tu dirección de correo electrónico para solicitar una contraseña",
-  "password_request": "Solicitar contraseña"
+  "password_request": "Solicitar contraseña",
+  "wrongPassword": "Contraseña o dirección de correo electrónico incorrecta",
+  "unexpectedError": "Error inesperado"
 }

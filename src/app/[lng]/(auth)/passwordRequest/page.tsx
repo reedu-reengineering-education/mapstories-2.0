@@ -21,17 +21,6 @@ export default async function RequestPasswordPage({
           </p>
         </div>
         <UserAuthRequestPassword />
-        {/* <h1 className="text-center">Noch keinen Account?</h1>
-        <p className="px-8 text-center text-sm text-slate-600">
-          {t('disclaimerRegister')}{' '}
-          <Link className="hover:text-brand underline" href="/terms">
-            {t('TOS')}
-          </Link>{' '}
-          {t('and')}{' '}
-          <Link className="hover:text-brand underline" href="/privacy">
-            {t('PP')}
-          </Link>
-        </p> */}
       </div>
     </div>
   )

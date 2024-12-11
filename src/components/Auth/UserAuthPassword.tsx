@@ -33,25 +33,42 @@ export function UserAuthPassword({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    const result = await signIn('credentials', {
-      email,
-      password,
-      redirect: false, // Verhindert automatische Weiterleitung
-    })
-    if (!result?.ok) {
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false, // Verhindert automatische Weiterleitung
+      })
+
+      if (!result || !result.ok) {
+        const errorMessage =
+          result?.status === 401
+            ? t('wrongPassword') // Spezifische Meldung für 401
+            : result?.error || t('signin_fail') // Standard-Fehlermeldung oder Nachricht aus der HTTP-Antwort
+
+        return toast({
+          title: t('something_wrong'),
+          message: errorMessage,
+          type: 'error',
+        })
+      }
+
+      // Erfolg: Weiterleitung
+      router.push('/storylab')
+      return toast({
+        title: t('loginSuccess'),
+        message: t('loginSuccessText'),
+        type: 'success',
+      })
+    } catch (error: any) {
+      // Fallback für unerwartete Fehler
+      const errorMessage = error.response?.data?.message || t('unexpectedError')
       return toast({
         title: t('something_wrong'),
-        message: t('signin_fail'),
+        message: errorMessage,
         type: 'error',
       })
     }
-
-    router.push('/storylab')
-    return toast({
-      title: t('loginSuccess'),
-      message: t('loginSuccessText'),
-      type: 'success',
-    })
   }
 
   return (
