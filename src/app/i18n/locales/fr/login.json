@@ -27,5 +27,7 @@
   "link": "link ",
   "enable_password_login_end": "et suivez les instructions.",
   "enter_email_for_password_request": " Entrez votre adresse e-mail pour demander un mot de passe",
-  "password_request": "Demander un mot de passe"
+  "password_request": "Demander un mot de passe",
+  "wrongPassword": "Mot de passe ou adresse e-mail incorrecte",
+  "unexpectedError": "Erreur inattendue"
 }

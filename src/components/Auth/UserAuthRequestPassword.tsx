@@ -42,9 +42,10 @@ export function UserAuthRequestPassword({
     })
 
     if (result.status !== 200) {
+      const response = await result.json()
       return toast({
         title: t('something_wrong'),
-        message: t('signin_fail'),
+        message: response.message,
         type: 'error',
       })
     }
