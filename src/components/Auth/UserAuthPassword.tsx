@@ -13,6 +13,7 @@ interface UserAuthPasswordProps {
   onSubmit?: (data: { email: string; password: string }) => void
   resetForm?: boolean
 }
+
 export function UserAuthPassword({
   mode,
   onSubmit,
@@ -24,12 +25,14 @@ export function UserAuthPassword({
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
+
   useEffect(() => {
     if (resetForm) {
       setEmail('')
       setPassword('')
     }
   }, [resetForm])
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
@@ -37,14 +40,14 @@ export function UserAuthPassword({
       const result = await signIn('credentials', {
         email,
         password,
-        redirect: false, // Verhindert automatische Weiterleitung
+        redirect: false,
       })
 
       if (!result || !result.ok) {
         const errorMessage =
           result?.status === 401
-            ? t('wrongPassword') // Spezifische Meldung für 401
-            : result?.error || t('signin_fail') // Standard-Fehlermeldung oder Nachricht aus der HTTP-Antwort
+            ? t('wrongPassword')
+            : result?.error || t('signin_fail')
 
         return toast({
           title: t('something_wrong'),
@@ -53,7 +56,6 @@ export function UserAuthPassword({
         })
       }
 
-      // Erfolg: Weiterleitung
       router.push('/storylab')
       return toast({
         title: t('loginSuccess'),
@@ -61,7 +63,6 @@ export function UserAuthPassword({
         type: 'success',
       })
     } catch (error: any) {
-      // Fallback für unerwartete Fehler
       const errorMessage = error.response?.data?.message || t('unexpectedError')
       return toast({
         title: t('something_wrong'),
@@ -73,10 +74,9 @@ export function UserAuthPassword({
 
   return (
     <form className="" onSubmit={handleSubmit}>
-      <h2 className="mb-4 text-center text-2xl font-bold">{mode}</h2>
       <div>
         <Input
-          label="Email"
+          label={t('email')}
           onChange={e => setEmail(e.target.value)}
           required
           type="email"
@@ -85,18 +85,26 @@ export function UserAuthPassword({
       </div>
       <div>
         <Input
-          label="Password"
+          label={t('password')}
           onChange={e => setPassword(e.target.value)}
           required
           type="password"
           value={password}
         />
       </div>
-      <Button className="w-full" type="submit">
-        {' '}
-        Login
+      <div className="mt-1 text-right">
+        <a
+          className="text-sm text-gray-600 hover:underline"
+          href="/passwordReset"
+        >
+          {t('forgotPassword')}
+        </a>
+      </div>
+      <Button className="mt-4 w-full" type="submit">
+        {t('login')}
       </Button>
     </form>
   )
 }
+
 export default UserAuthPassword

@@ -29,5 +29,10 @@
   "enter_email_for_password_request": " Enter your email address to request a password",
   "password_request": "Request password",
   "wrongPassword": "Wrong password or email address",
-  "unexpectedError": "Unexpected error"
+  "unexpectedError": "Unexpected error",
+  "email": "Email",
+  "password": "Password",
+  "login": "Login",
+  "forgotPassword": "Forgot password?",
+  "textPasswordReset": "Enter your email to reset the password."
 }
