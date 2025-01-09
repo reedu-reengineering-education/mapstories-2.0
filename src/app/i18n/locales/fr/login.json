@@ -34,5 +34,15 @@
   "password": "Mot de passe",
   "login": "Connexion",
   "forgotPassword": "Mot de passe oublié ?",
-  "textPasswordReset": "Saisissez votre adresse électronique pour réinitialiser le mot de passe"
+  "textPasswordReset": "Saisissez votre adresse électronique pour réinitialiser le mot de passe",
+  "successChange": "Changement réussi",
+  "successChangeText": "Votre mot de passe a été modifié avec succès. Vous pouvez maintenant vous connecter.",
+  "submitPasswordReset": "Réinitialiser le mot de passe",
+  "confirmPassword": "Confirmer le mot de passe",
+  "changePassword": "Changer le mot de passe",
+  "invalidMail": "Adresse e-mail invalide",
+  "resetPassword": "Réinitialiser le mot de passe",
+  "resetPasswordMessage": "Nous vous avons envoyé un lien pour réinitialiser votre mot de passe.",
+  "passwordSend": "Mot de passe envoyé. Veuillez vérifier votre boîte de réception.",
+  "mailSend": "E-mail envoyé"
 }

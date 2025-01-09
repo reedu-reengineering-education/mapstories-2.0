@@ -51,8 +51,8 @@ export function UserAuthRequestPassword({
     }
 
     toast({
-      title: 'Mail send',
-      message: 'Check your email for the new password',
+      title: t('mailSend'),
+      message: t('passwordSend'),
       type: 'success',
     })
   }

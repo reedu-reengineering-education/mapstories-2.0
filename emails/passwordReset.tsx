@@ -20,7 +20,10 @@ export default function PasswordReset({ resetLink }: PasswordResetProps) {
           extend: {
             colors: {
               brand: '#38383a',
-              primary: '#1d4ed8', // Beispiel für einen blauen Button
+              gray: {
+                700: '#4b5563',
+                600: '#6b7280',
+              },
             },
           },
         },
@@ -45,20 +48,36 @@ export default function PasswordReset({ resetLink }: PasswordResetProps) {
             Mapstories-Account gestellt. Um dein Passwort zu ändern, klicke
             bitte auf den untenstehenden Button:
           </Text>
-          <Button
-            className="mt-6 rounded-md bg-primary px-6 py-3 text-base font-semibold text-white"
-            href={resetLink}
-          >
-            Passwort zurücksetzen
-          </Button>
+          <div className="flex items-center">
+            <Button
+              className="bg-brand text-md mx-auto rounded-md px-4 py-2 font-medium text-white"
+              href={resetLink}
+            >
+              Passwort zurücksetzen
+            </Button>
+          </div>
+
+          <Text className="mt-4 text-sm text-gray-600">
+            Hinweis: Der obige Link ist nur 1 Stunde lang gültig.
+          </Text>
           <Text className="mt-6 text-sm text-gray-600">
             Wenn du diese Anfrage nicht gestellt hast, kannst du diese E-Mail
-            ignorieren. Dein Passwort bleibt unverändert.
+            ignorieren. Dein Passwort bleibt unverändert. Alternativ kannst du
+            auch auf folgenden Link klicken oder kopieren und in deinen
+            Webbrowser einfügen.
           </Text>
           <Text className="mt-6 text-sm text-gray-600">
-            Solltest du weitere Hilfe benötigen, wende dich bitte an unseren
-            Support.
+            {' '}
+            Alternativ kannst du auch auf folgenden Link klicken oder kopieren
+            und in deinen Webbrowser einfügen.
           </Text>
+          <div
+            className="cursor-pointer break-all rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm text-gray-700"
+            onClick={() => navigator.clipboard.writeText(resetLink)}
+            title="Klicken, um den Link zu kopieren"
+          >
+            {resetLink}
+          </div>
         </Container>
       </Html>
     </Tailwind>

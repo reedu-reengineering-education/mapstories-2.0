@@ -3,10 +3,14 @@ import React, { useState } from 'react'
 import { Input } from '../Elements/Input'
 import { Button } from '../Elements/Button'
 import { toast } from '@/src/lib/toast'
+import { useBoundStore } from '@/src/lib/store/store'
+import { useTranslation } from '@/src/app/i18n/client'
 
 export default function UserResetPassword() {
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'login')
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -18,7 +22,7 @@ export default function UserResetPassword() {
     // Handle password reset logic here
     // Validate email before making the request
     if (!validateEmail(email)) {
-      setError('Please enter a valid email address.')
+      setError(t('invalidEmail'))
       return
     }
 
@@ -34,8 +38,8 @@ export default function UserResetPassword() {
       .then(res => res.json())
       .then(data => {
         toast({
-          title: 'Password reset',
-          message: 'Check your email for a password reset link.',
+          title: t('resetPassword'),
+          message: t('resetPasswordMessage'),
           type: 'success',
         })
       })
@@ -55,7 +59,7 @@ export default function UserResetPassword() {
       />
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       <Button className="mt-4 w-full" onClick={handleSubmit} type="submit">
-        Reset Password
+        {t('submitPasswordReset')}
       </Button>
     </div>
   )

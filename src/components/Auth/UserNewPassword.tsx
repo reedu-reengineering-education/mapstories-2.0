@@ -4,12 +4,16 @@ import { Input } from '../Elements/Input'
 import { Button } from '../Elements/Button'
 import { toast } from '@/src/lib/toast'
 import { useRouter } from 'next/navigation'
+import { useBoundStore } from '@/src/lib/store/store'
 
 export default function UserNewPassword({ token }: { token: string }) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
+  const lng = useBoundStore(state => state.language)
+  //@ts-ignore
+  const { t } = useTranslation(lng, 'login')
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -30,12 +34,11 @@ export default function UserNewPassword({ token }: { token: string }) {
       .then(res => res.json())
       .then(data => {
         toast({
-          title: 'Password reset',
-          message:
-            'Your password has been changed. You can now login with your new password.',
+          title: t('successChange'),
+          message: t('successChangeMessage'),
           type: 'success',
         })
-        router.push('/login')
+        router.push('/passwordLogin')
       })
       .catch(error => {
         toast({
@@ -51,21 +54,21 @@ export default function UserNewPassword({ token }: { token: string }) {
     <div className="w-full">
       <Input
         className="mt-2 w-full"
-        label="New Password"
+        label={t('password')}
         onChange={e => setPassword(e.target.value)}
         type="password"
         value={password}
       />
       <Input
         className="mt-2 w-full"
-        label="Confirm Password"
+        label={t('confirmPassword')}
         onChange={e => setConfirmPassword(e.target.value)}
         type="password"
         value={confirmPassword}
       />
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       <Button className="mt-4 w-full" onClick={handleSubmit} type="submit">
-        Passwort zurücksetzen
+        {t('changePassword')}
       </Button>
     </div>
   )
