@@ -22,7 +22,7 @@ export default function UserResetPassword() {
     // Handle password reset logic here
     // Validate email before making the request
     if (!validateEmail(email)) {
-      setError(t('invalidEmail'))
+      setError(t('invalidMail'))
       return
     }
 
