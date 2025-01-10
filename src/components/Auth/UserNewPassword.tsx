@@ -5,6 +5,7 @@ import { Button } from '../Elements/Button'
 import { toast } from '@/src/lib/toast'
 import { useRouter } from 'next/navigation'
 import { useBoundStore } from '@/src/lib/store/store'
+import { useTranslation } from '@/src/app/i18n/client'
 
 export default function UserNewPassword({ token }: { token: string }) {
   const [password, setPassword] = useState('')
@@ -12,7 +13,6 @@ export default function UserNewPassword({ token }: { token: string }) {
   const [error, setError] = useState('')
   const router = useRouter()
   const lng = useBoundStore(state => state.language)
-  //@ts-ignore
   const { t } = useTranslation(lng, 'login')
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -35,7 +35,7 @@ export default function UserNewPassword({ token }: { token: string }) {
       .then(data => {
         toast({
           title: t('successChange'),
-          message: t('successChangeMessage'),
+          message: t('successChangeText'),
           type: 'success',
         })
         router.push('/passwordLogin')

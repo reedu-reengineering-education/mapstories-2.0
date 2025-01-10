@@ -3,9 +3,13 @@ import PasswordResetMail from '@/emails/passwordReset'
 import { MailOptions } from 'nodemailer/lib/smtp-transport'
 import nodemailer from 'nodemailer'
 
-export const sendPasswordResetMail = async (email: string, token: string) => {
+export const sendPasswordResetMail = async (
+  email: string,
+  token: string,
+  lng: string,
+) => {
   try {
-    const resetLink = `http://localhost:3000/de/passwordResetNew?token=${token}`
+    const resetLink = `${process.env.NEXTAUTH_URL}/${lng}/passwordResetNew?token=${token}`
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: 587,
