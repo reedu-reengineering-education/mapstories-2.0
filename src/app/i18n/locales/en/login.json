@@ -35,6 +35,7 @@
   "login": "Login",
   "forgotPassword": "Forgot password?",
   "textPasswordReset": "Enter your email to reset the password.",
+  "noToken": "Token is invalid.",
   "successChange": "Successfully changed",
   "successChangeText": "Your password has been successfully changed. You can now log in.",
   "submitPasswordReset": "Reset password",

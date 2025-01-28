@@ -2,6 +2,7 @@ import { useTranslation } from '@/src/app/i18n'
 import UserNewPassword from '@/src/components/Auth/UserNewPassword'
 import { Button } from '@/src/components/Elements/Button'
 import { LogoWithClaimAndBackground } from '@/src/components/Layout/MapstoriesLogo'
+import { getPasswordResetTokenByToken } from '@/src/lib/passwordResetToken'
 import { ChevronLeftIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -12,7 +13,17 @@ export default async function PasswordResetPage({
   params: { lng: string }
   searchParams: { [key: string]: string }
 }) {
+  const existingToken = await getPasswordResetTokenByToken(searchParams.token)
+
   const { t } = await useTranslation(lng, 'login')
+
+  if (!existingToken) {
+    return (
+      <div className="container flex h-screen w-screen flex-col items-center justify-center">
+        <p className="text-sm text-slate-600">{t('noToken')}</p>
+      </div>
+    )
+  }
   const token = searchParams.token
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">

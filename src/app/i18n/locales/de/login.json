@@ -36,6 +36,7 @@
   "login": "Anmelden",
   "forgotPassword": "Passwort vergessen?",
   "textPasswordReset": "Gib deine E-Mail-Adresse ein, um das Passwort zurückzusetzen.",
+  "noToken": "Token nicht gefunden.",
   "successChange": "Erfolgreich geändert",
   "successChangeText": "Dein Passwort wurde erfolgreich geändert. Du kannst dich jetzt anmelden.",
   "submitPasswordReset": "Passwort zurücksetzen",
