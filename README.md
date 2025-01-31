@@ -58,11 +58,7 @@ To get a local copy up and running, follow these steps:
    yarn dev
    ```
 
-<!-- CONTRIBUTING -->
-
 ## 🤝 Contributing
-
-Contributions are what make the open source community such an incredible place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
 To contribute:
 
@@ -72,7 +68,6 @@ To contribute:
 - Push to the branch (git push origin feature/AmazingFeature)
 - Open a Pull Request
 
-Don't forget to give the project a ⭐ if you like it! Thank you!
 
 ## ⚙️ GitHub Actions
 
@@ -81,8 +76,7 @@ With GitHub Actions, Docker images are automatically built and pushed to the Git
 - Pull Requests to main
 - Pushes to main
 - Releasing new versions under a v*.*.\* tag
-<!-- CONTACT -->
 
 ## 📧 Contact
 
-[re:edu](reedu.de) - kontakt@reedu.de
+kontakt@reedu.de
