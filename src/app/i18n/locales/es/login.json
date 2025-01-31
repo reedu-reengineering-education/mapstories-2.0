@@ -29,5 +29,20 @@
   "enter_email_for_password_request": "Ingresa tu dirección de correo electrónico para solicitar una contraseña",
   "password_request": "Solicitar contraseña",
   "wrongPassword": "Contraseña o dirección de correo electrónico incorrecta",
-  "unexpectedError": "Error inesperado"
+  "unexpectedError": "Error inesperado",
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "login": "Iniciar sesión",
+  "forgotPassword": "¿Olvidaste tu contraseña?",
+  "textPasswordReset": "Introduzca su correo electrónico para restablecer la contraseña.",
+  "successChange": "Cambio exitoso",
+  "successChangeText": "Tu contraseña se ha cambiado con éxito. Ahora puedes iniciar sesión.",
+  "submitPasswordReset": "Restablecer contraseña",
+  "confirmPassword": "Confirmar contraseña",
+  "changePassword": "Cambiar contraseña",
+  "invalidMail": "Correo electrónico inválido",
+  "resetPassword": "Restablecer contraseña",
+  "resetPasswordMessage": "Te hemos enviado un enlace para restablecer tu contraseña.",
+  "passwordSend": "Contraseña enviada. Por favor revisa tu buzón de correo.",
+  "mailSend": "Correo enviado"
 }

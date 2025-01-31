@@ -30,5 +30,21 @@
   "enter_email_for_password_request": "Gib deine E-Mail-Adresse ein, um ein Passwort anzufragen",
   "password_request": "Passwort anfragen",
   "wrongPassword": "Falsches Passwort oder E-Mail-Adresse",
-  "unexpectedError": "Unerwarteter Fehler"
+  "unexpectedError": "Unerwarteter Fehler",
+  "email": "E-Mail",
+  "password": "Passwort",
+  "login": "Anmelden",
+  "forgotPassword": "Passwort vergessen?",
+  "textPasswordReset": "Gib deine E-Mail-Adresse ein, um das Passwort zurückzusetzen.",
+  "noToken": "Token nicht gefunden.",
+  "successChange": "Erfolgreich geändert",
+  "successChangeText": "Dein Passwort wurde erfolgreich geändert. Du kannst dich jetzt anmelden.",
+  "submitPasswordReset": "Passwort zurücksetzen",
+  "confirmPassword": "Passwort bestätigen",
+  "changePassword": "Passwort ändern",
+  "invalidMail": "Ungültige E-Mail-Adresse",
+  "resetPassword": "Passwort zurücksetzen",
+  "resetPasswordMessage": "Wir haben dir einen Link zum Zurücksetzen deines Passworts geschickt.",
+  "passwordSend": "Passwort gesendet. Bitte überprüfe dein E-Mail-Postfach.",
+  "mailSend": "E-Mail gesendet"
 }

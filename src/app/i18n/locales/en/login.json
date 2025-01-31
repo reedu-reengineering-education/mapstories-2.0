@@ -29,5 +29,21 @@
   "enter_email_for_password_request": " Enter your email address to request a password",
   "password_request": "Request password",
   "wrongPassword": "Wrong password or email address",
-  "unexpectedError": "Unexpected error"
+  "unexpectedError": "Unexpected error",
+  "email": "Email",
+  "password": "Password",
+  "login": "Login",
+  "forgotPassword": "Forgot password?",
+  "textPasswordReset": "Enter your email to reset the password.",
+  "noToken": "Token is invalid.",
+  "successChange": "Successfully changed",
+  "successChangeText": "Your password has been successfully changed. You can now log in.",
+  "submitPasswordReset": "Reset password",
+  "confirmPassword": "Confirm password",
+  "changePassword": "Change password",
+  "invalidMail": "Invalid e-mail address",
+  "resetPassword": "Reset password",
+  "resetPasswordMessage": "We have sent you a link to reset your password.",
+  "passwordSend": "Password sent. Please check your email inbox.",
+  "mailSend": "Email sent"
 }
