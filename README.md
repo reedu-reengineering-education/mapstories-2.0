@@ -68,7 +68,6 @@ To contribute:
 - Push to the branch (git push origin feature/AmazingFeature)
 - Open a Pull Request
 
-
 ## ⚙️ GitHub Actions
 
 With GitHub Actions, Docker images are automatically built and pushed to the GitHub package registry on:
