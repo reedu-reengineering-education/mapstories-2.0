@@ -14,10 +14,10 @@ import { useRouter } from 'next/navigation'
 import useStory from '@/src/lib/api/story/useStory'
 
 import * as z from 'zod'
-import { duplicateMapstorySchema } from '@/src/lib/validations/mapstory' 
+import { copyMapstorySchema } from '@/src/lib/validations/mapstory' 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-type FormData = z.infer<typeof duplicateMapstorySchema>
+type FormData = z.infer<typeof copyMapstorySchema>
 type Props = {
   storyId: string,
   storyName: string | null 
@@ -32,7 +32,7 @@ export default function CopyModal({ storyId, storyName }: Props) {
     register,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: zodResolver(duplicateMapstorySchema),
+    resolver: zodResolver(copyMapstorySchema),
     defaultValues: { name }
   })
   const { story, copyStory } = useStory(storyId)
@@ -40,12 +40,12 @@ export default function CopyModal({ storyId, storyName }: Props) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  async function duplicateStory(data: FormData) {
+  async function onCopyStory(data: FormData) {
     setLoading(true)
 
     try {
       await copyStory({ ...story, name: data.name})
-      
+
       toast({
         title: t('settingsModal:copied'),
         message: t('settingsModal:copiedMessage'),
@@ -79,7 +79,7 @@ export default function CopyModal({ storyId, storyName }: Props) {
         open={modalOpen}
         title={t('settingsModal:copy')}
       >
-        <form onSubmit={handleSubmit(duplicateStory)}>
+        <form onSubmit={handleSubmit(onCopyStory)}>
           <Modal.Content>
             <InputLabel>Name</InputLabel>
             <Input

@@ -17,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       // find the story first and then duplicate it
       const session = await getServerSession(req, res, authOptions)
       const user = session?.user
-
+      
       const story = await db.story.findFirst({
         where: {
           OR: [{ id: storyId }, { slug: storyId }],
@@ -53,6 +53,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
 
       if (story?.steps?.length && story?.steps?.length > 0) {
+        let index = 0
         for (const step of story.steps) {
           const newStep = await db.storyStep.create({
             data: {
@@ -69,7 +70,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               },
             },
           })
+          // Assign firstStepId
+          // if (index === 0) {
+          //   await db.story.update({
+          //     where: { id: storyCopy.id },
+          //     data: { firstStepId: newStep.id },
+          //   })
 
+          //   index++
+          // }
           // Get all slide contents for the given story step id
           const slideContents = await db.slideContent.findMany({
             where: {
@@ -77,7 +86,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             },
           })
 
-          // Duplicate slide contents and assign them to the new step
+          // Copy slide contents and assign them to the new step
           slideContents.forEach(async (item) => {
             let newMedia = null
             const { type, content, position, mediaId, suggestionId } = item
