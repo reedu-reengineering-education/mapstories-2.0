@@ -11,6 +11,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import useStory from '@/src/lib/api/story/useStory'
 
 import * as z from 'zod'
 import { duplicateMapstorySchema } from '@/src/lib/validations/mapstory' 
@@ -27,14 +28,14 @@ export default function CopyModal({ storyId, storyName }: Props) {
   const { t } = useTranslation(lng, ['settingsModal'])
   const name = `${t('settingsModal:duplicateSotryPrefix')} ${storyName}`
   const {
-      handleSubmit,
-      register,
-      formState: { errors }
-    } = useForm<FormData>({
-      resolver: zodResolver(duplicateMapstorySchema),
-      defaultValues: { name }
-    })
-
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm<FormData>({
+    resolver: zodResolver(duplicateMapstorySchema),
+    defaultValues: { name }
+  })
+  const { story, copyStory } = useStory(storyId)
   const [modalOpen, setModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
@@ -43,13 +44,7 @@ export default function CopyModal({ storyId, storyName }: Props) {
     setLoading(true)
 
     try {
-      await fetch(`/api/mapstory/${storyId}/duplicate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: data.name }),
-      })
+      await copyStory({ ...story, name: data.name})
       
       toast({
         title: t('settingsModal:copied'),

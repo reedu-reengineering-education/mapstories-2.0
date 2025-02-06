@@ -6,9 +6,11 @@ import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { generateSlug } from '@/src/lib/slug'
 import { authOptions } from '@/src/lib/auth'
 import { getServerSession } from 'next-auth/next'
+import { createMapstorySchema } from '@/src/lib/validations/mapstory'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const storyId = req.query.storyId as string
+  const payload = createMapstorySchema.parse(req.body)
 
   if (req.method === 'POST') {
     try {
@@ -33,33 +35,31 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       })
-
+      
+      // if session user is not owner of the story
+      if (user?.id !== story?.ownerId) {
+        res.status(401).end()
+      }
+      // create copy of the mapstory
+      const visibility = req.body.visibility
+      const ownerId = req.body.ownerId as string
       const storyCopy = await db.story.create({
         data: {
-          ownerId: story?.ownerId,
-          name: story?.name + '(copy)',
-          visibility: 'PRIVATE',
-          slug: await generateSlug(story?.name + '(copy)'),
+          ownerId,
+          visibility,
+          slug: await generateSlug(payload.name),
+          ...payload
         },
       })
 
-      const firstStep = await db.storyStep.create({
-        data: {
-          viewport: {},
-          position: 0,
-          feature: story?.steps[0]?.feature ? story.steps[0].feature : {},
-          storyId: storyCopy.id,
-        },
-      })
-
-      story?.steps.map(async (step, index) => {
-        if (index !== 0) {
+      if (story?.steps?.length && story?.steps?.length > 0) {
+        for (const step of story.steps) {
           const newStep = await db.storyStep.create({
             data: {
               storyId: storyCopy.id,
               position: step.position,
-              viewport: {},
-              feature: step.feature! ? step.feature : {},
+              viewport: step.viewport || {},
+              tags: step.tags,
             },
             include: {
               Story: {
@@ -69,33 +69,38 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               },
             },
           })
-          step.content.map(async content => {
+
+          // Get all slide contents for the given story step id
+          const slideContents = await db.slideContent.findMany({
+            where: {
+              storyStepId: step.id,
+            },
+          })
+
+          // Duplicate slide contents and assign them to the new step
+          slideContents.forEach(async ({ type, content, position, mediaId, suggestionId }) => {
             let newMedia = null
-            if (content.type === 'IMAGE') {
+            if (type === 'IMAGE') {
               newMedia = await db.media.create({
                 data: {
-                  url: content.content,
-                  name: content.content,
+                  url: content,
+                  name: content,
                 },
               })
             }
-            const newContent = await db.slideContent.create({
+            await db.slideContent.create({
               data: {
-                type: content.type,
-                content: content.content,
-                position: content.position,
                 storyStepId: newStep.id,
-                mediaId: content.mediaId ? newMedia?.id : null,
-              },
+                type,
+                content,
+                position,
+                suggestionId,
+                mediaId: mediaId ? newMedia?.id : null
+              }
             })
           })
         }
-      })
-
-      await db.story.update({
-        where: { id: storyCopy.id },
-        data: { firstStepId: firstStep.id },
-      })
+      }
 
       res.status(200).json(storyCopy)
     } catch (error) {
