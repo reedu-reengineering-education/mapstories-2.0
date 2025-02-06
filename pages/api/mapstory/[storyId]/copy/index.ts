@@ -85,25 +85,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           })
 
           // Copy slide contents and assign them to the new step
-          slideContents.forEach(async (item) => {
+          slideContents.forEach(async ({ type, content, position, mediaId, suggestionId }) => {
             let newMedia = null
-            const { type, content, position, mediaId, suggestionId } = item
+
             if (mediaId) {
-              const { name, size, url, altText, caption, source} = await db.media.findFirst({
+              const { name, size, url, altText, caption, source } = await db.media.findFirst({
                 where: {
                   id: mediaId,
                 }
               })
 
               newMedia = await db.media.create({
-                data: {
-                  name,
-                  size,
-                  url, 
-                  altText,
-                  caption,
-                  source
-                },
+                data: { name, size, url, altText, caption, source },
               })
             }
             await db.slideContent.create({
