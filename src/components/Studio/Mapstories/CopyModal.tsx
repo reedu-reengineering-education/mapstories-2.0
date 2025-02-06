@@ -10,6 +10,7 @@ import { useState } from 'react'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 
 import * as z from 'zod'
 import { duplicateMapstorySchema } from '@/src/lib/validations/mapstory' 
@@ -36,6 +37,7 @@ export default function CopyModal({ storyId, storyName }: Props) {
 
   const [modalOpen, setModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   async function duplicateStory(data: FormData) {
     setLoading(true)
@@ -48,12 +50,13 @@ export default function CopyModal({ storyId, storyName }: Props) {
         },
         body: JSON.stringify({ name: data.name }),
       })
-
+      
       toast({
         title: t('settingsModal:copied'),
         message: t('settingsModal:copiedMessage'),
         type: 'success',
       })
+      router.refresh()
     } catch (e) {
       toast({
         title: t('settingsModal:somethingWrong'),
