@@ -14,6 +14,8 @@ import ShareModal from './ShareModal'
 import EmbedModal from './EmbedModal'
 import { EyeIcon, PencilIcon } from '@heroicons/react/24/outline'
 import { StoryBadge } from './StoryBadge'
+import CopyModal from './CopyModal'
+
 type Props = {
   mapstory: Story
 }
@@ -45,7 +47,7 @@ export function MapstoryCard({ mapstory }: Props) {
               </Button>
             </Link>
             {/* <SettingsModal storyId={mapstory.id} /> */}
-            {/* <CopyModal storyId={mapstory.id} /> */}
+            <CopyModal storyId={mapstory.id} storyName={mapstory.name} />
             <ShareModal storyId={mapstory.id} />
             <EmbedModal storyId={mapstory.slug} />
             {(mapstory as any).stepSuggestions.length > 0 && (

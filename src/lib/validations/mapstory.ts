@@ -17,3 +17,7 @@ export const updateMapstorySchema = z.object({
   lines: z.boolean(),
   community: z.boolean(),
 })
+
+export const duplicateMapstorySchema = z.object({
+  name: z.string().min(3).max(100),
+})
