@@ -78,13 +78,24 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           })
 
           // Duplicate slide contents and assign them to the new step
-          slideContents.forEach(async ({ type, content, position, mediaId, suggestionId }) => {
+          slideContents.forEach(async (item) => {
             let newMedia = null
-            if (type === 'IMAGE') {
+            const { type, content, position, mediaId, suggestionId } = item
+            if (mediaId) {
+              const { name, size, url, altText, caption, source} = await db.media.findFirst({
+                where: {
+                  id: mediaId,
+                }
+              })
+
               newMedia = await db.media.create({
                 data: {
-                  url: content,
-                  name: content,
+                  name,
+                  size,
+                  url, 
+                  altText,
+                  caption,
+                  source
                 },
               })
             }
@@ -103,6 +114,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       res.status(200).json(storyCopy)
+      res.end()
     } catch (error) {
       console.log(error)
       res.status(500).end()
