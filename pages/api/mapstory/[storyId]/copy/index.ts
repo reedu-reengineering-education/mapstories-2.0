@@ -41,12 +41,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         res.status(401).end()
       }
       // create copy of the mapstory
-      const visibility = req.body.visibility
-      const ownerId = req.body.ownerId as string
       const storyCopy = await db.story.create({
         data: {
-          ownerId,
-          visibility,
+          ownerId: req.body.ownerId,
+          visibility: req.body.visibility,
           slug: await generateSlug(payload.name),
           ...payload
         },
