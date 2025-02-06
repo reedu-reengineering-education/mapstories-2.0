@@ -56,6 +56,8 @@ export default function CopyModal({ storyId, storyName }: Props) {
         message: t('settingsModal:copiedMessage'),
         type: 'success',
       })
+
+      setModalOpen(false)
       router.refresh()
     } catch (e) {
       toast({
@@ -78,19 +80,19 @@ export default function CopyModal({ storyId, storyName }: Props) {
         {t('settingsModal:copy')}
       </Button>
       <Modal
-        onClose={() => setModalOpen(false)}
+        onOpenChange={setModalOpen}
         open={modalOpen}
         title={t('settingsModal:copy')}
       >
         <form onSubmit={handleSubmit(duplicateStory)}>
           <Modal.Content>
-            <p className="pb-4 pt-2">{t('settingsModal:youWantCopy')}</p>
             <InputLabel>Name</InputLabel>
             <Input
               errors={errors.name}
               size={100}
               {...register('name')}
             />
+            <p className="pb-4 pt-2">{t('settingsModal:youWantCopy')}</p>
           </Modal.Content>
           <Modal.Footer>
             <div className="flex flex-row justify-between">
