@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { Media } from '@prisma/client'
-import { Story } from '@prisma/client'
 import { StoryStep } from '@prisma/client'
 import { SlideContent } from '@prisma/client'
 import { StoryStepSuggestion } from '@prisma/client'
@@ -16,7 +15,6 @@ import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 
 type ExtendedSlideContent = SlideContent & { media: Media | null}
 type ExtendedStoryStep = StoryStep & { content: ExtendedSlideContent[] | null}
-type ExtendedStory = Story & { steps: ExtendedStoryStep[] | null, stepSuggestions: StoryStepSuggestion[] | null }
 
 async function createStepContent(step: ExtendedStoryStep, newStepId: string) {
   step?.content?.forEach(async (slideContent: ExtendedSlideContent )=> {
@@ -81,31 +79,6 @@ async function createStepSuggestion(suggestion: StoryStepSuggestion, storyId: st
   })
 }
 
-async function getFirstStepId(story: ExtendedStory) {
-  if (story?.firstStepId) {
-    const firstStep = await db.storyStep.findFirst({
-      where: {
-        id: story.firstStepId,
-      },
-      include: {
-        content: {
-          include: {
-            media: true, // Include media for each slide content
-          },
-        },
-      },
-    })
-
-    if (!firstStep) return null
-
-    const newStepId = await createStep(firstStep, firstStep?.storyId ?? null)
-
-    return newStepId
-  } else {
-    return null
-  }
-}
-
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const storyId = req.query.storyId as string
@@ -143,27 +116,51 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         res.status(401).end()
         return 
       }
-      // create copy of the story
-      const firstStepId = await getFirstStepId(story)
-      const storyCopy = await db.story.create({
-        data: {
-          slug: await generateSlug(payload.name),
-          ownerId: story?.ownerId,
-          firstStepId,
-          ...payload
-        },
+      await db.$transaction(async (transaction) => {
+        let newFirstStepId;
+        if (story.firstStepId) {
+          const firstStep = await transaction.storyStep.findFirst({
+            where: {
+              id: story.firstStepId,
+            },
+            include: {
+              content: {
+                include: {
+                  media: true, // Include media for each slide content
+                },
+              },
+            },
+          });
+
+          if (!firstStep) {
+            res.status(404).end()
+            return
+          }
+
+          let newFirstStepId = await createStep(firstStep, firstStep?.storyId ?? null)
+        }
+        // create copy of the story
+        const storyCopy = await transaction.story.create({
+          data: {
+            slug: await generateSlug(payload.name),
+            ownerId: story?.ownerId,
+            firstStepId: newFirstStepId,
+            ...payload
+          },
+        })
+        // copy steps
+        story?.steps.forEach(async step => {
+          await createStep(step, storyCopy.id)
+        })
+
+        // copy suggestions
+        story?.stepSuggestions.forEach(async suggestion => {
+          await createStepSuggestion(suggestion, storyCopy.id)
+        })
+        // return copied story
+        res.status(200).json(storyCopy) 
+        res.end()
       })
-      // copy steps
-      story?.steps.forEach(async step => {
-        await createStep(step, storyCopy.id)
-      })
-      // copy suggestions
-      story?.stepSuggestions.forEach(async suggestion => {
-        await createStepSuggestion(suggestion, storyCopy.id)
-      })
-      // return copied story
-      res.status(200).json(storyCopy) 
-      res.end()
     } catch (error) {
       console.log(error)
       res.status(500).end()
