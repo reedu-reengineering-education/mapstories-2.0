@@ -137,7 +137,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             return
           }
 
-          let newFirstStepId = await createStep(firstStep, firstStep?.storyId ?? null)
+          newFirstStepId = await createStep(firstStep, firstStep?.storyId ?? null)
         }
         // create copy of the story
         const storyCopy = await transaction.story.create({
