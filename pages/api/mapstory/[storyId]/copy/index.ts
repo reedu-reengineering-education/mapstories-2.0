@@ -32,6 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               },
             },
           },
+          stepSuggestions: true, // Include step suggestions for the story
         },
       })
 
@@ -39,7 +40,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       if (user?.id !== story?.ownerId) {
         res.status(401).end()
       }
-
+      
       // create copy of the mapstory
       const storyCopy = await db.story.create({
         data: {
@@ -49,9 +50,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
       
-      // copy steps
+      // copy steps, if any
       const steps = story?.steps || []
-
       if (steps?.length > 0) {
         for (const step of steps) {
           const newStep = await db.storyStep.create({
@@ -97,6 +97,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           })
         }
       }
+      // copy suggestions, if any
+      story?.stepSuggestions.forEach(async suggestion => {
+        await db.storyStepSuggestion.create({
+          data: {
+            storyId: storyCopy.id,
+            position: suggestion.position,
+            feature: suggestion.feature || undefined,
+            viewport: suggestion.viewport || {},
+            tags: suggestion.tags,
+            timestamp: suggestion.timestamp,
+            status: suggestion.status
+          }
+        })
+      })
       // return copied story
       res.status(200).json(storyCopy) 
       res.end()
