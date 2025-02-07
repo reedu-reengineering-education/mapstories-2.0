@@ -13,7 +13,7 @@ export const updateMapstorySchema = z.object({
   author: z.string(),
   mode: z.enum([StoryMode.NORMAL, StoryMode.TIMELINE]),
   visibility: z.enum(['PRIVATE', 'PUBLIC']),
-  themeId: z.string().optional(),
+  themeId: z.string().nullable().optional(),
   lines: z.boolean(),
   community: z.boolean(),
 })

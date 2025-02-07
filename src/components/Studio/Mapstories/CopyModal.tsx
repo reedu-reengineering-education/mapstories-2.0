@@ -44,7 +44,12 @@ export default function CopyModal({ storyId, storyName }: Props) {
     setLoading(true)
 
     try {
-      await copyStory({ ...story, name: data.name})
+      await copyStory({ 
+        ...story, 
+        name: data.name,
+        author: story?.author || '',
+        description: story?.description || ''
+      })
 
       toast({
         title: t('settingsModal:copied'),

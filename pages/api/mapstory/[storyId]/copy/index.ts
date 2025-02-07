@@ -6,114 +6,99 @@ import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { generateSlug } from '@/src/lib/slug'
 import { authOptions } from '@/src/lib/auth'
 import { getServerSession } from 'next-auth/next'
-import { createMapstorySchema } from '@/src/lib/validations/mapstory'
+import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const storyId = req.query.storyId as string
-  const payload = createMapstorySchema.parse(req.body)
-
   if (req.method === 'POST') {
+    const storyId = req.query.storyId as string
+    const payload = updateMapstorySchema.parse(req.body)
+
     try {
-      // find the story first and then duplicate it
       const session = await getServerSession(req, res, authOptions)
       const user = session?.user
-      
+      // find the story
       const story = await db.story.findFirst({
         where: {
           OR: [{ id: storyId }, { slug: storyId }],
         },
         include: {
-          firstStep: {
-            include: {
-              content: true,
-            },
-          },
+          theme: true, // Include the theme of the story
           steps: {
             include: {
-              content: true,
+              content: {
+                include: {
+                  media: true, // Include media for each slide content
+                },
+              },
             },
           },
         },
       })
-      
+
       // if session user is not owner of the story
       if (user?.id !== story?.ownerId) {
         res.status(401).end()
       }
+
       // create copy of the mapstory
       const storyCopy = await db.story.create({
         data: {
-          ownerId: req.body.ownerId,
-          visibility: req.body.visibility,
           slug: await generateSlug(payload.name),
+          ownerId: story?.ownerId,
           ...payload
         },
       })
+      
+      // copy steps
+      const steps = story?.steps || []
 
-      if (story?.steps?.length && story?.steps?.length > 0) {
-        let index = 0
-        for (const step of story.steps) {
+      if (steps?.length > 0) {
+        for (const step of steps) {
           const newStep = await db.storyStep.create({
             data: {
               storyId: storyCopy.id,
               position: step.position,
+              feature: step.feature || undefined,
               viewport: step.viewport || {},
               tags: step.tags,
-            },
-            include: {
-              Story: {
-                select: {
-                  name: true,
-                },
-              },
-            },
+              timestamp: step.timestamp,
+            }
           })
-          // Assign firstStepId
-          // if (index === 0) {
-          //   await db.story.update({
-          //     where: { id: storyCopy.id },
-          //     data: { firstStepId: newStep.id },
-          //   })
-
-          //   index++
-          // }
-          // Get all slide contents for the given story step id
-          const slideContents = await db.slideContent.findMany({
-            where: {
-              storyStepId: step.id,
-            },
-          })
-
-          // Copy slide contents and assign them to the new step
-          slideContents.forEach(async ({ type, content, position, mediaId, suggestionId }) => {
-            let newMedia = null
-
-            if (mediaId) {
-              const { name, size, url, altText, caption, source } = await db.media.findFirst({
-                where: {
-                  id: mediaId,
-                }
-              })
+          // If there is content
+          step.content.forEach(async slideContent => {
+            let newMedia 
+            if (slideContent.mediaId) {
+              const media = slideContent.media
 
               newMedia = await db.media.create({
-                data: { name, size, url, altText, caption, source },
+                data: { 
+                  name: media?.name || "", 
+                  size: media?.size, 
+                  url: media?.url, 
+                  altText: media?.altText, 
+                  caption: media?.caption, 
+                  source: media?.source 
+                }
               })
             }
+
             await db.slideContent.create({
               data: {
                 storyStepId: newStep.id,
-                type,
-                content,
-                position,
-                suggestionId,
-                mediaId: mediaId ? newMedia?.id : null
+                content: slideContent.content,
+                type: slideContent.type,
+                position: slideContent.position,
+                options: slideContent.options || undefined,
+                suggestionId: slideContent.suggestionId,
+                ogData: slideContent.ogData || undefined,
+                mediaId: newMedia ? newMedia.id : null
               }
             })
           })
         }
       }
-
-      res.status(200).json(storyCopy)
+      // return copied story
+      res.status(200).json(storyCopy) 
       res.end()
     } catch (error) {
       console.log(error)
