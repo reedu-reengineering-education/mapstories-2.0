@@ -35,21 +35,39 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           stepSuggestions: true, // Include step suggestions for the story
         },
       })
-
       // if session user is not owner of the story
       if (user?.id !== story?.ownerId) {
         res.status(401).end()
       }
-      
+      // create copy of the first step
+      let newFirstStep
+      if (story?.firstStepId) {
+        const firstStep = await db.storyStep.findFirst({
+          where: {
+            id: story?.firstStepId,
+          },
+        })
+
+        newFirstStep = await db.storyStep.create({
+          data: {
+            storyId: firstStep?.storyId,
+            position: firstStep?.position || 0,
+            feature: firstStep?.feature || undefined,
+            viewport: firstStep?.viewport || {},
+            tags: firstStep?.tags,
+            timestamp: firstStep?.timestamp,
+          }
+        })
+      }
       // create copy of the mapstory
       const storyCopy = await db.story.create({
         data: {
           slug: await generateSlug(payload.name),
           ownerId: story?.ownerId,
+          firstStepId: newFirstStep?.id,
           ...payload
         },
       })
-      
       // copy steps, if any
       const steps = story?.steps || []
       if (steps?.length > 0) {
