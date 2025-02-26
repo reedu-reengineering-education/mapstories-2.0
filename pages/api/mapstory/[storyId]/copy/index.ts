@@ -21,7 +21,8 @@ async function createStepContent(step: ExtendedStoryStep, newStepId: string) {
   step?.content?.forEach(async (slideContent: ExtendedSlideContent )=> {
     let newMedia 
     if (slideContent.mediaId) {
-      const mediaData = slideContent.media
+      // remove unnecessary fields before creation of a new media
+      const { id, ...mediaData } = slideContent.media
       newMedia = await db.media.create({
         data: { 
           ...mediaData,
@@ -29,8 +30,8 @@ async function createStepContent(step: ExtendedStoryStep, newStepId: string) {
         }
       })
     }
-    
-    const content = slideContent as SlideContent
+    // remove unnecessary fields before creation of a new slideContent
+    const { id, media, ...content} = slideContent
     await db.slideContent.create({
       data: {
         ...content,
@@ -44,7 +45,8 @@ async function createStepContent(step: ExtendedStoryStep, newStepId: string) {
 }
 
 async function createStep(step: ExtendedStoryStep, storyId: string | null) {
-  const stepData = step as StoryStep
+  // remove unnecessary fields before creation of a new step
+  const { id, content, ...stepData } = step
   const newFirstStep = await db.storyStep.create({
     data: {
       ...stepData,
@@ -61,12 +63,14 @@ async function createStep(step: ExtendedStoryStep, storyId: string | null) {
 }
 
 async function createStepSuggestion(suggestion: StoryStepSuggestion, storyId: string) {
+  // remove unnecessary fields before creation of a new suggestion
+  const { id, ...suggestionData } = suggestion
   await db.storyStepSuggestion.create({
     data: {
-      ...suggestion,
+      ...suggestionData,
       storyId,
-      feature: suggestion.feature ?? undefined,
-      viewport: suggestion.viewport ?? {}
+      feature: suggestionData.feature ?? undefined,
+      viewport: suggestionData.viewport ?? {}
     }
   })
 }
@@ -135,17 +139,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         // create copy of the story
         const storyCopy = await transaction.story.create({
           data: {
+            ...payload,
             slug: await generateSlug(payload.name),
             ownerId: story?.ownerId,
-            firstStepId: newFirstStepId,
-            ...payload
+            firstStepId: newFirstStepId
           },
         })
         // copy steps
         story?.steps.forEach(async step => {
           await createStep(step, storyCopy.id)
         })
-
         // copy suggestions
         story?.stepSuggestions.forEach(async suggestion => {
           await createStepSuggestion(suggestion, storyCopy.id)
