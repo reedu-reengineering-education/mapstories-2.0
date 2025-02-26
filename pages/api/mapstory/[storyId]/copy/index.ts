@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { z } from 'zod'
 
 import { Media } from '@prisma/client'
 import { StoryStep } from '@prisma/client'
@@ -13,50 +14,44 @@ import { authOptions } from '@/src/lib/auth'
 import { getServerSession } from 'next-auth/next'
 import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 
-type ExtendedSlideContent = SlideContent & { media: Media | null}
-type ExtendedStoryStep = StoryStep & { content: ExtendedSlideContent[] | null}
+type ExtendedSlideContent = SlideContent & { media: Media | null }
+type ExtendedStoryStep = StoryStep & { content: ExtendedSlideContent[] | null }
 
 async function createStepContent(step: ExtendedStoryStep, newStepId: string) {
   step?.content?.forEach(async (slideContent: ExtendedSlideContent )=> {
     let newMedia 
     if (slideContent.mediaId) {
-      const media = slideContent?.media
+      const mediaData = slideContent.media
       newMedia = await db.media.create({
         data: { 
-          name: media?.name?? "", 
-          size: media?.size, 
-          url: media?.url, 
-          altText: media?.altText, 
-          caption: media?.caption, 
-          source: media?.source 
+          ...mediaData,
+          name: mediaData?.name ?? ''
         }
       })
     }
-
+    
+    const content = slideContent as SlideContent
     await db.slideContent.create({
       data: {
+        ...content,
         storyStepId: newStepId,
-        content: slideContent.content,
-        type: slideContent.type,
-        position: slideContent.position,
-        options: slideContent.options ?? undefined,
-        suggestionId: slideContent.suggestionId,
-        ogData: slideContent.ogData ?? undefined,
-        mediaId: newMedia?.id ?? null
+        mediaId: newMedia?.id ?? undefined,
+        options: content.options ?? undefined,
+        ogData: content.ogData ?? undefined
       }
     })
   })
 }
 
 async function createStep(step: ExtendedStoryStep, storyId: string | null) {
+  const stepData = step as StoryStep
   const newFirstStep = await db.storyStep.create({
     data: {
+      ...stepData,
       storyId,
-      position: step?.position ?? 0,
-      feature: step?.feature ?? undefined,
-      viewport: step?.viewport ?? {},
-      tags: step?.tags,
-      timestamp: step?.timestamp,
+      position: stepData?.position ?? 0,
+      feature: stepData?.feature ?? undefined,
+      viewport: stepData?.viewport ?? {}
     }
   })
 
@@ -68,13 +63,10 @@ async function createStep(step: ExtendedStoryStep, storyId: string | null) {
 async function createStepSuggestion(suggestion: StoryStepSuggestion, storyId: string) {
   await db.storyStepSuggestion.create({
     data: {
-      storyId: storyId,
-      position: suggestion.position,
+      ...suggestion,
+      storyId,
       feature: suggestion.feature ?? undefined,
-      viewport: suggestion.viewport ?? {},
-      tags: suggestion.tags,
-      timestamp: suggestion.timestamp,
-      status: suggestion.status
+      viewport: suggestion.viewport ?? {}
     }
   })
 }
@@ -116,6 +108,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         res.status(401).end()
         return 
       }
+
       await db.$transaction(async (transaction) => {
         let newFirstStepId;
         if (story.firstStepId) {
@@ -162,8 +155,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         res.end()
       })
     } catch (error) {
-      console.log(error)
-      res.status(500).end()
+      if (error instanceof z.ZodError) {
+        res.status(422).json(error.issues)
+      }
+
+      res.status(422).end()
     }
   }
 }
