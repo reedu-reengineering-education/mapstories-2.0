@@ -13,6 +13,7 @@ import { deleteStory } from './deleteStory'
 import { deleteStoryStep } from './deleteStoryStep'
 import { reorderStorySteps } from './reorderSteps'
 import { updateStory } from './updateStory'
+import { copyStory } from './copyStory'
 import { createStepSuggestion } from './createStepSuggestion'
 import { deleteStepSuggestion } from './deleteStepSuggestion'
 
@@ -38,6 +39,11 @@ const useStory = (storyId: string) => {
   const APIUpdateStory = async (story: Partial<Story>) => {
     const updateStoryRequest = updateStory(storyId, story)
     return await mutation(updateStoryRequest)
+  }
+
+  const APICopyStory = async (story: Partial<Story>) => {
+    const copyStoryRequest = copyStory(storyId, story)
+    return await mutation(copyStoryRequest)
   }
 
   const APIDeleteStory = async () => {
@@ -122,6 +128,7 @@ const useStory = (storyId: string) => {
     mutate,
     createStory: APICreateStory,
     updateStory: APIUpdateStory,
+    copyStory: APICopyStory,
     deleteStory: APIDeleteStory,
     reorderStorySteps: APIReorderStorySteps,
     createStoryStep: APICreateStoryStep,
