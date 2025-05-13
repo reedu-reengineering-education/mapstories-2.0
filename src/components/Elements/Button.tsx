@@ -4,20 +4,21 @@ import { cva, cx } from 'class-variance-authority'
 
 import { Spinner } from '@/src/components/Elements/Spinner'
 
-const buttonStyle = cva(
+export const buttonStyle = cva(
   'flex items-center rounded-md font-medium focus:outline-none border disabled:cursor-not-allowed disabled:opacity-70',
   {
     variants: {
       variant: {
         primary:
-          'border-transparent text-white bg-black hover:bg-hover justify-center hover:text-black hover:border-black',
+          'border-transparent text-white bg-button-color hover:bg-hover justify-center hover:text-black hover:border-black',
         inverse:
-          'border-zinc-300 text-black bg-white hover:bg-hover justify-center ',
+          'border-zinc-300 text-button-color bg-white hover:bg-hover justify-center ',
         danger:
           'border-transparent text-white bg-red-500 hover:bg-red-400 justify-center',
         noStyle: 'border-0 justify-left',
       },
       size: {
+        verysm: 'p-0 text-sm',
         sm: 'py-1 px-3 text-sm',
         md: 'py-2 px-4 text-md',
         lg: 'py-3 px-5 text-lg',

@@ -16,10 +16,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
       res.status(200).json(mediaTable)
-      return res.end
+      res.end
     }
   } catch (error) {
-    return res.status(500).end()
+    res.status(500).end()
   }
 }
 

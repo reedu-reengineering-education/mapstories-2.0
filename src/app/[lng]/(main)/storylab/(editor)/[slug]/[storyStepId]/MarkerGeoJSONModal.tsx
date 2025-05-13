@@ -16,7 +16,7 @@ export default function MarkerGeojsonModal({ trigger, storyStepId }: Props) {
 
   return (
     <>
-      <Modal title={''} trigger={trigger}>
+      <Modal open={false} title={''} trigger={trigger}>
         <Modal.Content>
           <div className="relative">
             <CSSTransition
@@ -47,7 +47,7 @@ export default function MarkerGeojsonModal({ trigger, storyStepId }: Props) {
           </div>
         </Modal.Content>
         {/* <Modal.Footer>
-      
+
         </Modal.Footer> */}
       </Modal>
     </>

@@ -3,7 +3,6 @@ import { Layer, Source } from 'react-map-gl'
 
 export default function StorySourceLayer({
   geojsons,
-  selectedFeature,
   storyID,
   selectedStepIndex,
 }: {
@@ -14,13 +13,13 @@ export default function StorySourceLayer({
 }) {
   const [lineData, setLineData] = useState<GeoJSON.Feature[] | undefined>()
 
-  const [lineDataDone, setLineDataDone] = useState<
+  const [visitedLine, setVisitedLine] = useState<GeoJSON.Feature | undefined>()
+
+  const [upcomingLine, setUpcomingLine] = useState<
     GeoJSON.Feature | undefined
   >()
 
-  const [lineDataTodo, setLineDataTodo] = useState<
-    GeoJSON.Feature | undefined
-  >()
+  const [activeLine, setActiveLine] = useState<GeoJSON.Feature | undefined>()
 
   // generate Line string
   useEffect(() => {
@@ -38,14 +37,39 @@ export default function StorySourceLayer({
 
   useEffect(() => {
     if (storyID != '') {
-      let newLineData: GeoJSON.Feature | undefined = undefined
-      let newLineDataTodo: GeoJSON.Feature | undefined = undefined
+      let newActiveLine: GeoJSON.Feature | undefined = undefined
+      let newUpcomingLine: GeoJSON.Feature | undefined = undefined
+      let newVisitedLine: GeoJSON.Feature | undefined = undefined
 
       const storyGeoJson = geojsons?.filter(
         geo => geo.properties?.id == storyID,
       )
+
       if (storyGeoJson && storyGeoJson[0]) {
-        newLineData = {
+        // Linie zwischen aktuellem und vorherigem Marker
+        const previousIndex = Math.max(selectedStepIndex - 1, 0)
+        newActiveLine = {
+          ...storyGeoJson[0],
+          geometry: {
+            ...storyGeoJson[0].geometry,
+            coordinates: storyGeoJson[0].geometry.coordinates.slice(
+              previousIndex,
+              selectedStepIndex + 1, // Inklusive des aktuellen Markers
+            ),
+          },
+        }
+        setActiveLine(newActiveLine)
+
+        newUpcomingLine = {
+          ...storyGeoJson[0],
+          geometry: {
+            ...storyGeoJson[0].geometry,
+            coordinates:
+              storyGeoJson[0].geometry.coordinates.slice(selectedStepIndex),
+          },
+        }
+        setUpcomingLine(newUpcomingLine)
+        newVisitedLine = {
           ...storyGeoJson[0],
           geometry: {
             ...storyGeoJson[0].geometry,
@@ -55,17 +79,7 @@ export default function StorySourceLayer({
             ),
           },
         }
-        setLineDataDone(newLineData)
-
-        newLineDataTodo = {
-          ...storyGeoJson[0],
-          geometry: {
-            ...storyGeoJson[0].geometry,
-            coordinates:
-              storyGeoJson[0].geometry.coordinates.slice(selectedStepIndex),
-          },
-        }
-        setLineDataTodo(newLineDataTodo)
+        setVisitedLine(newVisitedLine)
       }
     } else {
       resetSelectedStoryData()
@@ -73,74 +87,12 @@ export default function StorySourceLayer({
   }, [selectedStepIndex, storyID])
 
   function resetSelectedStoryData() {
-    setLineDataDone(undefined)
-    setLineDataTodo(undefined)
+    setActiveLine(undefined)
+    setUpcomingLine(undefined)
+    setVisitedLine(undefined)
   }
 
-  const lineStyle = {
-    type: 'line' as 'sky',
-    paint: {
-      // 'line-color': '#d4da68',
-      'line-color': ['match', ['get', 'id'], storyID, '#18325b', '#2596be'],
-      'line-width': 4,
-      'line-opacity': 0.8,
-      // 'line-dasharray': [['==', ['literal', ['get', 'id']], storyID], [[0,0], [1,1]]]
-      // 'line-border': 2,
-      // 'line-border-color': 'red'
-    },
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-      visibility: storyID === '' ? 'visible' : 'none',
-    },
-  }
-
-  const lineOutlineStyle = {
-    type: 'line' as 'sky',
-    paint: {
-      'line-color': '#38383a',
-      'line-width': 6,
-      'line-opacity': ['match', ['get', 'id'], storyID, 0, 1],
-    },
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-      visibility: storyID === '' ? 'visible' : 'none',
-    },
-  }
-
-  // const hightLineStyle = {
-  //   type: 'line' as 'sky',
-  //   paint: {
-  //     'line-color': '#d4da68',
-  //     'line-width': 10,
-  //     'line-blur': 3,
-  //     'line-opacity': 1,
-  //     // 'line-border': 2,
-  //     // 'line-border-color': 'red'
-  //   },
-  //   layout: {
-  //     'line-join': 'round',
-  //     'line-cap': 'round',
-  //   },
-  // }
-
-  const lineBufferForMouseEvent = {
-    type: 'line' as 'sky',
-    paint: {
-      'line-color': '#eb5933',
-      'line-width': 25,
-      'line-blur': 0,
-      'line-opacity': 0,
-    },
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-      visibility: storyID != '' ? 'visible' : 'none',
-    },
-  }
-
-  const lineDone = {
+  const stylesActive = {
     type: 'line' as 'sky',
     paint: {
       'line-color': '#d4da68',
@@ -154,13 +106,13 @@ export default function StorySourceLayer({
     },
   }
 
-  const lineTodo = {
+  const stylesUpcoming = {
     type: 'line' as 'sky',
     paint: {
       'line-color': '#18325b',
       'line-width': 6,
       'line-blur': 0,
-      'line-opacity': 0.8,
+      'line-opacity': 0.15,
       'line-dasharray': [1, 2],
     },
     layout: {
@@ -168,48 +120,62 @@ export default function StorySourceLayer({
       'line-cap': 'round',
     },
   }
-  // const stopTitles = {
-  //   type: 'symbol',
-  //   paint: {
-  //     'text-color': '#383838',
-  //     'text-halo-blur': 4,
-  //     'text-halo-color': '#f6f6f4',
-  //     'text-halo-width': 1
-  //   },
-  //   layout: {
-  //     'text-field': ['format', 'TESTONETOOO', { 'font-scale': 1.2 }],
-  //     'text-offset': {
-  //       stops: [
-  //         [1, [0, 0.3]],
-  //         [8, [0, 0.8]],
-  //         [16, [0, 1.8]],
-  //         [22, [0, 10]],
-  //         [25, [0, 40]]
-  //       ]
-  //     }
-  //   },
-  //   'text-size': 18
-  // };
 
-  // //show only selected Story
-  // const mapFilter = useMemo(() => ['==', 'id', storyID ?? 0], [storyID])
-  // const mapFilterReverse = useMemo(() => ['!=', 'id', storyID ?? 0], [storyID])
+  const stylesVisited = {
+    type: 'line' as 'sky',
+    paint: {
+      'line-color': '#18325b',
+      'line-width': 6,
+      'line-blur': 0,
+      'line-opacity': 0.15,
+    },
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+  }
 
-  // //Filter for selectedFeature (hover or click on feature could trigger this)
-  // const filter = useMemo(
-  //   () => ['==', 'id', selectedFeature?.properties?.id ?? 0],
-  //   [selectedFeature?.properties?.id],
-  // )
+  // get a random colour which is not white
 
-  // //TODO: simplify this. filter combination for selected features and selected story.
-  // const mapFilterAdvanced = useMemo(
-  //   () => [
-  //     'all',
-  //     ['!=', 'id', selectedFeature?.properties?.id ?? 0],
-  //     storyID != '' ? ['==', 'id', storyID] : ['has', 'id'],
-  //   ],
-  //   [selectedFeature?.properties?.id, storyID],
-  // )
+  function getLineStyle(id: string) {
+    const routeColors = [
+      '#FF5733',
+      '#FFC300',
+      '#36DBCA',
+      '#FF8547',
+      '#3D9970',
+      '#FF4136',
+      '#85144b',
+      '#7FDBFF',
+      '#B10DC9',
+      '#01FF70',
+      '#2ECC40',
+      '#39CCCC',
+      '#F012BE',
+      '#3D9970',
+      '#605ca8',
+    ]
+
+    return {
+      type: 'line' as 'sky',
+      paint: {
+        'line-color': [
+          'match',
+          ['get', 'id'],
+          id,
+          '#18325b',
+          routeColors[Math.floor(Math.random() * routeColors.length)],
+        ],
+        'line-width': 4,
+        'line-opacity': 0.9,
+      },
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round',
+        visibility: storyID === '' ? 'visible' : 'none',
+      },
+    }
+  }
 
   return (
     <>
@@ -222,44 +188,29 @@ export default function StorySourceLayer({
             type="geojson"
           >
             {/* @ts-ignore */}
-            {/* <Layer
-            {...hightLineStyle}
-            filter={selectedFeature ? filter : false} 
-            id={m.properties.id}
-          /> */}
-
-            {/* @ts-ignore */}
             <Layer
-              {...lineOutlineStyle}
-              id={m.properties?.id.toString() + 'outline'}
-            />
-            {/* @ts-ignore */}
-            <Layer {...lineStyle} id={m.properties?.id.toString() + 'normal'} />
-
-            {/* <Layer
-              {...lineStyle}
-              filter={
-                selectedFeature || storyID != '' ? mapFilterAdvanced : true
-              }
-              id={m.properties?.id.toString() + 'outline'}
-            /> */}
-            {/* @ts-ignore */}
-            <Layer
-              {...lineBufferForMouseEvent}
-              id={m.properties?.id.toString() + 'buffer'}
+              {...getLineStyle(storyID)}
+              id={m.properties?.id.toString() + 'normal'}
             />
           </Source>
         ))}
-      {lineDataDone && (
-        <Source data={lineDataDone} id={'linesourceDone'} type="geojson">
+
+      {upcomingLine && (
+        <Source data={upcomingLine} id={'lineUpcoming'} type="geojson">
           {/* @ts-ignore */}
-          <Layer {...lineDone} id={'lineSourceDone'} />
+          <Layer {...stylesUpcoming} id={'lineUpcoming'} />
         </Source>
       )}
-      {lineDataTodo && (
-        <Source data={lineDataTodo} id={'linesourceTodo'} type="geojson">
+      {visitedLine && (
+        <Source data={visitedLine} id={'lineVisited'} type="geojson">
           {/* @ts-ignore */}
-          <Layer {...lineTodo} id={'lineSourceTodo'} />
+          <Layer {...stylesVisited} id={'lineVisited'} />
+        </Source>
+      )}
+      {activeLine && (
+        <Source data={activeLine} id={'lineActive'} type="geojson">
+          {/* @ts-ignore */}
+          <Layer {...stylesActive} id={'lineActive'} />
         </Source>
       )}
     </>

@@ -38,32 +38,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
 
       res.json(media)
-      return res.end()
+      res.end()
     }
-
-    if (req.method === 'DELETE') {
-      const fileName = req.body.mediaId + '.' + req.query.fileName
-      media = await db.media.delete({
-        where: { id: req.body.mediaId as string },
-      })
-      const minioClient = new minio.Client({
-        endPoint: process.env.S3_ENDPOINT!,
-        port: parseInt(process.env.S3_PORT!),
-        useSSL: process.env.S3_USE_SSL === 'true'!,
-        accessKey: process.env.S3_ACCESS_KEY!,
-        secretKey: process.env.S3_SECRET_KEY!,
-      })
-      minioClient.removeObject(
-        process.env.S3_BUCKET_NAME!,
-        `${fileName}`,
-        err => {
-          if (err) {
-            console.log(err)
-          }
-        },
-      )
-    }
-
     if (req.method === 'PUT') {
       const mediaId = req.query.mediaId as string
 
@@ -74,17 +50,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       res.json(updatedContent)
 
-      return res.end()
+      res.end()
     }
 
     res.json(media)
-    return res.end()
+    res.end()
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return res.status(422).json(error.issues)
+      res.status(422).json(error.issues)
     }
 
-    return res.status(422).json(error.message)
+    res.status(422).json(error.message)
   }
 }
 

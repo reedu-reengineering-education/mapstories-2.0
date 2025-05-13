@@ -1,11 +1,11 @@
 // next js component which has an input where you can upload an image
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { toast } from '@/src/lib/toast'
 import { Button } from '@/src/components/Elements/Button'
 import { useDropzone } from 'react-dropzone'
-import { InputLabel } from '@/src/components/Elements/Input'
+import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { useBoundStore } from '@/src/lib/store/store'
 import { slideEmbedContentSchema } from '@/src/lib/validations/slidecontent'
 import useStep from '@/src/lib/api/step/useStep'
@@ -71,7 +71,7 @@ export function MediaContentEdit({
   }
   const { t } = useTranslation(lng, 'editModal')
 
-  const { updateMedia, getMedia, addMedia } = useMedia(storyStepId)
+  const { updateMedia, getMedia, addMedia } = useMedia()
   const { addContent, updateContent } = useStep(storyStepId)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -82,6 +82,7 @@ export function MediaContentEdit({
   const [selectedValue, setSelectedValue] = useState<string>('s')
   const [externalImageUrl, setExternalImageUrl] = useState<string>('')
   const [tabIndex, setTabIndex] = useState<number>(0)
+  const [fileSource, setFileSource] = useState<string>('')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -91,8 +92,10 @@ export function MediaContentEdit({
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
-      accept: { 'image/*': [], 'video/*': [], 'audio/*': [] },
+      accept: { 'image/*': [], 'audio/*': [] },
       onDrop,
+      // max 50mb
+      maxSize: 50242880,
     })
 
   const style = useMemo(
@@ -111,13 +114,10 @@ export function MediaContentEdit({
         // get image table from db
         stepItem.type === 'EXTERNALIMAGE' ? setTabIndex(0) : setTabIndex(1)
         const media = (await getMedia(stepItem.mediaId)) as Media
+        media.source ? setFileSource(media.source!) : setFileSource('')
         setFileType(stepItem.type)
         setSelectedValue(media.size!)
-        if (
-          stepItem.type === 'IMAGE' ||
-          stepItem.type === 'AUDIO' ||
-          stepItem.type === 'VIDEO'
-        ) {
+        if (stepItem.type === 'IMAGE' || stepItem.type === 'AUDIO') {
           setIsLoading(true)
           // get image file from s3
           const response = await getS3Image(media)
@@ -125,6 +125,7 @@ export function MediaContentEdit({
           setIsLoading(false)
         }
         if (stepItem.type === 'EXTERNALIMAGE' && media.url) {
+          media.source ? setFileSource(media.source!) : setFileSource('')
           setFileUrl(media.url)
         }
         //const response = await getS3Image(im//await getImage2(stepItem)
@@ -151,15 +152,11 @@ export function MediaContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        // when image from url is selected
-        // when image from file is selected
-
-        if (!file) {
-          throw new Error('no file selected')
-        }
         const media = await getMedia(stepItem.mediaId)
-        await uploadFile(file, media)
-        await updateMedia(stepItem.mediaId, { size: selectedValue } as Media)
+        await updateMedia(stepItem.mediaId, {
+          size: selectedValue,
+          source: fileSource,
+        } as Media)
 
         toast({
           message: t('contentUpdated'),
@@ -174,6 +171,7 @@ export function MediaContentEdit({
         const uploadedMedia = await addMedia({
           name: file.name,
           size: selectedValue,
+          source: fileSource,
         })
         // upload file to s3
         await uploadFile(file, uploadedMedia)
@@ -204,7 +202,7 @@ export function MediaContentEdit({
     }
   }
 
-  function handleExternalImageUrl(e: any) {
+  function handleExternalImageUrl(e: ChangeEvent<HTMLInputElement>) {
     setFileUrl(e.target.value)
   }
 
@@ -214,27 +212,38 @@ export function MediaContentEdit({
     setFile(undefined)
   }
 
+  function handleFileSource(e: any) {
+    const target = e.target as HTMLInputElement
+    setFileSource(target.value)
+  }
+
   return (
     <div>
       <div>
-        <InputLabel>{t('uploadFile')}</InputLabel>
+        <InputLabel>{t('dataUpload')}</InputLabel>
         <p className="my-2 text-sm font-bold">{t('supportedFormats')} </p>
         <span>
           <code>.jpg</code>
           <code>.png</code>
-          <code>.mp4</code>
+          <code>.gif</code>
+          <code>.bmp</code>
+          <code>.svg</code>
+          <code>.webp</code>
           <code>.mp3</code>
-          <code>.jpg</code>
+          <code>.flac</code>
+          <code>.wma</code>
           <br></br>
         </span>
-        {/* @ts-ignore */}
-        <div {...getRootProps({ style })}>
-          <input {...getInputProps()} />
-          {t('dropFiles')}
-        </div>
+        {stepItem ? null : (
+          /* @ts-ignore */
+          <div {...getRootProps({ style })}>
+            <input {...getInputProps()} />
+            {t('dropFiles')}
+          </div>
+        )}
       </div>
       <div>
-        <div className="pt-2">
+        <div className="">
           {isLoading && (
             <div className="flex justify-center">
               <Spinner />
@@ -250,32 +259,37 @@ export function MediaContentEdit({
                 />
               </div>
             )}
-          {fileType === 'VIDEO' && (
-            <ReactPlayer
-              controls={true}
-              height="100%"
-              url={fileUrl}
-              width="100%"
-            />
-          )}
           {fileType === 'AUDIO' && (
-            <ReactPlayer
-              controls={true}
-              height="5rem"
-              url={fileUrl}
-              width="100%"
-            />
+            <div className="m-2 flex justify-center">
+              {/* @ts-ignore */}
+              <ReactPlayer
+                controls={true}
+                height="5rem"
+                url={fileUrl}
+                width="100%"
+              />
+            </div>
           )}
         </div>
-
-        <Button
-          className="mt-10"
-          disabled={isSaving}
-          isLoading={isSaving}
-          onClick={() => onSubmit()}
-        >
-          {t('create')}
-        </Button>
+        {/* input field to give a source */}
+        <div className="flex items-center gap-2">
+          <Input
+            className="bg-slate-50"
+            label={t('source')}
+            onChange={e => handleFileSource(e)}
+            value={fileSource}
+          />
+        </div>
+        <div className="flex flex-row justify-end">
+          <Button
+            className="mt-10"
+            disabled={isSaving}
+            isLoading={isSaving}
+            onClick={() => onSubmit()}
+          >
+            {stepItem ? t('update') : t('create')}
+          </Button>
+        </div>
       </div>
     </div>
   )

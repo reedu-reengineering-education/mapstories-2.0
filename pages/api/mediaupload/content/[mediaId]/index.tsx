@@ -11,7 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
       res.status(200).json(mediaTable)
-      return res.end()
+      res.end()
     }
     if (req.method === 'PUT') {
       const updatedImage = await db.media.update({
@@ -23,7 +23,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
       res.status(200).json(updatedImage)
-      return res.end()
+      res.end()
     }
   } catch (error: any) {
     res.status(500).json({ message: error.message })

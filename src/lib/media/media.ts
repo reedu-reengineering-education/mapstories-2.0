@@ -85,7 +85,7 @@ export var media_types: media_type[] = [
   // },
   {
     type: 'EXTERNALIMAGE',
-    match_str: /(^data:image).*|(jpg|jpeg|png|gif|bmp)$/i,
+    match_str: /(^data:image).*|(jpg|jpeg|png|gif|bmp|webp)$/i,
     content: '',
   },
   // {
@@ -127,6 +127,11 @@ export var media_types: media_type[] = [
     match_str: /google.de/,
     // match_str:
     //   /^https:\/\/www\.google\.(?:com|de)\/maps\/(@[0-9a-zA-Z]+,){2}[0-9a-zA-Z]+,(\d+\.?\d*)z\/data=(?:!3m1!4b1|[\w\d]+)$/,
+    content: '',
+  },
+  {
+    type: 'LAMAPOLL',
+    match_str: /lamapoll/,
     content: '',
   },
   // {

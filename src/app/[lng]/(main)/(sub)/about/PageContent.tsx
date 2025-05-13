@@ -2,19 +2,26 @@
 
 import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
-import { Transition } from '@headlessui/react'
 import { useEffect, useState } from 'react'
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import FAQTab from './FAQTab/FAQTab'
 import OfferTab from './OfferTab/OfferTab'
-import MapstoriesTab from './MapstoriesTab/MapstoriesTab'
 import OurStoryTab from './OurStoryTab/OurStoryTab'
+import ManualsTab from './ManualsTab/ManualsTab'
 import SupportTab from './SupportTab/SupportTab'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/src/components/Elements/Tabs'
+
+import MapstoriesTab from './MapstoriesTab/MapstoriesTab'
+import { cx } from 'class-variance-authority'
 
 export default function PageContent() {
   const [isShowing, setIsShowing] = useState(false)
-
+  const [activeTab, setActiveTab] = useState('mapstories')
   useEffect(() => {
     setIsShowing(true)
   }, [])
@@ -24,61 +31,79 @@ export default function PageContent() {
   const { t } = useTranslation(lng, 'about')
 
   return (
-    <Transition
-      appear
-      enter="transition duration-1000"
-      enterFrom="opacity-0 -translate-y-20"
-      enterTo="opacity-100 translate-y-0"
-      leave="transition-opacity duration-1000"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
-      show={isShowing}
+    <Tabs
+      defaultValue="mapstories"
+      onValueChange={e => setActiveTab(e)}
+      orientation="vertical"
     >
-      <div>
-        <div className="re-basic-box  p-15 bg-white">
-          <Tabs
-            forceRenderTabPanel={true}
-            selectedTabClassName="font-extrabold text-3xl bg-slate-50 rounded"
-          >
-            <TabList className="rounded bg-zinc-300 bg-opacity-100 px-10 pt-5">
-              {/* @ts-ignore */}
-              <Tab>{t('tab1_title')}</Tab>
-              {/* @ts-ignore */}
-              <Tab>{t('tab2_title')}</Tab>
-              {/* @ts-ignore */}
-              <Tab>{t('tab3_title')}</Tab>
-              {/* @ts-ignore */}
-              <Tab>{t('tab4_title')}</Tab>
-              {/* @ts-ignore */}
-              <Tab>{t('tab5_title')}</Tab>
-              {/* <Tab>{t('tab4_title')}</Tab> */}
-            </TabList>
-            <TabPanel>
-              <MapstoriesTab />
-            </TabPanel>
-            <TabPanel>
-              <OurStoryTab />
-            </TabPanel>
-            <TabPanel>
-              <OfferTab />
-            </TabPanel>
-            <TabPanel>
-              <SupportTab />
-            </TabPanel>
-            <TabPanel>
-              <FAQTab />
-            </TabPanel>
-            {/* <TabPanel>
-              <div className="flex flex-col gap-8">
-                <div className="flex flex-col gap-8">
-                  <h2 className="text-2xl font-bold">{t('tab4_title')}</h2>
-                  <p>{t('tab4_text')}</p>
-                </div>
-              </div>
-            </TabPanel> */}
-          </Tabs>
-        </div>
-      </div>
-    </Transition>
+      <TabsList className="bg-white">
+        <TabsTrigger value="mapstories">{t('tab1_title')}</TabsTrigger>
+        <TabsTrigger value="ourStory">{t('tab2_title')}</TabsTrigger>
+        <TabsTrigger value="offer">{t('tab3_title')}</TabsTrigger>
+        <TabsTrigger value="support">{t('tab4_title')}</TabsTrigger>
+        <TabsTrigger value="faq">{t('tab5_title')}</TabsTrigger>
+        <TabsTrigger value="manuals">{t('tab6_title')}</TabsTrigger>
+      </TabsList>
+      <TabsContent
+        className={cx(
+          'max-h-[45rem] overflow-scroll rounded-md bg-white',
+          activeTab == 'mapstories' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="mapstories"
+      >
+        <MapstoriesTab />
+      </TabsContent>
+      <TabsContent
+        className={cx(
+          'max-h-[40rem] overflow-scroll rounded-md bg-white',
+          activeTab == 'ourStory' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="ourStory"
+      >
+        <OurStoryTab />
+      </TabsContent>
+      <TabsContent
+        className={cx(
+          'max-h-[40rem] overflow-scroll rounded-md bg-white',
+          activeTab == 'offer' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="offer"
+      >
+        <OfferTab />
+      </TabsContent>
+      <TabsContent
+        className={cx(
+          'max-h-[40rem] overflow-scroll rounded-md bg-white',
+          activeTab == 'support' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="support"
+      >
+        <SupportTab />
+      </TabsContent>
+      <TabsContent
+        className={cx(
+          'max-h-[40rem] overflow-scroll rounded-md bg-white',
+          activeTab == 'faq' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="faq"
+      >
+        <FAQTab />
+      </TabsContent>
+      <TabsContent
+        className={cx(
+          'max-h-[40rem] overflow-scroll rounded-md bg-white',
+          activeTab == 'manuals' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="faq"
+      >
+        <ManualsTab />
+      </TabsContent>
+    </Tabs>
   )
 }

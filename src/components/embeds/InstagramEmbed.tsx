@@ -152,15 +152,12 @@ export function InstagramEmbed({
     <div
       {...divProps}
       className={classNames(
-        'rsme-embed rsme-instagram-embed',
-        divProps.className,
+        'rsme-embed rsme-instagram-embed overflow-y-auto overflow-x-hidden',
       )}
       style={{
-        overflow: 'auto',
         width: width ?? undefined,
         maxHeight: height ?? undefined,
         borderRadius,
-        ...divProps.style,
       }}
     >
       <EmbedStyle />
@@ -169,7 +166,7 @@ export function InstagramEmbed({
         data-instgrm-captioned
         data-instgrm-permalink={`${cleanUrlWithEndingSlash}?utm_source=ig_embed&utm_campaign=loading`}
         data-instgrm-version={igVersion}
-        data-width={isPercentageWidth ? '100%' : width ?? undefined}
+        data-width={isPercentageWidth ? '100%' : (width ?? undefined)}
         style={{
           width: 'calc(100% - 2px)',
         }}

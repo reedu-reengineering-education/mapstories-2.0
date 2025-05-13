@@ -16,8 +16,7 @@ export type StepWithContent = StoryStep & {
 
 const useStep = (stepId: string) => {
   const storyId = useBoundStore(store => store.storyID)
-
-  const { deleteMedia } = useMedia(stepId)
+  const { deleteMedia } = useMedia()
 
   const { data: step, mutate: stepMutate } = useSWR<StepWithContent>(
     `/api/mapstory/${storyId}/step/${stepId}`,
@@ -78,11 +77,10 @@ const useStep = (stepId: string) => {
   }
 
   const APIDeleteContent = async (contentId: Pick<SlideContent, 'id'>) => {
-    const deleteContentRequest = deleteContent(storyId, stepId, contentId)
+    const deleteContentRequest = await deleteContent(storyId, stepId, contentId)
     const deletedContent = (await (
       await deleteContentRequest
     ).data) as SlideContent
-
     if (deletedContent.mediaId) {
       // delete the image from the s3 service also
       const deletedMedia = await deleteMedia(
@@ -111,7 +109,7 @@ const useStep = (stepId: string) => {
 
   return {
     step,
-    mutate: stepMutate,
+    mutate: mutation,
     reorderSlideContent: APIReorderSlideContent,
     updateStep: APIUpdateStep,
     addContent: APIAddContent,

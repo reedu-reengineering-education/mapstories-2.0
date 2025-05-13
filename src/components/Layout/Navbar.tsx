@@ -15,8 +15,10 @@ import { User } from 'next-auth'
 export function Navbar({
   children,
   user,
+  userHasStories,
 }: {
   children: React.ReactNode
+  userHasStories: boolean
   user:
     | (User & {
         id: string
@@ -40,12 +42,12 @@ export function Navbar({
       },
       {
         title: t('viewer'),
-        href: `/${lng}/mystories`,
-        disabled: user === undefined,
+        href: `/${lng}/mystories/all`,
+        disabled: user === undefined || !userHasStories,
       },
       {
         title: t('gallery'),
-        href: `/${lng}/gallery`,
+        href: `/${lng}/gallery/all`,
       },
       {
         title: t('about'),

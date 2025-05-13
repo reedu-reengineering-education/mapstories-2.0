@@ -26,6 +26,9 @@
   "confirmDeleteAccount": "Bist du sicher dass du deinen Account löschen möchtest?",
   "confirmDeleteContent": "Bist du sicher, dass du den Inhalt löschen möchtest?",
   "deleteAccount": "Bist du sicher, dass du deinen Acoount wirklich löschen möchtest?",
-  "textEditor": "Hier kannst du einen Text eingeben.",
-  "dataUpload": "Hier kannst du eine Datei hochladen."
+  "textEditor": "Hier kannst du einen Text eingeben. Auf der linken Seite siehst du den unformatierten Text, auf der rechten Seite den formatierten Text.",
+  "dataUpload": "Hier kannst du eine Datei hochladen.",
+  "source": "Quelle",
+  "edit": "Bearbeiten",
+  "update": "Aktualisieren"
 }

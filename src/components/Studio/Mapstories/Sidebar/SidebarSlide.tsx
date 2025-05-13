@@ -37,12 +37,26 @@ export default function SidebarSlide({
 }: SidebarSlideProps) {
   const { step } = useStep(stepId)
 
+  const removeDuplicates = (arr: any) => {
+    const geseheneTypen: Array<any> = []
+    const newArr: Array<any> = []
+    if (arr.length > 0) {
+      arr.map((item: any) => {
+        if (!geseheneTypen.includes(item.type)) {
+          geseheneTypen.push(item.type)
+          newArr.push(item)
+        }
+      })
+    }
+    return newArr
+  }
+
   return (
     <div className="flex items-center">
       <div
         className={cx(
           slideStyle({ variant }),
-          active ? 'border-2 bg-active' : 'bg-slate-100',
+          active ? 'border-2 border-active-border bg-active' : 'bg-slate-100',
           markerHover ? 'border-2 border-red-600' : '',
         )}
       >
@@ -52,13 +66,16 @@ export default function SidebarSlide({
 
         {step?.content && step?.content.length > 0 && (
           <div className="flex w-full max-w-[145px] items-center justify-center -space-x-3 overflow-hidden p-4">
-            {step.content
+            {removeDuplicates(step.content)
               .sort((a, b) => a.position - b.position)
               .slice(0, 3)
-              .map(c => (
-                <EmbedIconFactory key={c.id} type={c.type} />
-              ))}
-            {step.content.length > 3 && (
+              .map(c => {
+                if (c.type !== 'TITLE') {
+                  return <EmbedIconFactory key={c.id} type={c.type} />
+                }
+              })}
+            {step.content.filter(s => s.type !== 'TITLE' && s.type !== 'TEXT')
+              .length > 3 && (
               <BaseIcon className="flex items-center justify-center bg-white text-sm">
                 +{step.content.length - 3}
               </BaseIcon>

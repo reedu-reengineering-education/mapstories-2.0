@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react'
 import ReactPlayer from 'react-player'
 export interface SoundCloudEmbedProps

@@ -21,7 +21,10 @@ export function SpotifyEmbed({
   return (
     <div
       {...divProps}
-      className={classNames('rsme-embed', divProps.className)}
+      className={classNames(
+        'rsme-embed flex justify-center',
+        divProps.className,
+      )}
       style={{
         width: width ?? 100,
         maxHeight: height ?? 100,

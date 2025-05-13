@@ -10,14 +10,14 @@ type Props = {
 
 export function Slide({ step }: Props) {
   return (
-    <>
-      <div className="py-4">
-        {step &&
-          step.content &&
-          step.content.map(item => {
-            return <ContentType content={item} key={item.id}></ContentType>
+    <div className="max-w-full overflow-x-hidden py-2">
+      {step &&
+        step.content &&
+        step.content
+          .sort((a, b) => a.position - b.position)
+          .map((item, i) => {
+            return <ContentType content={item} key={i}></ContentType>
           })}
-      </div>
-    </>
+    </div>
   )
 }

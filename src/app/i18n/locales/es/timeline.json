@@ -1,0 +1,5 @@
+{
+  "modeDescription": "En el modo de línea de tiempo, debe guardarse una marca de tiempo para cada paso. Esto facilita aún más la visualización de acontecimientos históricos.",
+  "setDateSuccess": "Timestamp fijado con éxito.",
+  "setDateError": "No se ha podido establecer la marca de tiempo."
+}

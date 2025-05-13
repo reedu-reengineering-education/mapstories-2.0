@@ -1,6 +1,8 @@
 {
   "name": "Name",
   "change your name here": "Change your name here",
+  "userSettings": "Your Profile",
+  "changeYourData": "You can change your data here.",
   "save": "Save",
   "contentUpdated": "Your account has been updated",
   "contentCreated": "Your account has been created",
@@ -9,5 +11,13 @@
   "contentNotUpdated": "Your account could not be updated, please try again",
   "contentNotDeleted": "Your account could not be deleted, please try again",
   "logInAgain": "Please log in again",
-  "deleteAccount": "Delete Account"
+  "deleteAccount": "Delete Account",
+  "dangerEmail": "Attention. If you change your E-Mail you need to verify the new address!",
+  "activatePassword": "Activate password",
+  "password": "Password",
+  "passWordSecurity": "Password security",
+  "changePassword": "Change Password",
+  "changeFor": "Change password for ",
+  "newPassword": "New Password",
+  "newPasswordConfirm": "Confirm new password"
 }

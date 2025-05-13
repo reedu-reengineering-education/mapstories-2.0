@@ -13,33 +13,37 @@ import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/src/app/i18n/client'
 import { Textarea, TextareaLabel } from '@/src/components/Elements/Textarea'
 import useStory from '@/src/lib/api/story/useStory'
-import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { useBoundStore } from '@/src/lib/store/store'
 import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 import Switch from '../../Elements/Switch'
+import { Spacer } from '../../Elements/Spacer'
+import { StoryMode, Theme } from '@prisma/client'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../Elements/Select'
+import { applyTheme } from '@/src/helper/applyTheme'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
 type FormData = z.infer<typeof updateMapstorySchema>
 
-const options: Pick<DropdownMenuItemProps, 'children'>[] = [
-  { children: 'Theme 1' },
-  { children: 'Theme 2' },
-  { children: 'Theme 3' },
-  { children: 'Theme 4' },
-  { children: 'Theme 5' },
-]
-
 export default function SettingsModal({
   storyId,
   shadow,
+  themes,
 }: {
   storyId: string
   shadow?: boolean
+  themes: Theme[]
 }) {
   const router = useRouter()
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, ['settingsModal', 'studio'])
+  const { t } = useTranslation(lng, ['settingsModal', 'studio', 'timeline'])
+
   const [isSaving, setIsSaving] = useState(false)
   const [image, setImage] = useState<string | any>()
   const [selectedTheme, setSelectedTheme] = useState('')
@@ -58,13 +62,9 @@ export default function SettingsModal({
 
   const [modalOpen, setModalOpen] = useState(false)
 
-  // let { uploadToS3 } = useS3Upload();
-
-  function handleImageUpload(event: any) {
-    const file = event.target.files[0]
-    // let { url } = await uploadToS3(file);
-
-    // console.log("Successfully uploaded to S3!", url);
+  function selectTheme(themeName: any) {
+    const selectedTheme = themes.find(theme => theme.name == themeName)
+    applyTheme(selectedTheme)
   }
 
   async function onSubmit(data: FormData) {
@@ -72,8 +72,7 @@ export default function SettingsModal({
     try {
       const updatedStory = await updateStory({
         ...data,
-        // TODO: update again after zod schema change
-        visibility: data.visibility === true ? 'PUBLIC' : 'PRIVATE',
+        visibility: data.visibility,
       })
       toast({
         message: t('settingsModal:changesApplied'),
@@ -98,6 +97,10 @@ export default function SettingsModal({
     return <></>
   }
 
+  const onInvalid = (errors: any) => {
+    console.log(errors)
+  }
+
   return (
     <>
       <Button
@@ -110,12 +113,12 @@ export default function SettingsModal({
         {t('settingsModal:options')}
       </Button>
       <Modal
-        onClose={() => setModalOpen(false)}
-        show={modalOpen}
-        title={t('settingsModal:name')}
+        onOpenChange={setModalOpen}
+        open={modalOpen}
+        title={t('settingsModal:modalHeader')}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Modal.Content>
+        <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
+          <Modal.Content className="max-h-[70vh] overflow-scroll">
             <InputLabel>{t('settingsModal:name')}</InputLabel>
             <Input
               defaultValue={story.name || ''}
@@ -123,6 +126,14 @@ export default function SettingsModal({
               label={t('settingsModal:name')}
               size={100}
               {...register('name')}
+            />
+            {/* @ts-ignore */}
+            <InputLabel> {t('settingsModal:author')}</InputLabel>
+            <Input
+              defaultValue={story.author || ''}
+              errors={errors.author}
+              size={100}
+              {...register('author')}
             />
             <TextareaLabel>{t('settingsModal:description')}</TextareaLabel>
             <Textarea
@@ -134,9 +145,46 @@ export default function SettingsModal({
               {...register('description')}
             ></Textarea>
 
+            <Spacer />
+            <InputLabel>Modus</InputLabel>
+            <p className="rounded bg-zinc-100 p-2 text-xs text-zinc-700">
+              {t('timeline:modeDescription')}
+            </p>
+            <Spacer size={'sm'} />
+            {errors.mode && (
+              <p className="px-1 text-xs text-red-600">{errors.mode.message}</p>
+            )}
             <Controller
               control={control}
-              defaultValue={false}
+              defaultValue={story.mode ?? StoryMode.NORMAL}
+              name="mode"
+              render={({ field: { onChange, ref } }) => {
+                return (
+                  <div className="jusify-center flex items-center gap-4">
+                    <span className="text-sm font-medium text-gray-700">
+                      NORMAL
+                    </span>
+                    <Switch
+                      defaultChecked={story.mode === StoryMode.TIMELINE}
+                      onCheckedChange={checked =>
+                        onChange(
+                          checked ? StoryMode.TIMELINE : StoryMode.NORMAL,
+                        )
+                      }
+                      ref={ref}
+                    ></Switch>
+                    <span className="text-sm font-medium text-gray-700">
+                      TIMELINE
+                    </span>
+                  </div>
+                )
+              }}
+            />
+            <Spacer />
+            <InputLabel>{t('settingsModal:visibility')}</InputLabel>
+            <Controller
+              control={control}
+              defaultValue={story.visibility}
               name="visibility"
               // {...register('visibility')}
               render={({ field: { onChange, value, ref } }) => {
@@ -147,7 +195,9 @@ export default function SettingsModal({
                     </span>
                     <Switch
                       defaultChecked={story.visibility === 'PUBLIC'}
-                      onCheckedChange={onChange}
+                      onCheckedChange={checked =>
+                        onChange(checked ? 'PUBLIC' : 'PRIVATE')
+                      }
                       ref={ref}
                     ></Switch>
 
@@ -158,69 +208,89 @@ export default function SettingsModal({
                 )
               }}
             />
-            {/* <Spacer />
-          <select {...register('theme')}>
-            {options.map((option, index) => (
-              <option
-                key={index}
-                {...option}
-                onSelect={() => {
-                  setSelectedTheme(option.children as string)
-                  setValue('theme', option.children as string)
-                }}
-              />
-            ))}
-          </select> */}
-            {/* <DropdownMenu {...register('theme')}>
-            <DropdownMenu.Trigger className="focus:ring-brand-900 flex items-center gap-2 overflow-hidden focus:ring-2 focus:ring-offset-2 focus-visible:outline-none">
-              <span className="mb-2 flex text-sm font-medium text-gray-700">
-                {t('theme')} <ChevronDownIcon className="mt-[0.15em] h-2 w-4" />
-              </span>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Portal>
-              <DropdownMenu.Content
-                align="end"
-                className="absolute z-50 md:w-[240px]"
-              >
-                {options.map((option, index) => (
-                  <DropdownMenu.Item
-                    key={index}
-                    {...option}
-                    onSelect={() => {
-                      setSelectedTheme(option.children as string)
-                      setValue('theme', option.children as string)
-                    }}
-                  />
-                ))}
-              </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-          </DropdownMenu> */}
-            {/* <Spacer />
-          <InputLabel>{t('image')}</InputLabel>
-          <div className="flex">
-            <label htmlFor="imageupload">
-              <div className="flex h-9 w-10 cursor-pointer items-center justify-center rounded border border-slate-300 hover:border-slate-400">
-                <ChevronDownIcon className="h-4 w-4 stroke-2" />
-              </div>
-            </label>
-            <Input
-              accept="image/*"
-              className="hidden"
-              errors={errors.image}
-              id="imageupload"
-              onChange={e => handleImageUpload(e)}
-              type="file"
-              // {...register('image')}
-            ></Input>
-            <Input
-              errors={errors.image}
-              label="Bild"
-              placeholder="Wähle ein Bild aus oder gib eine URL ein"
-              size={100}
-              value={image}
-              {...register('image')}
-            ></Input>
-          </div> */}
+            <Spacer />
+            <InputLabel>{t('settingsModal:community')}</InputLabel>
+            <Controller
+              control={control}
+              defaultValue={story.community}
+              name="community"
+              // {...register('visibility')}
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <div className="jusify-center flex items-center gap-4">
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:off')}
+                    </span>
+                    <Switch
+                      defaultChecked={story.community}
+                      onCheckedChange={checked => onChange(checked)}
+                      ref={ref}
+                    ></Switch>
+
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:on')}
+                    </span>
+                  </div>
+                )
+              }}
+            />
+            <Spacer />
+            <InputLabel>{t('settingsModal:theme')}</InputLabel>
+            <Controller
+              control={control}
+              defaultValue={story.themeId ?? themes[0].name}
+              // name="theme"
+              {...register('themeId')}
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <>
+                    <Select
+                      defaultValue={value}
+                      onValueChange={e => {
+                        selectTheme(e)
+                        onChange(e)
+                      }}
+                    >
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Theme" />
+                      </SelectTrigger>
+                      <SelectContent ref={ref}>
+                        {themes.map((theme: any) => (
+                          <SelectItem key={theme.name} value={theme.name}>
+                            {theme.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </>
+                )
+              }}
+            />
+            <Spacer />
+            <Controller
+              control={control}
+              defaultValue={true}
+              name="lines"
+              // {...register('visibility')}
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <div className="jusify-center flex items-center gap-4">
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:nolines')}
+                    </span>
+
+                    <Switch
+                      defaultChecked={story.lines}
+                      onCheckedChange={onChange}
+                      ref={ref}
+                    ></Switch>
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:lines')}
+                    </span>
+                  </div>
+                )
+              }}
+            />
           </Modal.Content>
           <Modal.Footer>
             <Button

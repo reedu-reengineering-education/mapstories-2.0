@@ -1,5 +1,7 @@
 {
   "your_titlepage": "La page de titre vous donne un aperçu de votre Mapstory et peut être personnalisée avec des médias. <1/> Cliquez sur le signe plus sur le côté gauche pour votre première diapositive.",
   "click_on_map_to_set_marker": "Cliquez sur la carte ou utilisez la fonction de recherche pour ajouter un marqueur.",
-  "move_the_red_marker": "Cliquez sur la carte ou utilisez la fonction de recherche pour déplacer le marqueur rouge."
+  "move_the_red_marker": "Cliquez sur la carte ou utilisez la fonction de recherche pour déplacer le marqueur rouge.",
+  "noMobile": "MapStory n'est pas disponible sur les appareils mobiles. Veuillez utiliser un ordinateur de bureau ou un ordinateur portable pour créer une MapStory.",
+  "noMobileText": "MapStory n'est pas disponible sur les appareils mobiles. Veuillez utiliser un ordinateur de bureau ou un ordinateur portable pour créer une MapStory."
 }

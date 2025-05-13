@@ -4,9 +4,12 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
 import { z } from 'zod'
-import { updatStepSchema } from '@/src/lib/validations/step'
+import { updateStepSchema } from '@/src/lib/validations/step'
 
 import { tryFeature } from 'pure-geojson-validation'
+import { Feature } from 'geojson'
+import { StoryMode } from '@prisma/client'
+import { reorderTimeline } from '../timelineReorder'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
@@ -20,28 +23,29 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       })
       res.status(200).json(storyStep)
-      return res.end()
+      res.end()
     } catch (error) {
-      return res.status(500).end()
+      res.status(500).end()
     }
   }
   if (req.method === 'PUT') {
     try {
-      const { feature } = updatStepSchema.parse(req.body)
+      const { feature, timestamp, tags } = updateStepSchema.parse(req.body)
 
-      if (!feature) {
-        throw new Error('No Feature was included in the request body')
-      }
+      let validFeature: Feature | null = null
+      if (feature) {
+        // throw new Error('No Feature was included in the request body')
+        validFeature = tryFeature(feature)
 
-      const validFeature = tryFeature(feature)
-
-      // check if feature has the correct featureType
-      if (
-        !['Point', 'LineString', 'Polygon'].some(
-          e => e === validFeature.geometry.type,
-        )
-      ) {
-        throw new Error('Feature must be Point, LineString or Polygon')
+        // check if feature has the correct featureType
+        if (
+          validFeature &&
+          !['Point', 'LineString', 'Polygon'].some(
+            e => e === validFeature?.geometry.type,
+          )
+        ) {
+          throw new Error('Feature must be Point, LineString or Polygon')
+        }
       }
 
       const storyStep = await db.storyStep.update({
@@ -49,17 +53,37 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           id: req.query.storyStepId as string,
         },
         data: {
-          feature: validFeature as any, // any fix for Prisma Json field
+          feature: (validFeature as any) ?? undefined, // any fix for Prisma Json field
+          timestamp,
+          tags,
         },
         include: {
           content: true,
         },
       })
 
+      const storyId = storyStep.storyId
+
+      if (!storyId) {
+        res.status(422).end()
+        return
+      }
+
+      const story = await db.story.findFirst({
+        where: {
+          id: storyId,
+        },
+      })
+
+      if (story?.mode === StoryMode.TIMELINE) {
+        await reorderTimeline(storyId)
+      }
+
       res.status(200).json(storyStep)
-      return res.end()
+      res.end()
     } catch (error) {
-      return res.status(500).json({ error: error?.toString() })
+      console.log(error)
+      res.status(500).json({ error: error?.toString() })
     }
   }
 
@@ -79,7 +103,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       //TODO: THis can never happen but we need this code for TS?
       if (!deletedStep.storyId) {
-        return res.status(422).end()
+        res.status(422).end()
+        return
       }
 
       const updatedStory = await db.story.findFirst({
@@ -114,13 +139,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       res.json(deletedStep)
 
-      return res.end()
+      res.end()
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(422).json(error.issues)
+        res.status(422).json(error.issues)
       }
 
-      return res.status(422).end()
+      res.status(422).end()
     }
   }
 }

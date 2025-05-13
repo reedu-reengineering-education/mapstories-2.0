@@ -1,7 +1,7 @@
 import { useBoundStore } from '@/src/lib/store/store'
 import { StepMarker } from '@/src/types/Stepmarker'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { Fragment, useEffect, useState } from 'react'
 import { CircleLayer, Layer, Marker, Source } from 'react-map-gl'
 
 const triggerHoverLayerStyle: CircleLayer = {
@@ -16,16 +16,15 @@ const triggerHoverLayerStyle: CircleLayer = {
 
 type Props = {
   markers: StepMarker[]
-  onClick?: (_m: StepMarker) => void
 }
 
-export default function Markers({ markers, onClick }: Props) {
+export default function Markers({ markers }: Props) {
   const [triggerHoverLayerData, setTriggerHoverLayerData] = useState<
     GeoJSON.FeatureCollection | undefined
   >()
-  const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
-  const storyID = useBoundStore(state => state.storyID)
 
+  const path = usePathname()
+  const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
   const router = useRouter()
 
   useEffect(() => {
@@ -49,28 +48,45 @@ export default function Markers({ markers, onClick }: Props) {
     })
   }, [markers])
 
+  // Berechnung der Markerfarbe basierend auf `selectedStepIndex`
+  const getMarkerColor = (m: StepMarker) => {
+    if (selectedStepIndex === undefined) {
+      return m.color
+    }
+    if (selectedStepIndex === m.position) {
+      return 'var(--active-color-border)'
+    }
+    if (m.tags?.includes('community')) {
+      return 'green'
+    }
+    if (selectedStepIndex > m.position) {
+      return 'var(--inactive-color-border)'
+    }
+    if (selectedStepIndex < m.position) {
+      return m.color
+    }
+    return m.color
+  }
+
   return (
     <>
       {markers.map((m, i) => (
-        <>
+        <Fragment key={i + '_fragment1'}>
           {m && (
-            <>
+            <Fragment key={i + 'fragment2'}>
               <Marker
                 {...m}
-                color={
-                  selectedStepIndex != undefined &&
-                  selectedStepIndex >= m.position
-                    ? selectedStepIndex == m.position
-                      ? '#eb5933'
-                      : '#d4da68'
-                    : m.color
-                }
-                key={(i + 1) * Math.random() * 100}
-                onClick={() =>
-                  router.push(`/mystories/story/${storyID}/${m.position}`)
-                }
+                color={getMarkerColor(m)}
+                key={`${m.position}_${selectedStepIndex}_marker`}
+                onClick={() => {
+                  const pathLocal =
+                    path?.split('/').splice(2, 4).join('/') ??
+                    'gallery/all/story/'
+                  router.push(`/${pathLocal}/${m.position}`)
+                }}
                 // rotationAlignment='horizon'
                 style={{
+                  zIndex: selectedStepIndex == m.position ? 10 : 0,
                   padding: '10px',
                   cursor: 'pointer',
                 }}
@@ -85,15 +101,15 @@ export default function Markers({ markers, onClick }: Props) {
                 }}
               >
                 {selectedStepIndex == m.position && (
-                  <h3 className="label-shadow">
+                  <h3 className="label-shadow" key={i + 'h3'}>
                     {m.position + 1}. {m.title}{' '}
                   </h3>
                 )}
-                {selectedStepIndex != m.position && <h3></h3>}
+                {selectedStepIndex != m.position && <h3 key={i + 'h3'}></h3>}
               </Marker>
-            </>
+            </Fragment>
           )}
-        </>
+        </Fragment>
       ))}
       <Source data={triggerHoverLayerData} type="geojson">
         <Layer {...triggerHoverLayerStyle} id="step-hover" />
