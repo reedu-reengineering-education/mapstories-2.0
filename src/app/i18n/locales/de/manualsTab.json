@@ -1,0 +1,17 @@
+{
+  "title": "Anleitungen",
+  "startText": "Hier erfährst du wie du verschieden Features von Mapstories nutzen kannst:",
+  "manuals1_title": "1. Community Modus",
+  "manuals1_texta": "Es gibt jetzt eine neue kollaborative Funktion bei Mapstories, den sogenannten \"Community Modus\". Dabei können externe Nutzer:innen angefangene oder fertige Mapstories ergänzen, indem sie Vorschläge für einen neuen Inhalte auf dem Globus machen. Nach jeder existieren Folie kann ein neuer \"Step\" hinzugefügt werden, mit Bildern, Audios, Links und Texte sowie ein Standort auf der Karte. Dieser Vorschlag muss dann vom Ersteller der Mapstory freigegeben werden. So können zum Beispiel Lehrer:innen Mapstories durch Schüler:innen mit Inhalten ergänzen lassen. Dadurch entsteht eine ganz neue kollaborative Bandbreite an Nutzungsmöglichkeiten des Tools.",
+  "manuals1_textb": "Anleitung: Nutzung des Community-Modus.",
+  "manuals1_lista": "Neue Mapstory erstellen oder bereits erstellte Mapstory öffnen.",
+  "manuals1_listb": "Unter Optionen \"Community Modus\" einstellen (Darauf achten, dass die Mapstory auf \"öffentlich\" gestellt wurde.)",
+  "manuals1_listc": "Ab jetzt können externe Nutzer, die den Link zur Story erhalten und Steps hinzufügen.",
+  "manuals1_listd": "Ab der Folie nach der Startfolie erscheint oben rechts im weißen Inhaltsbereich der Button \"Step hinzufügen\".",
+  "manuals1_liste": "Nach Klicken auf den Button erscheint eine kurze Erläuterung.",
+  "manuals1_listf": "Die Nutzer:innen werden Schritt für Schritt durchgeführt: So können eine Überschrift, einen Text, Links und Medien eingefügt werden. Zudem kann ein Punkt auf der Weltkarte angegeben werden. Wenn die Funktion \"Timeline\" eingestellt ist, kann auch ein Datum hinzugefügt werden.",
+  "manuals1_listg": "Nach dem Eintrag auf der Weltkarte erscheint eine Übersicht. Wenn alles stimmt auf \"Bestätigen\" klicken.",
+  "manuals1_listh": "Im nächsten Schritt verifizieren die Autor*innen die Eintragung / Community Step, der danach in der mapstory erscheint.",
+  "manuals1_listi": "Danach findet sich der neue Step in der Mapstory.",
+  "manuals1_listj": "Hier eine Mapstory zum Testen: <a class='text-blue-500' href=\"https://mapstories.de/de/gallery/all/story/mapstory-die-in-ein-anderes-konto-kopiert-wird/1\">https://mapstories.de/de/gallery/all/story/mapstory-die-in-ein-anderes-konto-kopiert-wird/1</a>"
+}

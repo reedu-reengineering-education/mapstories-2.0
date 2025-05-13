@@ -1,5 +1,7 @@
 {
   "your_titlepage": "The title page gives you an overview of your Mapstory and can be customized with media. <1/> Click on the plus sign on the left side for your first slide.",
   "click_on_map_to_set_marker": "Click on the map or use the search function to add a marker.",
-  "move_the_red_marker": "Click on the map or use the search function to move the red marker."
+  "move_the_red_marker": "Click on the map or use the search function to move the red marker.",
+  "noMobile": "Not optimized for smartphones or very small devices",
+  "noMobileText": "MapStory is not optimized for smartphones or very small devices. Please use a desktop computer or a tablet in landscape mode."
 }

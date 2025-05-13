@@ -102,10 +102,12 @@ export function TitleContentEdit({
             {...register('title')}
           />
         </div>
-        <Button disabled={isSaving} isLoading={isSaving} type="submit">
-          {stepItem && t('save')}
-          {!stepItem && t('create')}
-        </Button>
+        <div className="flex justify-end">
+          <Button disabled={isSaving} isLoading={isSaving} type="submit">
+            {stepItem && t('save')}
+            {!stepItem && t('create')}
+          </Button>
+        </div>
       </div>
     </form>
   )

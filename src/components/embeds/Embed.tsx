@@ -1,4 +1,3 @@
-import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { media_type } from '@/src/lib/media/media'
 import { useBoundStore } from '@/src/lib/store/store'
@@ -9,6 +8,7 @@ import { WikipediaEmbed } from './WikipediaEmbed'
 import { VideoEmbed } from './VideoEmbeds'
 import { SocialMediaEmbed } from './SocialMediaEmbed'
 import { GoogleStreetViewEmbed } from './GoogleStreetViewEmbed'
+import LamaPollEmbed from './LamaPollEmbed'
 
 export interface EmbedProps
   extends React.DetailedHTMLProps<
@@ -31,7 +31,6 @@ export function Embed({
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
-  const { t } = useTranslation(lng, 'embeds')
   // supported embed types https://github.com/cookpete/react-player
   const videoEmbedTypes = [
     'YOUTUBE',
@@ -44,7 +43,7 @@ export function Embed({
   const socialMediaEmbedTypes = ['TWITTER', 'INSTAGRAM', 'TIKTOK', 'FACEBOOK']
 
   return (
-    <div className="h-full w-full">
+    <>
       {media && videoEmbedTypes.includes(media.type) && (
         <VideoEmbed height={height} url={media.content} width={width} />
       )}
@@ -62,6 +61,9 @@ export function Embed({
       {media && media.type == 'PADLET' && (
         <PadletEmbed height={height} url={media.content} width={width} />
       )}
+      {media && media.type == 'LAMAPOLL' && (
+        <LamaPollEmbed height={height} url={media.content} width={width} />
+      )}
       {media && media.type == 'SPOTIFY' && (
         <SpotifyEmbed height={height} url={media.content} width={width} />
       )}
@@ -75,7 +77,7 @@ export function Embed({
       {media && media.type == 'EXTERNALIMAGE' && (
         <img alt={media.content} src={media.content} />
       )}
-      {media == null && <p>{t('Embed.notRecognized')}</p>}
-    </div>
+      {media == null && <p>Embed not recognized</p>}
+    </>
   )
 }

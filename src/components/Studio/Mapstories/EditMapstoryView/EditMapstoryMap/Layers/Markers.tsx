@@ -55,7 +55,10 @@ export default function Markers({ markers, onClick, onChange }: Props) {
         <Marker
           {...m}
           key={m.stepId + m.color}
-          onClick={() => onClick(m)}
+          onClick={e => {
+            e.originalEvent.stopPropagation()
+            onClick(m)
+          }}
           onDragEnd={onChange}
           style={{
             padding: '10px',

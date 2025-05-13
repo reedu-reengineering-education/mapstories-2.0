@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { InstagramEmbed, TwitterEmbed } from 'react-social-media-embed'
+import { TwitterEmbed } from 'react-social-media-embed'
 import { FacebookEmbed } from './FacebookEmbed'
 import { TikTokEmbed } from './TikTokEmbed'
+import { InstagramEmbed } from './InstagramEmbed'
 
 export interface SocialMediaEmbedProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -24,7 +25,7 @@ export function SocialMediaEmbed({
     case 'INSTAGRAM':
       return <InstagramEmbed height={height} url={url} width={width} />
     case 'TIKTOK':
-      return <TikTokEmbed height="640px" url={url} width="480px" />
+      return <TikTokEmbed url={url} />
     case 'FACEBOOK':
       return <FacebookEmbed height={height} url={url} width={width} />
     default:

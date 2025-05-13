@@ -25,6 +25,8 @@ export default function DeleteContentButton({
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'editModal')
 
+  const [open, setOpen] = useState(false)
+
   async function handleClick() {
     try {
       setIsSaving(true)
@@ -33,6 +35,7 @@ export default function DeleteContentButton({
         message: t('contentDeleted'),
         type: 'success',
       })
+      setOpen(false)
     } catch (e) {
       return toast({
         title: t('somethingWrong'),
@@ -49,6 +52,8 @@ export default function DeleteContentButton({
   return (
     <div className="absolute right-1 top-1 z-10 overflow-hidden rounded-md group-hover:visible">
       <Modal
+        onOpenChange={setOpen}
+        open={open}
         title={
           <span>
             {' '}
@@ -59,7 +64,7 @@ export default function DeleteContentButton({
           </span>
         }
         trigger={
-          <div className="flex cursor-pointer  p-2 transition-colors hover:bg-red-200">
+          <div className="flex cursor-pointer p-2 transition-colors hover:bg-red-200">
             <TrashIcon className="w-5 text-black" />
           </div>
         }
@@ -67,6 +72,10 @@ export default function DeleteContentButton({
         <Modal.Footer
           close={
             <div className="flex flex-row justify-between">
+              <Button disabled={isSaving} isLoading={isSaving}>
+                {/* @ts-ignore */}
+                {t('abort')}
+              </Button>
               <Button
                 disabled={isSaving}
                 isLoading={isSaving}
@@ -74,10 +83,6 @@ export default function DeleteContentButton({
                 variant={'danger'}
               >
                 {t('delete')}
-              </Button>
-              <Button disabled={isSaving} isLoading={isSaving}>
-                {/* @ts-ignore */}
-                {t('abort')}
               </Button>
             </div>
           }

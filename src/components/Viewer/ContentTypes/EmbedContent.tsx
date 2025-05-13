@@ -5,16 +5,19 @@ import { SlideContent } from '@prisma/client'
 import { Embed } from '../../embeds/Embed'
 import { urlToMedia } from '@/src/helper/urlToMedia'
 
-interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
+type SimpleSpread<L, R> = R & Pick<L, Exclude<keyof L, keyof R>>
+
+interface PropsExtra {
   content: SlideContent
 }
+interface EmbedContentEditProps
+  extends SimpleSpread<React.HTMLAttributes<HTMLFormElement>, PropsExtra> {}
 
 export function EmbedContent({ content }: EmbedContentEditProps) {
   return (
-    <div className="re-data-media-preview">
+    <div className="flex max-h-[24rem] w-full justify-center overflow-y-auto overflow-x-hidden">
       {content.content && (
         <Embed
-          height="65vh"
           media={urlToMedia(content.content)}
           options={content.options as object}
         />

@@ -64,6 +64,9 @@ model User {
   sessions      Session[]
   owner         Story[]   @relation("owner")
   story         Story[]   @relation("contributors")
+  verify_new_email_token String? 
+  new_email              String? 
+  password      String?
 
   @@map(name: "users")
 }
@@ -77,12 +80,28 @@ model VerificationToken {
   @@map(name: "verification_tokens")
 }
 
+model PasswordResetToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique ([email, token])
+}
+
+enum StoryMode {
+  NORMAL
+  TIMELINE
+}
+
 model Story {
   id          String      @id @default(cuid())
   name        String?
   slug        String      @unique
   description String?
-  theme       String?
+  author      String? 
+  theme       Theme?  @relation(fields: [themeId], references: [name])
+  themeId     String?     
   steps       StoryStep[] @relation("steps")
   firstStep   StoryStep?  @relation("firstStep", fields: [firstStepId], references: [id])
   firstStepId String?     @unique
@@ -92,6 +111,10 @@ model Story {
   visibility  Visibility
   createdAt   DateTime    @default(now()) @map(name: "created_at")
   updatedAt   DateTime    @default(now()) @map(name: "updated_at")
+  mode        StoryMode   @default(NORMAL)
+  lines       Boolean     @default(true)
+  stepSuggestions StoryStepSuggestion[] @relation("storySuggestions")
+  community   Boolean     @default(false)
 
   @@map(name: "stories")
 }
@@ -106,13 +129,48 @@ model StoryStep {
   connections    Connection[] //incoming
   viewport       Json
   storyTitleStep Story?         @relation("firstStep")
+  timestamp      DateTime?
+  tags           String[]
 
   @@map(name: "storysteps")
 }
 
+
+model StoryStepSuggestion {
+  id            String   @id @default(cuid())
+  position      Int 
+  Story         Story?    @relation("storySuggestions", fields: [storyId], references: [id], onDelete: Cascade)
+  storyId       String?
+  feature       Json?
+  content       SlideContent[]
+  viewport      Json
+  timestamp     DateTime?
+  tags         String[]
+  status        SuggestionStatus @default(PENDING)
+
+  @@map(name: "storystepsuggestions")
+}
+
+enum SuggestionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 model Theme {
-  name       String @id @default(cuid())
-  fontFamily String
+  name              String @id @default(cuid())
+  Story             Story[]
+  fontFamily        String?
+  shadow_color      String?
+  border            String?
+  box_shadow        String?
+  border_radius     String?
+  text_color        String?
+  background_color  String?
+  button_color      String?
+  
+  @@map(name: "theme")
+
 }
 
 model SlideContent {
@@ -121,11 +179,13 @@ model SlideContent {
   type        MediaType
   position    Int
   options     Json?
-  storyStep   StoryStep @relation(fields: [storyStepId], references: [id], onDelete: Cascade)
-  storyStepId String
+  storyStep   StoryStep? @relation(fields: [storyStepId], references: [id], onDelete: Cascade)
+  storyStepId String?
+  suggestionId String?
+  suggestion  StoryStepSuggestion? @relation(fields: [suggestionId], references: [id])
   ogData      Json?
   media       Media?    @relation(fields: [mediaId], references: [id])
-  mediaId     String?   @unique
+  mediaId     String?   
 
   @@map(name: "slidecontent")
 }
@@ -148,6 +208,7 @@ model Media {
   url     String?
   altText String?
   caption String?
+  source  String?
   slide   SlideContent[]
 
   @@map(name: "media")
@@ -176,5 +237,6 @@ enum MediaType {
   IMAGE
   EXTERNALIMAGE
   AUDIO
+  LAMAPOLL
   GOOGLESTREETVIEW
 }

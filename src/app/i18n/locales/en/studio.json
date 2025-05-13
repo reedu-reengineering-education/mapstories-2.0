@@ -11,5 +11,6 @@
   "contentNotDeleted": "Your content was not deleted, please try again.",
   "confirmDeleteMapstory": "Do you really want to delete the Mapstory?",
   "confirmDeleteStep": "Do you really want to delete this step?",
-  "abort": "Cancel"
+  "abort": "Cancel",
+  "noSteps": "Add steps in order to see the timeline!"
 }

@@ -3,6 +3,14 @@ import { useTranslation } from '@/src/app/i18n/client'
 import Link from 'next/link'
 import { Button } from '@/src/components/Elements/Button'
 import { EnvelopeClosedIcon } from '@radix-ui/react-icons'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/src/components/Elements/Card'
 
 export default function SupportTab() {
   const lng = useBoundStore(state => state.language)
@@ -10,56 +18,72 @@ export default function SupportTab() {
   const { t } = useTranslation(lng, 'supportTab')
 
   return (
-    <div className="flex flex-col gap-10 p-10">
-      <div className="flex flex-row items-center gap-20">
-        <div className="flex flex-col gap-2">
+    <Card>
+      <CardHeader>
+        {/* @ts-ignore */}
+        <CardTitle>{t('title')}</CardTitle>
+        {/* @ts-ignore */}
+        <CardDescription>{t('text1')}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>
           {/* @ts-ignore */}
-          <div>{t('text1')}</div>
-          <p>
+          <b>{t('text2Title')}</b>
+        </p>
+        {/* @ts-ignore */}
+        <p>{t('text2')}</p>
+        <p>
+          {/* @ts-ignore */}
+          <b>{t('text3Title')}</b>
+        </p>
+        {/* @ts-ignore */}
+        <p>{t('text3')}</p>
+        <div>
+          <a
+            className="text-blue-500"
+            href="https://secure.spendenbank.de/form/3267?langid=1"
+          >
             {/* @ts-ignore */}
-
-            <b>{t('text2Title')}</b>
-          </p>
+            {t('Here')}
+          </a>
           {/* @ts-ignore */}
-
-          <p>{t('text2')}</p>
-
-          <p>
-            {/* @ts-ignore */}
-
-            <b>{t('text3Title')}</b>
-          </p>
-          {/* @ts-ignore */}
-
-          <p>{t('text3')}</p>
-
-          <p>
-            {/* @ts-ignore */}
-
-            <b>{t('text4Title')}</b>
-          </p>
-          {/* @ts-ignore */}
-
-          <p>{t('text4')}</p>
-
-          <p>
-            {/* @ts-ignore */}
-
-            <b>{t('text5Title')}</b>
-          </p>
-          {/* @ts-ignore */}
-
-          <p>{t('text5')}</p>
+          <span>{t('donate')}</span>
         </div>
-      </div>
-      <div>
-        <Link href="mailto:mapstories@vamos-muenster.de">
-          <Button startIcon={<EnvelopeClosedIcon className="w-5" />}>
+        <p>
+          {/* @ts-ignore */}
+          <b>{t('text4Title')}</b>
+        </p>
+        {/* @ts-ignore */}
+        <p>{t('text4')}</p>
+        <p>
+          {/* @ts-ignore */}
+
+          <b>{t('text5Title')} </b>
+        </p>
+        <p>
+          <span>
             {/* @ts-ignore */}
-            {t('buttonInquiry')}
-          </Button>
-        </Link>
-      </div>
-    </div>
+            {t('text5')}
+          </span>{' '}
+          <a
+            className="text-blue-500"
+            href="https://github.com/reedu-reengineering-education/mapstories-2.0"
+          >
+            {/* @ts-ignore */}
+            {t('here')}
+          </a>
+        </p>
+      </CardContent>
+      <CardFooter>
+        <div>
+          <Link href="mailto:mapstories@vamos-muenster.de">
+            <Button startIcon={<EnvelopeClosedIcon className="w-5" />}>
+              {/* @ts-ignore */}
+              {t('buttonInquiry')}
+            </Button>
+          </Link>
+        </div>
+      </CardFooter>
+    </Card>
   )
 }

@@ -41,7 +41,7 @@ export function TikTokEmbed({
         <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>
           <iframe
             allowFullScreen
-            height="680px"
+            height="800px"
             src={embedUrl}
             title="TikTok Video"
             width="100%"

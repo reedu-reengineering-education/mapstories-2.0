@@ -1,5 +1,7 @@
 {
   "your_titlepage": "La página de título te proporciona una visión general de tu Mapstory y se puede personalizar con medios. <1/> Haz clic en el signo más en el lado izquierdo para tu primera diapositiva.",
   "click_on_map_to_set_marker": "Haz clic en el mapa o usa la función de búsqueda para agregar un marcador.",
-  "move_the_red_marker": "Haz clic en el mapa o usa la función de búsqueda para mover el marcador rojo."
+  "move_the_red_marker": "Haz clic en el mapa o usa la función de búsqueda para mover el marcador rojo.",
+  "noMobile": "MapStory no está optimizado para dispositivos móviles",
+  "noMobileText": "MapStory no está optimizado para dispositivos móviles. Por favor, usa una computadora de escritorio o una tableta para usar MapStory"
 }

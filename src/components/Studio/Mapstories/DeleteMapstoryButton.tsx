@@ -23,6 +23,8 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
 
   const { t } = useTranslation(lng, 'studio')
 
+  const [open, setOpen] = useState(false)
+
   async function handleClick() {
     if (loading) {
       return
@@ -51,6 +53,8 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
 
   return (
     <Modal
+      onOpenChange={setOpen}
+      open={open}
       title={
         <span>
           {t('confirmDeleteMapstory')}
@@ -68,10 +72,10 @@ export default function DeleteMapstoryButton({ id }: { id: string }) {
       <Modal.Footer
         close={
           <div className="flex flex-row justify-between">
+            <Button>{t('abort')}</Button>
             <Button onClick={handleClick} variant={'danger'}>
               {t('delete')}
             </Button>
-            <Button>{t('abort')}</Button>
           </div>
         }
       />

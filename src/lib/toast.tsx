@@ -14,7 +14,7 @@ export function Toast({ visible, className, ...props }: ToastProps) {
   return (
     <div
       className={cx(
-        'min-h-16 mb-2 flex w-[350px] flex-col items-start gap-1 rounded-md px-6 py-4 shadow-lg',
+        'mb-2 flex min-h-16 w-[350px] flex-col items-start gap-1 rounded-md px-6 py-4 shadow-lg',
         visible ? 'animate-in slide-in-from-bottom-5' : '',
         className,
       )}
@@ -57,8 +57,8 @@ export function toast(opts: ToastOpts) {
           type === 'error'
             ? 'bg-red-600 text-white'
             : type === 'success'
-            ? 'bg-black text-white'
-            : '',
+              ? 'bg-black text-white'
+              : '',
         )}
         visible={visible}
       >

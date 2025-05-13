@@ -11,5 +11,6 @@
   "contentNotDeleted": "Votre contenu n'a pas été supprimé, veuillez réessayer.",
   "confirmDeleteMapstory": "Voulez-vous vraiment supprimer la Mapstory ?",
   "confirmDeleteStep": "Voulez-vous vraiment supprimer cette étape ?",
-  "abort": "Annuler"
+  "abort": "Annuler",
+  "noSteps": "Ajoutez des étapes pour voir la ligne de temps !"
 }

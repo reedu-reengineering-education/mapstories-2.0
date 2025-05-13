@@ -9,26 +9,70 @@ import { MediaContentEdit } from './MediaContentType'
 interface ContentEditFactoryProps {
   stepItem: SlideContent
   storyStepId: string
+  setShowModal?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export function ContentEditFactory({
   stepItem,
   storyStepId,
+  setShowModal,
 }: ContentEditFactoryProps) {
   switch (stepItem.type) {
     case 'TITLE':
-      return <TitleContentEdit stepItem={stepItem} storyStepId={storyStepId} />
+      return (
+        <TitleContentEdit
+          setShowModal={setShowModal}
+          stepItem={stepItem}
+          storyStepId={storyStepId}
+        />
+      )
     case 'TEXT':
-      return <TextContentEdit stepItem={stepItem} storyStepId={storyStepId} />
+      return (
+        <TextContentEdit
+          setShowModal={setShowModal}
+          stepItem={stepItem}
+          storyStepId={storyStepId}
+        />
+      )
     case 'IMAGE' || 'VIDEO':
-      return <MediaContentEdit stepItem={stepItem} storyStepId={storyStepId} />
+      return (
+        <MediaContentEdit
+          setShowModal={setShowModal}
+          stepItem={stepItem}
+          storyStepId={storyStepId}
+        />
+      )
     case 'EXTERNALIMAGE':
-      return <MediaContentEdit stepItem={stepItem} storyStepId={storyStepId} />
+      return (
+        <MediaContentEdit
+          setShowModal={setShowModal}
+          stepItem={stepItem}
+          storyStepId={storyStepId}
+        />
+      )
     case 'AUDIO':
-      return <MediaContentEdit stepItem={stepItem} storyStepId={storyStepId} />
+      return (
+        <MediaContentEdit
+          setShowModal={setShowModal}
+          stepItem={stepItem}
+          storyStepId={storyStepId}
+        />
+      )
     case 'VIDEO':
-      return <MediaContentEdit stepItem={stepItem} storyStepId={storyStepId} />
+      return (
+        <MediaContentEdit
+          setShowModal={setShowModal}
+          stepItem={stepItem}
+          storyStepId={storyStepId}
+        />
+      )
     default:
-      return <EmbedContentEdit stepItem={stepItem} storyStepId={storyStepId} />
+      return (
+        <EmbedContentEdit
+          setShowModal={setShowModal}
+          stepItem={stepItem}
+          storyStepId={storyStepId}
+        />
+      )
   }
 }

@@ -1,6 +1,5 @@
 'use client'
 
-import useStory from '@/src/lib/api/story/useStory'
 import { useBoundStore } from '@/src/lib/store/store'
 import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
@@ -10,17 +9,23 @@ import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import { cx } from 'class-variance-authority'
 
 type Props = {
+  filter: string
   slug: string
   page: string
   slidesOpen: boolean
+  story: any
 }
 
-export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
+export function StorySlideListViewer({
+  filter,
+  slug,
+  page,
+  slidesOpen,
+  story,
+}: Props) {
   const router = useRouter()
   const path = usePathname()
-  const onMyStoriesRoute = path?.includes('mystories')
   const setStoryID = useBoundStore(state => state.setStoryID)
-  const { story } = useStory(slug)
 
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
@@ -42,16 +47,11 @@ export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
     updateSelectedStepIndex(parseInt(page))
   }, [])
 
-  function startStory() {
-    onMyStoriesRoute
-      ? router.push(`/mystories/story/${slug}/0`)
-      : router.push(`/gallery/story/${slug}/0`)
-  }
-
   function goToStep(position: number) {
-    onMyStoriesRoute
-      ? router.push(`/mystories/story/${slug}/${position}`)
-      : router.push(`/gallery/story/${slug}/${position}`)
+    const pathLocal =
+      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
+
+    router.push(`${pathLocal}/${slug}/${position}`)
   }
 
   const variantsList = {
@@ -71,7 +71,7 @@ export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
 
   const variantsItem = {
     open: (i: number) => ({
-      opacity: 0.85,
+      opacity: 1,
       y: 0,
       transition: {
         y: { stiffness: 1000, velocity: -100 },
@@ -89,24 +89,22 @@ export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
   }
 
   return (
-    <div className="py-4">
-      {/* {story?.steps && story?.steps?.length > 0 && ( */}
+    <div className={slidesOpen ? 'block' : 'hidden'}>
       <motion.ul
         animate={slidesOpen ? 'open' : 'closed'}
-        className="re-viewer-slides absolute px-2"
+        className="re-viewer-slides absolute bg-white px-2 py-4"
         exit={'closed'}
-        initial={slidesOpen ? 'open' : 'closed'}
         variants={variantsList}
       >
         {story?.steps
-          ?.sort((a, b) => a.position - b.position)
-          .map((step, i) => {
+          ?.sort((a: any, b: any) => a.position - b.position)
+          .map((step: any, i: number) => {
             //   return <div key={step.position}>Side {step.position}</div>
             return (
               <motion.li
                 animate={slidesOpen ? 'open' : 'closed'}
                 className={cx(
-                  'my-2 h-12 w-20  cursor-pointer px-1 py-3',
+                  'my-2 h-12 cursor-pointer px-1 py-3',
                   step.position == parseInt(page)
                     ? 'border-2 bg-active'
                     : 'bg-slate-100',
@@ -122,14 +120,14 @@ export function StorySlideListViewer({ slug, page, slidesOpen }: Props) {
               >
                 <div className="overflow-hidden">
                   <span className="whitespace-nowrap">
-                    {step.position + 1}. {getSlideTitle(step.content)}
+                    {step.position + 1}.{' '}
+                    {getSlideTitle(step.content).substring(0, 20)}
                   </span>
                 </div>
               </motion.li>
             )
           })}
       </motion.ul>
-      {/* )} */}
     </div>
   )
 }

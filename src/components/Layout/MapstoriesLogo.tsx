@@ -6,6 +6,7 @@ import logoClaim from '@/assets/logos/logo_text_claim.png'
 import logoTextTransparent from '@/assets/logos/logo_text_transparent.png'
 import { HTMLAttributes } from 'react'
 import { cx } from 'class-variance-authority'
+import ZeitgeistyLogo from '../Icons/ZeitgeistyLogo'
 
 export function LogoWithTextAndBackground(
   props: HTMLAttributes<HTMLDivElement>,
@@ -78,4 +79,8 @@ export function LogoWithClaimAndBackground(
       />
     </div>
   )
+}
+
+export function LogoZeitgeisty(props: HTMLAttributes<HTMLDivElement>) {
+  return <ZeitgeistyLogo className={cx('h-10 fill-white', props.className)} />
 }

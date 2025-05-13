@@ -32,7 +32,8 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
     <>
       <Modal
         onClose={() => setContentType('')}
-        show={show}
+        onOpenChange={setShowModal}
+        open={show}
         title={''}
         trigger={trigger}
       >
@@ -96,13 +97,14 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                   unmountOnExit
                 >
                   <div className="top-0">
-                    <div className="absolute -top-6 ">
+                    <div className="absolute -top-6">
                       <button
                         className="flex"
                         onClick={() => setContentType('')}
                       >
-                        <ArrowLeftIcon className="mr-2 h-6 w-6"></ArrowLeftIcon>{' '}
-                        Zurück
+                        <div>
+                          <ArrowLeftIcon className="mr-2 h-6 w-6"></ArrowLeftIcon>
+                        </div>
                       </button>
                     </div>
                     <div className="pt-2">

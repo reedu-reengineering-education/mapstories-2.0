@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react'
 import ReactPlayer from 'react-player'
 
@@ -19,7 +20,7 @@ export function VideoEmbed({
       height="100%"
       style={{ aspectRatio: '4/3' }}
       url={url}
-      width="100%"
+      width="80%"
     />
   )
 }

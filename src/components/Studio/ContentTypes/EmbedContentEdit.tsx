@@ -53,7 +53,7 @@ export function EmbedContentEdit({
     lng = fallbackLng
   }
 
-  const { addMedia } = useMedia(storyStepId)
+  const { addMedia } = useMedia()
 
   const { content: url } = watch()
   useEffect(() => {
@@ -73,7 +73,7 @@ export function EmbedContentEdit({
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [media, setMedia] = useState<media_type | undefined>(stepItem)
   const [optionState, setOptionState] = useState(stepItem?.options)
-
+  const [fileSource, setFileSource] = useState<string | undefined>(undefined)
   const { addContent, updateContent } = useStep(storyStepId)
 
   async function onSubmit(data: FormData) {
@@ -90,6 +90,7 @@ export function EmbedContentEdit({
           const uploadedMedia = await addMedia({
             name: generateRandomName(),
             url: media?.content,
+            source: fileSource,
             size: 's',
           })
           await addContent({
@@ -133,6 +134,14 @@ export function EmbedContentEdit({
     } else if (new_media && new_media.type != 'YOUTUBE' && optionState) {
       setOptionState(null)
     }
+    if (new_media?.type == 'EXTERNALIMAGE') {
+      setFileSource(url.split('/')[0] + '//' + url.split('/')[2])
+    }
+  }
+
+  const handleFileSource = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement
+    setFileSource(target.value)
   }
 
   return (
@@ -141,24 +150,26 @@ export function EmbedContentEdit({
       onSubmit={handleSubmit(onSubmit)}
       {...props}
     >
-      <div className="top-0">
-        <InputLabel>{t('embeds:EmbedContentEdit.InputLabel')}</InputLabel>
-        <p className="my-2 text-sm font-bold">
-          {t('embeds:EmbedContentEdit.platforms')}
-        </p>
-        <MediaIconList usedMediaType={media?.type} />
-        <div className="pt-4">
-          <Input
-            defaultValue={stepItem ? stepItem.content : ''}
-            errors={errors.content}
-            label="content"
-            size={100}
-            {...register('content')}
-          />
+      <div className="top-0 flex flex-col">
+        <div className="w-full">
+          <InputLabel>{t('embeds:EmbedContentEdit.InputLabel')}</InputLabel>
+          <p className="my-2 text-sm font-bold">
+            {t('embeds:EmbedContentEdit.platforms')}
+          </p>
+          <MediaIconList usedMediaType={media?.type} />
+          <div className="pt-4">
+            <Input
+              defaultValue={stepItem ? stepItem.content : ''}
+              errors={errors.content}
+              label="content"
+              size={100}
+              {...register('content')}
+            />
+          </div>
         </div>
-        <div className="re-data-media-preview pb-4 pt-4">
+
+        <div className="re-data-media-preview max-h-[20rem] overflow-y-auto pb-4 pt-4">
           <Embed
-            height="50vh"
             media={media}
             options={optionState ? optionState : undefined}
           />
@@ -174,10 +185,21 @@ export function EmbedContentEdit({
             </div>
           )}
         </div>
-        <Button disabled={isSaving} isLoading={isSaving} type="submit">
-          {stepItem && t('editModal:save')}
-          {!stepItem && t('editModal:create')}
-        </Button>
+        {/* input field to give a source */}
+        <div className="flex items-center gap-2">
+          <InputLabel>{t('embeds:EmbedContentEdit.source') + ' '} </InputLabel>
+          <Input
+            className="bg-slate-50"
+            onChange={e => handleFileSource(e)}
+            value={fileSource}
+          />
+        </div>
+        <div className="flex justify-end">
+          <Button disabled={isSaving} isLoading={isSaving} type="submit">
+            {stepItem && t('editModal:save')}
+            {!stepItem && t('editModal:create')}
+          </Button>
+        </div>
       </div>
     </form>
   )

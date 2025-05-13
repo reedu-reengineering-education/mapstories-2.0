@@ -1,4 +1,5 @@
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { CharityBanner } from '@/src/components/Index/CharityBanner'
 
 import { db } from '@/src/lib/db'
 import AnimatedMap from './AnimatedMap'
@@ -39,11 +40,15 @@ export default async function Page({
 
   return (
     <>
-      <div className="relative h-[100vh] w-full ">
+      <div className="relative h-[100vh] w-full">
         <AnimatedMap />
       </div>
-      <div className="container relative z-50 mx-auto my-6 w-7/12 flex-1 -translate-y-[60vh] ">
+
+      <div className="container relative z-50 mx-auto my-6 flex w-7/12 basis-1/2 -translate-y-[85vh] flex-col lg:-translate-y-[80vh]">
         <PageContent />
+      </div>
+      <div className="absolute bottom-5 z-50 mx-auto hidden w-full p-2 lg:block">
+        <CharityBanner />
       </div>
     </>
   )

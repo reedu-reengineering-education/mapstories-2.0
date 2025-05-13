@@ -1,13 +1,24 @@
 import { cx } from 'class-variance-authority'
 import { Spinner } from './Spinner'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 type ImageProps = {
   src: string
   size: string
   alt?: string
+  source?: string
+  variant?: string
 }
 
-export default function SizedImage({ src, size, alt }: ImageProps) {
+export default function SizedImage({
+  src,
+  size,
+  alt,
+  source,
+  variant,
+}: ImageProps) {
   let width, height
   switch (size) {
     case 's':
@@ -30,17 +41,33 @@ export default function SizedImage({ src, size, alt }: ImageProps) {
       width = 100
       height = 100
   }
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+
+  const { t } = useTranslation(lng, 'embeds')
   if (src) {
     return (
-      <div className="relative ">
+      <div className="flex flex-col items-center">
         <img
           className={cx(
             'max-h-[20rem] object-scale-down',
             size == 'xs' ? 'h-10 w-10' : '',
+            size == 's' ? 'h-20 w-20' : '',
+            variant == 'round' ? 'rounded-full' : '',
           )}
           // className="max-h-[20rem] object-scale-down"
           src={src}
         ></img>
+        {/* subtitle below the picture */}
+        {source && (
+          <div className="py-2 text-center text-sm text-slate-500">
+            {/* @ts-ignore */}
+            <span>{t('embeds:EmbedContentEdit.source') + ': ' + source}</span>
+          </div>
+        )}
+
         {/* <Image
           alt={alt ? alt : src}
           className="max-w-[100%]"

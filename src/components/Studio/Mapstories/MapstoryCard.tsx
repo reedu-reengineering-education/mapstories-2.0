@@ -13,8 +13,7 @@ import { useBoundStore } from '@/src/lib/store/store'
 import ShareModal from './ShareModal'
 import EmbedModal from './EmbedModal'
 import { EyeIcon, PencilIcon } from '@heroicons/react/24/outline'
-import SettingsModal from './SettingsModal'
-
+import { StoryBadge } from './StoryBadge'
 type Props = {
   mapstory: Story
 }
@@ -26,12 +25,13 @@ export function MapstoryCard({ mapstory }: Props) {
   return (
     <Card>
       <Card.Header>
+        {mapstory.mode === 'TIMELINE' && <StoryBadge mode={mapstory.mode} />}
         <Card.Title>{mapstory.name}</Card.Title>
       </Card.Header>
       <Card.Footer>
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            <Link href={`/mystories/story/${mapstory.slug}/start`}>
+            <Link href={`/mystories/all/story/${mapstory.slug}/start`}>
               <Button startIcon={<EyeIcon className="w-5" />}>
                 {t('play')}
               </Button>
@@ -44,9 +44,18 @@ export function MapstoryCard({ mapstory }: Props) {
                 {t('edit')}
               </Button>
             </Link>
-            <SettingsModal storyId={mapstory.id} />
+            {/* <SettingsModal storyId={mapstory.id} /> */}
+            {/* <CopyModal storyId={mapstory.id} /> */}
             <ShareModal storyId={mapstory.id} />
-            <EmbedModal storyId={mapstory.id} />
+            <EmbedModal storyId={mapstory.slug} />
+            {(mapstory as any).stepSuggestions.length > 0 && (
+              <Link href={`/storylab/stepSuggestions/${mapstory.id}`}>
+                <Button startIcon={<PencilIcon className="w-5" />}>
+                  {/* @ts-ignore */}
+                  Offene Vorschläge ({mapstory.stepSuggestions.length})
+                </Button>
+              </Link>
+            )}
           </div>
           <DeleteMapstoryButton id={mapstory.id} />
         </div>

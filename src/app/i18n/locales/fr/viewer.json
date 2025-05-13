@@ -2,5 +2,11 @@
   "more": "En savoir plus",
   "play": "Lecture",
   "close": "Fermer",
-  "storyNotAvailable": "Cette Mapstory n'est pas disponible."
+  "storyNotAvailable": "Cette Mapstory n'est pas disponible.",
+  "filter": "Filtre",
+  "reset": "Réinitialiser",
+  "apply": "Appliquer",
+  "noSteps": "Aucun filtre n'est disponible",
+  "landscapeModeTitle": "Smartphone en mode paysage !",
+  "landscapeModeText": "La visionneuse est optimisée pour les smartphones en mode paysage. Veuillez tourner votre téléphone !"
 }

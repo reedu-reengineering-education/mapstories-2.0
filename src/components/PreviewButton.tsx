@@ -10,7 +10,6 @@ function getSlidePositionById(story: any, slideid: any) {
     const slidePosition = slides?.filter(
       (slide: any) => slide.id === slideid,
     )[0]
-    console.log(slidePosition)
     return slidePosition.position || 'start'
   } catch (e) {
     return 'start'
@@ -25,14 +24,21 @@ export function PreviewButton(story: any) {
 
   const lng = pathnameArr[1]
   const previewText =
-    lng === 'de' ? 'Vorschau' : lng === 'en' ? 'Preview' : 'Vista previa'
+    lng === 'de'
+      ? 'Story anschauen'
+      : lng === 'en'
+        ? 'View Story'
+        : 'Vista previa'
 
   const storyid = pathnameArr[3]
   const slideid = pathnameArr[4]
   const slidePosition = getSlidePositionById(story, slideid)
 
   return (
-    <a href={`/mystories/story/${storyid}/${slidePosition}`} target="_blank">
+    <a
+      href={`/mystories/all/story/${storyid}/${slidePosition}`}
+      target="_blank"
+    >
       <Button
         className="re-basic-box"
         startIcon={<EyeIcon className="w-5" />}

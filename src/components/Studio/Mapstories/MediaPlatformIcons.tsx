@@ -3,7 +3,7 @@ import { MediaType } from '@prisma/client'
 import EmbedIconFactory from '../../Icons/EmbedIconFactory'
 import { Tooltip } from '../../Tooltip'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 type MediaIconListProps = {
   usedMediaType?: MediaType
@@ -55,56 +55,60 @@ const mediaNames = new Map<MediaType, string>([
   ['SOUNDCLOUD', 'Soundcloud'],
   ['VIMEO', 'Vimeo'],
   ['DAILYMOTION', 'Dailymotion'],
+  ['LAMAPOLL', 'LamaPoll'],
 ])
 
 export default function MediaIconList({ usedMediaType }: MediaIconListProps) {
   // redeclare as let variable if more postions need to moved
   const newObject = moveElementToPosition(MediaType, 'EXTERNALIMAGE', 1)
   return (
-    <div className="flex -space-x-2">
-      <AnimatePresence>
-        {Object.keys(newObject)
-          .filter(t => !['TITLE', 'TEXT', 'IMAGE', 'VIDEO'].includes(t)) // Only the social media types
-          .filter(t => {
-            if (!usedMediaType) {
-              return true
-            }
-            return t === usedMediaType
-          })
-          .map(icon => (
-            <motion.div
-              animate={{
-                y: 0,
-                x: 0,
-                opacity: 1,
-              }}
-              exit={{
-                opacity: 0,
-              }}
-              initial={{
-                y: 0,
-                x: -100,
-                opacity: 0,
-              }}
-              key={icon}
-              layout
-              transition={{
-                layout: {
-                  duration: 0.3,
-                },
-              }}
+    <div className="flex -space-x-3">
+      {Object.keys(newObject)
+        .filter(
+          t =>
+            !['TITLE', 'TEXT', 'IMAGE', 'VIDEO', 'GOOGLESTREETVIEW'].includes(
+              t,
+            ),
+        ) // Only the social media types
+        .filter(t => {
+          if (!usedMediaType) {
+            return true
+          }
+          return t === usedMediaType
+        })
+        .map(icon => (
+          <motion.div
+            animate={{
+              y: 0,
+              x: 0,
+              opacity: 1,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            initial={{
+              y: 0,
+              x: -100,
+              opacity: 0,
+            }}
+            key={icon}
+            layout
+            transition={{
+              layout: {
+                duration: 0.3,
+              },
+            }}
+          >
+            <Tooltip
+              content={mediaNames.get(icon as MediaType) as string}
+              maxwidth={'350px'}
             >
-              <Tooltip
-                content={mediaNames.get(icon as MediaType) as string}
-                maxwidth={'350px'}
-              >
-                <div>
-                  <EmbedIconFactory type={icon as MediaType} />
-                </div>
-              </Tooltip>
-            </motion.div>
-          ))}
-      </AnimatePresence>
+              <div>
+                <EmbedIconFactory type={icon as MediaType} />
+              </div>
+            </Tooltip>
+          </motion.div>
+        ))}
     </div>
   )
 }

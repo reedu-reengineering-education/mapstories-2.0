@@ -1,5 +1,4 @@
 import { Media, SlideContent, StoryStep } from '@prisma/client'
-import { useBoundStore } from '../../store/store'
 import { addMedia } from './addMedia'
 import { getMedia } from './getMedia'
 import { deleteMedia } from './deleteMedia'
@@ -8,11 +7,9 @@ export type StepWithContent = StoryStep & {
   content: SlideContent[]
 }
 
-const useMedia = (stepId: string) => {
-  const storyId = useBoundStore(store => store.storyID)
-
+const useMedia = () => {
   const APIAddMedia = async (content: Partial<Media>) => {
-    const addSlideContentRequest = addMedia(storyId, stepId, content)
+    const addSlideContentRequest = addMedia(content)
     const newContent = (await addSlideContentRequest).data
 
     return newContent
@@ -28,7 +25,6 @@ const useMedia = (stepId: string) => {
   const APIDeleteMedia = async (fileName: string, mediaId: string) => {
     const deleteImageRequest = deleteMedia(fileName, mediaId)
     const deletedContent = (await deleteImageRequest).data
-
     return deletedContent
   }
 

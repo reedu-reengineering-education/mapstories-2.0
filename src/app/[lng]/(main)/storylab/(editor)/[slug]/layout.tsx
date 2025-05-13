@@ -6,7 +6,6 @@ import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import { PreviewButton } from '@/src/components/PreviewButton'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
 import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
-import MapstorySidebar from '@/src/components/Studio/Mapstories/Sidebar/MapstorySidebar'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
@@ -37,8 +36,21 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
           content: true,
         },
       },
+      theme: true,
     },
   })
+}
+
+const countStories = async (userId: User['id']) => {
+  return await db.story.count({
+    where: {
+      ownerId: userId,
+    },
+  })
+}
+
+async function getThemes() {
+  return await db.theme.findMany({})
 }
 
 export default async function DashboardLayout({
@@ -46,12 +58,14 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser()
+  const storyCount = user ? await countStories(user.id) : 0
 
   if (!user) {
     redirect(authOptions.pages?.signIn!)
   }
   const { t } = await useTranslation(lng, 'dashboardLayout')
   const story = await getStoryForUser(user.id, slug)
+  const themes = await getThemes()
 
   if (!story) {
     return notFound()
@@ -59,32 +73,34 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <div className="absolute left-0 top-0 z-10 z-50 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
+      <div className="absolute left-0 top-0 z-50 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
         <header className="container sticky top-0">
           <div className="flex h-16 items-center justify-between py-4">
-            <InverseNavbar user={user}>
+            <InverseNavbar user={user} userHasStories={storyCount > 0}>
               <div className="flex space-x-2">
                 <Button
-                  className="mr-20 h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100"
+                  className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
                   startIcon={<LinkIcon className="w-5" />}
                 >
                   {' '}
                   <a
-                    href="https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy"
+                    href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view?token=2cea14db-2cd2-4664-9852-400ea9d0aa0d"
                     target="_blank"
                   >
                     {' '}
                     Feedback
                   </a>{' '}
                 </Button>{' '}
-                <LangSwitcher />
-                {user ? (
-                  <UserAccountNav user={user} />
-                ) : (
-                  <Link href="/login">
-                    <Button>Login</Button>
-                  </Link>
-                )}
+                <div className="hidden lg:flex lg:flex-row lg:gap-2">
+                  <LangSwitcher />
+                  {user ? (
+                    <UserAccountNav user={user} />
+                  ) : (
+                    <Link href="/login">
+                      <Button>Login</Button>
+                    </Link>
+                  )}
+                </div>
               </div>
             </InverseNavbar>
           </div>
@@ -101,18 +117,13 @@ export default async function DashboardLayout({
               {t('back')}
             </Button>
           </Link>
+          <SettingsModal shadow storyId={story.id} themes={themes} />
           <PreviewButton story={story} />
-          <SettingsModal shadow storyId={story.id} />
         </div>
       </div>
 
       <div className="re-studio-height-full-minus-header z-30 mt-40 w-full flex-1 flex-col overflow-hidden">
-        <aside className="re-studio-height-full-screen absolute bottom-14 w-[185px]">
-          <MapstorySidebar storyID={story.id} />
-        </aside>
-        <main className="relative flex h-full w-full flex-1 flex-col overflow-hidden">
-          <div className="absolute left-0 top-0 h-full w-full">{children}</div>
-        </main>
+        <div className="h-full w-full">{children}</div>
       </div>
       <EditMapstoryView data-superjson story={story} />
     </>
