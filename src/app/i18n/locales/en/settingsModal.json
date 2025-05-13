@@ -27,5 +27,6 @@
   "copying": "Copying...",
   "community": "Community",
   "on": "On",
-  "off": "Off"
+  "off": "Off",
+  "duplicateSotryPrefix": "Copy of"
 }
