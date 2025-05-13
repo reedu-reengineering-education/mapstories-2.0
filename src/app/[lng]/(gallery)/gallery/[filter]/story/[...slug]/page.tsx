@@ -9,8 +9,13 @@ export async function generateMetadata({
   params: { slug: string; filter: string }
 }): Promise<Metadata> {
   const name = (await getStoryName(params.slug[0]))?.name
+
+  console.log('name', name)
+  console.log('slug', params.slug[0])
   return {
     title: name ?? params.slug.toString().split('-')[0],
+    description:
+      'In der Galerie werden Mapstories ausgestellt, welche vom Mapstories-Team ausgewählt worden. Wir nehmen gerne Vorschläge für neue Mapstories in dieser Liste auf!',
     openGraph: {
       title: name ?? params.slug.toString().split('-')[0],
     },

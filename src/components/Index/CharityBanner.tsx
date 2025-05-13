@@ -31,29 +31,25 @@ export function CharityBanner({}) {
         show={isShowing}
       >
         <div className="re-basic-box font-xs flex flex-col items-center justify-center gap-4 rounded-md bg-white p-4 text-center">
-          <XMarkIcon
-            className="absolute right-0 top-0 m-2 h-6 w-6 cursor-pointer text-gray-500"
-            onClick={() => setIsShowing(false)}
-          />
-          {/* @ts-ignore  */}
+          <Button className='absolute right-2 top-2 m-2 h-6 w-6 text-black' onClick={() => setIsShowing(false)}
+            variant={'inverse'}
+        >
+            <XMarkIcon className="w-6 h-6 " />
+          </Button>
+
           <div>
             <span>
-              {/* @ts-ignore  */}
               <b>{t('text1_bold')}</b>
             </span>
-            {/* @ts-ignore  */}
             <span>{t('text2')}</span>
-            {/* @ts-ignore  */}
             <span>
               <a
                 className="text-blue-500"
                 href="https://secure.spendenbank.de/form/3267?langid=1"
               >
-                {/* @ts-ignore  */}
                 {t('donations')}
               </a>
             </span>
-            {/* @ts-ignore  */}
             {t('text4')} <b>{t('text5_bold')} </b>
           </div>
           <a
@@ -62,7 +58,6 @@ export function CharityBanner({}) {
             rel="noopener noreferrer"
             target="_blank"
           >
-            {/* @ts-ignore  */}
             <Button>{t('donateNow')} </Button>
           </a>
         </div>
