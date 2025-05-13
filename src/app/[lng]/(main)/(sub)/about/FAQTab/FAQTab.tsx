@@ -15,7 +15,6 @@ import { ChevronsUpDown } from 'lucide-react'
 
 export default function FAQTab() {
   const lng = useBoundStore(state => state.language)
-  //@ts-ignore
   const { t } = useTranslation(lng, 'faq')
 
   return (
