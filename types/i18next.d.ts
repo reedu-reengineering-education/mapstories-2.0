@@ -29,8 +29,9 @@ import type timeline from '../src/app/i18n/locales/en/timeline.json'
 import type changeEmail from '../src/app/i18n/locales/en/changeEmail.json'
 import type supportTab from '../src/app/i18/locales/de/supportTab.json'
 import type offerTab from '../src/app/i18/locales/de/offerTab.json'
-import type faq from '../src/app/i18/locales/de/faq.json'
 import type mapstoriesTab from '../src/app/i18/locales/de/mapstoriesTab.json'
+import type faq from '../src/app/i18n/locales/en/faq.json'
+import type about from '../src/app/i18n/locales/en/about.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -57,6 +58,9 @@ interface I18nNamespaces {
   offerTab: typeof offerTab
   faq: typeof faq
   mapstoriesTab: typeof mapstoriesTab
+  faq: typeof faq
+  about: typeof about
+  manualsTab: typeof manualsTab
 }
 
 declare module 'i18next' {

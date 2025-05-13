@@ -66,6 +66,7 @@ model User {
   story         Story[]   @relation("contributors")
   verify_new_email_token String? 
   new_email              String? 
+  password      String?
 
   @@map(name: "users")
 }
@@ -77,6 +78,15 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map(name: "verification_tokens")
+}
+
+model PasswordResetToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique ([email, token])
 }
 
 enum StoryMode {

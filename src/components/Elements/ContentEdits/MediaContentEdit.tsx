@@ -148,7 +148,6 @@ export function MediaContent({
         </div>
         {/* input field to give a source */}
         <div className="flex items-center gap-2">
-          <InputLabel>Quelle </InputLabel>
           <Input
             className="bg-slate-50"
             label="Quelle"

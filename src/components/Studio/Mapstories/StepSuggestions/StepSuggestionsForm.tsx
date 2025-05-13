@@ -290,8 +290,8 @@ export default function StepSuggestionsForm({ story }: Props) {
             >
               <Modal.Content>
                 <div>
-                  Möchtest du wirklich löschen? Diese Aktion kann nicht
-                  rückgängig gemacht werden.
+                  Möchtest du den Vorschlag wirklich ablehnen? Diese Aktion kann
+                  nicht rückgängig gemacht werden.
                 </div>
                 <div className="mt-4 flex flex-row justify-between">
                   <Button

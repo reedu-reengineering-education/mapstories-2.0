@@ -7,6 +7,7 @@ import 'react-tabs/style/react-tabs.css'
 import FAQTab from './FAQTab/FAQTab'
 import OfferTab from './OfferTab/OfferTab'
 import OurStoryTab from './OurStoryTab/OurStoryTab'
+import ManualsTab from './ManualsTab/ManualsTab'
 import SupportTab from './SupportTab/SupportTab'
 import {
   Tabs,
@@ -36,16 +37,12 @@ export default function PageContent() {
       orientation="vertical"
     >
       <TabsList className="bg-white">
-        {/* @ts-ignore */}
         <TabsTrigger value="mapstories">{t('tab1_title')}</TabsTrigger>
-        {/* @ts-ignore */}
         <TabsTrigger value="ourStory">{t('tab2_title')}</TabsTrigger>
-        {/* @ts-ignore */}
         <TabsTrigger value="offer">{t('tab3_title')}</TabsTrigger>
-        {/* @ts-ignore */}
         <TabsTrigger value="support">{t('tab4_title')}</TabsTrigger>
-        {/* @ts-ignore */}
         <TabsTrigger value="faq">{t('tab5_title')}</TabsTrigger>
+        <TabsTrigger value="manuals">{t('tab6_title')}</TabsTrigger>
       </TabsList>
       <TabsContent
         className={cx(
@@ -96,6 +93,16 @@ export default function PageContent() {
         value="faq"
       >
         <FAQTab />
+      </TabsContent>
+      <TabsContent
+        className={cx(
+          'max-h-[40rem] overflow-scroll rounded-md bg-white',
+          activeTab == 'manuals' ? 'block' : 'hidden',
+        )}
+        forceMount
+        value="faq"
+      >
+        <ManualsTab />
       </TabsContent>
     </Tabs>
   )
