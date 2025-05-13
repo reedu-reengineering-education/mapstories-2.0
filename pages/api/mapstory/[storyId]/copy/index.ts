@@ -22,7 +22,8 @@ async function createStepContent(step: ExtendedStoryStep, newStepId: string) {
     let newMedia 
     if (slideContent.mediaId) {
       // remove unnecessary fields before creation of a new media
-      const { id, ...mediaData } = slideContent.media
+
+      const { ...mediaData } = slideContent.media
       newMedia = await db.media.create({
         data: { 
           ...mediaData,
