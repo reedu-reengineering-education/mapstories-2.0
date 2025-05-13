@@ -16,6 +16,10 @@ export function LangSwitcher() {
 
     path[1] = lng
     router.replace(path.join('/'))
+    // what does that do? gives a ts error after upgrading to next v14
+    // router.replace(path.join('/'), {
+    //   forceOptimisticNavigation: true
+    // })
   }
 
   return (
@@ -24,7 +28,7 @@ export function LangSwitcher() {
         <Avatar>{pathname?.split('/')[1].toUpperCase()} </Avatar>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content align="end" className="z-20 mt-2 md:w-[240px]">
+        <DropdownMenu.Content align="end" className="z-[100] mt-2 md:w-[240px]">
           <DropdownMenu.Item
             className="cursor-pointer"
             onClick={() => changeLanguage('de')}

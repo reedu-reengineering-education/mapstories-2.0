@@ -30,10 +30,9 @@ export default async function EmbedLayout({
   children,
 }: ViewerLayoutProps) {
   const story = await getStory(slug[0])
-
   return (
     <div className="relative h-full w-full">
-      <div className="absolute left-0 top-0 z-10 w-full mix-blend-difference">
+      <div className="absolute left-0 top-0 z-50 w-full mix-blend-difference">
         <header className="sticky top-0">
           <div className="flex h-16 items-center justify-between py-4 pl-6">
             {/* <LogoWithTextAndBackground /> */}

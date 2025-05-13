@@ -5,7 +5,6 @@ import { Fragment, useCallback, useEffect, useState } from 'react'
 import { MapRef, Popup, Source } from 'react-map-gl'
 import { Feature, GeoJsonProperties, LineString } from 'geojson'
 // import { LineString } from 'geojson'
-import { Button } from './../Elements/Button'
 import { usePathname, useRouter } from 'next/navigation'
 import mapboxgl from 'mapbox-gl'
 import React from 'react'
@@ -15,16 +14,15 @@ import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
-import { StoryBadge } from '../Studio/Mapstories/StoryBadge'
 import { applyTheme } from '@/src/helper/applyTheme'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
+import { ViewerPopup } from './ViewerPopup'
 
 type ViewerViewProps = {
-  inputStories:
-    | (Story & {
-        theme?: Theme | null
-        steps: (StoryStep & { content: SlideContent[] })[]
-      })[]
+  inputStories: (Story & {
+    theme?: Theme | null
+    steps: (StoryStep & { content: SlideContent[] })[]
+  })[]
 }
 
 export default function ViewerView({ inputStories }: ViewerViewProps) {
@@ -44,12 +42,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const [savedView, setSavedView] = useState<any>()
   const [startView, setStartView] = useState<any>()
   const [pathend2, setPathend2] = useState<string | undefined>('')
-
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
-
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
   const router = useRouter()
-  const [cursor, setCursor] = useState<string>('auto')
 
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
@@ -67,7 +63,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
   useEffect(() => {
     if (inputStories && inputStories.length > 0) {
+      //removed this because it causes bugs, not sure we still need it
+      // if (inputStories.map(story => story.id).indexOf(storyID) != -1) {
       setViewerStories(inputStories)
+      // }
     }
   }, [inputStories])
 
@@ -87,6 +86,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
     if (path?.split('/').at(-2) === 'gallery') {
       setStoryID('')
+      setViewerStories(inputStories)
+      if (savedView) {
+        mapRef.current?.fitBounds(savedView)
+      }
       // setViewerStories([])
     }
   }, [path])
@@ -118,8 +121,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   // generate markers
   useEffect(() => {
     const story = stories?.filter(story => story.id === storyID)[0]
-    const pathend = path?.split('/').at(-1)
-    const pathend2 = path?.split('/').at(-2)
     // update Theme
     if (storyID != '' && story?.theme) {
       applyTheme(story.theme)
@@ -140,7 +141,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       let bounds: any = undefined
       const newMarkers = story?.steps
         .filter(step => step.feature)
-        .map(({ id, feature, position, content }) => {
+        .map(({ id, feature, position, content, tags }) => {
           const geoFeature =
             feature as unknown as GeoJSON.Feature<GeoJSON.Point>
           if (geoFeature?.geometry?.coordinates?.length > 0) {
@@ -168,6 +169,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
               stepId: id,
               color: '#18325b',
               title: getSlideTitle(content),
+              tags: tags,
             }
             return newMarker
           }
@@ -175,7 +177,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       // @ts-ignore
       setMarkers(newMarkers)
 
-      //save bounds to zoomTo once map is initiated
+      //save bounds to zoomTo once map is initiated)
       setStartView(bounds)
     }
   }, [storyID, stories])
@@ -262,7 +264,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     }
     const pathLocal =
       path?.split('/').splice(2, 2).join('/') ?? 'gallery/story/'
-    router.push(`${pathLocal}/story/${m.properties?.slug}/start`)
+    router.push(`/${pathLocal}/story/${m.properties?.slug}/start`)
   }
   function getDistance(
     lat1: number,
@@ -290,13 +292,15 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     return distance // Entfernung in Kilometern
   }
 
-  function calculateZoomLogarithmic(distance: number): number {
-    const maxZoom = 12 // Maximaler Zoom-Level
-    const minZoom = 2 // Minimaler Zoom-Level
-    const scaleFactor = 1.1 // Ein Skalierungsfaktor
+  function calculateWeightedZoom(distance: number): number {
+    const minZoom = 4
+    const maxZoom = 15
 
-    const adjustedZoom = maxZoom - Math.log(distance + 1) * scaleFactor
-    return Math.max(Math.min(adjustedZoom, maxZoom), minZoom)
+    // Gewichtete Anpassung: Kleinere Entfernungen -> Höherer Zoom, größere Entfernungen -> Weniger Zoom
+    const weight = 0.5 // Gewichtung anpassen
+    const zoom = 16 - Math.log2(distance * weight)
+
+    return Math.max(minZoom, Math.min(maxZoom, zoom))
   }
 
   function updateToStep(index: number) {
@@ -354,31 +358,34 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
-          offset: [-window.innerWidth / 7, -75],
-          zoom: calculateZoomLogarithmic(distance),
+          offset: [-window.innerWidth / 5, 0],
+          zoom: calculateWeightedZoom(distance),
           essential: true,
-          duration: 1000,
+          duration: Math.min(Math.max(distance * 100, 1000), 3000),
         })
       }
     }
   }
-
-  // const onHover = (event: mapboxgl.MapLayerMouseEvent) => {
-  //   const hoverSteps = event.features
-
-  //   if (!hoverSteps || hoverSteps.length < 1) {
-  //     setCursor('auto')
-  //     return
-  //   }
-  //   setCursor('pointer')
-  // }
 
   const onMapLoad = useCallback(() => {
     if (selectedStepIndex) {
       updateToStep(selectedStepIndex)
     }
     if (Number.isNaN(selectedStepIndex) && mapRef.current && startView) {
-      mapRef.current?.fitBounds(startView)
+      const distance = getDistance(
+        startView.getSouthEast().lat,
+        startView.getSouthEast().lng,
+        startView.getNorthWest().lat,
+        startView.getNorthWest().lng,
+      )
+      mapRef.current?.flyTo({
+        center: startView.getCenter(),
+        zoom: calculateWeightedZoom(distance),
+        offset: [-windowWidth / 5, 75],
+      })
+      // mapRef.current?.fitBounds(startView, {
+      //   offset: [windowWidth > 820 ? windowWidth / 3 : -windowWidth / 4, 0],
+      // })
     }
   }, [startView, mapRef])
 
@@ -413,23 +420,22 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
                   {storyID === '' && (
                     <Popup
-                      anchor="top"
+                      anchor="bottom"
                       closeOnClick={false}
                       latitude={m.geometry.coordinates[0][1]}
                       longitude={m.geometry.coordinates[0][0]}
                       // onClose={() => setPopupInfo(null)}
                     >
-                      <div className="re-basic-box-no-filter overflow-hidden">
-                        <div className="p-5">
-                          <StoryBadge mode={m.properties?.mode} />
-                          <h3>{m.properties?.name}</h3>
-                          <p> {m.properties?.desc}</p>
-                          <div className="mt-2 flex justify-end">
-                            <Button className="" onClick={() => selectStory(m)}>
-                              {t('more')}
-                            </Button>
-                          </div>
-                        </div>
+                      <div
+                        className="cursor-pointer rounded-xl border-slate-500 bg-white shadow-xl"
+                        onClick={() => selectStory(m)}
+                      >
+                        <ViewerPopup
+                          // @ts-ignore
+                          firstStepId={stories[i].firstStepId}
+                          // @ts-ignore
+                          story={stories[i]}
+                        />
                       </div>
                     </Popup>
                   )}

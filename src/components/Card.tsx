@@ -48,7 +48,7 @@ Card.Description = function CardDescription({
   className,
   ...props
 }: CardDescriptionProps) {
-  return <p className={cx('text-sm text-gray-600', className)} {...props} />
+  return <div className={cx('text-sm text-gray-600', className)} {...props} />
 }
 
 Card.Skeleton = function CardSeleton() {

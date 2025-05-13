@@ -3,7 +3,6 @@ import { Layer, Source } from 'react-map-gl'
 
 export default function StorySourceLayer({
   geojsons,
-  selectedFeature,
   storyID,
   selectedStepIndex,
 }: {
@@ -14,13 +13,13 @@ export default function StorySourceLayer({
 }) {
   const [lineData, setLineData] = useState<GeoJSON.Feature[] | undefined>()
 
-  const [lineDataDone, setLineDataDone] = useState<
+  const [visitedLine, setVisitedLine] = useState<GeoJSON.Feature | undefined>()
+
+  const [upcomingLine, setUpcomingLine] = useState<
     GeoJSON.Feature | undefined
   >()
 
-  const [lineDataTodo, setLineDataTodo] = useState<
-    GeoJSON.Feature | undefined
-  >()
+  const [activeLine, setActiveLine] = useState<GeoJSON.Feature | undefined>()
 
   // generate Line string
   useEffect(() => {
@@ -38,14 +37,39 @@ export default function StorySourceLayer({
 
   useEffect(() => {
     if (storyID != '') {
-      let newLineData: GeoJSON.Feature | undefined = undefined
-      let newLineDataTodo: GeoJSON.Feature | undefined = undefined
+      let newActiveLine: GeoJSON.Feature | undefined = undefined
+      let newUpcomingLine: GeoJSON.Feature | undefined = undefined
+      let newVisitedLine: GeoJSON.Feature | undefined = undefined
 
       const storyGeoJson = geojsons?.filter(
         geo => geo.properties?.id == storyID,
       )
+
       if (storyGeoJson && storyGeoJson[0]) {
-        newLineData = {
+        // Linie zwischen aktuellem und vorherigem Marker
+        const previousIndex = Math.max(selectedStepIndex - 1, 0)
+        newActiveLine = {
+          ...storyGeoJson[0],
+          geometry: {
+            ...storyGeoJson[0].geometry,
+            coordinates: storyGeoJson[0].geometry.coordinates.slice(
+              previousIndex,
+              selectedStepIndex + 1, // Inklusive des aktuellen Markers
+            ),
+          },
+        }
+        setActiveLine(newActiveLine)
+
+        newUpcomingLine = {
+          ...storyGeoJson[0],
+          geometry: {
+            ...storyGeoJson[0].geometry,
+            coordinates:
+              storyGeoJson[0].geometry.coordinates.slice(selectedStepIndex),
+          },
+        }
+        setUpcomingLine(newUpcomingLine)
+        newVisitedLine = {
           ...storyGeoJson[0],
           geometry: {
             ...storyGeoJson[0].geometry,
@@ -55,17 +79,7 @@ export default function StorySourceLayer({
             ),
           },
         }
-        setLineDataDone(newLineData)
-
-        newLineDataTodo = {
-          ...storyGeoJson[0],
-          geometry: {
-            ...storyGeoJson[0].geometry,
-            coordinates:
-              storyGeoJson[0].geometry.coordinates.slice(selectedStepIndex),
-          },
-        }
-        setLineDataTodo(newLineDataTodo)
+        setVisitedLine(newVisitedLine)
       }
     } else {
       resetSelectedStoryData()
@@ -73,54 +87,12 @@ export default function StorySourceLayer({
   }, [selectedStepIndex, storyID])
 
   function resetSelectedStoryData() {
-    setLineDataDone(undefined)
-    setLineDataTodo(undefined)
+    setActiveLine(undefined)
+    setUpcomingLine(undefined)
+    setVisitedLine(undefined)
   }
 
-  const lineStyle = {
-    type: 'line' as 'sky',
-    paint: {
-      'line-color': ['match', ['get', 'id'], storyID, '#18325b', '#d91e9b'],
-      'line-width': 4,
-      'line-opacity': 0.8,
-    },
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-      visibility: storyID === '' ? 'visible' : 'none',
-    },
-  }
-
-  const lineOutlineStyle = {
-    type: 'line' as 'sky',
-    paint: {
-      'line-color': '#38383a',
-      'line-width': 5,
-      'line-opacity': ['match', ['get', 'id'], storyID, 0, 1],
-    },
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-      visibility: storyID === '' ? 'visible' : 'none',
-    },
-  }
-
-  const lineBufferForMouseEvent = {
-    type: 'line' as 'sky',
-    paint: {
-      'line-color': '#eb5933',
-      'line-width': 25,
-      'line-blur': 0,
-      'line-opacity': 0,
-    },
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-      visibility: storyID != '' ? 'visible' : 'none',
-    },
-  }
-
-  const lineDone = {
+  const stylesActive = {
     type: 'line' as 'sky',
     paint: {
       'line-color': '#d4da68',
@@ -134,14 +106,28 @@ export default function StorySourceLayer({
     },
   }
 
-  const lineTodo = {
+  const stylesUpcoming = {
     type: 'line' as 'sky',
     paint: {
       'line-color': '#18325b',
       'line-width': 6,
       'line-blur': 0,
-      'line-opacity': 0.8,
+      'line-opacity': 0.15,
       'line-dasharray': [1, 2],
+    },
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+  }
+
+  const stylesVisited = {
+    type: 'line' as 'sky',
+    paint: {
+      'line-color': '#18325b',
+      'line-width': 6,
+      'line-blur': 0,
+      'line-opacity': 0.15,
     },
     layout: {
       'line-join': 'round',
@@ -203,31 +189,28 @@ export default function StorySourceLayer({
           >
             {/* @ts-ignore */}
             <Layer
-              {...lineOutlineStyle}
-              id={m.properties?.id.toString() + 'outline'}
-            />
-            {/* @ts-ignore */}
-            <Layer
               {...getLineStyle(storyID)}
               id={m.properties?.id.toString() + 'normal'}
             />
-            {/* @ts-ignore */}
-            <Layer
-              {...lineBufferForMouseEvent}
-              id={m.properties?.id.toString() + 'buffer'}
-            />
           </Source>
         ))}
-      {lineDataDone && (
-        <Source data={lineDataDone} id={'linesourceDone'} type="geojson">
+
+      {upcomingLine && (
+        <Source data={upcomingLine} id={'lineUpcoming'} type="geojson">
           {/* @ts-ignore */}
-          <Layer {...lineDone} id={'lineSourceDone'} />
+          <Layer {...stylesUpcoming} id={'lineUpcoming'} />
         </Source>
       )}
-      {lineDataTodo && (
-        <Source data={lineDataTodo} id={'linesourceTodo'} type="geojson">
+      {visitedLine && (
+        <Source data={visitedLine} id={'lineVisited'} type="geojson">
           {/* @ts-ignore */}
-          <Layer {...lineTodo} id={'lineSourceTodo'} />
+          <Layer {...stylesVisited} id={'lineVisited'} />
+        </Source>
+      )}
+      {activeLine && (
+        <Source data={activeLine} id={'lineActive'} type="geojson">
+          {/* @ts-ignore */}
+          <Layer {...stylesActive} id={'lineActive'} />
         </Source>
       )}
     </>

@@ -62,15 +62,6 @@ export default function SettingsModal({
 
   const [modalOpen, setModalOpen] = useState(false)
 
-  // let { uploadToS3 } = useS3Upload();
-
-  function handleImageUpload(event: any) {
-    const file = event.target.files[0]
-    // let { url } = await uploadToS3(file);
-
-    // console.log("Successfully uploaded to S3!", url);
-  }
-
   function selectTheme(themeName: any) {
     const selectedTheme = themes.find(theme => theme.name == themeName)
     applyTheme(selectedTheme)
@@ -81,8 +72,7 @@ export default function SettingsModal({
     try {
       const updatedStory = await updateStory({
         ...data,
-        // TODO: update again after zod schema change
-        visibility: data.visibility === true ? 'PUBLIC' : 'PRIVATE',
+        visibility: data.visibility,
       })
       toast({
         message: t('settingsModal:changesApplied'),
@@ -93,7 +83,6 @@ export default function SettingsModal({
       }
       setModalOpen(false)
     } catch (e) {
-      console.log(e)
       return toast({
         title: t('studio:somethingWrong'),
         message: t('settingsModal:changesNotApplied'),
@@ -106,6 +95,10 @@ export default function SettingsModal({
 
   if (!story) {
     return <></>
+  }
+
+  const onInvalid = (errors: any) => {
+    console.log(errors)
   }
 
   return (
@@ -124,8 +117,8 @@ export default function SettingsModal({
         open={modalOpen}
         title={t('settingsModal:modalHeader')}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Modal.Content>
+        <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
+          <Modal.Content className="max-h-[70vh] overflow-scroll">
             <InputLabel>{t('settingsModal:name')}</InputLabel>
             <Input
               defaultValue={story.name || ''}
@@ -133,6 +126,14 @@ export default function SettingsModal({
               label={t('settingsModal:name')}
               size={100}
               {...register('name')}
+            />
+            {/* @ts-ignore */}
+            <InputLabel> {t('settingsModal:author')}</InputLabel>
+            <Input
+              defaultValue={story.author || ''}
+              errors={errors.author}
+              size={100}
+              {...register('author')}
             />
             <TextareaLabel>{t('settingsModal:description')}</TextareaLabel>
             <Textarea
@@ -183,7 +184,7 @@ export default function SettingsModal({
             <InputLabel>{t('settingsModal:visibility')}</InputLabel>
             <Controller
               control={control}
-              defaultValue={false}
+              defaultValue={story.visibility}
               name="visibility"
               // {...register('visibility')}
               render={({ field: { onChange, value, ref } }) => {
@@ -194,12 +195,40 @@ export default function SettingsModal({
                     </span>
                     <Switch
                       defaultChecked={story.visibility === 'PUBLIC'}
-                      onCheckedChange={onChange}
+                      onCheckedChange={checked =>
+                        onChange(checked ? 'PUBLIC' : 'PRIVATE')
+                      }
                       ref={ref}
                     ></Switch>
 
                     <span className="text-sm font-medium text-gray-700">
                       {t('settingsModal:public')}
+                    </span>
+                  </div>
+                )
+              }}
+            />
+            <Spacer />
+            <InputLabel>{t('settingsModal:community')}</InputLabel>
+            <Controller
+              control={control}
+              defaultValue={story.community}
+              name="community"
+              // {...register('visibility')}
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <div className="jusify-center flex items-center gap-4">
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:off')}
+                    </span>
+                    <Switch
+                      defaultChecked={story.community}
+                      onCheckedChange={checked => onChange(checked)}
+                      ref={ref}
+                    ></Switch>
+
+                    <span className="text-sm font-medium text-gray-700">
+                      {t('settingsModal:on')}
                     </span>
                   </div>
                 )

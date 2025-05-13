@@ -104,7 +104,7 @@ export function StoryPlayButtons({ slug, page, story }: Props) {
                     onClick={() => nextStep()}
                     value="next"
                   >
-                    <ChevronRightIcon className="h-10 w-10 " />
+                    <ChevronRightIcon className="h-10 w-10" />
                   </Toolbar.ToggleItem>
                 </Toolbar.ToggleGroup>
               </Toolbar.Root>

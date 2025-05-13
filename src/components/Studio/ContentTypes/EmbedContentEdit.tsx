@@ -53,7 +53,7 @@ export function EmbedContentEdit({
     lng = fallbackLng
   }
 
-  const { addMedia } = useMedia(storyStepId)
+  const { addMedia } = useMedia()
 
   const { content: url } = watch()
   useEffect(() => {
@@ -150,24 +150,26 @@ export function EmbedContentEdit({
       onSubmit={handleSubmit(onSubmit)}
       {...props}
     >
-      <div className="top-0">
-        <InputLabel>{t('embeds:EmbedContentEdit.InputLabel')}</InputLabel>
-        <p className="my-2 text-sm font-bold">
-          {t('embeds:EmbedContentEdit.platforms')}
-        </p>
-        <MediaIconList usedMediaType={media?.type} />
-        <div className="mr-10 pt-4">
-          <Input
-            defaultValue={stepItem ? stepItem.content : ''}
-            errors={errors.content}
-            label="content"
-            size={100}
-            {...register('content')}
-          />
+      <div className="top-0 flex flex-col">
+        <div className="w-full">
+          <InputLabel>{t('embeds:EmbedContentEdit.InputLabel')}</InputLabel>
+          <p className="my-2 text-sm font-bold">
+            {t('embeds:EmbedContentEdit.platforms')}
+          </p>
+          <MediaIconList usedMediaType={media?.type} />
+          <div className="pt-4">
+            <Input
+              defaultValue={stepItem ? stepItem.content : ''}
+              errors={errors.content}
+              label="content"
+              size={100}
+              {...register('content')}
+            />
+          </div>
         </div>
-        <div className="re-data-media-preview pb-4 pt-4">
+
+        <div className="re-data-media-preview max-h-[20rem] overflow-y-auto pb-4 pt-4">
           <Embed
-            height="50vh"
             media={media}
             options={optionState ? optionState : undefined}
           />
@@ -187,12 +189,12 @@ export function EmbedContentEdit({
         <div className="flex items-center gap-2">
           <InputLabel>{t('embeds:EmbedContentEdit.source') + ' '} </InputLabel>
           <Input
-            className="bg-slate-50 "
+            className="bg-slate-50"
             onChange={e => handleFileSource(e)}
             value={fileSource}
           />
         </div>
-        <div className="mr-10 flex justify-end">
+        <div className="flex justify-end">
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
             {stepItem && t('editModal:save')}
             {!stepItem && t('editModal:create')}

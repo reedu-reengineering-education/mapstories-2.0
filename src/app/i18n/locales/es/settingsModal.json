@@ -22,5 +22,8 @@
   "copied": "¡Copiado!",
   "copiedMessage": "¡La historia del mapa se ha copiado correctamente!",
   "somethingWrong": "Algo ha ido mal. Por favor, inténtalo de nuevo",
-  "copying": "Copiado..."
+  "copying": "Copiado...",
+  "community": "Comunidad-Modus",
+  "on": "Activo",
+  "off": "Apagado"
 }

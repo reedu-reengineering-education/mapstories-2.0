@@ -11,11 +11,12 @@ import { Button } from '../../Elements/Button'
 
 type Props = {
   stepItem: SlideContent
-  setDisabled: React.Dispatch<React.SetStateAction<boolean>>
+  setDisabled?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export function SlideContentListEditItem({ stepItem, setDisabled }: Props) {
   const [open, setOpen] = React.useState(false)
+
   return (
     <div
       className="re-basic-box-no-shadow group relative my-2 flex cursor-pointer"
@@ -24,7 +25,9 @@ export function SlideContentListEditItem({ stepItem, setDisabled }: Props) {
       <Modal
         onOpenChange={() => {
           setOpen(!open)
-          setDisabled(!open)
+          if (setDisabled) {
+            setDisabled(!open)
+          }
         }}
         open={open}
         setDisabled={setDisabled}
@@ -39,6 +42,7 @@ export function SlideContentListEditItem({ stepItem, setDisabled }: Props) {
           <ContentEditFactory
             setShowModal={setOpen}
             stepItem={stepItem}
+            // @ts-ignore
             storyStepId={stepItem.storyStepId}
           ></ContentEditFactory>
         </Modal.Content>

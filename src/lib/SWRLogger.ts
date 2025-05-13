@@ -16,8 +16,8 @@ export const SWRLogger = (useSWRNext: SWRHook) => {
           typeof key === 'function'
             ? key()
             : Array.isArray(key)
-            ? key.join(', ')
-            : key
+              ? key.join(', ')
+              : key
         console.info('SWR Request start', label)
         const response = fetcher(...args)
         if (response instanceof Promise) {

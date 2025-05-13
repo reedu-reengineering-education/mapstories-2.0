@@ -39,13 +39,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     res.json(media)
-    return res.end()
+    res.end()
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return res.status(422).json(error.issues)
+      res.status(422).json(error.issues)
     }
 
-    return res.status(422).json(error.message)
+    res.status(422).json(error.message)
   }
 }
 

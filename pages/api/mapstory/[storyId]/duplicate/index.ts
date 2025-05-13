@@ -97,10 +97,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         data: { firstStepId: firstStep.id },
       })
 
-      return res.status(200).json(storyCopy)
+      res.status(200).json(storyCopy)
     } catch (error) {
       console.log(error)
-      return res.status(500).end()
+      res.status(500).end()
     }
   }
 }

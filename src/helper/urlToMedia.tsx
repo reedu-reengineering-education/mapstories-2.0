@@ -1,5 +1,6 @@
 import { media_type, media_types } from '../lib/media/media'
 
+// Returns to what media_type the url belongs to (e.g. YOUTUBE, EXTERNALIMAGE, etc.)
 export function urlToMedia(url: string): media_type | undefined {
   // TODO: check if url is a valid url with zod
 

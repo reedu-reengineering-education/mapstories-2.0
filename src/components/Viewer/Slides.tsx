@@ -8,10 +8,12 @@ import { SlideContent, StoryMode, StoryStep } from '@prisma/client'
 import { format } from 'date-fns'
 import { getDateFnsLocale } from '@/src/app/i18n/date-fns-locale'
 import { CalendarDaysIcon } from '@heroicons/react/24/outline'
+import { cx } from 'class-variance-authority'
 
 type Props = {
   slug: string
   page: string
+  className?: string
   story: any
   //  Story & {
   //   steps?: (StoryStep & { content: SlideContent[] })[]
@@ -19,7 +21,7 @@ type Props = {
   // }
 }
 
-export function Slides({ slug, page, story }: Props) {
+export function Slides({ className, slug, page, story }: Props) {
   const setStoryID = useBoundStore(state => state.setStoryID)
   const lng = useBoundStore(state => state.language)
 
@@ -50,10 +52,10 @@ export function Slides({ slug, page, story }: Props) {
   }, [])
 
   return (
-    <>
+    <div className="flex w-full flex-col">
       {story.mode === StoryMode.TIMELINE && step?.timestamp && (
-        <div className="flex justify-end">
-          <div className="my-2 flex w-fit items-center gap-2 rounded bg-zinc-100 px-2">
+        <div className={cx('', className)}>
+          <div className="my-2 flex min-h-12 w-fit items-center gap-2 rounded bg-zinc-100 px-2">
             <CalendarDaysIcon className="w-4" />
             <p className="text-sm">
               {format(step.timestamp, 'PPP p', {
@@ -63,7 +65,7 @@ export function Slides({ slug, page, story }: Props) {
           </div>
         </div>
       )}
-      <div className="">
+      <div className="w-full">
         {story?.steps.sort(
           (a: StoryStep, b: StoryStep) => a.position - b.position,
         ) &&
@@ -72,6 +74,6 @@ export function Slides({ slug, page, story }: Props) {
         <Button onClick={() => nextStep()}>Weiter</Button>
       )} */}
       </div>
-    </>
+    </div>
   )
 }

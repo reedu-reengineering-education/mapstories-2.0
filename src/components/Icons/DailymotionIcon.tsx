@@ -14,10 +14,10 @@ const SvgDailymotionIcon = React.forwardRef<SVGSVGElement, IconProps>(
       >
         <g
           fill="none"
-          fill-rule="evenodd"
+          fillRule="evenodd"
           id="Icons"
           stroke="none"
-          stroke-width="1"
+          strokeWidth="1"
         >
           <g
             fill="#0066DC"

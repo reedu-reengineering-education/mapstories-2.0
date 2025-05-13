@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { InstagramEmbed, TwitterEmbed } from 'react-social-media-embed'
+import { TwitterEmbed } from 'react-social-media-embed'
 import { FacebookEmbed } from './FacebookEmbed'
 import { TikTokEmbed } from './TikTokEmbed'
+import { InstagramEmbed } from './InstagramEmbed'
 
 export interface SocialMediaEmbedProps
   extends React.HTMLAttributes<HTMLDivElement> {

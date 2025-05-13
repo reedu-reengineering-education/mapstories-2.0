@@ -10,8 +10,10 @@ export const createMapstorySchema = z.object({
 export const updateMapstorySchema = z.object({
   name: z.string().min(3).max(100),
   description: z.string(),
+  author: z.string(),
   mode: z.enum([StoryMode.NORMAL, StoryMode.TIMELINE]),
-  visibility: z.any(),
+  visibility: z.enum(['PRIVATE', 'PUBLIC']),
   themeId: z.string().optional(),
   lines: z.boolean(),
+  community: z.boolean(),
 })

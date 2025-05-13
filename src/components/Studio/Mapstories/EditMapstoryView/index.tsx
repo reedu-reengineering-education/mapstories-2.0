@@ -90,7 +90,7 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
         </Modal>
       )}
 
-      <div className="absolute left-1/2 top-40 z-20 w-fit -translate-x-2/4">
+      <div className="absolute left-1/2 top-20 z-20 w-fit -translate-x-2/4">
         <div className="mapboxgl-ctrl-group mx-auto mt-2 w-fit px-3 py-1 text-center text-sm text-black">
           {currentStep.id === story.firstStepId ? (
             <span>
@@ -106,10 +106,7 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
         </div>
       </div>
 
-      <EditMapstoryMap
-        currentStepId={currentStep.id}
-        steps={currentStory.steps}
-      />
+      <EditMapstoryMap currentStep={currentStep} steps={currentStory.steps} />
     </div>
     // </StudioShell>
   )

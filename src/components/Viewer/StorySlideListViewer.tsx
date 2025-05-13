@@ -71,7 +71,7 @@ export function StorySlideListViewer({
 
   const variantsItem = {
     open: (i: number) => ({
-      opacity: 0.85,
+      opacity: 1,
       y: 0,
       transition: {
         y: { stiffness: 1000, velocity: -100 },
@@ -89,10 +89,10 @@ export function StorySlideListViewer({
   }
 
   return (
-    <div className={slidesOpen ? 'block ' : 'hidden '}>
+    <div className={slidesOpen ? 'block' : 'hidden'}>
       <motion.ul
         animate={slidesOpen ? 'open' : 'closed'}
-        className="re-viewer-slides absolute px-2 py-4"
+        className="re-viewer-slides absolute bg-white px-2 py-4"
         exit={'closed'}
         variants={variantsList}
       >
@@ -104,7 +104,7 @@ export function StorySlideListViewer({
               <motion.li
                 animate={slidesOpen ? 'open' : 'closed'}
                 className={cx(
-                  'my-2 h-12  cursor-pointer px-1 py-3',
+                  'my-2 h-12 cursor-pointer px-1 py-3',
                   step.position == parseInt(page)
                     ? 'border-2 bg-active'
                     : 'bg-slate-100',

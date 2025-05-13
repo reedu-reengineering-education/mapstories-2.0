@@ -9,9 +9,16 @@ type ImageProps = {
   size: string
   alt?: string
   source?: string
+  variant?: string
 }
 
-export default function SizedImage({ src, size, alt, source }: ImageProps) {
+export default function SizedImage({
+  src,
+  size,
+  alt,
+  source,
+  variant,
+}: ImageProps) {
   let width, height
   switch (size) {
     case 's':
@@ -47,6 +54,8 @@ export default function SizedImage({ src, size, alt, source }: ImageProps) {
           className={cx(
             'max-h-[20rem] object-scale-down',
             size == 'xs' ? 'h-10 w-10' : '',
+            size == 's' ? 'h-20 w-20' : '',
+            variant == 'round' ? 'rounded-full' : '',
           )}
           // className="max-h-[20rem] object-scale-down"
           src={src}

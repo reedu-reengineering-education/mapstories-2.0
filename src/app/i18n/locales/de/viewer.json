@@ -1,10 +1,12 @@
 {
   "more": "Mehr erfahren",
-  "play": "Los geht´s",
+  "play": "Los geht's",
   "close": "Schließen",
   "storyNotAvailable": "Diese Mapstory ist leider nicht verfügbar.",
   "filter": "Filter",
   "reset": "Zurücksetzen",
   "apply": "Anwenden",
-  "noSteps": "Mit diesen Filtern wurden keine Ergebnisse gefunden."
+  "noSteps": "Mit diesen Filtern wurden keine Ergebnisse gefunden.",
+  "landscapeModeTitle": "Handy in Horizontalmodus drehen",
+  "landscapeModeText": "Der Viewer in Mapstories ist für das Handy im Horizontalmodus optimiert, bitte drehen Sie das Handy!"
 }

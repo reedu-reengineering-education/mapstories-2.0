@@ -31,11 +31,30 @@ export default async function LoginPage({
             {t('enter_email_for_signin')}
           </p>
         </div>
+
         <UserAuthForm />
-        <p className="px-8 text-center text-sm text-slate-600">
-          <Link className="hover:text-brand underline" href="/register">
-            {t('no_account')}
+
+        <div className="mt-4 text-center text-sm text-slate-600">
+          <p>{t('password_login_hint')}</p>
+          <Link
+            className="text-brand hover:text-brand-dark underline"
+            href="/passwordLogin"
+          >
+            {t('password_login_link')}
           </Link>
+        </div>
+
+        <h1 className="text-center">Noch keinen Account?</h1>
+        <p className="px-8 text-center text-sm text-slate-600">
+          {t('disclaimerRegister')}{' '}
+          <Link className="hover:text-brand underline" href="/terms">
+            {t('TOS')}
+          </Link>{' '}
+          {t('and')}{' '}
+          <Link className="hover:text-brand underline" href="/privacy">
+            {t('PP')}
+          </Link>
+          {t('endDisclaimRegister')}
         </p>
       </div>
     </div>

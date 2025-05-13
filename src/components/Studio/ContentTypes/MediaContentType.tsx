@@ -71,7 +71,7 @@ export function MediaContentEdit({
   }
   const { t } = useTranslation(lng, 'editModal')
 
-  const { updateMedia, getMedia, addMedia } = useMedia(storyStepId)
+  const { updateMedia, getMedia, addMedia } = useMedia()
   const { addContent, updateContent } = useStep(storyStepId)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -92,8 +92,10 @@ export function MediaContentEdit({
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
-      accept: { 'image/*': [], 'video/*': [], 'audio/*': [] },
+      accept: { 'image/*': [], 'audio/*': [] },
       onDrop,
+      // max 50mb
+      maxSize: 50242880,
     })
 
   const style = useMemo(
@@ -115,11 +117,7 @@ export function MediaContentEdit({
         media.source ? setFileSource(media.source!) : setFileSource('')
         setFileType(stepItem.type)
         setSelectedValue(media.size!)
-        if (
-          stepItem.type === 'IMAGE' ||
-          stepItem.type === 'AUDIO' ||
-          stepItem.type === 'VIDEO'
-        ) {
+        if (stepItem.type === 'IMAGE' || stepItem.type === 'AUDIO') {
           setIsLoading(true)
           // get image file from s3
           const response = await getS3Image(media)
@@ -222,14 +220,18 @@ export function MediaContentEdit({
   return (
     <div>
       <div>
-        <InputLabel>{t('uploadFile')}</InputLabel>
+        <InputLabel>{t('dataUpload')}</InputLabel>
         <p className="my-2 text-sm font-bold">{t('supportedFormats')} </p>
         <span>
           <code>.jpg</code>
           <code>.png</code>
-          <code>.mp4</code>
+          <code>.gif</code>
+          <code>.bmp</code>
+          <code>.svg</code>
+          <code>.webp</code>
           <code>.mp3</code>
-          <code>.jpg</code>
+          <code>.flac</code>
+          <code>.wma</code>
           <br></br>
         </span>
         {stepItem ? null : (
@@ -241,7 +243,7 @@ export function MediaContentEdit({
         )}
       </div>
       <div>
-        <div className="pt-2">
+        <div className="">
           {isLoading && (
             <div className="flex justify-center">
               <Spinner />
@@ -257,29 +259,23 @@ export function MediaContentEdit({
                 />
               </div>
             )}
-          {fileType === 'VIDEO' && (
-            <ReactPlayer
-              controls={true}
-              height="100%"
-              url={fileUrl}
-              width="100%"
-            />
-          )}
           {fileType === 'AUDIO' && (
-            <ReactPlayer
-              controls={true}
-              height="5rem"
-              url={fileUrl}
-              width="100%"
-            />
+            <div className="m-2 flex justify-center">
+              {/* @ts-ignore */}
+              <ReactPlayer
+                controls={true}
+                height="5rem"
+                url={fileUrl}
+                width="100%"
+              />
+            </div>
           )}
         </div>
         {/* input field to give a source */}
         <div className="flex items-center gap-2">
-          <InputLabel>{t('source')}</InputLabel>
           <Input
             className="bg-slate-50"
-            label="Quelle"
+            label={t('source')}
             onChange={e => handleFileSource(e)}
             value={fileSource}
           />

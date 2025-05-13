@@ -97,7 +97,7 @@ export default function SlideContentModal({ trigger, storyStepId }: Props) {
                   unmountOnExit
                 >
                   <div className="top-0">
-                    <div className="absolute -top-6 ">
+                    <div className="absolute -top-6">
                       <button
                         className="flex"
                         onClick={() => setContentType('')}
