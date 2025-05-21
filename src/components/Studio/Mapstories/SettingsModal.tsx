@@ -245,7 +245,7 @@ export default function SettingsModal({
                 return (
                   <>
                     <Select
-                      defaultValue={value}
+                      defaultValue={value ?? themes[0].name}
                       onValueChange={e => {
                         selectTheme(e)
                         onChange(e)

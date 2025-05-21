@@ -25,5 +25,6 @@
   "copying": "Copiado...",
   "community": "Comunidad-Modus",
   "on": "Activo",
-  "off": "Apagado"
+  "off": "Apagado",
+  "duplicateSotryPrefix": "Copia de"
 }

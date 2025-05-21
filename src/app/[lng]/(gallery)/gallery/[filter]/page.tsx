@@ -57,8 +57,10 @@ const getCertifiedMapstories = async (array: Array<string>) => {
 
 export const metadata: Metadata = {
   title: 'Gallery',
+    description: 'In der Galerie werden Mapstories ausgestellt, welche vom Mapstories-Team ausgewählt worden. Wir nehmen gerne Vorschläge für neue Mapstories in dieser Liste auf!',
   openGraph: {
     title: 'Gallery',
+    description: 'In der Galerie werden Mapstories ausgestellt, welche vom Mapstories-Team ausgewählt worden. Wir nehmen gerne Vorschläge für neue Mapstories in dieser Liste auf!',
   },
 }
 interface GalleryPageProps {}
