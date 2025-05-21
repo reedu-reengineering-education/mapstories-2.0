@@ -63,17 +63,6 @@ export const metadata: Metadata = {
   },
 }
 
-// ISR not working at the moment
-// export async function generateStaticParams() {
-//   return languages.map(lng => ({ lng }))
-// }
-
-// export const generateStaticParams =
-//   process.env.NODE_ENV !== 'development'
-//     ? async () => {
-//         return languages.map(lng => ({ lng }))
-//       }
-//     : undefined
 
 export default function RootLayout({
   children,
