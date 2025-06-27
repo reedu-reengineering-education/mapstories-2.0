@@ -67,6 +67,8 @@ model User {
   verify_new_email_token String? 
   new_email              String? 
   password      String?
+  role          UserRole @default(USER)
+
 
   @@map(name: "users")
 }
@@ -147,6 +149,7 @@ model StoryStepSuggestion {
   timestamp     DateTime?
   tags         String[]
   status        SuggestionStatus @default(PENDING)
+  createdAt     DateTime?    @default(now()) @map(name: "created_at")
 
   @@map(name: "storystepsuggestions")
 }
@@ -239,4 +242,9 @@ enum MediaType {
   AUDIO
   LAMAPOLL
   GOOGLESTREETVIEW
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
