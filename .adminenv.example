@@ -1,0 +1,16 @@
+
+# ADMIN JS 
+
+DATABASE_DIALECT=postgresql
+DATABASE_NAME=mapstories
+DATABASE_HOST=postgis:5432
+DATABASE_USER=postgres
+DATABASE_PASSWORD=securepass
+PORT=3001
+DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}/${DATABASE_NAME}
+COOKIE_SECRET=NDCzyrBf08uwkUXa9avcFQjw8qxWfyds
+COOKIE_PASSWORD=SUEPRCOOKIEPASSWORD
+
+DATABASE_MODELS="User, Story, StoryStep, SlideContent, Media, Theme, StoryStepSuggestion"
+LAST10 = '[["User", "email"],["Story", "name"],["StoryStepSuggestion", "storyId"]]'
+CHARTMODELS="user, story"
