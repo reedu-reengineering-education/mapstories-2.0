@@ -13,7 +13,7 @@ const TabsList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     className={cx(
-      'bg-muted text-muted-foreground inline-flex h-10 max-w-full items-center overflow-x-scroll rounded-md p-1 lg:justify-center',
+      'bg-muted text-muted-foreground inline-flex h-10 max-w-full items-center overflow-x-auto rounded-md lg:justify-center',
       className,
     )}
     ref={ref}
