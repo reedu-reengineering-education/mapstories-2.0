@@ -67,7 +67,7 @@
     "mapbox-gl": "^2.12.1",
     "maplibre-gl": "^2.4.0",
     "minio": "^7.0.33",
-    "multer": "^2.0.0",
+    "multer": "^2.0.2",
     "next": "^14.2.25",
     "next-auth": "^4.20.1",
     "next-remove-imports": "^1.0.10",
