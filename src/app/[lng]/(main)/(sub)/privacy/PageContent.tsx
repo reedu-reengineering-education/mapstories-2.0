@@ -491,8 +491,8 @@ cookies"
         <div>
           When using our website for information only, i.e. if you do not
           register or otherwise provide us with information, we only collect
-          data that your browser transmits to our server (so-called "server log
-          files"). When you visit our website, we collect the following data
+          data that your browser transmits to our server (so-called server log
+          files). When you visit our website, we collect the following data
           that is technically necessary for us to display the website to you:
           <ul className="list-disc pl-6">
             <li>Our visited Webiste</li>
@@ -629,13 +629,13 @@ cookies"
           Matomo (formerly Piwik) <br></br>
           Data is collected and stored on this website using the Matomo web
           analysis service software (www.matomo.org), a service of InnoCraft
-          Ltd., 150 Willis St, 6011 Wellington, New Zealand, ("Matomo"). This is
+          Ltd., 150 Willis St, 6011 Wellington, New Zealand, (Matomo). This is
           done on the basis of our legitimate interest in statistical analysis
           of user behavior for optimization and marketing purposes pursuant to
           Art. 6 (1) point f GDPR. Pseudonymized user profiles can be created
           and evaluated from this data for the same purpose. To this end,
           cookies may be used. Cookies are small text files that are stored
-          locally in the cache of the visitor's Internet browser. The cookies
+          locally in the cache of the visitor&#39;s Internet browser. The cookies
           allow, among other things, the internet browser to be recognized. The
           data collected using Matomo technology (including your pseudonymized
           IP address) will be processed on our servers. The pseudonymized
@@ -663,7 +663,7 @@ cookies"
           YouTube, Facebook, Instagram, or similar services. These integrations
           are made in the interest of providing an engaging and informative user
           experience in accordance with Art. 6 (1) lit. f GDPR. The embedded
-          content is provided via so-called "plugins" or "embed" functions from
+          content is provided via so-called &quot;plugins&quot; or &quot;embed&quot; functions from
           the respective providers.
         </div>
 
@@ -678,7 +678,7 @@ cookies"
         </div>
 
         <div>
-          We use the "extended data protection mode" provided by YouTube
+          We use the &quot;extended data protection mode&quot; provided by YouTube
           wherever possible. According to YouTube, in this mode, personal data
           is only processed once the video is played. For other providers (e.g.
           Facebook or Instagram), their respective privacy policies apply.
