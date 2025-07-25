@@ -55,6 +55,11 @@ export function InverseNavbar({
         title: t('about'),
         href: `/${lng}/about`,
       },
+      {
+        title: 'Privacy Policy',
+        href: `/${lng}/privacy`,
+
+      }
     ])
   }, [lng, t])
 
