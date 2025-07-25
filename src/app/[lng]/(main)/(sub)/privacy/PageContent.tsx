@@ -48,7 +48,7 @@ export default function PageContent() {
           Bei der bloß informatorischen Nutzung unserer Website, also wenn Sie
           sich nicht registrieren oder uns anderweitig Informationen
           übermitteln, erheben wir nur solche Daten, die Ihr Browser an unseren
-          Server übermittelt (sog. „Server-Logfiles“). Wenn Sie unsere Website
+          Server übermittelt (sog. &quot;Server-Logfiles&quot;). Wenn Sie unsere Website
           aufrufen, erheben wir die folgenden Daten, die für uns technisch
           erforderlich sind, um Ihnen die Website anzuzeigen:
           <ul className="list-disc pl-6">
@@ -491,8 +491,8 @@ cookies"
         <div>
           When using our website for information only, i.e. if you do not
           register or otherwise provide us with information, we only collect
-          data that your browser transmits to our server (so-called server log
-          files). When you visit our website, we collect the following data
+          data that your browser transmits to our server (so-called &quot;server log
+          files&quot;). When you visit our website, we collect the following data
           that is technically necessary for us to display the website to you:
           <ul className="list-disc pl-6">
             <li>Our visited Webiste</li>
@@ -629,7 +629,7 @@ cookies"
           Matomo (formerly Piwik) <br></br>
           Data is collected and stored on this website using the Matomo web
           analysis service software (www.matomo.org), a service of InnoCraft
-          Ltd., 150 Willis St, 6011 Wellington, New Zealand, (Matomo). This is
+          Ltd., 150 Willis St, 6011 Wellington, New Zealand, (&quot;Matomo&quot;). This is
           done on the basis of our legitimate interest in statistical analysis
           of user behavior for optimization and marketing purposes pursuant to
           Art. 6 (1) point f GDPR. Pseudonymized user profiles can be created
