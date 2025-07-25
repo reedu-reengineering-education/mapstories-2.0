@@ -6,7 +6,6 @@ export default function PageContent() {
     <div className="max-w-7xl mx-auto mt-4">
       <div className="bg-white p-4 rounded shadow max-h-[80vh] overflow-y-auto space-y-4 text-sm leading-relaxed flex flex-col gap-4">
         <PageHeader heading="Datenschutzerklärung" />
-
         <h2 className="font-semibold">
           1) Information über die Erhebung personenbezogener Daten und
           Kontaktdaten des Verantwortlichen
