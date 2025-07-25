@@ -457,54 +457,426 @@ cookies"
         <h2 className="text-lg font-bold pt-4">Data Protection Declaration</h2>
 
         <h2 className="font-semibold">
-          1) Information on the Collection of Personal Data...
+          Information about the collection of personal data and contact details
+          of the controller
         </h2>
-        <div>We are pleased that you are visiting our website...</div>
+        <div>
+          <strong>1.1</strong> We are pleased that you are visiting our website
+          and thank you for your interest. On the following pages, we inform you
+          about the handling of your personal data when using our website.
+          Personal data is all data with which you can be personally identified.
+        </div>
 
+        <div>
+          <strong>1.2</strong>
+          The controller in charge of data processing on this website, within
+          the meaning of the General Data Protection Regulation (GDPR), is Reedu
+          GmbH & Co. KG, Von-Steuben-Str. 21, 48143 Münster, Deutschland, Tel.:
+          +49 (0) 251 98119797, E-Mail: kontakt@reedu.de. The controller in
+          charge of the processing of personal data is the natural or legal
+          person who alone or jointly with others determines the purposes and
+          means of the processing of personal data.
+        </div>
+        <div>
+          <strong>1.3 </strong>
+          This website uses SSL or TLS encryption for security reasons and to
+          protect the transmission of personal data and other confidential
+          content (e.g. orders or inquiries to the controller). You can
+          recognize an encrypted connection by the character string https:// and
+          the lock symbol in your browser line.
+        </div>
         <h2 className="font-semibold">
           2) Data Collection When You Visit Our Website
         </h2>
-        <div>When using our website for information only...</div>
-
+        <div>
+          When using our website for information only, i.e. if you do not
+          register or otherwise provide us with information, we only collect
+          data that your browser transmits to our server (so-called "server log
+          files"). When you visit our website, we collect the following data
+          that is technically necessary for us to display the website to you:
+          <ul className="list-disc pl-6">
+            <li>Our visited Webiste</li>
+            <li>Date and time at the moment of access</li>
+            <li> Amount of data sent in bytes</li>
+            <li>Source/reference from which you came to the page</li>
+            <li>Browser used</li>
+            <li>Operating system used</li>
+            <li>IP address used (if applicable: in anonymized form)</li>
+          </ul>
+          Data processing is carried out in accordance with Art. 6 (1) point f
+          GDPR on the basis of our legitimate interest in improving the
+          stability and functionality of our website. The data will not be
+          passed on or used in any other way. However, we reserve the right to
+          check the server log files subsequently, if there are any concrete
+          indications of illegal use.
+        </div>
         <h2 className="font-semibold">3) Cookies</h2>
-        <div>In order to make your visit to our website attractive...</div>
+        <div>
+          In order to make your visit to our website attractive and to enable
+          the use of certain functions, we use so-called cookies on various
+          pages. These are small text files that are stored on your end device.
+          Some of the cookies we use are deleted after the end of the browser
+          session, i.e. after closing your browser (so-called session cookies).
+          Other cookies remain on your terminal and enable us or our partner
+          companies (third-party cookies) to recognize your browser on your next
+          visit (persistent cookies). If cookies are set, they collect and
+          process specific user information such as browser and location data as
+          well as IP address values according to individual requirements.
+          Persistent cookies are automatically deleted after a specified period,
+          which may vary depending on the cookie. You can check the duration of
+          the respective cookie storage in the overview of the cookie settings
+          of your web browser. In some cases, cookies are used to simplify the
+          ordering process by saving settings (e.g. remembering the content of a
+          virtual shopping basket for a later visit to the website). If personal
+          data are also processed by individual cookies set by us, the
+          processing is carried out in accordance with Art. 6 (1) point b GDPR
+          either for the execution of the contract or in accordance with Art. 6
+          (1) point f GDPR to safeguard our legitimate interests in the best
+          possible functionality of the website and a customer-friendly and
+          effective design of the page visit. We work together with advertising
+          partners who help us to make our website more interesting for you. For
+          this purpose, cookies from partner companies are also stored on your
+          hard drive when you visit our website (third-party cookies). You will
+          be informed individually and separately about the use of such cookies
+          and the scope of the information collected in each case within the
+          following sections. Please note that you can set your browser in such
+          a way that you are informed about the setting of cookies and you can
+          decide individually about their acceptance or exclude the acceptance
+          of cookies for certain cases or generally. Each browser differs in the
+          way it manages the cookie settings. This is described in the help menu
+          of each browser, which explains how you can change your cookie
+          settings. You will find these for the respective browsers under the
+          following links:
+          <ul className="list-disc pl-6">
+            <li>
+              Microsoft Edge:{' '}
+              <a
+                className="text-blue-600 hover:underline"
+                href="https://support.microsoft.com/de-de/help/4468242/microsoft-edge-help"
+              >
+                https://support.microsoft.com/de-de/help/4468242/microsoft-edge-help
+              </a>
+            </li>
+            <li>
+              Internet Explorer:{' '}
+              <a
+                className="text-blue-600 hover:underline"
+                href="https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies"
+              >
+                https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies
+              </a>
+            </li>
+            <li>
+              Firefox:{' '}
+              <a
+                className="text-blue-600 hover:underline"
+                href="https://support.mozilla.org/de/kb/cookies-erlaub        en-und-ablehnen"
+              >
+                https://support.mozilla.org/de/kb/cookies-erlauben-und-ablehnen
+              </a>
+            </li>
+            <li>
+              Chrome:{' '}
+              <a
+                className="text-blue-600 hover:underline"
+                href="https://support.google.com/chrome/answer/95647
+?hl=de&hlrm=en"
+              >
+                https://support.google.com/chrome/answer/95647?hl=de&hlrm=en
+              </a>
+            </li>
+            <li>
+              Safari:{' '}
+              <a
+                className="text-blue-600 hover:underline"
+                href="https://support.apple.com/de-de/guide/safari/sfri11471/mac"
+              >
+                https://support.apple.com/de-de/guide/safari/sfri11471/mac
+              </a>
+            </li>
+            <li>
+              Opera:{' '}
+              <a
+                className="text-blue-600 hover:underline"
+                href="https://help.opera.com/de/latest/web-preferences/#
+cookies"
+              >
+                https://help.opera.com/de/latest/web-preferences/#cookies
+              </a>
+            </li>
+          </ul>
+        </div>
 
         <h2 className="font-semibold">4) Contacting Us</h2>
-        <div>When you contact us via form or email...</div>
-
-        <h2 className="font-semibold">
-          5) Data Processing When Opening a Customer Account...
-        </h2>
-        <div>Personal data will continue to be collected and processed...</div>
-
-        <h2 className="font-semibold">
-          6) Use of Client Data for Direct Advertising
-        </h2>
-        <div>If you subscribe to our e-mail newsletter...</div>
-
-        <h2 className="font-semibold">
-          7) Processing of Data for the Purpose of Order Handling
-        </h2>
         <div>
-          The personal data collected by us will be passed on to the transport
-          company...
+          When you contact us (e.g. via contact form or e-mail), personal data
+          is collected. Which data is collected in the case of a contact form
+          can be seen from the respective contact form. This data is stored and
+          used exclusively for the purpose of responding to your request or for
+          establishing contact and for the associated technical administration.
+          The legal basis for processing data is our legitimate interest in
+          responding to your request in accordance with Art. 6 (1) point f GDPR.
+          If your contact is aimed at concluding a contract, the additional
+          legal basis for the processing is Art. 6 (1) point b GDPR. Your data
+          will be deleted after final processing of your enquiry; this is the
+          case if it can be inferred from the circumstances that the facts in
+          question have been finally clarified, provided there are no legal
+          storage obligations to the contrary.
         </div>
 
-        <h2 className="font-semibold">8) Web Analysis Services</h2>
-        <div>Matomo (formerly Piwik)...</div>
-
-        <h2 className="font-semibold">9) Rights of the Data Subject</h2>
+        <h2 className="font-semibold">5) Web Analysis Services</h2>
         <div>
-          You have the right to information, correction, deletion, etc. under
-          GDPR...
+          Matomo (formerly Piwik) <br></br>
+          Data is collected and stored on this website using the Matomo web
+          analysis service software (www.matomo.org), a service of InnoCraft
+          Ltd., 150 Willis St, 6011 Wellington, New Zealand, ("Matomo"). This is
+          done on the basis of our legitimate interest in statistical analysis
+          of user behavior for optimization and marketing purposes pursuant to
+          Art. 6 (1) point f GDPR. Pseudonymized user profiles can be created
+          and evaluated from this data for the same purpose. To this end,
+          cookies may be used. Cookies are small text files that are stored
+          locally in the cache of the visitor's Internet browser. The cookies
+          allow, among other things, the internet browser to be recognized. The
+          data collected using Matomo technology (including your pseudonymized
+          IP address) will be processed on our servers. The pseudonymized
+          information generated by the cookie is not used to personally identify
+          the visitor to this website and is not merged with personal data about
+          the holder of the pseudonym. If you do not agree to the storage and
+          evaluation of this data arising from your visit, you can object to the
+          subsequent storage and use at any time, via mouse click. In this case,
+          a so-called opt-out cookie is stored in your browser, which means that
+          Matomo does not collect any session data. Please note: If your cookies
+          are completely deleted, the opt-out cookie will also be deleted, and
+          you may have to activate it again. To the extent required by law, we
+          have obtained your consent to the processing of your data as described
+          in accordance with Art. 6 (1) point a GDPR. You can withdraw your
+          consent at any time with effect for the future. In order to exercise
+          your right of withdrawal, please follow the procedure described above.
         </div>
 
         <h2 className="font-semibold">
-          10) Duration of Storage of Personal Data
+          6) Embedding of Videos (e.g. YouTube, Facebook, Instagram)
         </h2>
+
         <div>
-          Storage duration is based on legal basis, purpose and statutory
-          requirements...
+          Our website includes videos embedded from external platforms such as
+          YouTube, Facebook, Instagram, or similar services. These integrations
+          are made in the interest of providing an engaging and informative user
+          experience in accordance with Art. 6 (1) lit. f GDPR. The embedded
+          content is provided via so-called "plugins" or "embed" functions from
+          the respective providers.
+        </div>
+
+        <div>
+          When you access a page containing an embedded video, a connection to
+          the servers of the respective provider may be established — regardless
+          of whether the video is actively played. In doing so, personal data
+          (e.g. your IP address, browser details, device information, possibly
+          referrer URL) may be transmitted. If you are logged into one of these
+          services, the provider may associate the page visit with your personal
+          user account.
+        </div>
+
+        <div>
+          We use the "extended data protection mode" provided by YouTube
+          wherever possible. According to YouTube, in this mode, personal data
+          is only processed once the video is played. For other providers (e.g.
+          Facebook or Instagram), their respective privacy policies apply.
+        </div>
+
+        <div>
+          Please note that we have no control over the scope and nature of data
+          processing performed by third-party providers. For more information on
+          how your data is handled, please refer to the privacy policies of the
+          respective services:
+        </div>
+
+        <ul>
+          <li>
+            YouTube (Google Ireland Limited):{' '}
+            <a
+              className="text-blue-600 hover:underline"
+              href="https://policies.google.com/privacy?hl=en"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              https://policies.google.com/privacy?hl=en
+            </a>
+          </li>
+          <li>
+            Meta (Facebook & Instagram):{' '}
+            <a
+              className="text-blue-600 hover:underline"
+              href="https://www.facebook.com/privacy/policy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              https://www.facebook.com/privacy/policy
+            </a>
+          </li>
+          <li>
+            Other platforms: please refer to the respective provider’s privacy
+            notice
+          </li>
+        </ul>
+
+        <div>
+          Where consent is required for such embedding (e.g. via a cookie
+          consent tool), the processing is based exclusively on Art. 6 (1)
+          lit. a GDPR. This consent can be withdrawn at any time with future
+          effect.
+        </div>
+
+        <h2 className="font-semibold">7) Right of the Data Subject</h2>
+        <div>
+          The applicable data protection law grants you the following
+          comprehensive rights of data subjects (rights of information and
+          intervention) vis-à-vis the data controller with regard to the
+          processing of your personal data:
+          <ul className="list-disc pl-6">
+            <li>
+              Right of access by the data subject pursuant to Art. 15 GDPR: You
+              shall have the right to receive the following information: The
+              personal data processed by us; the purposes of the processing; the
+              categories of processed personal data; the recipients or
+              categories of recipients to whom the personal data have been or
+              will be disclosed; the envisaged period for which the personal
+              data will be stored, or, if not possible, the criteria used to
+              determine that period; the existence of the right to request from
+              the controller rectification or erasure of personal data or
+              restriction of processing personal data concerning the data
+              subject or to object to such processing; the right to lodge a
+              complaint with a supervisory authority; where the personal are not
+              collected from the data subject, any available information as to
+              their source; the existence of automated decision-making,
+              including profiling and at least in those cases, meaningful
+              information about the logic involved, as well as the significance
+              and envisaged consequences of such processing for the data
+              subject; the appropriate safeguards pursuant to Article 46 when
+              personal data is transferred to a third country.
+            </li>
+
+            <li>
+              Right to rectification pursuant to Art. 16 GDPR: You have the
+              right to obtain from the controller without undue delay the
+              rectification of inaccurate personal data concerning you and/or
+              the right to have incomplete personal data completed which are
+              stored by us.
+            </li>
+
+            <li>
+              Right to erasure (“right to be forgotten”) pursuant to Art. 17
+              GDPR: You have the right to obtain from the controller the erasure
+              of personal data concerning you if the conditions of Art. 17 (2)
+              GDPR are fulfilled. However, this right will not apply for
+              exercising the freedom of expression and information, for
+              compliance with a legal obligation, for reasons of public interest
+              or for the establishment, exercise or defense of legal claims.
+            </li>
+
+            <li>
+              Right to restriction of processing pursuant to Art. 18 GDPR: You
+              have the right to obtain from the controller restriction of
+              processing your personal data for the following reasons: As long
+              as the accuracy of your personal data contested by you will be
+              verified. If you oppose the erasure of your personal data because
+              of unlawful processing and you request the restriction of their
+              use instead. If you require the personal data for the
+              establishment, exercise or defense of legal claims, once we no
+              longer need those data for the purposes of the processing. If you
+              have objected to processing on grounds relating to your personal
+              situation pending the verification whether our legitimate grounds
+              override your grounds.
+            </li>
+
+            <li>
+              Right to be informed pursuant to Art. 19 GDPR: If you have
+              asserted the right of rectification, erasure or restriction of
+              processing against the controller, he is obliged to communicate to
+              each recipient to whom the personal date has been disclosed any
+              rectification or erasure of personal data or restriction of
+              processing, unless this proves impossible or involves
+              disproportionate effort. You have the right to be informed about
+              those recipients.
+            </li>
+
+            <li>
+              Right to data portability pursuant to Art. 20 GDPR: You shall have
+              the right to receive the personal data concerning you, which you
+              have provided to us, in a structured, commonly used and
+              machine-readable format or to require that those data be
+              transmitted to another controller, where technically feasible.
+            </li>
+
+            <li>
+              Right to withdraw a given consent pursuant to Art. 7 (3) GDPR: You
+              have the right to withdraw your consent for the processing of
+              personal data at any time with effect for the future. In the event
+              of withdrawal, we will immediately erase the data concerned,
+              unless further processing can be based on a legal basis for
+              processing without consent. The withdrawal of consent shall not
+              affect the lawfulness of processing based on consent before its
+              withdrawal.
+            </li>
+
+            <li>
+              Right to lodge a complaint pursuant to Art. 77 GDPR: Without
+              prejudice to any other administrative or judicial remedy, you have
+              the right to lodge a complaint with a supervisory authority, in
+              particular in the Member State of your habitual residence, place
+              of work or place of the alleged infringement if you consider that
+              the processing of personal data relating to you infringes the
+              GDPR.
+            </li>
+          </ul>
+          <h2 className="font-semibold">
+            8) Duration of Storage of Personal Data
+          </h2>
+          <div>
+            The duration of the storage of personal data is based on the
+            respective legal basis, the purpose of processing and - if relevant
+            – on the respective legal retention period (e.g. commercial and tax
+            retention periods). If personal data is processed on the basis of an
+            express consent pursuant to Art. 6 (1) point a GDPR, this data is
+            stored until the data subject revokes his consent. If there are
+            legal storage periods for data that is processed within the
+            framework of legal or similar obligations on the basis of Art. 6 (1)
+            point b GDPR, this data will be routinely deleted after expiry of
+            the storage periods if it is no longer necessary for the fulfillment
+            of the contract or the initiation of the contract and/or if we no
+            longer have a justified interest in further storage. When processing
+            personal data on the basis of Art. 6 (1) point f GDPR, this data is
+            stored until the data subject exercises his right of objection in
+            accordance with Art. 21 (1) GDPR, unless we can provide compelling
+            grounds for processing worthy of protection which outweigh the
+            interests, rights and freedoms of the data subject, or the
+            processing serves to assert, exercise or defend legal claims. If
+            personal data is processed for the purpose of direct marketing on
+            the basis of Art. 6 (1) point f GDPR, this data is stored until the
+            data subject exercises his right of objection pursuant to Art. 21
+            (2) GDPR. Unless otherwise stated in the information contained in
+            this declaration on specific processing situations, stored personal
+            data will be deleted if it is no longer necessary for the purposes
+            for which it was collected or otherwise processed.
+          </div>
+        </div>
+        <h1 className="font-semibold">RIGHT TO OBJECT </h1>
+        <div>
+          IF, WITHIN THE FRAMEWORK OF A CONSIDERATION OF INTERESTS, WE PROCESS
+          YOUR PERSONAL DATA ON THE BASIS OF OUR PREDOMINANT LEGITIMATE
+          INTEREST, YOU HAVE THE RIGHT AT ANY TIME TO OBJECT TO THIS PROCESSING
+          WITH EFFECT FOR THE FUTURE ON THE GROUNDS THAT ARISE FROM YOUR
+          PARTICULAR SITUATION. IF YOU EXERCISE YOUR RIGHT TO OBJECT, WE WILL
+          STOP PROCESSING THE DATA CONCERNED. HOWEVER, WE RESERVE THE RIGHT TO
+          FURTHER PROCESSING IF WE CAN PROVE COMPELLING REASONS WORTHY OF
+          PROTECTION FOR PROCESSING WHICH OUTWEIGH YOUR INTERESTS, FUNDAMENTAL
+          RIGHTS AND FREEDOMS, OR IF THE PROCESSING SERVES TO ASSERT, EXERCISE
+          OR DEFEND LEGAL CLAIMS. IF WE PROCESS YOUR PERSONAL DATA FOR DIRECT
+          MARKETING PURPOSES, YOU HAVE THE RIGHT TO OBJECT AT ANY TIME TO THE
+          PROCESSING OF YOUR PERSONAL DATA WHICH ARE USED FOR DIRECT MARKETING
+          PURPOSES. YOU MAY EXERCISE THE OBJECTION AS DESCRIBED ABOVE. IF YOU
+          EXERCISE YOUR RIGHT TO OBJECT, WE WILL STOP PROCESSING THE DATA
+          CONCERNED FOR DIRECT ADVERTISING PURPOSES.
         </div>
       </div>
     </div>
