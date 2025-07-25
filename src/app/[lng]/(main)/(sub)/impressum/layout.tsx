@@ -3,5 +3,5 @@ interface LayoutProps {
 }
 
 export default async function Layout({ children }: LayoutProps) {
-  return <div className="container mx-auto my-6">{children}</div>
+  return <div className="">{children}</div>
 }
