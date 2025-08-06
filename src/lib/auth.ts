@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
             pass: process.env.SMTP_PASS,
           },
         })
-        const emailHtml = render(SignInEmail({ url }))
+        const emailHtml = await render(SignInEmail({ url }))
 
         const options: MailOptions = {
           from: provider.from,

@@ -49,13 +49,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
     })
 
-    const emailHmtl = render(PasswordRequest({ password: newPassword }))
+    const emailHtml = await render(PasswordRequest({ password: newPassword }))
 
     const mailOptions = {
       from: process.env.SMTP_USER,
       to: email,
       subject: 'Your new password',
-      html: emailHmtl,
+      html: emailHtml,
     }
     await transporter.sendMail(mailOptions)
 
