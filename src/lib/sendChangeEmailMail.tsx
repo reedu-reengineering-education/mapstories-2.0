@@ -8,7 +8,7 @@ export const sendConfirmationRequest = async (params: any) => {
       from: 'Mapstories <no-reply@mapstories.reedu.de>',
       to: params.identifier,
       subject: 'Mapstories E-Mail bestätigen',
-      html: render(ConfirmNewEmail({ url })),
+      html: await render(ConfirmNewEmail({ url })),
     })
   } catch (error) {
     console.log({ error })

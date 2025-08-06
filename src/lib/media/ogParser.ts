@@ -1,5 +1,6 @@
 import ogs from 'open-graph-scraper'
-import { OpenGraphScraperOptions } from 'open-graph-scraper/dist/lib/types'
+import { OpenGraphScraperOptions } from 'open-graph-scraper/types/lib/types'
+
 
 export default async function parseOG(props: OpenGraphScraperOptions) {
   try {

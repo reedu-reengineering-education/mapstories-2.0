@@ -9,9 +9,7 @@ import ReactPlayer from 'react-player'
 import { Spinner } from '@/src/components/Elements/Spinner'
 import SizedImage from '@/src/components/Elements/SizedImage'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  captchaEnabled: boolean
   setFile: any
-  setCaptchaValidated: any
 }
 
 export function MediaContent({ setFile }: MediaContentEditProps) {
