@@ -1,8 +1,0 @@
-{
-  "not-found": {
-    "title": "Seite nicht gefunden",
-    "description": "Diese Seite ist gerade in Wartung. Wenn das häufiger passiert, schreib uns gerne an",
-    "redirect": "Du wirst jetzt zur Startseite weitergeleitet.",
-    "back-button": "Zurück"
-  }
-}
