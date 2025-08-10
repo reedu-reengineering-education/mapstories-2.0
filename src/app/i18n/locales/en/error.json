@@ -1,8 +1,0 @@
-{
-  "not-found": {
-    "title": "Page not found",
-    "description": "This page is under maintenance. If this happens frequently, please contact us at",
-    "redirect": "You will be redirected to the homepage.",
-    "back-button": "Back"
-  }
-}
