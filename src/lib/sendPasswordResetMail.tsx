@@ -20,11 +20,12 @@ export const sendPasswordResetMail = async (
       },
     })
 
+    const html = await render(PasswordResetMail({ resetLink }))
     const options: MailOptions = {
       from: 'Mapstories <e.thieme@reedu.de>',
       to: email,
       subject: 'Mapstories Passwort zurücksetzen',
-      html: render(PasswordResetMail({ resetLink })),
+      html,
     }
 
     await transporter.sendMail(options)
