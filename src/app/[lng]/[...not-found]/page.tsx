@@ -9,8 +9,7 @@ import { LangSwitcher } from '@/src/components/LangSwitcher'
 
 export default function NotFound() {
   const lng = useBoundStore(state => state.language)
-  // @ts-expect-error Type instantiation is excessively deep
-const { t } = useTranslation(lng, 'error')
+  const { t } = useTranslation(lng, 'error')
   return (
     
     <div className="flex flex-col items-center justify-center min-h-screen bg-white px-6 py-12 text-center">
