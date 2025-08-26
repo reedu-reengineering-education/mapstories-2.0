@@ -32,8 +32,8 @@ export function InverseNavbar({
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, 'navbar')
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { t } = (useTranslation as any)(lng, 'navbar');
   const [routes, setRoutes] = useState<Route[]>([])
 
   useEffect(() => {

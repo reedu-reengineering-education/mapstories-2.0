@@ -76,7 +76,7 @@ export default async function DashboardLayout({
           </main>
         </div>
       </div>
-      <Footer lng={lng} />
+      {await Footer({ lng })}
     </>
   )
 }
