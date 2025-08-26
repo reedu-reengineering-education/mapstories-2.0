@@ -25,7 +25,6 @@ function Filter<T extends { [k: string]: string[] }>({
   )
 
   useEffect(() => {
-    // @ts-expect-error
     if (defaultValues) {
       // @ts-expect-error
       setValues(defaultValues)

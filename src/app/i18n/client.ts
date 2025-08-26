@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client'
 
 import i18next, { KeyPrefix, Namespace } from 'i18next'

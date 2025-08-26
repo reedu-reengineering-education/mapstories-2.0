@@ -35,7 +35,6 @@ type Props = {
 
 export default function StepSuggestionsForm({ story }: Props) {
   const lng = useBoundStore(state => state.language)
-  //  @ts-expect-error
   const { t } = useTranslation(lng, 'stepSuggestions')
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
@@ -165,7 +164,6 @@ export default function StepSuggestionsForm({ story }: Props) {
         // screen to show no suggestion have been found
 
         <div className="text-muted-foreground text-center">
-          {/* @ts-expect-error */}
           {t('noSuggestions')}
         </div>
       ) : (
@@ -185,7 +183,6 @@ export default function StepSuggestionsForm({ story }: Props) {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbPage>
-                    {/* @ts-expect-error */}
                     {t('stepSuggestions')}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
@@ -210,7 +207,6 @@ export default function StepSuggestionsForm({ story }: Props) {
                             startIcon={<XMarkIcon className="w-5" />}
                             variant={'danger'}
                           >
-                            {/* @ts-expect-error */}
                             {t('reject')}
                           </Button>
                           <Button
@@ -285,7 +281,6 @@ export default function StepSuggestionsForm({ story }: Props) {
             <Modal
               onOpenChange={setRejectModalOpen}
               open={rejectModalOpen}
-              // @ts-expect-error
               title={t('reject')}
             >
               <Modal.Content>
@@ -298,14 +293,12 @@ export default function StepSuggestionsForm({ story }: Props) {
                     onClick={() => setRejectModalOpen(false)}
                     variant="primary"
                   >
-                    {/* @ts-expect-error */}
                     {t('cancel')}
                   </Button>
                   <Button
                     onClick={() => handleReject(content[current - 1])}
                     variant="danger"
                   >
-                    {/* @ts-expect-error */}
                     {t('reject')}
                   </Button>
                 </div>

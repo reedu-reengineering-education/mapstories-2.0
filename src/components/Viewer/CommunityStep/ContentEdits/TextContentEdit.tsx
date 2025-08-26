@@ -66,7 +66,6 @@ export function TextContentEdit({
     <div className="top-0">
       <div className="pb-4 pt-4">
         <div>
-          {/* @ts-expect-error */}
           <MDEditor
             commands={[
               commands.bold,

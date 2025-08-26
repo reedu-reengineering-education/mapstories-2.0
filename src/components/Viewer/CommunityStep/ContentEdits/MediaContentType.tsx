@@ -194,7 +194,6 @@ export function MediaContentEdit({
           )}
           {fileType === 'AUDIO' && (
             <div className="m-2 flex justify-center">
-              {/* @ts-expect-error */}
               <ReactPlayer
                 controls={true}
                 height="5rem"

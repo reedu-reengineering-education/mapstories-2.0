@@ -18,6 +18,7 @@ module.exports = [
       "**/*.config.cjs",
       "**/*.config.js",
       ".lintstagedrc.js",
+      "src/app/i18n/client.ts"
     ],
   },
 

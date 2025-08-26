@@ -1,7 +1,6 @@
 'use client'
 import { Button } from '../../Elements/Button'
 import { CSSTransition } from 'react-transition-group'
-// @ts-expect-error
 import React, { useEffect, useState } from 'react'
 import SelectContentType from '@/src/components/Viewer/CommunityStep/SelectContentType'
 

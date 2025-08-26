@@ -3,7 +3,6 @@ import { Button } from '../../Elements/Button'
 import { useEffect, useState } from 'react'
 import { Modal } from '../../Modal'
 import useStory from '@/src/lib/api/story/useStory'
-// @ts-expect-error
 
 import { toast } from '@/src/lib/toast'
 
