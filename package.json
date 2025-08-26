@@ -56,7 +56,7 @@
     "create-email": "^0.0.23",
     "date-fns": "^2.30.0",
     "embla-carousel-react": "^8.1.8",
-    "eslint": "8.35.0",
+    "eslint": "9.34.0",
     "eslint-config-next": "^14.1.0",
     "framer-motion": "^10.10.0",
     "i18next": "^22.4.10",
