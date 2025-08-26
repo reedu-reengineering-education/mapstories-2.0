@@ -10,7 +10,7 @@ const borderRadius = 8
 
 export interface WikipediaEmbedProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  url: String
+  url: string
   width?: string | number
   height?: string | number
 }

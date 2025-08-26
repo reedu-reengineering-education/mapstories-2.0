@@ -89,7 +89,6 @@ export default function RootLayout({
           src="https://umami.mapstories.de/script.js"
         ></script>
         <main className="h-full w-full">
-          {/* @ts-ignore */}
           <Providers lng={lng}>{children}</Providers>
         </main>
       </body>

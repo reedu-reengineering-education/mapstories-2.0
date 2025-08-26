@@ -53,7 +53,7 @@ export function MapstoryCard({ mapstory }: Props) {
             {(mapstory as any).stepSuggestions.length > 0 && (
               <Link href={`/storylab/stepSuggestions/${mapstory.id}`}>
                 <Button startIcon={<PencilIcon className="w-5" />}>
-                  {/* @ts-ignore */}
+                  {/* @ts-expect-error */}
                   Offene Vorschläge ({mapstory.stepSuggestions.length})
                 </Button>
               </Link>

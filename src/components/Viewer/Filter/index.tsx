@@ -17,7 +17,7 @@ function Filter<T extends { [k: string]: string[] }>({
   disabled,
 }: FilterProps<T>) {
   const [values, setValues] = useState<T>(
-    // @ts-ignore
+    // @ts-expect-error
     defaultValues ||
       Object.fromEntries<string[]>(
         Object.entries(labels).map(([k]) => [k, []]),
@@ -25,9 +25,9 @@ function Filter<T extends { [k: string]: string[] }>({
   )
 
   useEffect(() => {
-    // @ts-ignore
+    // @ts-expect-error
     if (defaultValues) {
-      // @ts-ignore
+      // @ts-expect-error
       setValues(defaultValues)
     }
   }, [defaultValues])

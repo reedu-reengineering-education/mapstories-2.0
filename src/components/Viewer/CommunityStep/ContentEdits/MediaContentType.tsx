@@ -16,7 +16,7 @@ import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
   validateCaptcha,
-  //@ts-ignore
+  //@ts-expect-error
 } from 'react-simple-captcha'
 import { toast } from '@/src/lib/toast'
 import SizedImage from '@/src/components/Elements/SizedImage'
@@ -174,7 +174,7 @@ export function MediaContentEdit({
           <code>.wma</code>
           <br></br>
         </span>
-        {/* @ts-ignore */}
+        {/* @ts-expect-error */}
         <div {...getRootProps({ style })}>
           <input {...getInputProps()} />
           Dateien hier ablegen
@@ -194,7 +194,7 @@ export function MediaContentEdit({
           )}
           {fileType === 'AUDIO' && (
             <div className="m-2 flex justify-center">
-              {/* @ts-ignore */}
+              {/* @ts-expect-error */}
               <ReactPlayer
                 controls={true}
                 height="5rem"

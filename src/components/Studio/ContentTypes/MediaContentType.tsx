@@ -235,7 +235,7 @@ export function MediaContentEdit({
           <br></br>
         </span>
         {stepItem ? null : (
-          /* @ts-ignore */
+          /* @ts-expect-error */
           <div {...getRootProps({ style })}>
             <input {...getInputProps()} />
             {t('dropFiles')}
@@ -261,7 +261,7 @@ export function MediaContentEdit({
             )}
           {fileType === 'AUDIO' && (
             <div className="m-2 flex justify-center">
-              {/* @ts-ignore */}
+              {/* @ts-expect-error */}
               <ReactPlayer
                 controls={true}
                 height="5rem"

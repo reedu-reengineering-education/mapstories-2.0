@@ -9,7 +9,7 @@ import { LangSwitcher } from '@/src/components/LangSwitcher'
 
 export default function NotFound() {
   const lng = useBoundStore(state => state.language)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const { t } = (useTranslation as any)(lng, 'error');
 
   return (

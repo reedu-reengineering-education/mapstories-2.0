@@ -174,7 +174,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             return newMarker
           }
         })
-      // @ts-ignore
       setMarkers(newMarkers)
 
       //save bounds to zoomTo once map is initiated)
@@ -307,11 +306,11 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     const story = stories?.filter(story => story.id === storyID)[0]
     if (
       story?.steps?.length &&
-      index <=
-        Math.max.apply(
-          Math,
-          story?.steps?.map(step => step.position),
-        )
+      index <= Math.max(
+        ...(story?.steps?.map(step => step.position) ?? []),
+      )
+
+
     ) {
       const stepFeat = story?.steps.find(step => step.position === index)
         ?.feature as unknown as Feature<GeoJSON.Point>
@@ -431,9 +430,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                         onClick={() => selectStory(m)}
                       >
                         <ViewerPopup
-                          // @ts-ignore
+                          // @ts-expect-error
                           firstStepId={stories[i].firstStepId}
-                          // @ts-ignore
                           story={stories[i]}
                         />
                       </div>

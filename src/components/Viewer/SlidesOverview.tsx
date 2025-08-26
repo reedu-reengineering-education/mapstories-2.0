@@ -21,7 +21,7 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
   const router = useRouter()
   const path = usePathname()
 
-  //@ts-ignore
+  //@ts-expect-error
   const { t } = useTranslation(lng, 'slidesOverview')
 
   const goToStep = (position: number) => {
@@ -37,26 +37,26 @@ export function SlidesOverview({ lng, page, slug, story }: Props) {
         <h1 className="text-2xl font-medium">{story.title}</h1>
         <p>
           {' '}
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <b>{t('author')}</b> {story.author}
         </p>
         <p>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <b> {t('createdAt')}</b> {story.createdAt.toLocaleString()}
         </p>
         <p>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <b> {t('updatedAt')}</b> {story.updatedAt.toLocaleString()}
         </p>
       </div>
       <Table>
         <TableHeader>
           <TableRow>
-            {/* @ts-ignore */}
+            {/* @ts-expect-error */}
             <TableHead>{t('position')}</TableHead>
-            {/* @ts-ignore */}
+            {/* @ts-expect-error */}
             <TableHead>{t('title')}</TableHead>
-            {/* @ts-ignore */}
+            {/* @ts-expect-error */}
           </TableRow>
         </TableHeader>
         <TableBody>

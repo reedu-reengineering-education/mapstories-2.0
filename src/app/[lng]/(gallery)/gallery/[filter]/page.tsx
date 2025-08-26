@@ -65,9 +65,9 @@ export const metadata: Metadata = {
 }
 interface GalleryPageProps {}
 
-export default async function GalleryPage({}: GalleryPageProps) {
+export default async function GalleryPage() {
   const certifiedMapstoryIDs: Array<string> =
-    //@ts-ignore
+    //@ts-expect-error
     process.env.GALLERY_STORIES.split(',')
 
   const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)

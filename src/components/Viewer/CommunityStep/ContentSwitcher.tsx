@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '../../Elements/Button'
 import { CSSTransition } from 'react-transition-group'
-// @ts-ignore
+// @ts-expect-error
 import React, { useEffect, useState } from 'react'
 import SelectContentType from '@/src/components/Viewer/CommunityStep/SelectContentType'
 
@@ -17,7 +17,7 @@ import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
   validateCaptcha,
-  // @ts-ignore
+  // @ts-expect-error
 } from 'react-simple-captcha'
 import { toast } from '@/src/lib/toast'
 import { Input } from '../../Elements/Input'

@@ -27,7 +27,6 @@ export default function PageContent() {
   }, [])
 
   const lng = useBoundStore(state => state.language)
-  /* @ts-ignore */
   const { t } = useTranslation(lng, 'about')
 
   return (

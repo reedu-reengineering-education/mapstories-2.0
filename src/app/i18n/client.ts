@@ -31,7 +31,6 @@ i18next
     },
   })
 
-// @ts-ignore
 export function useTranslation<
   N extends Namespace,
   TKPrefix extends KeyPrefix<N> = undefined,
@@ -43,6 +42,6 @@ export function useTranslation<
   if (i18next.resolvedLanguage !== lng) {
     i18next.changeLanguage(lng)
   }
-  // @ts-ignore
+  // @ts-expect-error
   return useTranslationOrg(ns, options)
 }

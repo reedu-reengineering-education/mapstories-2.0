@@ -9,7 +9,7 @@ import { retrievePresignedUrl } from '@/src/helper/retrievePresignedUrl'
 import 'react-tabs/style/react-tabs.css'
 import ReactPlayer from 'react-player'
 import { Spinner } from '@/src/components/Elements/Spinner'
-//@ts-ignore
+//@ts-expect-error
 import { LoadCanvasTemplate, loadCaptchaEnginge } from 'react-simple-captcha'
 
 import SizedImage from '@/src/components/Elements/SizedImage'
@@ -116,7 +116,7 @@ export function MediaContent({
           <code>.wma</code>
           <br></br>
         </span>
-        {/* @ts-ignore */}
+        {/* @ts-expect-error */}
         <div {...getRootProps({ style })}>
           <input {...getInputProps()} />
           Dateien hier ablegen
@@ -136,7 +136,7 @@ export function MediaContent({
           )}
           {fileType === 'AUDIO' && (
             <div className="m-2 flex justify-center">
-              {/* @ts-ignore */}
+              {/* @ts-expect-error */}
               <ReactPlayer
                 controls={true}
                 height="5rem"

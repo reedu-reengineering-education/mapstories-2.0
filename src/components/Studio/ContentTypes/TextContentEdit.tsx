@@ -112,7 +112,7 @@ export function TextContentEdit({
           <div className="mb-2 mt-2 text-sm text-gray-500">
             {t('textEditor')}{' '}
           </div>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <div className="p-1 shadow-sm">
             <MDEditor
               commands={[

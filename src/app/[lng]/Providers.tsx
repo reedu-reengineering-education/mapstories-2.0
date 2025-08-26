@@ -46,7 +46,6 @@ export default function Providers({
       value={{
         fetcher: url => axios.get(url).then(res => res.data),
         revalidateOnFocus: false,
-        // @ts-ignore
         // use: [SWRLogger],
       }}
     >
