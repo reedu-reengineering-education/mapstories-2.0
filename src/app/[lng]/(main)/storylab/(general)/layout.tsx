@@ -76,8 +76,7 @@ export default async function DashboardLayout({
           </main>
         </div>
       </div>
-      {/* @ts-expect-error Server Component */}
-      <Footer lng={lng} />
+      {await Footer({ lng })}
     </>
   )
 }

@@ -7,11 +7,11 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
 import { Button } from '../Elements/Button'
 
-export function CharityBanner({}) {
+export function CharityBanner() {
   const [isShowing, setIsShowing] = useState(false)
 
   const lng = useBoundStore(state => state.language)
-  /* @ts-ignore */
+  /* @ts-expect-error */
   const { t } = useTranslation(lng, 'charity')
 
   useEffect(() => {

@@ -117,7 +117,7 @@ export default function EditMapstoryMap({
         }
       })
       .filter(Boolean)
-    // @ts-ignore
+    // @ts-expect-error
     setMarkers(newMarkers)
     // handleRemovePoint()
   }, [currentStep, steps])
@@ -126,9 +126,9 @@ export default function EditMapstoryMap({
     if (story && story.steps) {
       const coordinates: any[] = []
       story.steps.forEach(step => {
-        //@ts-ignore
+        //@ts-expect-error
         if (step.feature && step.feature?.geometry?.coordinates) {
-          //@ts-ignore
+          //@ts-expect-error
           coordinates.push(step.feature?.geometry?.coordinates)
         }
       })

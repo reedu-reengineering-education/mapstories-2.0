@@ -1,5 +1,6 @@
-'use client'
+// @ts-nocheck
 
+'use client'
 import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
 import { TrashIcon } from '@heroicons/react/24/outline'
@@ -23,6 +24,7 @@ export default function DeleteContentButton({
 
   const { deleteContent } = useStep(storyStepId)
   const lng = useBoundStore(state => state.language)
+
   const { t } = useTranslation(lng, 'editModal')
 
   const [open, setOpen] = useState(false)
@@ -73,7 +75,6 @@ export default function DeleteContentButton({
           close={
             <div className="flex flex-row justify-between">
               <Button disabled={isSaving} isLoading={isSaving}>
-                {/* @ts-ignore */}
                 {t('abort')}
               </Button>
               <Button

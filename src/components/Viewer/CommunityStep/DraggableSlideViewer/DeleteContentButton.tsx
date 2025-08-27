@@ -32,7 +32,7 @@ export default function DeleteContentButton({
           close={
             <div className="flex flex-row justify-between">
               <Button disabled={isSaving} isLoading={isSaving}>
-                {/* @ts-ignore */}
+               
                 Abort
               </Button>
               <Button

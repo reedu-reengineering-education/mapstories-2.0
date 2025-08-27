@@ -10,8 +10,8 @@ interface Props {
   trigger?: React.ReactElement
   open?: boolean
   onOpenChange?: (_open: boolean) => void
-  title: React.ReactElement | String
-  description?: React.ReactElement | String
+  title: React.ReactElement | string
+  description?: React.ReactElement | string
   children?: React.ReactElement | React.ReactElement[]
   setDisabled?: React.Dispatch<React.SetStateAction<boolean>>
   onClose?: () => void

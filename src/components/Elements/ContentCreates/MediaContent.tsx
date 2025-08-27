@@ -64,7 +64,7 @@ export function MediaContent({ setFile }: MediaContentEditProps) {
           <code>.wma</code>
           <br></br>
         </span>
-        {/* @ts-ignore */}
+        {/* @ts-expect-error */}
         <div {...getRootProps({ style })}>
           <input {...getInputProps()} />
           Dateien hier ablegen
@@ -84,7 +84,6 @@ export function MediaContent({ setFile }: MediaContentEditProps) {
           )}
           {fileType === 'AUDIO' && (
             <div className="m-2 flex justify-center">
-              {/* @ts-ignore */}
               <ReactPlayer
                 controls={true}
                 height="5rem"

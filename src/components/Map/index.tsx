@@ -40,7 +40,7 @@ const Map = forwardRef<MapRef, MapProps>(
         // mapLib={maplibregl}
         mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v12'}
         preserveDrawingBuffer
-        // @ts-ignore
+        // @ts-expect-error
         projection={'globe'}
         ref={ref}
         style={{

@@ -32,6 +32,8 @@ import type offerTab from '../src/app/i18/locales/de/offerTab.json'
 import type mapstoriesTab from '../src/app/i18/locales/de/mapstoriesTab.json'
 import type faq from '../src/app/i18n/locales/en/faq.json'
 import type about from '../src/app/i18n/locales/en/about.json'
+import type error from '../src/app/i18n/locales/en/error.json'
+import type stepSuggestions from '../src/app/i18n/locales/en/stepSuggestions.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -58,13 +60,15 @@ interface I18nNamespaces {
   offerTab: typeof offerTab
   faq: typeof faq
   mapstoriesTab: typeof mapstoriesTab
-  faq: typeof faq
   about: typeof about
   manualsTab: typeof manualsTab
+  error: typeof error
+  stepSuggestions: typeof stepSuggestions
+  
 }
 
 declare module 'i18next' {
-  // eslint-disable-next-line unused-imports/no-unused-vars
+   
   interface CustomTypeOptions {
     // returnNull: false
     // defaultNS: 'translation'

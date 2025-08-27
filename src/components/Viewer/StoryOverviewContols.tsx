@@ -58,7 +58,6 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
     if (story) {
       setStoryID(story.id)
       if (!onMyStoriesRoute) {
-        //@ts-ignore
         setViewerStories([story])
       }
     } else {
@@ -112,7 +111,7 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
 
     const parts = path?.split('/')
     if (parts) {
-      parts[3] = filterTmp?.join('-')!
+      parts[3] = filterTmp?.join('-') ?? '';
       const newPath = parts.join('/')
       router.push(newPath)
     }

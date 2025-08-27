@@ -187,7 +187,7 @@ export default function StorySourceLayer({
             key={'linesource' + i}
             type="geojson"
           >
-            {/* @ts-ignore */}
+            {/* @ts-expect-error */}
             <Layer
               {...getLineStyle(storyID)}
               id={m.properties?.id.toString() + 'normal'}
@@ -197,19 +197,19 @@ export default function StorySourceLayer({
 
       {upcomingLine && (
         <Source data={upcomingLine} id={'lineUpcoming'} type="geojson">
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Layer {...stylesUpcoming} id={'lineUpcoming'} />
         </Source>
       )}
       {visitedLine && (
         <Source data={visitedLine} id={'lineVisited'} type="geojson">
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Layer {...stylesVisited} id={'lineVisited'} />
         </Source>
       )}
       {activeLine && (
         <Source data={activeLine} id={'lineActive'} type="geojson">
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <Layer {...stylesActive} id={'lineActive'} />
         </Source>
       )}
