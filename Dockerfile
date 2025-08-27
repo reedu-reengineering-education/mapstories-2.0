@@ -15,7 +15,7 @@ RUN \
 
 
 # Rebuild the source code only when needed
-FROM node:20-alpine AS builder
+FROM node:22.9.0-alpine
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -35,7 +35,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN NEXT_PUBLIC_MAPBOX_TOKEN=APP_NEXT_PUBLIC_MAPBOX_TOKEN RESEND_API_KEY=APP_RESEND_API_KEY yarn build
 
 # Production image, copy all the files and run next
-FROM node:20-alpine AS runner
+FROM node:22.9.0-alpine
 WORKDIR /app
 
 ENV NODE_ENV production
