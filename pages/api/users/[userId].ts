@@ -10,6 +10,11 @@ import { withCurrentUser } from '@/src/lib/apiMiddlewares/withCurrentUser'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { sendConfirmationRequest } from '@/src/lib/sendChangeEmailMail'
 
+// Schema, das explizit KEIN role zulässt
+const selfUpdateSchema = userUpdateSchema
+  .omit({ role: true } as any) // falls userUpdateSchema role enthält
+  .strict() // keine unbekannten Felder zulassen
+  
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'PATCH') {
     try {
@@ -25,6 +30,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       // Validiere die Eingabedaten
       const payload = userUpdateSchema.parse(body)
       let newPayload: any = { ...payload }
+
+      // Harte Sperre: role im Body? -> sofort Abbruch
+      if ('role' in req.body) {
+        return res.status(400).json({ error: 'Role cannot be changed via this endpoint.' })
+      }
 
       // Prüfe, ob die E-Mail geändert wird
       if (payload.email && payload.email !== user.email) {
