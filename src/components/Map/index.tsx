@@ -52,7 +52,7 @@ const Map = forwardRef<MapRef, MapProps>(
         <AttributionControl
           customAttribution={
             windowWidth > 820
-              ? ` Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a> | ${
+              ? ` Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a> | <a href="/de/privacy"> Privacy Policy </a> | ${
                   process.env.NEXT_PUBLIC_APP_VERSION || 'development'
                 }`
               : ''

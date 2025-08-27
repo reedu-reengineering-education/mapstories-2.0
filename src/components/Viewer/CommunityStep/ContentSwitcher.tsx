@@ -44,23 +44,11 @@ export default function ContentSwitcher({
   setContentType,
   setCaptchaValidated,
 }: any) {
-  const [captcha, setCaptcha] = useState<string>('')
   const { story } = useStory(storyId)
 
-  useEffect(() => {
-    if (contentType === 'media') {
-      loadCaptchaEnginge(6, 'gray')
-    }
-  }, [contentType])
 
-  const handleCaptchaAndContiniue = () => {
-    if (validateCaptcha(captcha)) {
-      handleAddMedia()
-    } else {
-      setCaptchaValidated(false)
-      toast({ message: 'Captcha nicht korrekt', type: 'error' })
-    }
-  }
+
+
 
   return (
     <>
@@ -190,22 +178,9 @@ export default function ContentSwitcher({
       >
         <div>
           <MediaContent
-            captchaEnabled={true}
-            setCaptchaValidated={setCaptchaValidated}
             setFile={setFile}
           />
-          <div className="p-2">
-            <LoadCanvasTemplate />
-            <div className="flex flex-col gap-2">
-              <Input
-                className="bg-slate-50"
-                label="Captcha"
-                onChange={e => setCaptcha(e.target.value)}
-                placeholder="Captcha eingeben"
-                value={captcha}
-              ></Input>
-            </div>
-          </div>
+         
           <div className="flex justify-between">
             <Button
               onClick={() => setContentType('addSlide')}
@@ -215,7 +190,7 @@ export default function ContentSwitcher({
             </Button>
             <Button
               disabled={captchaValid}
-              onClick={() => handleCaptchaAndContiniue()}
+              onClick={() =>handleAddMedia()}
             >
               Erstellen
             </Button>

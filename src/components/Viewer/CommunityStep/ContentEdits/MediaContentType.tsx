@@ -1,6 +1,6 @@
 'use client'
 // next js component which has an input where you can upload an image
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Button } from '@/src/components/Elements/Button'
 import { useDropzone } from 'react-dropzone'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
@@ -71,7 +71,6 @@ export function MediaContentEdit({
   const [file, setFile] = useState<File>()
   const [fileType, setFileType] = useState<MediaType>()
   const [fileSource, setFileSource] = useState<string>('')
-  const [captcha, setCaptcha] = useState<string>('')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -97,9 +96,7 @@ export function MediaContentEdit({
     [isFocused, isDragAccept, isDragReject],
   )
 
-  useEffect(() => {
-    loadCaptchaEnginge(6, 'gray')
-  }, [])
+
 
   const uploadFile = async (file: File, uploadedFile: Media) => {
     // retrieve presigned url from back end
@@ -116,7 +113,7 @@ export function MediaContentEdit({
     })
   }
   async function onSubmit() {
-    if (validateCaptcha(captcha) === true) {
+    if (true) {
       try {
         setIsSaving(true)
         // create image table
@@ -146,7 +143,7 @@ export function MediaContentEdit({
       }
     } else {
       toast({
-        message: 'Captcha ist falsch',
+        message: 'Fehler',
         type: 'error',
       })
     }
@@ -212,18 +209,7 @@ export function MediaContentEdit({
             value={fileSource}
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <div className="p-2">
-            <LoadCanvasTemplate />
-          </div>
-          <Input
-            className="bg-slate-50"
-            label="Captcha"
-            onChange={e => setCaptcha(e.target.value)}
-            placeholder="Captcha eingeben"
-            value={captcha}
-          ></Input>
-        </div>
+
         <div className="flex flex-row justify-between pt-10">
           <Button
             onClick={() => setContentType('addSlide')}

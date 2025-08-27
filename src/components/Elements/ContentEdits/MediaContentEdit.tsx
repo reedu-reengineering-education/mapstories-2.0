@@ -1,6 +1,6 @@
 'use client'
 // next js component which has an input where you can upload an image
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import useMedia from '@/src/lib/api/media/useMedia'
@@ -14,12 +14,10 @@ import { LoadCanvasTemplate, loadCaptchaEnginge } from 'react-simple-captcha'
 
 import SizedImage from '@/src/components/Elements/SizedImage'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  captchaEnabled: boolean
   setMedia: (media: Media) => void
 }
 
 export function MediaContent({
-  captchaEnabled,
   setMedia,
 }: MediaContentEditProps) {
   const { addMedia } = useMedia()
@@ -29,7 +27,6 @@ export function MediaContent({
   const [file, setFile] = useState<File>()
   const [fileType, setFileType] = useState<MediaType>()
   const [fileSource, setFileSource] = useState<string>('')
-  const [captcha, setCaptcha] = useState<string>('')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -56,9 +53,7 @@ export function MediaContent({
     [isFocused, isDragAccept, isDragReject],
   )
 
-  useEffect(() => {
-    loadCaptchaEnginge(6, 'gray')
-  }, [])
+
 
   const uploadFile = async (file: File, uploadedFile: Media) => {
     // retrieve presigned url from back end
@@ -153,18 +148,6 @@ export function MediaContent({
             onChange={e => handleFileSource(e)}
             value={fileSource}
           />
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="p-2">
-            <LoadCanvasTemplate />
-          </div>
-          <Input
-            className="bg-slate-50"
-            label="Captcha"
-            onChange={e => setCaptcha(e.target.value)}
-            placeholder="Captcha eingeben"
-            value={captcha}
-          ></Input>
         </div>
       </div>
     </div>
