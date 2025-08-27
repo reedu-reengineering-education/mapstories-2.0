@@ -7,7 +7,7 @@ import { render } from '@react-email/render'
 import SignInEmail from '@/emails/sign-in'
 import nodemailer from 'nodemailer'
 import { MailOptions } from 'nodemailer/lib/smtp-transport'
-import { compare } from 'bcrypt'
+import { compare } from 'bcryptjs'
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {

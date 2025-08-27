@@ -3,7 +3,7 @@ import { db } from '@/src/lib/db'
 import nodemailer from 'nodemailer'
 import crypto from 'crypto'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
-import bcrypt from 'bcrypt'
+import bcryptjs from 'bcryptjs'
 import { render } from '@react-email/render'
 import PasswordRequest from '@/emails/passwordRequest'
 
@@ -17,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     // Generate a new random password
     const newPassword = crypto.randomBytes(8).toString('hex')
-    const hashedPassword = await bcrypt.hash(newPassword, 10)
+    const hashedPassword = await bcryptjs.hash(newPassword, 10)
 
     // Update the user's password in the database
     const updatedUser = await db.user.findUnique({

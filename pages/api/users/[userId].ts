@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as z from 'zod'
 import { getServerSession } from 'next-auth/next'
-import bcrypt from 'bcrypt'
+import bcryptjs from 'bcryptjs'
 
 import { db } from '@/src/lib/db'
 import { userUpdateSchema } from '@/src/lib/validations/user'
@@ -67,7 +67,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       // Prüfe, ob ein Passwort aktualisiert wird und ob es nicht leer ist
       if (payload.password && payload.password.trim() !== '') {
-        const hashedPassword = await bcrypt.hash(payload.password, 10) // Hash das Passwort
+        const hashedPassword = await bcryptjs.hash(payload.password, 10) // Hash das Passwort
         newPayload.password = hashedPassword
       } else {
         // Entferne das Passwort aus dem Payload, falls es leer ist
