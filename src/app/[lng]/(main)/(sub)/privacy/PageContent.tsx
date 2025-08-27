@@ -222,11 +222,11 @@ cookies"
 
         <h2 className="font-semibold">6) Einbettung von Videos</h2>
         <div>
-          Auf unserer Website sind Videos externer Plattformen wie z. B.
+          Auf unserer Website sind Videos externer Plattformen wie z.B.
           YouTube, Facebook, Instagram oder vergleichbarer Dienste eingebettet.
           Diese Einbettungen erfolgen im Interesse einer ansprechenden und
-          informativen Darstellung unserer Online-Angebote gemäß Art. 6 Abs. 1
-          lit. f DSGVO. Dabei handelt es sich um sogenannte „Plugins“ oder
+          informativen Darstellung unserer Online-Angebote gemäß Art.6 Abs.1
+          lit.f DSGVO. Dabei handelt es sich um sogenannte „Plugins“ oder
           „Embed“-Funktionen, die von den jeweiligen Anbietern bereitgestellt
           werden.
         </div>
@@ -234,7 +234,7 @@ cookies"
           Bereits beim Aufruf einer Seite mit eingebettetem Video kann – je nach
           Plattform – eine Verbindung zu den Servern des jeweiligen Anbieters
           hergestellt werden, unabhängig davon, ob das Video aktiv abgespielt
-          wird. Dabei können personenbezogene Daten (z. B. Ihre IP-Adresse,
+          wird. Dabei können personenbezogene Daten (z.B. Ihre IP-Adresse,
           Browserinformationen, Gerätedaten, ggf. Referrer-URL) übermittelt
           werden. Wenn Sie gleichzeitig bei einem dieser Dienste eingeloggt
           sind, kann der Anbieter den Seitenaufruf Ihrem Benutzerkonto zuordnen.
@@ -244,7 +244,7 @@ cookies"
           erweiterten Datenschutzmodus, sofern dieser vom Anbieter zur Verfügung
           gestellt wird. Laut Angaben von YouTube werden in diesem Modus erst
           beim Starten des Videos personenbezogene Daten verarbeitet. Für andere
-          Plattformen (z. B. Facebook oder Instagram) gelten deren jeweilige
+          Plattformen (z.B. Facebook oder Instagram) gelten deren jeweilige
           Datenschutzbestimmungen.
         </div>
         <div>
@@ -284,9 +284,9 @@ cookies"
         </ul>
 
         <div>
-          Sofern eine entsprechende Einwilligung abgefragt wurde (z. B. über ein
+          Sofern eine entsprechende Einwilligung abgefragt wurde (z.B. über ein
           Cookie-Consent-Tool), erfolgt die Verarbeitung ausschließlich auf
-          Grundlage von Art. 6 Abs. 1 lit. a DSGVO. Diese Einwilligung ist
+          Grundlage von Art.6 Abs.1 lit.a DSGVO. Diese Einwilligung ist
           jederzeit widerrufbar.
         </div>
 
@@ -662,7 +662,7 @@ cookies"
           Our website includes videos embedded from external platforms such as
           YouTube, Facebook, Instagram, or similar services. These integrations
           are made in the interest of providing an engaging and informative user
-          experience in accordance with Art. 6 (1) lit. f GDPR. The embedded
+          experience in accordance with Art.6 (1) lit.f GDPR. The embedded
           content is provided via so-called &quot;plugins&quot; or &quot;embed&quot; functions from
           the respective providers.
         </div>
@@ -722,8 +722,8 @@ cookies"
 
         <div>
           Where consent is required for such embedding (e.g. via a cookie
-          consent tool), the processing is based exclusively on Art. 6 (1)
-          lit. a GDPR. This consent can be withdrawn at any time with future
+          consent tool), the processing is based exclusively on Art.6 (1)
+          lit.a GDPR. This consent can be withdrawn at any time with future
           effect.
         </div>
 

@@ -12,13 +12,6 @@ import * as z from 'zod'
 import 'react-tabs/style/react-tabs.css'
 import ReactPlayer from 'react-player'
 import { Spinner } from '@/src/components/Elements/Spinner'
-import {
-  LoadCanvasTemplate,
-  loadCaptchaEnginge,
-  validateCaptcha,
-  //@ts-expect-error
-} from 'react-simple-captcha'
-import { toast } from '@/src/lib/toast'
 import SizedImage from '@/src/components/Elements/SizedImage'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   stepSuggestion: any
@@ -113,7 +106,6 @@ export function MediaContentEdit({
     })
   }
   async function onSubmit() {
-    if (true) {
       try {
         setIsSaving(true)
         // create image table
@@ -141,12 +133,6 @@ export function MediaContentEdit({
         setIsSaving(false)
         setContentType && setContentType('addSlide')
       }
-    } else {
-      toast({
-        message: 'Fehler',
-        type: 'error',
-      })
-    }
   }
 
   function handleFileSource(e: any) {

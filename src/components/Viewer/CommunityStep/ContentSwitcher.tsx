@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '../../Elements/Button'
 import { CSSTransition } from 'react-transition-group'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import SelectContentType from '@/src/components/Viewer/CommunityStep/SelectContentType'
 
 import InitialView from './ModalViews/InitialView'
@@ -12,14 +12,6 @@ import { TextContent } from '../../Elements/ContentCreates/TextContent'
 import ShowStepWithContents from './DraggableSlideViewer/ShowStepWithContents'
 import { EmbedContent } from '../../Elements/ContentCreates/EmbedContent'
 import { MediaContent } from '@/src/components/Elements/ContentCreates/MediaContent'
-import {
-  LoadCanvasTemplate,
-  loadCaptchaEnginge,
-  validateCaptcha,
-  // @ts-expect-error
-} from 'react-simple-captcha'
-import { toast } from '@/src/lib/toast'
-import { Input } from '../../Elements/Input'
 import useStory from '@/src/lib/api/story/useStory'
 
 // ContentSwitcher component to handle transitions between different content types
