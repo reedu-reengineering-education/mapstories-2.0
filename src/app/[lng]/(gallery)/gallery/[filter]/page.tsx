@@ -63,12 +63,10 @@ export const metadata: Metadata = {
     description: 'In der Galerie werden Mapstories ausgestellt, welche vom Mapstories-Team ausgewählt worden. Wir nehmen gerne Vorschläge für neue Mapstories in dieser Liste auf!',
   },
 }
-interface GalleryPageProps {}
 
 export default async function GalleryPage() {
   const certifiedMapstoryIDs: Array<string> =
-    //@ts-expect-error
-    process.env.GALLERY_STORIES.split(',')
+    (process.env.GALLERY_STORIES ?? '').split(',')
 
   const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
   return (
