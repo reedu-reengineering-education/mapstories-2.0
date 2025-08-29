@@ -45,7 +45,7 @@ services:
       - 8025:8025 # web ui
 
   mapstoriesadmin:
-    image: mapstoriesadmin
+    image: ghcr.io/reedu-reengineering-education/insta-admin:main
     restart: always
     # environment:
     #   DATABASE_URL: ${DATABASE_URL}

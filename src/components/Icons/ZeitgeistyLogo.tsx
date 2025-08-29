@@ -4,7 +4,7 @@ function ZeitgeistyLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       style={{
-        // @ts-ignore
+        // @ts-expect-error
         enableBackground: 'new 0 0 1386.9 215.7',
       }}
       viewBox="0 0 1386.9 215.7"

@@ -12,7 +12,7 @@ const RETRYING_STAGE = 'retrying'
 const EMBED_SUCCESS_STAGE = 'embed-success'
 
 export interface TikTokEmbedProps extends React.HTMLAttributes<HTMLDivElement> {
-  url: String
+  url: string
   width?: string | number
   height?: string | number
 }
@@ -23,13 +23,13 @@ export function TikTokEmbed({
   height,
   ...divProps
 }: TikTokEmbedProps) {
-  const getVideoId = (link: String) => {
+  const getVideoId = (link: string) => {
     const linkParts = link.split('/')
     const videoId = linkParts[linkParts.length - 1]
     return videoId
   }
 
-  const getEmbedUrl = (videoId: String) => {
+  const getEmbedUrl = (videoId: string) => {
     return `https://www.tiktok.com/embed/v2/${videoId}`
   }
 

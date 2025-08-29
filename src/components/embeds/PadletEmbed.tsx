@@ -5,7 +5,7 @@ import { EmbedStyle } from './EmbedStyle'
 const borderRadius = 8
 
 export interface PadletEmbedProps extends React.HTMLAttributes<HTMLDivElement> {
-  url: String
+  url: string
   width?: string | number
   height?: string | number
 }

@@ -9,7 +9,7 @@ export function urlToMedia(url: string): media_type | undefined {
   }
 
   // check if url ir a known media url
-  for (var i = 0; i < media_types.length; i++) {
+  for (let i = 0; i < media_types.length; i++) {
     if (url.toString().match(media_types[i].match_str)) {
       const media = { ...media_types[i] }
       media.content = url

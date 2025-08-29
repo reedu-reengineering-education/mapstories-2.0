@@ -11,7 +11,7 @@ export const sendVerificationRequest = async (
       from: 'Mapstories <no-reply@mapstories.reedu.de>',
       to: params.identifier,
       subject: 'Mapstories Login',
-      html: render(SignInEmail({ url })),
+      html: await render(SignInEmail({ url })),
     })
   } catch (error) {
     console.log({ error })

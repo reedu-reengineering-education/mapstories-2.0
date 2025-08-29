@@ -29,11 +29,13 @@ export default function StepCalendarModal({ storyStepId }: Props) {
 
   const { step, updateStep } = useStep(storyStepId)
 
-  const [date, setDate] = useState(step?.timestamp ?? new Date())
+  const [date, setDate] = useState(new Date(step?.timestamp ?? Date.now()));
 
   useEffect(() => {
-    setDate(new Date(step?.timestamp!) ?? new Date())
-  }, [step])
+    if (step?.timestamp) {
+      setDate(new Date(step.timestamp));
+    }
+  }, [step]);
 
   const { handleSubmit } = useForm({})
 

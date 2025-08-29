@@ -34,7 +34,8 @@ export function ContentEditFactory({
           storyStepId={storyStepId}
         />
       )
-    case 'IMAGE' || 'VIDEO':
+    case 'IMAGE':
+    case 'VIDEO':
       return (
         <MediaContentEdit
           setShowModal={setShowModal}

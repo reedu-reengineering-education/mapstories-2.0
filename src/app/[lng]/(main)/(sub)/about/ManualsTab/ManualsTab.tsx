@@ -22,9 +22,7 @@ export default function ManualsTab() {
   return (
     <Card>
       <CardHeader>
-        {/* @ts-ignore */}
         <CardTitle>{t('title')}</CardTitle>
-        {/* @ts-ignore */}
         <CardDescription>{t('startText')}</CardDescription>
       </CardHeader>
       <CardContent>

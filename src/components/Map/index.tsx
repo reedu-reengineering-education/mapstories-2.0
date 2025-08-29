@@ -40,7 +40,7 @@ const Map = forwardRef<MapRef, MapProps>(
         // mapLib={maplibregl}
         mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v12'}
         preserveDrawingBuffer
-        // @ts-ignore
+        // @ts-expect-error
         projection={'globe'}
         ref={ref}
         style={{
@@ -52,7 +52,7 @@ const Map = forwardRef<MapRef, MapProps>(
         <AttributionControl
           customAttribution={
             windowWidth > 820
-              ? ` Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a> | ${
+              ? ` Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a> | <a href="/de/privacy"> Privacy Policy </a> | ${
                   process.env.NEXT_PUBLIC_APP_VERSION || 'development'
                 }`
               : ''

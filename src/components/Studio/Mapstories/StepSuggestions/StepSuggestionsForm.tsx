@@ -35,7 +35,6 @@ type Props = {
 
 export default function StepSuggestionsForm({ story }: Props) {
   const lng = useBoundStore(state => state.language)
-  //  @ts-ignore
   const { t } = useTranslation(lng, 'stepSuggestions')
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
@@ -61,12 +60,12 @@ export default function StepSuggestionsForm({ story }: Props) {
   }, [current])
 
   useEffect(() => {
-    // @ts-ignore
+    // @ts-expect-error
     mapRef.current?.flyTo({
       center: [
-        // @ts-ignore
+        // @ts-expect-error
         currentStepSuggestion.feature?.geometry?.coordinates[0] ?? 7.5,
-        // @ts-ignore
+        // @ts-expect-error
         currentStepSuggestion.feature?.geometry?.coordinates[1] ?? 51.5,
       ],
     })
@@ -132,7 +131,7 @@ export default function StepSuggestionsForm({ story }: Props) {
     try {
       setIsLoading(true)
       const newStoryStep = await createStoryStep({
-        // @ts-ignore
+        // @ts-expect-error
         content: stepSuggestion.content,
         feature: stepSuggestion.feature,
         tags: stepSuggestion.tags,
@@ -165,7 +164,6 @@ export default function StepSuggestionsForm({ story }: Props) {
         // screen to show no suggestion have been found
 
         <div className="text-muted-foreground text-center">
-          {/* @ts-ignore */}
           {t('noSuggestions')}
         </div>
       ) : (
@@ -185,7 +183,6 @@ export default function StepSuggestionsForm({ story }: Props) {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbPage>
-                    {/* @ts-ignore */}
                     {t('stepSuggestions')}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
@@ -210,7 +207,6 @@ export default function StepSuggestionsForm({ story }: Props) {
                             startIcon={<XMarkIcon className="w-5" />}
                             variant={'danger'}
                           >
-                            {/* @ts-ignore */}
                             {t('reject')}
                           </Button>
                           <Button
@@ -229,7 +225,7 @@ export default function StepSuggestionsForm({ story }: Props) {
                               )
                             }
                           >
-                            {/* @ts-ignore */}
+                            {/* @ts-expect-error */}
                             {isLoading ? t('loading') : t('accept')}
                           </Button>
                         </div>
@@ -250,10 +246,10 @@ export default function StepSuggestionsForm({ story }: Props) {
               <ReactMap
                 initialViewState={{
                   longitude:
-                    // @ts-ignore
+                    // @ts-expect-error
                     currentStepSuggestion?.feature?.geometry?.coordinates[0],
                   latitude:
-                    // @ts-ignore
+                    // @ts-expect-error
                     currentStepSuggestion?.feature?.geometry?.coordinates[1],
                   zoom: 3,
                 }}
@@ -270,11 +266,11 @@ export default function StepSuggestionsForm({ story }: Props) {
                   <Marker
                     color="green"
                     latitude={
-                      // @ts-ignore
+                      // @ts-expect-error
                       currentStepSuggestion?.feature?.geometry?.coordinates[1]
                     }
                     longitude={
-                      // @ts-ignore
+                      // @ts-expect-error
                       currentStepSuggestion?.feature?.geometry?.coordinates[0]
                     }
                   ></Marker>
@@ -285,7 +281,6 @@ export default function StepSuggestionsForm({ story }: Props) {
             <Modal
               onOpenChange={setRejectModalOpen}
               open={rejectModalOpen}
-              // @ts-ignore
               title={t('reject')}
             >
               <Modal.Content>
@@ -298,14 +293,12 @@ export default function StepSuggestionsForm({ story }: Props) {
                     onClick={() => setRejectModalOpen(false)}
                     variant="primary"
                   >
-                    {/* @ts-ignore */}
                     {t('cancel')}
                   </Button>
                   <Button
                     onClick={() => handleReject(content[current - 1])}
                     variant="danger"
                   >
-                    {/* @ts-ignore */}
                     {t('reject')}
                   </Button>
                 </div>

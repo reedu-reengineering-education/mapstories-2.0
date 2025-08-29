@@ -7,18 +7,20 @@ import { db } from './db'
  * @returns Promise with new slug
  */
 export async function generateSlug(name: string) {
-  return new Promise<string>(async (resolve, reject) => {
-    const slug = slugify(name, {
-      lower: true,
-      strict: true,
-    })
-    const unique = await uniqueSlug(slug)
-    if (!unique) {
-      return reject('Slug is not unique')
-    }
-    resolve(unique)
-  })
+  const slug = slugify(name, {
+    lower: true,
+    strict: true,
+  });
+
+  const unique = await uniqueSlug(slug);
+
+  if (!unique) {
+    throw new Error('Slug is not unique');
+  }
+
+  return unique;
 }
+
 
 /**
  * Get a unique slug for a mapstory
