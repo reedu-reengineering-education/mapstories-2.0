@@ -14,7 +14,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "typeRoots": ["./node_modules/@types"],
     "paths": {
       "@/*": ["./*"]
     },
@@ -30,9 +30,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "F:\\mapstories-2.0\\.next/types/**/*.ts",
-    "src/types"
-
-
   ],
   "exclude": ["node_modules"]
 }
