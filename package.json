@@ -67,7 +67,7 @@
     "maplibre-gl": "^2.4.0",
     "minio": "^7.0.33",
     "multer": "^2.0.2",
-    "next": "^14.2.30",
+    "next": "^14.2.32",
     "next-auth": "^4.20.1",
     "next-remove-imports": "^1.0.10",
     "next-s3-upload": "^0.3.0",
