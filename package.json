@@ -48,7 +48,7 @@
     "@types/react-dom": "18.0.11",
     "@uiw/react-md-editor": "^3.20.5",
     "accept-language": "^3.0.18",
-    "axios": "^1.8.2",
+    "axios": "^1.12.0",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.4.0",
     "classnames": "^2.3.2",
