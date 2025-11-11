@@ -4,8 +4,10 @@ import BMZLogo from '@/assets/images/partners/BMZ-Logo-4c.jpg'
 import fachStelleWeltkirche from '@/assets/images/partners/Fachstelle Weltkirche - Logo.png'
 import SUELogo from '@/assets/images/partners/SUE_Logo_CMYK_300dpi.jpg'
 import kunstNRW from '@/assets/images/partners/kunststiftung_nrw.png'
+import kunstNRWrot from '@/assets/images/partners/kunststiftung_nrw_rot.png'
 import kulturWissenschaftNRW from '@/assets/images/partners/kultur_wissenschaft_nrw.jpg'
 import kulturamtBielefeld from '@/assets/images/partners/kulturamt-bielefeld_logo-scaled.png'
+import regionalesKulturProgrammNRW from '@/assets/images/partners/regionales_kulturprogramm_nrw.png'
 import Image from 'next/image'
 import {
   Card,
@@ -36,7 +38,7 @@ export default function MapstoriesTab() {
             <a className="text-blue-500" href={`/${lng}/gallery/all`}>
               {t('gallery')}
             </a>{' '}
-            <span> {t('text2_2')}</span>
+            <span>{t('text2_2')}</span>
           </div>
           <div className="hidden basis-1/6 lg:flex lg:flex-col">
             <Image alt="Workshop Foto" src={MapstoriesTitlePicture} />
@@ -94,6 +96,7 @@ export default function MapstoriesTab() {
             Projektes ›zeitgeisty. be part of … Protestkulturen 1957-1967‹,
             getragen vom Bunker Ulmenwall e.V.
           </div>
+
           <div className="flex flex-col align-baseline lg:flex-row">
             <div className="flex flex-1 flex-col items-center gap-4 p-8">
               <a
@@ -127,20 +130,45 @@ export default function MapstoriesTab() {
           </div>
 
           <div className="flex flex-col align-baseline lg:flex-row lg:justify-evenly">
-            <div className="flex flex-1 flex-col items-center gap-4 p-8">
-              <Image
-                alt="Kultur und Wissenschaft NRW"
-                src={kulturWissenschaftNRW}
-              />
+            {/* Ministerium für Kultur und Wissenschaft NRW */}
+            <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
+              <a
+                className="flex justify-center align-baseline transition duration-300 ease-in-out hover:scale-105"
+                href="https://www.mkw.nrw"
+              >
+                <Image
+                  alt="Ministerium für Kultur und Wissenschaft NRW"
+                  className="kulturWissenschaft"
+                  src={kulturWissenschaftNRW}
+                />
+              </a>
             </div>
+
+            {/* Regionales Kultur Programm NRW */}
             <div className="my-2 flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
-              <Image alt="Kunststiftung NRW" src={kunstNRW} />
+              <a className="flex justify-center align-baseline transition duration-300 ease-in-out hover:scale-105" href="https://regionaleskulturprogrammnrw.de/">
+                <Image
+                  alt="Regionales Kultur Programm NRW"
+                  src={regionalesKulturProgrammNRW}
+                />
+              </a>
             </div>
+
+            {/* Kunststiftung NRW */}
             <div className="my-2 flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
-              <Image
-                alt="Kulturamt Bielefeld"
-                src={kulturamtBielefeld}
-              />
+              <a
+                className="flex justify-center align-baseline transition duration-300 ease-in-out hover:scale-105"
+                href="https://www.kunststiftungnrw.de/"
+              >
+                <Image alt="Kunststiftung NRW" src={kunstNRWrot} />
+              </a>
+            </div>
+
+            {/* Kulturamt Bielefeld */}
+            <div className="my-2 flex flex-1 flex-col items-center gap-4 p-8 lg:border-l-2 lg:border-zinc-300">
+              <a className="flex justify-center align-baseline transition duration-300 ease-in-out hover:scale-105" href='https://kulturamt-bielefeld.de/'>
+                <Image alt="Kulturamt Bielefeld" src={kulturamtBielefeld} />
+              </a>
             </div>
           </div>
         </div>
