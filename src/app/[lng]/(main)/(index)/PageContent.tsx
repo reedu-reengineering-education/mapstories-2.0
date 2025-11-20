@@ -52,8 +52,16 @@ export default function PageContent() {
               {t('infos')}
             </Button>
           </Link>
+          <Link
+            href={'https://vamos-muenster.de/angebote/mapstories/veranstaltungen/'}
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            <Button className=" re-basic-box bg-opacity-90" variant={'inverse'}>
+              {t('vamosEvents')}
+            </Button>
+          </Link> 
         </div>
-
         <div className="hidden items-center justify-center gap-2 lg:flex lg:gap-4">
           <Link href="/login">
             <div className="re-basic-box">
@@ -68,6 +76,17 @@ export default function PageContent() {
           <Link href={'/about'}>
             <Button className="re-basic-box bg-opacity-90" variant={'inverse'}>
               {t('infos')}
+            </Button>
+          </Link>
+            <Link
+            href={'https://vamos-muenster.de/angebote/mapstories/veranstaltungen/'}
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            <Button className=" re-basic-box bg-opacity-90" variant={'inverse'}>
+
+              {t('vamosEvents')}
+
             </Button>
           </Link>
         </div>
