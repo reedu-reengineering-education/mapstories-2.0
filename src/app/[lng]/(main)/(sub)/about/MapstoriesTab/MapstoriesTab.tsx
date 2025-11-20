@@ -173,27 +173,25 @@ export default function MapstoriesTab() {
             </div>
           </div>
           <div className="flex flex-col items-center justify-center text-center p-4">
-  <div className="mt-2 text-sm">Von 2025–2027</div>
-
-  <a
-    className="group"
-    href="https://www.brot-fuer-die-welt.de/"
-    rel="noopener noreferrer"
-    target="_blank"
-  >
-    <Image
-      alt="Brot für die Welt Förderung"
-      className="
-        w-[500px]
-        max-w-[350px] sm:max-w-[450px] md:max-w-[550px]
-        group-hover:scale-105
-        group-hover:shadow-xl
-      "
-      src={brotfuerdiewelt}
-    />
-  </a>
-</div>
-
+            <div className="mt-2 text-sm">Von 2025–2027</div>
+            <a
+              className="group"
+              href="https://www.brot-fuer-die-welt.de/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Image
+                alt="Brot für die Welt Förderung"
+                className="
+                  w-[500px]
+                  max-w-[350px] sm:max-w-[450px] md:max-w-[550px]
+                  group-hover:scale-105
+                  group-hover:shadow-xl
+                "
+                src={brotfuerdiewelt}
+              />
+            </a>
+          </div>
         </div>
       </CardContent>
       <CardFooter></CardFooter>
