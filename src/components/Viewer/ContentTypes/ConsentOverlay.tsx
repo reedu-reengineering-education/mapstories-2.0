@@ -17,10 +17,8 @@ interface ConsentOverlayProps {
 
 export function ConsentOverlay({
   description,
-  rememberDecision,
   onRememberChange,
   onConfirm,
-  confirmLabel = 'Load Content',
   embed,
 }: ConsentOverlayProps) {
   const policyUrl = getMediaPrivacyInfo(embed.type)?.privacyPolicyUrl
@@ -90,7 +88,7 @@ export function ConsentOverlay({
         </div>
 
         <Button onClick={onConfirm} variant="primary">
-          {confirmLabel}
+          Inhalt laden
         </Button>
       </div>
     </div>

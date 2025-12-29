@@ -18,7 +18,7 @@ export function EmbedContent({ content }: Props) {
     setRememberDecision,
     allow,
   } = useCookieConsent({
-    cookieKey: `${content.type}Consent`,
+    service: `${content.type}Consent`,
   })
 
   if (!content.content) {return null}
