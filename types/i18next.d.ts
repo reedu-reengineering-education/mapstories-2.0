@@ -19,6 +19,7 @@ import type mapstorySidebar from '../src/app/i18n/locales/en/mapstorySidebar.jso
 import type mapstoryCard from '../src/app/i18n/locales/en/mapstoryCard.json'
 import type settings from '../src/app/i18n/locales/en/settings.json'
 import type userSettingsForm from '../src/app/i18n/locales/en/userSettingsForm.json'
+import type userCookieConsentForm from '../src/app/i18n/locales/en/userCookieConsentForm.json'
 import type editMapstory from '../src/app/i18n/locales/en/editMapstory.json'
 import type login from '../src/app/i18n/locales/en/login.json'
 import type dashboardLayout from '../src/app/i18n/locales/en/dashboardLayout.json'
@@ -48,6 +49,7 @@ interface I18nNamespaces {
   mapstoryCard: typeof mapstoryCard
   settings: typeof settings
   userSettingsForm: typeof userSettingsForm
+  userCookieConsentForm: typeof userCookieConsentForm
   editMapstory: typeof editMapstory
   login: typeof login
   dashboardLayout: typeof dashboardLayout

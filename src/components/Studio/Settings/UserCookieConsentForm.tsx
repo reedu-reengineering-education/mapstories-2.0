@@ -12,15 +12,19 @@ import { getMediaPrivacyInfo } from '@/src/helper/embedPrivacy'
 import { MediaType } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 export default function UserCookieConsentForm() {
   const [allCookies, setAllCookies] = useState<Record<string, boolean>>({})
+    const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'userCookieConsentForm')
 
   useEffect(() => {
     setAllCookies(getAllConsentCookies())
 
   }, [])
-  
+
   const submitCookies = () => {
     Object.entries(allCookies).forEach(([service, allowed]) => {
       document.cookie = `consent:${service}=${allowed}; path=/; max-age=${
@@ -28,7 +32,7 @@ export default function UserCookieConsentForm() {
       }`
     })
     toast({
-      message: 'Einstellungen gespeichert',
+      message: t('settings_saved'),
       type: 'success',
     })
   }
@@ -38,13 +42,13 @@ export default function UserCookieConsentForm() {
   return (
     <Card className=" ">
       <Card.Header>
-        <Card.Title>Privatsphäre-Einstellungen</Card.Title>
+        <Card.Title>{t('privacy_settings')}</Card.Title>
       </Card.Header>
 
       <Card.Content className="space-y-6">
         {Object.entries(allCookies).length === 0 && (
           <p className="text-sm text-gray-600">
-            Es wurden noch keine Cookie-Consents gesetzt.
+            {t('no_cookies_set')}
           </p>
         )}
 
@@ -77,7 +81,7 @@ export default function UserCookieConsentForm() {
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Datenschutzerklärung
+                    {t('privacy_policy')}
                   </a>
                 )}
               </div>
@@ -85,7 +89,7 @@ export default function UserCookieConsentForm() {
               {/* Toggle Row */}
               <div className="flex items-center gap-5">
                 <span className="text-sm text-gray-700">
-                  Externe Inhalte erlauben
+                  {t('allow_external_content')}
                 </span>
 
                 <Switch
@@ -103,7 +107,6 @@ export default function UserCookieConsentForm() {
           )
         })}
 
-        {/* Danger Zone */}
         {Object.entries(allCookies).length > 0 && (
           <div className="pt-4 border-t justify-between border-gray-200 flex ">
                         <Button
@@ -113,14 +116,14 @@ export default function UserCookieConsentForm() {
               }}
               variant="danger"
             >
-              Alle Consents löschen
+              {t('delete_all_consents')}
             </Button>
             <Button 
 
               onClick={submitCookies}
               variant="primary"
             >
-              Änderungen übernehmen
+              {t('confirm_changes')}
             </Button>
 
 
