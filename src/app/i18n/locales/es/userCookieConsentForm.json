@@ -5,5 +5,9 @@
   "privacy_policy": "Política de privacidad",
   "allow_external_content": "Permitir contenido externo",
   "delete_all_consents": "Eliminar todos los consentimientos",
-  "confirm_changes": "Confirmar cambios"
+  "confirm_changes": "Confirmar cambios",
+  "disclaimer_text": "Al confirmar a continuación, aceptas cargar contenido del siguiente servicio.",
+  "remember_choice": "Recordar esta elección",
+  "confirm_load_content": "Cargar contenido",
+  "once": "Solo una vez"
 }

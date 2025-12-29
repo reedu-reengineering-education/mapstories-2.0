@@ -5,6 +5,8 @@ import EmbedIconFactory from '../../Icons/EmbedIconFactory'
 import { getMediaPrivacyInfo } from '@/src/helper/embedPrivacy'
 import { Button } from '../../Elements/Button'
 import Switch from '../../Elements/Switch'
+import { useBoundStore } from '@/src/lib/store/store'
+import { useTranslation } from '@/src/app/i18n/client'
 
 interface ConsentOverlayProps {
   description?: string
@@ -16,21 +18,19 @@ interface ConsentOverlayProps {
 }
 
 export function ConsentOverlay({
-  description,
   onRememberChange,
   onConfirm,
   embed,
 }: ConsentOverlayProps) {
+    const lng = useBoundStore(state => state.language)
+    const { t } = useTranslation(lng, 'userCookieConsentForm')
+  
   const policyUrl = getMediaPrivacyInfo(embed.type)?.privacyPolicyUrl
-  const defaultDescription =
-    'By confirming below, you agree to load content from the following service:'
+  const defaultDescription = t('disclaimer_text')
 
   return (
     <div className="inset-0 z-10 flex items-center justify-center">
-      {/* 🔥 BACKDROP */}
       <div className="absolute p-5 inset-0 bg-black/50 backdrop-blur-md" />
-
-      {/* 🧊 FOREGROUND CARD */}
       <div
         className="
           relative z-10
@@ -44,9 +44,8 @@ export function ConsentOverlay({
         "
       >
         <p className="text-center text-gray-900 text-base font-medium">
-          {description || defaultDescription}
+          {defaultDescription}
         </p>
-
         <div className="flex items-center justify-center gap-2 text-sm font-semibold">
           <EmbedIconFactory type={embed.type} />
           {embed.type}
@@ -71,24 +70,26 @@ export function ConsentOverlay({
               rel="noopener noreferrer"
               target="_blank"
             >
-              Privacy Policy
+              
+              {t('privacy_policy')}
             </a>
           </p>
         )}
 
         <div className="flex items-center justify-center gap-3">
-          <span className="text-sm text-gray-700">Nur einmalig</span>
+          <span className="text-sm text-gray-700">{t('once')}</span>
           <Switch
             defaultChecked={false}
             onCheckedChange={onRememberChange}
           />
           <span className="text-sm text-gray-700">
-            Entscheidung merken
+            {t('remember_choice')}
           </span>
         </div>
 
         <Button onClick={onConfirm} variant="primary">
-          Inhalt laden
+          
+          {t('confirm_load_content')}
         </Button>
       </div>
     </div>
