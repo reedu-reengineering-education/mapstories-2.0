@@ -62,38 +62,6 @@ export const mediaPrivacyMap: Partial<Record<MediaType, MediaPrivacyInfo>> = {
     privacyPolicyUrl: 'https://policies.google.com/privacy',
     requiresConsent: true,
   },
-
-  // ❌ Kein Consent notwendig
-  [MediaType.TEXT]: {
-    label: 'Text',
-    privacyPolicyUrl: '',
-    requiresConsent: false,
-  },
-  [MediaType.TITLE]: {
-    label: 'Title',
-    privacyPolicyUrl: '',
-    requiresConsent: false,
-  },
-  [MediaType.IMAGE]: {
-    label: 'Image',
-    privacyPolicyUrl: '',
-    requiresConsent: false,
-  },
-  [MediaType.EXTERNALIMAGE]: {
-    label: 'External Image',
-    privacyPolicyUrl: '',
-    requiresConsent: false,
-  },
-  [MediaType.AUDIO]: {
-    label: 'Audio',
-    privacyPolicyUrl: '',
-    requiresConsent: false,
-  },
-  [MediaType.VIDEO]: {
-    label: 'Video',
-    privacyPolicyUrl: '',
-    requiresConsent: false,
-  },
 }
 
 export function getMediaPrivacyInfo(type: MediaType) {

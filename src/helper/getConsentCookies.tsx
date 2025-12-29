@@ -2,9 +2,7 @@ export const CONSENT_COOKIE_PREFIX = 'consent:'
 
 export type ConsentCookieMap = Record<string, boolean>
 
-/**
- * 🍪 Alle von uns gesetzten Consent-Cookies
- */
+
 export function getAllConsentCookies(): ConsentCookieMap {
   if (typeof document === 'undefined') {return {}}
 
@@ -19,9 +17,6 @@ export function getAllConsentCookies(): ConsentCookieMap {
     }, {})
 }
 
-/**
- * ❌ Optional: Alle Consents löschen
- */
 export function clearAllConsents() {
   if (typeof document === 'undefined') {return}
 

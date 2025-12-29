@@ -34,11 +34,11 @@ export function ConsentOverlay({
       <div
         className="
           relative z-10
-          w-full max-w-md
-          rounded-[10px]
-          border-[3px] border-[#38383a]
+           max-w-md
+          rounded-md
+          border-4 border-black
           bg-white/90
-          shadow-[4px_4px_0px_#38383a]
+          shadow-md
           p-6
           flex flex-col gap-4
         "

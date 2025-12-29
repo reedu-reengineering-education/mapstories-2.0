@@ -24,15 +24,9 @@ export function EmbedContent({ content }: Props) {
   if (!content.content) {return null}
 
   return (
-    <div className="relative flex max-h-[24rem] w-full justify-center overflow-y-hidden overflow-x-hidden">
+    <div className="relative flex max-h-[24rem] w-full p-2 justify-center ">
       {!isAllowed && (
         <>
-        
-           {/* <Embed
-            media={urlToMedia(content.content)}
-            options={content.options as object}
-          /> */}
-
           <ConsentOverlay
             embed={content}
             onConfirm={allow}
