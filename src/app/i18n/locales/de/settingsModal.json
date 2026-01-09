@@ -27,5 +27,6 @@
   "copying": "Kopiere...",
   "community": "Community-Modus",
   "on": "An",
-  "off": "Aus"
+  "off": "Aus",
+  "duplicateSotryPrefix": "Kopie von"
 }

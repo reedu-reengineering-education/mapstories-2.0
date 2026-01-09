@@ -18,7 +18,7 @@ const EMBED_SUCCESS_STAGE = 'embed-success'
 
 export interface InstagramEmbedProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  url: String
+  url: string
   width?: string | number
   height?: string | number
   linkText?: string

@@ -4,18 +4,17 @@ import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 
 const switchThumbStyle = cva(
-  'flex h-4 w-4 items-center justify-center rounded-full transition-all',
+  `
+  pointer-events-none inline-block h-5 w-5
+  transform rounded-full shadow-lg
+  transition-transform transition-colors
+  `,
   {
     variants: {
-      variant: {
-        primary: 'bg-slate-300',
-      },
       checked: {
-        true: 'translate-x-full',
+        true: 'translate-x-5 bg-white',
+        false: 'translate-x-0 bg-white',
       },
-    },
-    defaultVariants: {
-      variant: 'primary',
     },
   },
 )
@@ -32,44 +31,52 @@ const switchThumbInnerStyle = cva(
   },
 )
 
-const switchBorderStyle = cva('w-10 p-1 rounded', {
-  variants: {
-    variant: {
-      primary: 'bg-slate-50',
+const switchBorderStyle = cva(
+  `
+  relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center
+  rounded-full transition-colors
+  focus-visible:outline-none focus-visible:ring-2
+  focus-visible:ring-green-500 focus-visible:ring-offset-2
+  disabled:cursor-not-allowed disabled:opacity-50
+  `,
+  {
+    variants: {
+      checked: {
+        true: 'bg-green-500',
+        false: 'bg-gray-300',
+      },
+    },
+    defaultVariants: {
+      checked: false,
     },
   },
-  defaultVariants: {
-    variant: 'primary',
-  },
-})
+)
+
+
 
 type SwitchProps = SwitchPrimitive.SwitchProps &
   VariantProps<typeof switchBorderStyle>
 
-export default forwardRef<HTMLButtonElement, SwitchProps>(
-  ({ variant, ...props }, ref) => {
-    const [checked, setChecked] = useState(props.defaultChecked)
+export default forwardRef<
+  HTMLButtonElement,
+  SwitchPrimitive.SwitchProps
+>(({ defaultChecked = false, onCheckedChange, ...props }, ref) => {
+  const [checked, setChecked] = useState(defaultChecked)
 
-    return (
-      <div className="flex items-center space-x-4">
-        <SwitchPrimitive.Root
-          className={switchBorderStyle({ variant })}
-          ref={ref}
-          {...props}
-          onCheckedChange={val => {
-            if (props.onCheckedChange) {
-              props.onCheckedChange(val)
-            }
-            setChecked(val)
-          }}
-        >
-          <SwitchPrimitive.Thumb asChild>
-            <div className={switchThumbStyle({ variant, checked })}>
-              <div className={switchThumbInnerStyle({ checked })} />
-            </div>
-          </SwitchPrimitive.Thumb>
-        </SwitchPrimitive.Root>
-      </div>
-    )
-  },
-)
+  return (
+    <SwitchPrimitive.Root
+      checked={checked}
+      className={switchBorderStyle({ checked })}
+      onCheckedChange={val => {
+        setChecked(val)
+        onCheckedChange?.(val)
+      }}
+      ref={ref}
+      {...props}
+    >
+      <SwitchPrimitive.Thumb
+        className={`${switchThumbStyle({ checked })} }`}
+      />
+    </SwitchPrimitive.Root>
+  )
+})

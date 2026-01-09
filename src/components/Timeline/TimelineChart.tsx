@@ -72,7 +72,7 @@ export default function TimelineChart({
     }
 
     // Configuration for the Timeline
-    var options: TimelineOptions = {
+    const options: TimelineOptions = {
       editable,
       stack: true,
       minHeight: '10rem',

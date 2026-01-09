@@ -1,7 +1,7 @@
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { db } from '@/src/lib/db'
 import { getPasswordResetTokenByToken } from '@/src/lib/passwordResetToken'
-import bcrypt from 'bcrypt'
+import bcryptjs from 'bcryptjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 async function newPassword(token: string, newPassword: string) {
@@ -29,7 +29,7 @@ async function newPassword(token: string, newPassword: string) {
     throw new Error('User not found')
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10)
+  const hashedPassword = await bcryptjs.hash(newPassword, 10)
 
   await db.user.update({
     where: { email: existingToken.email },

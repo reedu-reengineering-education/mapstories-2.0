@@ -7,13 +7,9 @@ import { MediaType } from '@prisma/client'
 import 'react-tabs/style/react-tabs.css'
 import ReactPlayer from 'react-player'
 import { Spinner } from '@/src/components/Elements/Spinner'
-//@ts-ignore
-
 import SizedImage from '@/src/components/Elements/SizedImage'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
-  captchaEnabled: boolean
   setFile: any
-  setCaptchaValidated: any
 }
 
 export function MediaContent({ setFile }: MediaContentEditProps) {
@@ -68,7 +64,7 @@ export function MediaContent({ setFile }: MediaContentEditProps) {
           <code>.wma</code>
           <br></br>
         </span>
-        {/* @ts-ignore */}
+        {/* @ts-expect-error */}
         <div {...getRootProps({ style })}>
           <input {...getInputProps()} />
           Dateien hier ablegen
@@ -88,7 +84,6 @@ export function MediaContent({ setFile }: MediaContentEditProps) {
           )}
           {fileType === 'AUDIO' && (
             <div className="m-2 flex justify-center">
-              {/* @ts-ignore */}
               <ReactPlayer
                 controls={true}
                 height="5rem"

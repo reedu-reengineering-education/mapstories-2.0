@@ -2,12 +2,12 @@ import { Media, SlideContent } from '@prisma/client'
 
 import { cx } from 'class-variance-authority'
 import dynamic from 'next/dynamic'
-import { OgObject } from 'open-graph-scraper/dist/lib/types'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import EmbedIconFactory from '../../Icons/EmbedIconFactory'
 import SizedImage from '../../Elements/SizedImage'
 import { getS3Image } from '@/src/helper/getS3Image'
 import useMedia from '@/src/lib/api/media/useMedia'
+import { OgObject } from 'open-graph-scraper/types/lib/types'
 
 const MarkdownPreview = dynamic(() => import('@uiw/react-markdown-preview'), {
   ssr: false,

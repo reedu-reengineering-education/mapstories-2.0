@@ -15,37 +15,29 @@ import ReeduLogo from '@/assets/images/partners/logo_reedu.svg'
 export default function OurStoryTab() {
   const lng = useBoundStore(state => state.language)
 
-  /* @ts-ignore */
+  /* @ts-expect-error */
   const { t } = useTranslation(lng, 'storyTab')
   return (
     <Card>
       <CardHeader>
-        {/* @ts-ignore */}
         <CardTitle>{t('title')}</CardTitle>
-        {/* @ts-ignore */}
         <CardDescription>{t('text1')} </CardDescription>
       </CardHeader>
       <CardContent>
         <div>
-          {/* @ts-ignore */}
           <p>{t('text2')}</p>
-          {/* @ts-ignore */}
           <div>
             {' '}
-            {/* @ts-ignore */}
-            <a
+              <a
               className="text-blue-500"
               href="https://old.mapstories.de/"
               target="_blank"
             >
-              {/* @ts-ignore */}
-              {t('here')}
+                  {t('here')}
             </a>
-            {/* @ts-ignore */}
-            {t('text3')}
+              {t('text3')}
           </div>
           <br></br>
-          {/* @ts-ignore */}
           <h3>{t('textIntroDevelopers')}</h3>
         </div>
       </CardContent>
@@ -67,25 +59,19 @@ export default function OurStoryTab() {
           </div>
           <div className="flex flex-row items-center">
             <div className="basis-1/2 justify-center">
-              {/* @ts-ignore */}
-              <div className="mt-8 text-center">{t('textVamosStart')}</div>
+                  <div className="mt-8 text-center">{t('textVamosStart')}</div>
 
               <ul className="mt-4 min-h-[150px] list-inside list-disc text-center">
-                {/* @ts-ignore */}
-                <li>{t('textVamosList1')}</li>
-                {/* @ts-ignore */}
-
+                      <li>{t('textVamosList1')}</li>
+      
                 <li>{t('textVamosList2')}</li>
-                {/* @ts-ignore */}
-                <li>{t('textVamosList3')}</li>
+                      <li>{t('textVamosList3')}</li>
               </ul>
-              {/* @ts-ignore */}
-              <div className="mt-2 text-center">{t('textVamosEnd')}</div>
+                  <div className="mt-2 text-center">{t('textVamosEnd')}</div>
             </div>
 
             <div className="basis-1/2">
-              {/* @ts-ignore */}
-              <div className="min-h-[150px] text-center">{t('text_reedu')}</div>
+                  <div className="min-h-[150px] text-center">{t('text_reedu')}</div>
             </div>
           </div>
         </div>
@@ -94,17 +80,3 @@ export default function OurStoryTab() {
   )
 }
 
-// <div className="align-center flex flex-col content-center gap-8 lg:flex-row">
-// {/* @ts-ignore */}
-// <div className="flex flex-1 flex-col items-center gap-4">
-//   <Image alt="Vamos logo" height={200} src={VamosLogo} width={200} />
-//   {/* @ts-ignore */}
-
-//   {/* @ts-ignore */}
-
-// </div>
-// <div className="flex flex-1 flex-col items-center gap-4">
-//   <Image alt="Reedu logo" height={200} src={ReeduLogo} width={200} />
-//   {/* @ts-ignore */}
-// </div>
-// </div>

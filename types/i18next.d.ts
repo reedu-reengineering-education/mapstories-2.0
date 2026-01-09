@@ -19,6 +19,7 @@ import type mapstorySidebar from '../src/app/i18n/locales/en/mapstorySidebar.jso
 import type mapstoryCard from '../src/app/i18n/locales/en/mapstoryCard.json'
 import type settings from '../src/app/i18n/locales/en/settings.json'
 import type userSettingsForm from '../src/app/i18n/locales/en/userSettingsForm.json'
+import type userCookieConsentForm from '../src/app/i18n/locales/en/userCookieConsentForm.json'
 import type editMapstory from '../src/app/i18n/locales/en/editMapstory.json'
 import type login from '../src/app/i18n/locales/en/login.json'
 import type dashboardLayout from '../src/app/i18n/locales/en/dashboardLayout.json'
@@ -26,8 +27,14 @@ import type viewer from '../src/app/i18n/locales/en/viewer.json'
 import type step from '../src/app/i18n/locales/en/step.json'
 import type gallery from '../src/app/i18n/locales/en/gallery.json'
 import type timeline from '../src/app/i18n/locales/en/timeline.json'
+import type changeEmail from '../src/app/i18n/locales/en/changeEmail.json'
+import type supportTab from '../src/app/i18/locales/de/supportTab.json'
+import type offerTab from '../src/app/i18/locales/de/offerTab.json'
+import type mapstoriesTab from '../src/app/i18/locales/de/mapstoriesTab.json'
 import type faq from '../src/app/i18n/locales/en/faq.json'
 import type about from '../src/app/i18n/locales/en/about.json'
+import type error from '../src/app/i18n/locales/en/error.json'
+import type stepSuggestions from '../src/app/i18n/locales/en/stepSuggestions.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -42,6 +49,7 @@ interface I18nNamespaces {
   mapstoryCard: typeof mapstoryCard
   settings: typeof settings
   userSettingsForm: typeof userSettingsForm
+  userCookieConsentForm: typeof userCookieConsentForm
   editMapstory: typeof editMapstory
   login: typeof login
   dashboardLayout: typeof dashboardLayout
@@ -49,13 +57,20 @@ interface I18nNamespaces {
   step: typeof step
   gallery: typeof gallery
   timeline: typeof timeline
+  changeEmail: typeof changeEmail
+  supportTab: typeof supportTab
+  offerTab: typeof offerTab
   faq: typeof faq
+  mapstoriesTab: typeof mapstoriesTab
   about: typeof about
   manualsTab: typeof manualsTab
+  error: typeof error
+  stepSuggestions: typeof stepSuggestions
+  
 }
 
 declare module 'i18next' {
-  // eslint-disable-next-line unused-imports/no-unused-vars
+   
   interface CustomTypeOptions {
     // returnNull: false
     // defaultNS: 'translation'

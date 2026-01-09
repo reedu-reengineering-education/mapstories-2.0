@@ -23,6 +23,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Force public npm registry (no auth)
+        run: |
+          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
+          echo "always-auth=false" >> ~/.npmrc
+
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
@@ -39,6 +44,7 @@ jobs:
             latest=auto
             prefix=
             suffix=
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:

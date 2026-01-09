@@ -33,7 +33,6 @@ export default async function StepSuggestionsPage({
   params: { lng: string; storyId: string }
 }) {
   const user = await getCurrentUser()
-  // @ts-ignore
   const { t } = await useTranslation(lng, 'stepSuggestions')
   const story = await getStory(storyId)
   if (!user) {
@@ -43,14 +42,11 @@ export default async function StepSuggestionsPage({
   return (
     <StudioShell>
       <StudioHeader
-        // @ts-ignore
         heading={t('stepSuggestions')}
-        // @ts-ignore
-
         text={t('stepSuggestionsDescription')}
       ></StudioHeader>
       <StepSuggestionsForm
-        // @ts-ignore
+        // @ts-expect-error
         story={story}
       />
     </StudioShell>

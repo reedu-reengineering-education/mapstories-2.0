@@ -7,7 +7,7 @@ export interface media_type {
 }
 // better like this: https://stackoverflow.com/questions/33913737/inserting-the-iframe-into-react-component
 
-export var media_types: media_type[] = [
+export const media_types: media_type[] = [
   {
     type: 'YOUTUBE',
     match_str: /(www.)?youtube|youtu\.be/,

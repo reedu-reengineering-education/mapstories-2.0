@@ -8,7 +8,7 @@ const borderRadius = 0
 
 export interface YouTubeEmbedProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  url: String
+  url: string
   width?: string | number
   height?: string | number
   linkText?: string
@@ -37,7 +37,7 @@ export function YouTubeEmbed({
   const isPercentageWidth = !!width?.toString().includes('%')
 
   let opts: Options = {}
-  if (!!start) {
+  if (start) {
     opts.playerVars = { start }
   }
   if (typeof width !== 'undefined') {

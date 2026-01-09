@@ -1,0 +1,32 @@
+location:
+  source_directories:
+    - /mnt/source/
+
+  repositories:
+    - path: ssh://u330449-sub3@u330449-sub3.your-storagebox.de:23/./mapstories
+      label: mapstories
+
+retention:
+  keep_daily: 1
+  keep_weekly: 4
+  keep_monthly: 6
+
+consistency:
+  checks:
+    - repository
+    - archives
+  check_last: 3
+
+hooks:
+  postgresql_databases:
+    - name: ${POSTGRES_DB}
+      hostname: postgis
+      username: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+
+  before_backup:
+    - echo "Starting a backup job."
+  after_backup:
+    - echo "Backup created."
+  on_error:
+    - echo "Error while creating a backup."

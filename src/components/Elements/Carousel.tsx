@@ -212,9 +212,9 @@ const CarouselPrevious = React.forwardRef<
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       ref={ref}
-      // @ts-ignore
+      // @ts-expect-error
       size={size}
-      // @ts-ignore
+      // @ts-expect-error
       variant={variant}
       {...props}
     >
@@ -243,9 +243,9 @@ const CarouselNext = React.forwardRef<
       disabled={!canScrollNext}
       onClick={scrollNext}
       ref={ref}
-      // @ts-ignore
+      // @ts-expect-error
       size={size}
-      // @ts-ignore
+      // @ts-expect-error
       variant={variant}
       {...props}
     >

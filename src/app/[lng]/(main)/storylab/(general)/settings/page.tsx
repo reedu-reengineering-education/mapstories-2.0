@@ -23,7 +23,7 @@ export default async function SettingsPage({
         heading={t('settings')}
         text={t('edit your account')}
       ></StudioHeader>
-      {/* @ts-ignore */}
+      {/* @ts-expect-error */}
       <UserSettingsForm user={user} />
     </StudioShell>
   )

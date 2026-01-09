@@ -15,7 +15,6 @@ import { ChevronsUpDown } from 'lucide-react'
 
 export default function FAQTab() {
   const lng = useBoundStore(state => state.language)
-  //@ts-ignore
   const { t } = useTranslation(lng, 'faq')
 
   return (
@@ -79,10 +78,10 @@ export default function FAQTab() {
               {t('faq5_text')}{' '}
               <a
                 className="text-blue-500"
-                href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view?token=2cea14db-2cd2-4664-9852-400ea9d0aa0d"
+                href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view "
                 target="_blank"
               >
-                https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view?token=2cea14db-2cd2-4664-9852-400ea9d0aa0d
+                https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view 
               </a>{' '}
             </CollapsibleContent>
           </Collapsible>
@@ -128,84 +127,3 @@ export default function FAQTab() {
     </Card>
   )
 }
-
-// </AccordionItem>
-// <AccordionItem>
-//   <AccordionItemHeading>
-//     {/* @ts-ignore */}
-//     <AccordionItemButton>{t('faq2_title')}</AccordionItemButton>
-//   </AccordionItemHeading>
-//   <AccordionItemPanel>
-//     <div>
-//     </div>
-//   </AccordionItemPanel>
-// </AccordionItem>
-// <AccordionItem>
-//   <AccordionItemHeading>
-//     {/* @ts-ignore */}
-//     <AccordionItemButton></AccordionItemButton>
-//   </AccordionItemHeading>
-//   <AccordionItemPanel>
-//     {/* @ts-ignore */}
-//     <p>{t('faq3_text')}</p>
-//   </AccordionItemPanel>
-// </AccordionItem>
-// <AccordionItem>
-//   <AccordionItemHeading>
-//     {/* @ts-ignore */}
-//     <AccordionItemButton>{t('faq4_title')}</AccordionItemButton>
-//   </AccordionItemHeading>
-//   <AccordionItemPanel>
-//     {/* @ts-ignore */}
-//     <p>{t('faq4_text')}</p>
-//   </AccordionItemPanel>
-// </AccordionItem>
-// <AccordionItem>
-//   <AccordionItemHeading>
-//     {/* @ts-ignore */}
-//     <AccordionItemButton>{t('faq5_title')}</AccordionItemButton>
-//   </AccordionItemHeading>
-//   <AccordionItemPanel>
-//     {/* @ts-ignore */}
-//     <div>
-//       {/* @ts-ignore */}
-//       {t('faq5_text')}{' '}
-//       <a
-//         href="https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy"
-//         target="_blank"
-//       >
-//         https://padlet.com/VamosMuenster/feedback-zur-plattform-mapstories-vxeo28o2lzldiwuy
-//       </a>
-//     </div>
-//   </AccordionItemPanel>
-// </AccordionItem>
-// <AccordionItem>
-//   <AccordionItemHeading>
-//     {/* @ts-ignore */}
-//     <AccordionItemButton>{t('faq6_title')}</AccordionItemButton>
-//   </AccordionItemHeading>
-//   <AccordionItemPanel>
-//     {/* @ts-ignore */}
-//     <p>{t('faq6_text')}</p>
-//   </AccordionItemPanel>
-// </AccordionItem>
-// <AccordionItem>
-//   <AccordionItemHeading>
-//     {/* @ts-ignore */}
-//     <AccordionItemButton>{t('faq7_title')}</AccordionItemButton>
-//   </AccordionItemHeading>
-//   <AccordionItemPanel>
-//     {/* @ts-ignore */}
-//     <p>{t('faq7_text')}</p>
-//   </AccordionItemPanel>
-// </AccordionItem>
-// <AccordionItem>
-//   <AccordionItemHeading>
-//     {/* @ts-ignore */}
-//     <AccordionItemButton>{t('faq8_title')}</AccordionItemButton>
-//   </AccordionItemHeading>
-//   <AccordionItemPanel>
-//     {/* @ts-ignore */}
-//     <p>{t('faq8_text')}</p>
-//   </AccordionItemPanel>
-// </AccordionItem>

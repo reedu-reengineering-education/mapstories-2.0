@@ -8,7 +8,7 @@ const borderRadius = 12
 
 export interface TwitterEmbedProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  url: String
+  url: string
   width?: string | number
   height?: string | number
   twitterTweetEmbedProps?: TwitterTweetEmbedProps

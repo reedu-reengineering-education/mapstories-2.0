@@ -1,6 +1,7 @@
 {
-  "extends": ["next/core-web-vitals", "prettier"],
-  "plugins": ["unused-imports"],
+  "extends": ["next/core-web-vitals", "prettier", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["unused-imports", "@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "no-console": "warn",
     // Best practices
@@ -71,6 +72,7 @@
         "args": "after-used",
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

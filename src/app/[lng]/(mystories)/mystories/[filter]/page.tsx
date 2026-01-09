@@ -6,8 +6,7 @@ export const metadata: Metadata = {
     title: 'Mystories',
   },
 }
-interface MystoriesPageProps {}
 
-export default async function MystoriesPage({}: MystoriesPageProps) {
+export default async function MystoriesPage() {
   return <div></div>
 }

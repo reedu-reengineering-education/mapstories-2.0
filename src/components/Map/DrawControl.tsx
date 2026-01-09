@@ -17,7 +17,7 @@ type DrawControlProps = ConstructorParameters<typeof MapboxDraw>[0] & {
 export default function DrawControl(props: DrawControlProps) {
   useControl<MapboxDraw>(
     () => new MapboxDraw(props),
-    // @ts-ignore
+    // @ts-expect-error
     ({ map }: { map: MapRef }) => {
       props.onCreate && map.on('draw.create', props.onCreate)
       props.onUpdate && map.on('draw.update', props.onUpdate)

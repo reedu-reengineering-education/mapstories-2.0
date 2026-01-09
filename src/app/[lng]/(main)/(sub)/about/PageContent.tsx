@@ -27,7 +27,6 @@ export default function PageContent() {
   }, [])
 
   const lng = useBoundStore(state => state.language)
-  /* @ts-ignore */
   const { t } = useTranslation(lng, 'about')
 
   return (
@@ -46,7 +45,7 @@ export default function PageContent() {
       </TabsList>
       <TabsContent
         className={cx(
-          'max-h-[45rem] overflow-scroll rounded-md bg-white',
+          'max-h-[40rem] overflow-scroll rounded-md bg-white',
           activeTab == 'mapstories' ? 'block' : 'hidden',
         )}
         forceMount
