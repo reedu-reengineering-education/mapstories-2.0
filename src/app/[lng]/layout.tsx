@@ -4,6 +4,8 @@ import { cx } from 'class-variance-authority'
 import { dir } from 'i18next'
 import dynamic from 'next/dynamic'
 import type { Metadata } from 'next/types'
+import KlaroProvider from '@/src/components/CookieConsent/KlaroProvider'
+import UmamiLoader from '@/src/components/CookieConsent/UmamiLoader'
 
 const Providers = dynamic(() => import('./Providers'), { ssr: false })
 
@@ -83,15 +85,13 @@ export default function RootLayout({
       lang={lng}
     >
       <body className="h-full w-full">
-        <script
-          async
-          data-website-id="b05f27c8-dc51-4d85-bb5e-faaa183ff3ff"
-          src="https://umami.mapstories.de/script.js"
-        ></script>
+        <KlaroProvider />
+        <UmamiLoader />
         <main className="h-full w-full">
           <Providers lng={lng}>{children}</Providers>
         </main>
       </body>
+
     </html>
   )
 }
