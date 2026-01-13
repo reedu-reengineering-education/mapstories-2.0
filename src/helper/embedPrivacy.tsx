@@ -72,6 +72,16 @@ export const mediaPrivacyMap: Partial<Record<MediaType, MediaPrivacyInfo>> = {
     privacyPolicyUrl: 'https://www.lamapoll.de/Support/Datenschutz',
     requiresConsent: true,
   },
+    [MediaType.LAMAPOLL]: {
+    label: 'Lamapoll',
+    privacyPolicyUrl: 'https://www.lamapoll.de/Support/Datenschutz',
+    requiresConsent: true,
+  },
+    [MediaType.LAMAPOLL]: {
+    label: 'Lamapoll',
+    privacyPolicyUrl: 'https://www.lamapoll.de/Support/Datenschutz',
+    requiresConsent: true,
+  },
 }
 
 export function getMediaPrivacyInfo(type: MediaType) {

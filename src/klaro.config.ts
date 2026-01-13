@@ -6,7 +6,7 @@ export const klaroConfig: KlaroConfig = {
   privacyPolicy: '/privacy',
   mustConsent: true,
   acceptAll: true,
-  hideDeclineAll: false,
+  hideDeclineAll: true,
 
   translations: {
     de: {
