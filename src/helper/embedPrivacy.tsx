@@ -62,6 +62,16 @@ export const mediaPrivacyMap: Partial<Record<MediaType, MediaPrivacyInfo>> = {
     privacyPolicyUrl: 'https://policies.google.com/privacy',
     requiresConsent: true,
   },
+  [MediaType.WIKIPEDIA]: {
+    label: 'Wikipedia',
+    privacyPolicyUrl: 'https://foundation.wikimedia.org/wiki/Policy:Privacy_policy',
+    requiresConsent: true,
+  },
+  [MediaType.LAMAPOLL]: {
+    label: 'Lamapoll',
+    privacyPolicyUrl: 'https://www.lamapoll.de/Support/Datenschutz',
+    requiresConsent: true,
+  },
 }
 
 export function getMediaPrivacyInfo(type: MediaType) {
