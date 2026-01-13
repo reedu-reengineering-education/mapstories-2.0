@@ -184,39 +184,32 @@ cookies"
 
         <h2 className="font-semibold">5) Webanalysedienste</h2>
         <div>
-          Matomo (ehemals Piwik) <br></br>
-          Auf dieser Website werden unter Einsatz der Webanalysedienst-Software
-          Matomo (www.matomo.org), einem Dienst des Anbieters InnoCraft Ltd.,
-          150 Willis St, 6011 Wellington, Neuseeland, („Matomo“) auf Basis
-          unseres berechtigten Interesses an der statistischen Analyse des
-          Nutzerverhaltens zu Optimierungs- und Marketingzwecken gemäß Art. 6
-          Abs. 1 lit. f DSGVO Daten gesammelt und gespeichert. Aus diesen Daten
-          können zum selben Zweck pseudonymisierte Nutzungsprofile erstellt und
-          ausgewertet werden. Hierzu können Cookies eingesetzt werden. Bei
-          Cookies handelt es sich um kleine Textdateien, die lokal im
-          Zwischenspeicher des Internet-Browsers des Seitenbesuchers gespeichert
-          werden. Die Cookies ermöglichen unter anderem die Wiedererkennung des
-          Internet-Browsers. Die mit der Matomo-Technologie erhobenen Daten
-          (einschließlich Ihrer pseudonymisierten IP-Adresse) werden auf unseren
-          Servern verarbeitet. Die durch das Cookie erzeugten Informationen im
-          pseudonymen Nutzerprofil werden nicht dazu benutzt, den Besucher
-          dieser Website persönlich zu identifizieren und nicht mit
-          personenbezogenen Daten über den Träger des Pseudonyms
-          zusammengeführt. Wenn Sie mit der Speicherung und Auswertung dieser
-          Daten aus Ihrem Besuch nicht einverstanden sind, dann können Sie der
-          Speicherung und Nutzung für die Zukunft per Mausklick jederzeit
-          widersprechen. In diesem Fall wird in Ihrem Browser ein sog.
-          Opt-Out-Cookie abgelegt, mit der Folge, dass Matomo keinerlei
-          Sitzungsdaten erhebt. Bitte beachten Sie, dass die vollständige
-          Löschung Ihrer Cookies zur Folge, dass auch das Opt-Out-Cookie
-          gelöscht wird und ggf. von Ihnen erneut aktiviert werden muss. Soweit
-          rechtlich erforderlich, haben wir zur vorstehend dargestellten
-          Verarbeitung Ihrer Daten Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a
-          DSGVO eingeholt. Sie können Ihre erteilte Einwilligung jederzeit mit
-          Wirkung für die Zukunft widerrufen. Um Ihren Widerruf auszuüben,
-          deaktivieren Sie diesen Dienst bitte in dem auf der Webseite
-          bereitgestellten „Cookie-Consent-Tool“.
-        </div>
+            Umami Analytics<br />
+
+            Auf dieser Website wird der Webanalysedienst Umami Analytics eingesetzt.
+            Umami ist eine datenschutzfreundliche Open-Source-Webanalysesoftware, die
+            ohne den Einsatz von Cookies arbeitet. Die Verarbeitung erfolgt auf Basis
+            unseres berechtigten Interesses an der statistischen Analyse des
+            Nutzerverhaltens zu Optimierungs- und Marketingzwecken gemäß Art. 6 Abs. 1
+            lit. f DSGVO.
+
+            Umami erhebt keine personenbezogenen Daten wie Namen, E-Mail-Adressen oder
+            vollständige IP-Adressen. Die IP-Adresse der Besucher wird vor der
+            Verarbeitung anonymisiert oder gar nicht gespeichert. Es werden keine
+            Nutzerprofile erstellt und keine Daten an Dritte weitergegeben.
+
+            Die mit Umami erhobenen Daten dienen ausschließlich der anonymen
+            Auswertung der Nutzung dieser Website (z. B. Seitenaufrufe,
+            Verweildauer, verwendete Endgeräte oder Browser). Eine Identifizierung
+            einzelner Besucher ist zu keinem Zeitpunkt möglich.
+
+            Da Umami ohne Cookies arbeitet, ist kein Opt-Out-Cookie erforderlich.
+            Soweit rechtlich notwendig, erfolgt der Einsatz von Umami erst nach
+            Ihrer Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO. Ihre Einwilligung
+            können Sie jederzeit mit Wirkung für die Zukunft über das auf der
+            Website bereitgestellte Cookie-Consent-Tool widerrufen.
+            </div>
+
 
         <h2 className="font-semibold">6) Einbettung von Videos</h2>
         <div>
