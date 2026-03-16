@@ -14,6 +14,7 @@ import { Trans } from 'react-i18next'
 import { applyTheme } from '@/src/helper/applyTheme'
 import { Modal } from '@/src/components/Modal'
 import { Button } from '@/src/components/Elements/Button'
+import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 
 type EditMapstoryViewProps = {
   story: Story & {
@@ -27,8 +28,7 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
   const [currentStep, setCurrentStep] = useState<StoryStep>()
 
   const path = usePathname()
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
-  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight)
+  const { width, height } = useBreakpoint()
   const [showSizeModal, setShowSizeModal] = useState<boolean>(false)
   const { story: currentStory } = useStory(story.id)
 
@@ -55,10 +55,12 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
 
   useEffect(() => {
     // if window size is below 800px display a message saying that the editor is not available on mobile
-    if (windowWidth < 800 || windowHeight < 400) {
+    if (width < 800 || height < 400) {
       setShowSizeModal(true)
+    } else {
+      setShowSizeModal(false)
     }
-  }, [windowWidth, windowHeight])
+  }, [width, height])
 
   if (!currentStory || !currentStep) {
     return (

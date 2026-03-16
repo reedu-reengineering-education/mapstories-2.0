@@ -17,6 +17,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { applyTheme } from '@/src/helper/applyTheme'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { ViewerPopup } from './ViewerPopup'
+import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 
 type ViewerViewProps = {
   inputStories: (Story & {
@@ -44,7 +45,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const [pathend2, setPathend2] = useState<string | undefined>('')
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
+  const { width } = useBreakpoint()
   const router = useRouter()
 
   let lng = useBoundStore(state => state.language)
@@ -331,7 +332,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             stepFeat.geometry.coordinates[0],
             stepFeat.geometry.coordinates[1],
           ],
-          offset: [-window.innerWidth / 7, -75],
+          offset: [-width / 7, -75],
           zoom: 8,
           essential: true,
           duration: 1000,
@@ -357,7 +358,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
-          offset: [-window.innerWidth / 5, 0],
+          offset: [-width / 5, 0],
           zoom: calculateWeightedZoom(distance),
           essential: true,
           duration: Math.min(Math.max(distance * 100, 1000), 3000),
@@ -380,10 +381,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       mapRef.current?.flyTo({
         center: startView.getCenter(),
         zoom: calculateWeightedZoom(distance),
-        offset: [-windowWidth / 5, 75],
+        offset: [-width / 5, 75],
       })
       // mapRef.current?.fitBounds(startView, {
-      //   offset: [windowWidth > 820 ? windowWidth / 3 : -windowWidth / 4, 0],
+      //   offset: [width > 820 ? width / 3 : -width / 4, 0],
       // })
     }
   }, [startView, mapRef])
