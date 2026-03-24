@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Drawer,
   DrawerContent,
@@ -10,8 +10,9 @@ import {
 import { Slide } from './Slide'
 import { usePathname, useRouter } from 'next/navigation'
 import * as Toolbar from '@radix-ui/react-toolbar'
-import { PlayIcon, ReloadIcon } from '@radix-ui/react-icons'
-import { ListChecksIcon } from 'lucide-react'
+import { PlayIcon } from '@radix-ui/react-icons'
+import { ArrowLeft, ArrowRight, ListChecksIcon } from 'lucide-react'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface MobileControlsProps {
   slug: string
@@ -22,14 +23,25 @@ interface MobileControlsProps {
 
 export function MobileControls({ slug, page, story, tags: _tags }: MobileControlsProps) {
   const [open, setOpen] = useState(true)
-  const [snap, setSnap] = useState<number | string | null>(0.5)
+  const [snap, setSnap] = useState<number | string | null>(1)
+  const [currentStep, setCurrentStep] = useState<any>(null)
+  const [currentPageIndex, setCurrentPageIndex] = useState<number>(0)
   const router = useRouter()
   const path = usePathname()
+  const updateSelectedStepIndex = useBoundStore(
+    state => state.updateSelectedStepIndex,
+  )
 
-  // Get the current step based on page
-  const currentStep = page === 'start' 
-    ? story?.firstStep 
-    : story?.steps?.[parseInt(page)]
+
+  useEffect(() => {
+    if (story) {
+      const pageIndex = page === 'start' ? 0 : parseInt(page)
+      setCurrentPageIndex(pageIndex)
+      const stepTmp = page === 'start' ? story.firstStep : story.steps?.[pageIndex]
+      console.log(story)
+      setCurrentStep(stepTmp)
+    }
+  }, [story, page])
 
   function startStory() {
     const pathLocal =
@@ -43,6 +55,24 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
     router.push(`/${pathLocal}/${slug}/start`)
   }
 
+  const nextStep = () => {
+    const nextIndex = currentPageIndex + 1
+    if (story.steps && nextIndex < story.steps.length) {
+      setCurrentPageIndex(nextIndex)
+      setCurrentStep(story.steps[nextIndex])
+      updateSelectedStepIndex(nextIndex)
+    }
+  }
+
+  const prevStep = () => {
+    const prevIndex = currentPageIndex - 1
+    if (prevIndex >= 0 && story.steps && prevIndex < story.steps.length) {
+      setCurrentPageIndex(prevIndex)
+      setCurrentStep(story.steps[prevIndex])
+      updateSelectedStepIndex(prevIndex)
+    }
+  }
+
   return (
     <Drawer
       activeSnapPoint={snap}
@@ -53,7 +83,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
       setActiveSnapPoint={setSnap}
       snapPoints={[0.5, 1.0]}
     >
-      <DrawerContent className="absolute h-[100%] z-[60] md:hidden re-basic-box pointer-events-auto bg-white !rounded-b-none border-b-0 flex flex-col after:hidden">
+      <DrawerContent className="absolute z-[60] md:hidden re-basic-box pointer-events-auto bg-white !rounded-b-none border-b-0 flex flex-col after:hidden min-h-[400px]">
         <DrawerHeader className="shrink-0">
           <hr style={{
             borderTop: '10px solid #D9D9D9',
@@ -80,18 +110,56 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
               className="flex gap-2"
               type="single"
             >
-              {page !== 'start' && (
+              {page !== 'start' && currentPageIndex === 0 && (
+                <>
                 <Toolbar.Button
                   aria-label="Restart story"
                   className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
                   onClick={backToStart}
                   title="Restart Story"
                 >
-                  <ReloadIcon className="h-5 w-5" />
-                  <span className="text-sm">Reset</span>
+                  <ArrowLeft className="h-5 w-5" />
+                  <span className="text-sm">Neustart</span>
+                </Toolbar.Button>                
+                <Toolbar.Button
+                  aria-label="Next step"
+                  className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={!story.steps || currentPageIndex >= story.steps.length - 1}
+                  onClick={nextStep}
+                  title="Next Step"
+                >
+                  <ArrowRight className="h-5 w-5" />
+                  <span className="text-sm">Weiter</span>
                 </Toolbar.Button>
+                </>
+              )}
+              {page !== 'start' && currentPageIndex > 0 && (
+                <>
+                
+                <Toolbar.Button
+                  aria-label="Previous step"
+                  className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
+                  onClick={prevStep}
+                  title="Previous Step"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                  <span className="text-sm">Zurück</span>
+                </Toolbar.Button>                
+                <Toolbar.Button
+                  aria-label="Next step"
+                  className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={!story.steps || currentPageIndex >= story.steps.length - 1}
+                  onClick={nextStep}
+                  title="Next Step"
+                >
+                  <ArrowRight className="h-5 w-5" />
+                  <span className="text-sm">Weiter</span>
+                </Toolbar.Button>
+                </>
+
               )}
               {page === 'start' && (
+                <>
                 <Toolbar.Button
                   aria-label="Start story"
                   className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
@@ -101,8 +169,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
                   <PlayIcon className="h-5 w-5" />
                   <span className="text-sm">Start</span>
                 </Toolbar.Button>
-              )}
-              <Toolbar.Button
+                              <Toolbar.Button
                 aria-label="Show steps"
                 className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
                 title="Steps"
@@ -110,6 +177,9 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
                 <ListChecksIcon className="h-5 w-5" />
                 <span className="text-sm">Schritte</span>
               </Toolbar.Button>
+              </>
+              )}
+
             </Toolbar.ToggleGroup>
           </Toolbar.Root>
         </div>
