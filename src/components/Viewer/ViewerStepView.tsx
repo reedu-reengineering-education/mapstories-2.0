@@ -20,7 +20,9 @@ export function ViewerStepView({ slug, story, lng }: ViewerStepViewProps) {
   const [showSlides, setShowSlides] = useState<boolean>(true)
 
   return (
-    <div className="re-basic-box z-[60] max-h-full w-[55%] self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[50%]">
+    <>
+
+    <div className="hidden md:block re-basic-box z-[60] max-h-full w-[55%] self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[50%]">
       {/* Toolbar */}
       <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2">
         <div>
@@ -58,5 +60,10 @@ export function ViewerStepView({ slug, story, lng }: ViewerStepViewProps) {
         </div>
       </div>
     </div>
+    <div className="md:hidden re-basic-box z-[60]  bg-white px-4">
+        moin
+    </div>
+    </>
+
   )
 }

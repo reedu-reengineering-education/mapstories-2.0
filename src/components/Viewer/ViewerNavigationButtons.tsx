@@ -21,7 +21,7 @@ export function ViewerNavigationButtons({
   if (position === 'sides') {
     return (
       <>
-        <div className="absolute bottom-[50%] left-1 z-10">
+        <div className="hidden lg:block absolute bottom-[50%] left-1 z-10">
           <SingleStepBackButton
             page={page}
             slug={slug}
@@ -29,7 +29,7 @@ export function ViewerNavigationButtons({
             variant={variant}
           />
         </div>
-        <div className="absolute bottom-[50%] right-1 z-20">
+        <div className="hidden lg:block absolute bottom-[50%] right-1 z-20">
           <SingleStepForwardButton
             page={page}
             slug={slug}

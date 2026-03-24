@@ -44,7 +44,6 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   }
 
   return (
-    <>
     <Drawer
       activeSnapPoint={snap}
       dismissible={false}
@@ -116,6 +115,5 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
         </div>
       </DrawerContent>
     </Drawer>
-    </>
   )
 }
