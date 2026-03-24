@@ -84,7 +84,7 @@ export default function RootLayout({
       dir={dir(lng)}
       lang={lng}
     >
-      <body className="h-full w-full">
+      <body className="h-full w-full max-h-full overflow-hidden">
         <KlaroProvider />
         <UmamiLoader />
         <main className="h-full w-full">

@@ -13,6 +13,8 @@ import * as Toolbar from '@radix-ui/react-toolbar'
 import { PlayIcon } from '@radix-ui/react-icons'
 import { ArrowLeft, ArrowRight, ListChecksIcon } from 'lucide-react'
 import { useBoundStore } from '@/src/lib/store/store'
+import { AnimatePresence, motion } from 'framer-motion'
+import useSwipe from '@/src/lib/useSwipe'
 
 interface MobileControlsProps {
   slug: string
@@ -23,7 +25,7 @@ interface MobileControlsProps {
 
 export function MobileControls({ slug, page, story, tags: _tags }: MobileControlsProps) {
   const [open, setOpen] = useState(true)
-  const [snap, setSnap] = useState<number | string | null>(1)
+  const [snap, setSnap] = useState<number | string | null>(0.5)
   const [currentStep, setCurrentStep] = useState<any>(null)
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0)
   const router = useRouter()
@@ -38,7 +40,6 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
       const pageIndex = page === 'start' ? 0 : parseInt(page)
       setCurrentPageIndex(pageIndex)
       const stepTmp = page === 'start' ? story.firstStep : story.steps?.[pageIndex]
-      console.log(story)
       setCurrentStep(stepTmp)
     }
   }, [story, page])
@@ -73,117 +74,151 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
     }
   }
 
+  // Swipe handlers for mobile navigation
+  const swipeHandlers = useSwipe({
+    onSwipedLeft: () => nextStep(),
+    onSwipedRight: () => prevStep(),
+  })
+
   return (
-    <Drawer
-      activeSnapPoint={snap}
-      dismissible={false}
-      modal={false}
-      onOpenChange={setOpen}
-      open={open}
-      setActiveSnapPoint={setSnap}
-      snapPoints={[0.5, 1.0]}
-    >
-      <DrawerContent className="absolute z-[60] md:hidden re-basic-box pointer-events-auto bg-white !rounded-b-none border-b-0 flex flex-col after:hidden min-h-[400px]">
-        <DrawerHeader className="shrink-0">
-          <hr style={{
-            borderTop: '10px solid #D9D9D9',
-            borderRadius: '5px',
-            width: '50px',
-            margin: '0 auto 10px auto',
-          }}>
-          </hr>
-          <DrawerTitle  className="enable-theme-font text-4xl">{story?.name}</DrawerTitle>
+    <>
+      <Drawer
+        activeSnapPoint={snap}
+        dismissible={false}
+        modal={false}
+        onOpenChange={setOpen}
+        open={open}
+        setActiveSnapPoint={setSnap}
+        snapPoints={[0.3,0.5, 1.0]}
+      >
+        <DrawerContent className="absolute z-[60] md:hidden re-basic-box pointer-events-auto bg-white !rounded-b-none border-b-0 flex flex-col after:hidden pb-20 max-h-full h-full">
+          <DrawerHeader className="shrink-0">
+            <hr style={{
+              borderTop: '10px solid #D9D9D9',
+              borderRadius: '5px',
+              width: '50px',
+              margin: '0 auto 10px auto',
+            }}>
+            </hr>
+            <DrawerTitle  className="enable-theme-font text-4xl">{story?.name}</DrawerTitle>
 
-        </DrawerHeader>
+          </DrawerHeader>
 
-        <div className="flex-1 overflow-y-auto px-4 min-h-0">
-          <Slide step={currentStep} />
-        </div>
-
-        <div className="shrink-0 border-t-2 bg-white p-4">
-          <Toolbar.Root
-            aria-label="Story Controls"
-            className="flex justify-center gap-2"
+          <div 
+            className="flex-1 overflow-y-auto px-4 h-96 relative"
+            onTouchEnd={swipeHandlers.onTouchEnd}
+            onTouchMove={swipeHandlers.onTouchMove}
+            onTouchStart={swipeHandlers.onTouchStart}
           >
-            <Toolbar.ToggleGroup
-              aria-label="Viewer Controls"
-              className="flex gap-2"
-              type="single"
-            >
-              {page !== 'start' && currentPageIndex === 0 && (
-                <>
-                <Toolbar.Button
-                  aria-label="Restart story"
-                  className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
-                  onClick={backToStart}
-                  title="Restart Story"
-                >
-                  <ArrowLeft className="h-5 w-5" />
-                  <span className="text-sm">Neustart</span>
-                </Toolbar.Button>                
-                <Toolbar.Button
-                  aria-label="Next step"
-                  className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={!story.steps || currentPageIndex >= story.steps.length - 1}
-                  onClick={nextStep}
-                  title="Next Step"
-                >
-                  <ArrowRight className="h-5 w-5" />
-                  <span className="text-sm">Weiter</span>
-                </Toolbar.Button>
-                </>
-              )}
-              {page !== 'start' && currentPageIndex > 0 && (
-                <>
-                
-                <Toolbar.Button
-                  aria-label="Previous step"
-                  className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
-                  onClick={prevStep}
-                  title="Previous Step"
-                >
-                  <ArrowLeft className="h-5 w-5" />
-                  <span className="text-sm">Zurück</span>
-                </Toolbar.Button>                
-                <Toolbar.Button
-                  aria-label="Next step"
-                  className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={!story.steps || currentPageIndex >= story.steps.length - 1}
-                  onClick={nextStep}
-                  title="Next Step"
-                >
-                  <ArrowRight className="h-5 w-5" />
-                  <span className="text-sm">Weiter</span>
-                </Toolbar.Button>
-                </>
-
-              )}
-              {page === 'start' && (
-                <>
-                <Toolbar.Button
-                  aria-label="Start story"
-                  className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
-                  onClick={startStory}
-                  title="Start Story"
-                >
-                  <PlayIcon className="h-5 w-5" />
-                  <span className="text-sm">Start</span>
-                </Toolbar.Button>
-                              <Toolbar.Button
-                aria-label="Show steps"
-                className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
-                title="Steps"
+            <AnimatePresence mode="wait">
+              <motion.div
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: 20 }}
+                key={currentStep?.id || page}
+                transition={{
+                  duration: 0.3,
+                  ease: [0.4, 0, 0.2, 1]
+                }}
               >
-                <ListChecksIcon className="h-5 w-5" />
-                <span className="text-sm">Schritte</span>
+                <Slide step={currentStep} />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </DrawerContent>
+      </Drawer>
+          
+      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[95%] z-[70] md:hidden  rounded-none p-4 pointer-events-auto bg-white border-b-[3px] border-black">
+       <hr className='p-2 border-t-4'></hr>
+        {page !== 'start' && story.steps && (
+          <div className="text-center mb-3">
+            <span className="text-sm font-medium text-gray-600">
+              Schritt {currentPageIndex + 1} von {story.steps.length}
+            </span>
+          </div>
+        )}
+        <Toolbar.Root
+          aria-label="Story Controls"
+          className="flex justify-center gap-2"
+        >
+          <Toolbar.ToggleGroup
+            aria-label="Viewer Controls"
+            className="flex gap-2"
+            type="single"
+          >
+            {page !== 'start' && currentPageIndex === 0 && (
+              <>
+              <Toolbar.Button
+                aria-label="Restart story"
+                className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
+                onClick={backToStart}
+                title="Restart Story"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span className="text-sm">Neustart</span>
+              </Toolbar.Button>                
+              <Toolbar.Button
+                aria-label="Next step"
+                className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!story.steps || currentPageIndex >= story.steps.length - 1}
+                onClick={nextStep}
+                title="Next Step"
+              >
+                <ArrowRight className="h-5 w-5" />
+                <span className="text-sm">Weiter</span>
               </Toolbar.Button>
               </>
-              )}
+            )}
+            {page !== 'start' && currentPageIndex > 0 && (
+              <>
+              
+              <Toolbar.Button
+                aria-label="Previous step"
+                className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
+                onClick={prevStep}
+                title="Previous Step"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span className="text-sm">Zurück</span>
+              </Toolbar.Button>                
+              <Toolbar.Button
+                aria-label="Next step"
+                className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!story.steps || currentPageIndex >= story.steps.length - 1}
+                onClick={nextStep}
+                title="Next Step"
+              >
+                <ArrowRight className="h-5 w-5" />
+                <span className="text-sm">Weiter</span>
+              </Toolbar.Button>
+              </>
 
-            </Toolbar.ToggleGroup>
-          </Toolbar.Root>
-        </div>
-      </DrawerContent>
-    </Drawer>
+            )}
+            {page === 'start' && (
+              <>
+              <Toolbar.Button
+                aria-label="Start story"
+                className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
+                onClick={startStory}
+                title="Start Story"
+              >
+                <PlayIcon className="h-5 w-5" />
+                <span className="text-sm">Start</span>
+              </Toolbar.Button>
+                            <Toolbar.Button
+              aria-label="Show steps"
+              className="re-basic-box flex items-center gap-2 px-4 py-2 hover:bg-slate-100"
+              title="Steps"
+            >
+              <ListChecksIcon className="h-5 w-5" />
+              <span className="text-sm">Schritte</span>
+            </Toolbar.Button>
+            </>
+            )}
+
+          </Toolbar.ToggleGroup>
+        </Toolbar.Root>
+      </div>
+    </>
   )
 }

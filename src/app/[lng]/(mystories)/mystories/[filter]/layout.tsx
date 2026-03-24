@@ -136,7 +136,7 @@ export default async function ViewerLayout({
           </div>
         </header>
       </div>
-      <div className="absolute left-0 top-0 h-full w-full">{children}</div>
+      <div className="absolute left-0 top-0 h-full w-full ">{children}</div>
       <ViewerView data-superjson inputStories={mapstories}></ViewerView>
     </div>
   )
