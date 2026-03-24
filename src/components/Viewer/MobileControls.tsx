@@ -44,6 +44,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   }
 
   return (
+    <>
     <Drawer
       activeSnapPoint={snap}
       dismissible={false}
@@ -53,7 +54,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
       setActiveSnapPoint={setSnap}
       snapPoints={[0.5, 1.0]}
     >
-      <DrawerContent className="re-basic-box pointer-events-auto bg-white !rounded-b-none border-b-0 flex flex-col after:hidden">
+      <DrawerContent className="absolute z-[60] md:hidden re-basic-box pointer-events-auto bg-white !rounded-b-none border-b-0 flex flex-col after:hidden">
         <DrawerHeader className="shrink-0">
           <hr style={{
             borderTop: '10px solid #D9D9D9',
@@ -115,5 +116,6 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
         </div>
       </DrawerContent>
     </Drawer>
+    </>
   )
 }

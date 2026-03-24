@@ -13,9 +13,8 @@ interface ViewerStartViewProps {
 
 export function ViewerStartView({ slug, story, tags }: ViewerStartViewProps) {
   return (
-    <div>
-    <div className='hidden md:flex'>
-      <div className="re-basic-box z-[60] h-fit max-h-full w-[55%] overflow-auto bg-white px-4 lg:max-w-[50%]">
+    <>
+      <div className="hidden md:flex re-basic-box z-[60] h-fit max-h-full w-[55%] overflow-auto bg-white px-4 lg:max-w-[50%]">
         <StoryOverviewControls
           page={slug[1]}
           slug={slug[0]}
@@ -23,16 +22,14 @@ export function ViewerStartView({ slug, story, tags }: ViewerStartViewProps) {
           tags={tags}
         />
       </div>
-
       <div className="re-basic-box absolute bottom-10 right-[50%] z-50 md:flex overflow-auto hidden lg:flex lg:flex-row ">
         <QuitStoryButton size="s" slug={slug[0]} />
         <PlayStoryButton size="s" slug={slug[0]} />
       </div>
-    </div>
-    <div className='md:hidden absolute top-0 z-[60] '>
-        <MobileControls page={slug[1]} slug={slug[0]} story={story} tags={tags} />
 
-    </div>
-    </div>
+      <MobileControls page={slug[1]} slug={slug[0]} story={story} tags={tags} />
+
+
+    </>
   )
 }

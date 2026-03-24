@@ -42,7 +42,7 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   return (
     <div className="flex h-full w-full flex-col px-20 pt-4 lg:gap-5 lg:pb-10 lg:pt-20">
       {/* Main Content Area */}
-      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline">
+      <div className="hidden overflow md:flex flex-1 justify-end overflow-auto align-baseline">
         {/* Side Navigation Buttons */}
         <ViewerNavigationButtons
           page={slug[1]}
