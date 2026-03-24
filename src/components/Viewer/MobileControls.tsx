@@ -25,7 +25,7 @@ interface MobileControlsProps {
 
 export function MobileControls({ slug, page, story, tags: _tags }: MobileControlsProps) {
   const [open, setOpen] = useState(true)
-  const [snap, setSnap] = useState<number | string | null>(0.5)
+  const [snap, setSnap] = useState<number | string | null>(0.6)
   const [currentStep, setCurrentStep] = useState<any>(null)
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0)
   const router = useRouter()
@@ -89,7 +89,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
         onOpenChange={setOpen}
         open={open}
         setActiveSnapPoint={setSnap}
-        snapPoints={[0.3,0.5, 1.0]}
+        snapPoints={[0.4,0.6, 1.0]}
       >
         <DrawerContent className="absolute z-[60] md:hidden re-basic-box pointer-events-auto bg-white !rounded-b-none border-b-0 flex flex-col after:hidden pb-20 max-h-full h-full">
           <DrawerHeader className="shrink-0">
