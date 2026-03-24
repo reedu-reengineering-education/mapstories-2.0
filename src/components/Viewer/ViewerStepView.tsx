@@ -60,9 +60,6 @@ export function ViewerStepView({ slug, story, lng }: ViewerStepViewProps) {
         </div>
       </div>
     </div>
-    <div className="md:hidden re-basic-box z-[60]  bg-white px-4">
-        moin
-    </div>
     </>
 
   )

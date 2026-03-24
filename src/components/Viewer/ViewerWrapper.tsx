@@ -10,6 +10,7 @@ import { useViewerNavigation } from '@/src/lib/hooks/useViewerNavigation'
 import { ViewerNavigationButtons } from './ViewerNavigationButtons'
 import { ViewerStartView } from './ViewerStartView'
 import { ViewerStepView } from './ViewerStepView'
+import { MobileControls } from './MobileControls'
 
 type Props = {
   filter: string
@@ -79,6 +80,8 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
           </div>
         </div>
       )}
+      <MobileControls page={slug[1]} slug={slug[0]} story={story} tags={tags} />
+
     </div>
   )
 }

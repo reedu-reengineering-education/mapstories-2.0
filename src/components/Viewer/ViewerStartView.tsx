@@ -3,7 +3,6 @@
 import { StoryOverviewControls } from '@/src/components/Viewer/StoryOverviewContols'
 import QuitStoryButton from './QuitStoryButton'
 import PlayStoryButton from './PlayStoryButton'
-import { MobileControls } from './MobileControls'
 
 interface ViewerStartViewProps {
   slug: string[]
@@ -26,9 +25,6 @@ export function ViewerStartView({ slug, story, tags }: ViewerStartViewProps) {
         <QuitStoryButton size="s" slug={slug[0]} />
         <PlayStoryButton size="s" slug={slug[0]} />
       </div>
-
-      <MobileControls page={slug[1]} slug={slug[0]} story={story} tags={tags} />
-
 
     </>
   )
