@@ -1,12 +1,38 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const UMAMI_ID = 'b05f27c8-dc51-4d85-bb5e-faaa183ff3ff'
 const UMAMI_SRC = 'https://umami.mapstories.de/script.js'
 
 export default function UmamiLoader() {
+  const [klaroReady, setKlaroReady] = useState(false)
+
   useEffect(() => {
+    // Wait for Klaro to be initialized
+    const checkKlaroReady = async () => {
+      try {
+        const klaro = await import('klaro')
+        const manager = klaro.getManager()
+        
+        if (manager) {
+          setKlaroReady(true)
+        } else {
+          // Retry after a short delay
+          setTimeout(checkKlaroReady, 100)
+        }
+      } catch (error) {
+        // Retry after a short delay
+        setTimeout(checkKlaroReady, 100)
+      }
+    }
+
+    checkKlaroReady()
+  }, [])
+
+  useEffect(() => {
+    if (!klaroReady) {return}
+
     const loadUmami = async () => {
       try {
         const klaro = await import('klaro')
@@ -26,7 +52,7 @@ export default function UmamiLoader() {
           document.body.appendChild(script)
         }
       } catch (error) {
-        console.error('Failed to load Klaro for Umami:', error)
+        console.error('Failed to load Umami:', error)
       }
     }
 
@@ -39,7 +65,7 @@ export default function UmamiLoader() {
     return () => {
       window.removeEventListener('klaroConsentChanged', loadUmami)
     }
-  }, [])
+  }, [klaroReady])
 
   return null
 }
