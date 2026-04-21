@@ -1,13 +1,21 @@
 'use client'
 
 import { useEffect } from 'react'
-import * as klaro from 'klaro'
-import 'klaro/dist/klaro.css'
-import { klaroConfig } from '@/src/klaro.config'
 
 export default function KlaroProvider() {
   useEffect(() => {
-    klaro.setup(klaroConfig)
+    // Dynamically import klaro and config only on the client
+    Promise.all([
+      import('klaro'),
+      import('klaro/dist/klaro.css'),
+      import('@/src/klaro.config')
+    ]).then(([klaro, _, config]) => {
+      if (klaro && config.klaroConfig) {
+        klaro.setup(config.klaroConfig)
+      }
+    }).catch((error) => {
+      console.error('Failed to load Klaro:', error)
+    })
   }, [])
 
   return null
