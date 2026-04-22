@@ -47,7 +47,7 @@ export function Modal({
             leaveTo="opacity-0"
           >
             <DialogPrimitive.Overlay
-              className="fixed inset-0 z-[100] bg-black/50"
+              className="fixed inset-0 z-[10000] bg-black/50"
               forceMount
             />
           </Transition.Child>
@@ -62,8 +62,8 @@ export function Modal({
           >
             <DialogPrimitive.Content
               className={cx(
-                'fixed z-[100] overflow-hidden',
-                'w-[200vw] rounded-lg md:w-full md:max-w-[48rem]',
+                'fixed z-[10001] overflow-y-auto',
+                'w-[90vw] max-h-[90vh] rounded-lg md:w-full md:max-w-[48rem]',
                 'bg-white',
                 'grid gap-1',
               )}

@@ -87,9 +87,11 @@ const { t } = (useTranslation as unknown as (lng: string, ns: string) => { t: TF
     <div className="flex h-full w-full flex-col px-20 pt-4 lg:gap-5 lg:pb-10 lg:pt-20">
       {showSizeModal && (
         <Modal
+          className="z-50"
           onClose={() => setShowSizeModal(false)}
           open={showSizeModal}
           title={t('landscapeModeTitle')}
+          
         >
           <Modal.Content>
             <p>{t('landscapeModeText')}</p>
