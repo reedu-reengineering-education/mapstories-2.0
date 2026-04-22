@@ -11,7 +11,7 @@ import { Slide } from './Slide'
 import { usePathname, useRouter } from 'next/navigation'
 import * as Toolbar from '@radix-ui/react-toolbar'
 import { PlayIcon } from '@radix-ui/react-icons'
-import { ArrowLeft, ArrowRight, ListChecksIcon } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronUp, ListChecksIcon } from 'lucide-react'
 import { useBoundStore } from '@/src/lib/store/store'
 import { AnimatePresence, motion } from 'framer-motion'
 import useSwipe from '@/src/lib/useSwipe'
@@ -34,7 +34,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
     state => state.updateSelectedStepIndex,
   )
 
-  const snapPoints = [0.4, 0.6, 1.0]
+  const snapPoints = [0.25, 0.6, 1.0]
 
   const handleHeaderClick = () => {
     const currentIndex = snapPoints.indexOf(snap as number)
@@ -101,38 +101,50 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
       >
         <DrawerContent className="absolute z-[60] md:hidden border-t-8 border-black  pointer-events-auto bg-white !rounded-b-none flex flex-col after:hidden pb-20 max-h-full h-full">
           <DrawerHeader className="shrink-0 cursor-pointer" onClick={handleHeaderClick}>
-            <hr style={{
-              borderTop: '10px solid #D9D9D9',
-              borderRadius: '5px',
-              width: '50px',
-              margin: '0 auto 10px auto',
-            }}>
-            </hr>
-            <DrawerTitle  className="enable-theme-font text-4xl">{story?.name}</DrawerTitle>
-
+            {snap === 0.25 ? (
+              <div className="flex items-center justify-center gap-2 py-2">
+                <ChevronUp className="h-4 w-4 text-gray-600" />
+                <p className="text-gray-600 text-sm">
+                  Tippen, um die Mapstory anzuzeigen
+                </p>
+              </div>
+            ) : (
+              <>
+                <hr style={{
+                  borderTop: '10px solid #D9D9D9',
+                  borderRadius: '5px',
+                  width: '50px',
+                  margin: '0 auto 10px auto',
+                }}>
+                </hr>
+                <DrawerTitle className="enable-theme-font text-4xl">{story?.name}</DrawerTitle>
+              </>
+            )}
           </DrawerHeader>
 
-          <div 
-            className="flex-1 overflow-y-auto px-4 h-96 relative"
-            onTouchEnd={swipeHandlers.onTouchEnd}
-            onTouchMove={swipeHandlers.onTouchMove}
-            onTouchStart={swipeHandlers.onTouchStart}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                initial={{ opacity: 0, x: 20 }}
-                key={currentStep?.id || page}
-                transition={{
-                  duration: 0.3,
-                  ease: [0.4, 0, 0.2, 1]
-                }}
-              >
-                <Slide step={currentStep} />
-              </motion.div>
-            </AnimatePresence>
-          </div>
+          {snap !== 0.25 && (
+            <div 
+              className="flex-1 overflow-y-auto px-4 h-96 relative"
+              onTouchEnd={swipeHandlers.onTouchEnd}
+              onTouchMove={swipeHandlers.onTouchMove}
+              onTouchStart={swipeHandlers.onTouchStart}
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: 20 }}
+                  key={currentStep?.id || page}
+                  transition={{
+                    duration: 0.3,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
+                >
+                  <Slide step={currentStep} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          )}
         </DrawerContent>
       </Drawer>
           
