@@ -34,6 +34,14 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
     state => state.updateSelectedStepIndex,
   )
 
+  const snapPoints = [0.4, 0.6, 1.0]
+
+  const handleHeaderClick = () => {
+    const currentIndex = snapPoints.indexOf(snap as number)
+    const nextIndex = (currentIndex + 1) % snapPoints.length
+    setSnap(snapPoints[nextIndex])
+  }
+
 
   useEffect(() => {
     if (story) {
@@ -89,10 +97,10 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
         onOpenChange={setOpen}
         open={open}
         setActiveSnapPoint={setSnap}
-        snapPoints={[0.4,0.6, 1.0]}
+        snapPoints={snapPoints}
       >
-        <DrawerContent className="absolute z-[60] md:hidden re-basic-box pointer-events-auto bg-white !rounded-b-none border-b-0 flex flex-col after:hidden pb-20 max-h-full h-full">
-          <DrawerHeader className="shrink-0">
+        <DrawerContent className="absolute z-[60] md:hidden border-t-8 border-black  pointer-events-auto bg-white !rounded-b-none flex flex-col after:hidden pb-20 max-h-full h-full">
+          <DrawerHeader className="shrink-0 cursor-pointer" onClick={handleHeaderClick}>
             <hr style={{
               borderTop: '10px solid #D9D9D9',
               borderRadius: '5px',
@@ -128,7 +136,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
         </DrawerContent>
       </Drawer>
           
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[95%] z-[70] md:hidden  rounded-none p-4 pointer-events-auto bg-white border-b-[3px] border-black">
+      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[95%] z-[70] md:hidden  rounded-none p-4 pointer-events-auto bg-white">
        <hr className='p-2 border-t-4'></hr>
         {page !== 'start' && story.steps && (
           <div className="text-center mb-3">
