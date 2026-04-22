@@ -1,0 +1,91 @@
+import { PlayIcon } from '@radix-ui/react-icons'
+import { ArrowLeft, ArrowRight, ListChecksIcon } from 'lucide-react'
+
+interface MobileToolbarProps {
+  page: string
+  story: any
+  currentPageIndex: number
+  onBackToStart: () => void
+  onNextStep: () => void
+  onPrevStep: () => void
+  onStartStory: () => void
+}
+
+export function MobileToolbar({
+  page,
+  story,
+  currentPageIndex,
+  onBackToStart,
+  onNextStep,
+  onPrevStep,
+  onStartStory,
+}: MobileToolbarProps) {
+  return (
+    <div className="w-full md:hidden pointer-events-auto">
+      {page !== 'start' && (
+        <div className="flex items-center justify-between gap-2 py-1">
+          {/* Left: Back/Restart Button */}
+          {currentPageIndex === 0 ? (
+            <button
+              aria-label="Restart story"
+              className="flex items-center gap-1 px-2 py-1 hover:bg-slate-100 rounded text-xs text-gray-600"
+              onClick={onBackToStart}
+              title="Restart Story"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+          ) : (
+            <button
+              aria-label="Previous step"
+              className="flex items-center gap-1 px-2 py-1 hover:bg-slate-100 rounded text-xs text-gray-600"
+              onClick={onPrevStep}
+              title="Previous Step"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+          )}
+
+          {/* Center: Step info */}
+          <div className="flex-1 text-center">
+            <span className="text-[10px] text-gray-400 uppercase tracking-wider">
+              Schritt {currentPageIndex + 1} / {story.steps?.length || 0}
+            </span>
+          </div>
+
+          {/* Right: Next Button */}
+          <button
+            aria-label="Next step"
+            className="flex items-center gap-1 px-2 py-1 hover:bg-slate-100 rounded text-xs text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+            disabled={!story.steps || currentPageIndex >= story.steps.length - 1}
+            onClick={onNextStep}
+            title="Next Step"
+          >
+            <ArrowRight className="h-5 w-5" />
+          </button>
+        </div>
+      )}
+      
+      {page === 'start' && (
+        <div className="flex items-center justify-center gap-2 py-1">
+          <button
+            aria-label="Start story"
+            className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-slate-100 rounded text-sm font-medium"
+            onClick={onStartStory}
+            title="Start Story"
+          >
+            <PlayIcon className="h-4 w-4" />
+            <span>Start</span>
+          </button>
+          <button
+            aria-label="Show steps"
+            className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-slate-100 rounded text-sm"
+            title="Steps"
+          >
+            <ListChecksIcon className="h-4 w-4" />
+            <span>Schritte</span>
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
