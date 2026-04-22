@@ -326,13 +326,17 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
           : step.position === index - 1
       })?.feature as unknown as Feature<GeoJSON.Point>
 
+      // Mobile detection
+      const isMobile = width < 768
+      const mobileOffset: [number, number] = [0, -window.innerHeight * 0.25]
+
       if (!previousStepFeat || !previousStepFeat?.geometry) {
         mapRef.current?.flyTo({
           center: [
             stepFeat.geometry.coordinates[0],
             stepFeat.geometry.coordinates[1],
           ],
-          offset: [-width / 7, -75],
+          offset: isMobile ? mobileOffset : [-width / 7, -75],
           zoom: 8,
           essential: true,
           duration: 1000,
@@ -358,7 +362,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
-          offset: [-width / 5, 0],
+          offset: isMobile ? mobileOffset : [-width / 5, 0],
           zoom: calculateWeightedZoom(distance),
           essential: true,
           duration: Math.min(Math.max(distance * 100, 1000), 3000),
