@@ -28,7 +28,7 @@ export function MobileToolbar({
       {page !== 'start' && (
         <div className="flex flex-col items-center justify-between gap-2 py-1">
           {/* Left: Back/Restart Button */}
-          <div className='flex'>
+          <div className='flex items-center w-full'>
 
           {currentPageIndex === 0 ? (
             <button
@@ -37,7 +37,7 @@ export function MobileToolbar({
               onClick={onBackToStart}
               title="Restart Story"
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="h-10 w-10" />
             </button>
           ) : (
             <button
@@ -46,13 +46,13 @@ export function MobileToolbar({
               onClick={onPrevStep}
               title="Previous Step"
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="h-10 w-10" />
             </button>
           )}
 
           {/* Center: Step info */}
           <div className="flex-1 text-center" onClick={toggleSteps}>
-            <span className="text-[10px] text-gray-400 uppercase tracking-wider">
+            <span className="text-[14px] text-gray-600 uppercase tracking-wider">
               Schritt {currentPageIndex + 1} / {story.steps?.length || 0}
             </span>
           </div>
@@ -65,7 +65,7 @@ export function MobileToolbar({
             onClick={onNextStep}
             title="Next Step"
           >
-            <ArrowRight className="h-5 w-5" />
+            <ArrowRight className="h-10 w-10" />
           </button>
           </div>
             <hr

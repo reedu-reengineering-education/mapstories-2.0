@@ -35,6 +35,16 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
   )
+  const lng = useBoundStore(state => state.language) || 'de'
+
+  // Hardcodierte Texte für Story-Info
+  const labels = {
+    de: { author: 'Autor:', createdAt: 'Erstellt:', updatedAt: 'Aktualisiert:' },
+    en: { author: 'Author:', createdAt: 'Created:', updatedAt: 'Updated:' },
+    es: { author: 'Autor:', createdAt: 'Creado:', updatedAt: 'Actualizado:' },
+    fr: { author: 'Auteur:', createdAt: 'Créé:', updatedAt: 'Mis à jour:' },
+  }
+  const currentLabels = labels[lng as keyof typeof labels] || labels.de
 
   const snapPoints = [0.15, 0.55, 0.98]
 
@@ -180,6 +190,17 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
                       ease: [0.4, 0, 0.2, 1]
                     }}
                   >
+                    <div className="mb-4 pb-4 border-b border-gray-200">
+                      <p className="text-sm text-gray-600">
+                        <b>{currentLabels.author}</b> {story.author?.name || 'Unbekannt'}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        <b>{currentLabels.createdAt}</b> {new Date(story.createdAt).toLocaleDateString()}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        <b>{currentLabels.updatedAt}</b> {new Date(story.updatedAt).toLocaleDateString()}
+                      </p>
+                    </div>
                     <div className="border border-gray-200 rounded-lg overflow-hidden">
                       <table className="w-full">
                         <thead className="bg-gray-50 border-b border-gray-200">
