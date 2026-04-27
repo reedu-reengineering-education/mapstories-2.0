@@ -24,9 +24,10 @@ interface MobileControlsProps {
 
 export function MobileControls({ slug, page, story, tags: _tags }: MobileControlsProps) {
   const [open, setOpen] = useState(true)
-  const [snap, setSnap] = useState<number | string | null>(0.6)
+  const [snap, setSnap] = useState<number | string | null>(0.55)
   const [currentStep, setCurrentStep] = useState<any>(null)
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0)
+  const [showSteps, setShowSteps] = useState<boolean>(false)
   const router = useRouter()
   const path = usePathname()
   const updateSelectedStepIndex = useBoundStore(
@@ -87,6 +88,10 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
     onSwipedRight: () => prevStep(),
   })
 
+  const toggleSteps = () => {
+    console.log('Toggle steps - Funktionalität hier implementieren')
+    setShowSteps(prev => !prev)
+  }
   return (
     <>
       <Drawer
@@ -122,19 +127,54 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
                   <DrawerTitle className="enable-theme-font text-lg flex-1 truncate">{story?.name}</DrawerTitle>
                 </div>
                 <MobileToolbar
-        currentPageIndex={currentPageIndex}
-        onBackToStart={backToStart}
-        onNextStep={nextStep}
-        onPrevStep={prevStep}
-        onStartStory={startStory}
-        page={page}
-        story={story}
-      />
+                  currentPageIndex={currentPageIndex}
+                  onBackToStart={backToStart}
+                  onNextStep={nextStep}
+                  onPrevStep={prevStep}
+                  onStartStory={startStory}
+                  page={page}
+                  story={story}
+                  toggleSteps={toggleSteps}
+                />
               </>
             )}
           </DrawerHeader>
 
           {snap !== 0.15 && (
+            showSteps ? (
+              <div className="flex-1 overflow-y-auto px-4 h-96 relative">
+                <AnimatePresence mode="wait">
+                  <motion.div
+
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: 20 }}
+                    key="steps-list"
+                    transition={{
+                      duration: 0.3,
+                      ease: [0.4, 0, 0.2, 1]
+                    }}
+                  >
+                    <div className="space-y-4">
+                      {story.steps?.map((step: any, index: number) => (
+                        <div
+                          className={`p-3 rounded cursor-pointer ${index === currentPageIndex ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+                          key={step.id}
+                          onClick={() => {
+                            setCurrentPageIndex(index)
+                            setCurrentStep(step)
+                            updateSelectedStepIndex(index)
+                          }}
+                        >
+                          <h3 className="font-medium">{step.title || `Schritt ${index + 1}`}</h3>
+                          <p className="text-sm text-gray-500 truncate">{step.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            ) : (
             <div
               className="flex-1 overflow-y-auto px-4 h-96 relative [&]:touch-pan-y"
               data-vaul-no-drag
@@ -156,8 +196,11 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
                   <Slide step={currentStep} />
                 </motion.div>
               </AnimatePresence>
+          
             </div>
-          )}
+
+        ))}
+
         </DrawerContent>
       </Drawer>
 

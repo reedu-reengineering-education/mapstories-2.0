@@ -9,6 +9,7 @@ interface MobileToolbarProps {
   onNextStep: () => void
   onPrevStep: () => void
   onStartStory: () => void
+  toggleSteps?: () => void
 }
 
 export function MobileToolbar({
@@ -19,6 +20,7 @@ export function MobileToolbar({
   onNextStep,
   onPrevStep,
   onStartStory,
+  toggleSteps,
 }: MobileToolbarProps) {
   return (
     <div className="w-full md:hidden pointer-events-auto">
@@ -79,6 +81,7 @@ export function MobileToolbar({
           <button
             aria-label="Show steps"
             className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-slate-100 rounded text-sm"
+            onClick={toggleSteps}
             title="Steps"
           >
             <ListChecksIcon className="h-4 w-4" />
