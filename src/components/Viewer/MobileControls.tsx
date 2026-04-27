@@ -9,7 +9,7 @@ import {
 } from '@/src/components/Elements/drawer'
 import { Slide } from './Slide'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChevronUp } from 'lucide-react'
+import { ChevronUp, RotateCcw } from 'lucide-react'
 import { useBoundStore } from '@/src/lib/store/store'
 import { AnimatePresence, motion } from 'framer-motion'
 import useSwipe from '@/src/lib/useSwipe'
@@ -29,6 +29,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0)
   const [showSteps, setShowSteps] = useState<boolean>(false)
   const [showScrollToTop, setShowScrollToTop] = useState(false)
+  const [isLandscape, setIsLandscape] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const path = usePathname()
@@ -45,6 +46,33 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
     fr: { author: 'Auteur:', createdAt: 'Créé:', updatedAt: 'Mis à jour:' },
   }
   const currentLabels = labels[lng as keyof typeof labels] || labels.de
+
+  // Landscape mode labels
+  const landscapeLabels = {
+    de: { title: 'Bitte drehen Sie Ihr Gerät', text: 'Diese Ansicht ist für den Hochformat-Modus optimiert.' },
+    en: { title: 'Please rotate your device', text: 'This view is optimized for portrait mode.' },
+    es: { title: 'Por favor, gire su dispositivo', text: 'Esta vista está optimizada para el modo vertical.' },
+    fr: { title: 'Veuillez tourner votre appareil', text: 'Cette vue est optimisée pour le mode portrait.' },
+  }
+  const currentLandscapeLabels = landscapeLabels[lng as keyof typeof landscapeLabels] || landscapeLabels.de
+
+  // Detect landscape mode on small screens
+  useEffect(() => {
+    const checkOrientation = () => {
+      const isMobile = window.innerWidth <= 768 || window.innerHeight <= 500
+      const isLandscapeMode = window.innerWidth > window.innerHeight
+      setIsLandscape(isMobile && isLandscapeMode)
+    }
+
+    checkOrientation()
+    window.addEventListener('resize', checkOrientation)
+    window.addEventListener('orientationchange', checkOrientation)
+
+    return () => {
+      window.removeEventListener('resize', checkOrientation)
+      window.removeEventListener('orientationchange', checkOrientation)
+    }
+  }, [])
 
   const snapPoints = [0.15, 0.55, 0.98]
 
@@ -283,6 +311,18 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
         </DrawerContent>
       </Drawer>
 
+      {/* Landscape mode overlay */}
+      {isLandscape && (
+        <div className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center p-8 md:hidden">
+          <RotateCcw className="h-16 w-16 text-gray-400 mb-6 animate-pulse" />
+          <h2 className="text-xl font-bold text-gray-800 text-center mb-2">
+            {currentLandscapeLabels.title}
+          </h2>
+          <p className="text-gray-600 text-center">
+            {currentLandscapeLabels.text}
+          </p>
+        </div>
+      )}
 
     </>
   )
