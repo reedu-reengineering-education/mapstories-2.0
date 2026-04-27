@@ -91,6 +91,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   const toggleSteps = () => {
     console.log('Toggle steps - Funktionalität hier implementieren')
     setShowSteps(prev => !prev)
+    console.log(story?.steps)
   }
   return (
     <>
@@ -155,21 +156,42 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
                       ease: [0.4, 0, 0.2, 1]
                     }}
                   >
-                    <div className="space-y-4">
-                      {story.steps?.map((step: any, index: number) => (
-                        <div
-                          className={`p-3 rounded cursor-pointer ${index === currentPageIndex ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
-                          key={step.id}
-                          onClick={() => {
-                            setCurrentPageIndex(index)
-                            setCurrentStep(step)
-                            updateSelectedStepIndex(index)
-                          }}
-                        >
-                          <h3 className="font-medium">{step.title || `Schritt ${index + 1}`}</h3>
-                          <p className="text-sm text-gray-500 truncate">{step.description}</p>
-                        </div>
-                      ))}
+                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                      <table className="w-full">
+                        <thead className="bg-gray-50 border-b border-gray-200">
+                          <tr>
+                            <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 w-16">#</th>
+                            <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700">Schritt</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          {story.steps?.map((step: any, index: number) => (
+                            <tr
+                              className={`cursor-pointer transition-colors min-h-[48px] ${
+                                index === currentPageIndex 
+                                  ? 'bg-blue-50 hover:bg-blue-100' 
+                                  : 'hover:bg-gray-50 active:bg-gray-100'
+                              }`}
+                              key={step.id}
+                              onClick={() => {
+                                setCurrentPageIndex(index)
+                                setCurrentStep(step)
+                                updateSelectedStepIndex(index)
+                                setShowSteps(false)
+                              }}
+                            >
+                              <td className="px-4 py-4 text-base font-semibold text-gray-600 align-top">
+                                {index + 1}
+                              </td>
+                              <td className="px-4 py-4 align-top">
+                                <div className="font-medium text-base text-gray-900">
+                                  {step.title || `Schritt ${index + 1}`}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </motion.div>
                 </AnimatePresence>

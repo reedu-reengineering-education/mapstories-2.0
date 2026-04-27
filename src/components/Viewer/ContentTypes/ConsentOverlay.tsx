@@ -39,7 +39,7 @@ export function ConsentOverlay({
           border-4 border-black
           bg-white/90
           shadow-md
-          p-6
+          sm:p-2 md:p-6
           flex flex-col gap-4
         "
       >
@@ -87,7 +87,7 @@ export function ConsentOverlay({
           </span>
         </div>
 
-        <Button onClick={onConfirm} variant="primary">
+        <Button className="w-1/2 self-center m-1" onClick={onConfirm} variant="primary">
           
           {t('confirm_load_content')}
         </Button>
