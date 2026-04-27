@@ -89,9 +89,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   })
 
   const toggleSteps = () => {
-    console.log('Toggle steps - Funktionalität hier implementieren')
     setShowSteps(prev => !prev)
-    console.log(story?.steps)
   }
   return (
     <>

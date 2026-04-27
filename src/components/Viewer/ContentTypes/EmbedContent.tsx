@@ -5,7 +5,7 @@ import { SlideContent } from '@prisma/client'
 import { Embed } from '../../embeds/Embed'
 import { urlToMedia } from '@/src/helper/urlToMedia'
 import { useCookieConsent } from '@/src/lib/api/cookieConsent/useCookieConsent'
-import { ConsentOverlay } from './ConsentOverlay' 
+import { ConsentOverlay } from './ConsentOverlay'
 
 interface Props {
   content: SlideContent

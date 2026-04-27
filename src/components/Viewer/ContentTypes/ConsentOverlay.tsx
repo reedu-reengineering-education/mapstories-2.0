@@ -6,7 +6,6 @@ import { getMediaPrivacyInfo } from '@/src/helper/embedPrivacy'
 import { Button } from '../../Elements/Button'
 import Switch from '../../Elements/Switch'
 import { useBoundStore } from '@/src/lib/store/store'
-import { useTranslation } from '@/src/app/i18n/client'
 
 interface ConsentOverlayProps {
   description?: string
@@ -22,11 +21,45 @@ export function ConsentOverlay({
   onConfirm,
   embed,
 }: ConsentOverlayProps) {
-    const lng = useBoundStore(state => state.language)
-    const { t } = useTranslation(lng, 'userCookieConsentForm')
-  
+  const lng = useBoundStore(state => state.language) || 'de'
   const policyUrl = getMediaPrivacyInfo(embed.type)?.privacyPolicyUrl
-  const defaultDescription = t('disclaimer_text')
+  
+  // Hardcodierte Texte um Re-render-Probleme durch useTranslation zu vermeiden
+  const texts = {
+      de:{
+    disclaimer: 'Um diesen Inhalt anzuzeigen, müssen externe Inhalte geladen werden.',
+    privacyPolicy: 'Datenschutzerklärung',
+    once: 'Einmalig',
+    rememberChoice: 'Auswahl merken',
+    confirm: 'Inhalt laden',
+      },
+      en: {
+        disclaimer: 'To view this content, external content must be loaded.',
+        privacyPolicy: 'Privacy Policy',
+        once: 'Once',
+        rememberChoice: 'Remember choice',
+        confirm: 'Load content',
+      }
+      ,
+      es: {
+        disclaimer: 'Para ver este contenido, se deben cargar contenidos externos.',
+        privacyPolicy: 'Política de privacidad',
+        once: 'Una vez',
+        rememberChoice: 'Recordar elección',
+        confirm: 'Cargar contenido',
+      },
+      fr: {
+        disclaimer: 'Pour voir ce contenu, du contenu externe doit être chargé.',
+        privacyPolicy: 'Politique de confidentialité',
+        once: 'Une fois',
+        rememberChoice: 'Se souvenir du choix',
+        confirm: 'Charger le contenu',
+      }
+
+  }
+
+  // Fallback auf Deutsch wenn Sprache nicht verfügbar
+  const currentTexts = texts[lng as keyof typeof texts] || texts.de
 
   return (
     <div className="inset-0 z-10 flex items-center justify-center">
@@ -44,7 +77,7 @@ export function ConsentOverlay({
         "
       >
         <p className="text-center text-gray-900 text-base font-medium">
-          {defaultDescription}
+          {currentTexts.disclaimer}
         </p>
         <div className="flex items-center justify-center gap-2 text-sm font-semibold">
           <EmbedIconFactory type={embed.type} />
@@ -70,26 +103,26 @@ export function ConsentOverlay({
               rel="noopener noreferrer"
               target="_blank"
             >
-              
-              {t('privacy_policy')}
+              {currentTexts.privacyPolicy}
             </a>
           </p>
         )}
 
         <div className="flex items-center justify-center gap-3">
-          <span className="text-sm text-gray-700">{t('once')}</span>
+          <span className="text-sm text-gray-700">
+            {currentTexts.once}
+          </span>
           <Switch
             defaultChecked={false}
             onCheckedChange={onRememberChange}
           />
           <span className="text-sm text-gray-700">
-            {t('remember_choice')}
+            {currentTexts.rememberChoice}
           </span>
         </div>
 
         <Button className="w-1/2 self-center m-1" onClick={onConfirm} variant="primary">
-          
-          {t('confirm_load_content')}
+          {currentTexts.confirm}
         </Button>
       </div>
     </div>
