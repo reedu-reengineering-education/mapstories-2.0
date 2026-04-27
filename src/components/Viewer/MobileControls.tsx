@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   Drawer,
   DrawerContent,
@@ -28,6 +28,8 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   const [currentStep, setCurrentStep] = useState<any>(null)
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0)
   const [showSteps, setShowSteps] = useState<boolean>(false)
+  const [showScrollToTop, setShowScrollToTop] = useState(false)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const path = usePathname()
   const updateSelectedStepIndex = useBoundStore(
@@ -91,6 +93,30 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   const toggleSteps = () => {
     setShowSteps(prev => !prev)
   }
+
+  // Scroll handler to detect when user scrolled to bottom
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const element = e.currentTarget
+    const scrolledToBottom = element.scrollHeight - element.scrollTop - element.clientHeight < 50
+    setShowScrollToTop(scrolledToBottom && element.scrollTop > 200)
+  }
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    scrollContainerRef.current?.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  // Reset scroll position when step changes
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0
+      setShowScrollToTop(false)
+    }
+  }, [currentPageIndex])
+
   return (
     <>
       <Drawer
@@ -198,9 +224,11 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
             <div
               className="flex-1 overflow-y-auto px-4 h-96 relative [&]:touch-pan-y"
               data-vaul-no-drag
+              onScroll={handleScroll}
               onTouchEnd={swipeHandlers.onTouchEnd}
               onTouchMove={swipeHandlers.onTouchMove}
               onTouchStart={swipeHandlers.onTouchStart}
+              ref={scrollContainerRef}
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -216,7 +244,17 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
                   <Slide step={currentStep} />
                 </motion.div>
               </AnimatePresence>
-          
+              
+              {/* Scroll to top button */}
+              {showScrollToTop && (
+                <button
+                  aria-label="Scroll to top"
+                  className="fixed bottom-6 right-4 z-50 bg-white border-2 border-gray-300 rounded-full p-3 shadow-lg hover:bg-gray-50 active:bg-gray-100 transition-all"
+                  onClick={scrollToTop}
+                >
+                  <ChevronUp className="h-6 w-6 text-gray-700" />
+                </button>
+              )}
             </div>
 
         ))}
