@@ -51,7 +51,7 @@ export function MobileToolbar({
           )}
 
           {/* Center: Step info */}
-          <div className="flex-1 text-center">
+          <div className="flex-1 text-center" onClick={toggleSteps}>
             <span className="text-[10px] text-gray-400 uppercase tracking-wider">
               Schritt {currentPageIndex + 1} / {story.steps?.length || 0}
             </span>
