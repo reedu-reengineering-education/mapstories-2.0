@@ -13,7 +13,6 @@ import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useTranslation } from '@/src/app/i18n/client'
 import { applyTheme } from '@/src/helper/applyTheme'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { ViewerPopup } from './ViewerPopup'
@@ -52,7 +51,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
-  const { t } = useTranslation(lng, 'viewer')
   const setViewerStories = useBoundStore(state => state.setViewerStories)
   const stories = useBoundStore(state => state.viewerStories)
 
