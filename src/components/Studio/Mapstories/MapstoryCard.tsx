@@ -25,7 +25,7 @@ export function MapstoryCard({ mapstory }: Props) {
   const { t } = useTranslation(lng, 'mapstoryCard')
 
   return (
-    <Card>
+    <Card className=''>
       <Card.Header>
         {mapstory.mode === 'TIMELINE' && <StoryBadge mode={mapstory.mode} />}
         <Card.Title>{mapstory.name}</Card.Title>
