@@ -13,7 +13,7 @@ interface ViewerStartViewProps {
 export function ViewerStartView({ slug, story, tags }: ViewerStartViewProps) {
   return (
     <>
-      <div className="hidden md:flex re-basic-box z-[60] h-fit max-h-full w-[55%] overflow-auto bg-white px-4 lg:max-w-[50%]">
+      <div className="hidden  md:flex re-basic-box z-[60] h-fit max-h-full w-[55%] overflow-auto bg-white px-4 lg:max-w-[50%]">
         <StoryOverviewControls
           page={slug[1]}
           slug={slug[0]}

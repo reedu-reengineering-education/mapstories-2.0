@@ -22,7 +22,7 @@ export function ViewerStepView({ slug, story, lng }: ViewerStepViewProps) {
   return (
     <>
 
-    <div className="hidden md:block re-basic-box z-[60] max-h-full w-[55%] self-start overflow-x-auto bg-white px-4 pb-4 lg:w-[50%]">
+    <div className="hidden md:block re-basic-box z-[60] max-h-full w-[55%] self-start overflow-x-auto bg-white mobile-landscape:hidden:px-0 px-4 pb-4 lg:w-[50%]">
       {/* Toolbar */}
       <div className="sticky top-0 flex flex-row justify-evenly bg-white py-2">
         <div>

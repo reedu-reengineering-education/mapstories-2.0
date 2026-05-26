@@ -60,5 +60,12 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addVariant }) {
+      // Mobile phone in landscape mode (height <= 600px means it's a phone screen width)
+      addVariant('mobile-landscape', '@media (orientation: landscape) and (max-height: 600px)')
+      // Mobile phone in portrait mode
+      addVariant('mobile-portrait', '@media (orientation: portrait) and (max-width: 600px)')
+    },
+  ],
 }

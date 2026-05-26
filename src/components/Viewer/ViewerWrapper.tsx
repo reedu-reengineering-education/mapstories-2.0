@@ -41,47 +41,50 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   const isStartView = slug[1] === 'start'
 
   return (
-    <div className="flex h-full w-full flex-col px-20 pt-4 lg:gap-5 lg:pb-10 lg:pt-20 ">
-      {/* Main Content Area */}
-      <div className="overflow flex flex-1 justify-end overflow-auto align-baseline">
-        {/* Side Navigation Buttons */}
-        <ViewerNavigationButtons
-          page={slug[1]}
-          position="sides"
-          slug={slug[0]}
-          story={story}
-          variant="navbar"
-        />
-
-        {/* Conditional View: Start or Step */}
-        {isStartView ? (
-          <ViewerStartView slug={slug} story={story} tags={tags} />
-        ) : (
-          <ViewerStepView lng={lng} slug={slug} story={story} />
-        )}
-      </div>
-
-      {/* Timeline Section */}
-      {story?.mode === StoryMode.TIMELINE && (
-        <div className="flex items-center justify-center gap-5 pb-6 lg:p-0">
+    <>
+      <div className="flex h-full w-full flex-col px-20 pt-4 lg:gap-5 lg:pb-10 lg:pt-20 mobile-landscape:px-4 mobile-landscape:pt-2">
+        {/* Main Content Area */}
+        <div className="overflow flex flex-1 justify-end overflow-auto align-baseline mobile-landscape:hidden">
+          {/* Side Navigation Buttons */}
           <ViewerNavigationButtons
             page={slug[1]}
-            position="inline"
+            position="sides"
             slug={slug[0]}
             story={story}
-            variant="primary"
+            variant="navbar"
           />
-          <div className="re-basic-box z-10 flex-1 bg-white px-2">
-            <TimelineChartWrapper
-              activeIndex={Number(slug[1])}
-              filter={filter}
-              story={story as any}
-            />
-          </div>
-        </div>
-      )}
-      <MobileControls page={slug[1]} slug={slug[0]} story={story} tags={tags} />
 
-    </div>
+          {/* Conditional View: Start or Step */}
+          {isStartView ? (
+            <ViewerStartView slug={slug} story={story} tags={tags} />
+          ) : (
+            <ViewerStepView lng={lng} slug={slug} story={story} />
+          )}
+        </div>
+
+        {/* Timeline Section */}
+        {story?.mode === StoryMode.TIMELINE && (
+          <div className="flex items-center justify-center gap-5 pb-6 lg:p-0 mobile-landscape:hidden">
+            <ViewerNavigationButtons
+              page={slug[1]}
+              position="inline"
+              slug={slug[0]}
+              story={story}
+              variant="primary"
+            />
+            <div className="re-basic-box z-10 flex-1 bg-white px-2">
+              <TimelineChartWrapper
+                activeIndex={Number(slug[1])}
+                filter={filter}
+                story={story as any}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+      
+      {/* MobileControls außerhalb des versteckten Containers */}
+      <MobileControls page={slug[1]} slug={slug[0]} story={story} tags={tags} />
+    </>
   )
 }

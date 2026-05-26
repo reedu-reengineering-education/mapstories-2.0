@@ -5,11 +5,10 @@ import {
   Drawer,
   DrawerContent,
   DrawerHeader,
-  DrawerTitle,
 } from '@/src/components/Elements/drawer'
 import { Slide } from './Slide'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChevronUp, RotateCcw } from 'lucide-react'
+import { ChevronUp } from 'lucide-react'
 import { useBoundStore } from '@/src/lib/store/store'
 import { AnimatePresence, motion } from 'framer-motion'
 import useSwipe from '@/src/lib/useSwipe'
@@ -29,7 +28,6 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0)
   const [showSteps, setShowSteps] = useState<boolean>(false)
   const [showScrollToTop, setShowScrollToTop] = useState(false)
-  const [isLandscape, setIsLandscape] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const path = usePathname()
@@ -47,32 +45,6 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   }
   const currentLabels = labels[lng as keyof typeof labels] || labels.de
 
-  // Landscape mode labels
-  const landscapeLabels = {
-    de: { title: 'Bitte drehen Sie Ihr Gerät', text: 'Diese Ansicht ist für den Hochformat-Modus optimiert.' },
-    en: { title: 'Please rotate your device', text: 'This view is optimized for portrait mode.' },
-    es: { title: 'Por favor, gire su dispositivo', text: 'Esta vista está optimizada para el modo vertical.' },
-    fr: { title: 'Veuillez tourner votre appareil', text: 'Cette vue est optimisée pour le mode portrait.' },
-  }
-  const currentLandscapeLabels = landscapeLabels[lng as keyof typeof landscapeLabels] || landscapeLabels.de
-
-  // Detect landscape mode on small screens
-  useEffect(() => {
-    const checkOrientation = () => {
-      const isMobile = window.innerWidth <= 768 || window.innerHeight <= 500
-      const isLandscapeMode = window.innerWidth > window.innerHeight
-      setIsLandscape(isMobile && isLandscapeMode)
-    }
-
-    checkOrientation()
-    window.addEventListener('resize', checkOrientation)
-    window.addEventListener('orientationchange', checkOrientation)
-
-    return () => {
-      window.removeEventListener('resize', checkOrientation)
-      window.removeEventListener('orientationchange', checkOrientation)
-    }
-  }, [])
 
   const snapPoints = [0.15, 0.55, 0.98]
 
@@ -167,7 +139,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
         snapPoints={snapPoints}
         snapToSequentialPoint={true}
       >
-        <DrawerContent className="absolute z-[60] md:hidden border-t-8 border-black  pointer-events-auto bg-white !rounded-b-none flex flex-col after:hidden max-h-full h-full">
+        <DrawerContent className="absolute z-[60] md:hidden mobile-landscape:hidden border-t-8 border-black  pointer-events-auto bg-white !rounded-b-none flex flex-col after:hidden max-h-full h-full">
           <DrawerHeader className="shrink-0 cursor-pointer" >
             {snap === 0.15 ? (
               <div className="flex items-center justify-center gap-2 py-2" onClick={handleHeaderClick}>
@@ -186,18 +158,17 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
                   margin: '0 auto 10px auto',
                 }}> 
                 </hr>
-                <div className="flex items-center gap-2 mb-2">
-                  <DrawerTitle className="enable-theme-font text-lg flex-1 truncate">{story?.name}</DrawerTitle>
-                </div>
+
                 <MobileToolbar
                   currentPageIndex={currentPageIndex}
                   onBackToStart={backToStart}
                   onNextStep={nextStep}
                   onPrevStep={prevStep}
                   onStartStory={startStory}
+                  onToggleSteps={toggleSteps}
                   page={page}
                   story={story}
-                  toggleSteps={toggleSteps}
+                  variant="portrait"
                 />
               </>
             )}
@@ -311,18 +282,47 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
         </DrawerContent>
       </Drawer>
 
-      {/* Landscape mode overlay */}
-      {isLandscape && (
-        <div className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center p-8 md:hidden">
-          <RotateCcw className="h-16 w-16 text-gray-400 mb-6 animate-pulse" />
-          <h2 className="text-xl font-bold text-gray-800 text-center mb-2">
-            {currentLandscapeLabels.title}
-          </h2>
-          <p className="text-gray-600 text-center">
-            {currentLandscapeLabels.text}
-          </p>
+      {/* Landscape mode panel - 50% width on right side, map visible on left */}
+      <div 
+        className="fixed right-0 top-0 bottom-0 w-1/2 z-[100] hidden mobile-landscape:flex flex-col bg-white/95 backdrop-blur-sm border-l-4 border-black shadow-xl"
+        onTouchEnd={swipeHandlers.onTouchEnd}
+        onTouchMove={swipeHandlers.onTouchMove}
+        onTouchStart={swipeHandlers.onTouchStart}
+      >
+        {/* Landscape toolbar */}
+        <div className="shrink-0 px-2 border-b border-gray-200 bg-white">
+          <MobileToolbar
+            currentPageIndex={currentPageIndex}
+            onBackToStart={backToStart}
+            onNextStep={nextStep}
+            onPrevStep={prevStep}
+            onStartStory={startStory}
+            page={page}
+            story={story}
+            variant="landscape"
+          />
         </div>
-      )}
+
+        {/* Slide content - scrollable */}
+        <div className="flex-1 overflow-y-auto px-3 py-2">
+          <AnimatePresence mode="wait">
+            <motion.div
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: 20 }}
+              key={`landscape-${currentStep?.id || page}`}
+              transition={{
+                duration: 0.3,
+                ease: [0.4, 0, 0.2, 1]
+              }}
+            >
+              <Slide step={currentStep} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+
+      </div>
 
     </>
   )
