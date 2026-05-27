@@ -1,7 +1,7 @@
 interface LamaPollEmbedProps {
   url: string
-  width: string | number
-  height: string | number
+  width?: string | number
+  height?: string | number
 }
 
 function buildLamaPollEmbedUrl(url: string): string {
@@ -27,9 +27,6 @@ function buildLamaPollEmbedUrl(url: string): string {
 
 export default function LamaPollEmbed({
   url,
-  width,
-  height,
-  ...divProps
 }: LamaPollEmbedProps) {
   const embedUrl = buildLamaPollEmbedUrl(url)
   

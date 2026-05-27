@@ -26,8 +26,8 @@ export function EmbedContent({ content }: Props) {
   // LamaPoll braucht mehr Höhe für die Umfrage
   const isLamaPoll = content.type === 'LAMAPOLL'
   const containerClass = isLamaPoll 
-    ? "relative flex h-[600px] w-full p-2 justify-center"
-    : "relative flex max-h-[24rem] w-full p-2 justify-center "
+    ? 'relative flex h-[600px] w-full p-2 justify-center'
+    : 'relative flex max-h-[24rem] w-full p-2 justify-center '
 
   return (
     <div className={containerClass}>
