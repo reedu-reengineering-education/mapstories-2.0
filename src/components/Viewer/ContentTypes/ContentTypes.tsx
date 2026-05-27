@@ -30,6 +30,7 @@ export function ContentType({ content }: Props) {
         'SOUNDCLOUD',
         'VIMEO',
         'DAILYMOTION',
+        'LAMAPOLL',
       ].includes(content.type) && (
         <EmbedContent content={content}></EmbedContent>
       )}
