@@ -313,15 +313,18 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     ) {
       const stepFeat = story?.steps.find(step => step.position === index)
         ?.feature as unknown as Feature<GeoJSON.Point>
+      
+      // No animation if step has no GPS coordinates
       if (!stepFeat || !stepFeat.geometry) {
         return
       }
 
-      // take either next or previous step
+      // take either next or previous step with valid geometry
       const previousStepFeat = story?.steps.find(step => {
-        return index === 0
+        const feat = step.feature as unknown as Feature<GeoJSON.Point>
+        return (index === 0
           ? step.position === index + 1
-          : step.position === index - 1
+          : step.position === index - 1) && feat?.geometry
       })?.feature as unknown as Feature<GeoJSON.Point>
 
       // Mobile detection
@@ -374,17 +377,22 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       updateToStep(selectedStepIndex)
     }
     if (Number.isNaN(selectedStepIndex) && mapRef.current && startView) {
-      const distance = getDistance(
-        startView.getSouthEast().lat,
-        startView.getSouthEast().lng,
-        startView.getNorthWest().lat,
-        startView.getNorthWest().lng,
-      )
-      mapRef.current?.flyTo({
-        center: startView.getCenter(),
-        zoom: calculateWeightedZoom(distance),
-        offset: [-width / 5, 75],
-      })
+      try {
+        const distance = getDistance(
+          startView.getSouthEast().lat,
+          startView.getSouthEast().lng,
+          startView.getNorthWest().lat,
+          startView.getNorthWest().lng,
+        )
+        mapRef.current?.flyTo({
+          center: startView.getCenter(),
+          zoom: calculateWeightedZoom(distance),
+          offset: [-width / 5, 75],
+        })
+      } catch (error) {
+        // startView might be null if no steps with features exist
+        console.warn('Could not fly to start view:', error)
+      }
       // mapRef.current?.fitBounds(startView, {
       //   offset: [width > 820 ? width / 3 : -width / 4, 0],
       // })
