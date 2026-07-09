@@ -57,7 +57,7 @@ export function EmbedContent({
         <p className="text-sm font-bold">Platformen</p>
         <MediaIconList usedMediaType={media?.type} />
         <div>
-          <Input label="content" onChange={e => handleUrl(e)} size={100} />
+          <Input label="URL" onChange={e => handleUrl(e)} size={100} />
         </div>
       </div>
 

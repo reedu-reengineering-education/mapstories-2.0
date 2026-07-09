@@ -12,26 +12,42 @@ interface SwipeOutput {
 }
 
 export default (input: SwipeInput): SwipeOutput => {
-  const [touchStart, setTouchStart] = useState(0)
-  const [touchEnd, setTouchEnd] = useState(0)
+  const [touchStart, setTouchStart] = useState({ x: 0, y: 0 })
+  const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 })
 
-  // maybe change
   const minSwipeDistance = 50
 
   const onTouchStart = (e: TouchEvent) => {
-    setTouchEnd(0) // otherwise the swipe is fired even with usual touch events
-    setTouchStart(e.targetTouches[0].clientX)
+    setTouchEnd({ x: 0, y: 0 }) // otherwise the swipe is fired even with usual touch events
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    })
   }
 
-  const onTouchMove = (e: TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
+  const onTouchMove = (e: TouchEvent) => {
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    })
+  }
 
   const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) {
+    if (!touchStart.x || !touchEnd.x) {
       return
     }
-    const distance = touchStart - touchEnd
-    const isLeftSwipe = distance > minSwipeDistance
-    const isRightSwipe = distance < -minSwipeDistance
+    
+    const distanceX = touchStart.x - touchEnd.x
+    const distanceY = Math.abs(touchStart.y - touchEnd.y)
+    
+    // Nur horizontale Swipes erkennen, wenn horizontale Bewegung größer als vertikale ist
+    if (Math.abs(distanceX) <= distanceY) {
+      return // Primär vertikale Bewegung - ignorieren
+    }
+    
+    const isLeftSwipe = distanceX > minSwipeDistance
+    const isRightSwipe = distanceX < -minSwipeDistance
+    
     if (isLeftSwipe) {
       input.onSwipedLeft()
     }

@@ -161,7 +161,7 @@ export function EmbedContentEdit({
             <Input
               defaultValue={stepItem ? stepItem.content : ''}
               errors={errors.content}
-              label="content"
+              label="URL"
               size={100}
               {...register('content')}
             />
@@ -169,10 +169,12 @@ export function EmbedContentEdit({
         </div>
 
         <div className="re-data-media-preview max-h-[20rem] overflow-y-auto pb-4 pt-4">
-          <Embed
-            media={media}
-            options={optionState ? optionState : undefined}
-          />
+          <div className="inline-block rounded border border-gray-200">
+            <Embed
+              media={media}
+              options={optionState ? optionState : undefined}
+            />
+          </div>
           {media?.type == 'YOUTUBE' && optionState?.autoplay != undefined && (
             <div className="flex items-center">
               <Input

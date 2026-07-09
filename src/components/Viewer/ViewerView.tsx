@@ -13,10 +13,10 @@ import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
-import { useTranslation } from '@/src/app/i18n/client'
 import { applyTheme } from '@/src/helper/applyTheme'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { ViewerPopup } from './ViewerPopup'
+import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 
 type ViewerViewProps = {
   inputStories: (Story & {
@@ -44,14 +44,13 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   const [pathend2, setPathend2] = useState<string | undefined>('')
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
+  const { width } = useBreakpoint()
   const router = useRouter()
 
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
-  const { t } = useTranslation(lng, 'viewer')
   const setViewerStories = useBoundStore(state => state.setViewerStories)
   const stories = useBoundStore(state => state.viewerStories)
 
@@ -314,16 +313,23 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     ) {
       const stepFeat = story?.steps.find(step => step.position === index)
         ?.feature as unknown as Feature<GeoJSON.Point>
+      
+      // No animation if step has no GPS coordinates
       if (!stepFeat || !stepFeat.geometry) {
         return
       }
 
-      // take either next or previous step
+      // take either next or previous step with valid geometry
       const previousStepFeat = story?.steps.find(step => {
-        return index === 0
+        const feat = step.feature as unknown as Feature<GeoJSON.Point>
+        return (index === 0
           ? step.position === index + 1
-          : step.position === index - 1
+          : step.position === index - 1) && feat?.geometry
       })?.feature as unknown as Feature<GeoJSON.Point>
+
+      // Mobile detection
+      const isMobile = width < 768
+      const mobileOffset: [number, number] = [0, -window.innerHeight * 0.25]
 
       if (!previousStepFeat || !previousStepFeat?.geometry) {
         mapRef.current?.flyTo({
@@ -331,7 +337,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             stepFeat.geometry.coordinates[0],
             stepFeat.geometry.coordinates[1],
           ],
-          offset: [-window.innerWidth / 7, -75],
+          offset: isMobile ? mobileOffset : [-width / 7, -75],
           zoom: 8,
           essential: true,
           duration: 1000,
@@ -357,7 +363,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
-          offset: [-window.innerWidth / 5, 0],
+          offset: isMobile ? mobileOffset : [-width / 5, 0],
           zoom: calculateWeightedZoom(distance),
           essential: true,
           duration: Math.min(Math.max(distance * 100, 1000), 3000),
@@ -371,19 +377,24 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       updateToStep(selectedStepIndex)
     }
     if (Number.isNaN(selectedStepIndex) && mapRef.current && startView) {
-      const distance = getDistance(
-        startView.getSouthEast().lat,
-        startView.getSouthEast().lng,
-        startView.getNorthWest().lat,
-        startView.getNorthWest().lng,
-      )
-      mapRef.current?.flyTo({
-        center: startView.getCenter(),
-        zoom: calculateWeightedZoom(distance),
-        offset: [-windowWidth / 5, 75],
-      })
+      try {
+        const distance = getDistance(
+          startView.getSouthEast().lat,
+          startView.getSouthEast().lng,
+          startView.getNorthWest().lat,
+          startView.getNorthWest().lng,
+        )
+        mapRef.current?.flyTo({
+          center: startView.getCenter(),
+          zoom: calculateWeightedZoom(distance),
+          offset: [-width / 5, 75],
+        })
+      } catch (error) {
+        // startView might be null if no steps with features exist
+        console.warn('Could not fly to start view:', error)
+      }
       // mapRef.current?.fitBounds(startView, {
-      //   offset: [windowWidth > 820 ? windowWidth / 3 : -windowWidth / 4, 0],
+      //   offset: [width > 820 ? width / 3 : -width / 4, 0],
       // })
     }
   }, [startView, mapRef])

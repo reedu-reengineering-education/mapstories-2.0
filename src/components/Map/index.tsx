@@ -8,7 +8,8 @@ import {
 } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 // import 'maplibre-gl/dist/maplibre-gl.css'
-import { forwardRef, useState } from 'react'
+import { forwardRef } from 'react'
+import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 
 const Map = forwardRef<MapRef, MapProps>(
   (
@@ -17,8 +18,7 @@ const Map = forwardRef<MapRef, MapProps>(
     { children, mapStyle, fog = null, terrain = null, ...props },
     ref,
   ) => {
-    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
-    const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight)
+    const { isDesktop } = useBreakpoint()
     return (
       <ReactMap
         // disable the default attribution
@@ -51,7 +51,7 @@ const Map = forwardRef<MapRef, MapProps>(
       >
         <AttributionControl
           customAttribution={
-            windowWidth > 820
+            isDesktop
               ? ` Designed by <a href="https://www.reedu.de">re:edu</a>   |   <a href="/de/impressum/">Imprint</a> | <a href="/de/privacy"> Privacy Policy </a> | ${
                   process.env.NEXT_PUBLIC_APP_VERSION || 'development'
                 }`

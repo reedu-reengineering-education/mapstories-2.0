@@ -77,7 +77,7 @@ export function Embed({
       {media && media.type == 'EXTERNALIMAGE' && (
         <img alt={media.content} src={media.content} />
       )}
-      {media == null && <p>Embed not recognized</p>}
+      {media == null && <p style={{padding:4}}>Embed not recognized</p>}
     </>
   )
 }

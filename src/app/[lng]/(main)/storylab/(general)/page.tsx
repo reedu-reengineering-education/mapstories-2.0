@@ -77,10 +77,13 @@ export default async function Studio({
           />
         </EmptyPlaceholder>
       )}
-      {mapstories.length > 0 &&
-        mapstories.map(m => (
-          <MapstoryCard data-superjson key={m.id} mapstory={m} />
-        ))}
+      <div className='flex flex-col gap-2 '>
+        {mapstories.length > 0 &&
+          mapstories.map(m => (
+            <MapstoryCard  data-superjson key={m.id} mapstory={m} />
+          ))}
+      </div>
+
     </StudioShell>
   )
 }

@@ -43,3 +43,8 @@ export interface KlaroManager {
   export function show(): void
   export function getManager(): KlaroManager
 }
+
+declare module 'klaro/dist/klaro.css' {
+  const content: string
+  export default content
+}
