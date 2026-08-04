@@ -8,8 +8,8 @@ export default function PageContent() {
         <PageHeader heading="Impressum" />
         <p><strong>Angaben gemäß § 5 TMG:</strong><br />
           Reedu GmbH & Co. KG<br />
-          Von-Steuben-Str. 21<br />
-          48143 Münster<br />
+          Johann-Krane-Weg 23<br />
+          48149 Münster<br />
           Vertreten durch: Reedu Verwaltungs GmbH,<br />
           Geschäftsführer: Dr. Thomas Bartoschek, Umut Tas
         </p>
@@ -29,8 +29,8 @@ export default function PageContent() {
 
         <p><strong>Verantwortlich nach § 55 Abs. 2 RStV:</strong><br />
           Umut Tas<br />
-          Von-Steuben-Str. 21<br />
-          48143 Münster
+          Johann-Krane-Weg 23<br />
+          48149 Münster
         </p>
 
         <p><strong>Streitschlichtung:</strong><br />
@@ -65,7 +65,7 @@ export default function PageContent() {
 
         <p><strong>Information according to §5 TMG:</strong><br />
           Reedu GmbH & Co. KG<br />
-          Von-Steuben-Str. 21, 48143 Münster<br />
+          Johann-Krane-Weg 23, 48149 Münster<br />
           Represented by: Reedu Verwaltungs GmbH, Dr. Thomas Bartoschek & Umut Tas
         </p>
 
