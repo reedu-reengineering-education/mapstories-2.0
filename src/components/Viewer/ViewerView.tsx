@@ -119,16 +119,16 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   }, [path])
 
   useEffect(() => {
-    if (mapData) {
-      // drawMapData(mapData)
+    if (mapData && mapData.length > 0) {
       const ids = mapData
         ?.map(m => {
-          if (m.geometry.coordinates.length > 0) {
-            return m.properties?.id.toString() + 'buffer'
+          if (m.geometry?.coordinates?.length > 0 && m.properties?.id) {
+            return m.properties.id.toString() + 'buffer'
           }
+          return undefined
         })
-        .filter(item => item != undefined)
-      setInteractiveLayerIds(ids)
+        .filter(item => item !== undefined)
+      setInteractiveLayerIds(ids || [])
     }
   }, [mapData])
 
