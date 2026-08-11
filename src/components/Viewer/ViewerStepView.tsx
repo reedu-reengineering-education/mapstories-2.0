@@ -49,7 +49,7 @@ export function ViewerStepView({ slug, story, lng }: ViewerStepViewProps) {
         {story.community && (
           <AddCommunityStep size="xs" slug={slug[1]} story={story} />
         )}
-        <StoryLanguageSwitcher story={story} />
+        <StoryLanguageSwitcher currentSlug={slug} story={story} />
       </div>
 
       {/* Content Area */}

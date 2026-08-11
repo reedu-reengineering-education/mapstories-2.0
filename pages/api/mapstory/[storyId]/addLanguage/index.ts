@@ -42,7 +42,7 @@ async function createStepContent(
   for (const slideContent of step?.content ?? []) {
     let newMedia
     if (slideContent.mediaId && slideContent.media) {
-      const { ...mediaData } = slideContent.media
+      const { id, ...mediaData } = slideContent.media
       newMedia = await transaction.media.create({
         data: {
           ...mediaData,

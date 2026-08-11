@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 import { DropdownMenu } from '@/src/components/Dropdown'
 import { getLanguageInfo } from '@/src/lib/languageFlags'
@@ -16,13 +16,14 @@ type Props = {
     language: string
     group?: { stories: Variant[] } | null
   }
+  // Current position in viewer: slug[0] = story slug, slug[1] = step index or 'start'
+  currentSlug?: string[]
 }
 
 // Language switcher for the viewer. Only rendered when the story exists in
-// more than one language. Swaps the story slug in the URL and keeps the step.
-export function StoryLanguageSwitcher({ story }: Props) {
+// more than one language. Swaps the story slug while preserving the current step.
+export function StoryLanguageSwitcher({ story, currentSlug }: Props) {
   const router = useRouter()
-  const pathname = usePathname()
 
   const variants = story.group?.stories ?? []
   if (variants.length <= 1) {
@@ -32,16 +33,33 @@ export function StoryLanguageSwitcher({ story }: Props) {
   const current = getLanguageInfo(story.language)
 
   function switchTo(targetSlug: string) {
-    if (!pathname) {
+    // Build new URL using the current path structure, replacing only the story slug
+    if (!currentSlug || currentSlug.length === 0) {
       return
     }
-    const segments = pathname.split('/')
+
+    // currentSlug[0] is the story slug, currentSlug[1] is the step index or 'start'
+    const stepIndex = currentSlug[1] ?? 'start'
+    
+    // Reconstruct the path by replacing story slug but keeping the step
+    // The route is: /[lng]/gallery|mystories|embed/[filter]/story/[slug]/[stepIndex]
+    // We need to navigate to: /[lng]/gallery|mystories|embed/[filter]/story/[newSlug]/[stepIndex]
+    
+    // Get the current pathname and replace the old slug with the new one
+    const pathname = typeof window !== 'undefined' ? window.location.pathname : ''
+    const segments = pathname.split('/').filter(Boolean) // Remove empty segments
+    
+    // Find the story slug position (should be after 'story')
     const storyIndex = segments.indexOf('story')
     if (storyIndex === -1 || storyIndex + 1 >= segments.length) {
       return
     }
+
+    // Replace the old slug with new slug, keep everything else (including step index)
     segments[storyIndex + 1] = targetSlug
-    router.push(segments.join('/'))
+    const newPath = '/' + segments.join('/')
+    
+    router.push(newPath)
   }
 
   return (
