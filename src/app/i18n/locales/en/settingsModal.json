@@ -28,5 +28,9 @@
   "community": "Community",
   "on": "On",
   "off": "Off",
-  "duplicateSotryPrefix": "Copy of"
+  "duplicateSotryPrefix": "Copy of",
+  "addLanguage": "Add language",
+  "languageAdded": "Language added",
+  "languageAddError": "Could not add language",
+  "defaultLanguage": "Default language"
 }

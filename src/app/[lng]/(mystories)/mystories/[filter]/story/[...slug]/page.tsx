@@ -42,6 +42,13 @@ const getMapstory = async (slug: string, userId: string) => {
           position: 'asc',
         },
       },
+      group: {
+        include: {
+          stories: {
+            select: { id: true, slug: true, language: true },
+          },
+        },
+      },
     },
   })
 }
@@ -65,6 +72,13 @@ const getMapstoryWithFilter = async (
       steps: {
         include: {
           content: true,
+        },
+      },
+      group: {
+        include: {
+          stories: {
+            select: { id: true, slug: true, language: true },
+          },
         },
       },
     },

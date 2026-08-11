@@ -38,6 +38,14 @@ const getMapstory = async (slug: string) => {
         },
       },
       theme: true,
+      group: {
+        include: {
+          stories: {
+            where: { visibility: 'PUBLIC' },
+            select: { id: true, slug: true, language: true },
+          },
+        },
+      },
     },
   })
 }
@@ -60,6 +68,14 @@ const getMapstoryWithFilter = async (slug: string, filterArray: string[]) => {
         },
       },
       theme: true,
+      group: {
+        include: {
+          stories: {
+            where: { visibility: 'PUBLIC' },
+            select: { id: true, slug: true, language: true },
+          },
+        },
+      },
     },
   })
   if (!unfilteredStory) {

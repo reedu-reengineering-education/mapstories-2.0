@@ -17,6 +17,7 @@ const getMapstories = async (userId: string) => {
   return await db.story.findMany({
     where: {
       ownerId: userId,
+      isTranslation: false,
     },
     include: {
       firstStep: {

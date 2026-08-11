@@ -9,6 +9,7 @@ import SlidesOverview from './SlidesOverview'
 import RestartStoryButton from './RestartStoryButton'
 import QuitStoryButton from './QuitStoryButton'
 import AddCommunityStep from './CommunityStep/AddCommunityStep'
+import { StoryLanguageSwitcher } from './StoryLanguageSwitcher'
 
 interface ViewerStepViewProps {
   slug: string[]
@@ -48,6 +49,7 @@ export function ViewerStepView({ slug, story, lng }: ViewerStepViewProps) {
         {story.community && (
           <AddCommunityStep size="xs" slug={slug[1]} story={story} />
         )}
+        <StoryLanguageSwitcher story={story} />
       </div>
 
       {/* Content Area */}

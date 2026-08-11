@@ -26,5 +26,9 @@
   "community": "Comunidad-Modus",
   "on": "Activo",
   "off": "Apagado",
-  "duplicateSotryPrefix": "Copia de"
+  "duplicateSotryPrefix": "Copia de",
+  "addLanguage": "Añadir idioma",
+  "languageAdded": "Idioma añadido",
+  "languageAddError": "No se pudo añadir el idioma",
+  "defaultLanguage": "Idioma predeterminado"
 }

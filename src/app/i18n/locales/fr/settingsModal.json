@@ -26,5 +26,9 @@
   "community": "Communauté",
   "on": "Activé",
   "off": "Désactivé",
-  "duplicateSotryPrefix": "Copie de"
+  "duplicateSotryPrefix": "Copie de",
+  "addLanguage": "Ajouter une langue",
+  "languageAdded": "Langue ajoutée",
+  "languageAddError": "Impossible d'ajouter la langue",
+  "defaultLanguage": "Langue par défaut"
 }

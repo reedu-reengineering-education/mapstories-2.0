@@ -17,23 +17,20 @@ import { updateMapstorySchema } from '@/src/lib/validations/mapstory'
 type ExtendedSlideContent = SlideContent & { media: Media | null }
 type ExtendedStoryStep = StoryStep & { content: ExtendedSlideContent[] | null }
 
-async function createStepContent(step: ExtendedStoryStep, newStepId: string) {
-  step?.content?.forEach(async (slideContent: ExtendedSlideContent )=> {
+async function createStepContent(transaction: any, step: ExtendedStoryStep, newStepId: string) {
+  for (const slideContent of step?.content ?? []) {
     let newMedia 
-    if (slideContent.mediaId) {
-      // remove unnecessary fields before creation of a new media
-
+    if (slideContent.mediaId && slideContent.media) {
       const { ...mediaData } = slideContent.media
-      newMedia = await db.media.create({
+      newMedia = await transaction.media.create({
         data: { 
           ...mediaData,
           name: mediaData?.name ?? ''
         }
       })
     }
-    // remove unnecessary fields before creation of a new slideContent
     const { id, media, ...content} = slideContent
-    await db.slideContent.create({
+    await transaction.slideContent.create({
       data: {
         ...content,
         storyStepId: newStepId,
@@ -42,13 +39,12 @@ async function createStepContent(step: ExtendedStoryStep, newStepId: string) {
         ogData: content.ogData ?? undefined
       }
     })
-  })
+  }
 }
 
-async function createStep(step: ExtendedStoryStep, storyId: string | null) {
-  // remove unnecessary fields before creation of a new step
+async function createStep(transaction: any, step: ExtendedStoryStep, storyId: string | null) {
   const { id, content, ...stepData } = step
-  const newFirstStep = await db.storyStep.create({
+  const newFirstStep = await transaction.storyStep.create({
     data: {
       ...stepData,
       storyId,
@@ -58,15 +54,14 @@ async function createStep(step: ExtendedStoryStep, storyId: string | null) {
     }
   })
 
-  await createStepContent(step, newFirstStep.id)
+  await createStepContent(transaction, step, newFirstStep.id)
 
   return newFirstStep.id
 }
 
-async function createStepSuggestion(suggestion: StoryStepSuggestion, storyId: string) {
-  // remove unnecessary fields before creation of a new suggestion
+async function createStepSuggestion(transaction: any, suggestion: StoryStepSuggestion, storyId: string) {
   const { id, ...suggestionData } = suggestion
-  await db.storyStepSuggestion.create({
+  await transaction.storyStepSuggestion.create({
     data: {
       ...suggestionData,
       storyId,
@@ -135,7 +130,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             return
           }
 
-          newFirstStepId = await createStep(firstStep, firstStep?.storyId ?? null)
+          newFirstStepId = await createStep(transaction, firstStep, firstStep?.storyId ?? null)
         }
         // create copy of the story
         const storyCopy = await transaction.story.create({
@@ -143,27 +138,26 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             ...payload,
             slug: await generateSlug(payload.name),
             ownerId: story?.ownerId,
-            firstStepId: newFirstStepId
-          },
+            firstStepId: newFirstStepId,
+            defaultLanguage: (story as any)?.defaultLanguage || story?.language,
+          } as any,
         })
         // copy steps
-        story?.steps.forEach(async step => {
-          await createStep(step, storyCopy.id)
-        })
+        for (const step of story?.steps ?? []) {
+          await createStep(transaction, step, storyCopy.id)
+        }
         // copy suggestions
-        story?.stepSuggestions.forEach(async suggestion => {
-          await createStepSuggestion(suggestion, storyCopy.id)
-        })
+        for (const suggestion of story?.stepSuggestions ?? []) {
+          await createStepSuggestion(transaction, suggestion, storyCopy.id)
+        }
         // return copied story
-        res.status(200).json(storyCopy) 
-        res.end()
+        return res.status(200).json(storyCopy) 
       })
     } catch (error) {
       if (error instanceof z.ZodError) {
-        res.status(422).json(error.issues)
+        return res.status(422).json(error.issues)
       }
-
-      res.status(422).end()
+      return res.status(422).end()
     }
   }
 }

@@ -9,6 +9,7 @@ const getPublicMapstories = async () => {
   return await db.story.findMany({
     where: {
       visibility: 'PUBLIC',
+      isTranslation: false,
     },
     include: {
       firstStep: {

@@ -6,6 +6,7 @@ import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import { PreviewButton } from '@/src/components/PreviewButton'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
 import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
+import LanguageBar from '@/src/components/Studio/Mapstories/LanguageBar'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
@@ -37,6 +38,18 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
         },
       },
       theme: true,
+      group: {
+        include: {
+          stories: {
+            select: {
+              id: true,
+              slug: true,
+              language: true,
+              firstStepId: true,
+            },
+          },
+        },
+      },
     },
   })
 }
@@ -119,6 +132,7 @@ export default async function DashboardLayout({
           </Link>
           <SettingsModal shadow storyId={story.id} themes={themes} />
           <PreviewButton story={story} />
+          <LanguageBar story={story} />
         </div>
       </div>
 
