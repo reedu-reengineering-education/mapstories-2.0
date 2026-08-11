@@ -21,6 +21,7 @@ import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 type ViewerViewProps = {
   inputStories: (Story & {
     theme?: Theme | null
+    firstStep?: (StoryStep & { content: SlideContent[] }) | null
     steps: (StoryStep & { content: SlideContent[] })[]
   })[]
 }
@@ -53,6 +54,30 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   }
   const setViewerStories = useBoundStore(state => state.setViewerStories)
   const stories = useBoundStore(state => state.viewerStories)
+
+  // Helper function to safely parse and validate feature
+  const parseFeature = (feature: any): GeoJSON.Feature<GeoJSON.Point> | null => {
+    if (!feature) {return null}
+    
+    let parsed = feature
+    if (typeof parsed === 'string') {
+      try {
+        parsed = JSON.parse(parsed)
+      } catch {
+        console.warn('Failed to parse feature:', feature)
+        return null
+      }
+    }
+    
+    const coords = parsed?.geometry?.coordinates
+    // Validate coordinates are valid numbers
+    if (!coords || coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
+      console.warn('Invalid coordinates:', coords)
+      return null
+    }
+    
+    return parsed as GeoJSON.Feature<GeoJSON.Point>
+  }
 
   useEffect(() => {
     if (selectedStepIndex != undefined) {
@@ -94,16 +119,16 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
   }, [path])
 
   useEffect(() => {
-    if (mapData) {
-      // drawMapData(mapData)
+    if (mapData && mapData.length > 0) {
       const ids = mapData
         ?.map(m => {
-          if (m.geometry.coordinates.length > 0) {
-            return m.properties?.id.toString() + 'buffer'
+          if (m.geometry?.coordinates?.length > 0 && m.properties?.id) {
+            return m.properties.id.toString() + 'buffer'
           }
+          return undefined
         })
-        .filter(item => item != undefined)
-      setInteractiveLayerIds(ids)
+        .filter(item => item !== undefined)
+      setInteractiveLayerIds(ids || [])
     }
   }, [mapData])
 
@@ -141,38 +166,41 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       const newMarkers = story?.steps
         .filter(step => step.feature)
         .map(({ id, feature, position, content, tags }) => {
-          const geoFeature =
-            feature as unknown as GeoJSON.Feature<GeoJSON.Point>
-          if (geoFeature?.geometry?.coordinates?.length > 0) {
-            if (bounds === undefined) {
-              bounds = new mapboxgl.LngLatBounds(
-                [
-                  geoFeature?.geometry?.coordinates[0],
-                  geoFeature?.geometry?.coordinates[1],
-                ],
-                [
-                  geoFeature?.geometry?.coordinates[0],
-                  geoFeature?.geometry?.coordinates[1],
-                ],
-              )
-            } else {
-              bounds.extend([
-                geoFeature?.geometry?.coordinates[0],
-                geoFeature?.geometry?.coordinates[1],
-              ])
-            }
-            const newMarker: any = {
-              longitude: geoFeature.geometry.coordinates[0],
-              latitude: geoFeature.geometry.coordinates[1],
-              position: position,
-              stepId: id,
-              color: '#18325b',
-              title: getSlideTitle(content),
-              tags: tags,
-            }
-            return newMarker
+          const geoFeature = parseFeature(feature)
+          if (!geoFeature?.geometry?.coordinates) {return null}
+          
+          const [lng, lat] = geoFeature.geometry.coordinates
+          
+          // Validate coordinates are numbers and not NaN
+          if (isNaN(lng) || isNaN(lat)) {
+            console.warn('Skipping marker with NaN coordinates:', { lng, lat, stepId: id })
+            return null
           }
+          
+          try {
+            if (bounds === undefined) {
+              bounds = new mapboxgl.LngLatBounds([lng, lat], [lng, lat])
+            } else {
+              bounds.extend([lng, lat])
+            }
+          } catch (e) {
+            console.error('Error creating bounds:', e, { lng, lat })
+            return null
+          }
+          
+          const newMarker: any = {
+            longitude: lng,
+            latitude: lat,
+            position: position,
+            stepId: id,
+            color: '#18325b',
+            title: getSlideTitle(content),
+            tags: tags,
+          }
+          return newMarker
         })
+        .filter(m => m !== null)
+      
       setMarkers(newMarkers)
 
       //save bounds to zoomTo once map is initiated)
@@ -191,18 +219,20 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       if (!s?.steps) {
         return
       }
-
+      
       const story = s.steps
-        .filter((step: any) => {
-          const geoFeature = step.feature as GeoJSON.Feature<GeoJSON.Point>
-          return geoFeature?.geometry?.coordinates?.length > 0
-        })
+        .filter((step: any) => parseFeature(step.feature) !== null)
         .sort((a: any, b: any) => a.position - b.position)
         .map((step: any) => {
-          const geoFeature = step.feature as GeoJSON.Feature<GeoJSON.Point>
-          return geoFeature.geometry.coordinates
+          const geoFeature = parseFeature(step.feature)
+          return geoFeature?.geometry?.coordinates || []
         })
-
+        .filter((coords: any[]) => coords.length === 2)
+      
+      if (story.length === 0) {
+        return
+      }
+      
       const commonProperties = {
         id: s.id,
         desc: s.description,
@@ -233,7 +263,9 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         })
       }
     })
+
     setMapData(geojsons)
+    console.log('Valid geojsons:', geojsons)
   }
 
   function selectStory(m: GeoJSON.Feature<GeoJSON.LineString>) {
@@ -311,32 +343,32 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
 
 
     ) {
-      const stepFeat = story?.steps.find(step => step.position === index)
-        ?.feature as unknown as Feature<GeoJSON.Point>
+      const stepData = story?.steps.find(step => step.position === index)
+      const stepFeat = parseFeature(stepData?.feature)
       
       // No animation if step has no GPS coordinates
-      if (!stepFeat || !stepFeat.geometry) {
+      if (!stepFeat?.geometry?.coordinates) {
         return
       }
 
       // take either next or previous step with valid geometry
-      const previousStepFeat = story?.steps.find(step => {
-        const feat = step.feature as unknown as Feature<GeoJSON.Point>
+      const previousStepData = story?.steps.find(step => {
+        const feat = parseFeature(step.feature)
         return (index === 0
           ? step.position === index + 1
           : step.position === index - 1) && feat?.geometry
-      })?.feature as unknown as Feature<GeoJSON.Point>
+      })
+      
+      const previousStepFeat = parseFeature(previousStepData?.feature)
 
       // Mobile detection
       const isMobile = width < 768
       const mobileOffset: [number, number] = [0, -window.innerHeight * 0.25]
 
-      if (!previousStepFeat || !previousStepFeat?.geometry) {
+      if (!previousStepFeat?.geometry?.coordinates) {
+        const [lng, lat] = stepFeat.geometry.coordinates
         mapRef.current?.flyTo({
-          center: [
-            stepFeat.geometry.coordinates[0],
-            stepFeat.geometry.coordinates[1],
-          ],
+          center: [lng, lat],
           offset: isMobile ? mobileOffset : [-width / 7, -75],
           zoom: 8,
           essential: true,
@@ -417,10 +449,16 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       )}
 
       {mapData &&
-        mapData.map((m, i) => {
+        mapData.map((m) => {
+          const storyData = stories?.find((s) => s.id === m.properties?.id)
+          if (m.geometry.coordinates[0][1] === undefined || m.geometry.coordinates[0][0] === undefined) {
+            console.warn('Skipping feature with invalid coordinates:', m)
+            return null
+          }
           return (
             <Fragment key={m.properties?.id}>
               {m.geometry.coordinates.length > 0 && (
+
                 <>
                   <Source
                     data={m as Feature}
@@ -428,7 +466,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                     type="geojson"
                   ></Source>
 
-                  {storyID === '' && (
+                  {storyID === '' && storyData && (
                     <Popup
                       anchor="bottom"
                       closeOnClick={false}
@@ -442,8 +480,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                       >
                         <ViewerPopup
                           // @ts-expect-error
-                          firstStepId={stories[i].firstStepId}
-                          story={stories[i]}
+                          firstStepId={storyData.firstStepId}
+                          story={storyData}
                         />
                       </div>
                     </Popup>

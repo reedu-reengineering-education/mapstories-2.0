@@ -20,7 +20,7 @@ function PrivacyPolicy() {
           dieser Website im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:
           <ul>
             <li>Reedu GmbH & Co. KG</li>
-            <li>Von-Steuben-Str. 21, 48143 Münster Deutschland</li>
+            <li>Johann-Krane-Weg 23, 48149 Münster Deutschland</li>
             <li>Tel.: +49 (0) 251 98119797</li>
             <li>E-Mail: kontakt@reedu.de</li>
           </ul>
@@ -462,7 +462,7 @@ cookies"
           <strong>1.2</strong>
           The controller in charge of data processing on this website, within
           the meaning of the General Data Protection Regulation (GDPR), is Reedu
-          GmbH & Co. KG, Von-Steuben-Str. 21, 48143 Münster, Deutschland, Tel.:
+          GmbH & Co. KG, Johann-Krane-Weg 23, 48149 Münster, Deutschland, Tel.:
           +49 (0) 251 98119797, E-Mail: kontakt@reedu.de. The controller in
           charge of the processing of personal data is the natural or legal
           person who alone or jointly with others determines the purposes and

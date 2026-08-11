@@ -19,6 +19,11 @@ export function ViewerPopup({ story, firstStepId, mediaId }: Props) {
 
   useEffect(() => {
     const getMediaWrapper = async () => {
+      // Safety check: ensure story and firstStep exist
+      if (!story?.firstStep?.content || story.firstStep.content.length === 0) {
+        return
+      }
+      
       for (let i = 0; i < story.firstStep.content.length; i++) {
         const contentLoop = story.firstStep.content[i]
         if (contentLoop.type === 'IMAGE') {

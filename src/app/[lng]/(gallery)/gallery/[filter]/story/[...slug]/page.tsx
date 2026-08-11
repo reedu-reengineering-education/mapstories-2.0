@@ -2,6 +2,7 @@ import { Metadata } from 'next/types'
 import { getStoryName } from '@/src/lib/getStoryName'
 import { db } from '@/src/lib/db'
 import { ViewerWrapper } from '@/src/components/Viewer/ViewerWrapper'
+import ViewerView from '@/src/components/Viewer/ViewerView'
 
 export async function generateMetadata({
   params,
@@ -9,9 +10,6 @@ export async function generateMetadata({
   params: { slug: string; filter: string }
 }): Promise<Metadata> {
   const name = (await getStoryName(params.slug[0]))?.name
-
-  console.log('name', name)
-  console.log('slug', params.slug[0])
   return {
     title: name ?? params.slug.toString().split('-')[0],
     description:
@@ -101,11 +99,16 @@ export default async function StoryPage({
   }
 
   return (
-    <ViewerWrapper
-      filter={filter}
-      slug={slug}
-      story={story}
-      tags={tags}
-    ></ViewerWrapper>
+    <div className="relative h-full w-full">
+      <div className="absolute left-0 top-0 h-full w-full">
+        <ViewerWrapper
+          filter={filter}
+          slug={slug}
+          story={story}
+          tags={tags}
+        ></ViewerWrapper>
+      </div>
+      <ViewerView data-superjson inputStories={story ? [story] : []}></ViewerView>
+    </div>
   )
 }

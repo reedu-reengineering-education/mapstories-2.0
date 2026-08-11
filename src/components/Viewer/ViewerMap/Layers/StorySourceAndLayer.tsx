@@ -180,20 +180,26 @@ export default function StorySourceLayer({
   return (
     <>
       {lineData &&
-        lineData.map((m, i) => (
-          <Source
-            data={m}
-            id={'linesource' + i}
-            key={'linesource' + i}
-            type="geojson"
-          >
-            {/* @ts-expect-error */}
-            <Layer
-              {...getLineStyle(storyID)}
-              id={m.properties?.id.toString() + 'normal'}
-            />
-          </Source>
-        ))}
+        lineData.map((m, i) => {
+          // Skip features without valid properties or id
+          if (!m.properties?.id) {
+            return null
+          }
+          return (
+            <Source
+              data={m}
+              id={'linesource' + i}
+              key={'linesource' + i}
+              type="geojson"
+            >
+              {/* @ts-expect-error */}
+              <Layer
+                {...getLineStyle(m.properties.id.toString())}
+                id={m.properties.id.toString() + 'normal'}
+              />
+            </Source>
+          )
+        })}
 
       {upcomingLine && (
         <Source data={upcomingLine} id={'lineUpcoming'} type="geojson">
