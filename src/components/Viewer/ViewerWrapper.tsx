@@ -11,6 +11,7 @@ import { ViewerNavigationButtons } from './ViewerNavigationButtons'
 import { ViewerStartView } from './ViewerStartView'
 import { ViewerStepView } from './ViewerStepView'
 import { MobileControls } from './MobileControls'
+import { useEffect } from 'react'
 
 type Props = {
   filter: string
@@ -25,6 +26,31 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
+
+  const updateSelectedStepIndex = useBoundStore(state => state.updateSelectedStepIndex)
+  const setStoryID = useBoundStore(state => state.setStoryID)
+  const setViewerStories = useBoundStore(state => state.setViewerStories)
+
+  // Ensure the viewed story is in the store (gallery can view stories not in
+  // the layout's certified list) without clobbering the full list.
+  useEffect(() => {
+    if (story) {
+      const existing = useBoundStore.getState().viewerStories
+      if (!existing.some(s => s.id === story.id)) {
+        setViewerStories([...existing, story])
+      }
+    }
+  }, [story, setViewerStories])
+
+  // Sync URL slug with store when step changes
+  useEffect(() => {
+    const stepIndex = parseInt(slug[1])
+    if (!isNaN(stepIndex) && slug[1] !== 'start') {
+      updateSelectedStepIndex(stepIndex)
+      // Use the real story id (slug[0] may be a slug, not the id)
+      setStoryID(story?.id ?? slug[0])
+    }
+  }, [slug[0], slug[1], story?.id, updateSelectedStepIndex, setStoryID])
 
   // Navigation logic
   const { prevStep, nextStep } = useViewerNavigation({

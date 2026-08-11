@@ -2,6 +2,7 @@ import { UserAccountNav } from '@/src/components/Auth/UserAccountNav'
 import { Button } from '@/src/components/Elements/Button'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
+import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
 import { LinkIcon } from '@heroicons/react/24/outline'
@@ -16,6 +17,39 @@ const countStories = async (userId: User['id']) => {
   })
 }
 
+const getCertifiedMapstories = async (array: Array<string>) => {
+  return await db.story.findMany({
+    where: {
+      visibility: 'PUBLIC',
+      OR: [
+        {
+          id: {
+            in: array,
+          },
+        },
+        {
+          slug: {
+            in: array,
+          },
+        },
+      ],
+    },
+    include: {
+      firstStep: {
+        include: {
+          content: true,
+        },
+      },
+      steps: {
+        include: {
+          content: true,
+        },
+      },
+      theme: true,
+    },
+  })
+}
+
 interface ViewerLayoutProps {
   children?: React.ReactNode
   params: { filter: string }
@@ -24,6 +58,11 @@ interface ViewerLayoutProps {
 export default async function ViewerLayout({ children }: ViewerLayoutProps) {
   const user = await getCurrentUser()
   const storyCount = user ? await countStories(user.id) : 0
+
+  const certifiedMapstoryIDs: Array<string> = (
+    process.env.GALLERY_STORIES ?? ''
+  ).split(',')
+  const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
 
   return (
     <div className="relative h-full w-full">
@@ -61,6 +100,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
         </header>
       </div>
       <div className="absolute left-0 top-0 h-full w-full">{children}</div>
+      <ViewerView data-superjson inputStories={mapstories}></ViewerView>
     </div>
   )
 }

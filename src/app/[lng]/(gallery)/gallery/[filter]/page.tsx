@@ -1,5 +1,4 @@
 import { GalleryList } from '@/src/components/Viewer/Gallery/GalleryList'
-import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
 import { Metadata } from 'next/types'
 
@@ -55,7 +54,6 @@ export default async function GalleryPage() {
       <div className="absolute left-5 top-20 z-[1] max-w-[50%]">
         <GalleryList stories={mapstories}></GalleryList>
       </div>
-      <ViewerView data-superjson inputStories={mapstories}></ViewerView>
     </div>
   )
 }
