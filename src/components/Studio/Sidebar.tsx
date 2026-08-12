@@ -4,6 +4,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { 
   ArrowPathIcon, 
+  ChartBarIcon,
   Cog6ToothIcon, 
   DocumentDuplicateIcon, 
   GlobeAltIcon,
@@ -46,6 +47,11 @@ export function StudioSidebar() {
     ]
 
     if (isAdmin) {
+      baseItems.push({
+        title: 'Analytics',
+        href: `/${lng}/storylab/admin/analytics`,
+        icon: ChartBarIcon,
+      })
       baseItems.push({
         title: 'Gallery',
         href: `/${lng}/storylab/admin/gallery`,
