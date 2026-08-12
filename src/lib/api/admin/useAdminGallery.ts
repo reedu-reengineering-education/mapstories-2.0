@@ -27,7 +27,7 @@ export default function useAdminGallery(): UseAdminGalleryReturn {
     setLoading(true)
     try {
       const response = await fetch('/api/admin/gallery')
-      if (!response.ok) throw new Error('Failed to fetch gallery stories')
+      if (!response.ok) {throw new Error('Failed to fetch gallery stories')}
       const data = await response.json()
       setGalleryStories(data.stories)
     } catch (error) {

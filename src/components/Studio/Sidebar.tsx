@@ -2,7 +2,15 @@
 
 import { useTranslation } from '@/src/app/i18n/client'
 // import { useUIStore } from '@/src/lib/store/ui'
-import { Cog6ToothIcon, GlobeAltIcon, LockClosedIcon, SparklesIcon } from '@heroicons/react/24/outline'
+import { 
+  ArrowPathIcon, 
+  Cog6ToothIcon, 
+  DocumentDuplicateIcon, 
+  GlobeAltIcon,
+  LockClosedIcon,
+  SparklesIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline'
 import { cx } from 'class-variance-authority'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -18,6 +26,7 @@ export function StudioSidebar() {
   const [items, setItems] = useState<Route[]>([])
 
   useEffect(() => {
+
     const baseItems: Route[] = [
       {
         title: 'Mapstories',
@@ -42,8 +51,22 @@ export function StudioSidebar() {
         href: `/${lng}/storylab/admin/gallery`,
         icon: SparklesIcon,
       })
+      baseItems.push({
+        title: 'Duplicate Story',
+        href: `/${lng}/storylab/admin/duplicate-story`,
+        icon: DocumentDuplicateIcon,
+      })
+      baseItems.push({
+        title: 'Transfer Story',
+        href: `/${lng}/storylab/admin/transfer-story`,
+        icon: ArrowPathIcon,
+      })
+      baseItems.push({
+        title: 'Delete Story',
+        href: `/${lng}/storylab/admin/delete-story`,
+        icon: TrashIcon,
+      })
     }
-
     setItems(baseItems)
   }, [lng, t, isAdmin])
   

@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { Button } from '@/src/components/Elements/Button'
 import { toast } from '@/src/lib/toast'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import useAdminGallery from '@/src/lib/api/admin/useAdminGallery'
-import { TrashIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outline'
+import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@/src/components/Tooltip'
 
 export default function AdminGalleryManagement() {
@@ -64,7 +64,7 @@ export default function AdminGalleryManagement() {
     targetGalleryStoryId: string,
   ) => {
     e.preventDefault()
-    if (!draggedItem) return
+    if (!draggedItem) {return}
 
     const draggedIndex = galleryStories.findIndex(gs => gs.id === draggedItem)
     const targetIndex = galleryStories.findIndex(
@@ -93,21 +93,21 @@ export default function AdminGalleryManagement() {
           {t('admin:addStoryToGallery')}
         </h3>
         
-        <form onSubmit={handleAddStory} className="flex gap-2">
+        <form className="flex gap-2" onSubmit={handleAddStory}>
           <div className="flex-1">
             <InputLabel>{t('admin:storyId')}</InputLabel>
             <Input
-              type="text"
-              placeholder="Enter story ID..."
-              value={storyIdInput}
-              onChange={e => setStoryIdInput(e.target.value)}
               disabled={loading}
+              onChange={e => setStoryIdInput(e.target.value)}
+              placeholder="Enter story ID..."
+              type="text"
+              value={storyIdInput}
             />
           </div>
           <div className="flex items-end">
             <Button
-              type="submit"
               disabled={loading || !storyIdInput.trim()}
+              type="submit"
               variant="primary"
             >
               {loading ? 'Adding...' : 'Add to Gallery'}
@@ -134,16 +134,16 @@ export default function AdminGalleryManagement() {
           <div className="space-y-2">
             {galleryStories.map((galleryStory, index) => (
               <div
-                key={galleryStory.id}
-                draggable
-                onDragStart={e => handleDragStart(e, galleryStory.id)}
-                onDragOver={handleDragOver}
-                onDrop={e => handleDrop(e, galleryStory.id)}
                 className={`flex items-center gap-3 p-3 rounded-lg border transition ${
                   draggedItem === galleryStory.id
                     ? 'bg-slate-50 border-slate-300 opacity-50'
                     : 'bg-white border-slate-200 hover:border-slate-300'
                 }`}
+                draggable
+                key={galleryStory.id}
+                onDragOver={handleDragOver}
+                onDragStart={e => handleDragStart(e, galleryStory.id)}
+                onDrop={e => handleDrop(e, galleryStory.id)}
               >
                 {/* Drag Handle */}
                 <Tooltip content="Drag to reorder" side="right">
@@ -170,9 +170,9 @@ export default function AdminGalleryManagement() {
                 {/* Delete Button */}
                 <Tooltip content="Remove from gallery" side="left">
                   <button
-                    onClick={() => handleRemoveStory(galleryStory.id)}
-                    disabled={loading}
                     className="flex-shrink-0 p-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded transition"
+                    disabled={loading}
+                    onClick={() => handleRemoveStory(galleryStory.id)}
                   >
                     <TrashIcon className="w-4 h-4" />
                   </button>
