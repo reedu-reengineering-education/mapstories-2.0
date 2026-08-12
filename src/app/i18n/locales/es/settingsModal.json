@@ -30,5 +30,11 @@
   "addLanguage": "Añadir idioma",
   "languageAdded": "Idioma añadido",
   "languageAddError": "No se pudo añadir el idioma",
-  "defaultLanguage": "Idioma predeterminado"
+  "defaultLanguage": "Idioma predeterminado",
+  "languageInstructions": "Cómo añadir idiomas",
+  "addLanguageInstructions": "Añadir un nuevo idioma",
+  "addLanguageHelp": "Expande tu Mapstory para llegar a audiencias en diferentes idiomas. Sigue estos pasos simples para crear una variante de idioma.",
+  "instructionStep1": "Haz clic en el icono más para seleccionar un nuevo idioma de las opciones disponibles",
+  "instructionStep2": "Tu nueva variante de idioma se creará con el mismo mapa y estructura que tu historia original",
+  "instructionStep3": "Traduce el título, la descripción y el contenido de los pasos para completar tu Mapstory multilingüe"
 }

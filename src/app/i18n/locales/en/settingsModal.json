@@ -32,5 +32,11 @@
   "addLanguage": "Add language",
   "languageAdded": "Language added",
   "languageAddError": "Could not add language",
-  "defaultLanguage": "Default language"
+  "defaultLanguage": "Default language",
+  "languageInstructions": "How to add languages",
+  "addLanguageInstructions": "Add a New Language",
+  "addLanguageHelp": "Expand your Mapstory to reach audiences in different languages. Follow these simple steps to create a language variant.",
+  "instructionStep1": "Click the plus icon to select a new language from the available options",
+  "instructionStep2": "Your new language variant will be created with the same map and structure as your original story",
+  "instructionStep3": "Translate the title, description, and step content to complete your multilingual Mapstory"
 }
