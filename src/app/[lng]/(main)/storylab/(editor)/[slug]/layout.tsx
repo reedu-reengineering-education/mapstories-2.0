@@ -46,6 +46,12 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
               slug: true,
               language: true,
               firstStepId: true,
+              steps: {
+                select: {
+                  id: true,
+                  position: true,
+                },
+              },
             },
           },
         },

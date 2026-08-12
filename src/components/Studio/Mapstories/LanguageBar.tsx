@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 
 import { DropdownMenu } from '@/src/components/Dropdown'
@@ -22,6 +22,7 @@ type Variant = {
   slug: string
   language: string
   firstStepId?: string | null
+  steps?: Array<{ id: string; position: number }>
 }
 
 type Props = {
@@ -30,6 +31,7 @@ type Props = {
 
 export default function LanguageBar({ story }: Props) {
   const router = useRouter()
+  const params = useParams()
   const lng = useBoundStore(state => state.language)
   // @ts-ignore useTranslation type overloads are complex
   const { t: tBase } = useTranslation(lng, 'settingsModal')
@@ -38,6 +40,8 @@ export default function LanguageBar({ story }: Props) {
   const [loading, setLoading] = useState(false)
   const [showInstructions, setShowInstructions] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<{ language: string; variantId: string } | null>(null)
+
+  const currentStepId = params?.storyStepId as string | undefined
 
   const variants: Variant[] = story.group?.stories?.length
     ? story.group.stories
@@ -54,6 +58,31 @@ export default function LanguageBar({ story }: Props) {
   const missingLanguages = availableStoryLanguages.filter(
     l => !existingLanguages.has(l.code),
   )
+
+  // Find the position of the current step in the current story
+  function getCorrespondingStepId(targetVariant: Variant): string | undefined {
+    if (!currentStepId || !story.steps) {
+      return targetVariant.firstStepId ?? undefined
+    }
+
+    // Find current step position
+    const currentStep = story.steps.find((s: any) => s.id === currentStepId)
+    if (!currentStep) {
+      return targetVariant.firstStepId ?? undefined
+    }
+
+    const currentPosition = currentStep.position
+
+    // Find the target step at the same position
+    if (targetVariant.steps) {
+      const targetStep = targetVariant.steps.find(s => s.position === currentPosition)
+      if (targetStep) {
+        return targetStep.id
+      }
+    }
+
+    return targetVariant.firstStepId ?? undefined
+  }
 
   async function onAddLanguage(language: string) {
     setLoading(true)
@@ -131,11 +160,10 @@ export default function LanguageBar({ story }: Props) {
                       : 'opacity-60 hover:opacity-100')
                   }
                   disabled={active}
-                  onClick={() =>
-                    router.push(
-                      `/storylab/${v.slug}/${v.firstStepId ?? ''}`,
-                    )
-                  }
+                  onClick={() => {
+                    const targetStepId = getCorrespondingStepId(v)
+                    router.push(`/storylab/${v.slug}/${targetStepId ?? ''}`)
+                  }}
                 >
                   {info.flag}
                 </button>
