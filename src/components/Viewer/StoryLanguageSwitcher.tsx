@@ -67,9 +67,10 @@ export function StoryLanguageSwitcher({ story, currentSlug }: Props) {
       <DropdownMenu.Trigger asChild>
         <button
           aria-label={current.label}
-          className="flex items-center gap-1 rounded-md px-2 text-lg hover:bg-slate-100"
+          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-slate-100 border border-slate-200"
         >
-          {current.flag}
+          <span className="text-gray-600">Sprache:</span>
+          <span className="text-lg">{current.flag}</span>
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>

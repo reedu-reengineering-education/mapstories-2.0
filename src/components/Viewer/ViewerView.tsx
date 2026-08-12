@@ -452,7 +452,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
         mapData.map((m) => {
           const storyData = stories?.find((s) => s.id === m.properties?.id)
           if (m.geometry.coordinates[0][1] === undefined || m.geometry.coordinates[0][0] === undefined) {
-            console.warn('Skipping feature with invalid coordinates:', m)
             return null
           }
           return (

@@ -15,8 +15,8 @@ export function ViewerStartView({ slug, story, tags }: ViewerStartViewProps) {
   return (
     <>
       <div className="hidden  md:flex re-basic-box z-[60] h-fit max-h-full w-[55%] overflow-auto bg-white px-4 lg:max-w-[50%]">
-        <div>
-          <div className="mb-2 flex justify-end">
+        <div className="flex w-full flex-col py-2">
+          <div className=" flex justify-end">
             <StoryLanguageSwitcher currentSlug={slug} story={story} />
           </div>
           <StoryOverviewControls
