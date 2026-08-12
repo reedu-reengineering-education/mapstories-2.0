@@ -59,10 +59,25 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
   const user = await getCurrentUser()
   const storyCount = user ? await countStories(user.id) : 0
 
-  const certifiedMapstoryIDs: Array<string> = (
-    process.env.GALLERY_STORIES ?? ''
-  ).split(',')
+  // Prefer gallery stories from the database, fall back to env variable
+  const dbGalleryStories = await db.galleryStory.findMany({
+    orderBy: { position: 'asc' },
+  })
+
+  const certifiedMapstoryIDs: Array<string> =
+    dbGalleryStories.length > 0
+      ? dbGalleryStories.map(gs => gs.storyId)
+      : (process.env.GALLERY_STORIES ?? '').split(',').filter(id => id.trim())
+
   const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
+
+  // Maintain database order when stories come from the database
+  const orderedMapstories =
+    dbGalleryStories.length > 0
+      ? certifiedMapstoryIDs
+          .map(id => mapstories.find(m => m.id === id))
+          .filter((m): m is (typeof mapstories)[0] => m !== undefined)
+      : mapstories
 
   return (
     <div className="relative h-full w-full">
@@ -100,7 +115,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
         </header>
       </div>
       <div className="absolute left-0 top-0 h-full w-full">{children}</div>
-      <ViewerView data-superjson inputStories={mapstories}></ViewerView>
+      <ViewerView data-superjson inputStories={orderedMapstories}></ViewerView>
     </div>
   )
 }

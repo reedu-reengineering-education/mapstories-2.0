@@ -68,6 +68,7 @@ model User {
   new_email              String?
   password               String?
   role                   UserRole  @default(USER)
+  galleryStories         GalleryStory[] @relation("galleryStories")
 
   @@map(name: "users")
 }
@@ -121,6 +122,7 @@ model Story {
   defaultLanguage String?
   group           StoryGroup?           @relation(fields: [groupId], references: [id])
   groupId         String?
+  galleryStory    GalleryStory?
 
   @@unique([groupId, language])
   @@map(name: "stories")
@@ -257,4 +259,17 @@ enum MediaType {
 enum UserRole {
   ADMIN
   USER
+}
+
+model GalleryStory {
+  id        String   @id @default(cuid())
+  storyId   String   @unique
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  addedBy   String
+  admin     User     @relation("galleryStories", fields: [addedBy], references: [id], onDelete: Cascade)
+  position  Int      @default(0)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  @@map("gallery_stories")
 }

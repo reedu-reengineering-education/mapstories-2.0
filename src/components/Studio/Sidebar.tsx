@@ -2,21 +2,23 @@
 
 import { useTranslation } from '@/src/app/i18n/client'
 // import { useUIStore } from '@/src/lib/store/ui'
-import { Cog6ToothIcon, GlobeAltIcon, LockClosedIcon } from '@heroicons/react/24/outline'
+import { Cog6ToothIcon, GlobeAltIcon, LockClosedIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import { cx } from 'class-variance-authority'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
+import { useCurrentUser } from '@/src/lib/hooks/useCurrentUser'
 
 export function StudioSidebar() {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'settings')
+  const { isAdmin } = useCurrentUser()
   const [items, setItems] = useState<Route[]>([])
 
   useEffect(() => {
-    setItems([
+    const baseItems: Route[] = [
       {
         title: 'Mapstories',
         href: '/storylab',
@@ -32,8 +34,19 @@ export function StudioSidebar() {
         href: `/${lng}/storylab/privacy`,
         icon: LockClosedIcon,
       }
-    ])
-  }, [lng, t])
+    ]
+
+    if (isAdmin) {
+      baseItems.push({
+        title: 'Gallery',
+        href: `/${lng}/storylab/admin/gallery`,
+        icon: SparklesIcon,
+      })
+    }
+
+    setItems(baseItems)
+  }, [lng, t, isAdmin])
+  
   const path = usePathname()
 
   if (!items?.length) {

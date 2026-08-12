@@ -1,0 +1,9 @@
+{
+  "addStoryToGallery": "Ajouter une histoire à la galerie",
+  "storyId": "ID d'histoire",
+  "storyMustBePublic": "L'histoire doit être publique pour être ajoutée à la galerie.",
+  "galleryStories": "Histoires dans la galerie",
+  "noStoriesInGallery": "Aucune histoire dans la galerie",
+  "galleryManagement": "Gestion de la galerie",
+  "adminGalleryManagement": "Gestion de la galerie d'administration"
+}

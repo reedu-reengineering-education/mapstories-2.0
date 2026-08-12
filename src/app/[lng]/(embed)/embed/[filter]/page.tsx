@@ -44,14 +44,44 @@ export const metadata: Metadata = {
 interface GalleryPageProps {}
 
 export default async function GalleryPage() {
-  const certifiedMapstoryIDs: Array<string> =
-    //@ts-expect-error
-    process.env.GALLERY_STORIES.split(',')
+  // First try to get gallery stories from database
+  const dbGalleryStories = await db.galleryStory.findMany({
+    include: {
+      story: {
+        include: {
+          group: {
+            include: {
+              stories: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: { position: 'asc' },
+  })
 
-  const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
+  // Extract unique story IDs
+  let storyIds: string[] = []
+  
+  if (dbGalleryStories.length > 0) {
+    storyIds = dbGalleryStories.map(gs => gs.storyId)
+  } else {
+    // Fallback to env variable if no stories in database
+    storyIds = (process.env.GALLERY_STORIES ?? '').split(',').filter(id => id.trim())
+  }
+
+  const mapstories = await getCertifiedMapstories(storyIds)
+  
+  // Maintain database order if stories come from database
+  const orderedMapstories = dbGalleryStories.length > 0
+    ? storyIds
+        .map(id => mapstories.find(m => m.id === id))
+        .filter((m): m is typeof mapstories[0] => m !== undefined)
+    : mapstories
+
   return (
     <div className="absolute left-5 top-20 z-20">
-      <GalleryList stories={mapstories}></GalleryList>
+      <GalleryList stories={orderedMapstories}></GalleryList>
     </div>
   )
 }
