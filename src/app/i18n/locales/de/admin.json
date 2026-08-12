@@ -1,5 +1,12 @@
 {
-  "addStoryToGallery": "Story zur Galerie hinzufügen",
+  "selectStory": "Story auswählen",
+  "deselect": "Abwählen",
+  "searchStories": "Nach Story-Name oder ID suchen...",
+  "noStoriesFound": "Keine Stories gefunden",
+  "selecting": "Auswählen...",
+  "adding": "Hinzufügen...",
+  "add": "Hinzufügen",
+  "selectAStory": "Bitte wähle eine Story aus",
   "storyId": "Story ID",
   "storyMustBePublic": "Die Story muss öffentlich sein, um zur Galerie hinzugefügt zu werden.",
   "galleryStories": "Stories in der Galerie",

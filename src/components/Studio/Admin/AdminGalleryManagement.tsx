@@ -7,14 +7,20 @@ import { toast } from '@/src/lib/toast'
 import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import useAdminGallery from '@/src/lib/api/admin/useAdminGallery'
+import usePublicStories from '@/src/lib/api/admin/usePublicStories'
 import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@/src/components/Tooltip'
 
 export default function AdminGalleryManagement() {
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, 'admin')
+  // @ts-ignore i18next's t return type exceeds the instantiation depth limit
+  // (TS2589) with many t() calls; cast to a simple signature.
+  const { t: tRaw } = useTranslation(lng, 'admin')
+  const t = tRaw as (key: string) => string
   const [storyIdInput, setStoryIdInput] = useState('')
+  const [selectedStoryName, setSelectedStoryName] = useState<string | null>(null)
   const [draggedItem, setDraggedItem] = useState<string | null>(null)
+  const [showDropdown, setShowDropdown] = useState(false)
   
   const {
     galleryStories,
@@ -25,16 +31,29 @@ export default function AdminGalleryManagement() {
     reorderGalleryStories,
   } = useAdminGallery()
 
+  const {
+    filteredStories,
+    searchQuery,
+    setSearchQuery,
+  } = usePublicStories()
+
   useEffect(() => {
     fetchGalleryStories()
   }, [fetchGalleryStories])
+
+  const handleSelectStory = async (storyId: string, storyName: string | null) => {
+    setStoryIdInput(storyId)
+    setSelectedStoryName(storyName)
+    setShowDropdown(false)
+    setSearchQuery('')
+  }
 
   const handleAddStory = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!storyIdInput.trim()) {
       toast({
         title: 'Error',
-        message: 'Please enter a story ID',
+        message: t('admin:selectAStory') || 'Please select a story',
         type: 'error',
       })
       return
@@ -42,6 +61,8 @@ export default function AdminGalleryManagement() {
 
     await addStoryToGallery(storyIdInput)
     setStoryIdInput('')
+    setSelectedStoryName(null)
+    setSearchQuery('')
     await fetchGalleryStories()
   }
 
@@ -94,15 +115,78 @@ export default function AdminGalleryManagement() {
         </h3>
         
         <form className="flex gap-2" onSubmit={handleAddStory}>
-          <div className="flex-1">
-            <InputLabel>{t('admin:storyId')}</InputLabel>
-            <Input
-              disabled={loading}
-              onChange={e => setStoryIdInput(e.target.value)}
-              placeholder="Enter story ID..."
-              type="text"
-              value={storyIdInput}
-            />
+          <div className="flex-1 relative">
+            <InputLabel>{t('admin:selectStory')}</InputLabel>
+            
+            {storyIdInput ? (
+              /* Selected Story Display */
+              <div className="flex items-center gap-3 p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-indigo-900 truncate">
+                    {selectedStoryName || t('admin:untitled')}
+                  </p>
+                  <p className="text-sm text-indigo-600 truncate">
+                    {storyIdInput}
+                  </p>
+                </div>
+                <button
+                  className="flex-shrink-0 px-3 py-1 text-indigo-600 hover:text-indigo-800 hover:bg-indigo-100 rounded transition text-sm font-medium"
+                  onClick={() => {
+                    setStoryIdInput('')
+                    setSelectedStoryName(null)
+                    setSearchQuery('')
+                  }}
+                  type="button"
+                >
+                  {t('admin:deselect') || 'Clear'}
+                </button>
+              </div>
+            ) : (
+              /* Search Input */
+              <>
+                <Input
+                  disabled={loading}
+                  onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                  onChange={e => {
+                    setSearchQuery(e.target.value)
+                    setShowDropdown(true)
+                  }}
+                  onFocus={() => setShowDropdown(true)}
+                  placeholder={t('admin:searchStories') || 'Search by name or ID...'}
+                  type="text"
+                  value={searchQuery}
+                />
+                
+                {/* Autocomplete Dropdown */}
+                {showDropdown && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-10 max-h-64 overflow-y-auto">
+                    {filteredStories.length === 0 ? (
+                      <div className="p-3 text-sm text-slate-500 text-center">
+                        {t('admin:noStoriesFound') || 'No stories found'}
+                      </div>
+                    ) : (
+                      filteredStories.map(story => (
+                        <button
+                          className="w-full text-left px-4 py-3 hover:bg-slate-100 border-b border-slate-100 last:border-b-0 transition flex justify-between items-start"
+                          key={story.id}
+                          onClick={() => handleSelectStory(story.id, story.name)}
+                          type="button"
+                        >
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-slate-900 truncate">
+                              {story.name || t('admin:untitled')}
+                            </p>
+                            <p className="text-xs text-slate-500 truncate">
+                              {story.id}
+                            </p>
+                          </div>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                )}
+              </>
+            )}
           </div>
           <div className="flex items-end">
             <Button
@@ -110,7 +194,7 @@ export default function AdminGalleryManagement() {
               type="submit"
               variant="primary"
             >
-              {loading ? 'Adding...' : 'Add to Gallery'}
+              {loading ? t('admin:adding') || 'Adding...' : t('admin:add') || 'Add'}
             </Button>
           </div>
         </form>

@@ -1,5 +1,12 @@
 {
-  "addStoryToGallery": "Add story to gallery",
+  "selectStory": "Select story",
+  "deselect": "Clear",
+  "searchStories": "Search by name or ID...",
+  "noStoriesFound": "No stories found",
+  "selecting": "Selecting...",
+  "adding": "Adding...",
+  "add": "Add",
+  "selectAStory": "Please select a story",
   "storyId": "Story ID",
   "storyMustBePublic": "The story must be public to be added to the gallery.",
   "galleryStories": "Stories in gallery",
