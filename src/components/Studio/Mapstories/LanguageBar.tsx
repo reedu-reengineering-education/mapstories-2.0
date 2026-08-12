@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { PlusIcon } from '@heroicons/react/24/outline'
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 
 import { DropdownMenu } from '@/src/components/Dropdown'
 import { Tooltip } from '@/src/components/Tooltip'
@@ -34,9 +34,10 @@ export default function LanguageBar({ story }: Props) {
   // @ts-ignore useTranslation type overloads are complex
   const { t: tBase } = useTranslation(lng, 'settingsModal')
   const t = tBase as any
-  const { addLanguage } = useStory(story.id)
+  const { addLanguage, deleteLanguage } = useStory(story.id)
   const [loading, setLoading] = useState(false)
   const [showInstructions, setShowInstructions] = useState(false)
+  const [deleteConfirm, setDeleteConfirm] = useState<{ language: string; variantId: string } | null>(null)
 
   const variants: Variant[] = story.group?.stories?.length
     ? story.group.stories
@@ -68,10 +69,32 @@ export default function LanguageBar({ story }: Props) {
       } else {
         router.refresh()
       }
-    } catch (e) {
+    } catch {
       toast({
         title: t('settingsModal:languageAddError'),
         message: t('settingsModal:languageAddError'),
+        type: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function onDeleteLanguage(language: string, variantId: string) {
+    setLoading(true)
+    try {
+      await deleteLanguage(language, variantId)
+      toast({
+        title: getLanguageInfo(language).label,
+        message: t('settingsModal:languageDeleted'),
+        type: 'success',
+      })
+      setDeleteConfirm(null)
+      router.refresh()
+    } catch {
+      toast({
+        title: t('settingsModal:languageDeleteError'),
+        message: t('settingsModal:languageDeleteError'),
         type: 'error',
       })
     } finally {
@@ -97,25 +120,39 @@ export default function LanguageBar({ story }: Props) {
           const info = getLanguageInfo(v.language)
           const active = v.language === story.language
           return (
-            <Tooltip content={info.label} key={v.id}>
-              <button
-                aria-label={info.label}
-                className={
-                  'rounded-md px-1.5 py-0.5 text-lg transition ' +
-                  (active
-                    ? 'bg-slate-200'
-                    : 'opacity-60 hover:opacity-100')
-                }
-                disabled={active}
-                onClick={() =>
-                  router.push(
-                    `/storylab/${v.slug}/${v.firstStepId ?? ''}`,
-                  )
-                }
-              >
-                {info.flag}
-              </button>
-            </Tooltip>
+            <div className="group relative flex items-center" key={v.id}>
+              <Tooltip content={info.label} side="bottom">
+                <button
+                  aria-label={info.label}
+                  className={
+                    'rounded-md px-1.5 py-0.5 text-lg transition ' +
+                    (active
+                      ? 'bg-slate-200'
+                      : 'opacity-60 hover:opacity-100')
+                  }
+                  disabled={active}
+                  onClick={() =>
+                    router.push(
+                      `/storylab/${v.slug}/${v.firstStepId ?? ''}`,
+                    )
+                  }
+                >
+                  {info.flag}
+                </button>
+              </Tooltip>
+              {!active && variants.length > 1 && (
+                <Tooltip content={t('settingsModal:deleteLanguage')} side="bottom">
+                  <button
+                    aria-label={t('settingsModal:deleteLanguage')}
+                    className="ml-0.5 p-1 text-slate-600 hover:text-red-600 opacity-0 group-hover:opacity-100 transition rounded hover:bg-red-50"
+                    disabled={loading}
+                    onClick={() => setDeleteConfirm({ language: v.language, variantId: v.id })}
+                  >
+                    <TrashIcon className="w-3.5 h-3.5" />
+                  </button>
+                </Tooltip>
+              )}
+            </div>
           )
         })}
 
@@ -207,6 +244,41 @@ export default function LanguageBar({ story }: Props) {
             <p className="text-xs text-slate-500 text-center">
               Click the plus icon to get started
             </p>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal 
+        onOpenChange={(open) => !open && setDeleteConfirm(null)}
+        open={deleteConfirm !== null}
+        title={t('settingsModal:deleteLanguageTitle')}
+      >
+        <div className="px-6 pb-6">
+          <p className="text-base text-slate-600 mb-6">
+            {t('settingsModal:deleteLanguageWarning', {
+              language: deleteConfirm ? getLanguageInfo(deleteConfirm.language).label : '',
+            })}
+          </p>
+          
+          <div className="flex gap-3 justify-end">
+            <button
+              className="px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition"
+              disabled={loading}
+              onClick={() => setDeleteConfirm(null)}
+            >
+              {t('settingsModal:cancel')}
+            </button>
+            <button
+              className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition disabled:opacity-50"
+              disabled={loading}
+              onClick={() => {
+                if (deleteConfirm) {
+                  onDeleteLanguage(deleteConfirm.language, deleteConfirm.variantId)
+                }
+              }}
+            >
+              {loading ? t('settingsModal:deleting') : t('settingsModal:deleteLanguageConfirm')}
+            </button>
           </div>
         </div>
       </Modal>

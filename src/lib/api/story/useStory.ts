@@ -15,6 +15,7 @@ import { reorderStorySteps } from './reorderSteps'
 import { updateStory } from './updateStory'
 import { copyStory } from './copyStory'
 import { addLanguage } from './addLanguage'
+import { deleteLanguage } from './deleteLanguage'
 import { createStepSuggestion } from './createStepSuggestion'
 import { deleteStepSuggestion } from './deleteStepSuggestion'
 
@@ -50,6 +51,10 @@ const useStory = (storyId: string) => {
   const APIAddLanguage = async (language: string) => {
     const { data } = await addLanguage(storyId, language)
     return data
+  }
+
+  const APIDeleteLanguage = async (language: string, variantId: string) => {
+    await deleteLanguage(storyId, language, variantId)
   }
 
   const APIDeleteStory = async () => {
@@ -136,6 +141,7 @@ const useStory = (storyId: string) => {
     updateStory: APIUpdateStory,
     copyStory: APICopyStory,
     addLanguage: APIAddLanguage,
+    deleteLanguage: APIDeleteLanguage,
     deleteStory: APIDeleteStory,
     reorderStorySteps: APIReorderStorySteps,
     createStoryStep: APICreateStoryStep,
