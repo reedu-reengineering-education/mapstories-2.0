@@ -6,6 +6,7 @@ import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
 import { getCurrentUser, getSession } from '@/src/lib/session'
+import { getCurrentSite } from '@/src/lib/site.server'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { User } from '@prisma/client'
@@ -20,6 +21,7 @@ const getMapstories = async (userId: string) => {
     where: {
       ownerId: userId,
       isTranslation: false,
+      site: getCurrentSite(),
     },
     include: {
       firstStep: {
@@ -42,6 +44,7 @@ const getMapstoriesWithFilter = async (userId: string, filter: string[]) => {
     where: {
       ownerId: userId,
       isTranslation: false,
+      site: getCurrentSite(),
     },
     include: {
       firstStep: {

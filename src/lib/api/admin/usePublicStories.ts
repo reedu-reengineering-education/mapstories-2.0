@@ -14,7 +14,7 @@ interface UsePublicStoriesReturn {
   fetchStories: () => Promise<void>
 }
 
-export default function usePublicStories(): UsePublicStoriesReturn {
+export default function usePublicStories(site: 'MAIN' | 'BFDW' = 'MAIN'): UsePublicStoriesReturn {
   const [stories, setStories] = useState<PublicStory[]>([])
   const [loading, setLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -22,7 +22,7 @@ export default function usePublicStories(): UsePublicStoriesReturn {
   const fetchStories = useCallback(async () => {
     setLoading(true)
     try {
-      const response = await fetch('/api/admin/public-stories')
+      const response = await fetch(`/api/admin/public-stories?site=${site}`)
       if (!response.ok) {
         throw new Error('Failed to fetch public stories')
       }
@@ -33,7 +33,7 @@ export default function usePublicStories(): UsePublicStoriesReturn {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [site])
 
   const filteredStories = stories.filter(story => {
     const query = searchQuery.toLowerCase()

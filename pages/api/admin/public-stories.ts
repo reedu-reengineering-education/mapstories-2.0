@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
+import { canManageSite } from '@/src/lib/site'
+import { Site } from '@prisma/client'
 
 type PublicStory = {
   id: string
@@ -28,7 +30,9 @@ export default async function handler(
     where: { email: session.user.email },
   })
 
-  if (user?.role !== 'ADMIN') {
+  const site = req.query.site === 'BFDW' ? Site.BFDW : Site.MAIN
+
+  if (!canManageSite(user?.role, site)) {
     return res.status(403).json({ error: 'Forbidden: Admin access required' })
   }
 
@@ -37,6 +41,7 @@ export default async function handler(
       where: {
         visibility: 'PUBLIC',
         isTranslation: false,
+        site,
       },
       select: {
         id: true,

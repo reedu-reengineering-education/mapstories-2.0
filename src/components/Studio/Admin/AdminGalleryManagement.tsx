@@ -39,7 +39,7 @@ export default function AdminGalleryManagement({
     filteredStories,
     searchQuery,
     setSearchQuery,
-  } = usePublicStories()
+  } = usePublicStories(site)
 
   useEffect(() => {
     fetchGalleryStories()
