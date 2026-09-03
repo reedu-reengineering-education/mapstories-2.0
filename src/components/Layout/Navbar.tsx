@@ -64,9 +64,7 @@ export function Navbar({
           href="/"
         >
           <LogoWithTextAndBackground />
-          <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary">
-            BETA
-          </span>
+
         </Link>
         {routes?.length ? (
           <nav className="hidden gap-6 md:flex">

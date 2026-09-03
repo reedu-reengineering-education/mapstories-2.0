@@ -71,9 +71,7 @@ export function InverseNavbar({
           href="/"
         >
           <LogoWithTextTransparent />
-          <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary">
-            BETA
-          </span>
+
         </Link>
         {routes?.length ? (
           <nav className="hidden gap-6 lg:flex">
@@ -112,9 +110,7 @@ export function InverseNavbar({
           href="/"
         >
           <LogoWithTextTransparent />
-          <span className="absolute -bottom-1 -right-8 hidden -rotate-[17deg] font-bold text-primary lg:flex">
-            BETA
-          </span>
+
         </Link>
         {showMobileMenu && (
           <MobileNav routes={routes} user={user}>
