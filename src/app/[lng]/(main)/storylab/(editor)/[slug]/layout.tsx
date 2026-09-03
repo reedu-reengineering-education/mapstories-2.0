@@ -10,7 +10,7 @@ import LanguageBar from '@/src/components/Studio/Mapstories/LanguageBar'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
-import { ArrowLeftIcon, LinkIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { Story, User } from '@prisma/client'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
@@ -97,19 +97,7 @@ export default async function DashboardLayout({
           <div className="flex h-16 items-center justify-between py-4">
             <InverseNavbar user={user} userHasStories={storyCount > 0}>
               <div className="flex space-x-2">
-                <Button
-                  className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
-                  startIcon={<LinkIcon className="w-5" />}
-                >
-                  {' '}
-                  <a
-                    href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view "
-                    target="_blank"
-                  >
-                    {' '}
-                    Feedback
-                  </a>{' '}
-                </Button>{' '}
+
                 <div className="hidden lg:flex lg:flex-row lg:gap-2">
                   <LangSwitcher />
                   {user ? (
