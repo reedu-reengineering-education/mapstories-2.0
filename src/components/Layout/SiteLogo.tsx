@@ -40,7 +40,7 @@ export function SiteLogo(props: HTMLAttributes<HTMLDivElement>) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image
           alt="BFDW Logo"
-          className="h-full w-full object-contain scale-[3]"
+          className="h-full w-full object-contain scale-[3] pointer-events-none"
           src={connectLogo}
         />
       </div>
@@ -61,7 +61,7 @@ export function SiteLogoTransparent(props: HTMLAttributes<HTMLDivElement>) {
       >
         <Image
           alt="BFDW Logo"
-          className="h-full w-full object-contain scale-[3]"
+          className="h-full w-full object-contain scale-[3] pointer-events-none"
           src={connectLogo}
         />
       </div>
