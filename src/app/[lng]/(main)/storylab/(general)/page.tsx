@@ -20,11 +20,14 @@ export const metadata: Metadata = {
 }
 
 const getMapstories = async (userId: string) => {
+  const site = getCurrentSite()
   return await db.story.findMany({
     where: {
       ownerId: userId,
       isTranslation: false,
-      site: getCurrentSite(),
+      // BFDW only shows its own stories; MAIN shows everything so users can
+      // still see/manage BFDW stories from the main site (marked on the card).
+      ...(site === 'BFDW' ? { site } : {}),
     },
     include: {
       stepSuggestions: true,

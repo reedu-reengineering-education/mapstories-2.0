@@ -17,11 +17,14 @@ interface ViewerLayoutProps {
 }
 
 const getMapstories = async (userId: string) => {
+  const site = getCurrentSite()
   return await db.story.findMany({
     where: {
       ownerId: userId,
       isTranslation: false,
-      site: getCurrentSite(),
+      // BFDW only shows its own stories; MAIN shows everything so users can
+      // still see/manage BFDW stories from the main site (marked on the card).
+      ...(site === 'BFDW' ? { site } : {}),
     },
     include: {
       firstStep: {
@@ -40,11 +43,12 @@ const getMapstories = async (userId: string) => {
 }
 
 const getMapstoriesWithFilter = async (userId: string, filter: string[]) => {
+  const site = getCurrentSite()
   const unfilteredStories = await db.story.findMany({
     where: {
       ownerId: userId,
       isTranslation: false,
-      site: getCurrentSite(),
+      ...(site === 'BFDW' ? { site } : {}),
     },
     include: {
       firstStep: {
