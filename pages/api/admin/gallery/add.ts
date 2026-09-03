@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
+import { canManageSite } from '@/src/lib/site'
+import { Site } from '@prisma/client'
 
 type Data =
   | {
@@ -24,13 +26,14 @@ export default async function handler(
     where: { email: session.user.email },
   })
 
-  if (user?.role !== 'ADMIN') {
-    return res.status(403).json({ error: 'Forbidden: Admin access required' })
-  }
-
   if (req.method === 'POST') {
     try {
-      const { storyId } = req.body
+      const { storyId, site: siteInput } = req.body
+      const site = siteInput === 'BFDW' ? Site.BFDW : Site.MAIN
+
+      if (!canManageSite(user?.role, site)) {
+        return res.status(403).json({ error: 'Forbidden: Admin access required' })
+      }
 
       if (!storyId) {
         return res.status(400).json({ error: 'storyId is required' })
@@ -52,15 +55,16 @@ export default async function handler(
 
       // Check if already in gallery
       const existing = await db.galleryStory.findUnique({
-        where: { storyId },
+        where: { storyId_site: { storyId, site } },
       })
 
       if (existing) {
         return res.status(400).json({ error: 'Story already in gallery' })
       }
 
-      // Get max position
+      // Get max position (scoped to this gallery's site)
       const maxPosition = await db.galleryStory.aggregate({
+        where: { site },
         _max: { position: true },
       })
 
@@ -71,7 +75,8 @@ export default async function handler(
       const galleryStory = await db.galleryStory.create({
         data: {
           storyId,
-          addedBy: user.id,
+          site,
+          addedBy: user!.id,
           position: newPosition,
         },
         include: {

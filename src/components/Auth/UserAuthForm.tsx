@@ -39,10 +39,18 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   async function onSubmit(data: FormData) {
     setIsLoading(true)
 
+    const from = searchParams?.get('from') ?? '/storylab'
+    // Absolute so the magic-link email redirects back to the subdomain
+    // (e.g. bfdw.mapstories.de) the user actually signed in from, instead of
+    // NextAuth's default redirect callback collapsing it to NEXTAUTH_URL's host.
+    const callbackUrl = from.startsWith('/')
+      ? `${window.location.origin}${from}`
+      : from
+
     const signInResult = await signIn('email', {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams?.get('from') ?? '/storylab',
+      callbackUrl,
     })
 
     setIsLoading(false)

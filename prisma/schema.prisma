@@ -122,7 +122,8 @@ model Story {
   defaultLanguage String?
   group           StoryGroup?           @relation(fields: [groupId], references: [id])
   groupId         String?
-  galleryStory    GalleryStory?
+  galleryStories  GalleryStory[]
+  site            Site                  @default(MAIN)
 
   @@unique([groupId, language])
   @@map(name: "stories")
@@ -258,18 +259,28 @@ enum MediaType {
 
 enum UserRole {
   ADMIN
+  SITE_ADMIN_BFDW
   USER
+}
+
+// A "Site" is a full white-labeled deployment reachable via its own subdomain
+// (e.g. bfdw.mapstories.de), with its own stories, gallery and admins.
+enum Site {
+  MAIN
+  BFDW
 }
 
 model GalleryStory {
   id        String   @id @default(cuid())
-  storyId   String   @unique
+  storyId   String
   story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  site      Site     @default(MAIN)
   addedBy   String
   admin     User     @relation("galleryStories", fields: [addedBy], references: [id], onDelete: Cascade)
   position  Int      @default(0)
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
 
+  @@unique([storyId, site])
   @@map("gallery_stories")
 }

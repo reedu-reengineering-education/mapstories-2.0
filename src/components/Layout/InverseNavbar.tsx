@@ -9,7 +9,7 @@ import { Fragment, useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
-import { LogoWithTextTransparent } from './MapstoriesLogo'
+import { SiteLogoTransparent } from './SiteLogo'
 import { User } from 'next-auth'
 import { LangSwitcher } from '../LangSwitcher'
 import { UserAccountNav } from '../Auth/UserAccountNav'
@@ -70,7 +70,7 @@ export function InverseNavbar({
           className="relative hidden items-center space-x-2 text-zinc-50 lg:flex"
           href="/"
         >
-          <LogoWithTextTransparent />
+          <SiteLogoTransparent />
 
         </Link>
         {routes?.length ? (
@@ -109,7 +109,7 @@ export function InverseNavbar({
           className="relative items-center space-x-2 text-zinc-50 lg:hidden"
           href="/"
         >
-          <LogoWithTextTransparent />
+          <SiteLogoTransparent />
 
         </Link>
         {showMobileMenu && (

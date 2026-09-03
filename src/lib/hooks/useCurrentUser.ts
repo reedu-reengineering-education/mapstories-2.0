@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 interface User {
   email?: string | null
-  role?: 'ADMIN' | 'USER'
+  role?: 'ADMIN' | 'SITE_ADMIN_BFDW' | 'USER'
 }
 
 export function useCurrentUser() {
@@ -32,6 +32,8 @@ export function useCurrentUser() {
   }, [])
 
   const isAdmin = user?.role === 'ADMIN'
+  const isBfdwGalleryAdmin =
+    user?.role === 'ADMIN' || user?.role === 'SITE_ADMIN_BFDW'
 
-  return { user, loading, isAdmin }
+  return { user, loading, isAdmin, isBfdwGalleryAdmin }
 }

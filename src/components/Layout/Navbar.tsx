@@ -9,7 +9,7 @@ import { Fragment, useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
-import { LogoWithTextAndBackground } from './MapstoriesLogo'
+import { SiteLogo } from './SiteLogo'
 import { User } from 'next-auth'
 
 export function Navbar({
@@ -63,7 +63,7 @@ export function Navbar({
           className="relative hidden items-center space-x-2 md:flex"
           href="/"
         >
-          <LogoWithTextAndBackground />
+          <SiteLogo />
 
         </Link>
         {routes?.length ? (
@@ -114,7 +114,7 @@ function MobileNav({ routes }: { children?: React.ReactNode; routes: any[] }) {
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-white p-4 shadow-md">
         <Link className="flex items-center space-x-2" href="/">
-          <LogoWithTextAndBackground />
+          <SiteLogo />
         </Link>
         <nav className="grid grid-flow-row auto-rows-max text-sm">
           {routes.map((item, index) => (

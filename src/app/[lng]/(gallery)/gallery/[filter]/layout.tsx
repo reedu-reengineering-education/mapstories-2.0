@@ -4,6 +4,7 @@ import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
+import { getCurrentSite } from '@/src/lib/site'
 import { getCurrentUser } from '@/src/lib/session'
 import { User } from '@prisma/client'
 import Link from 'next/link'
@@ -59,14 +60,16 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
   const storyCount = user ? await countStories(user.id) : 0
 
   // Prefer gallery stories from the database, fall back to env variable
+  const site = getCurrentSite()
   const dbGalleryStories = await db.galleryStory.findMany({
+    where: { site },
     orderBy: { position: 'asc' },
   })
 
   const certifiedMapstoryIDs: Array<string> =
     dbGalleryStories.length > 0
       ? dbGalleryStories.map(gs => gs.storyId)
-      : (process.env.GALLERY_STORIES ?? '').split(',').filter(id => id.trim())
+      : (process.env[site === 'BFDW' ? 'GALLERY_STORIES_BFDW' : 'GALLERY_STORIES'] ?? '').split(',').filter(id => id.trim())
 
   const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
 

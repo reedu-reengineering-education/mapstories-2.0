@@ -1,5 +1,6 @@
 import { GalleryList } from '@/src/components/Viewer/Gallery/GalleryList'
 import { db } from '@/src/lib/db'
+import { getCurrentSite } from '@/src/lib/site'
 import { Metadata } from 'next/types'
 
 const getCertifiedMapstories = async (array: Array<string>) => {
@@ -44,8 +45,11 @@ export const metadata: Metadata = {
 interface GalleryPageProps {}
 
 export default async function GalleryPage() {
+  const site = getCurrentSite()
+
   // First try to get gallery stories from database
   const dbGalleryStories = await db.galleryStory.findMany({
+    where: { site },
     include: {
       story: {
         include: {
@@ -67,7 +71,8 @@ export default async function GalleryPage() {
     storyIds = dbGalleryStories.map(gs => gs.storyId)
   } else {
     // Fallback to env variable if no stories in database
-    storyIds = (process.env.GALLERY_STORIES ?? '').split(',').filter(id => id.trim())
+    const envVar = site === 'BFDW' ? 'GALLERY_STORIES_BFDW' : 'GALLERY_STORIES'
+    storyIds = (process.env[envVar] ?? '').split(',').filter(id => id.trim())
   }
 
   const mapstories = await getCertifiedMapstories(storyIds)

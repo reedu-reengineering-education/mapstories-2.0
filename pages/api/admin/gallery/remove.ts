@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
+import { canManageSite } from '@/src/lib/site'
 
 type Data = { error?: string; success?: boolean }
 
@@ -19,10 +20,6 @@ export default async function handler(
     where: { email: session.user.email },
   })
 
-  if (user?.role !== 'ADMIN') {
-    return res.status(403).json({ error: 'Forbidden: Admin access required' })
-  }
-
   if (req.method === 'DELETE') {
     try {
       const { galleryStoryId } = req.body
@@ -39,12 +36,17 @@ export default async function handler(
         return res.status(404).json({ error: 'Gallery story not found' })
       }
 
+      if (!canManageSite(user?.role, galleryStory.site)) {
+        return res.status(403).json({ error: 'Forbidden: Admin access required' })
+      }
+
       await db.galleryStory.delete({
         where: { id: galleryStoryId },
       })
 
-      // Reorder positions
+      // Reorder positions (scoped to this gallery's site)
       const remaining = await db.galleryStory.findMany({
+        where: { site: galleryStory.site },
         orderBy: { position: 'asc' },
       })
 

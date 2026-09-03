@@ -23,7 +23,7 @@ import { useCurrentUser } from '@/src/lib/hooks/useCurrentUser'
 export function StudioSidebar() {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'settings')
-  const { isAdmin } = useCurrentUser()
+  const { isAdmin, isBfdwGalleryAdmin } = useCurrentUser()
   const [items, setItems] = useState<Route[]>([])
 
   useEffect(() => {
@@ -73,8 +73,16 @@ export function StudioSidebar() {
         icon: TrashIcon,
       })
     }
+
+    if (isBfdwGalleryAdmin) {
+      baseItems.push({
+        title: 'BFDW Gallery',
+        href: `/${lng}/storylab/bfdw-admin/gallery`,
+        icon: SparklesIcon,
+      })
+    }
     setItems(baseItems)
-  }, [lng, t, isAdmin])
+  }, [lng, t, isAdmin, isBfdwGalleryAdmin])
   
   const path = usePathname()
 

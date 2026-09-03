@@ -17,6 +17,24 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
   },
+  // Set AUTH_COOKIE_DOMAIN (e.g. ".mapstories.de") to share the login session
+  // between the main domain and subdomains such as bfdw.mapstories.de.
+  ...(process.env.AUTH_COOKIE_DOMAIN
+    ? {
+        cookies: {
+          sessionToken: {
+            name: 'next-auth.session-token',
+            options: {
+              httpOnly: true,
+              sameSite: 'lax' as const,
+              path: '/',
+              secure: process.env.NODE_ENV === 'production',
+              domain: process.env.AUTH_COOKIE_DOMAIN,
+            },
+          },
+        },
+      }
+    : {}),
   providers: [
     EmailProvider({
       from: process.env.SMTP_FROM,
@@ -89,6 +107,26 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    // Default NextAuth behaviour forces every redirect back to NEXTAUTH_URL's
+    // host, which would always bounce BFDW logins back to the main domain.
+    // Trust absolute callback URLs pointing at either of our own hosts.
+    async redirect({ url, baseUrl }) {
+      let target: URL
+      try {
+        target = new URL(url, baseUrl)
+      } catch {
+        return baseUrl
+      }
+
+      const allowedHostnames = [new URL(baseUrl).hostname]
+      if (process.env.BFDW_DOMAIN) {
+        allowedHostnames.push(process.env.BFDW_DOMAIN)
+      }
+
+      return allowedHostnames.includes(target.hostname)
+        ? target.toString()
+        : baseUrl
+    },
     async session({ token, session }) {
       if (token) {
         session.user.id = token.id

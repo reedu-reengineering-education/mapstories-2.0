@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
+import { canManageSite } from '@/src/lib/site'
 
 type Data = { error?: string; success?: boolean }
 
@@ -19,16 +20,23 @@ export default async function handler(
     where: { email: session.user.email },
   })
 
-  if (user?.role !== 'ADMIN') {
-    return res.status(403).json({ error: 'Forbidden: Admin access required' })
-  }
-
   if (req.method === 'PUT') {
     try {
       const { galleryStoryIds } = req.body
 
       if (!Array.isArray(galleryStoryIds)) {
         return res.status(400).json({ error: 'galleryStoryIds must be an array' })
+      }
+
+      const items = await db.galleryStory.findMany({
+        where: { id: { in: galleryStoryIds } },
+      })
+
+      if (
+        items.length === 0 ||
+        !items.every(item => canManageSite(user?.role, item.site))
+      ) {
+        return res.status(403).json({ error: 'Forbidden: Admin access required' })
       }
 
       // Update positions based on new order

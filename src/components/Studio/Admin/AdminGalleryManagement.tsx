@@ -11,7 +11,11 @@ import usePublicStories from '@/src/lib/api/admin/usePublicStories'
 import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Tooltip } from '@/src/components/Tooltip'
 
-export default function AdminGalleryManagement() {
+export default function AdminGalleryManagement({
+  site = 'MAIN',
+}: {
+  site?: 'MAIN' | 'BFDW'
+}) {
   const lng = useBoundStore(state => state.language)
   // @ts-ignore i18next's t return type exceeds the instantiation depth limit
   // (TS2589) with many t() calls; cast to a simple signature.
@@ -29,7 +33,7 @@ export default function AdminGalleryManagement() {
     addStoryToGallery,
     removeStoryFromGallery,
     reorderGalleryStories,
-  } = useAdminGallery()
+  } = useAdminGallery(site)
 
   const {
     filteredStories,

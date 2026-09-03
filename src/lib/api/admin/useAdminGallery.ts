@@ -19,14 +19,14 @@ interface UseAdminGalleryReturn {
   reorderGalleryStories: (storyIds: string[]) => Promise<void>
 }
 
-export default function useAdminGallery(): UseAdminGalleryReturn {
+export default function useAdminGallery(site: 'MAIN' | 'BFDW' = 'MAIN'): UseAdminGalleryReturn {
   const [galleryStories, setGalleryStories] = useState<GalleryStory[]>([])
   const [loading, setLoading] = useState(false)
 
   const fetchGalleryStories = useCallback(async () => {
     setLoading(true)
     try {
-      const response = await fetch('/api/admin/gallery')
+      const response = await fetch(`/api/admin/gallery?site=${site}`)
       if (!response.ok) {throw new Error('Failed to fetch gallery stories')}
       const data = await response.json()
       setGalleryStories(data.stories)
@@ -40,7 +40,7 @@ export default function useAdminGallery(): UseAdminGalleryReturn {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [site])
 
   const addStoryToGallery = useCallback(async (storyId: string) => {
     setLoading(true)
@@ -48,7 +48,7 @@ export default function useAdminGallery(): UseAdminGalleryReturn {
       const response = await fetch('/api/admin/gallery/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ storyId }),
+        body: JSON.stringify({ storyId, site }),
       })
 
       if (!response.ok) {
