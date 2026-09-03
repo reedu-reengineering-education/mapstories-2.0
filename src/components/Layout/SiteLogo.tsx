@@ -8,6 +8,8 @@ import {
   LogoWithTextTransparent,
 } from './MapstoriesLogo'
 
+import connectLogo from '@/assets/images/logo/bfdw-connect-logo.png'
+import Image from 'next/image'
 // BFDW subdomain (e.g. bfdw.mapstories.de) must be exposed publicly so it can
 // be compared to window.location.hostname on the client.
 const BFDW_DOMAIN = process.env.NEXT_PUBLIC_BFDW_DOMAIN
@@ -36,10 +38,10 @@ export function SiteLogo(props: HTMLAttributes<HTMLDivElement>) {
         className={cx('relative h-10 w-32 rounded bg-white p-2', props.className)}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           alt="BFDW Logo"
-          className="h-full w-full object-contain"
-          src="/logos/bfdw-connect-logo.png"
+          className="h-full w-full object-contain scale-[3]"
+          src={connectLogo}
         />
       </div>
     )
@@ -57,11 +59,10 @@ export function SiteLogoTransparent(props: HTMLAttributes<HTMLDivElement>) {
         {...props}
         className={cx('relative h-10 w-32 rounded bg-transparent p-2', props.className)}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           alt="BFDW Logo"
-          className="h-full w-full object-contain"
-          src="/logos/bfdw-connect-logo.png"
+          className="h-full w-full object-contain scale-[3]"
+          src={connectLogo}
         />
       </div>
     )

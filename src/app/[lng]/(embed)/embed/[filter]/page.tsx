@@ -1,6 +1,6 @@
 import { GalleryList } from '@/src/components/Viewer/Gallery/GalleryList'
 import { db } from '@/src/lib/db'
-import { getCurrentSite } from '@/src/lib/site'
+import { getCurrentSite } from '@/src/lib/site.server'
 import { Metadata } from 'next/types'
 
 const getCertifiedMapstories = async (array: Array<string>) => {

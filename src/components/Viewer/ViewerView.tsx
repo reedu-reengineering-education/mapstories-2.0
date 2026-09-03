@@ -17,6 +17,8 @@ import { applyTheme } from '@/src/helper/applyTheme'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { ViewerPopup } from './ViewerPopup'
 import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
+import { getSiteFromHost } from '@/src/lib/site'
+import { getBaseThemeForSite } from '@/src/lib/theme'
 
 type ViewerViewProps = {
   inputStories: (Story & {
@@ -149,17 +151,10 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     if (storyID != '' && story?.theme) {
       applyTheme(story.theme)
     } else {
-      // go back to Standard theme (TODO: get this from db)
-      applyTheme({
-        name: 'Standard',
-        shadow_color: 'rgba(56,56.58, 0.9)',
-        border: '3px solid #38383a',
-        box_shadow: '4px 4px 0px var(--shadow-color)',
-        border_radius: '10px',
-        text_color: '#38383a',
-        button_color: '#38383a',
-        background_color: 'white',
-      })
+      const site = getSiteFromHost(
+        typeof window !== 'undefined' ? window.location.hostname : undefined,
+      )
+      applyTheme(getBaseThemeForSite(site))
     }
     if (story?.steps && story?.steps.length > 0) {
       let bounds: any = undefined

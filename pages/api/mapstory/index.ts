@@ -22,13 +22,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         const payload = createMapstorySchema.parse(body)
 
         const slug = await generateSlug(payload.name)
+        const site = getSiteFromHost(req.headers.host)
         const newMapstory = await db.story.create({
           data: {
             ownerId: user.id,
             visibility: 'PRIVATE',
             slug,
-            site: getSiteFromHost(req.headers.host),
             ...payload,
+            site,
+            // New BFDW stories default to the BFDW theme unless the client set one explicitly.
+            themeId: payload.themeId ?? (site === 'BFDW' ? 'BFDW' : undefined),
           },
         })
 
