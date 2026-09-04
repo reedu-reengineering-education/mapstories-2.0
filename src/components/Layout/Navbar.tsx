@@ -73,7 +73,7 @@ export function Navbar({
                 {!item.disabled && (
                   <Link
                     className={cx(
-                      'flex items-center text-lg font-semibold sm:text-sm',
+                      'flex items-center text-lg font-semibold sm:text-sm transition-colors hover:text-[var(--button-color)]',
                       item.href.includes(`/${segment}`)
                         ? 'text-slate-900'
                         : 'text-slate-600',

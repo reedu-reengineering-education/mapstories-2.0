@@ -80,7 +80,7 @@ export function InverseNavbar({
                 {!item.disabled && (
                   <Link
                     className={cx(
-                      'flex items-center text-lg font-semibold sm:text-sm',
+                      'flex items-center text-lg font-semibold sm:text-sm transition-colors hover:text-[var(--button-color)]',
                       item.href.includes(`/${segment}`)
                         ? 'text-slate-50'
                         : 'text-slate-100',

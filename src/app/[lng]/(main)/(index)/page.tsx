@@ -4,6 +4,7 @@ import { CharityBanner } from '@/src/components/Index/CharityBanner'
 import { db } from '@/src/lib/db'
 import AnimatedMap from './AnimatedMap'
 import PageContent from './PageContent'
+import { getCurrentSite } from '@/src/lib/site.server'
 
 const getPublicMapstories = async () => {
   return await db.story.findMany({
@@ -36,7 +37,7 @@ export default async function Page({
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
-
+  const isBfdw = getCurrentSite() === 'BFDW'
   // const stories = await getPublicMapstories()
 
   return (
@@ -48,9 +49,12 @@ export default async function Page({
       <div className="container relative z-10 mx-auto my-6 flex w-7/12 basis-1/2 -translate-y-[85vh] flex-col lg:-translate-y-[80vh]">
         <PageContent />
       </div>
-      <div className="absolute bottom-5 z-10 mx-auto hidden w-full p-2 lg:block">
-        <CharityBanner />
-      </div>
+      {!isBfdw && (
+        <div className="absolute bottom-5 z-10 mx-auto hidden w-full p-2 lg:block">
+          <CharityBanner />
+        </div>
+      )}
+      {/* Removed because it's now conditionally rendered above */}
     </>
   )
 }
