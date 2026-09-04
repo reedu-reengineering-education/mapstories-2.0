@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 
@@ -40,6 +40,22 @@ export default function LanguageBar({ story }: Props) {
   const [loading, setLoading] = useState(false)
   const [showInstructions, setShowInstructions] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<{ language: string; variantId: string } | null>(null)
+  const [hoveredVariantId, setHoveredVariantId] = useState<string | null>(null)
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function startHoverTimer(variantId: string) {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current)
+    }
+    hoverTimeoutRef.current = setTimeout(() => setHoveredVariantId(variantId), 500)
+  }
+
+  function cancelHoverTimer() {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current)
+    }
+    setHoveredVariantId(null)
+  }
 
   const currentStepId = params?.storyStepId as string | undefined
 
@@ -148,8 +164,15 @@ export default function LanguageBar({ story }: Props) {
         .map(v => {
           const info = getLanguageInfo(v.language)
           const active = v.language === story.language
+          const canDelete = !active && variants.length > 1
+          const showDelete = canDelete && hoveredVariantId === v.id
           return (
-            <div className="group relative flex items-center" key={v.id}>
+            <div
+              className="relative flex items-center"
+              key={v.id}
+              onMouseEnter={() => canDelete && startHoverTimer(v.id)}
+              onMouseLeave={cancelHoverTimer}
+            >
               <Tooltip content={info.label} side="bottom">
                 <button
                   aria-label={info.label}
@@ -168,15 +191,20 @@ export default function LanguageBar({ story }: Props) {
                   {info.flag}
                 </button>
               </Tooltip>
-              {!active && variants.length > 1 && (
-                <Tooltip content={t('settingsModal:deleteLanguage')} side="bottom">
+              {canDelete && (
+                <Tooltip content={t('settingsModal:deleteLanguage')} side="top">
                   <button
                     aria-label={t('settingsModal:deleteLanguage')}
-                    className="ml-0.5 p-1 text-slate-600 hover:text-red-600 opacity-0 group-hover:opacity-100 transition rounded hover:bg-red-50"
+                    className={
+                      'absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-red-600 p-1.5 text-white shadow transition-all duration-200 hover:bg-red-700 ' +
+                      (showDelete
+                        ? 'opacity-100 -translate-y-1 pointer-events-auto'
+                        : 'opacity-0 translate-y-0 pointer-events-none')
+                    }
                     disabled={loading}
                     onClick={() => setDeleteConfirm({ language: v.language, variantId: v.id })}
                   >
-                    <TrashIcon className="w-3.5 h-3.5" />
+                    <TrashIcon className="w-3 h-3" />
                   </button>
                 </Tooltip>
               )}
