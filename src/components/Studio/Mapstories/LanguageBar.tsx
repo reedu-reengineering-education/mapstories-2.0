@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { useSWRConfig } from 'swr'
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 
 import { DropdownMenu } from '@/src/components/Dropdown'
@@ -32,6 +33,7 @@ type Props = {
 export default function LanguageBar({ story }: Props) {
   const router = useRouter()
   const params = useParams()
+  const { mutate } = useSWRConfig()
   const lng = useBoundStore(state => state.language)
   // @ts-ignore useTranslation type overloads are complex
   const { t: tBase } = useTranslation(lng, 'settingsModal')
@@ -104,6 +106,12 @@ export default function LanguageBar({ story }: Props) {
     setLoading(true)
     try {
       const created: any = await addLanguage(language)
+      // sibling variant pages cache their own story via SWR and won't see the new language otherwise
+      await mutate(
+        (key: unknown) => typeof key === 'string' && key.startsWith('/api/mapstory/'),
+        undefined,
+        { revalidate: true },
+      )
       toast({
         title: getLanguageInfo(language).label,
         message: t('settingsModal:languageAdded'),
@@ -111,6 +119,8 @@ export default function LanguageBar({ story }: Props) {
       })
       if (created?.slug && created?.firstStepId) {
         router.push(`/storylab/${created.slug}/${created.firstStepId}`)
+        // bypass the client Router Cache, which would otherwise serve the stale sibling layout
+        router.refresh()
       } else {
         router.refresh()
       }
@@ -129,6 +139,11 @@ export default function LanguageBar({ story }: Props) {
     setLoading(true)
     try {
       await deleteLanguage(language, variantId)
+      await mutate(
+        (key: unknown) => typeof key === 'string' && key.startsWith('/api/mapstory/'),
+        undefined,
+        { revalidate: true },
+      )
       toast({
         title: getLanguageInfo(language).label,
         message: t('settingsModal:languageDeleted'),
@@ -186,6 +201,8 @@ export default function LanguageBar({ story }: Props) {
                   onClick={() => {
                     const targetStepId = getCorrespondingStepId(v)
                     router.push(`/storylab/${v.slug}/${targetStepId ?? ''}`)
+                    // bypass the client Router Cache, which would otherwise serve a stale sibling layout
+                    router.refresh()
                   }}
                 >
                   {info.flag}
@@ -212,34 +229,31 @@ export default function LanguageBar({ story }: Props) {
           )
         })}
 
-      {missingLanguages.length > 0 && (
-        <DropdownMenu>
-          <DropdownMenu.Trigger asChild>
-            <button
-              aria-label={t('settingsModal:addLanguage')}
-              className="ml-1 rounded-md p-1 text-slate-600 hover:bg-slate-100 disabled:opacity-50"
-              disabled={loading}
-            >
-              <PlusIcon className="w-4" />
-            </button>
-          </DropdownMenu.Trigger>
+      <DropdownMenu>
+        <DropdownMenu.Trigger asChild>
+          <button
+            aria-label={t('settingsModal:addLanguage')}
+            className="ml-1 rounded-md p-1 text-slate-600 hover:bg-slate-100 disabled:opacity-50"
+            disabled={loading}
+          >
+            <PlusIcon className="w-4" />
+          </button>
+        </DropdownMenu.Trigger>
     
-          <DropdownMenu.Portal>
-            <DropdownMenu.Content align="start" className="z-[100] mt-2">
-              {missingLanguages.map(l => (
-                <DropdownMenu.Item
-                  className="cursor-pointer"
-                  key={l.code}
-                  onClick={() => onAddLanguage(l.code)}
-                >
-                  {l.flag} {l.label}
-                </DropdownMenu.Item>
-              ))}
-
-            </DropdownMenu.Content>
-          </DropdownMenu.Portal>
-        </DropdownMenu>
-      )}
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content align="start" className="z-[100] mt-2">
+            {missingLanguages.map(l => (
+              <DropdownMenu.Item
+                className="cursor-pointer"
+                key={l.code}
+                onClick={() => onAddLanguage(l.code)}
+              >
+                {l.flag} {l.label}
+              </DropdownMenu.Item>
+            ))}
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
+      </DropdownMenu>
 
       <Modal 
         onOpenChange={setShowInstructions} 
