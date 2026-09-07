@@ -108,7 +108,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     // Default NextAuth behaviour forces every redirect back to NEXTAUTH_URL's
-    // host, which would always bounce BFDW logins back to the main domain.
+    // host, which would always ssbounce BFDW logins back to the main domain.
     // Trust absolute callback URLs pointing at either of our own hosts.
     async redirect({ url, baseUrl }) {
       let target: URL
