@@ -58,7 +58,7 @@ export default async function AdminLayout({
           <div className="pr-6">{children}</div>
         </main>
       </div>
-      <Footer />
+      <Footer lng={lng} />
     </>
   )
 }

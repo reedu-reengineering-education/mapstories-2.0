@@ -4,6 +4,7 @@
   "private": "Privé",
   "public": "Public",
   "theme": "Type de Carte",
+  "defaultLanguage": "Langue par défaut",
   "image": "Image",
   "Select an image or enter a URL": "Sélectionnez une image ou saisissez une URL",
   "options": "Options",

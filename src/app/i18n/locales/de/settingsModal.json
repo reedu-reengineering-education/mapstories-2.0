@@ -6,6 +6,7 @@
   "private": "Privat",
   "public": "Öffentlich",
   "theme": "Kartentyp",
+  "defaultLanguage": "Standardsprache",
   "image": "Bild",
   "Select an image or enter a URL": "Wähle ein Bild aus oder gib eine URL ein.",
   "options": "Optionen",

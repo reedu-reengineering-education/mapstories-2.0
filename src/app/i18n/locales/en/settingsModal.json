@@ -6,6 +6,7 @@
   "private": "Private",
   "public": "Public",
   "theme": "Map Theme",
+  "defaultLanguage": "Default Language",
   "image": "Image",
   "Select an image or enter a URL": "Select an image or enter a URL",
   "options": "Options",

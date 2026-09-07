@@ -241,7 +241,6 @@ export default function SettingsModal({
               control={control}
               defaultValue={story.themeId ?? themes[0].name}
               name="themeId"
-              {...register('themeId')}
               render={({ field: { onChange, value, ref } }) => {
                 return (
                   <>

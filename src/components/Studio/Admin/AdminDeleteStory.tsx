@@ -68,15 +68,17 @@ export default function AdminDeleteStory() {
 
       {/* Confirmation Modal */}
       {showConfirm && (
-        <Modal onClose={() => setShowConfirm(false)}>
-          <div className="bg-white rounded-lg p-6 max-w-md shadow-lg">
-            <div className="flex items-center gap-3 mb-4">
+        <Modal
+          onClose={() => setShowConfirm(false)}
+          open={showConfirm}
+          title={
+            <span className="flex items-center gap-3">
               <ExclamationTriangleIcon className="w-6 h-6 text-red-600" />
-              <h3 className="text-lg font-bold text-slate-900">
-                Confirm Deletion
-              </h3>
-            </div>
-
+              Confirm Deletion
+            </span>
+          }
+        >
+          <div className="bg-white rounded-lg p-6 max-w-md shadow-lg">
             <p className="text-slate-600 mb-2">
               Are you sure you want to delete this story?
             </p>
@@ -91,7 +93,7 @@ export default function AdminDeleteStory() {
               <Button
                 disabled={loading}
                 onClick={() => setShowConfirm(false)}
-                variant="secondary"
+                variant="inverse"
               >
                 Cancel
               </Button>
