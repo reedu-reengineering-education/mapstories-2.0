@@ -123,9 +123,13 @@ export const authOptions: NextAuthOptions = {
         allowedHostnames.push(process.env.BFDW_DOMAIN)
       }
 
-      return allowedHostnames.includes(target.hostname)
-        ? target.toString()
-        : baseUrl
+      const isAllowedHostname =
+        allowedHostnames.includes(target.hostname) ||
+        (process.env.BFDW_DOMAIN
+          ? target.hostname.endsWith(`.${process.env.BFDW_DOMAIN}`)
+          : false)
+
+      return isAllowedHostname ? target.toString() : baseUrl
     },
     async session({ token, session }) {
       if (token) {

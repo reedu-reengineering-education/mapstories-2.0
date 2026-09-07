@@ -19,6 +19,7 @@ import CopyModal from './CopyModal'
 import Image from 'next/image'
 import bfdwLogo from '@/assets/images/logo/bfdw-connect-logo.png'
 import { Tooltip } from '@/src/components/Tooltip'
+import { isBfdwHostname } from '@/src/lib/site'
 
 const BFDW_DOMAIN = process.env.NEXT_PUBLIC_BFDW_DOMAIN
 
@@ -31,7 +32,7 @@ function useCrossSiteHref(site: Story['site']) {
     if (
       site === 'BFDW' &&
       BFDW_DOMAIN &&
-      window.location.hostname !== BFDW_DOMAIN
+      !isBfdwHostname(window.location.hostname)
     ) {
       const port = window.location.port ? `:${window.location.port}` : ''
       setOrigin(`${window.location.protocol}//${BFDW_DOMAIN}${port}`)

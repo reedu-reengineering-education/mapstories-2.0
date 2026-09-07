@@ -10,9 +10,7 @@ import {
 
 import connectLogo from '@/assets/images/logo/bfdw-connect-logo.png'
 import Image from 'next/image'
-// BFDW subdomain (e.g. bfdw.mapstories.de) must be exposed publicly so it can
-// be compared to window.location.hostname on the client.
-const BFDW_DOMAIN = process.env.NEXT_PUBLIC_BFDW_DOMAIN
+import { isBfdwHostname } from '@/src/lib/site'
 
 // Drop the BFDW logo file at public/logos/bfdw-logo.png (and -transparent.png
 // for the InverseNavbar variant) to enable the swap below.
@@ -20,9 +18,7 @@ function useIsBfdwSite() {
   const [isBfdw, setIsBfdw] = useState(false)
 
   useEffect(() => {
-    if (BFDW_DOMAIN && window.location.hostname === BFDW_DOMAIN) {
-      setIsBfdw(true)
-    }
+    setIsBfdw(isBfdwHostname(window.location.hostname))
   }, [])
 
   return isBfdw
