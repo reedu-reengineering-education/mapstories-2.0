@@ -31,7 +31,7 @@ export default function AdminTransferStory() {
         Transfer Story
       </h2>
 
-      <form onSubmit={handleTransfer} className="space-y-4">
+      <form className="space-y-4" onSubmit={handleTransfer}>
         <div>
           <InputLabel>Story ID</InputLabel>
           <Input

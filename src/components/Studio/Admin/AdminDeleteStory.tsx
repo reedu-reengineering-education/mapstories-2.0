@@ -38,7 +38,7 @@ export default function AdminDeleteStory() {
           Delete Story
         </h2>
 
-        <form onSubmit={handleOpenConfirm} className="space-y-4">
+        <form className="space-y-4" onSubmit={handleOpenConfirm}>
           <div>
             <InputLabel>Story ID</InputLabel>
             <Input
@@ -55,10 +55,10 @@ export default function AdminDeleteStory() {
 
           <div className="flex gap-2 pt-4">
             <Button
+              className="bg-red-600 hover:bg-red-700"
               disabled={loading || !storyIdInput.trim()}
               type="submit"
               variant="primary"
-              className="bg-red-600 hover:bg-red-700"
             >
               {loading ? 'Deleting...' : 'Delete Story'}
             </Button>
@@ -89,16 +89,16 @@ export default function AdminDeleteStory() {
 
             <div className="flex gap-3 justify-end">
               <Button
+                disabled={loading}
                 onClick={() => setShowConfirm(false)}
                 variant="secondary"
-                disabled={loading}
               >
                 Cancel
               </Button>
               <Button
-                onClick={handleDelete}
-                disabled={loading}
                 className="bg-red-600 hover:bg-red-700"
+                disabled={loading}
+                onClick={handleDelete}
               >
                 {loading ? 'Deleting...' : 'Delete Permanently'}
               </Button>

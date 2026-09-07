@@ -37,7 +37,6 @@ export function SiteLogo(props: HTMLAttributes<HTMLDivElement>) {
         {...props}
         className={cx('relative h-10 w-32 rounded bg-white p-2', props.className)}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image
           alt="BFDW Logo"
           className="h-full w-full object-contain scale-[3] pointer-events-none"

@@ -29,7 +29,9 @@ export default async function handler(
       return res.status(404).json({ error: 'User not found' })
     }
 
-    return res.status(200).json({ email: user.email, role: user.role })
+    return res
+      .status(200)
+      .json({ email: user.email, role: user.role ?? undefined })
   } catch (error) {
     console.error('Error fetching current user:', error)
     return res.status(500).json({ error: 'Internal server error' })

@@ -27,7 +27,7 @@ export default function AdminDuplicateStory() {
         Duplicate Story
       </h2>
 
-      <form onSubmit={handleDuplicate} className="space-y-4">
+      <form className="space-y-4" onSubmit={handleDuplicate}>
         <div>
           <InputLabel>Story ID</InputLabel>
           <Input
