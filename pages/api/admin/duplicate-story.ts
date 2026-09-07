@@ -1,7 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth/next'
+import { Prisma } from '@prisma/client'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
+
+// Prisma rejects a plain `null` for nullable Json fields in create input
+const toJsonInput = (value: Prisma.JsonValue) =>
+  value === null ? Prisma.JsonNull : value
 
 export default async function handler(
   req: NextApiRequest,
@@ -81,7 +86,7 @@ export default async function handler(
         data: {
           position: step.position,
           storyId: duplicatedStory.id,
-          feature: step.feature,
+          feature: toJsonInput(step.feature),
           viewport: step.viewport,
           timestamp: step.timestamp,
           tags: step.tags,
@@ -90,8 +95,8 @@ export default async function handler(
               content: c.content,
               type: c.type,
               position: c.position,
-              options: c.options,
-              ogData: c.ogData,
+              options: toJsonInput(c.options),
+              ogData: toJsonInput(c.ogData),
               mediaId: c.mediaId,
             })),
           },
@@ -108,7 +113,7 @@ export default async function handler(
       (step.connections || []).map(async connection => {
         await db.connection.create({
           data: {
-            feature: connection.feature,
+            feature: toJsonInput(connection.feature),
             storyStepId: stepMapping[step.id],
             width: connection.width,
             color: connection.color,

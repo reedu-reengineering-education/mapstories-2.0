@@ -49,7 +49,9 @@ export function MapstoryCard({ mapstory }: Props) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstoryCard')
   const href = useCrossSiteHref(mapstory.site)
-  
+  useEffect(() => {
+    console.log(mapstory)
+  }, [mapstory])
   return (
     <Card className=''>
       <Card.Header>
