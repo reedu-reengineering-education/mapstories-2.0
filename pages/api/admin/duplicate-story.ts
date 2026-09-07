@@ -87,7 +87,7 @@ export default async function handler(
           position: step.position,
           storyId: duplicatedStory.id,
           feature: toJsonInput(step.feature),
-          viewport: step.viewport,
+          viewport: toJsonInput(step.viewport),
           timestamp: step.timestamp,
           tags: step.tags,
           content: {
