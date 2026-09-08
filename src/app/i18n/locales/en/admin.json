@@ -73,5 +73,6 @@
   "removeFromGallery": "Remove from gallery",
   "bfdwGalleryManagement": "BFDW Gallery Management",
   "manageBfdwGallery": "Manage which stories appear in the BFDW gallery",
-  "managePublicGallery": "Manage which stories appear in the public gallery"
+  "managePublicGallery": "Manage which stories appear in the public gallery",
+  "addStoryToGallery": "Add story to gallery"
 }

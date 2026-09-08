@@ -73,5 +73,6 @@
   "removeFromGallery": "Retirer de la galerie",
   "bfdwGalleryManagement": "Gestion de la galerie BFDW",
   "manageBfdwGallery": "Gérer les histoires qui apparaissent dans la galerie BFDW",
-  "managePublicGallery": "Gérer les histoires qui apparaissent dans la galerie publique"
+  "managePublicGallery": "Gérer les histoires qui apparaissent dans la galerie publique",
+  "addStoryToGallery": "Ajouter une histoire à la galerie"
 }
