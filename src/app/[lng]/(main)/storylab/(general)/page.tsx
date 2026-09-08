@@ -31,6 +31,15 @@ const getMapstories = async (userId: string) => {
     },
     include: {
       stepSuggestions: true,
+      group: {
+        include: {
+          stories: {
+            select: {
+              language: true,
+            },
+          },
+        },
+      },
     },
   })
 }

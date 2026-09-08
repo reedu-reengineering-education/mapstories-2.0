@@ -20,6 +20,7 @@ import Image from 'next/image'
 import bfdwLogo from '@/assets/images/logo/bfdw-connect-logo.png'
 import { Tooltip } from '@/src/components/Tooltip'
 import { isBfdwHostname } from '@/src/lib/site'
+import { getLanguageInfo } from '@/src/lib/languageFlags'
 
 const BFDW_DOMAIN = process.env.NEXT_PUBLIC_BFDW_DOMAIN
 
@@ -43,29 +44,49 @@ function useCrossSiteHref(site: Story['site']) {
 }
 
 type Props = {
-  mapstory: Story
+  mapstory: Story & {
+    group?: {
+      stories: Array<Pick<Story, 'language'>>
+    } | null
+  }
 }
 
 export function MapstoryCard({ mapstory }: Props) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstoryCard')
   const href = useCrossSiteHref(mapstory.site)
-  useEffect(() => {
-    console.log(mapstory)
-  }, [mapstory])
+  const availableLanguages = Array.from(
+    new Set([
+      mapstory.language,
+      ...(mapstory.group?.stories ?? []).map(story => story.language),
+    ]),
+  ).sort()
   return (
     <Card className=''>
       <Card.Header>
 
         {mapstory.mode === 'TIMELINE' && <StoryBadge mode={mapstory.mode} />}
         <Card.Title className="flex justify-between items-center gap-2">
-          
           {mapstory.name}
-                  {mapstory.site === 'BFDW' && (
-            <Tooltip content="Diese Mapstory stammt von der Brot für die Welt-Subdomain">
-              <Image alt="BFDW" className="h-12 w-auto object-contain" src={bfdwLogo} />
-            </Tooltip>
-        )}
+          <div className="flex items-center gap-2">
+            <div aria-label="Available languages" className="flex items-center gap-1">
+              {availableLanguages.map(language => {
+                const info = getLanguageInfo(language)
+                return (
+                  <Tooltip content={info.label} key={language}>
+                    <span aria-label={info.label} role="img">
+                      {info.flag}
+                    </span>
+                  </Tooltip>
+                )
+              })}
+            </div>
+            {mapstory.site === 'BFDW' && (
+              <Tooltip content="Diese Mapstory stammt von der Brot für die Welt-Subdomain">
+                <Image alt="BFDW" className="h-12 w-auto object-contain" src={bfdwLogo} />
+              </Tooltip>
+            )}
+          </div>
           </Card.Title>
         
       </Card.Header>
