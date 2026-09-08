@@ -35,21 +35,21 @@ export default function AdminDeleteStory() {
     <>
       <div className="bg-white rounded-lg p-6 shadow-sm max-w-2xl">
         <h2 className="text-2xl font-bold mb-6 text-slate-900">
-          Delete Story
+          {t('deleteStoryTitle')}
         </h2>
 
         <form className="space-y-4" onSubmit={handleOpenConfirm}>
           <div>
-            <InputLabel>Story ID</InputLabel>
+            <InputLabel>{t('storyId')}</InputLabel>
             <Input
               disabled={loading}
               onChange={e => setStoryIdInput(e.target.value)}
-              placeholder="Enter the story ID you want to delete..."
+              placeholder={t('deleteStoryIdPlaceholder')}
               type="text"
               value={storyIdInput}
             />
             <p className="text-sm text-slate-500 mt-2">
-              This action will permanently delete the story and all its content.
+              {t('deleteStoryDescription')}
             </p>
           </div>
 
@@ -60,7 +60,7 @@ export default function AdminDeleteStory() {
               type="submit"
               variant="primary"
             >
-              {loading ? 'Deleting...' : 'Delete Story'}
+              {loading ? t('deleting') : t('deleteStory')}
             </Button>
           </div>
         </form>
@@ -74,19 +74,19 @@ export default function AdminDeleteStory() {
           title={
             <span className="flex items-center gap-3">
               <ExclamationTriangleIcon className="w-6 h-6 text-red-600" />
-              Confirm Deletion
+              {t('confirmDeletion')}
             </span>
           }
         >
           <div className="bg-white rounded-lg p-6 max-w-md shadow-lg">
             <p className="text-slate-600 mb-2">
-              Are you sure you want to delete this story?
+              {t('deleteStoryQuestion')}
             </p>
             <p className="text-sm text-slate-500 mb-6">
-              Story ID: <span className="font-mono font-semibold">{storyIdInput}</span>
+              {t('storyId')}: <span className="font-mono font-semibold">{storyIdInput}</span>
             </p>
             <p className="text-sm text-red-600 font-medium mb-6">
-              This action cannot be undone. All steps, content, and connections will be permanently deleted.
+              {t('deleteStoryWarning')}
             </p>
 
             <div className="flex gap-3 justify-end">
@@ -95,14 +95,14 @@ export default function AdminDeleteStory() {
                 onClick={() => setShowConfirm(false)}
                 variant="inverse"
               >
-                Cancel
+                {t('cancel')}
               </Button>
               <Button
                 className="bg-red-600 hover:bg-red-700"
                 disabled={loading}
                 onClick={handleDelete}
               >
-                {loading ? 'Deleting...' : 'Delete Permanently'}
+                {loading ? t('deleting') : t('deletePermanently')}
               </Button>
             </div>
           </div>

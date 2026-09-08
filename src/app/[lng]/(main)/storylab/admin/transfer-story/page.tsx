@@ -1,18 +1,25 @@
 import AdminTransferStory from '@/src/components/Studio/Admin/AdminTransferStory'
+import { useTranslation } from '@/src/app/i18n'
 
 export const metadata = {
   title: 'Transfer Story | Mapstories Admin',
 }
 
-export default function AdminTransferStoryPage() {
+export default async function AdminTransferStoryPage({
+  params: { lng },
+}: {
+  params: { lng: string }
+}) {
+  const { t } = await useTranslation(lng, 'admin')
+
   return (
     <>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900">
-          Transfer Story
+          {t('transferStoryTitle')}
         </h1>
         <p className="text-slate-600 mt-2">
-          Transfer ownership of a story from one user to another
+          {t('transferStoryPageDescription')}
         </p>
       </div>
 

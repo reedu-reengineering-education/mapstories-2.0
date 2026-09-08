@@ -24,21 +24,21 @@ export default function AdminDuplicateStory() {
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm max-w-2xl">
       <h2 className="text-2xl font-bold mb-6 text-slate-900">
-        Duplicate Story
+        {t('duplicateStoryTitle')}
       </h2>
 
       <form className="space-y-4" onSubmit={handleDuplicate}>
         <div>
-          <InputLabel>Story ID</InputLabel>
+          <InputLabel>{t('storyId')}</InputLabel>
           <Input
             disabled={loading}
             onChange={e => setStoryIdInput(e.target.value)}
-            placeholder="Enter the story ID you want to duplicate..."
+            placeholder={t('duplicateStoryIdPlaceholder')}
             type="text"
             value={storyIdInput}
           />
           <p className="text-sm text-slate-500 mt-2">
-            Enter the ID of the story you want to duplicate. All steps and content will be copied to a new story.
+            {t('duplicateStoryDescription')}
           </p>
         </div>
 
@@ -48,7 +48,7 @@ export default function AdminDuplicateStory() {
             type="submit"
             variant="primary"
           >
-            {loading ? 'Duplicating...' : 'Duplicate Story'}
+            {loading ? t('duplicating') : t('duplicateStory')}
           </Button>
         </div>
       </form>

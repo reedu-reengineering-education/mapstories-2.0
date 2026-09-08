@@ -1,18 +1,25 @@
 import AdminGalleryManagement from '@/src/components/Studio/Admin/AdminGalleryManagement'
+import { useTranslation } from '@/src/app/i18n'
 
 export const metadata = {
   title: 'Admin Gallery Management | Mapstories',
 }
 
-export default function AdminGalleryPage() {
+export default async function AdminGalleryPage({
+  params: { lng },
+}: {
+  params: { lng: string }
+}) {
+  const { t } = await useTranslation(lng, 'admin')
+
   return (
     <>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900">
-          Gallery Management
+          {t('galleryManagement')}
         </h1>
         <p className="text-slate-600 mt-2">
-          Manage which stories appear in the public gallery
+          {t('managePublicGallery')}
         </p>
       </div>
 

@@ -56,8 +56,8 @@ export default function AdminGalleryManagement({
     e.preventDefault()
     if (!storyIdInput.trim()) {
       toast({
-        title: 'Error',
-        message: t('admin:selectAStory') || 'Please select a story',
+        title: t('admin:error'),
+        message: t('admin:selectAStory'),
         type: 'error',
       })
       return
@@ -142,7 +142,7 @@ export default function AdminGalleryManagement({
                   }}
                   type="button"
                 >
-                  {t('admin:deselect') || 'Clear'}
+                  {t('admin:deselect')}
                 </button>
               </div>
             ) : (
@@ -166,7 +166,7 @@ export default function AdminGalleryManagement({
                   <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-10 max-h-64 overflow-y-auto">
                     {filteredStories.length === 0 ? (
                       <div className="p-3 text-sm text-slate-500 text-center">
-                        {t('admin:noStoriesFound') || 'No stories found'}
+                        {t('admin:noStoriesFound')}
                       </div>
                     ) : (
                       filteredStories.map(story => (
@@ -198,7 +198,7 @@ export default function AdminGalleryManagement({
               type="submit"
               variant="primary"
             >
-              {loading ? t('admin:adding') || 'Adding...' : t('admin:add') || 'Add'}
+              {loading ? t('admin:adding') : t('admin:add')}
             </Button>
           </div>
         </form>
@@ -234,7 +234,7 @@ export default function AdminGalleryManagement({
                 onDrop={e => handleDrop(e, galleryStory.id)}
               >
                 {/* Drag Handle */}
-                <Tooltip content="Drag to reorder" side="right">
+                <Tooltip content={t('admin:dragToReorder')} side="right">
                   <div className="flex-shrink-0 cursor-grab active:cursor-grabbing text-slate-400">
                     <EllipsisVerticalIcon className="w-5 h-5" />
                   </div>
@@ -248,15 +248,15 @@ export default function AdminGalleryManagement({
                 {/* Story Info */}
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-slate-900 truncate">
-                    {galleryStory.story?.name || 'Untitled'}
+                    {galleryStory.story?.name || t('admin:untitled')}
                   </p>
                   <p className="text-xs text-slate-500">
-                    ID: {galleryStory.storyId}
+                    {t('admin:storyId')}: {galleryStory.storyId}
                   </p>
                 </div>
 
                 {/* Delete Button */}
-                <Tooltip content="Remove from gallery" side="left">
+                <Tooltip content={t('admin:removeFromGallery')} side="left">
                   <button
                     className="flex-shrink-0 p-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded transition"
                     disabled={loading}

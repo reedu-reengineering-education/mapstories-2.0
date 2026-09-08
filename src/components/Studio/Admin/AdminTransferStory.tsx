@@ -28,48 +28,48 @@ export default function AdminTransferStory() {
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm max-w-2xl">
       <h2 className="text-2xl font-bold mb-6 text-slate-900">
-        Transfer Story
+        {t('transferStoryTitle')}
       </h2>
 
       <form className="space-y-4" onSubmit={handleTransfer}>
         <div>
-          <InputLabel>Story ID</InputLabel>
+          <InputLabel>{t('storyId')}</InputLabel>
           <Input
             disabled={loading}
             onChange={e => setStoryIdInput(e.target.value)}
-            placeholder="Enter the story ID..."
+            placeholder={t('transferStoryIdPlaceholder')}
             type="text"
             value={storyIdInput}
           />
           <p className="text-sm text-slate-500 mt-2">
-            The ID of the story you want to transfer.
+            {t('transferStoryDescription')}
           </p>
         </div>
 
         <div>
-          <InputLabel>Source User Email (Current Owner)</InputLabel>
+          <InputLabel>{t('sourceUserEmail')}</InputLabel>
           <Input
             disabled={true}
-            placeholder="This is for reference only"
+            placeholder={t('sourceUserEmailPlaceholder')}
             type="email"
             value={sourceEmailInput}
           />
           <p className="text-sm text-slate-500 mt-2">
-            Optional: email of the current story owner (for verification).
+            {t('sourceUserEmailDescription')}
           </p>
         </div>
 
         <div>
-          <InputLabel>Target User Email (New Owner)</InputLabel>
+          <InputLabel>{t('targetUserEmail')}</InputLabel>
           <Input
             disabled={loading}
             onChange={e => setTargetEmailInput(e.target.value)}
-            placeholder="Enter the target user's email..."
+            placeholder={t('targetUserEmailPlaceholder')}
             type="email"
             value={targetEmailInput}
           />
           <p className="text-sm text-slate-500 mt-2">
-            Email of the user who should own this story.
+            {t('targetUserEmailDescription')}
           </p>
         </div>
 
@@ -83,7 +83,7 @@ export default function AdminTransferStory() {
             type="submit"
             variant="primary"
           >
-            {loading ? 'Transferring...' : 'Transfer Story'}
+            {loading ? t('transferring') : t('transferStory')}
           </Button>
         </div>
       </form>

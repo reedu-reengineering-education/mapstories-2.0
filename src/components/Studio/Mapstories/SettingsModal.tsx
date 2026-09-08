@@ -159,14 +159,14 @@ export default function SettingsModal({
               control={control}
               defaultValue={story.mode ?? StoryMode.NORMAL}
               name="mode"
-              render={({ field: { onChange, ref } }) => {
+              render={({ field: { onChange, ref, value } }) => {
                 return (
                   <div className="jusify-center flex items-center gap-4">
                     <span className="text-sm font-medium text-gray-700">
                       NORMAL
                     </span>
                     <Switch
-                      defaultChecked={story.mode === StoryMode.TIMELINE}
+                      checked={value === StoryMode.TIMELINE}
                       onCheckedChange={checked =>
                         onChange(
                           checked ? StoryMode.TIMELINE : StoryMode.NORMAL,
@@ -245,11 +245,11 @@ export default function SettingsModal({
                 return (
                   <>
                     <Select
-                      defaultValue={value ?? themes[0].name}
                       onValueChange={e => {
                         selectTheme(e)
                         onChange(e)
                       }}
+                      value={value ?? themes[0].name}
                     >
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Theme" />
@@ -275,8 +275,8 @@ export default function SettingsModal({
               render={({ field: { onChange, value, ref } }) => {
                 return (
                   <Select
-                    defaultValue={value ?? story.language}
                     onValueChange={onChange}
+                    value={value ?? story.language}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Language" />
