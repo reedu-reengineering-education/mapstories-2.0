@@ -2,21 +2,33 @@
 
 import { useTranslation } from '@/src/app/i18n/client'
 // import { useUIStore } from '@/src/lib/store/ui'
-import { Cog6ToothIcon, GlobeAltIcon, LockClosedIcon } from '@heroicons/react/24/outline'
+import { 
+  ArrowPathIcon, 
+  ChartBarIcon,
+  Cog6ToothIcon, 
+  DocumentDuplicateIcon, 
+  GlobeAltIcon,
+  LockClosedIcon,
+  SparklesIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline'
 import { cx } from 'class-variance-authority'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
+import { useCurrentUser } from '@/src/lib/hooks/useCurrentUser'
 
 export function StudioSidebar() {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'settings')
+  const { isAdmin, isBfdwGalleryAdmin } = useCurrentUser()
   const [items, setItems] = useState<Route[]>([])
 
   useEffect(() => {
-    setItems([
+
+    const baseItems: Route[] = [
       {
         title: 'Mapstories',
         href: '/storylab',
@@ -32,8 +44,46 @@ export function StudioSidebar() {
         href: `/${lng}/storylab/privacy`,
         icon: LockClosedIcon,
       }
-    ])
-  }, [lng, t])
+    ]
+
+    if (isAdmin) {
+      baseItems.push({
+        title: 'Analytics',
+        href: `/${lng}/storylab/admin/analytics`,
+        icon: ChartBarIcon,
+      })
+      baseItems.push({
+        title: 'Gallery',
+        href: `/${lng}/storylab/admin/gallery`,
+        icon: SparklesIcon,
+      })
+      baseItems.push({
+        title: 'Duplicate Story',
+        href: `/${lng}/storylab/admin/duplicate-story`,
+        icon: DocumentDuplicateIcon,
+      })
+      baseItems.push({
+        title: 'Transfer Story',
+        href: `/${lng}/storylab/admin/transfer-story`,
+        icon: ArrowPathIcon,
+      })
+      baseItems.push({
+        title: 'Delete Story',
+        href: `/${lng}/storylab/admin/delete-story`,
+        icon: TrashIcon,
+      })
+    }
+
+    if (isBfdwGalleryAdmin) {
+      baseItems.push({
+        title: 'BFDW Gallery',
+        href: `/${lng}/storylab/bfdw-admin/gallery`,
+        icon: SparklesIcon,
+      })
+    }
+    setItems(baseItems)
+  }, [lng, t, isAdmin, isBfdwGalleryAdmin])
+  
   const path = usePathname()
 
   if (!items?.length) {

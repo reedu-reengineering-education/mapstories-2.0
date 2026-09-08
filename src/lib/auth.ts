@@ -8,6 +8,12 @@ import SignInEmail from '@/emails/sign-in'
 import nodemailer from 'nodemailer'
 import { MailOptions } from 'nodemailer/lib/smtp-transport'
 import { compare } from 'bcryptjs'
+
+const sessionCookieName =
+  process.env.NODE_ENV === 'production'
+    ? '__Secure-next-auth.session-token'
+    : 'next-auth.session-token'
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
@@ -17,10 +23,29 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
   },
+  // Set AUTH_COOKIE_DOMAIN (e.g. ".mapstories.de") to share the login session
+  // between the main domain and subdomains such as bfdw.mapstories.de.
+  ...(process.env.AUTH_COOKIE_DOMAIN
+    ? {
+        cookies: {
+          sessionToken: {
+            name: sessionCookieName,
+            options: {
+              httpOnly: true,
+              sameSite: 'lax' as const,
+              path: '/',
+              secure: process.env.NODE_ENV === 'production',
+              domain: process.env.AUTH_COOKIE_DOMAIN,
+            },
+          },
+        },
+      }
+    : {}),
   providers: [
     EmailProvider({
       from: process.env.SMTP_FROM,
       sendVerificationRequest: async ({ identifier, url, provider }) => {
+        console.log('Login URL:', url)
         const transporter = nodemailer.createTransport({
           host: process.env.SMTP_HOST,
           port: 587,
@@ -88,12 +113,37 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    // Default NextAuth behaviour forces every redirect back to NEXTAUTH_URL's
+    // host, which would always ssbounce BFDW logins back to the main domain.
+    // Trust absolute callback URLs pointing at either of our own hosts.
+    async redirect({ url, baseUrl }) {
+      let target: URL
+      try {
+        target = new URL(url, baseUrl)
+      } catch {
+        return baseUrl
+      }
+
+      const allowedHostnames = [new URL(baseUrl).hostname]
+      if (process.env.BFDW_DOMAIN) {
+        allowedHostnames.push(process.env.BFDW_DOMAIN)
+      }
+
+      const isAllowedHostname =
+        allowedHostnames.includes(target.hostname) ||
+        (process.env.BFDW_DOMAIN
+          ? target.hostname.endsWith(`.${process.env.BFDW_DOMAIN}`)
+          : false)
+
+      return isAllowedHostname ? target.toString() : baseUrl
+    },
     async session({ token, session }) {
       if (token) {
         session.user.id = token.id
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
+        session.user.role = token.role
       }
 
       return session
@@ -115,6 +165,7 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
+        role: dbUser.role,
       }
     },
   },

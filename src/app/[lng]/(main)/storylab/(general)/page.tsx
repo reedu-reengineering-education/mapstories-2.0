@@ -7,6 +7,7 @@ import { MapstoryCard } from '@/src/components/Studio/Mapstories/MapstoryCard'
 import { StudioShell } from '@/src/components/Studio/Shell'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
+import { getCurrentSite } from '@/src/lib/site.server'
 import { GlobeAltIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { redirect } from 'next/navigation'
 import type { Metadata } from 'next/types'
@@ -19,12 +20,26 @@ export const metadata: Metadata = {
 }
 
 const getMapstories = async (userId: string) => {
+  const site = getCurrentSite()
   return await db.story.findMany({
     where: {
       ownerId: userId,
+      isTranslation: false,
+      // BFDW only shows its own stories; MAIN shows everything so users can
+      // still see/manage BFDW stories from the main site (marked on the card).
+      ...(site === 'BFDW' ? { site } : {}),
     },
     include: {
       stepSuggestions: true,
+      group: {
+        include: {
+          stories: {
+            select: {
+              language: true,
+            },
+          },
+        },
+      },
     },
   })
 }

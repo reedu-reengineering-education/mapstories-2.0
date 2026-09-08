@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from '../../Elements/Select'
 import { applyTheme } from '@/src/helper/applyTheme'
+import { availableStoryLanguages } from '@/src/lib/languageFlags'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
@@ -158,14 +159,14 @@ export default function SettingsModal({
               control={control}
               defaultValue={story.mode ?? StoryMode.NORMAL}
               name="mode"
-              render={({ field: { onChange, ref } }) => {
+              render={({ field: { onChange, ref, value } }) => {
                 return (
                   <div className="jusify-center flex items-center gap-4">
                     <span className="text-sm font-medium text-gray-700">
                       NORMAL
                     </span>
                     <Switch
-                      defaultChecked={story.mode === StoryMode.TIMELINE}
+                      checked={value === StoryMode.TIMELINE}
                       onCheckedChange={checked =>
                         onChange(
                           checked ? StoryMode.TIMELINE : StoryMode.NORMAL,
@@ -239,17 +240,16 @@ export default function SettingsModal({
             <Controller
               control={control}
               defaultValue={story.themeId ?? themes[0].name}
-              // name="theme"
-              {...register('themeId')}
+              name="themeId"
               render={({ field: { onChange, value, ref } }) => {
                 return (
                   <>
                     <Select
-                      defaultValue={value ?? themes[0].name}
                       onValueChange={e => {
                         selectTheme(e)
                         onChange(e)
                       }}
+                      value={value ?? themes[0].name}
                     >
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Theme" />
@@ -263,6 +263,32 @@ export default function SettingsModal({
                       </SelectContent>
                     </Select>
                   </>
+                )
+              }}
+            />
+            <Spacer />
+            <InputLabel>{t('settingsModal:defaultLanguage')}</InputLabel>
+            <Controller
+              control={control}
+              defaultValue={(story as any).defaultLanguage ?? story.language}
+              name="defaultLanguage"
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <Select
+                    onValueChange={onChange}
+                    value={value ?? story.language}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Language" />
+                    </SelectTrigger>
+                    <SelectContent ref={ref}>
+                      {availableStoryLanguages.map((lang) => (
+                        <SelectItem key={lang.code} value={lang.code}>
+                          {lang.flag} {lang.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 )
               }}
             />

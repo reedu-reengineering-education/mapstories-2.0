@@ -11,6 +11,8 @@ import { useBoundStore } from '@/src/lib/store/store'
 // import { useTranslation } from '../i18n/client'
 import { useNavigationEvent } from '@/src/helper/useNavigationEvent'
 import { applyTheme } from '@/src/helper/applyTheme'
+import { getSiteFromHost } from '@/src/lib/site'
+import { getBaseThemeForSite } from '@/src/lib/theme'
 
 export default function Providers({
   children,
@@ -22,20 +24,22 @@ export default function Providers({
   const setLanguage = useBoundStore(state => state.setLanguage)
 
   function setBaseTheme() {
-    applyTheme({
-      name: 'Standard',
-      shadow_color: 'rgba(56,56.58, 0.9)',
-      border: '3px solid #38383a',
-      box_shadow: '4px 4px 0px var(--shadow-color)',
-      border_radius: '10px',
-      text_color: '#38383a',
-      button_color: '#38383a',
-      background_color: 'white',
-    })
+    const site = getSiteFromHost(
+      typeof window !== 'undefined' ? window.location.hostname : undefined,
+    )
+    applyTheme(getBaseThemeForSite(site))
   }
 
   //reapply base theme on route change (might need to be changed later if we allow theming of the whole website)
   useNavigationEvent(() => setBaseTheme())
+
+  // useNavigationEvent only fires on subsequent route changes, not on the
+  // initial page load, so the site-specific base theme needs to be applied
+  // here too, otherwise the SCSS hardcoded default (Standard) sticks until
+  // the user navigates.
+  useEffect(() => {
+    setBaseTheme()
+  }, [])
 
   useEffect(() => {
     setLanguage(lng)

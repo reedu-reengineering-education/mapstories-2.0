@@ -40,3 +40,4 @@ next-env.d.ts
 /deployment/.env
 
 .react-email
+.env.testing

@@ -7,6 +7,8 @@ export const sendVerificationRequest = async (
 ) => {
   try {
     const url: string = params.url
+    console.log('Sending login email to:', params.identifier)
+    console.log('Login URL:', url)
     const emailsending = await resend.emails.send({
       from: 'Mapstories <no-reply@mapstories.reedu.de>',
       to: params.identifier,

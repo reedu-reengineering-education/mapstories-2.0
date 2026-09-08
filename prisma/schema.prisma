@@ -53,22 +53,22 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-  accounts      Account[]
-  sessions      Session[]
-  owner         Story[]   @relation("owner")
-  story         Story[]   @relation("contributors")
-  verify_new_email_token String? 
-  new_email              String? 
-  password      String?
-  role          UserRole @default(USER)
-
+  id                     String    @id @default(cuid())
+  name                   String?
+  email                  String?   @unique
+  emailVerified          DateTime?
+  image                  String?
+  createdAt              DateTime  @default(now()) @map(name: "created_at")
+  updatedAt              DateTime  @default(now()) @map(name: "updated_at")
+  accounts               Account[]
+  sessions               Session[]
+  owner                  Story[]   @relation("owner")
+  story                  Story[]   @relation("contributors")
+  verify_new_email_token String?
+  new_email              String?
+  password               String?
+  role                   UserRole  @default(USER)
+  galleryStories         GalleryStory[] @relation("galleryStories")
 
   @@map(name: "users")
 }
@@ -83,12 +83,12 @@ model VerificationToken {
 }
 
 model PasswordResetToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
-  @@unique ([email, token])
+  @@unique([email, token])
 }
 
 enum StoryMode {
@@ -97,28 +97,43 @@ enum StoryMode {
 }
 
 model Story {
-  id          String      @id @default(cuid())
-  name        String?
-  slug        String      @unique
-  description String?
-  author      String? 
-  theme       Theme?  @relation(fields: [themeId], references: [name])
-  themeId     String?     
-  steps       StoryStep[] @relation("steps")
-  firstStep   StoryStep?  @relation("firstStep", fields: [firstStepId], references: [id])
-  firstStepId String?     @unique
-  owner       User?       @relation("owner", fields: [ownerId], references: [id])
-  ownerId     String?
-  contributor User[]      @relation("contributors")
-  visibility  Visibility
-  createdAt   DateTime    @default(now()) @map(name: "created_at")
-  updatedAt   DateTime    @default(now()) @map(name: "updated_at")
-  mode        StoryMode   @default(NORMAL)
-  lines       Boolean     @default(true)
+  id              String                @id @default(cuid())
+  name            String?
+  slug            String                @unique
+  description     String?
+  author          String?
+  theme           Theme?                @relation(fields: [themeId], references: [name])
+  themeId         String?
+  steps           StoryStep[]           @relation("steps")
+  firstStep       StoryStep?            @relation("firstStep", fields: [firstStepId], references: [id])
+  firstStepId     String?               @unique
+  owner           User?                 @relation("owner", fields: [ownerId], references: [id])
+  ownerId         String?
+  contributor     User[]                @relation("contributors")
+  visibility      Visibility
+  createdAt       DateTime              @default(now()) @map(name: "created_at")
+  updatedAt       DateTime              @default(now()) @map(name: "updated_at")
+  mode            StoryMode             @default(NORMAL)
+  lines           Boolean               @default(true)
   stepSuggestions StoryStepSuggestion[] @relation("storySuggestions")
-  community   Boolean     @default(false)
+  community       Boolean               @default(false)
+  language        String                @default("de")
+  isTranslation   Boolean               @default(false)
+  defaultLanguage String?
+  group           StoryGroup?           @relation(fields: [groupId], references: [id])
+  groupId         String?
+  galleryStories  GalleryStory[]
+  site            Site                  @default(MAIN)
 
+  @@unique([groupId, language])
   @@map(name: "stories")
+}
+
+model StoryGroup {
+  id      String  @id @default(cuid())
+  stories Story[]
+
+  @@map(name: "storygroups")
 }
 
 model StoryStep {
@@ -137,19 +152,18 @@ model StoryStep {
   @@map(name: "storysteps")
 }
 
-
 model StoryStepSuggestion {
-  id            String   @id @default(cuid())
-  position      Int 
-  Story         Story?    @relation("storySuggestions", fields: [storyId], references: [id], onDelete: Cascade)
-  storyId       String?
-  feature       Json?
-  content       SlideContent[]
-  viewport      Json
-  timestamp     DateTime?
-  tags         String[]
-  status        SuggestionStatus @default(PENDING)
-  createdAt     DateTime?    @default(now()) @map(name: "created_at")
+  id        String           @id @default(cuid())
+  position  Int
+  Story     Story?           @relation("storySuggestions", fields: [storyId], references: [id], onDelete: Cascade)
+  storyId   String?
+  feature   Json?
+  content   SlideContent[]
+  viewport  Json
+  timestamp DateTime?
+  tags      String[]
+  status    SuggestionStatus @default(PENDING)
+  createdAt DateTime?        @default(now()) @map(name: "created_at")
 
   @@map(name: "storystepsuggestions")
 }
@@ -161,34 +175,33 @@ enum SuggestionStatus {
 }
 
 model Theme {
-  name              String @id @default(cuid())
-  Story             Story[]
-  fontFamily        String?
-  shadow_color      String?
-  border            String?
-  box_shadow        String?
-  border_radius     String?
-  text_color        String?
-  background_color  String?
-  button_color      String?
-  
-  @@map(name: "theme")
+  name             String  @id @default(cuid())
+  Story            Story[]
+  fontFamily       String?
+  shadow_color     String?
+  border           String?
+  box_shadow       String?
+  border_radius    String?
+  text_color       String?
+  background_color String?
+  button_color     String?
 
+  @@map(name: "theme")
 }
 
 model SlideContent {
-  id          String    @id @default(cuid())
-  content     String
-  type        MediaType
-  position    Int
-  options     Json?
-  storyStep   StoryStep? @relation(fields: [storyStepId], references: [id], onDelete: Cascade)
-  storyStepId String?
+  id           String               @id @default(cuid())
+  content      String
+  type         MediaType
+  position     Int
+  options      Json?
+  storyStep    StoryStep?           @relation(fields: [storyStepId], references: [id], onDelete: Cascade)
+  storyStepId  String?
   suggestionId String?
-  suggestion  StoryStepSuggestion? @relation(fields: [suggestionId], references: [id])
-  ogData      Json?
-  media       Media?    @relation(fields: [mediaId], references: [id])
-  mediaId     String?   
+  suggestion   StoryStepSuggestion? @relation(fields: [suggestionId], references: [id])
+  ogData       Json?
+  media        Media?               @relation(fields: [mediaId], references: [id])
+  mediaId      String?
 
   @@map(name: "slidecontent")
 }
@@ -246,5 +259,28 @@ enum MediaType {
 
 enum UserRole {
   ADMIN
+  SITE_ADMIN_BFDW
   USER
+}
+
+// A "Site" is a full white-labeled deployment reachable via its own subdomain
+// (e.g. bfdw.mapstories.de), with its own stories, gallery and admins.
+enum Site {
+  MAIN
+  BFDW
+}
+
+model GalleryStory {
+  id        String   @id @default(cuid())
+  storyId   String
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  site      Site     @default(MAIN)
+  addedBy   String
+  admin     User     @relation("galleryStories", fields: [addedBy], references: [id], onDelete: Cascade)
+  position  Int      @default(0)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  @@unique([storyId, site])
+  @@map("gallery_stories")
 }

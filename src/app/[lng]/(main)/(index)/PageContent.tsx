@@ -8,10 +8,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import MapstoryWithTextLogo from '@/assets/logos/logo_text_claim.png'
+import ConnectLogo from '@/assets/logos/bfdw-connect-logo.png'
+import { getSiteFromHost } from '@/src/lib/site'
+
 export default function PageContent() {
   const [isShowing, setIsShowing] = useState(false)
+  const [isBfdw, setIsBfdw] = useState(false)
 
   useEffect(() => {
+    setIsBfdw(getSiteFromHost(window.location.hostname) === 'BFDW')
     setIsShowing(true)
   }, [])
 
@@ -31,14 +36,31 @@ export default function PageContent() {
     >
       <div blur-sm className="flex flex-col gap-8 md:flex-row lg:flex-col">
         <div className="re-basic-box flex w-full flex-col items-center bg-white bg-opacity-90 p-1 text-center lg:p-6">
+        {isBfdw && (
+          <div className="flex flex-col items-center justify-center ">
           <Image
             alt="Mapstories"
-            height={300}
+            height={200}
             src={MapstoryWithTextLogo}
-            width={800}
           />
+          <Image
+            alt="CONNECT"
+            height={150}
+            src={ConnectLogo}
+          />
+          </div>
+        )}
+        {!isBfdw && (
+          <div className="flex flex-col items-center justify-center ">
+            <Image
+              alt="Mapstories"
+              height={200}
+              src={MapstoryWithTextLogo}
+            />
+          </div>
+        )}
 
-          <p className="pb-2">{t('startText')}</p>
+          <p className="pb-2">{t('startText') }</p>
         </div>
 
         <div className="flex flex-col items-center justify-evenly gap-2 lg:hidden">
@@ -52,6 +74,7 @@ export default function PageContent() {
               {t('infos')}
             </Button>
           </Link>
+          {!isBfdw && (
           <Link
             href={'https://vamos-muenster.de/angebote/mapstories/veranstaltungen/'}
             rel="noopener noreferrer"
@@ -61,6 +84,8 @@ export default function PageContent() {
               {t('vamosEvents')}
             </Button>
           </Link> 
+          )}
+
         </div>
         <div className="hidden items-center justify-center gap-2 lg:flex lg:gap-4">
           <Link href="/login">
@@ -78,17 +103,17 @@ export default function PageContent() {
               {t('infos')}
             </Button>
           </Link>
+          {!isBfdw && (
             <Link
             href={'https://vamos-muenster.de/angebote/mapstories/veranstaltungen/'}
             rel="noopener noreferrer"
             target="_blank"
             >
             <Button className=" re-basic-box bg-opacity-90" variant={'inverse'}>
-
               {t('vamosEvents')}
-
             </Button>
           </Link>
+          )}
         </div>
       </div>
     </Transition>
