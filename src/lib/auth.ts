@@ -8,6 +8,12 @@ import SignInEmail from '@/emails/sign-in'
 import nodemailer from 'nodemailer'
 import { MailOptions } from 'nodemailer/lib/smtp-transport'
 import { compare } from 'bcryptjs'
+
+const sessionCookieName =
+  process.env.NODE_ENV === 'production'
+    ? '__Secure-next-auth.session-token'
+    : 'next-auth.session-token'
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
@@ -23,7 +29,7 @@ export const authOptions: NextAuthOptions = {
     ? {
         cookies: {
           sessionToken: {
-            name: 'next-auth.session-token',
+            name: sessionCookieName,
             options: {
               httpOnly: true,
               sameSite: 'lax' as const,
