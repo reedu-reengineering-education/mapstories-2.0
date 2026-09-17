@@ -69,6 +69,7 @@ model User {
   password               String?
   role                   UserRole  @default(USER)
   galleryStories         GalleryStory[] @relation("galleryStories")
+  bfdwGalleryUnlocked    Boolean   @default(false)
 
   @@map(name: "users")
 }

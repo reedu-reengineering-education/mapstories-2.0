@@ -31,8 +31,8 @@ export default async function handler(
         return res.status(400).json({ error: 'email and role are required' })
       }
 
-      if (!['ADMIN', 'USER'].includes(role)) {
-        return res.status(400).json({ error: 'Invalid role. Must be ADMIN or USER' })
+      if (!['ADMIN', 'USER', 'SITE_ADMIN_BFDW'].includes(role)) {
+        return res.status(400).json({ error: 'Invalid role. Must be ADMIN, USER or SITE_ADMIN_BFDW' })
       }
 
       const user = await db.user.findUnique({

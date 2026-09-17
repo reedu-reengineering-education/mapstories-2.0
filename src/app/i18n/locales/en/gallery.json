@@ -1,5 +1,10 @@
 {
   "all_public_stories": "All public Mapstories at a glance",
   "welcome_to_gallery": "Welcome to the gallery!",
-  "gallery_text": "Currently, only a few map stories are presented. But this is just the beginning. In the future more mapstories will be added and the gallery will become an exhibition for special stories. Feel free to send us your mapstories for this!"
+  "gallery_text": "Currently, only a few map stories are presented. But this is just the beginning. In the future more mapstories will be added and the gallery will become an exhibition for special stories. Feel free to send us your mapstories for this!",
+  "gallery_password_title": "This gallery is password protected",
+  "gallery_password_description": "Please enter the password to view the gallery.",
+  "gallery_password_placeholder": "Password",
+  "gallery_password_submit": "Submit",
+  "gallery_password_error": "Wrong password. Please try again."
 }
