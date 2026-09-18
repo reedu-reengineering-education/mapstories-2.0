@@ -49,7 +49,7 @@ export function LangSwitcher() {
             <DropdownMenu.Item
               className={cx(
                 'cursor-pointer gap-2 rounded-md',
-                code === currentLang && 'bg-hover font-medium text-black',
+                code === currentLang ? 'bg-hover font-medium text-black' : '',
               )}
               key={code}
               onClick={() => changeLanguage(code)}
