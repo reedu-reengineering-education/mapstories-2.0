@@ -322,7 +322,7 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     const maxZoom = 15
 
     // Gewichtete Anpassung: Kleinere Entfernungen -> Höherer Zoom, größere Entfernungen -> Weniger Zoom
-    const weight = 0.5 // Gewichtung anpassen
+    const weight = 2 // Gewichtung anpassen
     const zoom = 16 - Math.log2(distance * weight)
 
     return Math.max(minZoom, Math.min(maxZoom, zoom))
@@ -411,11 +411,13 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
           startView.getNorthWest().lat,
           startView.getNorthWest().lng,
         )
-        mapRef.current?.flyTo({
-          center: startView.getCenter(),
-          zoom: calculateWeightedZoom(distance),
-          offset: [-width / 5, 75],
-        })
+
+        /// calculate the bounds fit the view to the bounds
+          mapRef.current?.flyTo({
+            center: startView.getCenter(),
+            zoom: calculateWeightedZoom(distance),
+            offset: [-width / 5, 75],
+          })
       } catch (error) {
         // startView might be null if no steps with features exist
         console.warn('Could not fly to start view:', error)
