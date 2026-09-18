@@ -1,6 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { cx } from 'class-variance-authority'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
 import { DropdownMenu } from '@/src/components/Dropdown'
 import { getLanguageInfo } from '@/src/lib/languageFlags'
@@ -67,14 +69,18 @@ export function StoryLanguageSwitcher({ story, currentSlug }: Props) {
       <DropdownMenu.Trigger asChild>
         <button
           aria-label={current.label}
-          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-slate-100 border border-slate-200"
+          className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:ring-2 focus:ring-brand-900 focus:ring-offset-2 focus-visible:outline-none"
         >
-          <span className="text-gray-600">Sprache:</span>
-          <span className="text-lg">{current.flag}</span>
+          <span className="text-base leading-none">{current.flag}</span>
+          <span>{current.label}</span>
+          <ChevronDownIcon className="h-3.5 w-3.5 text-slate-400" />
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content align="end" className="z-[100] mt-2">
+        <DropdownMenu.Content
+          align="end"
+          className="z-[100] mt-2 min-w-[160px] p-1 md:w-auto"
+        >
           {variants
             .slice()
             .sort((a, b) => a.language.localeCompare(b.language))
@@ -83,13 +89,15 @@ export function StoryLanguageSwitcher({ story, currentSlug }: Props) {
               const active = v.language === story.language
               return (
                 <DropdownMenu.Item
-                  className={
-                    'cursor-pointer ' + (active ? 'bg-slate-100' : '')
-                  }
+                  className={cx(
+                    'cursor-pointer gap-2 rounded-md',
+                    active && 'bg-hover font-medium text-black',
+                  )}
                   key={v.id}
                   onClick={() => !active && switchTo(v.slug)}
                 >
-                  {info.flag} {info.label}
+                  <span className="text-base leading-none">{info.flag}</span>
+                  <span>{info.label}</span>
                 </DropdownMenu.Item>
               )
             })}
