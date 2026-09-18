@@ -9,7 +9,7 @@ import { Fragment, useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
-import { LogoWithTextTransparent } from './MapstoriesLogo'
+import { SiteLogoTransparent } from './SiteLogo'
 import { User } from 'next-auth'
 import { LangSwitcher } from '../LangSwitcher'
 import { UserAccountNav } from '../Auth/UserAccountNav'
@@ -70,10 +70,8 @@ export function InverseNavbar({
           className="relative hidden items-center space-x-2 text-zinc-50 lg:flex"
           href="/"
         >
-          <LogoWithTextTransparent />
-          <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary">
-            BETA
-          </span>
+          <SiteLogoTransparent />
+
         </Link>
         {routes?.length ? (
           <nav className="hidden gap-6 lg:flex">
@@ -82,7 +80,7 @@ export function InverseNavbar({
                 {!item.disabled && (
                   <Link
                     className={cx(
-                      'flex items-center text-lg font-semibold sm:text-sm',
+                      'flex items-center text-lg font-semibold sm:text-sm transition-colors hover:text-[var(--button-color)]',
                       item.href.includes(`/${segment}`)
                         ? 'text-slate-50'
                         : 'text-slate-100',
@@ -111,10 +109,8 @@ export function InverseNavbar({
           className="relative items-center space-x-2 text-zinc-50 lg:hidden"
           href="/"
         >
-          <LogoWithTextTransparent />
-          <span className="absolute -bottom-1 -right-8 hidden -rotate-[17deg] font-bold text-primary lg:flex">
-            BETA
-          </span>
+          <SiteLogoTransparent />
+
         </Link>
         {showMobileMenu && (
           <MobileNav routes={routes} user={user}>

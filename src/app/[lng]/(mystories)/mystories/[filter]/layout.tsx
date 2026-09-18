@@ -6,9 +6,9 @@ import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
 import { db } from '@/src/lib/db'
 import { getCurrentUser, getSession } from '@/src/lib/session'
+import { getCurrentSite } from '@/src/lib/site.server'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { LinkIcon } from '@heroicons/react/24/outline'
 import { User } from '@prisma/client'
 
 interface ViewerLayoutProps {
@@ -17,9 +17,14 @@ interface ViewerLayoutProps {
 }
 
 const getMapstories = async (userId: string) => {
+  const site = getCurrentSite()
   return await db.story.findMany({
     where: {
       ownerId: userId,
+      isTranslation: false,
+      // BFDW only shows its own stories; MAIN shows everything so users can
+      // still see/manage BFDW stories from the main site (marked on the card).
+      ...(site === 'BFDW' ? { site } : {}),
     },
     include: {
       firstStep: {
@@ -38,9 +43,12 @@ const getMapstories = async (userId: string) => {
 }
 
 const getMapstoriesWithFilter = async (userId: string, filter: string[]) => {
+  const site = getCurrentSite()
   const unfilteredStories = await db.story.findMany({
     where: {
       ownerId: userId,
+      isTranslation: false,
+      ...(site === 'BFDW' ? { site } : {}),
     },
     include: {
       firstStep: {
@@ -108,19 +116,7 @@ export default async function ViewerLayout({
           <div className="flex h-16 items-center justify-between py-4">
             <InverseNavbar user={user} userHasStories={storyCount > 0}>
               <div className="flex space-x-2">
-                <Button
-                  className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
-                  startIcon={<LinkIcon className="w-5" />}
-                >
-                  {' '}
-                  <a
-                    href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view "
-                    target="_blank"
-                  >
-                    {' '}
-                    Feedback
-                  </a>{' '}
-                </Button>{' '}
+
                 <div className="hidden lg:flex lg:flex-row lg:gap-2">
                   <LangSwitcher />
                   {user ? (

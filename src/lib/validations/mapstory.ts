@@ -16,8 +16,13 @@ export const updateMapstorySchema = z.object({
   themeId: z.string().nullable().optional(),
   lines: z.boolean(),
   community: z.boolean(),
+  defaultLanguage: z.string().min(2).max(5).optional().nullable(),
 })
 
 export const copyMapstorySchema = z.object({
   name: z.string().min(3).max(100),
+})
+
+export const addLanguageSchema = z.object({
+  language: z.string().min(2).max(5),
 })

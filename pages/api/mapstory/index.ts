@@ -8,6 +8,7 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { createMapstorySchema } from '@/src/lib/validations/mapstory'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import { generateSlug } from '@/src/lib/slug'
+import { getSiteFromHost } from '@/src/lib/site'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -18,15 +19,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const body = req.body
 
       if (body?.name && user) {
-        const payload = createMapstorySchema.parse(body)
+        const { themeId, ...payloadBody } = body
+        const payload = createMapstorySchema.parse(payloadBody)
 
         const slug = await generateSlug(payload.name)
+        const site = getSiteFromHost(req.headers.host)
         const newMapstory = await db.story.create({
           data: {
             ownerId: user.id,
             visibility: 'PRIVATE',
             slug,
             ...payload,
+            site,
+            // New BFDW stories default to the BFDW theme unless the client set one explicitly.
+            themeId: themeId ?? (site === 'BFDW' ? 'BFDW' : undefined),
           },
         })
 

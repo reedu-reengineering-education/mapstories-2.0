@@ -1,6 +1,7 @@
 #!/bin/sh
 
 find /app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXT_PUBLIC_MAPBOX_TOKEN#$NEXT_PUBLIC_MAPBOX_TOKEN#g"
+find /app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXT_PUBLIC_BFDW_DOMAIN#$NEXT_PUBLIC_BFDW_DOMAIN#g"
 
 if [ "$MIGRATE_DATABASE" = true ]
 then

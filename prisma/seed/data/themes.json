@@ -29,5 +29,15 @@
     "text_color": "#008080",
     "button_color": "rgb(204,72,172)",
     "background_color": "white"
+  },
+  {
+    "name": "BFDW",
+    "shadow_color": "rgba(255, 123, 21, 0.35)",
+    "border": "3px solid #ff7b15",
+    "box_shadow": "4px 4px 0px var(--shadow-color)",
+    "border_radius": "10px",
+    "text_color": "#000000",
+    "button_color": "#ff7b15",
+    "background_color": "#ffffff"
   }
 ]
