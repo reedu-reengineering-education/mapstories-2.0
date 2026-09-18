@@ -91,7 +91,7 @@ export function StoryLanguageSwitcher({ story, currentSlug }: Props) {
                 <DropdownMenu.Item
                   className={cx(
                     'cursor-pointer gap-2 rounded-md',
-                    active && 'bg-hover font-medium text-black',
+                    active && 'bg-hover font-medium text-black' || '',
                   )}
                   key={v.id}
                   onClick={() => !active && switchTo(v.slug)}
