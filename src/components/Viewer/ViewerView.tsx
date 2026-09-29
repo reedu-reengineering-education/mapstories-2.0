@@ -461,9 +461,22 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       )}
 
       {mapData &&
-        mapData.map((m) => {
+        mapData.map((m, index) => {
+          // Stories without lines have one Point feature per step; only
+          // render the first one so each story gets a single popup/source.
+          if (
+            mapData.findIndex(f => f.properties?.id === m.properties?.id) !==
+            index
+          ) {
+            return null
+          }
           const storyData = stories?.find((s) => s.id === m.properties?.id)
-          if (m.geometry.coordinates[0][1] === undefined || m.geometry.coordinates[0][0] === undefined) {
+          const geometry = m.geometry as GeoJSON.Point | GeoJSON.LineString
+          const [lng, lat] =
+            geometry.type === 'Point'
+              ? geometry.coordinates
+              : geometry.coordinates[0] ?? []
+          if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
             console.warn('Skipping feature with invalid coordinates:', m)
             return null
           }
@@ -482,8 +495,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                     <Popup
                       anchor="bottom"
                       closeOnClick={false}
-                      latitude={m.geometry.coordinates[0][1]}
-                      longitude={m.geometry.coordinates[0][0]}
+                      latitude={lat}
+                      longitude={lng}
                       // onClose={() => setPopupInfo(null)}
                     >
                       <div
