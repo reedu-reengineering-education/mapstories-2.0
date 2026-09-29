@@ -272,7 +272,19 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     setSelectedStorySlug(m.properties?.slug)
 
     if (m) {
-      const coordinates = m.geometry.coordinates
+      // Stories without lines are stored as one Point feature per step, so
+      // collect the coordinates of all features belonging to this story.
+      const features = (mapData ?? [m]) as GeoJSON.Feature<
+        GeoJSON.Point | GeoJSON.LineString
+      >[]
+      const coordinates = features
+        .filter(f => f.properties?.id === m.properties?.id)
+        .flatMap(f =>
+          f.geometry.type === 'Point'
+            ? [f.geometry.coordinates]
+            : f.geometry.coordinates,
+        )
+        .filter(c => Number.isFinite(c?.[0]) && Number.isFinite(c?.[1]))
 
       // Create a 'LngLatBounds' with both corners at the first coordinate.
       if (coordinates.length !== 0) {
@@ -449,9 +461,22 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
       )}
 
       {mapData &&
-        mapData.map((m) => {
+        mapData.map((m, index) => {
+          // Stories without lines have one Point feature per step; only
+          // render the first one so each story gets a single popup/source.
+          if (
+            mapData.findIndex(f => f.properties?.id === m.properties?.id) !==
+            index
+          ) {
+            return null
+          }
           const storyData = stories?.find((s) => s.id === m.properties?.id)
-          if (m.geometry.coordinates[0][1] === undefined || m.geometry.coordinates[0][0] === undefined) {
+          const geometry = m.geometry as GeoJSON.Point | GeoJSON.LineString
+          const [lng, lat] =
+            geometry.type === 'Point'
+              ? geometry.coordinates
+              : geometry.coordinates[0] ?? []
+          if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
             console.warn('Skipping feature with invalid coordinates:', m)
             return null
           }
@@ -470,8 +495,8 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
                     <Popup
                       anchor="bottom"
                       closeOnClick={false}
-                      latitude={m.geometry.coordinates[0][1]}
-                      longitude={m.geometry.coordinates[0][0]}
+                      latitude={lat}
+                      longitude={lng}
                       // onClose={() => setPopupInfo(null)}
                     >
                       <div
