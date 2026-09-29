@@ -25,10 +25,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# local env files
-.env*.local
-.env
-.adminenv
+# env files (only the *.example templates are committed)
+.env*
+!.env*.example
+.adminenv*
+!.adminenv*.example
 
 # vercel
 .vercel
