@@ -1,51 +1,27 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getServerSession } from 'next-auth'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
-import { z } from 'zod'
-import * as minio from 'minio'
-
-async function generatePresignedUrl(
-  method: string,
-  fileName: string,
-  minioClient: minio.Client,
-  bucketName: string,
-): Promise<string> {
-  return new Promise((resolve, reject) => {
-    minioClient.presignedUrl(method, bucketName, fileName, (err, url) => {
-      if (err) {
-        reject(err)
-      }
-      resolve(url)
-    })
-  })
-}
+import { authOptions } from '@/src/lib/auth'
+import { getPresignedUrl } from '@/src/lib/s3'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    // uploads image to minio via minio client
-    const minioClient = new minio.Client({
-      endPoint: process.env.S3_ENDPOINT!,
-      port: parseInt(process.env.S3_PORT!),
-      useSSL: process.env.S3_USE_SSL! === 'true'!,
-      accessKey: process.env.S3_ACCESS_KEY!,
-      secretKey: process.env.S3_SECRET_KEY!,
-    })
+    const method = req.method as 'GET' | 'PUT'
+
+    // reading is public (viewer), uploading requires a logged in user
+    if (method === 'PUT') {
+      const session = await getServerSession(req, res, authOptions)
+      if (!session) {
+        return res.status(403).end()
+      }
+    }
 
     const fileName = `${req.query.fileName}`
-
-    const method = req.method as string
-    const url = await generatePresignedUrl(
-      method,
-      fileName,
-      minioClient,
-      process.env.S3_BUCKET_NAME!,
-    )
-    res.status(200).json(url)
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      res.status(422).json(error.issues)
-    }
-    res.status(422).json(error)
+    const url = await getPresignedUrl(method, fileName)
+    return res.status(200).json(url)
+  } catch (error: any) {
+    return res.status(422).json(error.message)
   }
 }
 
-export default withMethods(['GET', 'POST', 'PUT', 'DELETE'], handler)
+export default withMethods(['GET', 'PUT'], handler)
