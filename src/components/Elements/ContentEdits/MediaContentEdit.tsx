@@ -62,7 +62,7 @@ export function MediaContent({
       uploadedFile.id + '.' + uploadedFile.name,
     )
     // use presigned url to upload local media file to s3
-    const response = await fetch(preSignedUrl, {
+    await fetch(preSignedUrl, {
       method: 'PUT',
       body: file,
     })
@@ -83,7 +83,7 @@ export function MediaContent({
       // upload file to s3
       await uploadFile(file, uploadedMedia)
       setMedia(uploadedMedia)
-    } catch (error: any) {}
+    } catch {}
     setIsLoading(false)
   }
 

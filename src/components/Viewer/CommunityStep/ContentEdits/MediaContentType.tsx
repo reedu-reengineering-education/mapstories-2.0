@@ -100,7 +100,7 @@ export function MediaContentEdit({
       uploadedFile.id + '.' + uploadedFile.name,
     )
     // use presigned url to upload local media file to s3
-    const response = await fetch(preSignedUrl, {
+    await fetch(preSignedUrl, {
       method: 'PUT',
       body: file,
     })
@@ -128,7 +128,7 @@ export function MediaContentEdit({
           mediaId: uploadedMedia.id,
         })
         setStepSuggestion(newStepSuggestion)
-      } catch (error: any) {
+      } catch {
       } finally {
         setIsSaving(false)
         setContentType && setContentType('addSlide')

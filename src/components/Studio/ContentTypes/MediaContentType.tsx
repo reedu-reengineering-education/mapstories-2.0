@@ -143,7 +143,7 @@ export function MediaContentEdit({
       uploadedFile.id + '.' + uploadedFile.name,
     )
     // use presigned url to upload local media file to s3
-    const response = await fetch(preSignedUrl, {
+    await fetch(preSignedUrl, {
       method: 'PUT',
       body: file,
     })
@@ -152,7 +152,6 @@ export function MediaContentEdit({
     try {
       setIsSaving(true)
       if (stepItem) {
-        const media = await getMedia(stepItem.mediaId)
         await updateMedia(stepItem.mediaId, {
           size: selectedValue,
           source: fileSource,

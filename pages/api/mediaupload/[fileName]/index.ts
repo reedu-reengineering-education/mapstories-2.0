@@ -11,8 +11,7 @@ import { getServerSession } from 'next-auth'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     let media
-    const session = await getServerSession(req, res, authOptions)
-    const userid = session?.user.id
+    await getServerSession(req, res, authOptions)
     if (req.method === 'POST') {
       media = await db.media.create({
         data: {

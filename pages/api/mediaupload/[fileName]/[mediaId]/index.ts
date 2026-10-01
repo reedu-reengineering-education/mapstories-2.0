@@ -12,8 +12,7 @@ import { deleteObject } from '@/src/lib/s3'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     let media
-    const session = await getServerSession(req, res, authOptions)
-    const userid = session?.user.id
+    await getServerSession(req, res, authOptions)
 
     if (req.method === 'DELETE') {
       const fileName = req.query.mediaId + '.' + req.query.fileName
@@ -23,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       try {
         await deleteObject(fileName)
       } catch (err) {
-        console.log(err)
+        console.error(err)
       }
     }
 

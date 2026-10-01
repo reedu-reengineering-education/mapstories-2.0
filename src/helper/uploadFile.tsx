@@ -10,7 +10,7 @@ const uploadFile = async (file: File, uploadedFile: Media) => {
     uploadedFile.id + '.' + uploadedFile.name,
   )
   // use presigned url to upload local media file to s3
-  const response = await fetch(preSignedUrl, {
+  await fetch(preSignedUrl, {
     method: 'PUT',
     body: file,
   })
