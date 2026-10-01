@@ -1,5 +1,5 @@
 export async function retrievePresignedUrl(
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+  method: 'GET' | 'PUT',
   fileName: string,
 ) {
   const url = `/api/mediaupload/preSignedUrl/${fileName}`
