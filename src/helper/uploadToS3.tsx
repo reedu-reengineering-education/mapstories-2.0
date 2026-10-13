@@ -1,7 +1,7 @@
 import { retrievePresignedUrl } from './retrievePresignedUrl'
 
 export async function uploadToS3(
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+  method: 'PUT',
   fileName: string,
   file: File,
 ) {
