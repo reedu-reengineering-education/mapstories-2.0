@@ -7,35 +7,23 @@ import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import { authOptions } from '@/src/lib/auth'
 import { z } from 'zod'
 import { getServerSession } from 'next-auth'
-import * as minio from 'minio'
+import { deleteObject } from '@/src/lib/s3'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     let media
-    const session = await getServerSession(req, res, authOptions)
-    const userid = session?.user.id
+    await getServerSession(req, res, authOptions)
 
     if (req.method === 'DELETE') {
       const fileName = req.query.mediaId + '.' + req.query.fileName
       media = await db.media.delete({
         where: { id: req.query.mediaId as string },
       })
-      const minioClient = new minio.Client({
-        endPoint: process.env.S3_ENDPOINT!,
-        port: parseInt(process.env.S3_PORT!),
-        useSSL: process.env.S3_USE_SSL === 'true'!,
-        accessKey: process.env.S3_ACCESS_KEY!,
-        secretKey: process.env.S3_SECRET_KEY!,
-      })
-      minioClient.removeObject(
-        process.env.S3_BUCKET_NAME!,
-        `${fileName}`,
-        err => {
-          if (err) {
-            console.log(err)
-          }
-        },
-      )
+      try {
+        await deleteObject(fileName)
+      } catch (err) {
+        console.error(err)
+      }
     }
 
     res.json(media)
