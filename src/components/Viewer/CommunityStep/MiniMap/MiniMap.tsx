@@ -28,9 +28,6 @@ export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
         latitude: 51.5,
         zoom: 3,
       }}
-      mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
-      // @ts-expect-error mapbox-gl supports `language`, the typings don't
-      language={language}
       mapStyle="mapbox://styles/mapbox/streets-v12"
       onClick={e => {
         const lng = e.lngLat.lng
@@ -45,6 +42,9 @@ export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
         setMarker(point)
         handleAddLocation(point)
       }}
+      mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
+      // @ts-expect-error mapbox-gl supports `language`, the typings don't
+      language={language}
     >
       <GeocoderControl
         language={language}

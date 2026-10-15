@@ -255,9 +255,6 @@ export default function StepSuggestionsForm({ story }: Props) {
                     currentStepSuggestion?.feature?.geometry?.coordinates[1],
                   zoom: 3,
                 }}
-                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-                // @ts-expect-error mapbox-gl supports `language`, the typings don't
-                language={mapLanguage}
                 mapStyle="mapbox://styles/mapbox/streets-v12"
                 ref={mapRef}
                 style={{
@@ -265,6 +262,9 @@ export default function StepSuggestionsForm({ story }: Props) {
                   height: '100%',
                   borderRadius: '0.5rem',
                 }}
+                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+                // @ts-expect-error mapbox-gl supports `language`, the typings don't
+                language={mapLanguage}
               >
                 {currentStepSuggestion && (
                   <Marker

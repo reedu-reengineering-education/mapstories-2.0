@@ -33,11 +33,16 @@ const Map = forwardRef<MapRef, MapProps>(
           // 'space-color': 'rgb(11, 11, 25)', // Background color
           // 'star-intensity': 0.6, // Background star brightness (default 0.35 at low zoooms )
         }}
-        language={language}
         initialViewState={{
           longitude: 7.5,
           latitude: 51.5,
           zoom: 3,
+        }}
+        language={language}
+        ref={ref}
+        style={{
+          width: '100%',
+          height: '100%',
         }}
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
         // mapLib={maplibregl}
@@ -45,11 +50,6 @@ const Map = forwardRef<MapRef, MapProps>(
         preserveDrawingBuffer
         // @ts-expect-error
         projection={'globe'}
-        ref={ref}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
         {...props}
       >
         <AttributionControl
