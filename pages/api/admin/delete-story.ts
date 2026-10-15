@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
+import { canManageSite } from '@/src/lib/site'
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,8 +14,16 @@ export default async function handler(
 
   const session = await getServerSession(req, res, authOptions)
 
-  if (!session?.user || session.user.role !== 'ADMIN') {
+  if (!session?.user?.email) {
     return res.status(401).json({ error: 'Unauthorized' })
+  }
+
+  const user = await db.user.findUnique({
+    where: { email: session.user.email },
+  })
+
+  if (user?.role !== 'ADMIN' && user?.role !== 'SITE_ADMIN_BFDW') {
+    return res.status(403).json({ error: 'Forbidden: Admin access required' })
   }
 
   const { storyId } = req.body
@@ -30,6 +39,11 @@ export default async function handler(
 
     if (!story) {
       return res.status(404).json({ error: 'Story not found' })
+    }
+
+    // SITE_ADMIN_BFDW may only manage stories of the BFDW site
+    if (!canManageSite(user.role, story.site)) {
+      return res.status(403).json({ error: 'Forbidden: Admin access required' })
     }
 
     // Delete all related data in cascade

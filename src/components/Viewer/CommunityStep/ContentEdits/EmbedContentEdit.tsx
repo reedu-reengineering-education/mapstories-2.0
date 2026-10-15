@@ -14,6 +14,8 @@ import useMedia from '@/src/lib/api/media/useMedia'
 import { Embed } from '@/src/components/embeds/Embed'
 import { urlToMedia } from '@/src/helper/urlToMedia'
 import MediaIconList from '@/src/components/Studio/Mapstories/MediaPlatformIcons'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface EmbedContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   setStepSuggestion: any
@@ -45,6 +47,8 @@ export function EmbedContentEdit({
   const [mediaUrl, setMediaUrl] = useState<string | undefined>(undefined)
 
   const { addMedia } = useMedia()
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, ['editModal', 'embeds'])
 
   const { content: url } = watch()
   useEffect(() => {
@@ -125,14 +129,16 @@ export function EmbedContentEdit({
     <form onSubmit={handleSubmit(onSubmit)} {...props}>
       <div className="top-0 flex flex-col gap-4">
         <div className="w-full">
-          <InputLabel>des</InputLabel>
-          <p className="text-sm font-bold">Platformen</p>
+          <InputLabel>{t('embeds:EmbedContentEdit.InputLabel')}</InputLabel>
+          <p className="text-sm font-bold">
+            {t('embeds:EmbedContentEdit.platforms')}
+          </p>
           <MediaIconList usedMediaType={media?.type} />
           <div>
             <Input
               defaultValue={mediaUrl ?? ''}
               errors={errors.content}
-              label="content"
+              label="URL"
               size={100}
               {...register('content')}
             />
@@ -152,7 +158,7 @@ export function EmbedContentEdit({
                 type="checkbox"
                 {...register('options.autoplay')}
               />
-              <InputLabel>Autoplay</InputLabel>
+              <InputLabel>{t('embeds:EmbedContentEdit.autoplay')}</InputLabel>
             </div>
           )}
         </div>
@@ -160,7 +166,7 @@ export function EmbedContentEdit({
         <div className="flex items-center gap-2">
           <Input
             className="bg-slate-50"
-            label="Quelle"
+            label={t('embeds:EmbedContentEdit.source')}
             onChange={e => handleFileSource(e)}
             value={fileSource}
           />
@@ -170,10 +176,10 @@ export function EmbedContentEdit({
             onClick={() => setContentType('addSlide')}
             variant={'inverse'}
           >
-            Zurück
+            {t('editModal:back')}
           </Button>
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
-            Speichern
+            {t('editModal:save')}
           </Button>
         </div>
       </div>

@@ -69,19 +69,18 @@ export default function EditMapstoryMap({
 
   // const [initialViewState, setInitialViewState] = useState({})
 
-  useEffect(() => {
-    const geojsonStep: any = currentStep.feature
-    // the title slide has no marker of its own (older data may contain one)
-    if (
-      currentStep.id !== story?.firstStepId &&
-      geojsonStep?.geometry?.coordinates?.length === 2
-    ) {
-      mapRef.current?.flyTo({
-        center: geojsonStep.geometry?.coordinates,
-        zoom: 7,
-      })
+  // Selecting a step does not move the map; clicking the marker of the
+  // already selected step flies to it.
+  const handleMarkerClick = (m: StepMarker) => {
+    if (m.stepId !== currentStep.id) {
+      router.replace(`/storylab/${story?.slug}/${m.stepId}`)
+      return
     }
-  }, [currentStep])
+    mapRef.current?.flyTo({
+      center: [m.longitude, m.latitude],
+      zoom: 7,
+    })
+  }
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
 
@@ -262,7 +261,7 @@ export default function EditMapstoryMap({
     >
       {!isTranslation && (
       <GeocoderControl
-        language="de"
+        language={lng}
         onClear={handleRemovePoint}
         onResult={async e => {
           const [lng, lat] = e.result.geometry.coordinates
@@ -301,7 +300,7 @@ export default function EditMapstoryMap({
       <Markers
         markers={markers}
         onChange={addMarker}
-        onClick={m => router.replace(`/storylab/${story?.slug}/${m.stepId}`)}
+        onClick={handleMarkerClick}
       />
       {story?.lines && <ConnectionLines markers={markers} />}
       {geocoderResult?.geometry?.coordinates && (

@@ -37,6 +37,7 @@ import type error from '../src/app/i18n/locales/en/error.json'
 import type stepSuggestions from '../src/app/i18n/locales/en/stepSuggestions.json'
 import type admin from '../src/app/i18n/locales/en/admin.json'
 import type translationRequests from '../src/app/i18n/locales/en/translationRequests.json'
+import type createMapstory from '../src/app/i18n/locales/en/createMapstory.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -70,6 +71,7 @@ interface I18nNamespaces {
   stepSuggestions: typeof stepSuggestions
   admin: typeof admin
   translationRequests: typeof translationRequests
+  createMapstory: typeof createMapstory
   
 }
 

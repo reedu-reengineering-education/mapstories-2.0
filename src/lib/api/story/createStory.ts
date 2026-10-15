@@ -3,7 +3,20 @@ import { APIError } from '@/types'
 import { Story } from '@prisma/client'
 import { AxiosResponse } from 'axios'
 
-export interface ICreateStoryProps extends Pick<Story, 'name' | 'mode'> {}
+export interface ICreateStoryProps
+  extends Pick<Story, 'name' | 'mode'>,
+    Partial<
+      Pick<
+        Story,
+        | 'author'
+        | 'description'
+        | 'visibility'
+        | 'themeId'
+        | 'lines'
+        | 'community'
+        | 'language'
+      >
+    > {}
 
 export const createStory = (props: ICreateStoryProps) => {
   return axios.post<ICreateStoryProps, AxiosResponse<Story, APIError>>(

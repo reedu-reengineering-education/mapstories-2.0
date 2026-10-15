@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth/next'
 import { Prisma } from '@prisma/client'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
+import { canManageSite } from '@/src/lib/site'
 
 // Prisma rejects a plain `null` for nullable Json fields in create input
 const toJsonInput = (value: Prisma.JsonValue) =>
@@ -18,8 +19,16 @@ export default async function handler(
 
   const session = await getServerSession(req, res, authOptions)
 
-  if (!session?.user || session.user.role !== 'ADMIN') {
+  if (!session?.user?.email) {
     return res.status(401).json({ error: 'Unauthorized' })
+  }
+
+  const user = await db.user.findUnique({
+    where: { email: session.user.email },
+  })
+
+  if (user?.role !== 'ADMIN' && user?.role !== 'SITE_ADMIN_BFDW') {
+    return res.status(403).json({ error: 'Forbidden: Admin access required' })
   }
 
   const { storyId } = req.body
@@ -38,6 +47,11 @@ export default async function handler(
             connections: true,
           },
         },
+        // The title slide is only linked via firstStepId (its storyId is
+        // null), so it is not part of `steps` and must be copied separately.
+        firstStep: {
+          include: { content: true },
+        },
         theme: true,
         stepSuggestions: true,
       },
@@ -45,6 +59,11 @@ export default async function handler(
 
     if (!originalStory) {
       return res.status(404).json({ error: 'Story not found' })
+    }
+
+    // SITE_ADMIN_BFDW may only manage stories of the BFDW site
+    if (!canManageSite(user.role, originalStory.site)) {
+      return res.status(403).json({ error: 'Forbidden: Admin access required' })
     }
 
     // Generate unique slug
@@ -77,6 +96,8 @@ export default async function handler(
         // translation, otherwise it would be locked to text-only editing.
         isTranslation: false,
         defaultLanguage: originalStory.defaultLanguage,
+        // Keep the copy on the same site, otherwise a BFDW copy would become MAIN
+        site: originalStory.site,
       },
     })
 
@@ -125,15 +146,32 @@ export default async function handler(
 
     await Promise.all(connectionPromises)
 
-    // Set firstStep if original had one
-    if (originalStory.firstStepId && stepMapping[originalStory.firstStepId]) {
-      await db.story.update({
-        where: { id: duplicatedStory.id },
-        data: {
-          firstStepId: stepMapping[originalStory.firstStepId],
+    // Copy the title slide; without firstStepId the editor redirects away
+    const firstStep = originalStory.firstStep
+    const newFirstStep = await db.storyStep.create({
+      data: {
+        position: firstStep?.position ?? 0,
+        feature: firstStep ? toJsonInput(firstStep.feature) : undefined,
+        viewport: firstStep ? toJsonInput(firstStep.viewport) : {},
+        timestamp: firstStep?.timestamp,
+        tags: firstStep?.tags ?? [],
+        content: {
+          create: (firstStep?.content ?? []).map(c => ({
+            content: c.content,
+            type: c.type,
+            position: c.position,
+            options: toJsonInput(c.options),
+            ogData: toJsonInput(c.ogData),
+            mediaId: c.mediaId,
+          })),
         },
-      })
-    }
+      },
+    })
+
+    await db.story.update({
+      where: { id: duplicatedStory.id },
+      data: { firstStepId: newFirstStep.id },
+    })
 
     return res.status(200).json({
       success: true,

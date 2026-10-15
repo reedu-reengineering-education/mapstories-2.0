@@ -19,8 +19,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const body = req.body
 
       if (body?.name && user) {
-        const { themeId, ...payloadBody } = body
-        const payload = createMapstorySchema.parse(payloadBody)
+        const { themeId, language, ...payload } =
+          createMapstorySchema.parse(body)
 
         const slug = await generateSlug(payload.name)
         const site = getSiteFromHost(req.headers.host)
@@ -30,6 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             visibility: 'PRIVATE',
             slug,
             ...payload,
+            ...(language ? { language, defaultLanguage: language } : {}),
             site,
             // New BFDW stories default to the BFDW theme unless the client set one explicitly.
             themeId: themeId ?? (site === 'BFDW' ? 'BFDW' : undefined),

@@ -40,7 +40,7 @@ export function StudioSidebar() {
         icon: Cog6ToothIcon,
       },
       {
-        title: 'Privacy Settings',
+        title: t('privacySettings'),
         href: `/${lng}/storylab/privacy`,
         icon: LockClosedIcon,
       }
@@ -48,27 +48,27 @@ export function StudioSidebar() {
 
     if (isAdmin) {
       baseItems.push({
-        title: 'Analytics',
+        title: t('analytics'),
         href: `/${lng}/storylab/admin/analytics`,
         icon: ChartBarIcon,
       })
       baseItems.push({
-        title: 'Gallery',
+        title: t('gallery'),
         href: `/${lng}/storylab/admin/gallery`,
         icon: SparklesIcon,
       })
       baseItems.push({
-        title: 'Duplicate Story',
+        title: t('duplicateStory'),
         href: `/${lng}/storylab/admin/duplicate-story`,
         icon: DocumentDuplicateIcon,
       })
       baseItems.push({
-        title: 'Transfer Story',
+        title: t('transferStory'),
         href: `/${lng}/storylab/admin/transfer-story`,
         icon: ArrowPathIcon,
       })
       baseItems.push({
-        title: 'Delete Story',
+        title: t('deleteStory'),
         href: `/${lng}/storylab/admin/delete-story`,
         icon: TrashIcon,
       })
@@ -76,9 +76,29 @@ export function StudioSidebar() {
 
     if (isBfdwGalleryAdmin) {
       baseItems.push({
-        title: 'BFDW Gallery',
+        title: t('bfdwGallery'),
         href: `/${lng}/storylab/bfdw-admin/gallery`,
         icon: SparklesIcon,
+      })
+    }
+
+    // Global admins already reach these via /storylab/admin; BFDW admins get
+    // their own pages, the API restricts them to BFDW stories.
+    if (isBfdwGalleryAdmin && !isAdmin) {
+      baseItems.push({
+        title: t('duplicateStory'),
+        href: `/${lng}/storylab/bfdw-admin/duplicate-story`,
+        icon: DocumentDuplicateIcon,
+      })
+      baseItems.push({
+        title: t('transferStory'),
+        href: `/${lng}/storylab/bfdw-admin/transfer-story`,
+        icon: ArrowPathIcon,
+      })
+      baseItems.push({
+        title: t('deleteStory'),
+        href: `/${lng}/storylab/bfdw-admin/delete-story`,
+        icon: TrashIcon,
       })
     }
     setItems(baseItems)

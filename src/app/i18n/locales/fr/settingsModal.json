@@ -38,10 +38,11 @@
   "languageDeleted": "Langue supprimée",
   "languageDeleteError": "Impossible de supprimer la langue",
   "deleting": "Suppression...",
-  "cancel": "Annuler",
   "addLanguageInstructions": "Ajouter une nouvelle langue",
   "addLanguageHelp": "Développez votre Mapstory pour atteindre les audiences dans différentes langues. Suivez ces étapes simples pour créer une variante linguistique.",
   "instructionStep1": "Cliquez sur l'icône plus pour sélectionner une nouvelle langue parmi les options disponibles",
   "instructionStep2": "Votre nouvelle variante linguistique sera créée avec la même carte et structure que votre histoire originale",
-  "instructionStep3": "Traduisez le titre, la description et le contenu des étapes pour compléter votre Mapstory multilingue"
+  "instructionStep3": "Traduisez le titre, la description et le contenu des étapes pour compléter votre Mapstory multilingue",
+  "modalHeader": "Options",
+  "visibility": "Visibilité"
 }

@@ -98,6 +98,7 @@ export default async function Studio({
   }
 
   const mapstories = await getMapstories(user.id)
+  const themes = await db.theme.findMany({})
   const translations = await getTranslations(user.id)
 
   return (
@@ -108,6 +109,8 @@ export default async function Studio({
       >
         <div className="p-1">
           <CreateMapstoryModal
+            defaultAuthor={user.name}
+            themes={themes}
             trigger={
               <Button startIcon={<PlusIcon className="w-4" />}>
                 {t('newMapstory')}
@@ -124,6 +127,8 @@ export default async function Studio({
             {t('you have not created any mapstories yet.')}
           </EmptyPlaceholder.Description>
           <CreateMapstoryModal
+            defaultAuthor={user.name}
+            themes={themes}
             trigger={
               <Button
                 startIcon={<PlusIcon className="w-4" />}

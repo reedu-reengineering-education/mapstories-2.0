@@ -5,6 +5,14 @@ import * as z from 'zod'
 export const createMapstorySchema = z.object({
   name: z.string().min(3).max(100),
   mode: z.enum([StoryMode.NORMAL, StoryMode.TIMELINE]),
+  // optional settings that can also be changed later in the options
+  author: z.string().max(100).optional(),
+  description: z.string().optional(),
+  visibility: z.enum(['PRIVATE', 'PUBLIC']).optional(),
+  themeId: z.string().nullable().optional(),
+  lines: z.boolean().optional(),
+  community: z.boolean().optional(),
+  language: z.string().min(2).max(5).optional(),
 })
 
 export const updateMapstorySchema = z.object({

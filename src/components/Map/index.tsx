@@ -10,6 +10,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 // import 'maplibre-gl/dist/maplibre-gl.css'
 import { forwardRef } from 'react'
 import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
+import { useMapLanguage } from '@/src/lib/hooks/useMapLanguage'
 
 const Map = forwardRef<MapRef, MapProps>(
   (
@@ -19,6 +20,7 @@ const Map = forwardRef<MapRef, MapProps>(
     ref,
   ) => {
     const { isDesktop } = useBreakpoint()
+    const language = useMapLanguage()
     return (
       <ReactMap
         // disable the default attribution
@@ -31,6 +33,7 @@ const Map = forwardRef<MapRef, MapProps>(
           // 'space-color': 'rgb(11, 11, 25)', // Background color
           // 'star-intensity': 0.6, // Background star brightness (default 0.35 at low zoooms )
         }}
+        language={language}
         initialViewState={{
           longitude: 7.5,
           latitude: 51.5,
