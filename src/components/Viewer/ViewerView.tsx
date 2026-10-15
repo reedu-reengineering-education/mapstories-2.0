@@ -19,6 +19,7 @@ import { ViewerPopup } from './ViewerPopup'
 import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 import { getSiteFromHost } from '@/src/lib/site'
 import { getBaseThemeForSite } from '@/src/lib/theme'
+import { ErrorBoundary } from '@/src/components/ErrorBoundary'
 
 type ViewerViewProps = {
   inputStories: (Story & {
@@ -28,7 +29,7 @@ type ViewerViewProps = {
   })[]
 }
 
-export default function ViewerView({ inputStories }: ViewerViewProps) {
+function ViewerViewInner({ inputStories }: ViewerViewProps) {
   const mapRef = useRef<MapRef>(null)
 
   const path = usePathname()
@@ -260,7 +261,6 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     })
 
     setMapData(geojsons)
-    console.log('Valid geojsons:', geojsons)
   }
 
   function selectStory(m: GeoJSON.Feature<GeoJSON.LineString>) {
@@ -468,16 +468,14 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
             return null
           }
           const storyData = stories?.find((s) => s.id === m.properties?.id)
-          if (m.geometry.coordinates[0][1] === undefined || m.geometry.coordinates[0][0] === undefined) {
-            const geometry = m.geometry as GeoJSON.Point | GeoJSON.LineString
-            const [lng, lat] =
-              geometry.type === 'Point'
-                ? geometry.coordinates
-                : geometry.coordinates[0] ?? []
-            if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
-              console.warn('Skipping feature with invalid coordinates:', m)
-              return null
-            }
+          const geometry = m.geometry as GeoJSON.Point | GeoJSON.LineString
+          const [lng, lat] =
+            geometry.type === 'Point'
+              ? geometry.coordinates
+              : geometry.coordinates[0] ?? []
+          if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
+            console.warn('Skipping feature with invalid coordinates:', m)
+            return null
           }
           return (
             <Fragment key={m.properties?.id}>
@@ -524,5 +522,15 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
           )
         })}
     </Map>
+  )
+}
+
+// A broken story (e.g. malformed step data) must never crash the whole page,
+// so render errors in the map are contained here.
+export default function ViewerView(props: ViewerViewProps) {
+  return (
+    <ErrorBoundary name="ViewerView">
+      <ViewerViewInner {...props} />
+    </ErrorBoundary>
   )
 }
