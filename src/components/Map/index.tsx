@@ -39,17 +39,17 @@ const Map = forwardRef<MapRef, MapProps>(
           zoom: 3,
         }}
         language={language}
-        ref={ref}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
         // mapLib={maplibregl}
         mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v12'}
         preserveDrawingBuffer
         // @ts-expect-error
         projection={'globe'}
+        ref={ref}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
         {...props}
       >
         <AttributionControl
