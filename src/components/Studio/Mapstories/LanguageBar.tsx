@@ -354,7 +354,10 @@ export default function LanguageBar({ story, isOwner = true }: Props) {
         </DropdownMenu.Trigger>
     
         <DropdownMenu.Portal>
-          <DropdownMenu.Content align="start" className="z-[100] mt-2">
+          <DropdownMenu.Content
+            align="start"
+            className="z-[100] mt-2 max-h-80 overflow-y-auto"
+          >
             {missingLanguages.map(l => (
               <DropdownMenu.Item
                 className="cursor-pointer"

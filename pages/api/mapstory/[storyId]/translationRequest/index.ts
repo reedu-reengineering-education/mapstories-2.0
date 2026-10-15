@@ -7,7 +7,7 @@ import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
-import { languages } from '@/src/app/i18n/settings'
+import { isStoryLanguage } from '@/src/lib/languageFlags'
 import { translationRequestSchema } from '@/src/lib/validations/mapstory'
 import {
   copyStoryAsTranslation,
@@ -20,7 +20,7 @@ import {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { language } = translationRequestSchema.parse(req.body)
-    if (!languages.includes(language)) {
+    if (!isStoryLanguage(language)) {
       return res.status(422).json({ message: 'Unsupported language' })
     }
 

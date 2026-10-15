@@ -14,7 +14,7 @@ import {
 import { authOptions } from '@/src/lib/auth'
 import { getServerSession } from 'next-auth/next'
 import { addLanguageSchema } from '@/src/lib/validations/mapstory'
-import { languages } from '@/src/app/i18n/settings'
+import { isStoryLanguage } from '@/src/lib/languageFlags'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -22,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { language } = addLanguageSchema.parse(req.body)
 
     try {
-      if (!languages.includes(language)) {
+      if (!isStoryLanguage(language)) {
         return res.status(422).json({ message: 'Unsupported language' })
       }
 

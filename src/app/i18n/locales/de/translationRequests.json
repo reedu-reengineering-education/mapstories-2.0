@@ -2,6 +2,7 @@
   "addTranslation": "Übersetzung hinzufügen",
   "addTranslationDescription": "Hilf mit, diese Story in weiteren Sprachen verfügbar zu machen. Es wird eine Kopie der Story erstellt, die du im StoryLab übersetzen kannst.",
   "chooseLanguage": "In welche Sprache möchtest du übersetzen?",
+  "chooseLanguagePlaceholder": "Sprache auswählen …",
   "flowStep1": "Texte der Story im StoryLab übersetzen",
   "flowStep2": "Übersetzung beim Autor bzw. der Autorin einreichen",
   "flowStep3": "Nach der Freigabe erscheint die Übersetzung im Viewer",

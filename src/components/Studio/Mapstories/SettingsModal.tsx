@@ -27,6 +27,7 @@ import {
 } from '../../Elements/Select'
 import { applyTheme } from '@/src/helper/applyTheme'
 import { availableStoryLanguages } from '@/src/lib/languageFlags'
+import { LanguageSelect } from '../../Elements/LanguageSelect'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
@@ -299,21 +300,13 @@ export default function SettingsModal({
               name="defaultLanguage"
               render={({ field: { onChange, value, ref } }) => {
                 return (
-                  <Select
-                    onValueChange={onChange}
+                  <LanguageSelect
+                    className="w-[220px]"
+                    languages={availableStoryLanguages}
+                    onChange={onChange}
+                    ref={ref}
                     value={value ?? story.language}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Language" />
-                    </SelectTrigger>
-                    <SelectContent ref={ref}>
-                      {availableStoryLanguages.map((lang) => (
-                        <SelectItem key={lang.code} value={lang.code}>
-                          {lang.flag} {lang.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  />
                 )
               }}
             />
