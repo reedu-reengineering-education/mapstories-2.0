@@ -30,5 +30,14 @@
   "dataUpload": "Sube un archivo aquí.",
   "source": "La fuente",
   "edit": "Editar",
-  "update": "Actualizar"
+  "update": "Actualizar",
+  "back": "Volver",
+  "bold": "Negrita",
+  "italic": "Cursiva",
+  "code": "Código",
+  "link": "Enlace",
+  "table": "Tabla",
+  "list": "Lista",
+  "help": "Ayuda",
+  "uploadAction": "Subir"
 }

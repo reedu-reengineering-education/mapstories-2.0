@@ -1,5 +1,10 @@
 {
   "all_public_stories": "Alle öffentlichen Mapstories in der Übersicht",
   "welcome_to_gallery": "Willkommen in der Galerie!",
-  "gallery_text": "In der Galerie werden Mapstories ausgestellt, welche vom Mapstories-Team ausgewählt worden. Wir nehmen gerne Vorschläge für neue Mapstories in dieser Liste auf! Schickt uns dafür gerne eure Mapstories zu!"
+  "gallery_text": "In der Galerie werden Mapstories ausgestellt, welche vom Mapstories-Team ausgewählt worden. Wir nehmen gerne Vorschläge für neue Mapstories in dieser Liste auf! Schickt uns dafür gerne eure Mapstories zu!",
+  "gallery_password_title": "Diese Galerie ist passwortgeschützt",
+  "gallery_password_description": "Bitte gib das Passwort ein, um die Galerie anzuzeigen.",
+  "gallery_password_placeholder": "Passwort",
+  "gallery_password_submit": "Bestätigen",
+  "gallery_password_error": "Falsches Passwort. Bitte versuche es erneut."
 }

@@ -18,16 +18,28 @@ export async function generateMetadata({
     },
   }
 }
+// Owners and contributors can preview their stories; authors can also preview
+// community translations submitted for their stories.
+const previewableStoryWhere = (slug: string, userId: string) => ({
+  AND: [
+    { OR: [{ id: slug }, { slug: slug }] },
+    {
+      OR: [
+        { ownerId: userId },
+        { contributor: { some: { id: userId } } },
+        { translationOf: { ownerId: userId } },
+      ],
+    },
+  ],
+})
+
 interface StoryPageProps {
   params: { filter: string; slug: string[] }
 }
 
 const getMapstory = async (slug: string, userId: string) => {
   return await db.story.findFirst({
-    where: {
-      ownerId: userId,
-      OR: [{ id: slug }, { slug: slug }],
-    },
+    where: previewableStoryWhere(slug, userId),
     include: {
       firstStep: {
         include: {
@@ -42,6 +54,13 @@ const getMapstory = async (slug: string, userId: string) => {
           position: 'asc',
         },
       },
+      group: {
+        include: {
+          stories: {
+            select: { id: true, slug: true, language: true },
+          },
+        },
+      },
     },
   })
 }
@@ -52,10 +71,7 @@ const getMapstoryWithFilter = async (
   filterArray: string[],
 ) => {
   const unfilteredStory = await db.story.findFirst({
-    where: {
-      ownerId: userId,
-      OR: [{ id: slug }, { slug: slug }],
-    },
+    where: previewableStoryWhere(slug, userId),
     include: {
       firstStep: {
         include: {
@@ -65,6 +81,13 @@ const getMapstoryWithFilter = async (
       steps: {
         include: {
           content: true,
+        },
+      },
+      group: {
+        include: {
+          stories: {
+            select: { id: true, slug: true, language: true },
+          },
         },
       },
     },

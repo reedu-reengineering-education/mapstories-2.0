@@ -10,6 +10,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 // import 'maplibre-gl/dist/maplibre-gl.css'
 import { forwardRef } from 'react'
 import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
+import { useMapLanguage } from '@/src/lib/hooks/useMapLanguage'
 
 const Map = forwardRef<MapRef, MapProps>(
   (
@@ -19,6 +20,7 @@ const Map = forwardRef<MapRef, MapProps>(
     ref,
   ) => {
     const { isDesktop } = useBreakpoint()
+    const language = useMapLanguage()
     return (
       <ReactMap
         // disable the default attribution
@@ -36,6 +38,7 @@ const Map = forwardRef<MapRef, MapProps>(
           latitude: 51.5,
           zoom: 3,
         }}
+        language={language}
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
         // mapLib={maplibregl}
         mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v12'}

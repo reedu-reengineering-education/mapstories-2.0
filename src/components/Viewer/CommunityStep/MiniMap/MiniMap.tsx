@@ -3,6 +3,7 @@
 import { Marker, Map as ReactMap } from 'react-map-gl'
 import GeocoderControl from './GeocoderControl'
 import { useEffect, useState } from 'react'
+import { useMapLanguage } from '@/src/lib/hooks/useMapLanguage'
 
 type Props = {
   handleAddLocation: any
@@ -11,6 +12,7 @@ type Props = {
 
 export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
   const [marker, setMarker] = useState<any>(null)
+  const language = useMapLanguage()
 
   useEffect(() => {
     if (stepSuggestion?.feature) {
@@ -26,6 +28,8 @@ export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
         latitude: 51.5,
         zoom: 3,
       }}
+      // @ts-expect-error mapbox-gl supports `language`, the typings don't
+      language={language}
       mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
       mapStyle="mapbox://styles/mapbox/streets-v12"
       onClick={e => {
@@ -43,6 +47,7 @@ export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
       }}
     >
       <GeocoderControl
+        language={language}
         onClear={handleRemovePoint}
         onResult={async e => {
           const [lng, lat] = e.result.geometry.coordinates

@@ -44,5 +44,6 @@
   "resetPassword": "Restablecer contraseña",
   "resetPasswordMessage": "Te hemos enviado un enlace para restablecer tu contraseña.",
   "passwordSend": "Contraseña enviada. Por favor revisa tu buzón de correo.",
-  "mailSend": "Correo enviado"
+  "mailSend": "Correo enviado",
+  "noToken": "El token no es válido."
 }

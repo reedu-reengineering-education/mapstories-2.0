@@ -1,7 +1,7 @@
 {
-  "autor": "Autor",
+  "author": "Autor",
   "createdAt": "Creado el:",
-  "udpatedAt": "Actualizado el:",
+  "updatedAt": "Actualizado el:",
   "position": "Posición",
   "title": "Título",
   "numberOfItems": "Número de artículos"

@@ -21,6 +21,8 @@ import { toast } from '@/src/lib/toast'
 import mapboxgl from 'mapbox-gl'
 import React from 'react'
 import { Button } from '@/src/components/Elements/Button'
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
 interface EditMapstoryMapProps {
   steps?: StoryStep[]
@@ -46,6 +48,14 @@ export default function EditMapstoryMap({
 
   const { story } = useStory(storyId)
   const { updateStep } = useStep(currentStep.id)
+  // markers are managed in the original story, translations only show them
+  const isTranslation = !!story?.isTranslation
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  // @ts-ignore useTranslation type overloads are complex
+  const { t } = useTranslation(lng, 'translationRequests')
   const [settings, setSettings] = useState({
     scrollZoom: true,
     boxZoom: true,
@@ -59,15 +69,18 @@ export default function EditMapstoryMap({
 
   // const [initialViewState, setInitialViewState] = useState({})
 
-  useEffect(() => {
-    if (currentStep.feature) {
-      const geojsonStep: any = currentStep.feature
-      mapRef.current?.flyTo({
-        center: geojsonStep.geometry?.coordinates,
-        zoom: 7,
-      })
+  // Selecting a step does not move the map; clicking the marker of the
+  // already selected step flies to it.
+  const handleMarkerClick = (m: StepMarker) => {
+    if (m.stepId !== currentStep.id) {
+      router.replace(`/storylab/${story?.slug}/${m.stepId}`)
+      return
     }
-  }, [currentStep])
+    mapRef.current?.flyTo({
+      center: [m.longitude, m.latitude],
+      zoom: 7,
+    })
+  }
 
   const [markers, setMarkers] = useState<StepMarker[]>([])
 
@@ -103,7 +116,7 @@ export default function EditMapstoryMap({
         const geoFeature = feature as unknown as GeoJSON.Feature<GeoJSON.Point>
         if (geoFeature?.geometry?.coordinates?.length > 0) {
           const newMarker: StepMarker = {
-            draggable: currentStep.id === id,
+            draggable: currentStep.id === id && !isTranslation,
             longitude: geoFeature.geometry.coordinates[0],
             latitude: geoFeature.geometry.coordinates[1],
             position: position,
@@ -120,7 +133,7 @@ export default function EditMapstoryMap({
     // @ts-expect-error
     setMarkers(newMarkers)
     // handleRemovePoint()
-  }, [currentStep, steps])
+  }, [currentStep, steps, isTranslation])
 
   useEffect(() => {
     if (story && story.steps) {
@@ -132,16 +145,17 @@ export default function EditMapstoryMap({
           coordinates.push(step.feature?.geometry?.coordinates)
         }
       })
-      // Create a 'LngLsatBounds' with both corners at the first coordinate.
-      let bounds
+      // Without any marker there is nothing to fit, keep the current view
+      // instead of jumping to 0,0.
       if (coordinates.length == 0) {
-        bounds = new mapboxgl.LngLatBounds([0, 0], [0, 0])
-      } else {
-        bounds = new mapboxgl.LngLatBounds(
-          [coordinates[0][0], coordinates[0][1]],
-          [coordinates[0][0], coordinates[0][1]],
-        )
+        setExtend(undefined)
+        return
       }
+      // Create a 'LngLsatBounds' with both corners at the first coordinate.
+      const bounds = new mapboxgl.LngLatBounds(
+        [coordinates[0][0], coordinates[0][1]],
+        [coordinates[0][0], coordinates[0][1]],
+      )
 
       // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
       for (const coord of coordinates) {
@@ -218,12 +232,23 @@ export default function EditMapstoryMap({
       interactiveLayerIds={['step-hover']}
       onClick={e => {
         setGeocoderResult(undefined)
+        if (isTranslation) {
+          if (hoverMarkerId == '') {
+            toast({
+              title: t('markerOnlyInOriginalTitle'),
+              message: t('markerOnlyInOriginal'),
+              type: 'error',
+            })
+          }
+          return
+        }
         if (currentStep.id === story?.firstStepId) {
           toast({
             title: 'Dies ist deine Titelfolie.',
             message: 'Hier kannst du keinen Marker setzen.',
             type: 'error',
           })
+          return
         }
         // if (!steps?.find(s => s.id === currentStepId)?.feature) {
         if (hoverMarkerId == '') {
@@ -234,8 +259,9 @@ export default function EditMapstoryMap({
       onMouseMove={handleMouseMove}
       ref={mapRef}
     >
+      {!isTranslation && (
       <GeocoderControl
-        language="de"
+        language={lng}
         onClear={handleRemovePoint}
         onResult={async e => {
           const [lng, lat] = e.result.geometry.coordinates
@@ -260,6 +286,7 @@ export default function EditMapstoryMap({
         }}
         position="top-right"
       />
+      )}
       {/* <DrawControl
         controls={{
           polygon: true,
@@ -273,7 +300,7 @@ export default function EditMapstoryMap({
       <Markers
         markers={markers}
         onChange={addMarker}
-        onClick={m => router.replace(`/storylab/${story?.slug}/${m.stepId}`)}
+        onClick={handleMarkerClick}
       />
       {story?.lines && <ConnectionLines markers={markers} />}
       {geocoderResult?.geometry?.coordinates && (

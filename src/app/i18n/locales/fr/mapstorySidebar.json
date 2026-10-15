@@ -1,5 +1,7 @@
 {
   "please set a marker for this slide": "Veuillez placer un marqueur pour cette diapositive.",
   "steps": "Étapes",
-  "slideHasTags": "Cette diapositive a des étiquettes"
+  "slideHasTags": "Cette diapositive a des étiquettes",
+  "needsTranslation": "Contient du contenu encore à traduire",
+  "stepsOnlyInOriginal": "Les étapes ne peuvent être ajoutées ou déplacées que dans l'histoire originale."
 }

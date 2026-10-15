@@ -53,13 +53,14 @@ export function SlideContentListEdit({ storyId, stepId }: Props) {
         <div className="py-4">
           {content && content.length > 0 && (
             <DraggableList
-              disabled={disabled}
+              disabled={disabled || !!story?.isTranslation}
               items={
                 content?.map(stepItem => ({
                   id: stepItem.id,
                   s: stepItem,
                   component: (
                     <SlideContentListEditItem
+                      isTranslation={!!story?.isTranslation}
                       setDisabled={setDisabled}
                       stepItem={stepItem}
                     ></SlideContentListEditItem>
