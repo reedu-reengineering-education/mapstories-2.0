@@ -36,14 +36,22 @@ export default function SettingsModal({
   storyId,
   shadow,
   themes,
+  isOwner = true,
 }: {
   storyId: string
   shadow?: boolean
   themes: Theme[]
+  // contributors (e.g. translators) may only change name, author and description
+  isOwner?: boolean
 }) {
   const router = useRouter()
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, ['settingsModal', 'studio', 'timeline'])
+  const { t } = useTranslation(lng, [
+    'settingsModal',
+    'studio',
+    'timeline',
+    'translationRequests',
+  ])
 
   const [isSaving, setIsSaving] = useState(false)
   const [image, setImage] = useState<string | any>()
@@ -146,6 +154,17 @@ export default function SettingsModal({
               {...register('description')}
             ></Textarea>
 
+            {(story.isTranslation || !isOwner) && (
+              <p className="mt-4 rounded bg-amber-50 p-2 text-xs text-amber-800">
+                {t(
+                  isOwner
+                    ? 'translationRequests:settingsFromOriginal'
+                    : 'translationRequests:settingsOwnerOnly',
+                )}
+              </p>
+            )}
+            {/* hidden fields stay mounted so the form still submits their values */}
+            <div className={story.isTranslation || !isOwner ? 'hidden' : ''}>
             <Spacer />
             <InputLabel>Modus</InputLabel>
             <p className="rounded bg-zinc-100 p-2 text-xs text-zinc-700">
@@ -181,6 +200,8 @@ export default function SettingsModal({
                 )
               }}
             />
+            </div>
+            <div className={isOwner ? '' : 'hidden'}>
             <Spacer />
             <InputLabel>{t('settingsModal:visibility')}</InputLabel>
             <Controller
@@ -235,6 +256,8 @@ export default function SettingsModal({
                 )
               }}
             />
+            </div>
+            <div className={story.isTranslation || !isOwner ? 'hidden' : ''}>
             <Spacer />
             <InputLabel>{t('settingsModal:theme')}</InputLabel>
             <Controller
@@ -266,6 +289,8 @@ export default function SettingsModal({
                 )
               }}
             />
+            </div>
+            <div className={isOwner ? '' : 'hidden'}>
             <Spacer />
             <InputLabel>{t('settingsModal:defaultLanguage')}</InputLabel>
             <Controller
@@ -292,6 +317,8 @@ export default function SettingsModal({
                 )
               }}
             />
+            </div>
+            <div className={story.isTranslation || !isOwner ? 'hidden' : ''}>
             <Spacer />
             <Controller
               control={control}
@@ -317,6 +344,7 @@ export default function SettingsModal({
                 )
               }}
             />
+            </div>
           </Modal.Content>
           <Modal.Footer>
             <Button

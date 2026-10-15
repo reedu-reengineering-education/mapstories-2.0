@@ -40,7 +40,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         where: { id: variantId },
       })
 
-      if (!variantStory) {
+      if (
+        !variantStory ||
+        !variantStory.groupId ||
+        variantStory.groupId !== originalStory.groupId ||
+        variantStory.ownerId !== user?.id
+      ) {
         return res.status(404).json({ message: 'Variant not found' })
       }
 
@@ -66,6 +71,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         await transaction.story.delete({
           where: { id: variantId },
         })
+
+        // The title step is not linked via storyId, delete it explicitly
+        if (variantStory.firstStepId) {
+          await transaction.storyStep.delete({
+            where: { id: variantStory.firstStepId },
+          })
+        }
       })
 
       return res.status(200).json({ message: 'Language deleted successfully' })

@@ -26,3 +26,11 @@ export const copyMapstorySchema = z.object({
 export const addLanguageSchema = z.object({
   language: z.string().min(2).max(5),
 })
+
+export const translationRequestSchema = z.object({
+  language: z.string().min(2).max(5),
+})
+
+export const reviewTranslationSchema = z.object({
+  action: z.enum(['approve', 'reject']),
+})

@@ -4,6 +4,7 @@ import CreateMapstoryModal from '@/src/components/Studio/CreateMapstoryModal'
 import { EmptyPlaceholder } from '@/src/components/Studio/EmptyPlaceholder'
 import { StudioHeader } from '@/src/components/Studio/Header'
 import { MapstoryCard } from '@/src/components/Studio/Mapstories/MapstoryCard'
+import { TranslationCard } from '@/src/components/Studio/Mapstories/TranslationCard'
 import { StudioShell } from '@/src/components/Studio/Shell'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
@@ -31,6 +32,10 @@ const getMapstories = async (userId: string) => {
     },
     include: {
       stepSuggestions: true,
+      translationRequests: {
+        where: { translationStatus: 'PENDING' },
+        select: { id: true },
+      },
       group: {
         include: {
           stories: {
@@ -41,6 +46,43 @@ const getMapstories = async (userId: string) => {
         },
       },
     },
+  })
+}
+
+// Community translations the user is working on (drafts they own) or
+// contributed to (approved translations now owned by the original author).
+const getTranslations = async (userId: string) => {
+  return await db.story.findMany({
+    where: {
+      isTranslation: true,
+      OR: [
+        // Unapproved drafts are owned by the translator. Once approved, the
+        // author becomes owner, so only the translator (as contributor) sees it here.
+        {
+          ownerId: userId,
+          translationStatus: { in: ['DRAFT', 'PENDING', 'REJECTED'] },
+        },
+        { contributor: { some: { id: userId } } },
+      ],
+    },
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      language: true,
+      ownerId: true,
+      firstStepId: true,
+      translationStatus: true,
+      translationOf: {
+        select: {
+          name: true,
+          language: true,
+          author: true,
+          owner: { select: { name: true } },
+        },
+      },
+    },
+    orderBy: { updatedAt: 'desc' },
   })
 }
 
@@ -56,6 +98,7 @@ export default async function Studio({
   }
 
   const mapstories = await getMapstories(user.id)
+  const translations = await getTranslations(user.id)
 
   return (
     <StudioShell>
@@ -98,6 +141,24 @@ export default async function Studio({
             <MapstoryCard  data-superjson key={m.id} mapstory={m} />
           ))}
       </div>
+
+      {translations.length > 0 && (
+        <div className="mt-8 flex flex-col gap-2">
+          <div>
+            <h2 className="text-xl font-semibold">{t('myTranslations')}</h2>
+            <p className="text-sm text-slate-600">
+              {t('myTranslationsDescription')}
+            </p>
+          </div>
+          {translations.map(translation => (
+            <TranslationCard
+              currentUserId={user.id}
+              key={translation.id}
+              translation={translation}
+            />
+          ))}
+        </div>
+      )}
 
     </StudioShell>
   )

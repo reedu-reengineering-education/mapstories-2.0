@@ -73,9 +73,10 @@ export default async function handler(
         lines: originalStory.lines,
         community: originalStory.community,
         language: originalStory.language,
-        isTranslation: originalStory.isTranslation,
+        // The copy is a standalone story (no group), so it must not be a
+        // translation, otherwise it would be locked to text-only editing.
+        isTranslation: false,
         defaultLanguage: originalStory.defaultLanguage,
-        // Don't copy groupId for translations - let it be its own story
       },
     })
 

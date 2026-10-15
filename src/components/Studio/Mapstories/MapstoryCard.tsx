@@ -13,7 +13,7 @@ import { useTranslation } from '@/src/app/i18n/client'
 import { useBoundStore } from '@/src/lib/store/store'
 import ShareModal from './ShareModal'
 import EmbedModal from './EmbedModal'
-import { EyeIcon, PencilIcon } from '@heroicons/react/24/outline'
+import { EyeIcon, LanguageIcon, PencilIcon } from '@heroicons/react/24/outline'
 import { StoryBadge } from './StoryBadge'
 import CopyModal from './CopyModal'
 import Image from 'next/image'
@@ -48,12 +48,16 @@ type Props = {
     group?: {
       stories: Array<Pick<Story, 'language'>>
     } | null
+    // pending community translations waiting for review
+    translationRequests?: Array<Pick<Story, 'id'>>
   }
 }
 
 export function MapstoryCard({ mapstory }: Props) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'mapstoryCard')
+  const { t: tTr } = useTranslation(lng, 'translationRequests')
+  const pendingTranslations = mapstory.translationRequests?.length ?? 0
   const href = useCrossSiteHref(mapstory.site)
   const availableLanguages = Array.from(
     new Set([
@@ -115,6 +119,15 @@ export function MapstoryCard({ mapstory }: Props) {
                 <Button startIcon={<PencilIcon className="w-5" />}>
                   {/* @ts-expect-error */}
                   Offene Vorschläge ({mapstory.stepSuggestions.length})
+                </Button>
+              </Link>
+            )}
+            {pendingTranslations > 0 && (
+              <Link href={`/storylab/translationRequests/${mapstory.id}`}>
+                <Button startIcon={<LanguageIcon className="w-5" />}>
+                  {tTr('reviewTranslations', {
+                    count: pendingTranslations,
+                  })}
                 </Button>
               </Link>
             )}

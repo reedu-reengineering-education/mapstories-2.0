@@ -7,6 +7,8 @@ import { PreviewButton } from '@/src/components/PreviewButton'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
 import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
 import LanguageBar from '@/src/components/Studio/Mapstories/LanguageBar'
+import TranslationBanner from '@/src/components/Studio/Mapstories/TranslationBanner'
+import { storyEditorWhere } from '@/src/lib/story/storyAccess'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
@@ -24,9 +26,18 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
   return await db.story.findFirst({
     where: {
       slug: slug,
-      ownerId: userId,
+      ...storyEditorWhere(userId),
     },
     include: {
+      translationOf: {
+        select: {
+          name: true,
+          slug: true,
+          language: true,
+          firstStepId: true,
+          ownerId: true,
+        },
+      },
       firstStep: {
         include: {
           content: true,
@@ -44,8 +55,11 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
             select: {
               id: true,
               slug: true,
+              name: true,
               language: true,
               firstStepId: true,
+              isTranslation: true,
+              ownerId: true,
               steps: {
                 select: {
                   id: true,
@@ -90,6 +104,14 @@ export default async function DashboardLayout({
     return notFound()
   }
 
+  const isOwner = story.ownerId === user.id
+  // original of a translation: the draft's source or the group's default story
+  const original = story.isTranslation
+    ? story.translationOf ??
+      story.group?.stories.find(s => !s.isTranslation) ??
+      null
+    : null
+
   return (
     <>
       <div className="absolute left-0 top-0 z-50 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
@@ -124,9 +146,20 @@ export default async function DashboardLayout({
               {t('back')}
             </Button>
           </Link>
-          <SettingsModal shadow storyId={story.id} themes={themes} />
+          <SettingsModal
+            isOwner={isOwner}
+            shadow
+            storyId={story.id}
+            themes={themes}
+          />
           <PreviewButton story={story} />
-          <LanguageBar story={story} />
+          <LanguageBar isOwner={isOwner} story={story} />
+          {original && (
+            <TranslationBanner
+              canEditOriginal={original.ownerId === user.id}
+              original={original}
+            />
+          )}
         </div>
       </div>
 

@@ -12,5 +12,7 @@
   "confirmDeleteMapstory": "Do you really want to delete the Mapstory?",
   "confirmDeleteStep": "Do you really want to delete this step?",
   "abort": "Cancel",
-  "noSteps": "Add steps in order to see the timeline!"
+  "noSteps": "Add steps in order to see the timeline!",
+  "myTranslations": "My translations",
+  "myTranslationsDescription": "Translations you created for other users' stories. The original still belongs to its author."
 }

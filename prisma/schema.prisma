@@ -125,8 +125,15 @@ model Story {
   groupId         String?
   galleryStories  GalleryStory[]
   site            Site                  @default(MAIN)
+  // Community translations: draft/review state and the original they translate.
+  // Owner-created translations and regular stories keep translationStatus = null.
+  translationStatus   TranslationStatus?
+  translationOf       Story?             @relation("translationRequests", fields: [translationOfId], references: [id], onDelete: SetNull)
+  translationOfId     String?
+  translationRequests Story[]            @relation("translationRequests")
 
   @@unique([groupId, language])
+  @@index([translationOfId])
   @@map(name: "stories")
 }
 
@@ -149,7 +156,12 @@ model StoryStep {
   storyTitleStep Story?         @relation("firstStep")
   timestamp      DateTime?
   tags           String[]
+  // In a translation: the step of the original story this step mirrors.
+  sourceStep     StoryStep?     @relation("stepTranslations", fields: [sourceStepId], references: [id], onDelete: SetNull)
+  sourceStepId   String?
+  translations   StoryStep[]    @relation("stepTranslations")
 
+  @@index([sourceStepId])
   @@map(name: "storysteps")
 }
 
@@ -167,6 +179,13 @@ model StoryStepSuggestion {
   createdAt DateTime?        @default(now()) @map(name: "created_at")
 
   @@map(name: "storystepsuggestions")
+}
+
+enum TranslationStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum SuggestionStatus {
@@ -203,7 +222,13 @@ model SlideContent {
   ogData       Json?
   media        Media?               @relation(fields: [mediaId], references: [id])
   mediaId      String?
+  // In a translation: the content of the original story this content mirrors.
+  sourceContent    SlideContent?  @relation("contentTranslations", fields: [sourceContentId], references: [id], onDelete: SetNull)
+  sourceContentId  String?
+  translations     SlideContent[] @relation("contentTranslations")
+  needsTranslation Boolean        @default(false)
 
+  @@index([sourceContentId])
   @@map(name: "slidecontent")
 }
 

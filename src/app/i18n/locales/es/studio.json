@@ -12,5 +12,7 @@
   "confirmDeleteMapstory": "¿Realmente deseas eliminar la Mapstory?",
   "confirmDeleteStep": "¿Realmente deseas eliminar este paso?",
   "abort": "Cancelar",
-  "noSteps": "¡Añade pasos para ver la línea de tiempo!"
+  "noSteps": "¡Añade pasos para ver la línea de tiempo!",
+  "myTranslations": "Mis traducciones",
+  "myTranslationsDescription": "Traducciones que has creado para historias de otras personas. El original sigue perteneciendo a su autor o autora."
 }

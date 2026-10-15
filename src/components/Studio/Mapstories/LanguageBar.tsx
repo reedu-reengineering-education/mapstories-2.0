@@ -3,7 +3,11 @@
 import { useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useSWRConfig } from 'swr'
-import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
+import {
+  PaperAirplaneIcon,
+  PlusIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline'
 
 import { DropdownMenu } from '@/src/components/Dropdown'
 import { Tooltip } from '@/src/components/Tooltip'
@@ -28,9 +32,18 @@ type Variant = {
 
 type Props = {
   story: any
+  // contributors (translators of an approved translation) can't add/delete languages
+  isOwner?: boolean
 }
 
-export default function LanguageBar({ story }: Props) {
+const statusStyles: Record<string, string> = {
+  DRAFT: 'bg-slate-100 text-slate-700',
+  PENDING: 'bg-blue-100 text-blue-800',
+  REJECTED: 'bg-red-100 text-red-800',
+  APPROVED: 'bg-green-100 text-green-800',
+}
+
+export default function LanguageBar({ story, isOwner = true }: Props) {
   const router = useRouter()
   const params = useParams()
   const { mutate } = useSWRConfig()
@@ -38,7 +51,10 @@ export default function LanguageBar({ story }: Props) {
   // @ts-ignore useTranslation type overloads are complex
   const { t: tBase } = useTranslation(lng, 'settingsModal')
   const t = tBase as any
-  const { addLanguage, deleteLanguage } = useStory(story.id)
+  // @ts-ignore useTranslation type overloads are complex
+  const { t: tTr } = useTranslation(lng, 'translationRequests')
+  const { addLanguage, deleteLanguage, submitTranslation } = useStory(story.id)
+  const [showSubmitConfirm, setShowSubmitConfirm] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showInstructions, setShowInstructions] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<{ language: string; variantId: string } | null>(null)
@@ -160,6 +176,103 @@ export default function LanguageBar({ story }: Props) {
     } finally {
       setLoading(false)
     }
+  }
+
+  async function onSubmitTranslation() {
+    setLoading(true)
+    try {
+      await submitTranslation()
+      toast({
+        title: tTr('submitted'),
+        message: tTr('submittedMessage'),
+        type: 'success',
+      })
+      setShowSubmitConfirm(false)
+      router.refresh()
+    } catch {
+      toast({
+        title: tTr('submitError'),
+        message: tTr('submitError'),
+        type: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Community translation draft: not part of the language group yet, it has
+  // to be submitted to the original author first.
+  if (story.translationStatus && !story.groupId) {
+    const info = getLanguageInfo(story.language)
+    const canSubmit =
+      story.translationStatus === 'DRAFT' ||
+      story.translationStatus === 'REJECTED'
+    return (
+      <div className="re-basic-box flex items-center gap-2 bg-white px-2 py-1">
+        <span className="px-1.5 text-lg">{info.flag}</span>
+        <span
+          className={
+            'rounded-full px-2 py-0.5 text-xs font-medium ' +
+            (statusStyles[story.translationStatus] ?? '')
+          }
+        >
+          {tTr(`status${story.translationStatus}` as 'statusDRAFT')}
+        </span>
+        {canSubmit && (
+          <button
+            className="flex items-center gap-1 rounded-md bg-slate-900 px-2 py-1 text-xs text-white transition hover:bg-slate-700 disabled:opacity-50"
+            disabled={loading}
+            onClick={() => setShowSubmitConfirm(true)}
+          >
+            <PaperAirplaneIcon className="h-4 w-4" />
+            {tTr('submit')}
+          </button>
+        )}
+        <Modal
+          onOpenChange={setShowSubmitConfirm}
+          open={showSubmitConfirm}
+          title={tTr('submitTitle')}
+        >
+          <div className="px-6 pb-6">
+            <p className="mb-6 text-base text-slate-600">
+              {tTr('submitDescription', {
+                story: story.translationOf?.name ?? '',
+              })}
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                className="rounded-md px-4 py-2 text-slate-700 transition hover:bg-slate-100"
+                disabled={loading}
+                onClick={() => setShowSubmitConfirm(false)}
+              >
+                {tTr('cancel')}
+              </button>
+              <button
+                className="rounded-md bg-slate-900 px-4 py-2 text-white transition hover:bg-slate-700 disabled:opacity-50"
+                disabled={loading}
+                onClick={onSubmitTranslation}
+              >
+                {tTr('submitConfirm')}
+              </button>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    )
+  }
+
+  // Contributors only edit their translation, other variants belong to the author.
+  if (!isOwner) {
+    const info = getLanguageInfo(story.language)
+    return (
+      <div className="re-basic-box flex items-center gap-1 bg-white px-2 py-1">
+        <Tooltip content={info.label} side="bottom">
+          <span className="rounded-md bg-slate-200 px-1.5 py-0.5 text-lg">
+            {info.flag}
+          </span>
+        </Tooltip>
+      </div>
+    )
   }
 
   return (

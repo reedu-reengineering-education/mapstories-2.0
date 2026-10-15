@@ -18,6 +18,7 @@ import { addLanguage } from './addLanguage'
 import { deleteLanguage } from './deleteLanguage'
 import { createStepSuggestion } from './createStepSuggestion'
 import { deleteStepSuggestion } from './deleteStepSuggestion'
+import { submitTranslation } from './submitTranslation'
 
 const useStory = (storyId: string) => {
   const { data: story, mutate } = useSWR<
@@ -55,6 +56,11 @@ const useStory = (storyId: string) => {
 
   const APIDeleteLanguage = async (language: string, variantId: string) => {
     await deleteLanguage(storyId, language, variantId)
+  }
+
+  const APISubmitTranslation = async () => {
+    await submitTranslation(storyId)
+    return await mutate()
   }
 
   const APIDeleteStory = async () => {
@@ -142,6 +148,7 @@ const useStory = (storyId: string) => {
     copyStory: APICopyStory,
     addLanguage: APIAddLanguage,
     deleteLanguage: APIDeleteLanguage,
+    submitTranslation: APISubmitTranslation,
     deleteStory: APIDeleteStory,
     reorderStorySteps: APIReorderStorySteps,
     createStoryStep: APICreateStoryStep,

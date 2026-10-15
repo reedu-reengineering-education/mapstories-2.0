@@ -39,14 +39,14 @@ export default function PageContent() {
         {isBfdw && (
           <div className="flex flex-col items-center justify-center ">
           <Image
-            alt="Mapstories"
-            height={200}
-            src={MapstoryWithTextLogo}
-          />
-          <Image
             alt="CONNECT"
             height={150}
             src={ConnectLogo}
+          />
+          <Image
+            alt="Mapstories"
+            height={200}
+            src={MapstoryWithTextLogo}
           />
           </div>
         )}
