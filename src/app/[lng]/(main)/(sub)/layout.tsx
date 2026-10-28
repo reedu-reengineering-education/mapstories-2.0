@@ -4,7 +4,6 @@ import { Button } from '@/src/components/Elements/Button'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import Link from 'next/link'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
-import { LinkIcon } from '@heroicons/react/24/outline'
 import { User } from '@prisma/client'
 import { db } from '@/src/lib/db'
 
@@ -32,19 +31,7 @@ export default async function RootLayout({
         <div className="container flex h-16 items-center justify-between py-4">
           <InverseNavbar user={user} userHasStories={storyCount > 0}>
             <div className="flex space-x-2">
-              <Button
-                className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
-                startIcon={<LinkIcon className="w-5" />}
-              >
-                {' '}
-                <a
-                  href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view "
-                  target="_blank"
-                >
-                  {' '}
-                  Feedback
-                </a>{' '}
-              </Button>
+
               <div className="hidden lg:flex lg:flex-row lg:gap-2">
                 <LangSwitcher />
                 {user ? (

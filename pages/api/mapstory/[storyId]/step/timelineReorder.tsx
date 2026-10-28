@@ -29,14 +29,16 @@ export const reorderTimeline = async (storyId: string) => {
     position: index,
   }))
 
-  reorderedSteps.forEach(async step => {
-    await db.storyStep.update({
-      where: {
-        id: step.id,
-      },
-      data: {
-        position: step.position,
-      },
-    })
-  })
+  await Promise.all(
+    reorderedSteps.map(step =>
+      db.storyStep.update({
+        where: {
+          id: step.id,
+        },
+        data: {
+          position: step.position,
+        },
+      }),
+    ),
+  )
 }

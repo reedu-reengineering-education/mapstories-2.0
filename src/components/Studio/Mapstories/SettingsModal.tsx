@@ -26,6 +26,8 @@ import {
   SelectValue,
 } from '../../Elements/Select'
 import { applyTheme } from '@/src/helper/applyTheme'
+import { availableStoryLanguages } from '@/src/lib/languageFlags'
+import { LanguageSelect } from '../../Elements/LanguageSelect'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
@@ -35,14 +37,22 @@ export default function SettingsModal({
   storyId,
   shadow,
   themes,
+  isOwner = true,
 }: {
   storyId: string
   shadow?: boolean
   themes: Theme[]
+  // contributors (e.g. translators) may only change name, author and description
+  isOwner?: boolean
 }) {
   const router = useRouter()
   const lng = useBoundStore(state => state.language)
-  const { t } = useTranslation(lng, ['settingsModal', 'studio', 'timeline'])
+  const { t } = useTranslation(lng, [
+    'settingsModal',
+    'studio',
+    'timeline',
+    'translationRequests',
+  ])
 
   const [isSaving, setIsSaving] = useState(false)
   const [image, setImage] = useState<string | any>()
@@ -127,7 +137,6 @@ export default function SettingsModal({
               size={100}
               {...register('name')}
             />
-            {/* @ts-expect-error */}
             <InputLabel> {t('settingsModal:author')}</InputLabel>
             <Input
               defaultValue={story.author || ''}
@@ -145,6 +154,17 @@ export default function SettingsModal({
               {...register('description')}
             ></Textarea>
 
+            {(story.isTranslation || !isOwner) && (
+              <p className="mt-4 rounded bg-amber-50 p-2 text-xs text-amber-800">
+                {t(
+                  isOwner
+                    ? 'translationRequests:settingsFromOriginal'
+                    : 'translationRequests:settingsOwnerOnly',
+                )}
+              </p>
+            )}
+            {/* hidden fields stay mounted so the form still submits their values */}
+            <div className={story.isTranslation || !isOwner ? 'hidden' : ''}>
             <Spacer />
             <InputLabel>Modus</InputLabel>
             <p className="rounded bg-zinc-100 p-2 text-xs text-zinc-700">
@@ -158,14 +178,14 @@ export default function SettingsModal({
               control={control}
               defaultValue={story.mode ?? StoryMode.NORMAL}
               name="mode"
-              render={({ field: { onChange, ref } }) => {
+              render={({ field: { onChange, ref, value } }) => {
                 return (
                   <div className="jusify-center flex items-center gap-4">
                     <span className="text-sm font-medium text-gray-700">
                       NORMAL
                     </span>
                     <Switch
-                      defaultChecked={story.mode === StoryMode.TIMELINE}
+                      checked={value === StoryMode.TIMELINE}
                       onCheckedChange={checked =>
                         onChange(
                           checked ? StoryMode.TIMELINE : StoryMode.NORMAL,
@@ -180,6 +200,8 @@ export default function SettingsModal({
                 )
               }}
             />
+            </div>
+            <div className={isOwner ? '' : 'hidden'}>
             <Spacer />
             <InputLabel>{t('settingsModal:visibility')}</InputLabel>
             <Controller
@@ -234,22 +256,23 @@ export default function SettingsModal({
                 )
               }}
             />
+            </div>
+            <div className={story.isTranslation || !isOwner ? 'hidden' : ''}>
             <Spacer />
             <InputLabel>{t('settingsModal:theme')}</InputLabel>
             <Controller
               control={control}
               defaultValue={story.themeId ?? themes[0].name}
-              // name="theme"
-              {...register('themeId')}
+              name="themeId"
               render={({ field: { onChange, value, ref } }) => {
                 return (
                   <>
                     <Select
-                      defaultValue={value ?? themes[0].name}
                       onValueChange={e => {
                         selectTheme(e)
                         onChange(e)
                       }}
+                      value={value ?? themes[0].name}
                     >
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Theme" />
@@ -266,6 +289,28 @@ export default function SettingsModal({
                 )
               }}
             />
+            </div>
+            <div className={isOwner ? '' : 'hidden'}>
+            <Spacer />
+            <InputLabel>{t('settingsModal:defaultLanguage')}</InputLabel>
+            <Controller
+              control={control}
+              defaultValue={(story as any).defaultLanguage ?? story.language}
+              name="defaultLanguage"
+              render={({ field: { onChange, value, ref } }) => {
+                return (
+                  <LanguageSelect
+                    className="w-[220px]"
+                    languages={availableStoryLanguages}
+                    onChange={onChange}
+                    ref={ref}
+                    value={value ?? story.language}
+                  />
+                )
+              }}
+            />
+            </div>
+            <div className={story.isTranslation || !isOwner ? 'hidden' : ''}>
             <Spacer />
             <Controller
               control={control}
@@ -291,6 +336,7 @@ export default function SettingsModal({
                 )
               }}
             />
+            </div>
           </Modal.Content>
           <Modal.Footer>
             <Button

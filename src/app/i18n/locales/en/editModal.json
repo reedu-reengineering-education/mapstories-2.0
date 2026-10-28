@@ -12,6 +12,7 @@
   "abort": "Cancel",
   "upload": "File",
   "embed": "Link",
+  "title": "Title",
   "yes": "Yes",
   "delete": "Delete",
   "contentUpdated": "Your content has been updated.",
@@ -30,5 +31,14 @@
   "dataUpload": "Upload a file here.",
   "source": "Source",
   "edit": "Edit",
-  "update": "Update"
+  "update": "Update",
+  "back": "Back",
+  "bold": "Bold",
+  "italic": "Italic",
+  "code": "Code",
+  "link": "Link",
+  "table": "Table",
+  "list": "List",
+  "help": "Help",
+  "uploadAction": "Upload"
 }

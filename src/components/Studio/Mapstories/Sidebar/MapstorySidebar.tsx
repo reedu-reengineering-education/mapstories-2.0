@@ -3,7 +3,7 @@
 import DraggableList from '@/src/components/DraggableList'
 import useStory from '@/src/lib/api/story/useStory'
 import { toast } from '@/src/lib/toast'
-import { MapPinIcon, TagIcon } from '@heroicons/react/24/outline'
+import { LanguageIcon, MapPinIcon, TagIcon } from '@heroicons/react/24/outline'
 import { SlideContent, StoryMode, StoryStep } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -36,6 +36,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
   const path = usePathname()
   const stepId = path?.split('/').at(-1)
   const { story, reorderStorySteps } = useStory(storyID)
+  const isTranslation = !!story?.isTranslation
 
   const [hoverMarkerIcon, setHoverMarkerIcon] = useState<boolean[]>([])
   const [filteredSteps, setFilteredSteps] = useState<
@@ -118,7 +119,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
           </Link>
           <hr className="my-4 border-gray-400" />
           <DraggableList
-            disabled={story.mode === StoryMode.TIMELINE}
+            disabled={story.mode === StoryMode.TIMELINE || isTranslation}
             items={steps.map((s, i) => ({
               id: s.id,
               s: s,
@@ -142,7 +143,7 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     </p>
                   </div>
                   <div className="absolute right-1 top-1 z-10 overflow-hidden rounded-md group-hover:visible">
-                    {s.storyId && (
+                    {s.storyId && !isTranslation && (
                       <DeleteStepButton
                         storyId={s.storyId}
                         storyStepId={s.id}
@@ -172,6 +173,16 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
                     )} */}
                     </div>
                   )}
+                  {isTranslation && s.content.some(c => c.needsTranslation) && (
+                    <div className="absolute right-1 top-1 z-10 flex rounded-md bg-amber-100 p-1">
+                      <Tooltip
+                        content={t('needsTranslation') as string}
+                        maxwidth={'200px'}
+                      >
+                        <LanguageIcon className="h-4 w-4 text-amber-700" />
+                      </Tooltip>
+                    </div>
+                  )}
                   {s.tags && s.tags.length > 0 && (
                     <div className="absolute left-1 top-12 z-10 flex cursor-pointer rounded-md group-hover:visible">
                       <Tooltip
@@ -194,7 +205,11 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
           ></DraggableList>
 
           <div className="sticky bottom-0 z-20 w-full bg-white py-2">
-            {story.mode === StoryMode.NORMAL ? (
+            {isTranslation ? (
+              <p className="text-center text-xs text-slate-500">
+                {t('stepsOnlyInOriginal')}
+              </p>
+            ) : story.mode === StoryMode.NORMAL ? (
               <AddStoryStepButton storyID={storyID} />
             ) : (
               <AddStoryStepTimelineButton storyID={storyID} />

@@ -18,9 +18,17 @@ type Props = {
   slug: string[]
   story: any
   tags: string[]
+  // logged in user, enables "add translation" on the start screen
+  currentUserId?: string
 }
 
-export function ViewerWrapper({ filter, slug, story, tags }: Props) {
+export function ViewerWrapper({
+  filter,
+  slug,
+  story,
+  tags,
+  currentUserId,
+}: Props) {
   // Get language from store
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
@@ -82,7 +90,12 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
 
           {/* Conditional View: Start or Step */}
           {isStartView ? (
-            <ViewerStartView slug={slug} story={story} tags={tags} />
+            <ViewerStartView
+              currentUserId={currentUserId}
+              slug={slug}
+              story={story}
+              tags={tags}
+            />
           ) : (
             <ViewerStepView lng={lng} slug={slug} story={story} />
           )}

@@ -2,21 +2,33 @@
 
 import { useTranslation } from '@/src/app/i18n/client'
 // import { useUIStore } from '@/src/lib/store/ui'
-import { Cog6ToothIcon, GlobeAltIcon, LockClosedIcon } from '@heroicons/react/24/outline'
+import { 
+  ArrowPathIcon, 
+  ChartBarIcon,
+  Cog6ToothIcon, 
+  DocumentDuplicateIcon, 
+  GlobeAltIcon,
+  LockClosedIcon,
+  SparklesIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline'
 import { cx } from 'class-variance-authority'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
+import { useCurrentUser } from '@/src/lib/hooks/useCurrentUser'
 
 export function StudioSidebar() {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'settings')
+  const { isAdmin, isBfdwGalleryAdmin } = useCurrentUser()
   const [items, setItems] = useState<Route[]>([])
 
   useEffect(() => {
-    setItems([
+
+    const baseItems: Route[] = [
       {
         title: 'Mapstories',
         href: '/storylab',
@@ -28,12 +40,70 @@ export function StudioSidebar() {
         icon: Cog6ToothIcon,
       },
       {
-        title: 'Privacy Settings',
+        title: t('privacySettings'),
         href: `/${lng}/storylab/privacy`,
         icon: LockClosedIcon,
       }
-    ])
-  }, [lng, t])
+    ]
+
+    if (isAdmin) {
+      baseItems.push({
+        title: t('analytics'),
+        href: `/${lng}/storylab/admin/analytics`,
+        icon: ChartBarIcon,
+      })
+      baseItems.push({
+        title: t('gallery'),
+        href: `/${lng}/storylab/admin/gallery`,
+        icon: SparklesIcon,
+      })
+      baseItems.push({
+        title: t('duplicateStory'),
+        href: `/${lng}/storylab/admin/duplicate-story`,
+        icon: DocumentDuplicateIcon,
+      })
+      baseItems.push({
+        title: t('transferStory'),
+        href: `/${lng}/storylab/admin/transfer-story`,
+        icon: ArrowPathIcon,
+      })
+      baseItems.push({
+        title: t('deleteStory'),
+        href: `/${lng}/storylab/admin/delete-story`,
+        icon: TrashIcon,
+      })
+    }
+
+    if (isBfdwGalleryAdmin) {
+      baseItems.push({
+        title: t('bfdwGallery'),
+        href: `/${lng}/storylab/bfdw-admin/gallery`,
+        icon: SparklesIcon,
+      })
+    }
+
+    // Global admins already reach these via /storylab/admin; BFDW admins get
+    // their own pages, the API restricts them to BFDW stories.
+    if (isBfdwGalleryAdmin && !isAdmin) {
+      baseItems.push({
+        title: t('duplicateStory'),
+        href: `/${lng}/storylab/bfdw-admin/duplicate-story`,
+        icon: DocumentDuplicateIcon,
+      })
+      baseItems.push({
+        title: t('transferStory'),
+        href: `/${lng}/storylab/bfdw-admin/transfer-story`,
+        icon: ArrowPathIcon,
+      })
+      baseItems.push({
+        title: t('deleteStory'),
+        href: `/${lng}/storylab/bfdw-admin/delete-story`,
+        icon: TrashIcon,
+      })
+    }
+    setItems(baseItems)
+  }, [lng, t, isAdmin, isBfdwGalleryAdmin])
+  
   const path = usePathname()
 
   if (!items?.length) {

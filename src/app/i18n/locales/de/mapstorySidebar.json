@@ -1,5 +1,7 @@
 {
   "please set a marker for this slide": "Setze bitte einen Marker für diese Station.",
   "steps": "Stationen",
-  "slideHasTags": "Diese Station hat Tags"
+  "slideHasTags": "Diese Station hat Tags",
+  "needsTranslation": "Enthält Inhalte, die noch übersetzt werden müssen",
+  "stepsOnlyInOriginal": "Stationen können nur in der Originalstory hinzugefügt oder verschoben werden."
 }

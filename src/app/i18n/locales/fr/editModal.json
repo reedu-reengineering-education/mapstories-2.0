@@ -13,6 +13,7 @@
   "upload": "Fichier",
   "embed": "Lien",
   "yes": "Oui",
+  "title": "Titre",
   "delete": "Supprimer",
   "contentUpdated": "Votre contenu a été mis à jour.",
   "contentCreated": "Votre contenu a été créé.",
@@ -30,5 +31,14 @@
   "dataUpload": "Importez un fichier ici.",
   "source": "La source ",
   "edit": "Modifier",
-  "update": "Actualiser"
+  "update": "Actualiser",
+  "back": "Retour",
+  "bold": "Gras",
+  "italic": "Italique",
+  "code": "Code",
+  "link": "Lien",
+  "table": "Tableau",
+  "list": "Liste",
+  "help": "Aide",
+  "uploadAction": "Téléverser"
 }

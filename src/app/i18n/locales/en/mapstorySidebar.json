@@ -1,5 +1,7 @@
 {
   "please set a marker for this slide": "Please set a marker for this slide.",
   "steps": "Steps",
-  "slideHasTags": "This slide has tags"
+  "slideHasTags": "This slide has tags",
+  "needsTranslation": "Contains content that still needs translation",
+  "stepsOnlyInOriginal": "Steps can only be added or moved in the original story."
 }
