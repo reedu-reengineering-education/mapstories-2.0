@@ -14,5 +14,7 @@
   "abort": "Cancel",
   "noSteps": "Add steps in order to see the timeline!",
   "myTranslations": "My translations",
-  "myTranslationsDescription": "Translations you created for other users' stories. The original still belongs to its author."
+  "myTranslationsDescription": "Translations you created for other users' stories. The original still belongs to its author.",
+  "preview": "Preview"
+
 }

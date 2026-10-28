@@ -14,5 +14,6 @@
   "abort": "Cancelar",
   "noSteps": "¡Añade pasos para ver la línea de tiempo!",
   "myTranslations": "Mis traducciones",
-  "myTranslationsDescription": "Traducciones que has creado para historias de otras personas. El original sigue perteneciendo a su autor o autora."
+  "myTranslationsDescription": "Traducciones que has creado para historias de otras personas. El original sigue perteneciendo a su autor o autora.",
+  "preview": "Vista previa"
 }

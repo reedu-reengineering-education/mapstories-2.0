@@ -14,5 +14,6 @@
   "abort": "Abbrechen",
   "noSteps": "Füge Steps hinzu um die Zeitleiste zu sehen!",
   "myTranslations": "Meine Übersetzungen",
-  "myTranslationsDescription": "Übersetzungen, die du für Stories anderer Nutzer:innen erstellt hast. Das Original gehört weiterhin dem Autor bzw. der Autorin."
+  "myTranslationsDescription": "Übersetzungen, die du für Stories anderer Nutzer:innen erstellt hast. Das Original gehört weiterhin dem Autor bzw. der Autorin.",
+  "preview": "Vorschau"
 }

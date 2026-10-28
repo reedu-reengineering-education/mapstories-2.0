@@ -53,7 +53,7 @@ export function TitleContentEdit({
       <div className="pt-4">
         <InputLabel>{t('headlineForYourSlide')}</InputLabel>
         <Input
-          label="title"
+          label={t('title')}
           onChange={e => setInputValue(e.target.value)}
           size={100}
           value={inputValue}
