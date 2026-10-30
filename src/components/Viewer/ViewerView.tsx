@@ -17,6 +17,8 @@ import { applyTheme } from '@/src/helper/applyTheme'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
 import { ViewerPopup } from './ViewerPopup'
 import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
+import { MAP_STYLES, MapStyleName } from '../Map/mapStyles'
+import BaseMapControl from '../Map/BaseMapControl'
 
 type ViewerViewProps = {
   inputStories: (Story & {
@@ -28,6 +30,9 @@ type ViewerViewProps = {
 
 export default function ViewerView({ inputStories }: ViewerViewProps) {
   const mapRef = useRef<MapRef>(null)
+
+  const [selectedMapStyle, setSelectedMapStyle] =
+    useState<MapStyleName>('streets')
 
   const path = usePathname()
   const storyID = useBoundStore(state => state.storyID)
@@ -447,10 +452,15 @@ export default function ViewerView({ inputStories }: ViewerViewProps) {
     <Map
       // cursor={cursor}
       interactiveLayerIds={interactiveLayerIds}
+      mapStyle={MAP_STYLES[selectedMapStyle]}
       onLoad={onMapLoad}
       // onMouseMove={onHover}
       ref={mapRef}
     >
+      <BaseMapControl
+        onChange={setSelectedMapStyle}
+        value={selectedMapStyle}
+      />
       {pathend2 != 'gallery' && (
         <StorySourceLayer
           geojsons={mapData}
