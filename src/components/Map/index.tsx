@@ -10,6 +10,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 // import 'maplibre-gl/dist/maplibre-gl.css'
 import { forwardRef } from 'react'
 import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
+import { DEFAULT_MAP_STYLE, MAP_STYLES } from './mapStyles'
 
 const Map = forwardRef<MapRef, MapProps>(
   (
@@ -38,7 +39,7 @@ const Map = forwardRef<MapRef, MapProps>(
         }}
         mapboxAccessToken={`${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`}
         // mapLib={maplibregl}
-        mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v12'}
+        mapStyle={mapStyle || MAP_STYLES[DEFAULT_MAP_STYLE].url}
         preserveDrawingBuffer
         // @ts-expect-error
         projection={'globe'}
