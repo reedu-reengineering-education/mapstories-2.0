@@ -56,6 +56,32 @@ const CLUSTER_MARGIN = 12
 const easeInOutCubic = (t: number) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 
+type SavedCamera = {
+  center: [number, number]
+  zoom: number
+  bearing: number
+  pitch: number
+}
+
+function readCamera(map: MapRef | null | undefined): SavedCamera | undefined {
+  try {
+    if (!map) {
+      return undefined
+    }
+    const center = map.getCenter()
+    const camera: SavedCamera = {
+      center: [center.lng, center.lat],
+      zoom: map.getZoom(),
+      bearing: map.getBearing(),
+      pitch: map.getPitch(),
+    }
+    const valid = [...camera.center, camera.zoom, camera.bearing, camera.pitch]
+    return valid.every(Number.isFinite) ? camera : undefined
+  } catch {
+    return undefined
+  }
+}
+
 function prefersReducedMotion() {
   try {
     return (
@@ -89,7 +115,11 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
   const [selectedFeature, setSelectedFeature] = useState<Feature | undefined>()
 
   const [interactiveLayerIds, setInteractiveLayerIds] = useState<any[]>()
-  const [savedView, setSavedView] = useState<any>()
+  // camera of the gallery/list view before a story was opened. Stored as a
+  // camera instead of getBounds(): on the globe, getBounds() spans up to the
+  // pole whenever the pole is visible, and fitBounds() to that box ends up
+  // zooming onto the north pole.
+  const [savedView, setSavedView] = useState<SavedCamera>()
   const [startView, setStartView] = useState<any>()
   const [pathend2, setPathend2] = useState<string | undefined>('')
   const [markers, setMarkers] = useState<any[]>([])
@@ -181,7 +211,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
     if (pathend === 'all' && path?.split('/').at(-2) === 'mystories') {
       setStoryID('')
       if (savedView) {
-        mapRef.current?.fitBounds(savedView)
+        mapRef.current?.flyTo({ ...savedView, essential: true })
       }
     }
     if (path?.split('/').at(-2) === 'gallery') {
@@ -191,7 +221,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       if (fromStoryId && !prefersReducedMotion()) {
         playGalleryReturn(fromStoryId)
       } else if (savedView) {
-        mapRef.current?.fitBounds(savedView)
+        mapRef.current?.flyTo({ ...savedView, essential: true })
       }
       // setViewerStories([])
     }
@@ -364,7 +394,8 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
     const entranceStart = Math.round(flyDuration * GALLERY_ENTRANCE_AT)
     if (savedView) {
       try {
-        mapRef.current?.fitBounds(savedView, {
+        mapRef.current?.flyTo({
+          ...savedView,
           duration: flyDuration,
           essential: true,
           easing: easeInOutCubic,
@@ -461,7 +492,14 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
           bounds.extend([coord[0], coord[1]])
         }
         if (mapRef) {
-          setSavedView(mapRef.current?.getBounds())
+          // only remember the view we come from when leaving the overview
+          // (gallery / list), not when switching between stories
+          if (!storyID) {
+            const camera = readCamera(mapRef.current)
+            if (camera) {
+              setSavedView(camera)
+            }
+          }
           mapRef.current?.fitBounds(
             bounds,
             flyDuration
