@@ -265,7 +265,6 @@ export default function EditMapstoryMap({
       <GeocoderControl
         language={lng}
         onClear={handleRemovePoint}
-        placeholder={tEdit('searchLocation')}
         onResult={async e => {
           const [lng, lat] = e.result.geometry.coordinates
           setGeocoderResult({
@@ -287,6 +286,7 @@ export default function EditMapstoryMap({
           // this would only update the step that was selected when the component got FIRST initialized
           // await updateStep({ feature: point as any })
         }}
+        placeholder={tEdit('searchLocation')}
         position="top-right"
       />
       )}

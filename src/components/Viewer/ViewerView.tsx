@@ -871,8 +871,8 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         <ErrorBoundary key={hoverPreview.storyId} name="GalleryStoryPreview">
           <GalleryStoryPreview
             color={hoverPreview.color}
-            stations={hoverPreview.stations}
             idPrefix="gallery-hover"
+            stations={hoverPreview.stations}
             storyId={hoverPreview.storyId}
           />
         </ErrorBoundary>
@@ -898,9 +898,9 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
 
       {pathend2 != 'gallery' && (
         <StorySourceLayer
+          color={storyAccent}
           geojsons={mapData}
           selectedFeature={selectedFeature}
-          color={storyAccent}
           selectedStepIndex={selectedStepIndex}
           storyID={storyID}
         />
@@ -981,14 +981,14 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
                   cardHeight={cardSize.height}
                   cardWidth={cardSize.width}
                   collapseSignal={collapseSignal}
-                  hoveredStoryId={hoveredStoryId}
-                  maxColumns={width < 768 ? 2 : 4}
                   enteringFromStoryId={
                     galleryEntrance?.phase === 'entering'
                       ? galleryEntrance.fromStoryId
                       : undefined
                   }
+                  hoveredStoryId={hoveredStoryId}
                   leavingStoryId={leavingStory?.id}
+                  maxColumns={width < 768 ? 2 : 4}
                   members={members}
                   onExpandedChange={expanded =>
                     setExpandedClusterId(current =>

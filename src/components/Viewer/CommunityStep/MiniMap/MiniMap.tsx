@@ -51,7 +51,6 @@ export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
       <GeocoderControl
         language={language}
         onClear={handleRemovePoint}
-        placeholder={t('searchLocation')}
         onResult={async e => {
           const [lng, lat] = e.result.geometry.coordinates
           const point = {
@@ -67,6 +66,7 @@ export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
           // this would only update the step that was selected when the component got FIRST initialized
           // await updateStep({ feature: point as any })
         }}
+        placeholder={t('searchLocation')}
         position="top-left"
       />
       {/* only do this when the marker is not null */}

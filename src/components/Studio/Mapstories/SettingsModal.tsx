@@ -57,13 +57,10 @@ export default function SettingsModal({
   ])
 
   const [isSaving, setIsSaving] = useState(false)
-  const [image, setImage] = useState<string | any>()
-  const [selectedTheme, setSelectedTheme] = useState('')
 
   const {
     control,
     handleSubmit,
-    setValue,
     register,
     formState: { errors },
   } = useForm<FormData>({
@@ -96,7 +93,7 @@ export default function SettingsModal({
         router.replace(`/storylab/${updatedStory?.slug}`)
       }
       setModalOpen(false)
-    } catch (e) {
+    } catch {
       return toast({
         title: t('studio:somethingWrong'),
         message: t('settingsModal:changesNotApplied'),
@@ -109,10 +106,6 @@ export default function SettingsModal({
 
   if (!story) {
     return <></>
-  }
-
-  const onInvalid = (errors: any) => {
-    console.log(errors)
   }
 
   return (
@@ -131,7 +124,7 @@ export default function SettingsModal({
         open={modalOpen}
         title={t('settingsModal:modalHeader')}
       >
-        <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content className="max-h-[70vh] overflow-scroll">
             <InputLabel>{t('settingsModal:name')}</InputLabel>
             <Input
@@ -216,7 +209,7 @@ export default function SettingsModal({
               defaultValue={story.visibility}
               name="visibility"
               // {...register('visibility')}
-              render={({ field: { onChange, value, ref } }) => {
+              render={({ field: { onChange, ref } }) => {
                 return (
                   <div className="jusify-center flex items-center gap-4">
                     <span className="text-sm font-medium text-gray-700">
@@ -244,7 +237,7 @@ export default function SettingsModal({
               defaultValue={story.community}
               name="community"
               // {...register('visibility')}
-              render={({ field: { onChange, value, ref } }) => {
+              render={({ field: { onChange, ref } }) => {
                 return (
                   <div className="jusify-center flex items-center gap-4">
                     <span className="text-sm font-medium text-gray-700">
@@ -276,7 +269,7 @@ export default function SettingsModal({
               control={control}
               defaultValue={story.themeId ?? themes[0].name}
               name="themeId"
-              render={({ field: { onChange, value, ref } }) => {
+              render={({ field: { onChange, ref, value } }) => {
                 return (
                   <>
                     <Select
@@ -327,7 +320,7 @@ export default function SettingsModal({
               control={control}
               defaultValue={(story as any).defaultLanguage ?? story.language}
               name="defaultLanguage"
-              render={({ field: { onChange, value, ref } }) => {
+              render={({ field: { onChange, ref, value } }) => {
                 return (
                   <LanguageSelect
                     className="w-[220px]"
@@ -347,7 +340,7 @@ export default function SettingsModal({
               defaultValue={true}
               name="lines"
               // {...register('visibility')}
-              render={({ field: { onChange, value, ref } }) => {
+              render={({ field: { onChange, ref } }) => {
                 return (
                   <div className="jusify-center flex items-center gap-4">
                     <span className="text-sm font-medium text-gray-700">
