@@ -1,8 +1,15 @@
 'use client'
 
 import { SlideContent, Story, StoryStep, Theme } from '@prisma/client'
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
-import { MapRef, Popup, Source } from 'react-map-gl'
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import { MapRef, Marker, Source } from 'react-map-gl'
 import { Feature, GeoJsonProperties, LineString } from 'geojson'
 // import { LineString } from 'geojson'
 import { usePathname, useRouter } from 'next/navigation'
@@ -15,7 +22,15 @@ import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { applyTheme } from '@/src/helper/applyTheme'
 import StorySourceLayer from './ViewerMap/Layers/StorySourceAndLayer'
-import { ViewerPopup } from './ViewerPopup'
+import {
+  getGalleryCardSize,
+  getStoryAccent,
+} from './Gallery/GalleryStoryMarker'
+import { GalleryStoryCluster } from './Gallery/GalleryStoryCluster'
+import {
+  GalleryStoryPreview,
+  PreviewStation,
+} from './Gallery/GalleryStoryPreview'
 import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 import { getSiteFromHost } from '@/src/lib/site'
 import { getBaseThemeForSite } from '@/src/lib/theme'
@@ -28,6 +43,37 @@ type ViewerViewProps = {
     steps: (StoryStep & { content: SlideContent[] })[]
   })[]
 }
+
+type GalleryCluster = {
+  // id of the first story; the stack sits on that story's location
+  leaderId: string
+  members: { id: string; offset: [number, number] }[]
+}
+
+// extra space between cards before they count as overlapping
+const CLUSTER_MARGIN = 12
+
+const easeInOutCubic = (t: number) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+
+function prefersReducedMotion() {
+  try {
+    return (
+      typeof window !== 'undefined' &&
+      !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    )
+  } catch {
+    return false
+  }
+}
+
+// gallery -> story transition timings (ms)
+const CARD_EXIT_DURATION = 380
+const STORY_FLY_DURATION = 1800
+// story -> gallery: the flight back is a bit quicker and the cards already
+// start popping in while the camera is still moving
+const GALLERY_RETURN_FLY_DURATION = 1400
+const GALLERY_ENTRANCE_AT = 0.35
 
 function ViewerViewInner({ inputStories }: ViewerViewProps) {
   const mapRef = useRef<MapRef>(null)
@@ -48,6 +94,33 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
   const [pathend2, setPathend2] = useState<string | undefined>('')
   const [markers, setMarkers] = useState<any[]>([])
   const [selectedStorySlug, setSelectedStorySlug] = useState<string>()
+  const [hoveredStoryId, setHoveredStoryId] = useState<string>()
+  // gallery cards grouped into stacks so they never overlap on screen
+  const [clusters, setClusters] = useState<GalleryCluster[]>()
+  const [expandedClusterId, setExpandedClusterId] = useState<string>()
+  const [collapseSignal, setCollapseSignal] = useState(0)
+  // story whose card was clicked: cards play their exit animation
+  const [leavingStory, setLeavingStory] = useState<{
+    id: string
+    lng: number
+    lat: number
+    color: string
+  }>()
+  // pulsing rings on the clicked story's location (outlives the cards)
+  const [ripple, setRipple] = useState<{
+    key: number
+    lng: number
+    lat: number
+    color: string
+  }>()
+  // story -> gallery: cards stay hidden during the flight back, then enter
+  const [galleryEntrance, setGalleryEntrance] = useState<{
+    fromStoryId: string
+    phase: 'hidden' | 'entering'
+  }>()
+  // delays the overview path drawing until the camera has arrived
+  const [overviewDelay, setOverviewDelay] = useState(0)
+  const transitionTimers = useRef<ReturnType<typeof setTimeout>[]>([])
   const { width } = useBreakpoint()
   const router = useRouter()
 
@@ -112,9 +185,12 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       }
     }
     if (path?.split('/').at(-2) === 'gallery') {
+      const fromStoryId = storyID
       setStoryID('')
       setViewerStories(inputStories)
-      if (savedView) {
+      if (fromStoryId && !prefersReducedMotion()) {
+        playGalleryReturn(fromStoryId)
+      } else if (savedView) {
         mapRef.current?.fitBounds(savedView)
       }
       // setViewerStories([])
@@ -263,7 +339,101 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
     setMapData(geojsons)
   }
 
-  function selectStory(m: GeoJSON.Feature<GeoJSON.LineString>) {
+  function clearTransitionTimers() {
+    transitionTimers.current.forEach(clearTimeout)
+    transitionTimers.current = []
+  }
+
+  useEffect(() => clearTransitionTimers, [])
+
+  // a story is open now (or we are back in the gallery): end the exit state
+  useEffect(() => {
+    setLeavingStory(undefined)
+  }, [storyID])
+
+  // back from a story: fly to the previous gallery view, then let the cards
+  // pop in again (the story we came from grows out of its location first)
+  function playGalleryReturn(fromStoryId: string) {
+    clearTransitionTimers()
+    setLeavingStory(undefined)
+    setHoveredStoryId(undefined)
+    setOverviewDelay(0)
+    setGalleryEntrance({ fromStoryId, phase: 'hidden' })
+
+    const flyDuration = savedView ? GALLERY_RETURN_FLY_DURATION : 0
+    const entranceStart = Math.round(flyDuration * GALLERY_ENTRANCE_AT)
+    if (savedView) {
+      try {
+        mapRef.current?.fitBounds(savedView, {
+          duration: flyDuration,
+          essential: true,
+          easing: easeInOutCubic,
+        })
+      } catch (e) {
+        console.warn('Could not fly back to gallery view:', e)
+      }
+    }
+
+    transitionTimers.current.push(
+      setTimeout(() => {
+        computeClustersRef.current()
+        setGalleryEntrance({ fromStoryId, phase: 'entering' })
+        const anchor = galleryAnchorsRef.current.find(
+          a => a.id === fromStoryId,
+        )
+        if (anchor) {
+          setRipple({
+            key: Date.now(),
+            lng: anchor.lng,
+            lat: anchor.lat,
+            color: getStoryAccent(anchor.story.theme),
+          })
+        }
+      }, entranceStart),
+      // the stacks computed mid-flight are refreshed once the camera stops
+      // (onMoveEnd), this only ends the entrance state
+      setTimeout(() => setRipple(undefined), entranceStart + 1400),
+      setTimeout(
+        () => setGalleryEntrance(undefined),
+        Math.max(entranceStart + 1200, flyDuration + 100),
+      ),
+    )
+  }
+
+  // gallery card clicked: play the exit animation, then fly to the story
+  function startStoryTransition(
+    m: GeoJSON.Feature<GeoJSON.LineString>,
+    location: { id: string; lng: number; lat: number; color: string },
+  ) {
+    if (leavingStory) {
+      return
+    }
+    if (prefersReducedMotion()) {
+      selectStory(m)
+      return
+    }
+    clearTransitionTimers()
+    setLeavingStory(location)
+    setRipple({ ...location, key: Date.now() })
+    setHoveredStoryId(undefined)
+    setOverviewDelay(STORY_FLY_DURATION)
+    transitionTimers.current.push(
+      setTimeout(() => selectStory(m, STORY_FLY_DURATION), CARD_EXIT_DURATION),
+      setTimeout(() => setRipple(undefined), CARD_EXIT_DURATION + 1400),
+      // fallback in case the navigation never sets the story id
+      setTimeout(() => setLeavingStory(undefined), 4000),
+      // later visits of the overview should draw immediately again
+      setTimeout(
+        () => setOverviewDelay(0),
+        CARD_EXIT_DURATION + STORY_FLY_DURATION + 1500,
+      ),
+    )
+  }
+
+  function selectStory(
+    m: GeoJSON.Feature<GeoJSON.LineString>,
+    flyDuration?: number,
+  ) {
     setSelectedStorySlug(m.properties?.slug)
 
     if (m) {
@@ -292,9 +462,18 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         }
         if (mapRef) {
           setSavedView(mapRef.current?.getBounds())
-          mapRef.current?.fitBounds(bounds, {
-            padding: 100,
-          })
+          mapRef.current?.fitBounds(
+            bounds,
+            flyDuration
+              ? {
+                  padding: 100,
+                  duration: flyDuration,
+                  essential: true,
+                  // smooth ease-in-out for the gallery -> story flight
+                  easing: easeInOutCubic,
+                }
+              : { padding: 100 },
+          )
         }
       }
       // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
@@ -411,7 +590,193 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
     }
   }
 
+  // path + stations of the story currently hovered in the gallery
+  // path (station coordinates sorted by position) + accent color of a story
+  function buildStoryPath(id: string | undefined) {
+    if (!id || !Array.isArray(stories)) {
+      return undefined
+    }
+    try {
+      const story = stories.find(s => s?.id === id)
+      if (!story || !Array.isArray(story.steps)) {
+        return undefined
+      }
+      const stations = story.steps
+        .filter(Boolean)
+        .slice()
+        .sort((a, b) => (Number(a.position) || 0) - (Number(b.position) || 0))
+        .map((step): PreviewStation | undefined => {
+          const c = parseFeature(step.feature)?.geometry?.coordinates
+          if (!Array.isArray(c)) {
+            return undefined
+          }
+          const coordinates: [number, number] = [Number(c[0]), Number(c[1])]
+          if (!coordinates.every(Number.isFinite)) {
+            return undefined
+          }
+          let title: string | undefined
+          try {
+            title = getSlideTitle(step.content) || undefined
+          } catch {
+            title = undefined
+          }
+          return { coordinates, position: Number(step.position), title }
+        })
+        .filter((s): s is PreviewStation => !!s)
+      return {
+        storyId: story.id,
+        stations,
+        color: getStoryAccent(story.theme),
+      }
+    } catch (e) {
+      console.warn('Could not build story path preview:', e)
+      return undefined
+    }
+  }
+
+  // open a step from the story overview, same URL scheme as <Markers />
+  function openStep(station: PreviewStation) {
+    if (!Number.isFinite(station.position)) {
+      return
+    }
+    const pathLocal =
+      path?.split('/').splice(2, 4).join('/') ?? 'gallery/all/story/'
+    router.push(`/${pathLocal}/${station.position}`)
+  }
+
+  // story currently hovered in the gallery
+  const hoverPreview = useMemo(
+    () => (storyID === '' ? buildStoryPath(hoveredStoryId) : undefined),
+    [hoveredStoryId, storyID, stories],
+  )
+
+  // overview page of an opened story (.../story/<slug>/start)
+  const isStoryOverview = path?.split('/').at(-1) === 'start'
+  const overviewPreview = useMemo(
+    () =>
+      storyID !== '' && isStoryOverview ? buildStoryPath(storyID) : undefined,
+    [storyID, isStoryOverview, stories],
+  )
+
+  // one gallery card per story, placed on the story's first location
+  const galleryAnchors = useMemo(() => {
+    if (!mapData || !Array.isArray(stories)) {
+      return []
+    }
+    const seen = new Set<string>()
+    const result: {
+      id: string
+      feature: GeoJSON.Feature<GeoJSON.LineString>
+      story: (typeof stories)[number]
+      lng: number
+      lat: number
+    }[] = []
+    for (const m of mapData) {
+      const id = m?.properties?.id
+      if (!id || seen.has(id)) {
+        continue
+      }
+      seen.add(id)
+      const story = stories.find(s => s?.id === id)
+      if (!story) {
+        continue
+      }
+      const geometry = m.geometry as GeoJSON.Point | GeoJSON.LineString
+      const [lng, lat] =
+        geometry?.type === 'Point'
+          ? geometry.coordinates
+          : geometry?.coordinates?.[0] ?? []
+      if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
+        continue
+      }
+      result.push({ id, feature: m, story, lng, lat })
+    }
+    return result
+  }, [mapData, stories])
+
+  // used from timers, which would otherwise see a stale list
+  const galleryAnchorsRef = useRef(galleryAnchors)
+  galleryAnchorsRef.current = galleryAnchors
+
+  const cardSize = getGalleryCardSize(width)
+
+  // group stories whose cards would overlap at the current zoom level
+  // (connected components of the "cards overlap" graph, in gallery order)
+  const computeClusters = useCallback(() => {
+    const map = mapRef.current
+    if (!map || galleryAnchors.length === 0) {
+      setClusters(undefined)
+      return
+    }
+    try {
+      const points = galleryAnchors.map(a => {
+        const p = map.project([a.lng, a.lat])
+        return [p.x, p.y] as [number, number]
+      })
+      const parent = points.map((_, i) => i)
+      const find = (i: number): number => {
+        while (parent[i] !== i) {
+          parent[i] = parent[parent[i]]
+          i = parent[i]
+        }
+        return i
+      }
+      const maxDx = cardSize.width + CLUSTER_MARGIN
+      const maxDy = cardSize.height + CLUSTER_MARGIN
+      for (let i = 0; i < points.length; i++) {
+        for (let j = i + 1; j < points.length; j++) {
+          if (
+            Math.abs(points[i][0] - points[j][0]) < maxDx &&
+            Math.abs(points[i][1] - points[j][1]) < maxDy
+          ) {
+            const ri = find(i)
+            const rj = find(j)
+            // keep the earlier story (gallery order) as root / leader
+            parent[Math.max(ri, rj)] = Math.min(ri, rj)
+          }
+        }
+      }
+      const groups = new globalThis.Map<number, number[]>()
+      points.forEach((_, i) => {
+        const root = find(i)
+        groups.set(root, [...(groups.get(root) ?? []), i])
+      })
+      setClusters(
+        Array.from(groups.entries()).map(([root, indices]) => ({
+          leaderId: galleryAnchors[root].id,
+          members: indices.map(i => ({
+            id: galleryAnchors[i].id,
+            offset: [
+              points[i][0] - points[root][0],
+              points[i][1] - points[root][1],
+            ] as [number, number],
+          })),
+        })),
+      )
+    } catch (e) {
+      console.warn('Could not compute gallery clusters:', e)
+      setClusters(undefined)
+    }
+  }, [galleryAnchors, cardSize.width, cardSize.height])
+
+  // map event handlers are bound once, so always call the latest version
+  const computeClustersRef = useRef(computeClusters)
+  computeClustersRef.current = computeClusters
+
+  useEffect(() => {
+    computeClusters()
+  }, [computeClusters])
+
+  // fall back to one card per story until the map can project coordinates
+  const visibleClusters: GalleryCluster[] =
+    clusters ??
+    galleryAnchors.map(a => ({
+      leaderId: a.id,
+      members: [{ id: a.id, offset: [0, 0] }],
+    }))
+
   const onMapLoad = useCallback(() => {
+    computeClustersRef.current()
     if (selectedStepIndex) {
       updateToStep(selectedStepIndex)
     }
@@ -445,9 +810,42 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       // cursor={cursor}
       interactiveLayerIds={interactiveLayerIds}
       onLoad={onMapLoad}
+      onMoveEnd={() => computeClustersRef.current()}
+      onMoveStart={() => setCollapseSignal(c => c + 1)}
+      onResize={() => computeClustersRef.current()}
       // onMouseMove={onHover}
       ref={mapRef}
     >
+      {hoverPreview && (
+        // keyed per story: a broken story only loses its own preview
+        <ErrorBoundary key={hoverPreview.storyId} name="GalleryStoryPreview">
+          <GalleryStoryPreview
+            color={hoverPreview.color}
+            stations={hoverPreview.stations}
+            idPrefix="gallery-hover"
+            storyId={hoverPreview.storyId}
+          />
+        </ErrorBoundary>
+      )}
+
+      {overviewPreview && (
+        // same animated path + numbered stations on the story overview;
+        // replaces the default <Markers /> there, clicking opens the step
+        <ErrorBoundary
+          key={overviewPreview.storyId}
+          name="StoryOverviewPreview"
+        >
+          <GalleryStoryPreview
+            color={overviewPreview.color}
+            delay={overviewDelay}
+            idPrefix="story-overview"
+            onStationClick={openStep}
+            stations={overviewPreview.stations}
+            storyId={overviewPreview.storyId}
+          />
+        </ErrorBoundary>
+      )}
+
       {pathend2 != 'gallery' && (
         <StorySourceLayer
           geojsons={mapData}
@@ -456,6 +854,110 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
           storyID={storyID}
         />
       )}
+
+      {ripple && (
+        <Marker
+          anchor="center"
+          key={ripple.key}
+          latitude={ripple.lat}
+          longitude={ripple.lng}
+          style={{ zIndex: 40, pointerEvents: 'none' }}
+        >
+          <div className="relative h-0 w-0">
+            {[0, 1, 2].map(i => (
+              <span
+                className="gallery-ripple"
+                key={i}
+                style={{
+                  borderColor: ripple.color,
+                  animationDelay: `${120 + i * 220}ms`,
+                }}
+              />
+            ))}
+            <span
+              className="gallery-ripple-dot"
+              style={{ backgroundColor: ripple.color }}
+            />
+          </div>
+        </Marker>
+      )}
+
+      {storyID === '' &&
+        galleryEntrance?.phase !== 'hidden' &&
+        visibleClusters.map(cluster => {
+          const anchor = galleryAnchors.find(a => a.id === cluster.leaderId)
+          if (!anchor) {
+            return null
+          }
+          const members = cluster.members.flatMap(member => {
+            const a = galleryAnchors.find(g => g.id === member.id)
+            return a
+              ? [
+                  {
+                    story: a.story,
+                    offset: member.offset,
+                    onSelect: () =>
+                      startStoryTransition(a.feature, {
+                        id: a.id,
+                        lng: a.lng,
+                        lat: a.lat,
+                        color: getStoryAccent(a.story.theme),
+                      }),
+                  },
+                ]
+              : []
+          })
+          const containsHovered = members.some(
+            m => m.story.id === hoveredStoryId,
+          )
+          return (
+            <Marker
+              anchor="center"
+              key={cluster.leaderId}
+              latitude={anchor.lat}
+              longitude={anchor.lng}
+              style={{
+                zIndex:
+                  expandedClusterId === cluster.leaderId
+                    ? 30
+                    : containsHovered
+                      ? 10
+                      : 1,
+              }}
+            >
+              <ErrorBoundary name="GalleryStoryCluster">
+                <GalleryStoryCluster
+                  cardHeight={cardSize.height}
+                  cardWidth={cardSize.width}
+                  collapseSignal={collapseSignal}
+                  hoveredStoryId={hoveredStoryId}
+                  maxColumns={width < 768 ? 2 : 4}
+                  enteringFromStoryId={
+                    galleryEntrance?.phase === 'entering'
+                      ? galleryEntrance.fromStoryId
+                      : undefined
+                  }
+                  leavingStoryId={leavingStory?.id}
+                  members={members}
+                  onExpandedChange={expanded =>
+                    setExpandedClusterId(current =>
+                      expanded
+                        ? cluster.leaderId
+                        : current === cluster.leaderId
+                          ? undefined
+                          : current,
+                    )
+                  }
+                  onHoverChange={(id, hovered) =>
+                    setHoveredStoryId(current =>
+                      hovered ? id : current === id ? undefined : current,
+                    )
+                  }
+                />
+              </ErrorBoundary>
+            </Marker>
+          )
+        })}
 
       {mapData &&
         mapData.map((m, index) => {
@@ -467,7 +969,6 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
           ) {
             return null
           }
-          const storyData = stories?.find((s) => s.id === m.properties?.id)
           const geometry = m.geometry as GeoJSON.Point | GeoJSON.LineString
           const [lng, lat] =
             geometry.type === 'Point'
@@ -488,27 +989,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
                     type="geojson"
                   ></Source>
 
-                  {storyID === '' && storyData && (
-                    <Popup
-                      anchor="bottom"
-                      closeOnClick={false}
-                      latitude={lat}
-                      longitude={lng}
-                      // onClose={() => setPopupInfo(null)}
-                    >
-                      <div
-                        className="cursor-pointer rounded-xl border-slate-500 bg-white shadow-xl"
-                        onClick={() => selectStory(m)}
-                      >
-                        <ViewerPopup
-                          // @ts-expect-error
-                          firstStepId={storyData.firstStepId}
-                          story={storyData}
-                        />
-                      </div>
-                    </Popup>
-                  )}
-                  {storyID != '' && (
+                  {storyID != '' && !overviewPreview && (
                     <>
                       <Markers
                         markers={markers}

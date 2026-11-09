@@ -1,4 +1,6 @@
 {
   "play": "Play",
-  "edit": "Edit"
+  "edit": "Edit",
+  "stations_one": "{{count}} station",
+  "stations_other": "{{count}} stations"
 }

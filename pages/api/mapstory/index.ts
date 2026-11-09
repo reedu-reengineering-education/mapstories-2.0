@@ -30,6 +30,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             visibility: 'PRIVATE',
             slug,
             ...payload,
+            // BFDW only supports normal stories
+            ...(site === 'BFDW' ? { mode: 'NORMAL' as const } : {}),
             ...(language ? { language, defaultLanguage: language } : {}),
             site,
             // New BFDW stories default to the BFDW theme unless the client set one explicitly.

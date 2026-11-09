@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
 import { useCurrentUser } from '@/src/lib/hooks/useCurrentUser'
+import { isBfdwHostname } from '@/src/lib/site'
 
 export function StudioSidebar() {
   const lng = useBoundStore(state => state.language)
@@ -27,6 +28,9 @@ export function StudioSidebar() {
   const [items, setItems] = useState<Route[]>([])
 
   useEffect(() => {
+    // BFDW admin items only make sense on the BFDW deployment itself.
+    const isBfdwSite = isBfdwHostname(window.location.hostname)
+    const showBfdwAdmin = isBfdwGalleryAdmin && isBfdwSite
 
     const baseItems: Route[] = [
       {
@@ -74,7 +78,7 @@ export function StudioSidebar() {
       })
     }
 
-    if (isBfdwGalleryAdmin) {
+    if (showBfdwAdmin) {
       baseItems.push({
         title: t('bfdwGallery'),
         href: `/${lng}/storylab/bfdw-admin/gallery`,
@@ -84,7 +88,7 @@ export function StudioSidebar() {
 
     // Global admins already reach these via /storylab/admin; BFDW admins get
     // their own pages, the API restricts them to BFDW stories.
-    if (isBfdwGalleryAdmin && !isAdmin) {
+    if (showBfdwAdmin && !isAdmin) {
       baseItems.push({
         title: t('duplicateStory'),
         href: `/${lng}/storylab/bfdw-admin/duplicate-story`,

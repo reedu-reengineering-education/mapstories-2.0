@@ -22,6 +22,7 @@ import { CalendarDaysIcon, MapPinIcon } from '@heroicons/react/24/outline'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { useMapLanguage } from '@/src/lib/hooks/useMapLanguage'
 import { cx } from 'class-variance-authority'
+import { useIsBfdwSite } from '@/src/lib/hooks/useIsBfdwSite'
 
 type FormData = z.infer<typeof createMapstorySchema>
 
@@ -157,6 +158,8 @@ export default function CreateMapstoryModal({
   const { t } = useTranslation(language, 'createMapstory')
   // the language currently selected in the menu (route segment)
   const uiLanguage = useMapLanguage()
+  // BFDW only supports normal stories, so the mode choice is hidden there
+  const isBfdw = useIsBfdwSite()
 
   const getDefaultValues = (): Partial<FormData> => ({
     name: '',
@@ -280,7 +283,7 @@ export default function CreateMapstoryModal({
           </Section>
 
           <Section title={t('sectionAppearance')}>
-            <div>
+            <div className={isBfdw ? 'hidden' : ''}>
               <FieldLabel>{t('mode')}</FieldLabel>
               <Controller
                 control={control}

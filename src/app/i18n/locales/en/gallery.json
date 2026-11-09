@@ -1,10 +1,18 @@
 {
   "all_public_stories": "All public Mapstories at a glance",
-  "welcome_to_gallery": "Welcome to the gallery!",
-  "gallery_text": "Currently, only a few map stories are presented. But this is just the beginning. In the future more mapstories will be added and the gallery will become an exhibition for special stories. Feel free to send us your mapstories for this!",
   "gallery_password_title": "This gallery is password protected",
   "gallery_password_description": "Please enter the password to view the gallery.",
   "gallery_password_placeholder": "Password",
   "gallery_password_submit": "Submit",
-  "gallery_password_error": "Wrong password. Please try again."
+  "gallery_password_error": "Wrong password. Please try again.",
+  "gallery_eyebrow": "Gallery",
+  "gallery_title": "Featured Mapstories",
+  "gallery_intro": "Here we showcase Mapstories selected by the Mapstories team – stories that make global connections especially tangible.",
+  "gallery_hint": "Hover over a card to see its route and stations. Click to start the story.",
+  "gallery_submit_title": "Your Mapstory in the gallery?",
+  "gallery_submit_text": "Made a Mapstory that belongs here? Send us the link – we're happy to take a look.",
+  "gallery_submit_button": "Suggest a Mapstory",
+  "gallery_submit_mail_subject": "Suggestion for the Mapstories gallery",
+  "gallery_submit_mail_body": "Hello Mapstories team,\n\nI'd like to suggest the following Mapstory for the gallery:\n\nLink: \nShort description: \n\nBest regards",
+  "gallery_close": "Close"
 }

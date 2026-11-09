@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { cx } from 'class-variance-authority'
 import { HTMLAttributes } from 'react'
 import {
@@ -10,19 +9,7 @@ import {
 
 import connectLogo from '@/assets/images/logo/bfdw-connect-logo.png'
 import Image from 'next/image'
-import { isBfdwHostname } from '@/src/lib/site'
-
-// Drop the BFDW logo file at public/logos/bfdw-logo.png (and -transparent.png
-// for the InverseNavbar variant) to enable the swap below.
-function useIsBfdwSite() {
-  const [isBfdw, setIsBfdw] = useState(false)
-
-  useEffect(() => {
-    setIsBfdw(isBfdwHostname(window.location.hostname))
-  }, [])
-
-  return isBfdw
-}
+import { useIsBfdwSite } from '@/src/lib/hooks/useIsBfdwSite'
 
 export function SiteLogo(props: HTMLAttributes<HTMLDivElement>) {
   const isBfdw = useIsBfdwSite()

@@ -1,4 +1,6 @@
 {
   "play": "Anschauen",
-  "edit": "Bearbeiten"
+  "edit": "Bearbeiten",
+  "stations_one": "{{count}} Station",
+  "stations_other": "{{count}} Stationen"
 }

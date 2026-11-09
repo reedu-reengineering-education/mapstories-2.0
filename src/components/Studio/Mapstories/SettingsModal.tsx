@@ -28,6 +28,7 @@ import {
 import { applyTheme } from '@/src/helper/applyTheme'
 import { availableStoryLanguages } from '@/src/lib/languageFlags'
 import { LanguageSelect } from '../../Elements/LanguageSelect'
+import { useIsBfdwSite } from '@/src/lib/hooks/useIsBfdwSite'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
@@ -71,6 +72,8 @@ export default function SettingsModal({
   const { story, updateStory } = useStory(storyId)
 
   const [modalOpen, setModalOpen] = useState(false)
+  // BFDW only supports normal stories, so the mode switch is hidden there
+  const isBfdw = useIsBfdwSite()
 
   function selectTheme(themeName: any) {
     const selectedTheme = themes.find(theme => theme.name == themeName)
@@ -164,7 +167,11 @@ export default function SettingsModal({
               </p>
             )}
             {/* hidden fields stay mounted so the form still submits their values */}
-            <div className={story.isTranslation || !isOwner ? 'hidden' : ''}>
+            <div
+              className={
+                story.isTranslation || !isOwner || isBfdw ? 'hidden' : ''
+              }
+            >
             <Spacer />
             <InputLabel>Modus</InputLabel>
             <p className="rounded bg-zinc-100 p-2 text-xs text-zinc-700">

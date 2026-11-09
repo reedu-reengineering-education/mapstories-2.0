@@ -5,6 +5,7 @@ import { Navbar } from '@/src/components/Layout/Navbar'
 import { StudioSidebar } from '@/src/components/Studio/Sidebar'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
+import { getCurrentSite } from '@/src/lib/site.server'
 import { User } from '@prisma/client'
 import { redirect } from 'next/navigation'
 
@@ -35,6 +36,11 @@ export default async function BfdwAdminLayout({
   }
 
   if (user.role !== 'ADMIN' && user.role !== 'SITE_ADMIN_BFDW') {
+    return redirect(`/${lng}/storylab`)
+  }
+
+  // BFDW admin pages are only available on the BFDW deployment.
+  if (getCurrentSite() !== 'BFDW') {
     return redirect(`/${lng}/storylab`)
   }
 

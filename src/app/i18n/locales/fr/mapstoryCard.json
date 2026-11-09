@@ -1,4 +1,7 @@
 {
   "play": "Lire",
-  "edit": "Modifier"
+  "edit": "Modifier",
+  "stations_one": "{{count}} étape",
+  "stations_other": "{{count}} étapes",
+  "stations_many": "{{count}} étapes"
 }
