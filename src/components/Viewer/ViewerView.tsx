@@ -33,7 +33,7 @@ import {
 } from './Gallery/GalleryStoryPreview'
 import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 import { getSiteFromHost } from '@/src/lib/site'
-import { getBaseThemeForSite } from '@/src/lib/theme'
+import { getBaseThemeForSite, getSiteAccent } from '@/src/lib/theme'
 import { ErrorBoundary } from '@/src/components/ErrorBoundary'
 
 type ViewerViewProps = {
@@ -682,6 +682,18 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
     router.push(`/${pathLocal}/${station.position}`)
   }
 
+  // markers and route of the opened story follow the site design
+  // (BFDW orange or the standard MapStories color), not the story theme
+  const storyAccent = useMemo(
+    () =>
+      getSiteAccent(
+        getSiteFromHost(
+          typeof window !== 'undefined' ? window.location.hostname : undefined,
+        ),
+      ),
+    [],
+  )
+
   // story currently hovered in the gallery
   const hoverPreview = useMemo(
     () => (storyID === '' ? buildStoryPath(hoveredStoryId) : undefined),
@@ -888,6 +900,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         <StorySourceLayer
           geojsons={mapData}
           selectedFeature={selectedFeature}
+          color={storyAccent}
           selectedStepIndex={selectedStepIndex}
           storyID={storyID}
         />
@@ -1026,20 +1039,16 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
                     id={m.properties?.id + 'source'}
                     type="geojson"
                   ></Source>
-
-                  {storyID != '' && !overviewPreview && (
-                    <>
-                      <Markers
-                        markers={markers}
-                        // onClick={m => router.push(`/viewer/story/${SLUGWHERE}}/${m.position}`)}
-                      />
-                    </>
-                  )}
                 </>
               )}
             </Fragment>
           )
         })}
+
+      {/* rendered once (not per story feature), otherwise markers stack up */}
+      {storyID != '' && !overviewPreview && (
+        <Markers color={storyAccent} markers={markers} />
+      )}
     </Map>
   )
 }

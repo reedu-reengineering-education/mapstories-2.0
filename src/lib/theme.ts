@@ -26,3 +26,8 @@ export const BFDW_THEME = {
 export function getBaseThemeForSite(site: Site) {
   return site === Site.BFDW ? BFDW_THEME : STANDARD_THEME
 }
+
+// accent color for map elements (story markers / route) of a site
+export function getSiteAccent(site: Site) {
+  return getBaseThemeForSite(site).button_color
+}
