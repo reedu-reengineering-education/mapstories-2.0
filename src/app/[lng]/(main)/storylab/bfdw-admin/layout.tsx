@@ -66,6 +66,7 @@ export default async function BfdwAdminLayout({
           <div className="pr-6">{children}</div>
         </main>
       </div>
+      {/* @ts-expect-error Server Component */}
       <Footer lng={lng} />
     </>
   )
