@@ -86,6 +86,7 @@ export default async function handler(
         description: originalStory.description,
         author: originalStory.author,
         themeId: originalStory.themeId,
+        topic: originalStory.topic,
         ownerId: session.user.id,
         visibility: originalStory.visibility,
         mode: originalStory.mode,

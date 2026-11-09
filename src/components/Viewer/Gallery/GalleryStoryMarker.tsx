@@ -5,11 +5,14 @@ import Image from 'next/image'
 import { PlayIcon } from '@heroicons/react/24/solid'
 import { Media, SlideContent, Story, StoryStep, Theme } from '@prisma/client'
 import logoNoText from '@/assets/logos/logo_no_text.png'
+import bfdwConnectLogo from '@/assets/images/logo/bfdw-connect-logo.png'
 import { getS3Image } from '@/src/helper/getS3Image'
 import useMedia from '@/src/lib/api/media/useMedia'
 import { useTranslation } from '@/src/app/i18n/client'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useBoundStore } from '@/src/lib/store/store'
+import { getBfdwTopic } from '@/src/lib/bfdwTopics'
+import { useIsBfdwSite } from '@/src/lib/hooks/useIsBfdwSite'
 
 const DEFAULT_ACCENT = '#18325b'
 
@@ -22,7 +25,16 @@ export function getGalleryCardSize(viewportWidth: number) {
   return { width, height }
 }
 
-export function getStoryAccent(theme?: Theme | null) {
+// Stories are colored by their topic area, otherwise by their theme.
+export function getStoryAccent(story?: {
+  theme?: Theme | null
+  topic?: string | null
+}) {
+  const topic = getBfdwTopic(story?.topic)
+  if (topic) {
+    return topic.color
+  }
+  const theme = story?.theme
   return theme?.button_color || theme?.border || DEFAULT_ACCENT
 }
 
@@ -119,7 +131,9 @@ export function GalleryStoryMarker({
     // only reload when the preview media changes
   }, [previewContent?.mediaId])
 
-  const accent = getStoryAccent(story.theme)
+  const accent = getStoryAccent(story)
+  const isBfdwSite = useIsBfdwSite()
+  const topic = getBfdwTopic(story.topic)
   const stationCount = story.steps?.length ?? 0
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -153,6 +167,15 @@ export function GalleryStoryMarker({
         style={{ borderTopColor: accent }}
       >
         <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
+          {topic && (
+            <span
+              className="absolute bottom-1.5 left-1.5 z-[1] max-w-[calc(100%-0.75rem)] truncate rounded px-1.5 py-0.5 text-[10px] font-semibold leading-tight text-white shadow"
+              style={{ backgroundColor: topic.color }}
+              title={topic.label}
+            >
+              {topic.label}
+            </span>
+          )}
           {imageLoading && (
             <div className="h-full w-full animate-pulse bg-slate-200" />
           )}
@@ -169,11 +192,19 @@ export function GalleryStoryMarker({
               className="flex h-full w-full items-center justify-center"
               style={{ backgroundColor: `${accent}1a` }}
             >
-              <Image
-                alt="Mapstories Logo"
-                className="h-12 w-12 opacity-80"
-                src={logoNoText}
-              />
+              {isBfdwSite ? (
+                <Image
+                  alt="Connect Logo"
+                  className="h-full w-full object-contain"
+                  src={bfdwConnectLogo}
+                />
+              ) : (
+                <Image
+                  alt="Mapstories Logo"
+                  className="h-12 w-12 opacity-80"
+                  src={logoNoText}
+                />
+              )}
             </div>
           )}
         </div>

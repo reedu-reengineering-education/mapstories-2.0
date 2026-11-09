@@ -45,5 +45,7 @@
   "instructionStep2": "Tu nueva variante de idioma se creará con el mismo mapa y estructura que tu historia original",
   "instructionStep3": "Traduce el título, la descripción y el contenido de los pasos para completar tu Mapstory multilingüe",
   "modalHeader": "Opciones",
-  "visibility": "Visibilidad"
+  "visibility": "Visibilidad",
+  "topic": "Área temática",
+  "topicNone": "Sin área temática"
 }

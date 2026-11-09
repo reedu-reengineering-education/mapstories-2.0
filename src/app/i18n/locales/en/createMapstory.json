@@ -28,5 +28,7 @@
   "create": "Create Mapstory",
   "created": "Your Mapstory has been created.",
   "somethingWrong": "Something went wrong.",
-  "notCreated": "Your Mapstory could not be created. Please try again."
+  "notCreated": "Your Mapstory could not be created. Please try again.",
+  "topic": "Topic area",
+  "topicNone": "No topic area"
 }

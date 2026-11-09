@@ -417,7 +417,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
             key: Date.now(),
             lng: anchor.lng,
             lat: anchor.lat,
-            color: getStoryAccent(anchor.story.theme),
+            color: getStoryAccent(anchor.story),
           })
         }
       }, entranceStart),
@@ -664,7 +664,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       return {
         storyId: story.id,
         stations,
-        color: getStoryAccent(story.theme),
+        color: getStoryAccent(story),
       }
     } catch (e) {
       console.warn('Could not build story path preview:', e)
@@ -939,7 +939,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
                         id: a.id,
                         lng: a.lng,
                         lat: a.lat,
-                        color: getStoryAccent(a.story.theme),
+                        color: getStoryAccent(a.story),
                       }),
                   },
                 ]

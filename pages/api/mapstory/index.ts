@@ -19,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const body = req.body
 
       if (body?.name && user) {
-        const { themeId, language, ...payload } =
+        const { themeId, topic, language, ...payload } =
           createMapstorySchema.parse(body)
 
         const slug = await generateSlug(payload.name)
@@ -36,6 +36,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             site,
             // New BFDW stories default to the BFDW theme unless the client set one explicitly.
             themeId: themeId ?? (site === 'BFDW' ? 'BFDW' : undefined),
+            topic: topic ?? null,
           },
         })
 

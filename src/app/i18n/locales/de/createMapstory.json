@@ -28,5 +28,7 @@
   "create": "Mapstory erstellen",
   "created": "Deine Mapstory wurde erstellt.",
   "somethingWrong": "Etwas ist schiefgelaufen.",
-  "notCreated": "Deine Mapstory konnte nicht erstellt werden. Bitte versuche es erneut."
+  "notCreated": "Deine Mapstory konnte nicht erstellt werden. Bitte versuche es erneut.",
+  "topic": "Themenbereich",
+  "topicNone": "Kein Themenbereich"
 }

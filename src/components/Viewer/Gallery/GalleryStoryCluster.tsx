@@ -219,7 +219,7 @@ export function GalleryStoryCluster(props: Props) {
           width="1"
         >
           {members.map((m, i) => {
-            const color = getStoryAccent(m.story.theme)
+            const color = getStoryAccent(m.story)
             const [dx, dy] = m.offset
             const active = hoveredStoryId === m.story.id
             return (

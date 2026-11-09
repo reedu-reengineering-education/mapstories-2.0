@@ -1,6 +1,7 @@
 // import { Visibility } from '@prisma/client'
 import { StoryMode } from '@prisma/client'
 import * as z from 'zod'
+import { BFDW_TOPIC_KEYS } from '@/src/lib/bfdwTopics'
 
 export const createMapstorySchema = z.object({
   name: z.string().min(3).max(100),
@@ -10,6 +11,7 @@ export const createMapstorySchema = z.object({
   description: z.string().optional(),
   visibility: z.enum(['PRIVATE', 'PUBLIC']).optional(),
   themeId: z.string().nullable().optional(),
+  topic: z.enum(BFDW_TOPIC_KEYS).nullable().optional(),
   lines: z.boolean().optional(),
   community: z.boolean().optional(),
   language: z.string().min(2).max(5).optional(),
@@ -22,6 +24,7 @@ export const updateMapstorySchema = z.object({
   mode: z.enum([StoryMode.NORMAL, StoryMode.TIMELINE]),
   visibility: z.enum(['PRIVATE', 'PUBLIC']),
   themeId: z.string().nullable().optional(),
+  topic: z.enum(BFDW_TOPIC_KEYS).nullable().optional(),
   lines: z.boolean(),
   community: z.boolean(),
   defaultLanguage: z.string().min(2).max(5).optional().nullable(),

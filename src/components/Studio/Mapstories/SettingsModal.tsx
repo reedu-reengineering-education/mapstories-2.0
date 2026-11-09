@@ -29,6 +29,7 @@ import { applyTheme } from '@/src/helper/applyTheme'
 import { availableStoryLanguages } from '@/src/lib/languageFlags'
 import { LanguageSelect } from '../../Elements/LanguageSelect'
 import { useIsBfdwSite } from '@/src/lib/hooks/useIsBfdwSite'
+import { BfdwTopicPicker } from '../BfdwTopicPicker'
 // import { useUIStore } from '@/src/lib/store/ui'
 // import { useS3Upload } from "next-s3-upload";
 
@@ -264,7 +265,12 @@ export default function SettingsModal({
               }}
             />
             </div>
-            <div className={story.isTranslation || !isOwner ? 'hidden' : ''}>
+            {/* BFDW stories always use the BFDW theme */}
+            <div
+              className={
+                story.isTranslation || !isOwner || isBfdw ? 'hidden' : ''
+              }
+            >
             <Spacer />
             <InputLabel>{t('settingsModal:theme')}</InputLabel>
             <Controller
@@ -297,6 +303,24 @@ export default function SettingsModal({
               }}
             />
             </div>
+            {isOwner && !story.isTranslation && (
+              <>
+                <Spacer />
+                <InputLabel>{t('settingsModal:topic')}</InputLabel>
+                <Controller
+                  control={control}
+                  defaultValue={story.topic as FormData['topic']}
+                  name="topic"
+                  render={({ field: { onChange, value } }) => (
+                    <BfdwTopicPicker
+                      noneLabel={t('settingsModal:topicNone')}
+                      onChange={onChange}
+                      value={value}
+                    />
+                  )}
+                />
+              </>
+            )}
             <div className={isOwner ? '' : 'hidden'}>
             <Spacer />
             <InputLabel>{t('settingsModal:defaultLanguage')}</InputLabel>

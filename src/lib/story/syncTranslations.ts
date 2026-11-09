@@ -284,7 +284,12 @@ export function syncContentDeleted(contentId: string) {
 
 export function syncStorySettings(
   originalStoryId: string,
-  data: { mode: StoryMode; lines: boolean; themeId?: string | null },
+  data: {
+    mode: StoryMode
+    lines: boolean
+    themeId?: string | null
+    topic?: string | null
+  },
 ) {
   return safely('syncStorySettings', async () => {
     const translationIds = await findTranslationStoryIds(originalStoryId)

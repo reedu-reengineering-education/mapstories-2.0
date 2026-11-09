@@ -12,6 +12,7 @@ export interface ICreateStoryProps
         | 'description'
         | 'visibility'
         | 'themeId'
+        | 'topic'
         | 'lines'
         | 'community'
         | 'language'

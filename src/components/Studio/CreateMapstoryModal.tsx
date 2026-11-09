@@ -23,6 +23,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { useMapLanguage } from '@/src/lib/hooks/useMapLanguage'
 import { cx } from 'class-variance-authority'
 import { useIsBfdwSite } from '@/src/lib/hooks/useIsBfdwSite'
+import { BfdwTopicPicker } from './BfdwTopicPicker'
 
 type FormData = z.infer<typeof createMapstorySchema>
 
@@ -168,6 +169,7 @@ export default function CreateMapstoryModal({
     description: '',
     visibility: 'PRIVATE',
     themeId: getDefaultTheme(themes),
+    topic: null,
     lines: true,
     community: false,
     language: getDefaultLanguage(uiLanguage),
@@ -195,6 +197,8 @@ export default function CreateMapstoryModal({
     try {
       const response = await createStory({
         ...data,
+        // BFDW stories always use the BFDW theme (set by the server)
+        ...(isBfdw ? { themeId: null } : {}),
         // community suggestions only work for public stories
         community: data.community && data.visibility === 'PUBLIC',
       })
@@ -282,7 +286,7 @@ export default function CreateMapstoryModal({
             </label>
           </Section>
 
-          <Section title={t('sectionAppearance')}>
+          <Section title={t(isBfdw ? 'topic' : 'sectionAppearance')}>
             <div className={isBfdw ? 'hidden' : ''}>
               <FieldLabel>{t('mode')}</FieldLabel>
               <Controller
@@ -319,7 +323,7 @@ export default function CreateMapstoryModal({
               />
             </div>
 
-            {themes.length > 0 && (
+            {!isBfdw && themes.length > 0 && (
               <div>
                 <FieldLabel>{t('theme')}</FieldLabel>
                 <Controller
@@ -344,6 +348,21 @@ export default function CreateMapstoryModal({
                 />
               </div>
             )}
+
+            <div>
+              {!isBfdw && <FieldLabel>{t('topic')}</FieldLabel>}
+              <Controller
+                control={control}
+                name="topic"
+                render={({ field: { onChange, value } }) => (
+                  <BfdwTopicPicker
+                    noneLabel={t('topicNone')}
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
+            </div>
 
             <Controller
               control={control}

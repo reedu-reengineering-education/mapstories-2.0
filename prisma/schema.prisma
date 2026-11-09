@@ -125,6 +125,8 @@ model Story {
   groupId         String?
   galleryStories  GalleryStory[]
   site            Site                  @default(MAIN)
+  // BFDW topic area ("Themenbereich"), see src/lib/bfdwTopics.ts
+  topic           String?
   // Community translations: draft/review state and the original they translate.
   // Owner-created translations and regular stories keep translationStatus = null.
   translationStatus   TranslationStatus?

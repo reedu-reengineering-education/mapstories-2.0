@@ -67,8 +67,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           author: payload.author,
         }
       } else if (storyToUpdate.isTranslation) {
-        // mode, lines and theme are taken over from the original story
-        const { mode: _mode, lines: _lines, themeId: _themeId, ...rest } = payload
+        // mode, lines, theme and topic are taken over from the original story
+        const {
+          mode: _mode,
+          lines: _lines,
+          themeId: _themeId,
+          topic: _topic,
+          ...rest
+        } = payload
         data = rest
       }
 
@@ -93,6 +99,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           mode: payload.mode,
           lines: payload.lines,
           themeId: payload.themeId,
+          ...(payload.topic !== undefined ? { topic: payload.topic } : {}),
         })
       }
 

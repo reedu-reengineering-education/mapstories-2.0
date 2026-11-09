@@ -28,5 +28,7 @@
   "create": "Créer la Mapstory",
   "created": "Votre Mapstory a été créée.",
   "somethingWrong": "Une erreur s’est produite.",
-  "notCreated": "Votre Mapstory n’a pas pu être créée. Veuillez réessayer."
+  "notCreated": "Votre Mapstory n’a pas pu être créée. Veuillez réessayer.",
+  "topic": "Domaine thématique",
+  "topicNone": "Aucun domaine thématique"
 }

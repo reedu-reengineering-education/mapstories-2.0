@@ -213,6 +213,7 @@ export async function copyStoryAsTranslation(
       lines: source.lines,
       community: source.community,
       themeId: source.themeId,
+      topic: source.topic,
       ownerId: options.ownerId,
       site: source.site,
       language: options.language,
