@@ -42,9 +42,8 @@ export default function UserNewPassword({ token }: { token: string }) {
       })
       .catch(error => {
         toast({
-          title: 'Error',
-          message:
-            error.message || 'An error occurred while resetting your password.',
+          title: t('something_wrong'),
+          message: error.message || t('resetPasswordError'),
           type: 'error',
         })
       })

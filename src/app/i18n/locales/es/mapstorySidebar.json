@@ -3,5 +3,8 @@
   "steps": "Pasos",
   "slideHasTags": "Esta diapositiva tiene etiquetas",
   "needsTranslation": "Contiene contenido que aún falta traducir",
-  "stepsOnlyInOriginal": "Los pasos solo se pueden añadir o mover en la historia original."
+  "stepsOnlyInOriginal": "Los pasos solo se pueden añadir o mover en la historia original.",
+  "somethingWrong": "Algo salió mal.",
+  "stepNotCreated": "Tu estación no se ha creado. Inténtalo de nuevo.",
+  "stepsNotUpdated": "Tus estaciones no se han actualizado. Inténtalo de nuevo."
 }

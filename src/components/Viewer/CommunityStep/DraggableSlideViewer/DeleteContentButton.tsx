@@ -4,6 +4,9 @@ import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
 
 export default function DeleteContentButton({
   stepSuggestion,
@@ -12,6 +15,11 @@ export default function DeleteContentButton({
   stepSuggestion: any
   handleDeleteContent: any
 }) {
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'communityStep')
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
   const [open, setOpen] = useState(false)
@@ -21,7 +29,7 @@ export default function DeleteContentButton({
       <Modal
         onOpenChange={setOpen}
         open={open}
-        title={<span> Wirklich löschen? </span>}
+        title={<span>{t('confirmDelete')}</span>}
         trigger={
           <div className="flex cursor-pointer p-2 transition-colors hover:bg-red-200">
             <TrashIcon className="w-5 text-black" />
@@ -32,8 +40,7 @@ export default function DeleteContentButton({
           close={
             <div className="flex flex-row justify-between">
               <Button disabled={isSaving} isLoading={isSaving}>
-               
-                Abort
+                {t('cancel')}
               </Button>
               <Button
                 disabled={isSaving}
@@ -41,7 +48,7 @@ export default function DeleteContentButton({
                 onClick={() => handleDeleteContent(stepSuggestion.position)}
                 variant={'danger'}
               >
-                Löschen
+                {t('delete')}
               </Button>
             </div>
           }

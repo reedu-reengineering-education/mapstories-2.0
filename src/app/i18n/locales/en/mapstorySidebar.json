@@ -3,5 +3,8 @@
   "steps": "Steps",
   "slideHasTags": "This slide has tags",
   "needsTranslation": "Contains content that still needs translation",
-  "stepsOnlyInOriginal": "Steps can only be added or moved in the original story."
+  "stepsOnlyInOriginal": "Steps can only be added or moved in the original story.",
+  "somethingWrong": "Something went wrong.",
+  "stepNotCreated": "Your step was not created. Please try again.",
+  "stepsNotUpdated": "Your steps have not been updated. Please try again."
 }

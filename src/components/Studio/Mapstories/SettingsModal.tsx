@@ -137,7 +137,6 @@ export default function SettingsModal({
             <Input
               defaultValue={story.name || ''}
               errors={errors.name}
-              label={t('settingsModal:name')}
               size={100}
               {...register('name')}
             />

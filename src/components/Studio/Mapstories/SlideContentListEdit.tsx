@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import useStep from '@/src/lib/api/step/useStep'
 import { SlideContentListEditItem } from './SlideContentListEditItem'
 import { useBoundStore } from '@/src/lib/store/store'
+import { useTranslation } from '@/src/app/i18n/client'
 
 type Props = {
   storyId: string
@@ -21,6 +22,8 @@ export function SlideContentListEdit({ storyId, stepId }: Props) {
   const { step, reorderSlideContent } = useStep(stepId)
   const [disabled, setDisabled] = React.useState(false)
   const { showSlidePreview } = useBoundStore()
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'editModal')
 
   const [content, setContent] = useState<SlideContent[]>()
 
@@ -35,13 +38,13 @@ export function SlideContentListEdit({ storyId, stepId }: Props) {
     try {
       await reorderSlideContent(update)
       toast({
-        message: 'Your content was updated successfully',
+        message: t('contentUpdated'),
         type: 'success',
       })
     } catch (e) {
       return toast({
-        title: 'Something went wrong.',
-        message: 'Your content has not been updated. Please try again',
+        title: t('somethingWrong'),
+        message: t('contentNotUpdated'),
         type: 'error',
       })
     }

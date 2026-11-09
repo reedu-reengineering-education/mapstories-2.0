@@ -108,7 +108,7 @@ export function TextContentEdit({
     <div className="top-0">
       <div className="pb-4 pt-4">
         <div onClick={handleOnClick}>
-          <h3> Text erstellen</h3>
+          <h3> {t('create_text')}</h3>
           <div className="mb-2 mt-2 text-sm text-gray-500">
             {t('textEditor')}{' '}
           </div>

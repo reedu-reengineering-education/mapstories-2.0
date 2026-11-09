@@ -3,5 +3,8 @@
   "steps": "Étapes",
   "slideHasTags": "Cette diapositive a des étiquettes",
   "needsTranslation": "Contient du contenu encore à traduire",
-  "stepsOnlyInOriginal": "Les étapes ne peuvent être ajoutées ou déplacées que dans l'histoire originale."
+  "stepsOnlyInOriginal": "Les étapes ne peuvent être ajoutées ou déplacées que dans l'histoire originale.",
+  "somethingWrong": "Une erreur s'est produite.",
+  "stepNotCreated": "Votre étape n'a pas été créée. Veuillez réessayer.",
+  "stepsNotUpdated": "Vos étapes n'ont pas été mises à jour. Veuillez réessayer."
 }

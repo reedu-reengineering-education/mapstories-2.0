@@ -3,5 +3,8 @@
   "steps": "Stationen",
   "slideHasTags": "Diese Station hat Tags",
   "needsTranslation": "Enthält Inhalte, die noch übersetzt werden müssen",
-  "stepsOnlyInOriginal": "Stationen können nur in der Originalstory hinzugefügt oder verschoben werden."
+  "stepsOnlyInOriginal": "Stationen können nur in der Originalstory hinzugefügt oder verschoben werden.",
+  "somethingWrong": "Etwas ist schiefgelaufen.",
+  "stepNotCreated": "Deine Station wurde nicht erstellt. Bitte versuche es erneut.",
+  "stepsNotUpdated": "Deine Stationen wurden nicht aktualisiert. Bitte versuche es erneut."
 }

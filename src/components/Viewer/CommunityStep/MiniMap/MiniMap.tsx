@@ -4,6 +4,7 @@ import { Marker, Map as ReactMap } from 'react-map-gl'
 import GeocoderControl from './GeocoderControl'
 import { useEffect, useState } from 'react'
 import { useMapLanguage } from '@/src/lib/hooks/useMapLanguage'
+import { useTranslation } from '@/src/app/i18n/client'
 
 type Props = {
   handleAddLocation: any
@@ -13,6 +14,7 @@ type Props = {
 export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
   const [marker, setMarker] = useState<any>(null)
   const language = useMapLanguage()
+  const { t } = useTranslation(language, 'communityStep')
 
   useEffect(() => {
     if (stepSuggestion?.feature) {
@@ -49,6 +51,7 @@ export default function MiniMap({ handleAddLocation, stepSuggestion }: Props) {
       <GeocoderControl
         language={language}
         onClear={handleRemovePoint}
+        placeholder={t('searchLocation')}
         onResult={async e => {
           const [lng, lat] = e.result.geometry.coordinates
           const point = {

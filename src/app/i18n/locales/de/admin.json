@@ -74,5 +74,22 @@
   "bfdwGalleryManagement": "BFDW-Galerieverwaltung",
   "manageBfdwGallery": "Verwalte, welche Stories in der BFDW-Galerie erscheinen",
   "managePublicGallery": "Verwalte, welche Stories in der öffentlichen Galerie erscheinen",
-  "addStoryToGallery": "Story zur Galerie hinzufügen"
+  "addStoryToGallery": "Story zur Galerie hinzufügen",
+  "success": "Erfolg",
+  "unknownError": "Unbekannter Fehler",
+  "invalidStoryId": "Bitte gib eine gültige Story-ID ein.",
+  "invalidTargetEmail": "Bitte gib eine gültige E-Mail der Zielperson ein.",
+  "transferFailed": "Übertragung fehlgeschlagen",
+  "transferStoryError": "Die Story konnte nicht übertragen werden.",
+  "duplicationFailed": "Duplizieren fehlgeschlagen",
+  "duplicateStoryError": "Die Story konnte nicht dupliziert werden.",
+  "deletionFailed": "Löschen fehlgeschlagen",
+  "deleteStoryError": "Die Story konnte nicht gelöscht werden.",
+  "fetchAnalyticsError": "Analysedaten konnten nicht geladen werden.",
+  "fetchGalleryError": "Galerie-Stories konnten nicht geladen werden.",
+  "galleryStoryAdded": "Story zur Galerie hinzugefügt.",
+  "galleryAddError": "Die Story konnte nicht zur Galerie hinzugefügt werden.",
+  "galleryStoryRemoved": "Story aus der Galerie entfernt.",
+  "galleryRemoveError": "Die Story konnte nicht aus der Galerie entfernt werden.",
+  "galleryReorderError": "Die Galerie konnte nicht neu sortiert werden."
 }

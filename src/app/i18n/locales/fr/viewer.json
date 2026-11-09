@@ -8,5 +8,9 @@
   "apply": "Appliquer",
   "noSteps": "Aucun filtre n'est disponible",
   "landscapeModeTitle": "Smartphone en mode paysage !",
-  "landscapeModeText": "La visionneuse est optimisée pour les smartphones en mode paysage. Veuillez tourner votre téléphone !"
+  "landscapeModeText": "La visionneuse est optimisée pour les smartphones en mode paysage. Veuillez tourner votre téléphone !",
+  "communityStepAdded": "Étape communautaire ajoutée.",
+  "mediaAdded": "Média ajouté.",
+  "mediaNotAdded": "Le média n'a pas pu être ajouté.",
+  "contentDeleted": "Contenu supprimé."
 }

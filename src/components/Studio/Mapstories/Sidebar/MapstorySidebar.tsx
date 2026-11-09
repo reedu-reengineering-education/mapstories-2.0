@@ -78,8 +78,8 @@ export default function MapstorySidebar({ storyID }: { storyID: string }) {
       await reorderStorySteps(update)
     } catch (e) {
       return toast({
-        title: 'Something went wrong.',
-        message: 'Your steps have not been updated. Please try again',
+        title: t('somethingWrong'),
+        message: t('stepsNotUpdated'),
         type: 'error',
       })
     }

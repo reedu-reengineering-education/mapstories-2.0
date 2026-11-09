@@ -1,0 +1,22 @@
+{
+  "modalTitle": "Community step",
+  "addStep": "Add step",
+  "defaultHeadline": "Your headline",
+  "intro": "You can add a community step to this mapstory: enter a date, add text, links and media, and place your point on the world map.",
+  "introReview": "Next, the authors will review your entry. Once approved, your community step will appear in the mapstory.",
+  "setLocation": "Place a marker on the map or enter the address in the search bar.",
+  "confirmDescription": "Here is everything at a glance. Does everything in your community step look right?",
+  "selectElement": "Select element",
+  "text": "Text",
+  "upload": "Upload",
+  "embed": "Embed",
+  "addContent": "Add content",
+  "confirmDelete": "Really delete?",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "back": "Back",
+  "next": "Next",
+  "create": "Create",
+  "confirm": "Confirm",
+  "searchLocation": "Search"
+}

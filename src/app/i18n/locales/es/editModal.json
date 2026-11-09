@@ -14,6 +14,7 @@
   "embed": "Enlace",
   "yes": "Sí",
   "title": "Título",
+  "create_text": "Crear texto",
   "delete": "Eliminar",
   "contentUpdated": "Tu contenido ha sido actualizado.",
   "contentCreated": "Tu contenido ha sido creado.",
@@ -40,5 +41,6 @@
   "table": "Tabla",
   "list": "Lista",
   "help": "Ayuda",
-  "uploadAction": "Subir"
+  "uploadAction": "Subir",
+  "contentNotUpdated": "Tu contenido no se ha actualizado. Inténtalo de nuevo."
 }

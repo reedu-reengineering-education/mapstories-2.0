@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react'
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface TransferResponse {
   success: boolean
@@ -14,13 +16,15 @@ interface TransferResponse {
 
 export const useAdminTransferStory = () => {
   const [loading, setLoading] = useState(false)
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'admin')
 
   const transferStory = useCallback(
     async (storyId: string, targetUserEmail: string) => {
       if (!storyId.trim()) {
         toast({
-          title: 'Error',
-          message: 'Please enter a valid story ID',
+          title: t('error'),
+          message: t('invalidStoryId'),
           type: 'error',
         })
         return null
@@ -28,8 +32,8 @@ export const useAdminTransferStory = () => {
 
       if (!targetUserEmail.trim()) {
         toast({
-          title: 'Error',
-          message: 'Please enter a valid target user email',
+          title: t('error'),
+          message: t('invalidTargetEmail'),
           type: 'error',
         })
         return null
@@ -48,9 +52,9 @@ export const useAdminTransferStory = () => {
           | { error: string }
 
         if (!response.ok) {
-          const errorMsg = 'error' in data ? data.error : 'Unknown error'
+          const errorMsg = 'error' in data ? data.error : t('unknownError')
           toast({
-            title: 'Transfer failed',
+            title: t('transferFailed'),
             message: errorMsg,
             type: 'error',
           })
@@ -59,7 +63,7 @@ export const useAdminTransferStory = () => {
 
         if ('success' in data && data.success) {
           toast({
-            title: 'Success',
+            title: t('success'),
             message: data.message,
             type: 'success',
           })
@@ -67,8 +71,8 @@ export const useAdminTransferStory = () => {
         }
       } catch (error) {
         toast({
-          title: 'Error',
-          message: error instanceof Error ? error.message : 'Failed to transfer story',
+          title: t('error'),
+          message: t('transferStoryError'),
           type: 'error',
         })
       } finally {
@@ -77,7 +81,7 @@ export const useAdminTransferStory = () => {
 
       return null
     },
-    [],
+    [t],
   )
 
   return { loading, transferStory }

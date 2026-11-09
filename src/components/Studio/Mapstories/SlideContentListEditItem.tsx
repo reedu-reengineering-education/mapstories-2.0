@@ -30,7 +30,7 @@ export function SlideContentListEditItem({
   if (languages.indexOf(lng) < 0) {
     lng = fallbackLng
   }
-  const { t } = useTranslation(lng, 'translationRequests')
+  const { t } = useTranslation(lng, 'step')
 
   // In translations only texts can be edited; media and embeds come from the original.
   const isText = stepItem.type === 'TITLE' || stepItem.type === 'TEXT'
@@ -71,7 +71,7 @@ export function SlideContentListEditItem({
         }}
         open={open}
         setDisabled={setDisabled}
-        title={'Editieren'}
+        title={t('edit')}
         trigger={
           <Button className="flex-1 hover:bg-hover" variant={'noStyle'}>
             <SlideContentPreviewButton {...stepItem} />

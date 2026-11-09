@@ -74,5 +74,22 @@
   "bfdwGalleryManagement": "Gestion de la galerie BFDW",
   "manageBfdwGallery": "Gérer les histoires qui apparaissent dans la galerie BFDW",
   "managePublicGallery": "Gérer les histoires qui apparaissent dans la galerie publique",
-  "addStoryToGallery": "Ajouter une histoire à la galerie"
+  "addStoryToGallery": "Ajouter une histoire à la galerie",
+  "success": "Succès",
+  "unknownError": "Erreur inconnue",
+  "invalidStoryId": "Veuillez saisir un ID d'histoire valide.",
+  "invalidTargetEmail": "Veuillez saisir une adresse e-mail valide pour l'utilisateur cible.",
+  "transferFailed": "Échec du transfert",
+  "transferStoryError": "L'histoire n'a pas pu être transférée.",
+  "duplicationFailed": "Échec de la duplication",
+  "duplicateStoryError": "L'histoire n'a pas pu être dupliquée.",
+  "deletionFailed": "Échec de la suppression",
+  "deleteStoryError": "L'histoire n'a pas pu être supprimée.",
+  "fetchAnalyticsError": "Les données d'analyse n'ont pas pu être chargées.",
+  "fetchGalleryError": "Les histoires de la galerie n'ont pas pu être chargées.",
+  "galleryStoryAdded": "Histoire ajoutée à la galerie.",
+  "galleryAddError": "L'histoire n'a pas pu être ajoutée à la galerie.",
+  "galleryStoryRemoved": "Histoire retirée de la galerie.",
+  "galleryRemoveError": "L'histoire n'a pas pu être retirée de la galerie.",
+  "galleryReorderError": "Les histoires de la galerie n'ont pas pu être réorganisées."
 }

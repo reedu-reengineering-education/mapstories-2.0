@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react'
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface GalleryStory {
   id: string
@@ -22,6 +24,8 @@ interface UseAdminGalleryReturn {
 export default function useAdminGallery(site: 'MAIN' | 'BFDW' = 'MAIN'): UseAdminGalleryReturn {
   const [galleryStories, setGalleryStories] = useState<GalleryStory[]>([])
   const [loading, setLoading] = useState(false)
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'admin')
 
   const fetchGalleryStories = useCallback(async () => {
     setLoading(true)
@@ -33,14 +37,14 @@ export default function useAdminGallery(site: 'MAIN' | 'BFDW' = 'MAIN'): UseAdmi
     } catch (error) {
       console.error('Error fetching gallery stories:', error)
       toast({
-        title: 'Error',
-        message: 'Failed to fetch gallery stories',
+        title: t('error'),
+        message: t('fetchGalleryError'),
         type: 'error',
       })
     } finally {
       setLoading(false)
     }
-  }, [site])
+  }, [site, t])
 
   const addStoryToGallery = useCallback(async (storyId: string) => {
     setLoading(true)
@@ -53,28 +57,28 @@ export default function useAdminGallery(site: 'MAIN' | 'BFDW' = 'MAIN'): UseAdmi
 
       if (!response.ok) {
         const data = await response.json()
-        throw new Error(data.error || 'Failed to add story to gallery')
+        throw new Error(data.error || t('galleryAddError'))
       }
 
       const data = await response.json()
       setGalleryStories(prev => [...prev, data.galleryStory])
 
       toast({
-        title: 'Success',
-        message: 'Story added to gallery',
+        title: t('success'),
+        message: t('galleryStoryAdded'),
         type: 'success',
       })
     } catch (error: any) {
       console.error('Error adding story to gallery:', error)
       toast({
-        title: 'Error',
-        message: error.message || 'Failed to add story to gallery',
+        title: t('error'),
+        message: error.message || t('galleryAddError'),
         type: 'error',
       })
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   const removeStoryFromGallery = useCallback(async (galleryStoryId: string) => {
     setLoading(true)
@@ -92,21 +96,21 @@ export default function useAdminGallery(site: 'MAIN' | 'BFDW' = 'MAIN'): UseAdmi
       setGalleryStories(prev => prev.filter(gs => gs.id !== galleryStoryId))
 
       toast({
-        title: 'Success',
-        message: 'Story removed from gallery',
+        title: t('success'),
+        message: t('galleryStoryRemoved'),
         type: 'success',
       })
     } catch (error) {
       console.error('Error removing story from gallery:', error)
       toast({
-        title: 'Error',
-        message: 'Failed to remove story from gallery',
+        title: t('error'),
+        message: t('galleryRemoveError'),
         type: 'error',
       })
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   const reorderGalleryStories = useCallback(async (storyIds: string[]) => {
     try {
@@ -129,12 +133,12 @@ export default function useAdminGallery(site: 'MAIN' | 'BFDW' = 'MAIN'): UseAdmi
     } catch (error) {
       console.error('Error reordering gallery stories:', error)
       toast({
-        title: 'Error',
-        message: 'Failed to reorder gallery stories',
+        title: t('error'),
+        message: t('galleryReorderError'),
         type: 'error',
       })
     }
-  }, [galleryStories])
+  }, [galleryStories, t])
 
   return {
     galleryStories,

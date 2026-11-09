@@ -15,6 +15,7 @@
   "embed": "Link",
   "yes": "Ja",
   "delete": "Löschen",
+  "create_text": "Text erstellen",
   "contentUpdated": "Dein Inhalt wurde aktualisiert.",
   "contentCreated": "Dein Inhalt wurde erstellt.",
   "contentDeleted": "Dein Inhalt wurde gelöscht.",
@@ -40,5 +41,6 @@
   "table": "Tabelle",
   "list": "Liste",
   "help": "Hilfe",
-  "uploadAction": "Hochladen"
+  "uploadAction": "Hochladen",
+  "contentNotUpdated": "Dein Inhalt wurde nicht aktualisiert. Bitte versuche es erneut."
 }

@@ -56,6 +56,8 @@ export default function EditMapstoryMap({
   }
   // @ts-ignore useTranslation type overloads are complex
   const { t } = useTranslation(lng, 'translationRequests')
+  // @ts-ignore useTranslation type overloads are complex
+  const { t: tEdit } = useTranslation(lng, 'editMapstory')
   const [settings, setSettings] = useState({
     scrollZoom: true,
     boxZoom: true,
@@ -244,8 +246,8 @@ export default function EditMapstoryMap({
         }
         if (currentStep.id === story?.firstStepId) {
           toast({
-            title: 'Dies ist deine Titelfolie.',
-            message: 'Hier kannst du keinen Marker setzen.',
+            title: tEdit('titleSlideNoMarkerTitle'),
+            message: tEdit('titleSlideNoMarker'),
             type: 'error',
           })
           return
@@ -263,6 +265,7 @@ export default function EditMapstoryMap({
       <GeocoderControl
         language={lng}
         onClear={handleRemovePoint}
+        placeholder={tEdit('searchLocation')}
         onResult={async e => {
           const [lng, lat] = e.result.geometry.coordinates
           setGeocoderResult({

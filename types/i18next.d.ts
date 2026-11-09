@@ -38,6 +38,8 @@ import type stepSuggestions from '../src/app/i18n/locales/en/stepSuggestions.jso
 import type admin from '../src/app/i18n/locales/en/admin.json'
 import type translationRequests from '../src/app/i18n/locales/en/translationRequests.json'
 import type createMapstory from '../src/app/i18n/locales/en/createMapstory.json'
+import type communityStep from '../src/app/i18n/locales/en/communityStep.json'
+import type topics from '../src/app/i18n/locales/en/topics.json'
 
 interface I18nNamespaces {
   translation: typeof translation
@@ -72,7 +74,9 @@ interface I18nNamespaces {
   admin: typeof admin
   translationRequests: typeof translationRequests
   createMapstory: typeof createMapstory
-  
+  communityStep: typeof communityStep
+  topics: typeof topics
+
 }
 
 declare module 'i18next' {

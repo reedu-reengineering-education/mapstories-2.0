@@ -91,6 +91,8 @@ export function GalleryStoryMarker({
   }
   // @ts-ignore useTranslation type overloads are complex
   const { t } = useTranslation(lng, 'mapstoryCard')
+  // @ts-ignore useTranslation type overloads are complex
+  const { t: tTopics } = useTranslation(lng, 'topics')
   const { getMedia } = useMedia()
 
   const previewContent = findPreviewImage(story)
@@ -171,9 +173,9 @@ export function GalleryStoryMarker({
             <span
               className="absolute bottom-1.5 left-1.5 z-[1] max-w-[calc(100%-0.75rem)] truncate rounded px-1.5 py-0.5 text-[10px] font-semibold leading-tight text-white shadow"
               style={{ backgroundColor: topic.color }}
-              title={topic.label}
+              title={tTopics(topic.key)}
             >
-              {topic.label}
+              {tTopics(topic.key)}
             </span>
           )}
           {imageLoading && (

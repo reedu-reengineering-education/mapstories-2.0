@@ -95,7 +95,7 @@ export default function StepSuggestionsForm({ story }: Props) {
     setContent(newContent)
     setRejectModalOpen(false)
     toast({
-      message: 'Step suggestion rejected',
+      message: t('suggestionRejected'),
       type: 'success',
     })
   }
@@ -113,7 +113,7 @@ export default function StepSuggestionsForm({ story }: Props) {
     } catch (error) {
       console.log(error)
       toast({
-        message: 'Error accepting step suggestion',
+        message: t('suggestionAcceptError'),
         type: 'error',
       })
     }
@@ -142,7 +142,7 @@ export default function StepSuggestionsForm({ story }: Props) {
       })
       // reorder the story with the new step
       toast({
-        message: 'Step suggestion accepted',
+        message: t('suggestionAccepted'),
         type: 'success',
       })
       const newContent = content.filter(
@@ -154,7 +154,7 @@ export default function StepSuggestionsForm({ story }: Props) {
     } catch (error) {
       console.log(error)
       toast({
-        message: 'Error accepting step suggestion',
+        message: t('suggestionAcceptError'),
         type: 'error',
       })
     }

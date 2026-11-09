@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react'
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface DeleteResponse {
   success: boolean
@@ -9,12 +11,14 @@ interface DeleteResponse {
 
 export const useAdminDeleteStory = () => {
   const [loading, setLoading] = useState(false)
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'admin')
 
   const deleteStory = useCallback(async (storyId: string) => {
     if (!storyId.trim()) {
       toast({
-        title: 'Error',
-        message: 'Please enter a valid story ID',
+        title: t('error'),
+        message: t('invalidStoryId'),
         type: 'error',
       })
       return null
@@ -31,9 +35,9 @@ export const useAdminDeleteStory = () => {
       const data = (await response.json()) as DeleteResponse | { error: string }
 
       if (!response.ok) {
-        const errorMsg = 'error' in data ? data.error : 'Unknown error'
+        const errorMsg = 'error' in data ? data.error : t('unknownError')
         toast({
-          title: 'Deletion failed',
+          title: t('deletionFailed'),
           message: errorMsg,
           type: 'error',
         })
@@ -42,7 +46,7 @@ export const useAdminDeleteStory = () => {
 
       if ('success' in data && data.success) {
         toast({
-          title: 'Success',
+          title: t('success'),
           message: data.message,
           type: 'success',
         })
@@ -50,8 +54,8 @@ export const useAdminDeleteStory = () => {
       }
     } catch (error) {
       toast({
-        title: 'Error',
-        message: error instanceof Error ? error.message : 'Failed to delete story',
+        title: t('error'),
+        message: t('deleteStoryError'),
         type: 'error',
       })
     } finally {
@@ -59,7 +63,7 @@ export const useAdminDeleteStory = () => {
     }
 
     return null
-  }, [])
+  }, [t])
 
   return { loading, deleteStory }
 }

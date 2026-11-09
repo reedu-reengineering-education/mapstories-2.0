@@ -15,6 +15,7 @@
   "title": "Title",
   "yes": "Yes",
   "delete": "Delete",
+  "create_text": "Create text",
   "contentUpdated": "Your content has been updated.",
   "contentCreated": "Your content has been created.",
   "contentDeleted": "Your content has been deleted.",
@@ -40,5 +41,6 @@
   "table": "Table",
   "list": "List",
   "help": "Help",
-  "uploadAction": "Upload"
+  "uploadAction": "Upload",
+  "contentNotUpdated": "Your content has not been updated. Please try again."
 }

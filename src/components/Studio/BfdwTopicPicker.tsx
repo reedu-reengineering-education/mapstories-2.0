@@ -3,6 +3,9 @@
 import { CheckIcon } from '@heroicons/react/24/solid'
 import { cx } from 'class-variance-authority'
 import { BFDW_TOPICS } from '@/src/lib/bfdwTopics'
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
 
 type Props = {
   value?: string | null
@@ -13,6 +16,11 @@ type Props = {
 // Topic area ("Themenbereich") selection for stories. Each option shows
 // the color the story will get in the gallery.
 export function BfdwTopicPicker({ value, onChange, noneLabel }: Props) {
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'topics')
   return (
     <div className="grid gap-2 sm:grid-cols-2" role="radiogroup">
       {BFDW_TOPICS.map(topic => {
@@ -36,7 +44,7 @@ export function BfdwTopicPicker({ value, onChange, noneLabel }: Props) {
             }}
             type="button"
           >
-            <span className="flex-1">{topic.label}</span>
+            <span className="flex-1">{t(topic.key)}</span>
             {selected && <CheckIcon className="h-4 w-4 shrink-0" />}
           </button>
         )

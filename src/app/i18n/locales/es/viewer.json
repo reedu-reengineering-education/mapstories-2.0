@@ -8,5 +8,9 @@
   "apply": "Aplicar",
   "noSteps": "No hay pasos disponibles para esta historia.",
   "landscapeModeTitle": "¡Smartphone en modo horizontal!",
-  "landscapeModeText": "El visor está optimizado para smartphones en modo horizontal. Por favor, ¡gira tu teléfono!"
+  "landscapeModeText": "El visor está optimizado para smartphones en modo horizontal. Por favor, ¡gira tu teléfono!",
+  "communityStepAdded": "Estación de la comunidad añadida.",
+  "mediaAdded": "Medio añadido.",
+  "mediaNotAdded": "No se pudo añadir el medio.",
+  "contentDeleted": "Contenido eliminado."
 }

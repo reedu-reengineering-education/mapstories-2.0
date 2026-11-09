@@ -1,0 +1,22 @@
+{
+  "modalTitle": "Estación de la comunidad",
+  "addStep": "Añadir estación",
+  "defaultHeadline": "Tu título",
+  "intro": "Puedes añadir una estación de la comunidad a esta mapstory: introduce una fecha, añade texto, enlaces y medios, y sitúa tu punto en el mapa mundial.",
+  "introReview": "A continuación, los autores revisarán tu aportación. Una vez aprobada, tu estación de la comunidad aparecerá en la mapstory.",
+  "setLocation": "Coloca un marcador en el mapa o introduce la dirección en la barra de búsqueda.",
+  "confirmDescription": "Aquí tienes todo de un vistazo. ¿Está todo correcto en tu estación de la comunidad?",
+  "selectElement": "Seleccionar elemento",
+  "text": "Texto",
+  "upload": "Subir",
+  "embed": "Insertar",
+  "addContent": "Añadir contenido",
+  "confirmDelete": "¿Eliminar de verdad?",
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
+  "back": "Atrás",
+  "next": "Siguiente",
+  "create": "Crear",
+  "confirm": "Confirmar",
+  "searchLocation": "Buscar"
+}

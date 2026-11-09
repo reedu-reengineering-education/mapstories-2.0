@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react'
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface DuplicateResponse {
   success: boolean
@@ -10,12 +12,14 @@ interface DuplicateResponse {
 
 export const useAdminDuplicateStory = () => {
   const [loading, setLoading] = useState(false)
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'admin')
 
   const duplicateStory = useCallback(async (storyId: string) => {
     if (!storyId.trim()) {
       toast({
-        title: 'Error',
-        message: 'Please enter a valid story ID',
+        title: t('error'),
+        message: t('invalidStoryId'),
         type: 'error',
       })
       return null
@@ -32,9 +36,9 @@ export const useAdminDuplicateStory = () => {
       const data = (await response.json()) as DuplicateResponse | { error: string }
 
       if (!response.ok) {
-        const errorMsg = 'error' in data ? data.error : 'Unknown error'
+        const errorMsg = 'error' in data ? data.error : t('unknownError')
         toast({
-          title: 'Duplication failed',
+          title: t('duplicationFailed'),
           message: errorMsg,
           type: 'error',
         })
@@ -43,7 +47,7 @@ export const useAdminDuplicateStory = () => {
 
       if ('success' in data && data.success) {
         toast({
-          title: 'Success',
+          title: t('success'),
           message: data.message,
           type: 'success',
         })
@@ -51,8 +55,8 @@ export const useAdminDuplicateStory = () => {
       }
     } catch (error) {
       toast({
-        title: 'Error',
-        message: error instanceof Error ? error.message : 'Failed to duplicate story',
+        title: t('error'),
+        message: t('duplicateStoryError'),
         type: 'error',
       })
     } finally {
@@ -60,7 +64,7 @@ export const useAdminDuplicateStory = () => {
     }
 
     return null
-  }, [])
+  }, [t])
 
   return { loading, duplicateStory }
 }

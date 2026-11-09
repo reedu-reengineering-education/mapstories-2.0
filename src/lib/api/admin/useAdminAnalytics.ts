@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react'
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 type TimeBucket = { month: string; count: number }
 type LabelCount = { label: string; count: number }
@@ -53,6 +55,8 @@ interface UseAdminAnalyticsReturn {
 export default function useAdminAnalytics(): UseAdminAnalyticsReturn {
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null)
   const [loading, setLoading] = useState(false)
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'admin')
 
   const fetchAnalytics = useCallback(async () => {
     setLoading(true)
@@ -66,14 +70,14 @@ export default function useAdminAnalytics(): UseAdminAnalyticsReturn {
     } catch (error) {
       console.error('Error fetching analytics:', error)
       toast({
-        title: 'Error',
-        message: 'Failed to fetch analytics',
+        title: t('error'),
+        message: t('fetchAnalyticsError'),
         type: 'error',
       })
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   return { analytics, loading, fetchAnalytics }
 }

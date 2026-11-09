@@ -45,5 +45,6 @@
   "resetPasswordMessage": "Nous vous avons envoyé un lien pour réinitialiser votre mot de passe.",
   "passwordSend": "Mot de passe envoyé. Veuillez vérifier votre boîte de réception.",
   "mailSend": "E-mail envoyé",
-  "noToken": "Le jeton n'est pas valide."
+  "noToken": "Le jeton n'est pas valide.",
+  "resetPasswordError": "Une erreur s'est produite lors de la réinitialisation de votre mot de passe."
 }
