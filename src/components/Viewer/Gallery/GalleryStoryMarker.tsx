@@ -110,6 +110,9 @@ export function GalleryStoryMarker({
       }
       try {
         const media = (await getMedia(previewContent.mediaId)) as Media
+        if (!media?.id) {
+          return
+        }
         objectUrl = await getS3Image(media)
         if (!cancelled) {
           setImageUrl(objectUrl)
@@ -185,6 +188,8 @@ export function GalleryStoryMarker({
             <img
               alt={story.name ?? 'Mapstory'}
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              // broken / non-image response (e.g. S3 error) -> show placeholder
+              onError={() => setImageUrl(null)}
               src={imageUrl}
             />
           )}

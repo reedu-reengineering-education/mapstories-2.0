@@ -28,6 +28,7 @@ import {
   getStoryAccent,
 } from './Gallery/GalleryStoryMarker'
 import { GalleryStoryCluster } from './Gallery/GalleryStoryCluster'
+import { getBfdwTopic } from '@/src/lib/bfdwTopics'
 import {
   GalleryStoryPreview,
   PreviewStation,
@@ -776,9 +777,9 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
     navigateToStep(station.position as number)
   }
 
-  // markers and route of the opened story follow the site design
-  // (BFDW orange or the standard MapStories color), not the story theme
-  const storyAccent = useMemo(
+  // markers of the opened story: color of its topic area, else the site
+  // design (BFDW orange or the standard MapStories color)
+  const siteAccent = useMemo(
     () =>
       getSiteAccent(
         getSiteFromHost(
@@ -786,6 +787,12 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         ),
       ),
     [],
+  )
+  const storyAccent = useMemo(
+    () =>
+      getBfdwTopic(stories?.find(s => s?.id === storyID)?.topic)?.color ??
+      siteAccent,
+    [stories, storyID, siteAccent],
   )
 
   // route of the opened story: color of its topic area, else standard color
