@@ -80,8 +80,8 @@ export default function Markers({ markers, color }: Props) {
               <div
                 className={`relative flex items-center justify-center rounded-full font-bold shadow-md transition-all duration-300 ease-out group-hover:scale-110 ${
                   isActive
-                    ? 'h-9 w-9 border-[3px] border-white text-sm text-white shadow-lg'
-                    : 'h-7 w-7 border-2 bg-white text-xs'
+                    ? 'h-20 w-20 border-4 border-white text-lg text-white shadow-lg'
+                    : 'h-10 w-10 border-[3px] bg-white text-base'
                 }`}
                 style={
                   isActive

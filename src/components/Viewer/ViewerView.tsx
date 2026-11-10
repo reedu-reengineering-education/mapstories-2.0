@@ -126,11 +126,32 @@ function prefersReducedMotion() {
 
 // gallery -> story transition timings (ms)
 const CARD_EXIT_DURATION = 380
-const STORY_FLY_DURATION = 1800
+const STORY_FLY_DURATION = 3200
 // story -> gallery: the flight back is a bit quicker and the cards already
 // start popping in while the camera is still moving
-const GALLERY_RETURN_FLY_DURATION = 1400
+const GALLERY_RETURN_FLY_DURATION = 2400
 const GALLERY_ENTRANCE_AT = 0.35
+
+// camera never zooms in closer than this when showing a story / step
+// (~city level instead of street level, also gives mapbox time to load tiles)
+const MAX_STORY_ZOOM = 11
+const MIN_FLY_DURATION = 1500
+const MAX_FLY_DURATION = 4500
+
+// flight duration scaled by how far the camera has to zoom and travel, so a
+// globe -> city flight is not squeezed into one second
+function getFlyDuration(
+  map: { getZoom: () => number } | undefined | null,
+  targetZoom: number,
+  distanceKm = 0,
+) {
+  const currentZoom = map?.getZoom?.() ?? 2
+  const zoomDelta = Math.abs(targetZoom - currentZoom)
+  const duration = 1000 + zoomDelta * 350 + Math.min(distanceKm, 5000) * 0.3
+  return Math.round(
+    Math.min(MAX_FLY_DURATION, Math.max(MIN_FLY_DURATION, duration)),
+  )
+}
 
 function ViewerViewInner({ inputStories }: ViewerViewProps) {
   const mapRef = useRef<MapRef>(null)
@@ -189,6 +210,33 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
   const [overviewDelay, setOverviewDelay] = useState(0)
   const transitionTimers = useRef<ReturnType<typeof setTimeout>[]>([])
   const { width } = useBreakpoint()
+
+  // the story text box covers the right side (desktop) / the bottom (mobile)
+  // of the map, so the camera always puts the marker left of / above center
+  function getStoryCameraOffset(): [number, number] {
+    if (width < 768) {
+      return [0, -window.innerHeight * 0.25]
+    }
+    return [-width / 5, 0]
+  }
+
+  // same shift as getStoryCameraOffset, expressed as fitBounds padding
+  function getStoryCameraPadding() {
+    if (width < 768) {
+      return {
+        top: 60,
+        left: 40,
+        right: 40,
+        bottom: Math.round(window.innerHeight * 0.5) + 60,
+      }
+    }
+    return {
+      top: 100,
+      bottom: 100,
+      left: 100,
+      right: 100 + Math.round((width * 2) / 5),
+    }
+  }
   const router = useRouter()
 
   let lng = useBoundStore(state => state.language)
@@ -541,13 +589,19 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
             bounds,
             flyDuration
               ? {
-                  padding: 100,
+                  padding: getStoryCameraPadding(),
+                  maxZoom: MAX_STORY_ZOOM,
                   duration: flyDuration,
                   essential: true,
                   // smooth ease-in-out for the gallery -> story flight
                   easing: easeInOutCubic,
                 }
-              : { padding: 100 },
+              : {
+                  padding: getStoryCameraPadding(),
+                  maxZoom: MAX_STORY_ZOOM,
+                  duration: getFlyDuration(mapRef.current, MAX_STORY_ZOOM),
+                  essential: true,
+                },
           )
         }
       }
@@ -585,7 +639,10 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
 
   function calculateWeightedZoom(distance: number): number {
     const minZoom = 4
-    const maxZoom = 15
+    const maxZoom = MAX_STORY_ZOOM
+    if (!Number.isFinite(distance) || distance <= 0) {
+      return maxZoom
+    }
 
     // Gewichtete Anpassung: Kleinere Entfernungen -> Höherer Zoom, größere Entfernungen -> Weniger Zoom
     const weight = 2 // Gewichtung anpassen
@@ -622,18 +679,14 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       
       const previousStepFeat = parseFeature(previousStepData?.feature)
 
-      // Mobile detection
-      const isMobile = width < 768
-      const mobileOffset: [number, number] = [0, -window.innerHeight * 0.25]
-
       if (!previousStepFeat?.geometry?.coordinates) {
         const [lng, lat] = stepFeat.geometry.coordinates
         mapRef.current?.flyTo({
           center: [lng, lat],
-          offset: isMobile ? mobileOffset : [-width / 7, -75],
+          offset: getStoryCameraOffset(),
           zoom: 8,
           essential: true,
-          duration: 1000,
+          duration: getFlyDuration(mapRef.current, 8),
         })
         return
       }
@@ -651,15 +704,16 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
           )
         }
 
+        const targetZoom = calculateWeightedZoom(distance)
         mapRef.current?.flyTo({
           center: [
             feature.geometry.coordinates[0],
             feature.geometry.coordinates[1],
           ],
-          offset: isMobile ? mobileOffset : [-width / 5, 0],
-          zoom: calculateWeightedZoom(distance),
+          offset: getStoryCameraOffset(),
+          zoom: targetZoom,
           essential: true,
-          duration: Math.min(Math.max(distance * 100, 1000), 3000),
+          duration: getFlyDuration(mapRef.current, targetZoom, distance),
         })
       }
     }
@@ -939,10 +993,13 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         )
 
         /// calculate the bounds fit the view to the bounds
+          const targetZoom = calculateWeightedZoom(distance)
           mapRef.current?.flyTo({
             center: startView.getCenter(),
-            zoom: calculateWeightedZoom(distance),
-            offset: [-width / 5, 75],
+            zoom: targetZoom,
+            offset: getStoryCameraOffset(),
+            essential: true,
+            duration: getFlyDuration(mapRef.current, targetZoom),
           })
       } catch (error) {
         // startView might be null if no steps with features exist
@@ -994,6 +1051,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
             idPrefix="story-overview"
             onStationClick={openStep}
             stations={overviewPreview.stations}
+            stationsFirst
             storyId={overviewPreview.storyId}
           />
         </ErrorBoundary>

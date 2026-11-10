@@ -27,6 +27,9 @@ type Props = {
   idPrefix?: string
   // wait this long (ms) before drawing, e.g. until a camera flight ends
   delay?: number
+  // show the stations right away (staggered from 0, ignoring `delay`) and
+  // bigger, e.g. on the story overview so they are visible during the flight
+  stationsFirst?: boolean
 }
 
 const clamp01 = (v: number) =>
@@ -120,6 +123,7 @@ export function GalleryStoryPreview({
   onStationClick,
   idPrefix = 'gallery-preview',
   delay = 0,
+  stationsFirst = false,
 }: Props) {
   const startDelay = Number.isFinite(delay) && delay > 0 ? delay : 0
   const [progress, setProgress] = useState(() =>
@@ -277,13 +281,20 @@ export function GalleryStoryPreview({
               className="gallery-station-pop"
               style={{
                 animationDelay: `${Math.round(
-                  startDelay + (stationFractions[i] ?? 0) * DRAW_DURATION * 0.8,
+                  stationsFirst
+                    ? i * 60
+                    : startDelay +
+                        (stationFractions[i] ?? 0) * DRAW_DURATION * 0.8,
                 )}ms`,
               }}
             >
               <div
                 aria-label={station.title || `${number}`}
-                className={`group relative flex h-6 w-6 items-center justify-center rounded-full border-2 bg-white text-[11px] font-bold shadow-md transition-transform duration-150 ${
+                className={`group relative flex items-center justify-center rounded-full bg-white font-bold ${
+                  stationsFirst
+                    ? 'h-10 w-10 border-[3px] text-base'
+                    : 'h-6 w-6 border-2 text-[11px]'
+                } shadow-md transition-transform duration-150 ${
                   clickable ? 'cursor-pointer hover:scale-125' : ''
                 }`}
                 role={clickable ? 'button' : undefined}
