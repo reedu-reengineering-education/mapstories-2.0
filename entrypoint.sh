@@ -6,8 +6,8 @@ find /app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 se
 if [ "$MIGRATE_DATABASE" = true ]
 then
   echo "Running database migrations"
-  npx --yes prisma migrate deploy
-  npx --yes prisma db seed
+  npx --yes prisma@6.10.1 migrate deploy
+  npx --yes prisma@6.10.1 db seed
 else
   echo 'No Database migrations will be applied.'
   echo 'If there are missing Database migrations set environment variable MIGRATE_DATABASE to true'
