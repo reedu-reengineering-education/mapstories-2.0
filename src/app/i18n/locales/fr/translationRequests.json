@@ -9,7 +9,6 @@
   "startTranslation": "Commencer la traduction",
   "createError": "La traduction n'a pas pu être créée.",
   "languageExists": "Une traduction existe déjà pour cette langue.",
-  "mediaOnlyInOriginal": "Les médias et intégrations ne peuvent être modifiés que dans l'histoire originale.",
   "needsTranslation": "À traduire",
   "markerOnlyInOriginalTitle": "Ceci est une traduction",
   "markerOnlyInOriginal": "Les marqueurs ne peuvent être placés que dans l'histoire originale.",

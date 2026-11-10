@@ -9,7 +9,6 @@
   "startTranslation": "Start translation",
   "createError": "The translation could not be created.",
   "languageExists": "There already is a translation for this language.",
-  "mediaOnlyInOriginal": "Media and embeds can only be changed in the original story.",
   "needsTranslation": "Needs translation",
   "markerOnlyInOriginalTitle": "This is a translation",
   "markerOnlyInOriginal": "Markers can only be set in the original story.",

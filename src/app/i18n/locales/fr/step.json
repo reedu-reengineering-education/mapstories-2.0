@@ -2,5 +2,7 @@
   "addMedia": "Ajouter des Médias",
   "tagsUpdated": "Tags mis à jour.",
   "somethingWrong": "Une erreur s'est produite.",
-  "edit": "Modifier"
+  "edit": "Modifier",
+  "mediaOnlyInOriginal": "Les médias et intégrations ne peuvent être modifiés que dans l'histoire originale.",
+  "needsTranslation": "À traduire"
 }

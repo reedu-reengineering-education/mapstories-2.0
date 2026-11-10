@@ -9,7 +9,6 @@
   "startTranslation": "Übersetzung starten",
   "createError": "Die Übersetzung konnte nicht erstellt werden.",
   "languageExists": "Für diese Sprache gibt es bereits eine Übersetzung.",
-  "mediaOnlyInOriginal": "Medien und Einbettungen können nur in der Originalstory geändert werden.",
   "needsTranslation": "Muss übersetzt werden",
   "markerOnlyInOriginalTitle": "Dies ist eine Übersetzung",
   "markerOnlyInOriginal": "Marker können nur in der Originalstory gesetzt werden.",

@@ -2,5 +2,7 @@
   "addMedia": "Medien hinzufügen",
   "tagsUpdated": "Tags aktualisiert.",
   "somethingWrong": "Etwas ist schiefgelaufen.",
-  "edit": "Bearbeiten"
+  "edit": "Bearbeiten",
+  "mediaOnlyInOriginal": "Medien und Einbettungen können nur in der Originalstory geändert werden.",
+  "needsTranslation": "Muss übersetzt werden"
 }
