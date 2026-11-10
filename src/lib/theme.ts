@@ -1,4 +1,5 @@
 import { Site } from '@prisma/client'
+import { getBfdwTopic } from './bfdwTopics'
 
 export const STANDARD_THEME = {
   name: 'Standard',
@@ -25,6 +26,16 @@ export const BFDW_THEME = {
 
 export function getBaseThemeForSite(site: Site) {
   return site === Site.BFDW ? BFDW_THEME : STANDARD_THEME
+}
+
+// default color of story routes on the map, on every site the standard
+// MapStories color (the BFDW orange is too close to the color of roads)
+export const ROUTE_COLOR = STANDARD_THEME.button_color
+
+// route color of a story: the color of its topic area (Themenbereich) if it
+// has one, otherwise ROUTE_COLOR
+export function getRouteColor(topic?: string | null) {
+  return getBfdwTopic(topic)?.color ?? ROUTE_COLOR
 }
 
 // accent color for map elements (story markers / route) of a site

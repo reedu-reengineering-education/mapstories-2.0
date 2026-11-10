@@ -34,7 +34,11 @@ import {
 } from './Gallery/GalleryStoryPreview'
 import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 import { getSiteFromHost } from '@/src/lib/site'
-import { getBaseThemeForSite, getSiteAccent } from '@/src/lib/theme'
+import {
+  getBaseThemeForSite,
+  getRouteColor,
+  getSiteAccent,
+} from '@/src/lib/theme'
 import { ErrorBoundary } from '@/src/components/ErrorBoundary'
 import { navigateToStep } from '@/src/lib/viewerNavigation'
 
@@ -756,6 +760,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         storyId: story.id,
         stations,
         color: getStoryAccent(story),
+        lineColor: getRouteColor(story.topic),
       }
     } catch (e) {
       console.warn('Could not build story path preview:', e)
@@ -781,6 +786,12 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         ),
       ),
     [],
+  )
+
+  // route of the opened story: color of its topic area, else standard color
+  const storyRouteColor = useMemo(
+    () => getRouteColor(stories?.find(s => s?.id === storyID)?.topic),
+    [stories, storyID],
   )
 
   // story currently hovered in the gallery
@@ -1032,6 +1043,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
           <GalleryStoryPreview
             color={hoverPreview.color}
             idPrefix="gallery-hover"
+            lineColor={hoverPreview.lineColor}
             stations={hoverPreview.stations}
             storyId={hoverPreview.storyId}
           />
@@ -1049,6 +1061,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
             color={overviewPreview.color}
             delay={overviewDelay}
             idPrefix="story-overview"
+            lineColor={overviewPreview.lineColor}
             onStationClick={openStep}
             stations={overviewPreview.stations}
             stationsFirst
@@ -1059,7 +1072,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
 
       {pathend2 != 'gallery' && (
         <StorySourceLayer
-          color={storyAccent}
+          color={storyRouteColor}
           geojsons={mapData}
           selectedFeature={selectedFeature}
           selectedStepIndex={selectedStepIndex}

@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Layer, Source } from 'react-map-gl'
+import { ROUTE_COLOR } from '@/src/lib/theme'
 
-// fallback, same as the gallery default accent
-const DEFAULT_ACCENT = '#18325b'
 // duration of the "drawing" animation of the segment to the active step
 const DRAW_DURATION = 700
 
@@ -63,10 +62,10 @@ export default function StorySourceLayer({
   selectedFeature: GeoJSON.Feature | undefined
   storyID: string
   selectedStepIndex: any
-  // accent color of the opened story (theme / topic), see getStoryAccent()
+  // route color of the opened story, see getRouteColor()
   color?: string
 }) {
-  const accent = color || DEFAULT_ACCENT
+  const lineColor = color || ROUTE_COLOR
   const stepIndex = Number(selectedStepIndex)
   const hasStep = storyID !== '' && Number.isInteger(stepIndex) && stepIndex >= 0
 
@@ -167,7 +166,7 @@ export default function StorySourceLayer({
             id="lineUpcoming"
             layout={ROUND}
             paint={{
-              'line-color': accent,
+              'line-color': lineColor,
               'line-width': 3.5,
               'line-opacity': 0.55,
               // zero-length dashes + round caps = dotted line
@@ -194,7 +193,7 @@ export default function StorySourceLayer({
             id="lineVisited"
             layout={ROUND}
             paint={{
-              'line-color': accent,
+              'line-color': lineColor,
               'line-width': 3,
               'line-opacity': 0.45,
             }}
@@ -209,7 +208,7 @@ export default function StorySourceLayer({
             id="lineActive-glow"
             layout={ROUND}
             paint={{
-              'line-color': accent,
+              'line-color': lineColor,
               'line-width': 16,
               'line-blur': 8,
               'line-opacity': 0.4,
@@ -229,7 +228,7 @@ export default function StorySourceLayer({
           <Layer
             id="lineActive"
             layout={ROUND}
-            paint={{ 'line-color': accent, 'line-width': 4.5 }}
+            paint={{ 'line-color': lineColor, 'line-width': 4.5 }}
             type="line"
           />
         </Source>

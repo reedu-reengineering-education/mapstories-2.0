@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { Layer, Marker, Source } from 'react-map-gl'
+import { ROUTE_COLOR } from '@/src/lib/theme'
 
 // Duration of the "drawing" animation of the path in ms.
 const DRAW_DURATION = 900
@@ -27,6 +28,8 @@ type Props = {
   idPrefix?: string
   // wait this long (ms) before drawing, e.g. until a camera flight ends
   delay?: number
+  // color of the drawn route, see getRouteColor()
+  lineColor?: string
   // show the stations right away (staggered from 0, ignoring `delay`) and
   // bigger, e.g. on the story overview so they are visible during the flight
   stationsFirst?: boolean
@@ -123,6 +126,7 @@ export function GalleryStoryPreview({
   onStationClick,
   idPrefix = 'gallery-preview',
   delay = 0,
+  lineColor = ROUTE_COLOR,
   stationsFirst = false,
 }: Props) {
   const startDelay = Number.isFinite(delay) && delay > 0 ? delay : 0
@@ -210,7 +214,7 @@ export function GalleryStoryPreview({
               id={`${idPrefix}-full-line`}
               layout={{ 'line-join': 'round', 'line-cap': 'round' }}
               paint={{
-                'line-color': color,
+                'line-color': lineColor,
                 'line-width': 3,
                 'line-opacity': 0.25,
                 'line-dasharray': [1, 2],
@@ -223,7 +227,7 @@ export function GalleryStoryPreview({
               id={`${idPrefix}-glow`}
               layout={{ 'line-join': 'round', 'line-cap': 'round' }}
               paint={{
-                'line-color': color,
+                'line-color': lineColor,
                 'line-width': 14,
                 'line-blur': 8,
                 'line-opacity': 0.45,
@@ -243,7 +247,7 @@ export function GalleryStoryPreview({
             <Layer
               id={`${idPrefix}-line`}
               layout={{ 'line-join': 'round', 'line-cap': 'round' }}
-              paint={{ 'line-color': color, 'line-width': 4 }}
+              paint={{ 'line-color': lineColor, 'line-width': 4 }}
               type="line"
             />
           </Source>
