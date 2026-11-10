@@ -3,5 +3,8 @@
   "click_on_map_to_set_marker": "Cliquez sur la carte ou utilisez la fonction de recherche pour ajouter un marqueur.",
   "move_the_red_marker": "Cliquez sur la carte ou utilisez la fonction de recherche pour déplacer le marqueur rouge.",
   "noMobile": "MapStory n'est pas disponible sur les appareils mobiles. Veuillez utiliser un ordinateur de bureau ou un ordinateur portable pour créer une MapStory.",
-  "noMobileText": "MapStory n'est pas disponible sur les appareils mobiles. Veuillez utiliser un ordinateur de bureau ou un ordinateur portable pour créer une MapStory."
+  "noMobileText": "MapStory n'est pas disponible sur les appareils mobiles. Veuillez utiliser un ordinateur de bureau ou un ordinateur portable pour créer une MapStory.",
+  "titleSlideNoMarkerTitle": "Ceci est votre diapositive de titre.",
+  "titleSlideNoMarker": "Vous ne pouvez pas placer de marqueur ici.",
+  "searchLocation": "Rechercher"
 }

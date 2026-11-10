@@ -1,5 +1,4 @@
 import React from 'react'
-import { usePathname, useRouter } from 'next/navigation'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import {
   Table,
@@ -10,6 +9,7 @@ import {
   TableRow,
 } from '../Elements/Table'
 import { useTranslation } from '@/src/app/i18n/client'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 type Props = {
   lng: string
@@ -18,17 +18,12 @@ type Props = {
   story: any
 }
 export function SlidesOverview({ lng, page, slug, story }: Props) {
-  const router = useRouter()
-  const path = usePathname()
 
   //@ts-expect-error
   const { t } = useTranslation(lng, 'slidesOverview')
 
   const goToStep = (position: number) => {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-
-    router.push(`/${pathLocal}/${slug}/${position}`)
+    navigateToStep(position)
   }
 
   return (

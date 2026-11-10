@@ -19,5 +19,10 @@
   "changePassword": "Change Password",
   "changeFor": "Change password for ",
   "newPassword": "New Password",
-  "newPasswordConfirm": "Confirm new password"
+  "newPasswordConfirm": "Confirm new password",
+  "changeMailText": "You can change your email address here.",
+  "email": "Email",
+  "nameRequired": "Name is required.",
+  "emailRequired": "Email is required.",
+  "emailInvalid": "Please enter a valid email address."
 }

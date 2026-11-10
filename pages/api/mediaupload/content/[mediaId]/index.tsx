@@ -1,6 +1,7 @@
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { db } from '@/src/lib/db'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { syncMediaUpdated } from '@/src/lib/story/syncTranslations'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -14,14 +15,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       res.end()
     }
     if (req.method === 'PUT') {
+      const { id: _id, ...data } = req.body
       const updatedImage = await db.media.update({
         where: {
           id: req.query.mediaId as string,
         },
-        data: {
-          ...req.body,
-        },
+        data,
       })
+      await syncMediaUpdated(updatedImage.id, data)
       res.status(200).json(updatedImage)
       res.end()
     }

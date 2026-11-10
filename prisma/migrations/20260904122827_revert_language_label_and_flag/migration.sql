@@ -1,0 +1,7 @@
+-- Placeholder for a migration.sql file that was applied to this database but
+-- never committed to the repo. It reverted the schema change made by
+-- 20260904095551_add_language_label_and_flag — the current schema.prisma has
+-- no language label/flag fields, confirming the net effect of the two
+-- migrations together is a no-op. Recreated as an empty migration so the
+-- local migrations directory matches the applied migration history in
+-- `_prisma_migrations` without requiring a destructive `prisma migrate reset`.

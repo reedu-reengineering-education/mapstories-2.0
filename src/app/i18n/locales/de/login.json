@@ -46,5 +46,6 @@
   "resetPassword": "Passwort zurücksetzen",
   "resetPasswordMessage": "Wir haben dir einen Link zum Zurücksetzen deines Passworts geschickt.",
   "passwordSend": "Passwort gesendet. Bitte überprüfe dein E-Mail-Postfach.",
-  "mailSend": "E-Mail gesendet"
+  "mailSend": "E-Mail gesendet",
+  "resetPasswordError": "Beim Zurücksetzen deines Passworts ist ein Fehler aufgetreten."
 }

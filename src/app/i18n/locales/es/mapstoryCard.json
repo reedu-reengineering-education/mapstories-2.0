@@ -1,4 +1,7 @@
 {
   "play": "Reproducir",
-  "edit": "Editar"
+  "edit": "Editar",
+  "stations_one": "{{count}} estación",
+  "stations_other": "{{count}} estaciones",
+  "stations_many": "{{count}} estaciones"
 }

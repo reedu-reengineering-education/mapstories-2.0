@@ -118,8 +118,8 @@ export function UserSettingsForm({
             <Input
               defaultValue={user.name ?? ''}
               errors={errors.name}
-              label="Name"
-              {...register('name', { required: 'Name ist erforderlich.' })}
+              label={t('name')}
+              {...register('name', { required: t('nameRequired') })}
             />
           </div>
 
@@ -128,12 +128,12 @@ export function UserSettingsForm({
             <Input
               defaultValue={user.email ?? ''}
               errors={errors.email}
-              label="E-Mail"
+              label={t('email')}
               {...register('email', {
-                required: 'E-Mail ist erforderlich.',
+                required: t('emailRequired'),
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: 'Bitte eine gültige E-Mail-Adresse eingeben.',
+                  message: t('emailInvalid'),
                 },
               })}
             />
@@ -144,8 +144,8 @@ export function UserSettingsForm({
             <div className="flex w-full flex-row justify-start gap-4">
               <Input
                 disabled={true}
-                label="Passwort"
-                placeholder="Passwort"
+                label={t('password')}
+                placeholder={t('password')}
                 type="password"
                 value={'••••••••'}
               />
@@ -168,7 +168,7 @@ export function UserSettingsForm({
 
         <Card.Footer className="flex justify-end">
           <Button disabled={isSaving} isLoading={isSaving} type="submit">
-            Speichern
+            {t('save')}
           </Button>
         </Card.Footer>
       </Card>

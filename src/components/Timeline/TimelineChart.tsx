@@ -12,8 +12,9 @@ import {
 } from '@heroicons/react/24/outline'
 import { Tooltip } from '../Tooltip'
 import './TimelineChart.css'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 interface TimelineChartProps {
   data: (StoryStep & {
@@ -50,7 +51,6 @@ export default function TimelineChart({
 }: TimelineChartProps) {
   const ref = useRef<HTMLDivElement>(null)
   const path = usePathname()
-  const router = useRouter()
 
   const [timeline, setTimeline] = useState<Timeline | null>(null)
   const [items, setItems] = useState<DataSet<any> | null>(null)
@@ -110,24 +110,17 @@ export default function TimelineChart({
   }, [ref, items])
 
   const nextStep = () => {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
     const page = path?.split('/').at(-1) ?? '0'
-    const slug = path?.split('/').at(-2)
     if (parseInt(page) + 1 < (story?.steps?.length ?? 0)) {
-      router.push(`/${pathLocal}/${slug}/${page ? parseInt(page) + 1 : '1'}`)
+      navigateToStep(parseInt(page) + 1)
     }
   }
 
   const previousStep = () => {
     // const length = story?.steps?.length
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
     const page = path?.split('/').at(-1) ?? '0'
-    const slug = path?.split('/').at(-2)
-
     if (parseInt(page) > 0) {
-      router.push(`/${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+      navigateToStep(parseInt(page) - 1)
     }
   }
 

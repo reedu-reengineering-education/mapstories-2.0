@@ -45,12 +45,18 @@ export default function EditMapstoryView({ story }: EditMapstoryViewProps) {
 
   useEffect(() => {
     const stepId = path?.split('/').at(-1)
-    const currentStep = currentStory?.steps?.find(s => s.id === stepId)
-    if (currentStep) {
-      setCurrentStep(currentStep)
-    } else {
+    const step = currentStory?.steps?.find(s => s.id === stepId)
+    if (step) {
+      setCurrentStep(step)
+    } else if (
+      !currentStep ||
+      !stepId ||
+      stepId === currentStory?.firstStepId
+    ) {
       setCurrentStep(currentStory?.firstStep)
     }
+    // otherwise the step was just created and the story is still revalidating:
+    // keep the current view instead of briefly falling back to the title step
   }, [path, currentStory])
 
   useEffect(() => {

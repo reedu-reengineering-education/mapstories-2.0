@@ -1,36 +1,18 @@
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { Button } from '../Elements/Button'
-import { usePathname, useRouter } from 'next/navigation'
-import { cx } from 'class-variance-authority'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 type Props = {
   slug: string
-  size?: 'xs' | 's' | 'm'
 }
-export default function RestartStoryButton({ slug, size }: Props) {
-  const path = usePathname()
-  const router = useRouter()
-
-  function backToStart() {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-
-    router.push(`/${pathLocal}/${slug}/start`)
-  }
-
+export default function RestartStoryButton(_props: Props) {
   return (
-    <Button
+    <button
       aria-label="Restart Story"
-      onClick={() => backToStart()}
-      variant="noStyle"
+      className="flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-slate-100"
+      onClick={() => navigateToStep('start')}
+      title="Restart Story"
     >
-      <ReloadIcon
-        className={cx(
-          size == 'xs' ? 'h-5 w-5' : '',
-          size == 's' ? 'h-10 w-10' : '',
-          size == 'm' ? 'h-60 w-60' : '',
-        )}
-      />
-    </Button>
+      <ReloadIcon className="h-5 w-5" />
+    </button>
   )
 }

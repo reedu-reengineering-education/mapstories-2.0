@@ -37,7 +37,7 @@ export default function EditTimelineWrapper({
     <TimelineChart
       activeEvent={story.steps.find(s => s.id === stepId)?.id}
       data={story.steps}
-      editable
+      editable={!story.isTranslation}
       fitButton
       onEventAdd={date =>
         createStoryStep({

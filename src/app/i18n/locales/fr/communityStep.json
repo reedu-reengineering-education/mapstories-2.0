@@ -1,0 +1,22 @@
+{
+  "modalTitle": "Étape communautaire",
+  "addStep": "Ajouter une étape",
+  "defaultHeadline": "Votre titre",
+  "intro": "Vous pouvez ajouter une étape communautaire à cette mapstory : saisissez une date, ajoutez du texte, des liens et des médias, puis placez votre point sur la carte du monde.",
+  "introReview": "Ensuite, les auteur·rice·s vérifieront votre contribution. Une fois validée, votre étape communautaire apparaîtra dans la mapstory.",
+  "setLocation": "Placez un marqueur sur la carte ou saisissez l'adresse dans la barre de recherche.",
+  "confirmDescription": "Voici un aperçu de l'ensemble. Tout est-il correct dans votre étape communautaire ?",
+  "selectElement": "Sélectionner un élément",
+  "text": "Texte",
+  "upload": "Téléverser",
+  "embed": "Intégrer",
+  "addContent": "Ajouter du contenu",
+  "confirmDelete": "Vraiment supprimer ?",
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "back": "Retour",
+  "next": "Suivant",
+  "create": "Créer",
+  "confirm": "Confirmer",
+  "searchLocation": "Rechercher"
+}

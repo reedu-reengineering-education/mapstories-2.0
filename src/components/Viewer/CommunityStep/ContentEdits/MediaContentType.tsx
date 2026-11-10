@@ -13,6 +13,8 @@ import 'react-tabs/style/react-tabs.css'
 import ReactPlayer from 'react-player'
 import { Spinner } from '@/src/components/Elements/Spinner'
 import SizedImage from '@/src/components/Elements/SizedImage'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 interface MediaContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   stepSuggestion: any
   setStepSuggestion: any
@@ -57,6 +59,8 @@ export function MediaContentEdit({
   ...props
 }: MediaContentEditProps) {
   const { addMedia } = useMedia()
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'editModal')
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSaving, setIsSaving] = useState<boolean>(false)
@@ -143,8 +147,8 @@ export function MediaContentEdit({
   return (
     <div>
       <div>
-        <InputLabel>Upload</InputLabel>
-        <p className="my-2 text-sm font-bold">Unterstützte Formate </p>
+        <InputLabel>{t('dataUpload')}</InputLabel>
+        <p className="my-2 text-sm font-bold">{t('supportedFormats')} </p>
         <span>
           <code>.jpg</code>
           <code>.png</code>
@@ -160,7 +164,7 @@ export function MediaContentEdit({
         {/* @ts-expect-error */}
         <div {...getRootProps({ style })}>
           <input {...getInputProps()} />
-          Dateien hier ablegen
+          {t('dropFiles')}
         </div>
       </div>
       <div>
@@ -190,7 +194,7 @@ export function MediaContentEdit({
         <div className="flex items-center gap-2">
           <Input
             className="bg-slate-50"
-            label="Quelle"
+            label={t('source')}
             onChange={e => handleFileSource(e)}
             value={fileSource}
           />
@@ -201,14 +205,14 @@ export function MediaContentEdit({
             onClick={() => setContentType('addSlide')}
             variant={'inverse'}
           >
-            Zurück
+            {t('back')}
           </Button>
           <Button
             disabled={isSaving}
             isLoading={isSaving}
             onClick={() => onSubmit()}
           >
-            Hochladen
+            {t('uploadAction')}
           </Button>
         </div>
       </div>

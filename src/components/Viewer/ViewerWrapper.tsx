@@ -12,15 +12,30 @@ import { ViewerStartView } from './ViewerStartView'
 import { ViewerStepView } from './ViewerStepView'
 import { MobileControls } from './MobileControls'
 import { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
+import { getViewerSlugFromPath } from '@/src/lib/viewerNavigation'
 
 type Props = {
   filter: string
   slug: string[]
   story: any
   tags: string[]
+  // logged in user, enables "add translation" on the start screen
+  currentUserId?: string
 }
 
-export function ViewerWrapper({ filter, slug, story, tags }: Props) {
+export function ViewerWrapper({
+  filter,
+  slug: serverSlug,
+  story,
+  tags,
+  currentUserId,
+}: Props) {
+  // steps are switched client-side (see viewerNavigation.ts), so the URL is
+  // the source of truth for the current step, not the server-rendered prop
+  const pathname = usePathname()
+  const slug = getViewerSlugFromPath(pathname) ?? serverSlug
+
   // Get language from store
   let lng = useBoundStore(state => state.language)
   if (languages.indexOf(lng) < 0) {
@@ -71,18 +86,14 @@ export function ViewerWrapper({ filter, slug, story, tags }: Props) {
       <div className="flex h-full w-full flex-col px-20 pt-4 lg:gap-5 lg:pb-10 lg:pt-20 mobile-landscape:px-4 mobile-landscape:pt-2">
         {/* Main Content Area */}
         <div className="overflow flex flex-1 justify-end overflow-auto align-baseline mobile-landscape:hidden">
-          {/* Side Navigation Buttons */}
-          <ViewerNavigationButtons
-            page={slug[1]}
-            position="sides"
-            slug={slug[0]}
-            story={story}
-            variant="navbar"
-          />
-
           {/* Conditional View: Start or Step */}
           {isStartView ? (
-            <ViewerStartView slug={slug} story={story} tags={tags} />
+            <ViewerStartView
+              currentUserId={currentUserId}
+              slug={slug}
+              story={story}
+              tags={tags}
+            />
           ) : (
             <ViewerStepView lng={lng} slug={slug} story={story} />
           )}

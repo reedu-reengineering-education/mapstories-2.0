@@ -2,7 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { db } from '@/src/lib/db'
-import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
+import { withMapstoryEditor } from '@/src/lib/apiMiddlewares/withMapstoryEditor'
+import { translationReadonly } from '@/src/lib/story/storyAccess'
+import { syncStepPositions } from '@/src/lib/story/syncTranslations'
 import { StoryStep } from '@prisma/client'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -16,6 +18,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           steps: true,
         },
       })
+      if (story?.isTranslation) {
+        return translationReadonly(res)
+      }
 
       // room ids from the request
       const stepIds = (req.body as StoryStep[]).map(r => r.id)
@@ -38,6 +43,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         ),
       )
 
+      if (story) {
+        await syncStepPositions(story.id)
+      }
+
       const storyToReturn = await db.story.findFirst({
         where: {
           id: story?.id,
@@ -58,4 +67,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(['PUT'], withMapstory(handler))
+export default withMethods(['PUT'], withMapstoryEditor(handler))

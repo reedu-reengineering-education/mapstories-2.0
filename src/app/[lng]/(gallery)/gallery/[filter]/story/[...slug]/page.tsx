@@ -1,3 +1,4 @@
+import { getCurrentUser } from '@/src/lib/session'
 import { Metadata } from 'next/types'
 import { getStoryName } from '@/src/lib/getStoryName'
 import { db } from '@/src/lib/db'
@@ -40,6 +41,14 @@ const getMapstory = async (slug: string) => {
         },
       },
       theme: true,
+      group: {
+        include: {
+          stories: {
+            where: { visibility: 'PUBLIC' },
+            select: { id: true, slug: true, language: true },
+          },
+        },
+      },
     },
   })
 }
@@ -62,6 +71,14 @@ const getMapstoryWithFilter = async (slug: string, filterArray: string[]) => {
         },
       },
       theme: true,
+      group: {
+        include: {
+          stories: {
+            where: { visibility: 'PUBLIC' },
+            select: { id: true, slug: true, language: true },
+          },
+        },
+      },
     },
   })
   if (!unfilteredStory) {
@@ -85,6 +102,7 @@ const getMapstoryWithFilter = async (slug: string, filterArray: string[]) => {
 export default async function StoryPage({
   params: { slug, filter },
 }: StoryPageProps) {
+  const user = await getCurrentUser()
   const filterArray = filter.split('-')
   let story
   let tags: string[] = []
@@ -99,6 +117,7 @@ export default async function StoryPage({
 
   return (
     <ViewerWrapper
+      currentUserId={user?.id}
       filter={filter}
       slug={slug}
       story={story}

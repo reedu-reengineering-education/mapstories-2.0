@@ -5,6 +5,8 @@ import * as React from 'react'
 import { Button } from '@/src/components/Elements/Button'
 import { Input, InputLabel } from '@/src/components/Elements/Input'
 import { useState } from 'react'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface TitleContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   stepItem: any
@@ -19,6 +21,8 @@ export function TitleContentEdit({
   setContentType,
   setShowModal,
 }: TitleContentEditProps) {
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'editModal')
   const [inputValue, setInputValue] = useState<string>(
     stepItem ? stepItem.content : '',
   )
@@ -47,9 +51,9 @@ export function TitleContentEdit({
   return (
     <div className="top-0">
       <div className="pt-4">
-        <InputLabel>Überschrift</InputLabel>
+        <InputLabel>{t('headlineForYourSlide')}</InputLabel>
         <Input
-          label="title"
+          label={t('title')}
           onChange={e => setInputValue(e.target.value)}
           size={100}
           value={inputValue}
@@ -57,9 +61,9 @@ export function TitleContentEdit({
       </div>
       <div className="flex justify-between">
         <Button onClick={() => setContentType('addSlide')} variant={'inverse'}>
-          Zurück
+          {t('back')}
         </Button>
-        <Button onClick={() => handleSubmit()}>Ändern</Button>
+        <Button onClick={() => handleSubmit()}>{t('save')}</Button>
       </div>
     </div>
   )

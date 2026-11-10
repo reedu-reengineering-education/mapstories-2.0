@@ -28,6 +28,11 @@ const s3Client = new S3Client({
   endpoint,
   region: process.env.S3_REGION ?? 'us-east-1',
   forcePathStyle: process.env.S3_FORCE_PATH_STYLE === 'true',
+  // SDK >= 3.729 adds flexible checksums by default (e.g. `x-amz-checksum-mode=ENABLED`
+  // on presigned GETs). Non-AWS stores like Hetzner/Ceph don't handle this reliably,
+  // so only send checksums when an operation strictly requires them.
+  requestChecksumCalculation: 'WHEN_REQUIRED',
+  responseChecksumValidation: 'WHEN_REQUIRED',
   credentials: {
     accessKeyId: process.env.S3_ACCESS_KEY!,
     secretAccessKey: process.env.S3_SECRET_KEY!,

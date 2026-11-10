@@ -1,3 +1,8 @@
 {
-  "addMedia": "Add Media"
+  "addMedia": "Add Media",
+  "tagsUpdated": "Tags updated.",
+  "somethingWrong": "Something went wrong.",
+  "edit": "Edit",
+  "mediaOnlyInOriginal": "Media and embeds can only be changed in the original story.",
+  "needsTranslation": "Needs translation"
 }

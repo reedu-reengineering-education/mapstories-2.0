@@ -20,6 +20,7 @@ import { Button } from '@/src/components/Elements/Button'
 import { Modal } from '@/src/components/Modal'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Marker, Map as ReactMap } from 'react-map-gl'
+import { useMapLanguage } from '@/src/lib/hooks/useMapLanguage'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import {
   Breadcrumb,
@@ -36,6 +37,7 @@ type Props = {
 export default function StepSuggestionsForm({ story }: Props) {
   const lng = useBoundStore(state => state.language)
   const { t } = useTranslation(lng, 'stepSuggestions')
+  const mapLanguage = useMapLanguage()
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
   const [count, setCount] = React.useState(0)
@@ -93,7 +95,7 @@ export default function StepSuggestionsForm({ story }: Props) {
     setContent(newContent)
     setRejectModalOpen(false)
     toast({
-      message: 'Step suggestion rejected',
+      message: t('suggestionRejected'),
       type: 'success',
     })
   }
@@ -111,7 +113,7 @@ export default function StepSuggestionsForm({ story }: Props) {
     } catch (error) {
       console.log(error)
       toast({
-        message: 'Error accepting step suggestion',
+        message: t('suggestionAcceptError'),
         type: 'error',
       })
     }
@@ -140,7 +142,7 @@ export default function StepSuggestionsForm({ story }: Props) {
       })
       // reorder the story with the new step
       toast({
-        message: 'Step suggestion accepted',
+        message: t('suggestionAccepted'),
         type: 'success',
       })
       const newContent = content.filter(
@@ -152,7 +154,7 @@ export default function StepSuggestionsForm({ story }: Props) {
     } catch (error) {
       console.log(error)
       toast({
-        message: 'Error accepting step suggestion',
+        message: t('suggestionAcceptError'),
         type: 'error',
       })
     }
@@ -253,6 +255,8 @@ export default function StepSuggestionsForm({ story }: Props) {
                     currentStepSuggestion?.feature?.geometry?.coordinates[1],
                   zoom: 3,
                 }}
+                // @ts-expect-error mapbox-gl supports `language`, the typings don't
+                language={mapLanguage}
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                 mapStyle="mapbox://styles/mapbox/streets-v12"
                 ref={mapRef}

@@ -5,6 +5,9 @@ import { Modal } from '../../Modal'
 import useStory from '@/src/lib/api/story/useStory'
 
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
 
 import { urlToMedia } from '@/src/helper/urlToMedia'
 import { generateRandomName } from '@/src/helper/generateRandomName'
@@ -24,6 +27,11 @@ type Props = {
 export default function AddCommunityStep({ story, slug, size }: Props) {
   const { createStoryStepSuggestion } = useStory(story.id)
   const { addMedia } = useMedia()
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, ['viewer', 'communityStep'])
   const [isOpen, setIsOpen] = useState(false)
   const [captchaValid, setCaptchaValidated] = useState(false)
   const [stepSuggestion, setStepSuggestion] = useState<any>({
@@ -36,7 +44,7 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
     content: [
       {
         type: 'TITLE',
-        content: 'Deine Überschrift',
+        content: t('communityStep:defaultHeadline'),
         position: 0,
         suggestionId: null,
       },
@@ -61,7 +69,7 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
     try {
       await createStoryStepSuggestion(stepSuggestion)
       setContentType('')
-      toast({ message: 'Community Step hinzugefügt', type: 'success' })
+      toast({ message: t('viewer:communityStepAdded'), type: 'success' })
       setIsOpen(false)
     } catch (e) {
       console.log(e)
@@ -106,12 +114,12 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
         })
         setStepSuggestion(newStepSuggestion)
         setContentType('addSlide')
-        toast({ message: 'Media hinzugefügt', type: 'success' })
+        toast({ message: t('viewer:mediaAdded'), type: 'success' })
       } catch (e) {
         console.log(e)
       }
     } else {
-      toast({ message: 'Media konnte nicht hinzugefügt werden', type: 'error' })
+      toast({ message: t('viewer:mediaNotAdded'), type: 'error' })
     }
   }
 
@@ -144,10 +152,10 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
         })
 
         setStepSuggestion(newStepSuggestion)
-        toast({ message: 'Media hinzugefügt', type: 'success' })
+        toast({ message: t('viewer:mediaAdded'), type: 'success' })
       }
     } catch (e) {
-      toast({ message: 'Media konnte nicht hinzugefügt werden', type: 'error' })
+      toast({ message: t('viewer:mediaNotAdded'), type: 'error' })
       console.log(e)
     }
 
@@ -160,7 +168,7 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
       (content: any) => content.position !== position,
     )
     setStepSuggestion(newStepSuggestion)
-    toast({ message: 'Content gelöscht', type: 'success' })
+    toast({ message: t('viewer:contentDeleted'), type: 'success' })
   }
 
   return (
@@ -170,10 +178,10 @@ export default function AddCommunityStep({ story, slug, size }: Props) {
         setIsOpen(!isOpen)
       }}
       open={isOpen}
-      title="Community Step"
+      title={t('communityStep:modalTitle')}
       trigger={
         <Button onClick={() => setContentType('intro')} variant={'inverse'}>
-          Step hinzufügen
+          {t('communityStep:addStep')}
         </Button>
       }
     >

@@ -108,7 +108,7 @@ export function TextContentEdit({
     <div className="top-0">
       <div className="pb-4 pt-4">
         <div onClick={handleOnClick}>
-          <h3> Text erstellen</h3>
+          <h3> {t('create_text')}</h3>
           <div className="mb-2 mt-2 text-sm text-gray-500">
             {t('textEditor')}{' '}
           </div>
@@ -131,7 +131,7 @@ export function TextContentEdit({
                       return (
                         <ToolbarButton
                           icon={<Bold className="h-4 w-4" />}
-                          label="Fett"
+                          label={t('bold')}
                           onClick={() => executeCommand(command)}
                         />
                       )
@@ -139,7 +139,7 @@ export function TextContentEdit({
                       return (
                         <ToolbarButton
                           icon={<Italic className="h-4 w-4" />}
-                          label="Kursiv"
+                          label={t('italic')}
                           onClick={() => executeCommand(command)}
                         />
                       )
@@ -147,7 +147,7 @@ export function TextContentEdit({
                       return (
                         <ToolbarButton
                           icon={<HeadingIcon className="h-4 w-4" />}
-                          label="Überschrift"
+                          label={t('heading')}
                           onClick={() => executeCommand(command)}
                         />
                       )
@@ -155,7 +155,7 @@ export function TextContentEdit({
                       return (
                         <ToolbarButton
                           icon={<Code className="h-4 w-4" />}
-                          label="Code"
+                          label={t('code')}
                           onClick={() => executeCommand(command)}
                         />
                       )
@@ -163,7 +163,7 @@ export function TextContentEdit({
                       return (
                         <ToolbarButton
                           icon={<Link className="h-4 w-4" />}
-                          label="Link"
+                          label={t('link')}
                           onClick={() => executeCommand(command)}
                         />
                       )
@@ -171,7 +171,7 @@ export function TextContentEdit({
                       return (
                         <ToolbarButton
                           icon={<Table className="h-4 w-4" />}
-                          label="Tabelle"
+                          label={t('table')}
                           onClick={() => executeCommand(command)}
                         />
                       )
@@ -179,7 +179,7 @@ export function TextContentEdit({
                       return (
                         <ToolbarButton
                           icon={<List className="h-4 w-4" />}
-                          label="Liste"
+                          label={t('list')}
                           onClick={() => executeCommand(command)}
                         />
                       )
@@ -187,7 +187,7 @@ export function TextContentEdit({
                       return (
                         <ToolbarButton
                           icon={<HelpCircleIcon className="h-4 w-4" />}
-                          label="Liste"
+                          label={t('help')}
                           onClick={() => executeCommand(command)}
                         />
                       )

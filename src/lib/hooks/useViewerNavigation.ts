@@ -1,7 +1,7 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
 import { useCallback } from 'react'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 interface UseViewerNavigationProps {
   slug: string[]
@@ -9,33 +9,22 @@ interface UseViewerNavigationProps {
 }
 
 export function useViewerNavigation({ slug, totalSteps }: UseViewerNavigationProps) {
-  const router = useRouter()
-  const path = usePathname()
-
-  const getBasePath = useCallback(() => {
-    return path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-  }, [path])
+  const currentStep = parseInt(slug[1])
 
   const prevStep = useCallback(() => {
-    const basePath = getBasePath()
-    const currentStep = parseInt(slug[1])
-
     if (currentStep > 0) {
-      router.push(`${basePath}/${slug[0]}/${currentStep - 1}`)
+      navigateToStep(currentStep - 1)
     }
-  }, [slug, router, getBasePath])
+  }, [currentStep])
 
   const nextStep = useCallback(() => {
-    const basePath = getBasePath()
-    const currentStep = parseInt(slug[1])
-
     if (currentStep + 1 < totalSteps) {
-      router.push(`${basePath}/${slug[0]}/${currentStep + 1}`)
+      navigateToStep(currentStep + 1)
     }
-  }, [slug, router, getBasePath, totalSteps])
+  }, [currentStep, totalSteps])
 
-  const canGoPrev = parseInt(slug[1]) > 0
-  const canGoNext = parseInt(slug[1]) + 1 < totalSteps
+  const canGoPrev = currentStep > 0
+  const canGoNext = currentStep + 1 < totalSteps
 
   return {
     prevStep,

@@ -9,7 +9,7 @@ import { Fragment, useEffect, useState } from 'react'
 // import { useUIStore } from '@/src/lib/store/ui'
 import { Route } from '@/src/types/Routes'
 import { useBoundStore } from '@/src/lib/store/store'
-import { LogoWithTextAndBackground } from './MapstoriesLogo'
+import { SiteLogo } from './SiteLogo'
 import { User } from 'next-auth'
 
 export function Navbar({
@@ -63,10 +63,8 @@ export function Navbar({
           className="relative hidden items-center space-x-2 md:flex"
           href="/"
         >
-          <LogoWithTextAndBackground />
-          <span className="absolute -bottom-1 -right-8 -rotate-[17deg] font-bold text-primary">
-            BETA
-          </span>
+          <SiteLogo />
+
         </Link>
         {routes?.length ? (
           <nav className="hidden gap-6 md:flex">
@@ -75,7 +73,7 @@ export function Navbar({
                 {!item.disabled && (
                   <Link
                     className={cx(
-                      'flex items-center text-lg font-semibold sm:text-sm',
+                      'flex items-center text-lg font-semibold sm:text-sm transition-colors hover:text-[var(--button-color)]',
                       item.href.includes(`/${segment}`)
                         ? 'text-slate-900'
                         : 'text-slate-600',
@@ -116,7 +114,7 @@ function MobileNav({ routes }: { children?: React.ReactNode; routes: any[] }) {
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-white p-4 shadow-md">
         <Link className="flex items-center space-x-2" href="/">
-          <LogoWithTextAndBackground />
+          <SiteLogo />
         </Link>
         <nav className="grid grid-flow-row auto-rows-max text-sm">
           {routes.map((item, index) => (

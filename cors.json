@@ -1,0 +1,19 @@
+{
+  "CORSRules": [
+    {
+      "AllowedOrigins": [
+        "https://mapstories.de",
+        "https://www.mapstories.de",
+        "https://bfdw.mapstories.de",
+	"https://testing.bfdw.mapstories.de",
+	"https://testing.mapstories.de"
+      ],
+      "AllowedMethods": ["GET", "PUT", "HEAD"],
+      "AllowedHeaders": ["*"],
+      "ExposeHeaders": ["ETag"],
+      "MaxAgeSeconds": 3600
+    }
+  ]
+}
+
+

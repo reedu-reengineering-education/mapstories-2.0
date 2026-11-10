@@ -9,6 +9,10 @@ import * as React from 'react'
 import DeleteContentButton from './DeleteContentButton'
 import { ContentEditFactory } from '@/src/components/Viewer/CommunityStep/ContentEdits/ContentEditFactory'
 
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
+
 type Props = {
   stepItem: SlideContent
   setDisabled?: React.Dispatch<React.SetStateAction<boolean>>
@@ -24,6 +28,13 @@ export function SlideContentListEditItem({
   setStepSuggestion,
   setContentType,
 }: Props) {
+
+    let lng = useBoundStore(state => state.language)
+    if (languages.indexOf(lng) < 0) {
+      lng = fallbackLng
+    }
+    const { t } = useTranslation(lng, 'step')
+  
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -40,7 +51,7 @@ export function SlideContentListEditItem({
         }}
         open={open}
         setDisabled={setDisabled}
-        title={'Editieren'}
+        title={t('edit')}
         trigger={
           <Button
             className="flex-1 hover:bg-hover"

@@ -1,4 +1,11 @@
 {
   "settings": "Configuración",
-  "edit your account": "Editar tu cuenta"
+  "edit your account": "Editar tu cuenta",
+  "privacySettings": "Configuración de privacidad",
+  "analytics": "Estadísticas",
+  "gallery": "Galería",
+  "bfdwGallery": "Galería BFDW",
+  "duplicateStory": "Duplicar historia",
+  "transferStory": "Transferir historia",
+  "deleteStory": "Eliminar historia"
 }

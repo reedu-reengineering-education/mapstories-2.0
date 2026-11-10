@@ -9,5 +9,20 @@
   "contentNotUpdated": "No se pudo actualizar tu cuenta, por favor inténtalo de nuevo",
   "contentNotDeleted": "No se pudo eliminar tu cuenta, por favor inténtalo de nuevo",
   "logInAgain": "Por favor, vuelve a iniciar sesión",
-  "deleteAccount": "Eliminar cuenta"
+  "deleteAccount": "Eliminar cuenta",
+  "userSettings": "Tu perfil",
+  "changeYourData": "Aquí puedes cambiar tus datos.",
+  "dangerEmail": "¡Atención! Si cambias tu dirección de correo electrónico, recibirás un enlace de confirmación en la nueva dirección.",
+  "changeMailText": "Aquí puedes cambiar tu dirección de correo electrónico.",
+  "activatePassword": "Activar contraseña",
+  "password": "Contraseña",
+  "passWordSecurity": "Seguridad de la contraseña",
+  "changePassword": "Cambiar contraseña",
+  "changeFor": "Cambiar contraseña para ",
+  "newPassword": "Nueva contraseña",
+  "newPasswordConfirm": "Repetir nueva contraseña",
+  "email": "Correo electrónico",
+  "nameRequired": "El nombre es obligatorio.",
+  "emailRequired": "El correo electrónico es obligatorio.",
+  "emailInvalid": "Introduce una dirección de correo electrónico válida."
 }

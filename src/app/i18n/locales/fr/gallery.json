@@ -1,5 +1,18 @@
 {
   "all_public_stories": "Toutes les Mapstories publiques en un coup d'œil",
-  "welcome_to_gallery": "Bienvenue dans la galerie !",
-  "gallery_text": "Actuellement, seules quelques mapstories sont présentées. Mais ce n'est que le début. D'autres mapstories seront ajoutées à l'avenir et la galerie deviendra une exposition pour des histoires particulières. N'hésitez pas à nous envoyer vos mapstories pour cela !"
+  "gallery_password_title": "Cette galerie est protégée par un mot de passe",
+  "gallery_password_description": "Veuillez saisir le mot de passe pour afficher la galerie.",
+  "gallery_password_placeholder": "Mot de passe",
+  "gallery_password_submit": "Valider",
+  "gallery_password_error": "Mot de passe incorrect. Veuillez réessayer.",
+  "gallery_eyebrow": "Galerie",
+  "gallery_title": "Mapstories à la une",
+  "gallery_intro": "Nous présentons ici des Mapstories sélectionnées par l'équipe Mapstories – des histoires qui rendent les liens mondiaux particulièrement concrets.",
+  "gallery_hint": "Survolez une carte pour voir l'itinéraire et les étapes. Cliquez pour lancer l'histoire.",
+  "gallery_submit_title": "Votre Mapstory dans la galerie ?",
+  "gallery_submit_text": "Vous avez créé une Mapstory qui a sa place ici ? Envoyez-nous le lien, nous la regarderons avec plaisir.",
+  "gallery_submit_button": "Proposer une Mapstory",
+  "gallery_submit_mail_subject": "Proposition pour la galerie Mapstories",
+  "gallery_submit_mail_body": "Bonjour l'équipe Mapstories,\n\nje souhaite proposer la Mapstory suivante pour la galerie :\n\nLien : \nCourte description : \n\nCordialement",
+  "gallery_close": "Fermer"
 }

@@ -1,3 +1,8 @@
 {
-  "addMedia": "Agregar Medios"
+  "addMedia": "Agregar Medios",
+  "tagsUpdated": "Etiquetas actualizadas.",
+  "somethingWrong": "Algo salió mal.",
+  "edit": "Editar",
+  "mediaOnlyInOriginal": "Los medios e incrustaciones solo se pueden cambiar en la historia original.",
+  "needsTranslation": "Falta traducir"
 }

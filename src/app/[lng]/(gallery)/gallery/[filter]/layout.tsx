@@ -3,10 +3,13 @@ import { Button } from '@/src/components/Elements/Button'
 import { LangSwitcher } from '@/src/components/LangSwitcher'
 import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import ViewerView from '@/src/components/Viewer/ViewerView'
+import { BfdwGalleryPasswordGate } from '@/src/components/Viewer/Gallery/BfdwGalleryPasswordGate'
+import { BFDW_GALLERY_UNLOCK_COOKIE } from '@/src/lib/bfdwGallery'
 import { db } from '@/src/lib/db'
+import { getCurrentSite } from '@/src/lib/site.server'
 import { getCurrentUser } from '@/src/lib/session'
-import { LinkIcon } from '@heroicons/react/24/outline'
 import { User } from '@prisma/client'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 const countStories = async (userId: User['id']) => {
@@ -52,17 +55,57 @@ const getCertifiedMapstories = async (array: Array<string>) => {
 
 interface ViewerLayoutProps {
   children?: React.ReactNode
-  params: { filter: string }
+  params: { filter: string; lng: string }
 }
 
-export default async function ViewerLayout({ children }: ViewerLayoutProps) {
+async function isBfdwGalleryUnlocked(userId?: string) {
+  if (cookies().get(BFDW_GALLERY_UNLOCK_COOKIE)?.value === '1') {
+    return true
+  }
+  if (!userId) {
+    return false
+  }
+  const dbUser = await db.user.findUnique({
+    where: { id: userId },
+    select: { bfdwGalleryUnlocked: true },
+  })
+  return dbUser?.bfdwGalleryUnlocked ?? false
+}
+
+export default async function ViewerLayout({
+  children,
+  params: { lng },
+}: ViewerLayoutProps) {
   const user = await getCurrentUser()
   const storyCount = user ? await countStories(user.id) : 0
 
-  const certifiedMapstoryIDs: Array<string> = (
-    process.env.GALLERY_STORIES ?? ''
-  ).split(',')
-  const mapstories = await getCertifiedMapstories(certifiedMapstoryIDs)
+  const site = getCurrentSite()
+  const isLocked =
+    site === 'BFDW' && !(await isBfdwGalleryUnlocked(user?.id))
+
+  // Prefer gallery stories from the database, fall back to env variable
+  const dbGalleryStories = isLocked
+    ? []
+    : await db.galleryStory.findMany({
+        where: { site },
+        orderBy: { position: 'asc' },
+      })
+
+  const certifiedMapstoryIDs: Array<string> = isLocked
+    ? []
+    : dbGalleryStories.length > 0
+      ? dbGalleryStories.map(gs => gs.storyId)
+      : (process.env[site === 'BFDW' ? 'GALLERY_STORIES_BFDW' : 'GALLERY_STORIES'] ?? '').split(',').filter(id => id.trim())
+
+  const mapstories = isLocked ? [] : await getCertifiedMapstories(certifiedMapstoryIDs)
+
+  // Maintain database order when stories come from the database
+  const orderedMapstories =
+    dbGalleryStories.length > 0
+      ? certifiedMapstoryIDs
+          .map(id => mapstories.find(m => m.id === id))
+          .filter((m): m is (typeof mapstories)[0] => m !== undefined)
+      : mapstories
 
   return (
     <div className="relative h-full w-full">
@@ -71,19 +114,7 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
           <div className="flex h-16 items-center justify-between py-4">
             <InverseNavbar user={user} userHasStories={storyCount > 0}>
               <div className="flex space-x-2">
-                <Button
-                  className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
-                  startIcon={<LinkIcon className="w-5" />}
-                >
-                  {' '}
-                  <a
-                    href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view "
-                    target="_blank"
-                  >
-                    {' '}
-                    Feedback
-                  </a>{' '}
-                </Button>{' '}
+
                 <div className="hidden lg:flex lg:flex-row lg:gap-2">
                   <LangSwitcher />
                   {user ? (
@@ -99,8 +130,14 @@ export default async function ViewerLayout({ children }: ViewerLayoutProps) {
           </div>
         </header>
       </div>
-      <div className="absolute left-0 top-0 h-full w-full">{children}</div>
-      <ViewerView data-superjson inputStories={mapstories}></ViewerView>
+      {isLocked ? (
+        <BfdwGalleryPasswordGate lng={lng} />
+      ) : (
+        <>
+          <div className="absolute left-0 top-0 h-full w-full">{children}</div>
+          <ViewerView data-superjson inputStories={orderedMapstories}></ViewerView>
+        </>
+      )}
     </div>
   )
 }
