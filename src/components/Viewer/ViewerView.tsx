@@ -142,6 +142,11 @@ const GALLERY_ENTRANCE_AT = 0.35
 const MAX_STORY_ZOOM = 11
 const MIN_FLY_DURATION = 1500
 const MAX_FLY_DURATION = 4500
+// flights between two steps are slowed down so the camera movement (and the
+// route segment drawn in sync with it) can be followed comfortably
+const STEP_FLY_SLOWDOWN = 1.6
+const MIN_STEP_FLY_DURATION = 2500
+const MAX_STEP_FLY_DURATION = 6500
 
 // flight duration scaled by how far the camera has to zoom and travel, so a
 // globe -> city flight is not squeezed into one second
@@ -155,6 +160,17 @@ function getFlyDuration(
   const duration = 1000 + zoomDelta * 350 + Math.min(distanceKm, 5000) * 0.3
   return Math.round(
     Math.min(MAX_FLY_DURATION, Math.max(MIN_FLY_DURATION, duration)),
+  )
+}
+
+function getStepFlyDuration(
+  map: { getZoom: () => number } | undefined | null,
+  targetZoom: number,
+  distanceKm = 0,
+) {
+  const duration = getFlyDuration(map, targetZoom, distanceKm) * STEP_FLY_SLOWDOWN
+  return Math.round(
+    Math.min(MAX_STEP_FLY_DURATION, Math.max(MIN_STEP_FLY_DURATION, duration)),
   )
 }
 
@@ -656,6 +672,10 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
     return Math.max(minZoom, Math.min(maxZoom, zoom))
   }
 
+  // duration of the last camera flight to a step; the route segment leading
+  // into the step is drawn over the same time (new object = restart drawing)
+  const [stepFlight, setStepFlight] = useState<{ duration: number }>()
+
   function updateToStep(index: number) {
     const story = stories?.filter(story => story.id === storyID)[0]
     if (
@@ -686,12 +706,15 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
 
       if (!previousStepFeat?.geometry?.coordinates) {
         const [lng, lat] = stepFeat.geometry.coordinates
+        const duration = getStepFlyDuration(mapRef.current, 8)
+        setStepFlight({ duration })
         mapRef.current?.flyTo({
           center: [lng, lat],
           offset: getStoryCameraOffset(),
           zoom: 8,
           essential: true,
-          duration: getFlyDuration(mapRef.current, 8),
+          duration,
+          easing: easeInOutCubic,
         })
         return
       }
@@ -710,6 +733,12 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         }
 
         const targetZoom = calculateWeightedZoom(distance)
+        const duration = getStepFlyDuration(
+          mapRef.current,
+          targetZoom,
+          distance,
+        )
+        setStepFlight({ duration })
         mapRef.current?.flyTo({
           center: [
             feature.geometry.coordinates[0],
@@ -718,7 +747,8 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
           offset: getStoryCameraOffset(),
           zoom: targetZoom,
           essential: true,
-          duration: getFlyDuration(mapRef.current, targetZoom, distance),
+          duration,
+          easing: easeInOutCubic,
         })
       }
     }
@@ -1080,6 +1110,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       {pathend2 != 'gallery' && (
         <StorySourceLayer
           color={storyRouteColor}
+          flight={stepFlight}
           geojsons={mapData}
           selectedFeature={selectedFeature}
           selectedStepIndex={selectedStepIndex}
