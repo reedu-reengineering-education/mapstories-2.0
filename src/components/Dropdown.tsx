@@ -26,7 +26,7 @@ DropdownMenu.Portal = DropdownMenuPrimitive.Portal
 
 DropdownMenu.Content = React.forwardRef<
   HTMLDivElement,
-  DropdownMenuPrimitive.MenuContentProps
+  DropdownMenuPrimitive.DropdownMenuContentProps
 >(function DropdownMenuContent({ className, ...props }, ref) {
   return (
     <DropdownMenuPrimitive.Content
