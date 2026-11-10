@@ -35,6 +35,7 @@ import { useBreakpoint } from '@/src/lib/hooks/useBreakpoint'
 import { getSiteFromHost } from '@/src/lib/site'
 import { getBaseThemeForSite, getSiteAccent } from '@/src/lib/theme'
 import { ErrorBoundary } from '@/src/components/ErrorBoundary'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 type ViewerViewProps = {
   inputStories: (Story & {
@@ -677,9 +678,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
     if (!Number.isFinite(station.position)) {
       return
     }
-    const pathLocal =
-      path?.split('/').splice(2, 4).join('/') ?? 'gallery/all/story/'
-    router.push(`/${pathLocal}/${station.position}`)
+    navigateToStep(station.position as number)
   }
 
   // markers and route of the opened story follow the site design

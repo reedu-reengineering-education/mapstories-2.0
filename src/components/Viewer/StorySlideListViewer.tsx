@@ -1,12 +1,12 @@
 'use client'
 
 import { useBoundStore } from '@/src/lib/store/store'
-import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
 import { cx } from 'class-variance-authority'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 type Props = {
   filter: string
@@ -23,8 +23,6 @@ export function StorySlideListViewer({
   slidesOpen,
   story,
 }: Props) {
-  const router = useRouter()
-  const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)
 
   const updateSelectedStepIndex = useBoundStore(
@@ -48,10 +46,7 @@ export function StorySlideListViewer({
   }, [])
 
   function goToStep(position: number) {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-
-    router.push(`${pathLocal}/${slug}/${position}`)
+    navigateToStep(position)
   }
 
   const variantsList = {

@@ -88,7 +88,7 @@ export default async function GalleryPage() {
 
   return (
     <div className="relative h-full w-full">
-      <div className="absolute left-5 top-20 z-[1]">
+      <div className="absolute left-5 top-20 z-40">
         <GalleryList stories={orderedMapstories}></GalleryList>
       </div>
     </div>

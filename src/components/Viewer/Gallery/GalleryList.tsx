@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
 import { Transition } from '@headlessui/react'
+import { motion } from 'framer-motion'
 import { Button } from '@/src/components/Elements/Button'
 
 type Props = {
@@ -56,6 +57,25 @@ export function GalleryList({ stories }: Props) {
     }
   }
 
+  // mobile: the intro covers most of the map, so any map interaction hides it
+  // (not persisted, unlike the close button – it comes back on next visit)
+  useEffect(() => {
+    if (!open) {
+      return
+    }
+    const onPointerDown = (e: PointerEvent) => {
+      if (!window.matchMedia('(max-width: 767px)').matches) {
+        return
+      }
+      const target = e.target as Element | null
+      if (target?.closest?.('.mapboxgl-canvas-container')) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    return () => document.removeEventListener('pointerdown', onPointerDown)
+  }, [open])
+
   const mailto = `mailto:${SUBMIT_EMAIL}?subject=${encodeURIComponent(
     t('gallery_submit_mail_subject'),
   )}&body=${encodeURIComponent(t('gallery_submit_mail_body'))}`
@@ -72,10 +92,22 @@ export function GalleryList({ stories }: Props) {
         leaveTo="opacity-0 -translate-x-6"
         show={open}
       >
-        <div className="re-basic-box relative overflow-hidden bg-white">
+        {/* swipe left to dismiss (touch) */}
+        <motion.div
+          className="re-basic-box relative touch-pan-y overflow-hidden bg-white"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={{ left: 0.6, right: 0 }}
+          dragSnapToOrigin
+          onDragEnd={(_e, info) => {
+            if (info.offset.x < -80 || info.velocity.x < -400) {
+              setOpenPersisted(false)
+            }
+          }}
+        >
           <button
             aria-label={t('gallery_close')}
-            className="absolute right-2 top-2 rounded-full p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+            className="absolute right-1 top-1 flex h-9 w-9 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 active:bg-slate-100"
             onClick={() => setOpenPersisted(false)}
             type="button"
           >
@@ -105,7 +137,7 @@ export function GalleryList({ stories }: Props) {
               </Button>
             </a>
           </div>
-        </div>
+        </motion.div>
       </Transition>
 
       {!open && (

@@ -1,7 +1,7 @@
 import { useBoundStore } from '@/src/lib/store/store'
 import { StepMarker } from '@/src/types/Stepmarker'
-import { usePathname, useRouter } from 'next/navigation'
 import { Marker } from 'react-map-gl'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 // fallback, same as the gallery default accent
 const DEFAULT_ACCENT = '#18325b'
@@ -34,15 +34,11 @@ function getMarkerState(
  * accent and pulses, visited steps are muted, upcoming ones are outlined.
  */
 export default function Markers({ markers, color }: Props) {
-  const path = usePathname()
-  const router = useRouter()
   const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
   const accent = color || DEFAULT_ACCENT
 
   function openStep(position: number) {
-    const pathLocal =
-      path?.split('/').splice(2, 4).join('/') ?? 'gallery/all/story/'
-    router.push(`/${pathLocal}/${position}`)
+    navigateToStep(position)
   }
 
   return (

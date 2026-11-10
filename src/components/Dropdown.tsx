@@ -6,8 +6,13 @@ import { cx } from 'class-variance-authority'
 
 type DropdownMenuProps = DropdownMenuPrimitive.DropdownMenuProps
 
-export function DropdownMenu({ ...props }: DropdownMenuProps) {
-  return <DropdownMenuPrimitive.Root {...props} />
+// Non-modal by default: a modal Radix menu sets `pointer-events: none` on
+// <body> while open. Dialog/Select ship a different copy of
+// @radix-ui/react-dismissable-layer, so when both are involved (or the menu
+// unmounts during a route change) each copy restores the other's "none" and
+// the whole page stays unclickable.
+export function DropdownMenu({ modal = false, ...props }: DropdownMenuProps) {
+  return <DropdownMenuPrimitive.Root modal={modal} {...props} />
 }
 
 DropdownMenu.Trigger = React.forwardRef<

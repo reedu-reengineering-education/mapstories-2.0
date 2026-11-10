@@ -12,5 +12,7 @@
   "communityStepAdded": "Étape communautaire ajoutée.",
   "mediaAdded": "Média ajouté.",
   "mediaNotAdded": "Le média n'a pas pu être ajouté.",
-  "contentDeleted": "Contenu supprimé."
+  "contentDeleted": "Contenu supprimé.",
+  "previous": "Retour",
+  "next": "Suivant"
 }

@@ -12,5 +12,7 @@
   "communityStepAdded": "Community-Station hinzugefügt.",
   "mediaAdded": "Medium hinzugefügt.",
   "mediaNotAdded": "Medium konnte nicht hinzugefügt werden.",
-  "contentDeleted": "Inhalt gelöscht."
+  "contentDeleted": "Inhalt gelöscht.",
+  "previous": "Zurück",
+  "next": "Weiter"
 }
