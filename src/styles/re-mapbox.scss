@@ -83,6 +83,14 @@
   }
 }
 
+// On the globe, mapbox fades markers by fog (opacity = 1 - fog) and turns off
+// their pointer events, so gallery cards near the horizon vanish when zooming
+// out. Cards on the far side are hidden in ViewerView (behindGlobe) instead.
+.mapboxgl-marker:has(> [data-gallery-cluster]) {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
 @keyframes gallery-ripple {
   0% {
     transform: translate(-50%, -50%) scale(0.2);

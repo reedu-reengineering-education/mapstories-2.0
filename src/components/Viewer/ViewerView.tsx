@@ -18,6 +18,7 @@ import React from 'react'
 import Markers from './ViewerMap/Layers/Markers'
 import { useBoundStore } from '@/src/lib/store/store'
 import { getSlideTitle } from '@/src/lib/getSlideTitle'
+import { getContinent, getRegion } from '@/src/lib/geoRegions'
 import Map from '../Map'
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { applyTheme } from '@/src/helper/applyTheme'
@@ -53,6 +54,35 @@ type GalleryCluster = {
 
 // extra space between cards before they count as overlapping
 const CLUSTER_MARGIN = 12
+
+// below these zoom levels, stories are only stacked together if they are on
+// the same continent / in the same region (see src/lib/geoRegions.ts), even
+// if their cards overlap; above, purely by on-screen overlap
+const CONTINENT_ZOOM = 2.5
+const REGION_ZOOM = 4
+
+// gallery cards shrink when zoomed out, otherwise two cards cover most of the
+// globe: MIN_CARD_SCALE at MIN_SCALE_ZOOM and below, full size from
+// FULL_SCALE_ZOOM on, linear in between
+const MIN_CARD_SCALE = 0.6
+const MIN_SCALE_ZOOM = 1.5
+const FULL_SCALE_ZOOM = 3.5
+
+function getCardScale(zoom: number) {
+  const t = (zoom - MIN_SCALE_ZOOM) / (FULL_SCALE_ZOOM - MIN_SCALE_ZOOM)
+  const scale = MIN_CARD_SCALE + (1 - MIN_CARD_SCALE) * t
+  // rounded, so tiny zoom changes don't re-render all cards
+  return Math.round(Math.min(1, Math.max(MIN_CARD_SCALE, scale)) * 20) / 20
+}
+
+// A point is on the far side of the globe if projecting it to the screen and
+// back lands somewhere else (unproject hits the front of the sphere).
+function isBehindGlobe(map: MapRef, lng: number, lat: number) {
+  const back = map.unproject(map.project([lng, lat]))
+  let dLng = Math.abs(back.lng - lng) % 360
+  dLng = Math.min(dLng, 360 - dLng)
+  return dLng > 0.5 || Math.abs(back.lat - lat) > 0.5
+}
 
 const easeInOutCubic = (t: number) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
@@ -128,6 +158,12 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
   const [hoveredStoryId, setHoveredStoryId] = useState<string>()
   // gallery cards grouped into stacks so they never overlap on screen
   const [clusters, setClusters] = useState<GalleryCluster[]>()
+  // size factor of the gallery cards for the current zoom, see getCardScale
+  const [cardScale, setCardScale] = useState(1)
+  // gallery anchors currently on the far side of the globe (we hide those
+  // ourselves, because mapbox' own marker fading is disabled via CSS, see
+  // [data-gallery-cluster] in re-mapbox.scss)
+  const [behindGlobeKey, setBehindGlobeKey] = useState('')
   const [expandedClusterId, setExpandedClusterId] = useState<string>()
   const [collapseSignal, setCollapseSignal] = useState(0)
   // story whose card was clicked: cards play their exit animation
@@ -719,6 +755,8 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       story: (typeof stories)[number]
       lng: number
       lat: number
+      continent: string
+      region: string
     }[] = []
     for (const m of mapData) {
       const id = m?.properties?.id
@@ -738,7 +776,15 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
         continue
       }
-      result.push({ id, feature: m, story, lng, lat })
+      result.push({
+        id,
+        feature: m,
+        story,
+        lng,
+        lat,
+        continent: getContinent(lng, lat),
+        region: getRegion(lng, lat),
+      })
     }
     return result
   }, [mapData, stories])
@@ -758,6 +804,19 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       return
     }
     try {
+      const zoom = map.getZoom()
+      const scale = getCardScale(zoom)
+      // which stories may share a stack at this zoom level
+      const groupKeys = galleryAnchors.map(a =>
+        zoom < CONTINENT_ZOOM
+          ? a.continent
+          : zoom < REGION_ZOOM
+            ? a.region
+            : '',
+      )
+      // stories on the far side of the globe are hidden and their projected
+      // position is meaningless, never stack them with visible ones
+      const behind = galleryAnchors.map(a => isBehindGlobe(map, a.lng, a.lat))
       const points = galleryAnchors.map(a => {
         const p = map.project([a.lng, a.lat])
         return [p.x, p.y] as [number, number]
@@ -770,11 +829,14 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         }
         return i
       }
-      const maxDx = cardSize.width + CLUSTER_MARGIN
-      const maxDy = cardSize.height + CLUSTER_MARGIN
+      const maxDx = cardSize.width * scale + CLUSTER_MARGIN
+      const maxDy = cardSize.height * scale + CLUSTER_MARGIN
       for (let i = 0; i < points.length; i++) {
         for (let j = i + 1; j < points.length; j++) {
           if (
+            !behind[i] &&
+            !behind[j] &&
+            groupKeys[i] === groupKeys[j] &&
             Math.abs(points[i][0] - points[j][0]) < maxDx &&
             Math.abs(points[i][1] - points[j][1]) < maxDy
           ) {
@@ -790,6 +852,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         const root = find(i)
         groups.set(root, [...(groups.get(root) ?? []), i])
       })
+      setCardScale(scale)
       setClusters(
         Array.from(groups.entries()).map(([root, indices]) => ({
           leaderId: galleryAnchors[root].id,
@@ -815,6 +878,43 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
   useEffect(() => {
     computeClusters()
   }, [computeClusters])
+
+  const updateBehindGlobe = useCallback(() => {
+    const map = mapRef.current
+    if (!map) {
+      return
+    }
+    const hidden: string[] = []
+    try {
+      for (const a of galleryAnchorsRef.current) {
+        if (isBehindGlobe(map, a.lng, a.lat)) {
+          hidden.push(a.id)
+        }
+      }
+    } catch {
+      return
+    }
+    const key = hidden.sort().join('|')
+    setBehindGlobeKey(current => (current === key ? current : key))
+  }, [])
+  const behindGlobeFrame = useRef(0)
+  const scheduleBehindGlobe = useCallback(() => {
+    if (behindGlobeFrame.current) {
+      return
+    }
+    behindGlobeFrame.current = requestAnimationFrame(() => {
+      behindGlobeFrame.current = 0
+      updateBehindGlobe()
+    })
+  }, [updateBehindGlobe])
+  useEffect(() => {
+    updateBehindGlobe()
+  }, [galleryAnchors, updateBehindGlobe])
+  useEffect(() => () => cancelAnimationFrame(behindGlobeFrame.current), [])
+  const behindGlobe = useMemo(
+    () => new Set(behindGlobeKey ? behindGlobeKey.split('|') : []),
+    [behindGlobeKey],
+  )
 
   // fall back to one card per story until the map can project coordinates
   const visibleClusters: GalleryCluster[] =
@@ -859,7 +959,11 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
       // cursor={cursor}
       interactiveLayerIds={interactiveLayerIds}
       onLoad={onMapLoad}
-      onMoveEnd={() => computeClustersRef.current()}
+      onMove={scheduleBehindGlobe}
+      onMoveEnd={() => {
+        computeClustersRef.current()
+        updateBehindGlobe()
+      }}
       onMoveStart={() => setCollapseSignal(c => c + 1)}
       onResize={() => computeClustersRef.current()}
       // onMouseMove={onHover}
@@ -936,7 +1040,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
         galleryEntrance?.phase !== 'hidden' &&
         visibleClusters.map(cluster => {
           const anchor = galleryAnchors.find(a => a.id === cluster.leaderId)
-          if (!anchor) {
+          if (!anchor || behindGlobe.has(anchor.id)) {
             return null
           }
           const members = cluster.members.flatMap(member => {
@@ -945,7 +1049,11 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
               ? [
                   {
                     story: a.story,
-                    offset: member.offset,
+                    // offsets are screen px, the cluster is drawn scaled
+                    offset: [
+                      member.offset[0] / cardScale,
+                      member.offset[1] / cardScale,
+                    ] as [number, number],
                     onSelect: () =>
                       startStoryTransition(a.feature, {
                         id: a.id,
@@ -975,6 +1083,15 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
                       : 1,
               }}
             >
+              <div
+                data-gallery-cluster=""
+                style={{
+                  // the cluster root is a zero-size box on the location
+                  transform: `scale(${cardScale})`,
+                  transformOrigin: '0 0',
+                  transition: 'transform 300ms ease-out',
+                }}
+              >
               <ErrorBoundary name="GalleryStoryCluster">
                 <GalleryStoryCluster
                   cardHeight={cardSize.height}
@@ -1005,6 +1122,7 @@ function ViewerViewInner({ inputStories }: ViewerViewProps) {
                   }
                 />
               </ErrorBoundary>
+              </div>
             </Marker>
           )
         })}

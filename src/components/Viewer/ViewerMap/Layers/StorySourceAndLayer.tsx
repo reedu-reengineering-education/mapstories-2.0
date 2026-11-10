@@ -136,7 +136,14 @@ export default function StorySourceLayer({
         }
         const id = m.properties.id.toString()
         return (
-          <Source data={m} id={'linesource' + i} key={'linesource' + i} type="geojson">
+          // key/id must be tied to the story id, not the index: react-map-gl
+          // throws "layer id changed" if a mounted <Layer> gets a new id
+          <Source
+            data={m}
+            id={'linesource' + id}
+            key={'linesource' + id}
+            type="geojson"
+          >
             <Layer
               id={id + 'normal'}
               layout={{

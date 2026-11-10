@@ -21,7 +21,31 @@ interface MobileControlsProps {
   tags: string[]
 }
 
-export function MobileControls({ slug, page, story, tags: _tags }: MobileControlsProps) {
+// Same breakpoints as the drawer's `md:hidden mobile-landscape:hidden`.
+const HIDDEN_QUERY =
+  '(min-width: 768px), (orientation: landscape) and (max-height: 600px)'
+
+// The drawer is a (modal) Radix layer even when hidden via CSS. Mounted on
+// desktop it locks `body` pointer events while being the only "clickable"
+// layer – and that layer is invisible. Only mount it where it is shown.
+function useShowMobileDrawer() {
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    const mql = window.matchMedia(HIDDEN_QUERY)
+    const update = () => setShow(!mql.matches)
+    update()
+    mql.addEventListener('change', update)
+    return () => mql.removeEventListener('change', update)
+  }, [])
+  return show
+}
+
+export function MobileControls(props: MobileControlsProps) {
+  const show = useShowMobileDrawer()
+  return show ? <MobileControlsDrawer {...props} /> : null
+}
+
+function MobileControlsDrawer({ slug, page, story, tags: _tags }: MobileControlsProps) {
   const [open, setOpen] = useState(true)
   const [snap, setSnap] = useState<number | string | null>(0.55)
   const [currentStep, setCurrentStep] = useState<any>(null)
