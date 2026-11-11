@@ -1,3 +1,7 @@
+const mapTilerKey = encodeURIComponent(
+  process.env.NEXT_PUBLIC_MAPTILER_KEY || '',
+)
+
 export const MAP_STYLES = {
   streets: {
     label: 'Straßenkarte',
@@ -5,11 +9,11 @@ export const MAP_STYLES = {
   },
   satellite: {
     label: 'Satellit',
-    url: 'mapbox://styles/prefect42/cmvtf3xda006d01s27ybkg6un',
+    url: `https://api.maptiler.com/maps/satellite/style.json?key=${mapTilerKey}`,
   },
   hybrid: {
     label: 'Satellit mit Beschriftung',
-    url: 'mapbox://styles/mapbox/satellite-streets-v12',
+    url: `https://api.maptiler.com/maps/hybrid/style.json?key=${mapTilerKey}`,
   },
   light: {
     label: 'Helle Karte',
