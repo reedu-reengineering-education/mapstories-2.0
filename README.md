@@ -59,6 +59,27 @@ tt
    yarn dev
    ```
 
+The separate MapStories admin interface is optional and excluded from the default
+Docker Compose startup. To include it, authenticate with `docker login ghcr.io`
+using an account and token with read access to the admin image, configure
+`.adminenv`, and run:
+
+```sh
+docker compose --profile admin up -d
+```
+
+### Satellite maps
+
+The satellite and satellite-with-labels views use MapTiler Cloud. Set
+`NEXT_PUBLIC_MAPTILER_KEY` in `.env` before starting or building the app.
+Street and light maps still use `NEXT_PUBLIC_MAPBOX_TOKEN`.
+
+MapTiler's [Free plan](https://www.maptiler.com/cloud/pricing/) supports testing
+and non-commercial use, with 100,000 API requests per month when using our
+third-party map renderer. On the Free plan, access pauses at the quota rather
+than incurring overage charges. Keep the MapTiler logo and source attribution
+visible. No paid plan or account setting is changed by this integration.
+
 ## 🤝 Contributing
 
 To contribute:
