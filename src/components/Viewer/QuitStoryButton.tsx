@@ -1,13 +1,14 @@
 import { Cross1Icon } from '@radix-ui/react-icons'
-import { Button } from '../Elements/Button'
 import { usePathname, useRouter } from 'next/navigation'
 import { cx } from 'class-variance-authority'
 
 type Props = {
   slug: string
-  size?: 'xs' | 's' | 'm'
+  // when set, renders icon + text instead of an icon-only button
+  label?: string
+  className?: string
 }
-export default function QuitStoryButton({ slug, size }: Props) {
+export default function QuitStoryButton({ label, className }: Props) {
   const path = usePathname()
   const router = useRouter()
 
@@ -20,19 +21,18 @@ export default function QuitStoryButton({ slug, size }: Props) {
     }
   }
   return (
-    <Button
-      aria-label="Restart Story"
-      className="p-10 hover:bg-slate-100"
+    <button
+      aria-label="Quit Story"
+      className={cx(
+        'flex h-9 items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors hover:bg-slate-100',
+        label ? 'px-3' : 'w-9',
+        className,
+      )}
       onClick={() => onClose()}
-      variant="noStyle"
+      title="Quit Story"
     >
-      <Cross1Icon
-        className={cx(
-          size == 'xs' ? 'h-5 w-5' : '',
-          size == 's' ? 'h-10 w-10' : '',
-          size == 'm' ? 'h-60 w-60' : '',
-        )}
-      />
-    </Button>
+      <Cross1Icon className="h-5 w-5" />
+      {label && <span>{label}</span>}
+    </button>
   )
 }

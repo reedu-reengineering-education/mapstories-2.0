@@ -11,9 +11,11 @@
   "cancel": "Abbrechen",
   "abort": "Abbrechen",
   "upload": "Datei",
+  "title": "Titel",
   "embed": "Link",
   "yes": "Ja",
   "delete": "Löschen",
+  "create_text": "Text erstellen",
   "contentUpdated": "Dein Inhalt wurde aktualisiert.",
   "contentCreated": "Dein Inhalt wurde erstellt.",
   "contentDeleted": "Dein Inhalt wurde gelöscht.",
@@ -30,5 +32,15 @@
   "dataUpload": "Hier kannst du eine Datei hochladen.",
   "source": "Quelle",
   "edit": "Bearbeiten",
-  "update": "Aktualisieren"
+  "update": "Aktualisieren",
+  "back": "Zurück",
+  "bold": "Fett",
+  "italic": "Kursiv",
+  "code": "Code",
+  "link": "Link",
+  "table": "Tabelle",
+  "list": "Liste",
+  "help": "Hilfe",
+  "uploadAction": "Hochladen",
+  "contentNotUpdated": "Dein Inhalt wurde nicht aktualisiert. Bitte versuche es erneut."
 }

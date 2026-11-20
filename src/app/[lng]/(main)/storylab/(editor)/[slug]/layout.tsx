@@ -6,10 +6,13 @@ import { InverseNavbar } from '@/src/components/Layout/InverseNavbar'
 import { PreviewButton } from '@/src/components/PreviewButton'
 import EditMapstoryView from '@/src/components/Studio/Mapstories/EditMapstoryView'
 import SettingsModal from '@/src/components/Studio/Mapstories/SettingsModal'
+import LanguageBar from '@/src/components/Studio/Mapstories/LanguageBar'
+import TranslationBanner from '@/src/components/Studio/Mapstories/TranslationBanner'
+import { storyEditorWhere } from '@/src/lib/story/storyAccess'
 import { authOptions } from '@/src/lib/auth'
 import { db } from '@/src/lib/db'
 import { getCurrentUser } from '@/src/lib/session'
-import { ArrowLeftIcon, LinkIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { Story, User } from '@prisma/client'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
@@ -23,9 +26,18 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
   return await db.story.findFirst({
     where: {
       slug: slug,
-      ownerId: userId,
+      ...storyEditorWhere(userId),
     },
     include: {
+      translationOf: {
+        select: {
+          name: true,
+          slug: true,
+          language: true,
+          firstStepId: true,
+          ownerId: true,
+        },
+      },
       firstStep: {
         include: {
           content: true,
@@ -37,6 +49,27 @@ async function getStoryForUser(userId: User['id'], slug: Story['slug']) {
         },
       },
       theme: true,
+      group: {
+        include: {
+          stories: {
+            select: {
+              id: true,
+              slug: true,
+              name: true,
+              language: true,
+              firstStepId: true,
+              isTranslation: true,
+              ownerId: true,
+              steps: {
+                select: {
+                  id: true,
+                  position: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   })
 }
@@ -71,6 +104,14 @@ export default async function DashboardLayout({
     return notFound()
   }
 
+  const isOwner = story.ownerId === user.id
+  // original of a translation: the draft's source or the group's default story
+  const original = story.isTranslation
+    ? story.translationOf ??
+      story.group?.stories.find(s => !s.isTranslation) ??
+      null
+    : null
+
   return (
     <>
       <div className="absolute left-0 top-0 z-50 w-full bg-opacity-50 bg-gradient-to-b from-zinc-800 to-transparent">
@@ -78,19 +119,7 @@ export default async function DashboardLayout({
           <div className="flex h-16 items-center justify-between py-4">
             <InverseNavbar user={user} userHasStories={storyCount > 0}>
               <div className="flex space-x-2">
-                <Button
-                  className="mr-20 hidden h-8 bg-zinc-700 opacity-90 hover:bg-zinc-100 lg:flex"
-                  startIcon={<LinkIcon className="w-5" />}
-                >
-                  {' '}
-                  <a
-                    href="https://www.taskcards.de/#/board/1b41a521-922e-471c-949b-b0d132c903c7/view "
-                    target="_blank"
-                  >
-                    {' '}
-                    Feedback
-                  </a>{' '}
-                </Button>{' '}
+
                 <div className="hidden lg:flex lg:flex-row lg:gap-2">
                   <LangSwitcher />
                   {user ? (
@@ -117,8 +146,20 @@ export default async function DashboardLayout({
               {t('back')}
             </Button>
           </Link>
-          <SettingsModal shadow storyId={story.id} themes={themes} />
+          <SettingsModal
+            isOwner={isOwner}
+            shadow
+            storyId={story.id}
+            themes={themes}
+          />
           <PreviewButton story={story} />
+          <LanguageBar isOwner={isOwner} story={story} />
+          {original && (
+            <TranslationBanner
+              canEditOriginal={original.ownerId === user.id}
+              original={original}
+            />
+          )}
         </div>
       </div>
 

@@ -20,5 +20,9 @@
   "changePassword": "Passwort ändern",
   "changeFor": "Passwort ändern für",
   "newPassword": "Neues Passwort",
-  "newPasswordConfirm": "Neues Passwort wiederholen"
+  "newPasswordConfirm": "Neues Passwort wiederholen",
+  "email": "E-Mail",
+  "nameRequired": "Name ist erforderlich.",
+  "emailRequired": "E-Mail ist erforderlich.",
+  "emailInvalid": "Bitte eine gültige E-Mail-Adresse eingeben."
 }

@@ -1,4 +1,11 @@
 {
   "settings": "Settings",
-  "edit your account": "Edit your account"
+  "edit your account": "Edit your account",
+  "privacySettings": "Privacy Settings",
+  "analytics": "Analytics",
+  "gallery": "Gallery",
+  "bfdwGallery": "BFDW Gallery",
+  "duplicateStory": "Duplicate Story",
+  "transferStory": "Transfer Story",
+  "deleteStory": "Delete Story"
 }

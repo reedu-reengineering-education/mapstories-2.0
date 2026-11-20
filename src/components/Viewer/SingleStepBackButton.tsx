@@ -1,13 +1,12 @@
 'use client'
 
 import { useBoundStore } from '@/src/lib/store/store'
-import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { useEffect } from 'react'
 import { StoryStep } from '@prisma/client'
 import { ChevronLeftIcon } from '@radix-ui/react-icons'
-import { Button } from '../Elements/Button'
 import { cva, cx } from 'class-variance-authority'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 type Props = {
   slug: string
@@ -19,8 +18,8 @@ type Props = {
 export const buttonStyle = cva('', {
   variants: {
     variant: {
-      primary: 'h-20 w-20 lg:h-10 lg:w-10',
-      navbar: 'h-10 w-10',
+      primary: 'h-6 w-6',
+      navbar: 'h-6 w-6',
     },
   },
   defaultVariants: {
@@ -29,8 +28,6 @@ export const buttonStyle = cva('', {
 })
 
 export function SingleStepBackButton({ slug, page, story, variant }: Props) {
-  const router = useRouter()
-  const path = usePathname()
   const setStoryID = useBoundStore(state => state.setStoryID)
   // const { story } = useStory(slug)
 
@@ -52,11 +49,8 @@ export function SingleStepBackButton({ slug, page, story, variant }: Props) {
 
   function prevStep() {
     // const length = story?.steps?.length
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-
     if (parseInt(page) > 0) {
-      router.push(`/${pathLocal}/${slug}/${page ? parseInt(page) - 1 : '1'}`)
+      navigateToStep(parseInt(page) - 1)
     }
   }
 
@@ -68,7 +62,9 @@ export function SingleStepBackButton({ slug, page, story, variant }: Props) {
     <>
       <div className="">
         {page != 'start' && (
-          <Button
+          <button
+            aria-label="Previous"
+            className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-button-color bg-white text-button-color shadow-sm transition-opacity hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
             disabled={
               parseInt(page) ===
               Math.min.apply(
@@ -77,12 +73,9 @@ export function SingleStepBackButton({ slug, page, story, variant }: Props) {
               )
             }
             onClick={() => prevStep()}
-            size="verysm"
-            value="previous"
-            variant={variant === 'navbar' ? 'inverse' : 'inverse'}
           >
             <ChevronLeftIcon className={cx(buttonStyle({ variant }))} />
-          </Button>
+          </button>
         )}
       </div>
     </>

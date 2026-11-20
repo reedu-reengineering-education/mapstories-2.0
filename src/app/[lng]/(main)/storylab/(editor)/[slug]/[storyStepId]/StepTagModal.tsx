@@ -11,6 +11,8 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { TagBadge } from '@/src/components/Studio/Mapstories/TagBadge'
 import useStep from '@/src/lib/api/step/useStep'
 import { toast } from '@/src/lib/toast'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 type Props = {
   trigger: React.ReactElement
   storyStepId: string
@@ -24,6 +26,8 @@ export default function StepTagModal({ trigger, storyStepId, tags }: Props) {
   const [loading, setLoading] = useState(false)
 
   const { updateStep } = useStep(storyStepId)
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'step')
 
   const onSave = async () => {
     setLoading(true)
@@ -34,13 +38,13 @@ export default function StepTagModal({ trigger, storyStepId, tags }: Props) {
         tags: tagsTmp,
       })
       toast({
-        message: 'Tags updated',
+        message: t('tagsUpdated'),
         type: 'success',
       })
     } catch (e) {
       console.log(e)
       toast({
-        message: 'Something went wrong',
+        message: t('somethingWrong'),
         type: 'error',
       })
     }

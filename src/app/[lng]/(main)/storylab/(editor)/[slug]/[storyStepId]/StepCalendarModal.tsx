@@ -54,7 +54,7 @@ export default function StepCalendarModal({ storyStepId }: Props) {
       setOpen(false)
     } catch (e) {
       return toast({
-        title: 'Wrong',
+        title: t('setDateErrorTitle'),
         message: t('setDateError'),
         type: 'error',
       })

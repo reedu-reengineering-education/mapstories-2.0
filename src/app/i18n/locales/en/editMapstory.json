@@ -3,5 +3,8 @@
   "click_on_map_to_set_marker": "Click on the map or use the search function to add a marker.",
   "move_the_red_marker": "Click on the map or use the search function to move the red marker.",
   "noMobile": "Not optimized for smartphones or very small devices",
-  "noMobileText": "MapStory is not optimized for smartphones or very small devices. Please use a desktop computer or a tablet in landscape mode."
+  "noMobileText": "MapStory is not optimized for smartphones or very small devices. Please use a desktop computer or a tablet in landscape mode.",
+  "titleSlideNoMarkerTitle": "This is your title slide.",
+  "titleSlideNoMarker": "You cannot set a marker here.",
+  "searchLocation": "Search"
 }

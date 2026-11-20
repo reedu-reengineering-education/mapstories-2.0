@@ -45,5 +45,6 @@
   "resetPassword": "Reset password",
   "resetPasswordMessage": "We have sent you a link to reset your password.",
   "passwordSend": "Password sent. Please check your email inbox.",
-  "mailSend": "Email sent"
+  "mailSend": "Email sent",
+  "resetPasswordError": "An error occurred while resetting your password."
 }

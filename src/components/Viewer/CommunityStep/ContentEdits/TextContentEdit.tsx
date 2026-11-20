@@ -19,6 +19,8 @@ import {
 } from 'lucide-react'
 import { commands } from '@uiw/react-md-editor'
 import { ToolbarButton } from '@/src/components/Elements/MarkdownToolbar'
+import { useTranslation } from '@/src/app/i18n/client'
+import { useBoundStore } from '@/src/lib/store/store'
 
 interface TextContentEditProps extends React.HTMLAttributes<HTMLFormElement> {
   stepItem: any
@@ -37,6 +39,8 @@ export function TextContentEdit({
   setContentType,
   setShowModal,
 }: TextContentEditProps) {
+  const lng = useBoundStore(state => state.language)
+  const { t } = useTranslation(lng, 'editModal')
   const [textValue, setTextValue] = useState<string | undefined>(
     stepItem ? stepItem.content : '',
   )
@@ -84,7 +88,7 @@ export function TextContentEdit({
                     return (
                       <ToolbarButton
                         icon={<Bold className="h-4 w-4" />}
-                        label="Fett"
+                        label={t('bold')}
                         onClick={() => executeCommand(command)}
                       />
                     )
@@ -92,7 +96,7 @@ export function TextContentEdit({
                     return (
                       <ToolbarButton
                         icon={<Italic className="h-4 w-4" />}
-                        label="Kursiv"
+                        label={t('italic')}
                         onClick={() => executeCommand(command)}
                       />
                     )
@@ -100,7 +104,7 @@ export function TextContentEdit({
                     return (
                       <ToolbarButton
                         icon={<HeadingIcon className="h-4 w-4" />}
-                        label="Überschrift"
+                        label={t('heading')}
                         onClick={() => executeCommand(command)}
                       />
                     )
@@ -108,7 +112,7 @@ export function TextContentEdit({
                     return (
                       <ToolbarButton
                         icon={<Code className="h-4 w-4" />}
-                        label="Code"
+                        label={t('code')}
                         onClick={() => executeCommand(command)}
                       />
                     )
@@ -116,7 +120,7 @@ export function TextContentEdit({
                     return (
                       <ToolbarButton
                         icon={<Link className="h-4 w-4" />}
-                        label="Link"
+                        label={t('link')}
                         onClick={() => executeCommand(command)}
                       />
                     )
@@ -124,7 +128,7 @@ export function TextContentEdit({
                     return (
                       <ToolbarButton
                         icon={<Table className="h-4 w-4" />}
-                        label="Tabelle"
+                        label={t('table')}
                         onClick={() => executeCommand(command)}
                       />
                     )
@@ -132,7 +136,7 @@ export function TextContentEdit({
                     return (
                       <ToolbarButton
                         icon={<List className="h-4 w-4" />}
-                        label="Liste"
+                        label={t('list')}
                         onClick={() => executeCommand(command)}
                       />
                     )
@@ -140,7 +144,7 @@ export function TextContentEdit({
                     return (
                       <ToolbarButton
                         icon={<HelpCircleIcon className="h-4 w-4" />}
-                        label="Liste"
+                        label={t('help')}
                         onClick={() => executeCommand(command)}
                       />
                     )
@@ -158,9 +162,9 @@ export function TextContentEdit({
       </div>
       <div className="flex justify-between">
         <Button onClick={() => setContentType('addSlide')} variant={'inverse'}>
-          Zurück
+          {t('back')}
         </Button>
-        <Button onClick={() => handleSubmit()}>Ändern</Button>
+        <Button onClick={() => handleSubmit()}>{t('save')}</Button>
       </div>{' '}
     </div>
   )

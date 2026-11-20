@@ -2,7 +2,7 @@
 
 import { SlideContent, Story, StoryStep } from '@prisma/client'
 import TimelineChart from './TimelineChart'
-import { usePathname, useRouter } from 'next/navigation'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 type TimelineStory = Story & {
   steps: (StoryStep & {
@@ -24,8 +24,6 @@ export default function TimelineChartWrapper({
   activeIndex: number
   story: TimelineStory
 }) {
-  const router = useRouter()
-  const path = usePathname()
   return (
     <TimelineChart
       activeEvent={story.steps[activeIndex]?.id}
@@ -33,9 +31,7 @@ export default function TimelineChartWrapper({
       fitButton
       onEventClick={event => {
         const idx = story.steps.findIndex(s => s.timestamp === event.timestamp)
-        const pathLocal =
-          path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-        router.push(`/${pathLocal}/${story.id}/${idx}`)
+        navigateToStep(idx)
       }}
       stepButtons
       story={story}

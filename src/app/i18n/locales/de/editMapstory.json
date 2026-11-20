@@ -3,5 +3,8 @@
   "click_on_map_to_set_marker": "Klicke auf die Karte oder nutze die Suchfunktion, um einen Marker hinzuzufügen",
   "move_the_red_marker": "Klicke auf die Karte oder nutze die Suchfunktion um den roten Marker zu verschieben.",
   "noMobile": "Nicht optimiert für Smartphones oder kleine Geräte",
-  "noMobileText": "MapStory ist nicht für Smartphones oder kleine Geräte optimiert. Bitte nutze einen Desktop-Computer oder ein Tablet, um MapStory zu nutzen."
+  "noMobileText": "MapStory ist nicht für Smartphones oder kleine Geräte optimiert. Bitte nutze einen Desktop-Computer oder ein Tablet, um MapStory zu nutzen.",
+  "titleSlideNoMarkerTitle": "Dies ist deine Titelfolie.",
+  "titleSlideNoMarker": "Hier kannst du keinen Marker setzen.",
+  "searchLocation": "Suche"
 }

@@ -13,6 +13,9 @@ import ShowStepWithContents from './DraggableSlideViewer/ShowStepWithContents'
 import { EmbedContent } from '../../Elements/ContentCreates/EmbedContent'
 import { MediaContent } from '@/src/components/Elements/ContentCreates/MediaContent'
 import useStory from '@/src/lib/api/story/useStory'
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
 
 // ContentSwitcher component to handle transitions between different content types
 export default function ContentSwitcher({
@@ -37,6 +40,11 @@ export default function ContentSwitcher({
   setCaptchaValidated,
 }: any) {
   const { story } = useStory(storyId)
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'communityStep')
 
 
 
@@ -53,7 +61,7 @@ export default function ContentSwitcher({
         <div>
           <InitialView />
           <div className="flex flex-row justify-end gap-4">
-            <Button variant={'inverse'}>Abbrechen</Button>
+            <Button variant={'inverse'}>{t('cancel')}</Button>
             <Button
               onClick={() =>
                 story?.mode === 'TIMELINE'
@@ -61,7 +69,7 @@ export default function ContentSwitcher({
                   : setContentType('addSlide')
               }
             >
-              Weiter
+              {t('next')}
             </Button>
           </div>
         </div>
@@ -77,10 +85,10 @@ export default function ContentSwitcher({
           <DateSelectionView date={date} setDate={setDate} />
           <div className="flex justify-between">
             <Button onClick={() => setContentType('intro')} variant={'inverse'}>
-              Zurück
+              {t('back')}
             </Button>
             <Button disabled={false} onClick={() => setContentType('addSlide')}>
-              Weiter
+              {t('next')}
             </Button>
           </div>
         </div>
@@ -108,10 +116,10 @@ export default function ContentSwitcher({
               }
               variant={'inverse'}
             >
-              Zurück
+              {t('back')}
             </Button>
             <Button onClick={() => setContentType('addLocation')}>
-              Weiter
+              {t('next')}
             </Button>
           </div>
         </div>
@@ -132,7 +140,7 @@ export default function ContentSwitcher({
               onClick={() => setContentType('addSlide')}
               variant={'inverse'}
             >
-              Zurück
+              {t('back')}
             </Button>
           </div>
         </div>
@@ -152,10 +160,10 @@ export default function ContentSwitcher({
               onClick={() => setContentType('addSlide')}
               variant={'inverse'}
             >
-              Zurück
+              {t('back')}
             </Button>
             <Button disabled={false} onClick={() => handleAddText()}>
-              Erstellen
+              {t('create')}
             </Button>
           </div>
         </div>
@@ -178,13 +186,13 @@ export default function ContentSwitcher({
               onClick={() => setContentType('addSlide')}
               variant={'inverse'}
             >
-              Zurück
+              {t('back')}
             </Button>
             <Button
               disabled={captchaValid}
               onClick={() =>handleAddMedia()}
             >
-              Erstellen
+              {t('create')}
             </Button>
           </div>
         </div>
@@ -204,10 +212,10 @@ export default function ContentSwitcher({
               onClick={() => setContentType('addSlide')}
               variant={'inverse'}
             >
-              Zurück
+              {t('back')}
             </Button>
             <Button disabled={false} onClick={() => handleAddEmbed()}>
-              Erstellen
+              {t('create')}
             </Button>
           </div>
         </div>

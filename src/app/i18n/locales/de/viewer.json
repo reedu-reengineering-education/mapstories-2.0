@@ -8,5 +8,11 @@
   "apply": "Anwenden",
   "noSteps": "Mit diesen Filtern wurden keine Ergebnisse gefunden.",
   "landscapeModeTitle": "Handy in Horizontalmodus drehen",
-  "landscapeModeText": "Der Viewer in Mapstories ist für das Handy im Horizontalmodus optimiert, bitte drehen Sie das Handy!"
+  "landscapeModeText": "Der Viewer in Mapstories ist für das Handy im Horizontalmodus optimiert, bitte drehen Sie das Handy!",
+  "communityStepAdded": "Community-Station hinzugefügt.",
+  "mediaAdded": "Medium hinzugefügt.",
+  "mediaNotAdded": "Medium konnte nicht hinzugefügt werden.",
+  "contentDeleted": "Inhalt gelöscht.",
+  "previous": "Zurück",
+  "next": "Weiter"
 }

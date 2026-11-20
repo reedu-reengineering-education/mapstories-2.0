@@ -1,119 +1,136 @@
 import { useBoundStore } from '@/src/lib/store/store'
 import { StepMarker } from '@/src/types/Stepmarker'
-import { usePathname, useRouter } from 'next/navigation'
-import { Fragment, useEffect, useState } from 'react'
-import { CircleLayer, Layer, Marker, Source } from 'react-map-gl'
+import { Marker } from 'react-map-gl'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
-const triggerHoverLayerStyle: CircleLayer = {
-  id: 'point',
-  type: 'circle',
-  paint: {
-    'circle-radius': 30,
-    'circle-opacity': 0,
-    'circle-translate': [0, -12],
-  },
-}
+// fallback, same as the gallery default accent
+const DEFAULT_ACCENT = '#18325b'
+const COMMUNITY_COLOR = '#16a34a'
 
 type Props = {
   markers: StepMarker[]
+  // accent color of the story (theme / topic), see getStoryAccent()
+  color?: string
 }
 
-export default function Markers({ markers }: Props) {
-  const [triggerHoverLayerData, setTriggerHoverLayerData] = useState<
-    GeoJSON.FeatureCollection | undefined
-  >()
+type MarkerState = 'active' | 'visited' | 'upcoming'
 
-  const path = usePathname()
+function getMarkerState(
+  position: number,
+  selectedStepIndex: number | undefined,
+): MarkerState {
+  if (selectedStepIndex === undefined || Number.isNaN(selectedStepIndex)) {
+    return 'upcoming'
+  }
+  if (position === selectedStepIndex) {
+    return 'active'
+  }
+  return position < selectedStepIndex ? 'visited' : 'upcoming'
+}
+
+/**
+ * Numbered station markers of the opened story. Same look as the stations of
+ * the gallery / overview preview: the active step is filled with the story
+ * accent and pulses, visited steps are muted, upcoming ones are outlined.
+ */
+export default function Markers({ markers, color }: Props) {
   const selectedStepIndex = useBoundStore(state => state.selectedStepIndex)
-  const router = useRouter()
+  const accent = color || DEFAULT_ACCENT
 
-  useEffect(() => {
-    // TODO: Either use splitmarker function here or make sure only valid stories make it to the viewer?
-    // const markerGroups = splitMarkers(markers);
-
-    // this layer triggers the onhover method
-    setTriggerHoverLayerData({
-      type: 'FeatureCollection',
-      features:
-        markers?.map(m => ({
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [m.longitude, m.latitude],
-          },
-          properties: {
-            stepId: m.stepId,
-          },
-        })) ?? [],
-    })
-  }, [markers])
-
-  // Berechnung der Markerfarbe basierend auf `selectedStepIndex`
-  const getMarkerColor = (m: StepMarker) => {
-    if (selectedStepIndex === undefined) {
-      return m.color
-    }
-    if (selectedStepIndex === m.position) {
-      return 'var(--active-color-border)'
-    }
-    if (m.tags?.includes('community')) {
-      return 'green'
-    }
-    if (selectedStepIndex > m.position) {
-      return 'var(--inactive-color-border)'
-    }
-    if (selectedStepIndex < m.position) {
-      return m.color
-    }
-    return m.color
+  function openStep(position: number) {
+    navigateToStep(position)
   }
 
   return (
     <>
-      {markers.map((m, i) => (
-        <Fragment key={i + '_fragment1'}>
-          {m && (
-            <Fragment key={i + 'fragment2'}>
-              <Marker
-                {...m}
-                color={getMarkerColor(m)}
-                key={`${m.position}_${selectedStepIndex}_marker`}
-                onClick={() => {
-                  const pathLocal =
-                    path?.split('/').splice(2, 4).join('/') ??
-                    'gallery/all/story/'
-                  router.push(`/${pathLocal}/${m.position}`)
-                }}
-                // rotationAlignment='horizon'
-                style={{
-                  zIndex: selectedStepIndex == m.position ? 10 : 0,
-                  padding: '10px',
-                  cursor: 'pointer',
-                }}
-              ></Marker>
-              <Marker
-                {...m}
-                key={i + '_text'}
-                offset={[0, 18]}
-                // onClick={() => onClick(m)}
-                style={{
-                  padding: '10px',
-                }}
+      {markers.map(m => {
+        if (!m) {
+          return null
+        }
+        const state = getMarkerState(m.position, selectedStepIndex)
+        const isActive = state === 'active'
+        const isCommunity = !!m.tags?.includes('community')
+        const markerColor = isCommunity ? COMMUNITY_COLOR : accent
+        const number = m.position + 1
+
+        return (
+          <Marker
+            anchor="center"
+            key={m.stepId ?? m.position}
+            latitude={m.latitude}
+            longitude={m.longitude}
+            onClick={e => {
+              e.originalEvent?.stopPropagation()
+              openStep(m.position)
+            }}
+            style={{ zIndex: isActive ? 10 : state === 'upcoming' ? 2 : 1 }}
+          >
+            <div
+              aria-current={isActive ? 'step' : undefined}
+              aria-label={m.title ? `${number}. ${m.title}` : `${number}`}
+              className="group relative flex cursor-pointer items-center justify-center"
+              role="button"
+            >
+              {isActive && (
+                <span
+                  className="viewer-station-pulse pointer-events-none absolute inset-0 rounded-full"
+                  style={{ backgroundColor: markerColor }}
+                />
+              )}
+              <div
+                className={`relative flex h-10 w-10 items-center justify-center rounded-full border-[3px] text-base font-bold shadow-md transition-all duration-300 ease-out group-hover:scale-110 ${
+                  isActive ? 'border-white text-white shadow-lg' : 'bg-white'
+                }`}
+                style={
+                  isActive
+                    ? { backgroundColor: markerColor }
+                    : state === 'visited'
+                      ? {
+                          borderColor: '#cbd5e1',
+                          color: '#94a3b8',
+                        }
+                      : { borderColor: markerColor, color: markerColor }
+                }
               >
-                {selectedStepIndex == m.position && (
-                  <h3 className="label-shadow" key={i + 'h3'}>
-                    {m.position + 1}. {m.title}{' '}
-                  </h3>
-                )}
-                {selectedStepIndex != m.position && <h3 key={i + 'h3'}></h3>}
-              </Marker>
-            </Fragment>
-          )}
-        </Fragment>
-      ))}
-      <Source data={triggerHoverLayerData} type="geojson">
-        <Layer {...triggerHoverLayerStyle} id="step-hover" />
-      </Source>
+                {number}
+              </div>
+
+              {m.title && (
+                // card-style label in the site design (border + offset
+                // shadow), so it can't be mistaken for map place labels
+                <div
+                  className={`pointer-events-none absolute left-1/2 top-full mt-3 -translate-x-1/2 transition-all duration-200 ${
+                    isActive
+                      ? 'translate-y-0 opacity-100'
+                      : '-translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100'
+                  }`}
+                >
+                  {/* little pointer connecting label and marker */}
+                  <span
+                    className="absolute -top-[7px] left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l-2 border-t-2 bg-white"
+                    style={{ borderColor: markerColor }}
+                  />
+                  <span
+                    className="relative flex max-w-[240px] items-center gap-2 whitespace-nowrap rounded-lg border-2 bg-white py-1 pl-1 pr-3 text-sm font-bold text-slate-900"
+                    style={{
+                      borderColor: markerColor,
+                      boxShadow: `3px 3px 0 ${markerColor}`,
+                    }}
+                  >
+                    <span
+                      className="flex h-5 min-w-[20px] shrink-0 items-center justify-center rounded px-1 text-[11px] text-white"
+                      style={{ backgroundColor: markerColor }}
+                    >
+                      {number}
+                    </span>
+                    <span className="truncate">{m.title}</span>
+                  </span>
+                </div>
+              )}
+            </div>
+          </Marker>
+        )
+      })}
     </>
   )
 }

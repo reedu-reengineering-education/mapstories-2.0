@@ -12,8 +12,10 @@
   "abort": "Cancel",
   "upload": "File",
   "embed": "Link",
+  "title": "Title",
   "yes": "Yes",
   "delete": "Delete",
+  "create_text": "Create text",
   "contentUpdated": "Your content has been updated.",
   "contentCreated": "Your content has been created.",
   "contentDeleted": "Your content has been deleted.",
@@ -30,5 +32,15 @@
   "dataUpload": "Upload a file here.",
   "source": "Source",
   "edit": "Edit",
-  "update": "Update"
+  "update": "Update",
+  "back": "Back",
+  "bold": "Bold",
+  "italic": "Italic",
+  "code": "Code",
+  "link": "Link",
+  "table": "Table",
+  "list": "List",
+  "help": "Help",
+  "uploadAction": "Upload",
+  "contentNotUpdated": "Your content has not been updated. Please try again."
 }

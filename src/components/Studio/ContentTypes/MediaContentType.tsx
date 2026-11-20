@@ -188,7 +188,7 @@ export function MediaContentEdit({
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
+        title: t('somethingWrong'),
         message: error.message,
         type: 'error',
       })

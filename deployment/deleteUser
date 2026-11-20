@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Deletes a user (and optionally their stories) by email.
+# Usage: ./deleteUser user@example.com
+# Must be placed next to the docker-compose.yml that defines the "postgis" service.
+
+set -euo pipefail
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <email>" >&2
+  exit 1
+fi
+
+EMAIL="$1"
+cd "$(dirname "$0")"
+
+psql_run() {
+  # Email is passed as a psql variable (:'email') -> safely quoted, no SQL injection.
+  docker compose exec -T postgis sh -c 'e="$1"; shift; psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 -v email="$e" "$@"' sh "$EMAIL" "$@"
+}
+
+echo "== User =="
+USER_INFO=$(psql_run -At -F ' | ' <<'SQL'
+SELECT id, email, coalesce(name, '-'), role, created_at FROM users WHERE email = :'email';
+SQL
+)
+
+if [ -z "$USER_INFO" ]; then
+  echo "No user found with email: $EMAIL" >&2
+  exit 1
+fi
+echo "$USER_INFO"
+
+echo
+echo "== Stories owned by this user =="
+psql_run <<'SQL'
+SELECT s.id, s.name, s.slug, s.visibility
+FROM stories s JOIN users u ON u.id = s."ownerId"
+WHERE u.email = :'email';
+SQL
+
+read -r -p "Also delete these stories? [y/N] " DEL_STORIES
+read -r -p "Really delete user $EMAIL? Type 'yes' to confirm: " CONFIRM
+if [ "$CONFIRM" != "yes" ]; then
+  echo "Aborted."
+  exit 1
+fi
+
+if [[ "$DEL_STORIES" =~ ^[yYjJ]$ ]]; then
+  STORY_SQL='DELETE FROM stories WHERE "ownerId" = (SELECT id FROM users WHERE email = :'"'"'email'"'"');'
+else
+  STORY_SQL='-- stories kept (ownerId will be set to NULL)'
+fi
+
+psql_run <<SQL
+BEGIN;
+$STORY_SQL
+DELETE FROM verification_tokens WHERE identifier = :'email';
+DELETE FROM "PasswordResetToken" WHERE email = :'email';
+DELETE FROM users WHERE email = :'email';
+COMMIT;
+SQL
+
+echo "Done. User $EMAIL deleted."

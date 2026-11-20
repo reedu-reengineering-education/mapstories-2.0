@@ -4,6 +4,9 @@ import DraggableList from '../../../DraggableList'
 import { Button } from '../../../Elements/Button'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { SlideContentListEditItem } from './SlideContentListEditItem'
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
 type Props = {
   setContentType: (type: string) => void
   stepSuggestion: any
@@ -17,6 +20,11 @@ export default function ShowStepWithContents({
   setContentType,
   handleDeleteContent,
 }: Props) {
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'communityStep')
   const [content, setContent] = useState<SlideContent[]>()
 
   useEffect(() => {
@@ -62,7 +70,7 @@ export default function ShowStepWithContents({
             startIcon={<PlusIcon className="h-5"></PlusIcon>}
             variant={'inverse'}
           >
-            Add Content
+            {t('addContent')}
           </Button>
         </div>
       </div>

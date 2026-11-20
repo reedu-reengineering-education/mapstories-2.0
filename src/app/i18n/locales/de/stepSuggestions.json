@@ -4,5 +4,8 @@
   "accept": "Annehmen",
   "reject": "Ablehnen",
   "cancel": "Abbrechen",
-  "noSuggestions": "Du hast alle Vorschläge bearbeitet. Momentan sind keine Vorschläge der Community vorhanden."
+  "noSuggestions": "Du hast alle Vorschläge bearbeitet. Momentan sind keine Vorschläge der Community vorhanden.",
+  "suggestionRejected": "Vorschlag abgelehnt.",
+  "suggestionAccepted": "Vorschlag angenommen.",
+  "suggestionAcceptError": "Der Vorschlag konnte nicht angenommen werden."
 }

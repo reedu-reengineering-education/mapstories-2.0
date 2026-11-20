@@ -5,10 +5,47 @@ import { Drawer as DrawerPrimitive } from 'vaul'
 
 import { cx } from 'class-variance-authority'
 
+// Any other open Radix layer that legitimately locks the page.
+const OTHER_MODAL_LAYER = [
+  '[role="dialog"][data-state="open"]:not([data-vaul-drawer])',
+  '[role="alertdialog"][data-state="open"]',
+  '[role="menu"][data-state="open"]',
+  '[role="listbox"][data-state="open"]',
+].join(',')
+
+// vaul (1.1.x) does not forward `modal={false}` to the underlying Radix
+// Dialog, so the drawer is always a *modal* Radix layer that sets
+// `body { pointer-events: none }`. vaul only undoes that once via
+// requestAnimationFrame on mount/open; if Radix re-applies it later (e.g. on
+// a remount during step navigation) the page stays unclickable. Keep the body
+// clickable for as long as a non-modal drawer is open.
+function useNonModalBodyPointerEvents(enabled: boolean) {
+  React.useEffect(() => {
+    if (!enabled) {
+      return
+    }
+    const body = document.body
+    const release = () => {
+      if (
+        body.style.pointerEvents === 'none' &&
+        !document.querySelector(OTHER_MODAL_LAYER)
+      ) {
+        body.style.pointerEvents = ''
+      }
+    }
+    release()
+    const observer = new MutationObserver(release)
+    observer.observe(body, { attributes: true, attributeFilter: ['style'] })
+    return () => observer.disconnect()
+  }, [enabled])
+}
+
 function Drawer({
+  modal = true,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
-  return <DrawerPrimitive.Root data-slot="drawer" {...props} />
+  useNonModalBodyPointerEvents(!modal && props.open !== false)
+  return <DrawerPrimitive.Root data-slot="drawer" modal={modal} {...props} />
 }
 
 function DrawerTrigger({

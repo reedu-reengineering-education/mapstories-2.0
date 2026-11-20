@@ -4,5 +4,8 @@
   "accept": "Accepter",
   "reject": "Rejeter",
   "cancel": "Annuler",
-  "noSuggestions": "Vous avez traité toutes les suggestions. Actuellement, il n'y a pas de suggestions de la communauté disponibles."
+  "noSuggestions": "Vous avez traité toutes les suggestions. Actuellement, il n'y a pas de suggestions de la communauté disponibles.",
+  "suggestionRejected": "Suggestion refusée.",
+  "suggestionAccepted": "Suggestion acceptée.",
+  "suggestionAcceptError": "La suggestion n'a pas pu être acceptée."
 }

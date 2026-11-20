@@ -1,43 +1,31 @@
 import { PlayIcon } from '@radix-ui/react-icons'
-import { Button } from '../Elements/Button'
-import { usePathname, useRouter } from 'next/navigation'
-import { cx } from 'class-variance-authority'
-import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 type Props = {
   slug: string
-  size?: 'xs' | 's' | 'm'
+  label: string
 }
-export default function PlayStoryButton({ slug, size }: Props) {
+export default function PlayStoryButton({ slug, label }: Props) {
   const path = usePathname()
-  const router = useRouter()
   const pathLocal =
     path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-  function startStory() {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-
-    router.push(`${pathLocal}/${slug}/0`)
-  }
 
   return (
-    <Link
-      className="relative flex items-center"
+    <a
+      className="flex h-11 items-center gap-2 rounded-full bg-button-color pl-4 pr-6 font-medium text-white shadow-sm transition-opacity hover:opacity-90"
       href={`/${pathLocal}/${slug}/0`}
+      onClick={e => {
+        // plain clicks switch the step client-side; modifier clicks open a tab
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) {
+          return
+        }
+        e.preventDefault()
+        navigateToStep(0)
+      }}
     >
-      <Button
-        className="h-full hover:bg-slate-100"
-        size="sm"
-        variant={'noStyle'}
-      >
-        <PlayIcon
-          className={cx(
-            size == 'xs' ? 'h-5 w-5' : '',
-            size == 's' ? 'h-10 w-10' : '',
-            size == 'm' ? 'h-60 w-60' : '',
-          )}
-        ></PlayIcon>
-      </Button>
-    </Link>
+      <PlayIcon className="h-5 w-5" />
+      {label}
+    </a>
   )
 }

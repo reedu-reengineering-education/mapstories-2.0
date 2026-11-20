@@ -1,0 +1,22 @@
+{
+  "modalTitle": "Community-Station",
+  "addStep": "Station hinzufügen",
+  "defaultHeadline": "Deine Überschrift",
+  "intro": "Du kannst in dieser Mapstory eine Community-Station hinzufügen: Trag ein Datum ein, ergänze Text, Links und Medien, und verorte deinen Punkt auf der Weltkarte.",
+  "introReview": "Im nächsten Schritt prüfen die Autor*innen deinen Eintrag. Danach erscheint deine Community-Station in der Mapstory.",
+  "setLocation": "Setze einen Marker auf der Karte oder gib die Adresse in der Suchleiste ein.",
+  "confirmDescription": "Hier hast du alles nochmal auf einen Blick. Passt alles in deiner Community-Station?",
+  "selectElement": "Element auswählen",
+  "text": "Text",
+  "upload": "Upload",
+  "embed": "Einbetten",
+  "addContent": "Inhalt hinzufügen",
+  "confirmDelete": "Wirklich löschen?",
+  "cancel": "Abbrechen",
+  "delete": "Löschen",
+  "back": "Zurück",
+  "next": "Weiter",
+  "create": "Erstellen",
+  "confirm": "Bestätigen",
+  "searchLocation": "Suche"
+}

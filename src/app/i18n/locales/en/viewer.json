@@ -8,5 +8,11 @@
   "apply": "apply",
   "noSteps": "No steps available with these settings for this mapstory.",
   "landscapeModeTitle": "Smartphone in landscape mode!",
-  "landscapeModeText": "The viewer is optimised for smartphones in landscape mode. Please turn your phone!"
+  "landscapeModeText": "The viewer is optimised for smartphones in landscape mode. Please turn your phone!",
+  "communityStepAdded": "Community step added.",
+  "mediaAdded": "Media added.",
+  "mediaNotAdded": "Media could not be added.",
+  "contentDeleted": "Content deleted.",
+  "previous": "Back",
+  "next": "Next"
 }

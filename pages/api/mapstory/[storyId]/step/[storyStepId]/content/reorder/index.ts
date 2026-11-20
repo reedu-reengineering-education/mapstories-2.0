@@ -1,41 +1,58 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
+import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
+import { withMapstoryEditor } from '@/src/lib/apiMiddlewares/withMapstoryEditor'
 import { db } from '@/src/lib/db'
 import { SlideContent } from '@prisma/client'
+import {
+  findStory,
+  stepBelongsToStory,
+  translationReadonly,
+} from '@/src/lib/story/storyAccess'
+import { syncContentPositions } from '@/src/lib/story/syncTranslations'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'PUT') {
     try {
+      const storyStepId = req.query.storyStepId as string
+
+      const story = await findStory(req.query.storyId as string)
+      if (!story || !(await stepBelongsToStory(storyStepId, story))) {
+        return res.status(404).end()
+      }
+      if (story.isTranslation) {
+        return translationReadonly(res)
+      }
+
       const step = await db.storyStep.findFirst({
         where: {
-          id: req.query.storyStepId as string,
+          id: storyStepId,
         },
         include: {
           content: true,
         },
       })
 
-      // room ids from the request
-      const contentIds = (req.body as SlideContent[]).map(r => r.id)
-
-      const newContentOrder = contentIds.map((s, i) => ({
-        ...step?.content.find(c => c.id === s),
-        position: i,
-      }))
+      // content ids from the request, only those belonging to this step
+      const contentIds = (req.body as SlideContent[])
+        .map(r => r.id)
+        .filter(id => step?.content.some(c => c.id === id))
 
       await db.$transaction(
-        newContentOrder.map(s =>
+        contentIds.map((id, i) =>
           db.slideContent.update({
             where: {
-              id: s.id,
+              id,
             },
             data: {
-              position: s.position,
+              position: i,
             },
           }),
         ),
       )
+
+      await syncContentPositions(storyStepId)
 
       const stepToReturn = await db.storyStep.findFirst({
         where: {
@@ -53,4 +70,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(['PUT'], handler)
+export default withMethods(
+  ['PUT'],
+  withAuthentication(withMapstoryEditor(handler)),
+)

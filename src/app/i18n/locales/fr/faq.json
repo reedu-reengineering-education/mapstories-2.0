@@ -2,7 +2,6 @@
   "faq1_title": "Comment puis-je travailler avec Mapstories ?",
   "faq1_texta": "a.) Vous pouvez vous inscrire et créer votre propre Mapstory.",
   "faq1_textb": "b.) Vous pouvez consulter des Mapstories terminées dans la galerie et vous en inspirer.",
-
   "faq2_title": "Que puis-je utiliser Mapstories ?",
   "faq2_texta": "Vous pouvez utiliser Mapstories pour presque tout. C'est particulièrement utile pour les histoires qui se déroulent dans différents lieux (dans le monde entier) et où les lieux sont d'une certaine manière connectés. Cela inclut les chaînes d'approvisionnement, les itinéraires de migration et les connexions mondiales.",
   "faq2_textb": "Quelques exemples : ",
@@ -13,22 +12,18 @@
   "faq2_liste": "D'où ont émigré mes grands-parents vers l'Allemagne et quels endroits et histoires se trouvent entre les deux ?",
   "faq2_listf": "Où vivent les autres activistes dans le monde ?",
   "faq2_listg": "Où se trouvent tous les lacs asséchés dans le monde et que fait-on à ce sujet ?",
-
   "faq3_title": "Puis-je utiliser Mapstories gratuitement ?",
   "faq3_text": "Oui, l'outil est gratuit.",
-
   "faq4_title": "Sur quels navigateurs Mapstories fonctionne-t-il ?",
   "faq4_text": "Mapstories fonctionne sur tous les navigateurs principaux. Il est entièrement basé sur le web, donc aucune installation n'est nécessaire.",
-
   "faq5_title": "Comment puis-je fournir des commentaires aux développeurs de Mapstories si quelque chose ne fonctionne pas ?",
   "faq5_text": "Il vous suffit de saisir vos commentaires dans le Padlet suivant : ",
-
   "faq6_title": "De quoi ai-je besoin pour partager une histoire avec des amis ?",
   "faq6_text": "Dans le StoryLab, sous Options, définissez la Mapstory comme 'Publique', puis cliquez sur 'Partager' pour copier le lien de partage.",
-
   "faq7_title": "Puis-je intégrer une Mapstory dans un site web ?",
   "faq7_text": "Oui, c'est possible. Dans le StoryLab, cliquez sur 'Intégrer' pour copier le code d'intégration. Vous pouvez ajuster la taille en fonction des besoins de votre site web.",
-
   "faq8_title": "Puis-je enregistrer ma Mapstory ?",
-  "faq8_text": "Votre Mapstory est automatiquement enregistrée dans votre compte. Vous pouvez y accéder et la modifier une fois connecté."
+  "faq8_text": "Votre Mapstory est automatiquement enregistrée dans votre compte. Vous pouvez y accéder et la modifier une fois connecté.",
+  "faq9_title": "Puis-je créer une Mapstory avec d'autres personnes (« Mode communauté ») ?",
+  "faq9_text": "OUI ! Il existe désormais une nouvelle fonction collaborative dans Mapstories, le « Mode communauté ». Des personnes externes peuvent compléter des Mapstories commencées ou terminées en proposant de nouveaux contenus sur le globe. Après chaque diapositive existante, un nouveau « Step » peut être ajouté, avec des images, des audios, des liens et des textes ainsi qu'un emplacement sur la carte. Cette proposition doit ensuite être validée par la personne qui a créé la Mapstory. Par exemple, les enseignant·e·s peuvent faire compléter des Mapstories par leurs élèves. Cela ouvre un tout nouvel éventail de possibilités d'utilisation collaborative de l'outil."
 }

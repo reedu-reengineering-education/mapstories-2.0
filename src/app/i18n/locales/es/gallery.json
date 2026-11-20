@@ -1,5 +1,18 @@
 {
   "all_public_stories": "Todas las Mapstories públicas en un vistazo",
-  "welcome_to_gallery": "¡Bienvenido/a a la galería!",
-  "gallery_text": "Actualmente sólo se presentan algunas historias de mapas. Pero esto es sólo el principio. En el futuro, se añadirán más historias de mapas y la galería se convertirá en una exposición de historias especiales. No dudes en enviarnos tus historias de mapas"
+  "gallery_password_title": "Esta galería está protegida con contraseña",
+  "gallery_password_description": "Introduce la contraseña para ver la galería.",
+  "gallery_password_placeholder": "Contraseña",
+  "gallery_password_submit": "Confirmar",
+  "gallery_password_error": "Contraseña incorrecta. Inténtalo de nuevo.",
+  "gallery_eyebrow": "Galería",
+  "gallery_title": "Mapstories destacadas",
+  "gallery_intro": "Aquí presentamos Mapstories seleccionadas por el equipo de Mapstories: historias que muestran de forma especialmente clara las conexiones globales.",
+  "gallery_hint": "Pasa el ratón sobre una tarjeta para ver la ruta y las estaciones. Haz clic para iniciar la historia.",
+  "gallery_submit_title": "¿Tu Mapstory en la galería?",
+  "gallery_submit_text": "¿Has creado una Mapstory que debería estar aquí? Envíanos el enlace y la revisaremos con gusto.",
+  "gallery_submit_button": "Proponer una Mapstory",
+  "gallery_submit_mail_subject": "Propuesta para la galería de Mapstories",
+  "gallery_submit_mail_body": "Hola equipo de Mapstories:\n\nme gustaría proponer la siguiente Mapstory para la galería:\n\nEnlace: \nBreve descripción: \n\nSaludos",
+  "gallery_close": "Cerrar"
 }

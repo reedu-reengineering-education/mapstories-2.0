@@ -2,7 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { db } from '@/src/lib/db'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
-import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
+import { withMapstoryEditor } from '@/src/lib/apiMiddlewares/withMapstoryEditor'
+import { translationReadonly } from '@/src/lib/story/storyAccess'
+import { syncStepCreated } from '@/src/lib/story/syncTranslations'
 import { z } from 'zod'
 import { reorderTimeline } from './timelineReorder'
 import { StoryMode } from '@prisma/client'
@@ -27,8 +29,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         select: {
           steps: true,
           mode: true,
+          isTranslation: true,
         },
       })
+      if (story?.isTranslation) {
+        return translationReadonly(res)
+      }
       const position = req.body.position ?? (story?.steps.length || 0)
       const newStep = await db.storyStep.create({
         data: {
@@ -75,6 +81,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         }
       }
 
+      await syncStepCreated(storyId, newStep.id)
+
       res.status(200).json(newStep)
 
       res.end()
@@ -91,4 +99,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(['POST'], withAuthentication(withMapstory(handler)))
+export default withMethods(['POST'], withAuthentication(withMapstoryEditor(handler)))

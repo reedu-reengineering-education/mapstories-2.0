@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { Arguments, BareFetcher, SWRConfiguration, SWRHook } from 'swr'
 
 export const SWRLogger = (useSWRNext: SWRHook) => {

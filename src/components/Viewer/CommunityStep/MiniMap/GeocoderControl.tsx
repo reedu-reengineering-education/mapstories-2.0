@@ -1,4 +1,5 @@
 import { ControlPosition, useControl } from 'react-map-gl'
+import { useEffect } from 'react'
 import maplibregl from 'maplibre-gl'
 // resolve import error
 const MaplibreGeocoder = require('@maplibre/maplibre-gl-geocoder')
@@ -43,16 +44,19 @@ const geocoder_api = {
 type GeocoderControlProps = {
   position?: ControlPosition
   language?: string
+  placeholder?: string
   onResult?: (_e: { result: MapboxGeocoder.Result }) => void
   onClear?: (_e: { query: string }) => void
 }
 
 export default function GeocoderControl(props: GeocoderControlProps) {
-  useControl(
+  const control = useControl(
     () => {
       const control = new MaplibreGeocoder(geocoder_api, {
         mapboxgl: maplibregl,
         showResultsWhileTyping: true,
+        language: props.language,
+        placeholder: props.placeholder,
       })
 
       control.on('result', props.onResult)
@@ -63,6 +67,14 @@ export default function GeocoderControl(props: GeocoderControlProps) {
       position: props.position ?? 'top-right',
     },
   )
+
+  // the control is only created once, keep placeholder/language in sync
+  useEffect(() => {
+    if (props.language) {
+      control.setLanguage(props.language)
+    }
+    control.setPlaceholder(props.placeholder)
+  }, [control, props.language, props.placeholder])
 
   return null
 }

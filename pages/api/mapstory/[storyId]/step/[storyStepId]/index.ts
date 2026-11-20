@@ -2,7 +2,17 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { db } from '@/src/lib/db'
 import { withMethods } from '@/src/lib/apiMiddlewares/withMethods'
 import { withAuthentication } from '@/src/lib/apiMiddlewares/withAuthentication'
-import { withMapstory } from '@/src/lib/apiMiddlewares/withMapstory'
+import { withMapstoryEditor } from '@/src/lib/apiMiddlewares/withMapstoryEditor'
+import {
+  findStory,
+  stepBelongsToStory,
+  translationReadonly,
+} from '@/src/lib/story/storyAccess'
+import {
+  syncStepDeleted,
+  syncStepPositions,
+  syncStepUpdated,
+} from '@/src/lib/story/syncTranslations'
 import { z } from 'zod'
 import { updateStepSchema } from '@/src/lib/validations/step'
 
@@ -12,6 +22,21 @@ import { StoryMode } from '@prisma/client'
 import { reorderTimeline } from '../timelineReorder'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'GET') {
+    // Mutations must target a step of the story in the URL, otherwise the
+    // translation guard below could be bypassed via another story's id.
+    const urlStory = await findStory(req.query.storyId as string)
+    if (
+      !urlStory ||
+      !(await stepBelongsToStory(req.query.storyStepId as string, urlStory))
+    ) {
+      return res.status(404).end()
+    }
+    if (urlStory.isTranslation) {
+      return translationReadonly(res)
+    }
+  }
+
   if (req.method === 'GET') {
     try {
       const storyStep = await db.storyStep.findFirst({
@@ -32,8 +57,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const { feature, timestamp, tags } = updateStepSchema.parse(req.body)
 
+      // the title slide never gets a marker
+      const isTitleStep =
+        (await db.story.count({
+          where: { firstStepId: req.query.storyStepId as string },
+        })) > 0
+
       let validFeature: Feature | null = null
-      if (feature) {
+      if (feature && !isTitleStep) {
         // throw new Error('No Feature was included in the request body')
         validFeature = tryFeature(feature)
 
@@ -79,6 +110,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         await reorderTimeline(storyId)
       }
 
+      await syncStepUpdated(storyStep.id, {
+        feature: (validFeature as any) ?? undefined,
+        timestamp,
+        tags,
+      })
+      if (story?.mode === StoryMode.TIMELINE) {
+        await syncStepPositions(storyId)
+      }
+
       res.status(200).json(storyStep)
       res.end()
     } catch (error) {
@@ -90,6 +130,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'DELETE') {
     try {
       const storyStepId = req.query.storyStepId as string
+
+      await syncStepDeleted(storyStepId)
 
       // TODO: Check if we really need to delete slide Content: oncascade delete story step
       // delete all slideContent associated with the step
@@ -137,6 +179,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         ),
       )
 
+      await syncStepPositions(deletedStep.storyId)
+
       res.json(deletedStep)
 
       res.end()
@@ -152,5 +196,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 export default withMethods(
   ['GET', 'PUT', 'DELETE'],
-  withAuthentication(withMapstory(handler)),
+  withAuthentication(withMapstoryEditor(handler)),
 )

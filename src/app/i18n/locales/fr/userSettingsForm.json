@@ -9,5 +9,20 @@
   "contentNotUpdated": "Votre compte n'a pas pu être mis à jour, veuillez réessayer",
   "contentNotDeleted": "Votre compte n'a pas pu être supprimé, veuillez réessayer",
   "logInAgain": "Veuillez vous connecter à nouveau",
-  "deleteAccount": "Supprimer le compte"
+  "deleteAccount": "Supprimer le compte",
+  "userSettings": "Votre profil",
+  "changeYourData": "Vous pouvez modifier vos données ici.",
+  "dangerEmail": "Attention ! Si vous changez votre adresse e-mail, vous recevrez un lien de confirmation à la nouvelle adresse.",
+  "changeMailText": "Vous pouvez modifier votre adresse e-mail ici.",
+  "activatePassword": "Activer le mot de passe",
+  "password": "Mot de passe",
+  "passWordSecurity": "Sécurité du mot de passe",
+  "changePassword": "Changer le mot de passe",
+  "changeFor": "Changer le mot de passe pour ",
+  "newPassword": "Nouveau mot de passe",
+  "newPasswordConfirm": "Confirmer le nouveau mot de passe",
+  "email": "E-mail",
+  "nameRequired": "Le nom est obligatoire.",
+  "emailRequired": "L’e-mail est obligatoire.",
+  "emailInvalid": "Veuillez saisir une adresse e-mail valide."
 }

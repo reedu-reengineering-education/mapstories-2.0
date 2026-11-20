@@ -1,0 +1,8 @@
+{
+  "not-found": {
+    "title": "Página no encontrada",
+    "description": "Esta página está en mantenimiento. Si esto ocurre con frecuencia, escríbenos a",
+    "redirect": "Serás redirigido/a a la página de inicio.",
+    "back-button": "Volver"
+  }
+}

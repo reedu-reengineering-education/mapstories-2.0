@@ -7,12 +7,12 @@ import {
   DrawerHeader,
 } from '@/src/components/Elements/drawer'
 import { Slide } from './Slide'
-import { usePathname, useRouter } from 'next/navigation'
-import { ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useBoundStore } from '@/src/lib/store/store'
 import { AnimatePresence, motion } from 'framer-motion'
 import useSwipe from '@/src/lib/useSwipe'
 import { MobileToolbar } from './MobileToolbar'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 
 interface MobileControlsProps {
   slug: string
@@ -21,7 +21,31 @@ interface MobileControlsProps {
   tags: string[]
 }
 
-export function MobileControls({ slug, page, story, tags: _tags }: MobileControlsProps) {
+// Same breakpoints as the drawer's `md:hidden mobile-landscape:hidden`.
+const HIDDEN_QUERY =
+  '(min-width: 768px), (orientation: landscape) and (max-height: 600px)'
+
+// The drawer is a (modal) Radix layer even when hidden via CSS. Mounted on
+// desktop it locks `body` pointer events while being the only "clickable"
+// layer – and that layer is invisible. Only mount it where it is shown.
+function useShowMobileDrawer() {
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    const mql = window.matchMedia(HIDDEN_QUERY)
+    const update = () => setShow(!mql.matches)
+    update()
+    mql.addEventListener('change', update)
+    return () => mql.removeEventListener('change', update)
+  }, [])
+  return show
+}
+
+export function MobileControls(props: MobileControlsProps) {
+  const show = useShowMobileDrawer()
+  return show ? <MobileControlsDrawer {...props} /> : null
+}
+
+function MobileControlsDrawer({ slug, page, story, tags: _tags }: MobileControlsProps) {
   const [open, setOpen] = useState(true)
   const [snap, setSnap] = useState<number | string | null>(0.55)
   const [currentStep, setCurrentStep] = useState<any>(null)
@@ -29,8 +53,6 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   const [showSteps, setShowSteps] = useState<boolean>(false)
   const [showScrollToTop, setShowScrollToTop] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const router = useRouter()
-  const path = usePathname()
   const updateSelectedStepIndex = useBoundStore(
     state => state.updateSelectedStepIndex,
   )
@@ -46,7 +68,39 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   const currentLabels = labels[lng as keyof typeof labels] || labels.de
 
 
-  const snapPoints = [0.15, 0.55, 0.98]
+  const COLLAPSED = 0.15
+  const DEFAULT_SNAP = 0.55
+  const snapPoints = [COLLAPSED, DEFAULT_SNAP, 0.98]
+  const isCollapsed = snap === COLLAPSED
+
+  // tapping or dragging the map moves the drawer out of the way
+  useEffect(() => {
+    if (isCollapsed) {
+      return
+    }
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Element | null
+      // markers live in the canvas container too, but open a step instead
+      if (
+        target?.closest?.('.mapboxgl-canvas-container') &&
+        !target.closest('.mapboxgl-marker')
+      ) {
+        setSnap(COLLAPSED)
+      }
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    return () => document.removeEventListener('pointerdown', onPointerDown)
+  }, [isCollapsed])
+
+  // opening a step (e.g. by tapping a station marker) brings the drawer back
+  const isFirstPage = useRef(true)
+  useEffect(() => {
+    if (isFirstPage.current) {
+      isFirstPage.current = false
+      return
+    }
+    setSnap(current => (current === COLLAPSED ? DEFAULT_SNAP : current))
+  }, [page])
 
   const handleHeaderClick = () => {
     const currentIndex = snapPoints.indexOf(snap as number)
@@ -65,15 +119,11 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
   }, [story, page])
 
   function startStory() {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-    router.push(`/${pathLocal}/${slug}/0`)
+    navigateToStep(0)
   }
 
   function backToStart() {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-    router.push(`/${pathLocal}/${slug}/start`)
+    navigateToStep('start')
   }
 
   const nextStep = () => {
@@ -139,9 +189,19 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
         snapPoints={snapPoints}
         snapToSequentialPoint={true}
       >
-        <DrawerContent className="absolute z-[60] md:hidden mobile-landscape:hidden border-t-8 border-black  pointer-events-auto bg-white !rounded-b-none flex flex-col after:hidden max-h-full h-full">
+        <DrawerContent className="absolute z-[200] md:hidden mobile-landscape:hidden border-t-8 border-black  pointer-events-auto bg-white !rounded-b-none flex flex-col after:hidden max-h-full h-full">
+          {!isCollapsed && (
+            <button
+              aria-label="Minimize"
+              className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-gray-600 active:bg-slate-200"
+              onClick={() => setSnap(COLLAPSED)}
+              title="Minimize"
+            >
+              <ChevronDown className="h-5 w-5" />
+            </button>
+          )}
           <DrawerHeader className="shrink-0 cursor-pointer" >
-            {snap === 0.15 ? (
+            {isCollapsed ? (
               <div className="flex items-center justify-center gap-2 py-2" onClick={handleHeaderClick}>
                 <ChevronUp className="h-4 w-4 text-gray-600" />
                 <p className="text-gray-600 text-sm">
@@ -174,7 +234,7 @@ export function MobileControls({ slug, page, story, tags: _tags }: MobileControl
             )}
           </DrawerHeader>
 
-          {snap !== 0.15 && (
+          {!isCollapsed && (
             showSteps ? (
               <div className="flex-1 overflow-y-auto px-4 h-96 relative">
                 <AnimatePresence mode="wait">

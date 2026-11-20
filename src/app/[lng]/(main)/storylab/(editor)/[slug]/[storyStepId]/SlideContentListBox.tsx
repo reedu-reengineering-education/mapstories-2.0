@@ -46,19 +46,21 @@ export default function SlideContentListBox({ storyStepId, storyId }: Props) {
             ></SlideContentListEdit>
           </div>
 
-          <SlideContentModal
-            storyStepId={storyStepId}
-            trigger={
-              <Button
-                className="w-full"
-                startIcon={<PlusIcon className="h-10"></PlusIcon>}
-                variant={'primary'}
-              >
-                {t('addMedia')}
-              </Button>
-            }
-          />
-          {story.mode === StoryMode.TIMELINE && (
+          {!story.isTranslation && (
+            <SlideContentModal
+              storyStepId={storyStepId}
+              trigger={
+                <Button
+                  className="w-full"
+                  startIcon={<PlusIcon className="h-10"></PlusIcon>}
+                  variant={'primary'}
+                >
+                  {t('addMedia')}
+                </Button>
+              }
+            />
+          )}
+          {story.mode === StoryMode.TIMELINE && !story.isTranslation && (
             <>
               {
                 /* hide the calendar modal for title slide */

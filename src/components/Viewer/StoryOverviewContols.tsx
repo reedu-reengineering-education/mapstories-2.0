@@ -15,9 +15,8 @@ import {
 import { fallbackLng, languages } from '@/src/app/i18n/settings'
 import { useTranslation } from '@/src/app/i18n/client'
 import { ListChecksIcon } from 'lucide-react'
-import QuitStoryButton from './QuitStoryButton'
-import PlayStoryButton from './PlayStoryButton'
 import * as Toolbar from '@radix-ui/react-toolbar'
+import { navigateToStep } from '@/src/lib/viewerNavigation'
 type Props = {
   slug: string
   page: string
@@ -90,16 +89,10 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
   }, [])
 
   function startStory() {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-
-    router.push(`/${pathLocal}/${slug}/0`)
+    navigateToStep(0)
   }
   function backToStart() {
-    const pathLocal =
-      path?.split('/').splice(2, 3).join('/') ?? 'gallery/all/story/'
-
-    router.push(`/${pathLocal}/${slug}/start`)
+    navigateToStep('start')
   }
 
   function applyFilter(filter?: string[]) {
@@ -146,10 +139,6 @@ export function StoryOverviewControls({ slug, page, story, tags }: Props) {
                 <div className="w-full overflow-auto overflow-x-hidden lg:h-full">
                   <Slide step={story?.firstStep}></Slide>
                 </div>
-              </div>
-              <div className="sticky bottom-0 flex flex-row justify-evenly border-t-2 bg-white py-2 lg:hidden">
-                <QuitStoryButton slug={slug} />
-                <PlayStoryButton slug={slug} />
               </div>
             </div>
           )}

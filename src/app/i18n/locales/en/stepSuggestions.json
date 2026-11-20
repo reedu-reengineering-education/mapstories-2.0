@@ -4,5 +4,8 @@
   "accept": "Accept",
   "reject": "Reject",
   "cancel": "Cancel",
-  "noSuggestions": "You have processed all suggestions. Currently there are no community suggestions available."
+  "noSuggestions": "You have processed all suggestions. Currently there are no community suggestions available.",
+  "suggestionRejected": "Step suggestion rejected.",
+  "suggestionAccepted": "Step suggestion accepted.",
+  "suggestionAcceptError": "Error accepting step suggestion."
 }

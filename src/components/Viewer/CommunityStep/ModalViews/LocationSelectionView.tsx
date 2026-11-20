@@ -1,4 +1,7 @@
 import { Button } from '@/src/components/Elements/Button'
+import { useTranslation } from '@/src/app/i18n/client'
+import { fallbackLng, languages } from '@/src/app/i18n/settings'
+import { useBoundStore } from '@/src/lib/store/store'
 import MiniMap from '../MiniMap/MiniMap'
 
 export default function LocationSelectionView({
@@ -7,10 +10,14 @@ export default function LocationSelectionView({
   onBack,
   onNext,
 }: any) {
+  let lng = useBoundStore(state => state.language)
+  if (languages.indexOf(lng) < 0) {
+    lng = fallbackLng
+  }
+  const { t } = useTranslation(lng, 'communityStep')
   return (
     <div className="flex flex-col justify-end gap-4">
-      Setze einen Marker auf der Karte oder gebe die Addresse in der Suchleiste
-      ein.
+      {t('setLocation')}
       <div className="jusitfy-center flex h-64 w-full">
         <MiniMap
           handleAddLocation={handleAddLocation}
@@ -19,10 +26,10 @@ export default function LocationSelectionView({
       </div>
       <div className="flex flex-row justify-between gap-4">
         <Button onClick={onBack} variant={'inverse'}>
-          Zurück
+          {t('back')}
         </Button>
         <Button disabled={!stepSuggestion.feature} onClick={onNext}>
-          Weiter
+          {t('next')}
         </Button>
       </div>
     </div>
